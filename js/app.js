@@ -979,8 +979,33 @@ function resetApp() {
 
 // ═══════════════════════════════════════════════
 // INIT
+function initFoodDB() {
+  if (typeof FOOD_DB === 'undefined') return;
+  var dl = document.getElementById('food-db-list');
+  if (!dl) return;
+  dl.innerHTML = '';
+  FOOD_DB.forEach(function(f) {
+    var opt = document.createElement('option');
+    opt.value = f.n;
+    dl.appendChild(opt);
+  });
+}
+
+function fillFoodMacros() {
+  var name = document.getElementById('cm-name').value;
+  if (typeof FOOD_DB === 'undefined') return;
+  var food = FOOD_DB.find(function(f) { return f.n === name; });
+  if (food) {
+    document.getElementById('cm-kcal').value = food.k;
+    document.getElementById('cm-prot').value = food.p;
+    document.getElementById('cm-carb').value = food.c;
+    document.getElementById('cm-fat').value = food.f;
+  }
+}
+
 // ═══════════════════════════════════════════════
 (function init() {
+  initFoodDB();
   if (STATE.user && STATE.profile) {
     buildApp();
     S('scr-app');

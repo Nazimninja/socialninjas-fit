@@ -174,7 +174,9 @@
   <div class="modal hidden" id="modal-meal">
     <div class="modal-head"><span class="modal-title">Add custom meal</span><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
-      <div class="inp-label">Meal name</div><input class="inp-field" id="cm-name" placeholder="e.g. Idli with sambar">
+      <div class="inp-label">Meal name</div>
+      <input class="inp-field" id="cm-name" list="food-db-list" placeholder="Search food or type custom name" oninput="fillFoodMacros()">
+      <datalist id="food-db-list"></datalist>
       <div class="inp-label">Calories (kcal)</div><input class="inp-field" id="cm-kcal" type="number" placeholder="e.g. 320">
       <div class="inp-label">Protein (g)</div><input class="inp-field" id="cm-prot" type="number" placeholder="e.g. 12">
       <div class="inp-label">Carbs (g)</div><input class="inp-field" id="cm-carb" type="number" placeholder="e.g. 55">

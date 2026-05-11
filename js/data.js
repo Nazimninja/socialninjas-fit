@@ -326,3 +326,42 @@ var ASSESS_STEPS = [
   {q:'How many days per week can you train?',sub:'Consistency beats intensity. Be realistic about your schedule.',type:'choice',key:'days',opts:[{ico:'3️⃣',n:'3 days / week',d:'Full body sessions — beginner or tight schedule',v:'3'},{ico:'4️⃣',n:'4 days / week',d:'Upper/lower split — intermediate',v:'4'},{ico:'5️⃣',n:'5 days / week',d:'PPL + dedicated — intermediate/advanced',v:'5'},{ico:'6️⃣',n:'6 days / week',d:'PPL × 2 — experienced trainers',v:'6'}]},
   {q:'Any health conditions to consider?',sub:'Ensures your plan is safe. All information is private and encrypted.',type:'choice',key:'health',opts:[{ico:'✅',n:'None — I am healthy',d:'No known conditions or injuries',v:'none'},{ico:'🦴',n:'Joint issues or injury',d:'Knee, back, shoulder problems',v:'joint'},{ico:'💉',n:'Diabetes or thyroid',d:'Managing blood sugar or hormonal condition',v:'metabolic'},{ico:'❤️',n:'Heart or BP condition',d:'Hypertension or cardiovascular issue',v:'cardiac'}]}
 ];
+
+// ═══════════════════════════════════════════════
+// FOOD DATABASE (For Automatic Calorie Calculator)
+// ═══════════════════════════════════════════════
+var FOOD_DB = [
+  { n: 'Chicken Breast (100g, raw)', k: 165, p: 31, c: 0, f: 3.6 },
+  { n: 'Chicken Breast (100g, cooked)', k: 165, p: 31, c: 0, f: 3.6 },
+  { n: 'Eggs (2 whole, large)', k: 144, p: 12, c: 1, f: 10 },
+  { n: 'Egg Whites (4 large)', k: 68, p: 14, c: 1, f: 0 },
+  { n: 'Paneer (100g)', k: 265, p: 18, c: 1.2, f: 20 },
+  { n: 'Tofu (100g, firm)', k: 144, p: 16, c: 3, f: 9 },
+  { n: 'Whey Protein (1 scoop, 30g)', k: 120, p: 24, c: 3, f: 1.5 },
+  { n: 'Toor Dal (1 katori/cup, cooked)', k: 150, p: 9, c: 25, f: 2 },
+  { n: 'Moong Dal (1 katori/cup, cooked)', k: 140, p: 8, c: 24, f: 1 },
+  { n: 'Rajma (1 katori/cup, cooked)', k: 170, p: 10, c: 29, f: 1 },
+  { n: 'Chole (1 katori/cup, cooked)', k: 210, p: 10, c: 35, f: 3 },
+  { n: 'Roti / Chapati (1 medium, wheat)', k: 105, p: 3, c: 22, f: 0.5 },
+  { n: 'White Rice (1 katori/cup, cooked)', k: 130, p: 2, c: 28, f: 0.3 },
+  { n: 'Brown Rice (1 katori/cup, cooked)', k: 110, p: 2.5, c: 23, f: 0.9 },
+  { n: 'Oats (50g, raw)', k: 190, p: 6.5, c: 33, f: 3.5 },
+  { n: 'Sweet Potato (100g, boiled/air-fried)', k: 86, p: 1.6, c: 20, f: 0.1 },
+  { n: 'Idli (2 medium pieces)', k: 116, p: 3, c: 24, f: 0.5 },
+  { n: 'Dosa (1 plain, medium)', k: 130, p: 3, c: 20, f: 4 },
+  { n: 'Poha (1 katori/cup, cooked)', k: 180, p: 3.5, c: 30, f: 4.5 },
+  { n: 'Full-fat Curd / Dahi (100g)', k: 98, p: 4.3, c: 3.4, f: 4.3 },
+  { n: 'Low-fat Curd (100g)', k: 56, p: 4, c: 5, f: 1.5 },
+  { n: 'Full-fat Milk (250ml)', k: 150, p: 8, c: 12, f: 8 },
+  { n: 'Toned Milk (250ml)', k: 110, p: 8, c: 12, f: 3.5 },
+  { n: 'Almonds (10 pieces / 12g)', k: 70, p: 2.5, c: 2.5, f: 6 },
+  { n: 'Walnuts (5 halves / 10g)', k: 65, p: 1.5, c: 1.4, f: 6.5 },
+  { n: 'Peanuts (30g, roasted)', k: 170, p: 7.5, c: 5, f: 14 },
+  { n: 'Peanut Butter (1 tbsp / 15g)', k: 95, p: 4, c: 3, f: 8 },
+  { n: 'Banana (1 medium)', k: 105, p: 1.3, c: 27, f: 0.3 },
+  { n: 'Apple (1 medium)', k: 95, p: 0.5, c: 25, f: 0.3 },
+  { n: 'Guava (1 medium)', k: 68, p: 2.5, c: 14, f: 0.9 },
+  { n: 'Dates (3 pieces / 24g)', k: 66, p: 0.5, c: 18, f: 0.1 },
+  { n: 'Ghee (1 tsp / 5g)', k: 45, p: 0, c: 0, f: 5 },
+  { n: 'Coconut Oil (1 tsp / 5g)', k: 45, p: 0, c: 0, f: 5 }
+];
