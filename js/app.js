@@ -80,13 +80,21 @@ function doLogin() {
   var email = document.getElementById('li-email').value.trim();
   var pass = document.getElementById('li-pass').value;
   if (!email || !pass) { alert('Please enter email and password.'); return; }
-  if (STATE.user && STATE.profile) {
-    buildApp();
-    S('scr-app');
-    nav('today');
-  } else {
-    alert('No account found. Please sign up first.');
+  
+  if (!STATE.user || !STATE.profile) {
+    // Generate dummy profile for demo purposes if account doesn't exist
+    assessAnswers = { pname: 'Demo', age: '28', weight: '70', height: '175', gender: 'male', goal: 'fat_loss', diet: 'nonveg', location: 'gym', days: '4' };
+    STATE.signupData = { name: 'Demo User', email: email, phone: '9999999999' };
+    var plan = generatePlan(assessAnswers);
+    STATE.user = { name: 'Demo User', email: email, plan: 'premium' };
+    STATE.profile = { answers: assessAnswers, plan: plan };
+    STATE.weights = [70];
+    save();
   }
+
+  buildApp();
+  S('scr-app');
+  nav('today');
 }
 
 // ═══════════════════════════════════════════════
@@ -98,7 +106,7 @@ var assessAnswers = {};
 function renderAssessStep() {
   var step = ASSESS_STEPS[assessStep];
   var total = ASSESS_STEPS.length;
-  document.getElementById('step-counter').textContent = (assessStep + 1) + ' / ' + total;
+  document.getElementById('step-lbl').textContent = 'Step ' + (assessStep + 1) + ' / ' + total;
 
   // Update progress segments
   var segsHtml = '';
@@ -106,9 +114,9 @@ function renderAssessStep() {
     var cls = i < assessStep ? 'done' : i === assessStep ? 'active' : '';
     segsHtml += '<div class="step-seg ' + cls + '"></div>';
   }
-  document.getElementById('step-segs').innerHTML = segsHtml;
+  document.getElementById('seg-bar').innerHTML = segsHtml;
 
-  var back = document.getElementById('assess-back');
+  var back = document.getElementById('ab-btn');
   back.style.display = assessStep === 0 ? 'none' : 'block';
 
   var html = '<div class="assess-q">' + step.q + '</div>';
@@ -227,11 +235,11 @@ function finishAssessment() {
   var bmi = plan.bmi;
   var bmiNote = bmi < 18.5 ? ' (underweight — medical advice recommended)' : bmi > 25 ? ' (overweight)' : ' (healthy range)';
 
-  document.getElementById('ready-msg').textContent = plan.answers
+  document.getElementById('ready-desc').textContent = plan.answers
     ? 'Based on your ' + dietNames[assessAnswers.diet] + ' diet and ' + goalNames[assessAnswers.goal] + ' goal, your plan is calibrated to ' + plan.kcal + ' kcal/day with ' + plan.protein + 'g protein.'
     : 'Your personalized plan is ready.';
 
-  document.getElementById('ready-summary').innerHTML =
+  document.getElementById('ready-card').innerHTML =
     row('Daily calories', plan.kcal + ' kcal', 'var(--ac3)') +
     row('Protein target', plan.protein + 'g / day', 'var(--ac4)') +
     row('Carbs target', plan.carbs + 'g / day', '') +
