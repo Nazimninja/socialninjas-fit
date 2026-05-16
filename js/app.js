@@ -351,6 +351,24 @@ function renderAssessStep() {
       + '<div><div class="inp-label">Weight (kg)</div><input class="inp" id="inp-weight" type="number" step="0.1" placeholder="e.g. 70" value="' + (assessAnswers.weight || '') + '" style="margin-bottom:0"></div>'
       + '<div><div class="inp-label">Height (cm)</div><input class="inp" id="inp-height" type="number" placeholder="e.g. 172" value="' + (assessAnswers.height || '') + '" style="margin-bottom:0"></div>'
       + '</div>';
+  } else if (step.type === 'cycle') {
+    html += '<div class="opt-grid" style="grid-template-columns:1fr 1fr 1fr">';
+    [{v:'yes',ico:'🌸',n:'Yes, regular'},{v:'irregular',ico:'📅',n:'Irregular'},{v:'no',ico:'❌',n:'No cycle'}].forEach(function(o) {
+      var sel = assessAnswers.hasCycle === o.v;
+      html += '<div class="opt cycle-opt' + (sel ? ' sel' : '') + '" data-val="' + o.v + '" onclick="selCycleOpt(this)">' +
+        '<div class="opt-ico">' + o.ico + '</div>' +
+        '<div class="opt-body"><div class="opt-name">' + o.n + '</div></div>' +
+        '<div class="opt-ck">' + (sel ? '✓' : '') + '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+    html += '<div id="cycle-details" style="' + (assessAnswers.hasCycle === 'yes' ? '' : 'display:none') + ';margin-top:16px">';
+    html += '<div class="inp-label">When did your last period start?</div>';
+    html += '<input class="inp" id="inp-last-period" type="date" value="' + (assessAnswers.lastPeriodDate || '') + '" style="margin-bottom:12px">';
+    html += '<div class="inp-row">';
+    html += '<div><div class="inp-label">Cycle length (days)</div><input class="inp" id="inp-cycle-len" type="number" min="21" max="45" placeholder="28" value="' + (assessAnswers.cycleLength || '28') + '" style="margin-bottom:0"></div>';
+    html += '<div><div class="inp-label">Period duration (days)</div><input class="inp" id="inp-period-dur" type="number" min="2" max="10" placeholder="5" value="' + (assessAnswers.periodDuration || '5') + '" style="margin-bottom:0"></div>';
+    html += '</div></div>';
   }
 
   document.getElementById('assess-body').innerHTML = html;
@@ -376,6 +394,17 @@ function selGender(g, el) {
   el.querySelector('.gender-ck').textContent = '✓';
 }
 
+function selCycleOpt(el) {
+  document.querySelectorAll('.cycle-opt').forEach(function(o) {
+    o.classList.remove('sel');
+    o.querySelector('.opt-ck').textContent = '';
+  });
+  el.classList.add('sel');
+  el.querySelector('.opt-ck').textContent = '✓';
+  var details = document.getElementById('cycle-details');
+  if (details) details.style.display = el.dataset.val === 'yes' ? '' : 'none';
+}
+
 function assessNext() {
   var step = ASSESS_STEPS[assessStep];
 
@@ -392,11 +421,38 @@ function assessNext() {
     if (!assessAnswers.weight || !assessAnswers.height || !assessAnswers.age) { alert('Please fill in all fields.'); return; }
     if (parseFloat(assessAnswers.weight) < 20 || parseFloat(assessAnswers.weight) > 300) { alert('Please enter a valid weight between 20–300 kg.'); return; }
     if (parseFloat(assessAnswers.height) < 100 || parseFloat(assessAnswers.height) > 250) { alert('Please enter a valid height between 100–250 cm.'); return; }
+  } else if (step.type === 'cycle') {
+    // Collect cycle inputs
+    var hasCycle = document.querySelector('.cycle-opt.sel');
+    if (!hasCycle) { alert('Please select an option to continue.'); return; }
+    assessAnswers.hasCycle = hasCycle.dataset.val;
+    if (assessAnswers.hasCycle === 'yes') {
+      var lastPeriod = document.getElementById('inp-last-period');
+      var cycleLen = document.getElementById('inp-cycle-len');
+      var periodDur = document.getElementById('inp-period-dur');
+      if (lastPeriod) assessAnswers.lastPeriodDate = lastPeriod.value;
+      if (cycleLen) assessAnswers.cycleLength = cycleLen.value || '28';
+      if (periodDur) assessAnswers.periodDuration = periodDur.value || '5';
+    }
   } else {
     if (!assessAnswers[step.key]) { alert('Please select an option to continue.'); return; }
   }
 
   assessStep++;
+
+  // After body step: insert female cycle questions if female
+  if (step.type === 'body' && assessAnswers.gender === 'female') {
+    // inject cycle step at current position if not already there
+    var hasCycleStep = ASSESS_STEPS.some(function(s) { return s.type === 'cycle'; });
+    if (!hasCycleStep) {
+      ASSESS_STEPS.splice(assessStep, 0, {
+        type: 'cycle',
+        q: 'One more thing, ' + (assessAnswers.pname || 'you') + ' 🌸',
+        sub: 'Your menstrual cycle directly affects your energy, strength, and nutrition needs. This helps us build the perfect plan for every phase.'
+      });
+    }
+  }
+
   if (assessStep >= ASSESS_STEPS.length) {
     finishAssessment();
     return;
@@ -408,18 +464,60 @@ function assessBack() {
   if (assessStep > 0) { assessStep--; renderAssessStep(); }
 }
 
-function finishAssessment() {
-  var plan = generatePlan(assessAnswers);
+async function finishAssessment() {
   var sd = STATE.signupData;
+  var userId = STATE.user ? STATE.user.id : null;
 
   STATE.user = {
+    id: userId,
     name: assessAnswers.pname || sd.name || 'User',
-    email: sd.email || '',
+    email: sd.email || STATE.user?.email || '',
     phone: sd.phone || '',
     joined: new Date().toISOString(),
     plan: 'premium',
     billingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
   };
+
+  // Show loading screen
+  document.getElementById('assess-body').innerHTML =
+    '<div style="text-align:center;padding:40px 20px">' +
+    '<div style="font-size:40px;margin-bottom:16px;animation:spin 1.5s linear infinite">⚙️</div>' +
+    '<div style="font-size:18px;font-weight:700;color:var(--t1);margin-bottom:8px">Building your AI plan...</div>' +
+    '<div style="font-size:13px;color:var(--t2)">Our coach AI is calculating your perfect calories, macros & meal plan. This takes about 15 seconds.</div>' +
+    '</div>';
+  document.querySelector('.assess-next-btn').disabled = true;
+
+  // Save cycle data to Supabase profiles if female
+  var cycleData = null;
+  if (assessAnswers.gender === 'female' && assessAnswers.hasCycle === 'yes') {
+    cycleData = {
+      hasCycle: 'yes',
+      lastPeriodDate: assessAnswers.lastPeriodDate,
+      cycleLength: parseInt(assessAnswers.cycleLength) || 28,
+      periodDuration: parseInt(assessAnswers.periodDuration) || 5,
+      updatedAt: new Date().toISOString()
+    };
+    STATE.cycleData = cycleData;
+  }
+
+  var plan;
+  try {
+    // Call OpenAI to generate personalized plan
+    var resp = await fetch('/api/generate-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: assessAnswers })
+    });
+    if (!resp.ok) throw new Error('API error');
+    var result = await resp.json();
+    plan = result.plan;
+  } catch (e) {
+    console.warn('AI plan failed, falling back to local:', e);
+    plan = generatePlan(assessAnswers);
+  }
+
+  // Ensure plan has required fields
+  plan.answers = assessAnswers;
   STATE.profile = { answers: assessAnswers, plan: plan };
   STATE.weights = [parseFloat(assessAnswers.weight)];
   STATE.meals = {}; STATE.customMeals = [];
@@ -427,15 +525,30 @@ function finishAssessment() {
   STATE.customExercises = [];
   save();
 
+  // Save to Supabase
+  if (userId) {
+    var profileUpdate = {
+      id: userId,
+      email: STATE.user.email,
+      name: STATE.user.name,
+      plan_status: 'premium',
+      assessment_data: assessAnswers,
+      generated_plan: plan
+    };
+    if (cycleData) profileUpdate.cycle_data = cycleData;
+    await supabase.from('profiles').upsert(profileUpdate);
+  }
+
+  document.querySelector('.assess-next-btn').disabled = false;
+
   // Show plan ready screen
   var goalNames = { muscle: 'Muscle Gain', fat_loss: 'Fat Loss', weight_gain: 'Healthy Weight Gain', general: 'General Fitness' };
   var dietNames = { nonveg: 'Non-vegetarian', egg: 'Eggetarian', veg: 'Vegetarian', vegan: 'Vegan' };
   var bmi = plan.bmi;
-  var bmiNote = bmi < 18.5 ? ' (underweight — medical advice recommended)' : bmi > 25 ? ' (overweight)' : ' (healthy range)';
+  var bmiNote = bmi < 18.5 ? ' (underweight)' : bmi > 25 ? ' (overweight)' : ' (healthy range)';
 
-  document.getElementById('ready-desc').textContent = plan.answers
-    ? 'Based on your ' + dietNames[assessAnswers.diet] + ' diet and ' + goalNames[assessAnswers.goal] + ' goal, your plan is calibrated to ' + plan.kcal + ' kcal/day with ' + plan.protein + 'g protein.'
-    : 'Your personalized plan is ready.';
+  document.getElementById('ready-desc').textContent = plan.coachNote ||
+    ('Based on your ' + dietNames[assessAnswers.diet] + ' diet and ' + goalNames[assessAnswers.goal] + ' goal, your plan is calibrated to ' + plan.kcal + ' kcal/day with ' + plan.protein + 'g protein.');
 
   document.getElementById('ready-card').innerHTML =
     row('Daily calories', plan.kcal + ' kcal', 'var(--ac3)') +
@@ -478,6 +591,9 @@ function buildApp() {
   var dayMap = [5, 0, 1, 2, 3, 4, 5];
   STATE.gymDay = dayMap[new Date().getDay()];
   save();
+
+  // Monday: auto-adapt plan via AI
+  checkMondayAdapt();
 }
 
 function nav(page) {
@@ -544,16 +660,161 @@ function mealCardHtml(m, idx, type) {
     + '</div>';
 }
 
+// ═══════════════════════════════════════════════
+// PHOTO MEAL LOGGING
+// ═══════════════════════════════════════════════
+var pendingMealKey = null;
+var pendingMealCard = null;
+
 function togMeal(key, card) {
-  STATE.meals[key] = !STATE.meals[key];
+  // If already done, un-log it without photo needed
+  if (STATE.meals[key]) {
+    STATE.meals[key] = false;
+    if (STATE.mealPhotos) delete STATE.mealPhotos[key];
+    save();
+    card.classList.remove('done');
+    var ck = card.querySelector('.meal-ck');
+    ck.classList.remove('done');
+    ck.textContent = '';
+    if (currentPage === 'today') updateRings();
+    if (currentPage === 'meals') updateMealProgress();
+    return;
+  }
+  // Require photo to log
+  pendingMealKey = key;
+  pendingMealCard = card;
+  openPhotoModal(key);
+}
+
+function openPhotoModal(key) {
+  var modal = document.getElementById('photo-modal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  document.getElementById('photo-preview').innerHTML = '';
+  document.getElementById('photo-preview').style.display = 'none';
+  document.getElementById('photo-confirm-btn').style.display = 'none';
+  pendingPhotoData = null;
+}
+
+var pendingPhotoData = null;
+
+function openCamera() {
+  document.getElementById('meal-photo-input').click();
+}
+
+function onPhotoChosen(input) {
+  if (!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    pendingPhotoData = e.target.result;
+    var preview = document.getElementById('photo-preview');
+    preview.innerHTML = '<img src="' + pendingPhotoData + '" style="width:100%;border-radius:12px;max-height:220px;object-fit:cover">';
+    preview.style.display = 'block';
+    document.getElementById('photo-confirm-btn').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function confirmMealPhoto() {
+  if (!pendingPhotoData || !pendingMealKey) return;
+  closePhotoModal();
+  if (!STATE.mealPhotos) STATE.mealPhotos = {};
+  STATE.mealPhotos[pendingMealKey] = pendingPhotoData;
+  STATE.meals[pendingMealKey] = true;
   save();
-  card.classList.toggle('done');
-  var ck = card.querySelector('.meal-ck');
-  ck.classList.toggle('done');
-  ck.textContent = STATE.meals[key] ? '✓' : '';
-  // Update rings if on today page
+  if (pendingMealCard) {
+    pendingMealCard.classList.add('done');
+    var ck = pendingMealCard.querySelector('.meal-ck');
+    ck.classList.add('done');
+    ck.textContent = '✓';
+    // Add camera icon to show photo was taken
+    var ico = pendingMealCard.querySelector('.meal-ico');
+    if (ico) ico.innerHTML += '<span style="font-size:9px;position:absolute;bottom:0;right:0">📸</span>';
+  }
   if (currentPage === 'today') updateRings();
   if (currentPage === 'meals') updateMealProgress();
+  pendingMealKey = null;
+  pendingMealCard = null;
+  pendingPhotoData = null;
+}
+
+function closePhotoModal() {
+  var modal = document.getElementById('photo-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════
+// CYCLE PHASE TRACKER
+// ═══════════════════════════════════════════════
+function getCyclePhase() {
+  var cd = STATE.cycleData || (STATE.profile && STATE.profile.answers && STATE.profile.answers.hasCycle === 'yes' ? STATE.profile.answers : null);
+  if (!cd || !cd.lastPeriodDate) return null;
+  var lastPeriod = new Date(cd.lastPeriodDate);
+  var today = new Date();
+  var daysSince = Math.floor((today - lastPeriod) / (1000 * 60 * 60 * 24));
+  var cycleLen = parseInt(cd.cycleLength) || 28;
+  var periodDur = parseInt(cd.periodDuration) || 5;
+  var dayInCycle = daysSince % cycleLen;
+  if (dayInCycle < periodDur) return { phase: 'menstrual', icon: '🌸', color: '#FF6B9D', tip: 'Iron-rich foods today. Rest is training too. Light yoga or walking is ideal.' };
+  if (dayInCycle < 13) return { phase: 'follicular', icon: '⚡', color: '#FFD93D', tip: 'Energy is rising! Hit your heavy lifts today. Higher carbs to fuel peak performance.' };
+  if (dayInCycle < 16) return { phase: 'ovulation', icon: '🔥', color: '#FF8C42', tip: 'Peak strength day. Go for PRs. High protein and stay well hydrated.' };
+  return { phase: 'luteal', icon: '🌙', color: '#A78BFA', tip: 'Magnesium-rich foods help with cravings. Moderate intensity. Prioritize sleep.' };
+}
+
+async function logPeriodStart() {
+  var cd = STATE.cycleData || {};
+  cd.lastPeriodDate = new Date().toISOString().split('T')[0];
+  cd.updatedAt = new Date().toISOString();
+  STATE.cycleData = cd;
+  if (STATE.profile && STATE.profile.answers) {
+    STATE.profile.answers.lastPeriodDate = cd.lastPeriodDate;
+  }
+  save();
+  if (STATE.user && STATE.user.id) {
+    await supabase.from('profiles').update({ cycle_data: cd }).eq('id', STATE.user.id);
+  }
+  renderToday();
+  alert('🌸 Period logged! Your plan has been updated for your cycle phase.');
+}
+
+// ═══════════════════════════════════════════════
+// MONDAY AUTO-ADAPT
+// ═══════════════════════════════════════════════
+async function checkMondayAdapt() {
+  if (new Date().getDay() !== 1) return; // Only Monday
+  var plan = STATE.profile && STATE.profile.plan;
+  if (!plan) return;
+  var lastAdapted = plan.lastUpdated ? new Date(plan.lastUpdated) : null;
+  if (lastAdapted) {
+    var daysSince = (new Date() - lastAdapted) / (1000 * 60 * 60 * 24);
+    if (daysSince < 6) return; // Already adapted this week
+  }
+  if (STATE.weights.length < 2) return; // Not enough data
+  try {
+    var resp = await fetch('/api/adapt-plan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        answers: STATE.profile.answers,
+        currentPlan: plan,
+        weeklyWeights: STATE.weights.slice(-8)
+      })
+    });
+    if (!resp.ok) return;
+    var result = await resp.json();
+    if (result.plan) {
+      STATE.profile.plan = Object.assign(plan, result.plan);
+      save();
+      if (STATE.user && STATE.user.id) {
+        await supabase.from('profiles').update({ generated_plan: STATE.profile.plan }).eq('id', STATE.user.id);
+      }
+      console.log('Plan adapted for week:', result.plan.monthNumber);
+    }
+  } catch(e) {
+    console.warn('Monday adapt failed:', e);
+  }
 }
 
 // ═══════════════════════════════════════════════
@@ -585,18 +846,34 @@ function renderToday() {
         }).join('')
       + '<div style="font-size:11px;color:var(--t3);margin-top:8px;text-align:center">+' + Math.max(0, wk.exercises.length - 3) + ' more — open Workout tab</div>';
 
-  // Check if monthly update is available
-  var monthUpdateBanner = '';
-  if (STATE.weights.length >= 4 && (!STATE.profile.plan.lastUpdated ||
-      (new Date() - new Date(STATE.profile.plan.lastUpdated)) > 25 * 24 * 60 * 60 * 1000)) {
-    monthUpdateBanner = '<div class="card-gold" style="cursor:pointer;margin-bottom:14px" onclick="showMonthlyUpdate()">'
-      + '<div style="font-size:12px;font-weight:700;color:var(--ac3);margin-bottom:4px">📊 Month ' + (STATE.profile.plan.monthNumber || 1) + ' Update Ready</div>'
-      + '<div style="font-size:12px;color:var(--t2)">Your progress has been analyzed. Tap to see your updated plan and coach feedback.</div>'
-      + '</div>';
+  // Cycle phase banner for female users
+  var cycleBanner = '';
+  var isFemale = STATE.profile.answers && STATE.profile.answers.gender === 'female';
+  if (isFemale) {
+    var phase = getCyclePhase();
+    if (phase) {
+      var phaseName = phase.phase.charAt(0).toUpperCase() + phase.phase.slice(1) + ' Phase';
+      cycleBanner = '<div class="card" style="background:linear-gradient(135deg,' + phase.color + '22,' + phase.color + '11);border:1px solid ' + phase.color + '44;margin-bottom:14px">' +
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">' +
+        '<span style="font-size:22px">' + phase.icon + '</span>' +
+        '<div><div style="font-size:13px;font-weight:700;color:' + phase.color + '">' + phaseName + '</div>' +
+        '<div style="font-size:11px;color:var(--t2)">Your plan is adapted for today\'s phase</div></div>' +
+        '<button onclick="logPeriodStart()" style="margin-left:auto;font-size:10px;padding:6px 10px;background:' + phase.color + '33;border:1px solid ' + phase.color + '66;border-radius:20px;color:' + phase.color + ';cursor:pointer;font-weight:600">🌸 Log period</button>' +
+        '</div>' +
+        '<div style="font-size:12px;color:var(--t1);line-height:1.5">' + phase.tip + '</div>' +
+        '</div>';
+    } else {
+      cycleBanner = '<div class="card" style="border:1px solid #A78BFA44;margin-bottom:14px;padding:12px 14px;display:flex;align-items:center;gap:10px">' +
+        '<span style="font-size:18px">\uD83C\uDF38</span>' +
+        '<div style="flex:1"><div style="font-size:12px;font-weight:600;color:#A78BFA">Track your cycle</div><div style="font-size:11px;color:var(--t2)">Log your period to get cycle-aware coaching</div></div>' +
+        '<button onclick="logPeriodStart()" style="font-size:10px;padding:6px 10px;background:#A78BFA22;border:1px solid #A78BFA44;border-radius:20px;color:#A78BFA;cursor:pointer;font-weight:600">Start →</button>' +
+        '</div>';
+    }
   }
 
   document.getElementById('today-content').innerHTML =
     monthUpdateBanner +
+    cycleBanner +
     '<div class="coach-card">'
     + '<div class="coach-tag">Coach insight — ' + u.name.split(' ')[0] + '</div>'
     + '<div class="coach-text">' + tips[dayIndex % tips.length] + '</div>'
@@ -610,6 +887,7 @@ function renderToday() {
 
   updateRings();
 }
+
 
 function updateRings() {
   var el = document.getElementById('today-rings');

@@ -223,6 +223,27 @@
     <div class="modal-body" id="profile-body"></div>
   </div>
 
+  <!-- PHOTO MEAL MODAL -->
+  <div id="photo-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);flex-direction:column;align-items:center;justify-content:flex-end;padding:0">
+    <div style="background:var(--bg2);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:24px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--t1)">📸 Log your meal</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:2px">Take a photo to confirm you ate this meal</div>
+        </div>
+        <button onclick="closePhotoModal()" style="background:var(--bg4);border:none;width:32px;height:32px;border-radius:50%;color:var(--t1);font-size:16px;cursor:pointer">✕</button>
+      </div>
+      <div id="photo-preview" style="display:none;margin-bottom:16px;border-radius:12px;overflow:hidden"></div>
+      <button onclick="openCamera()" style="width:100%;padding:16px;background:var(--bg3);border:2px dashed var(--bdr);border-radius:16px;color:var(--t1);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px">
+        📷 Open Camera / Choose Photo
+      </button>
+      <button id="photo-confirm-btn" onclick="confirmMealPhoto()" style="display:none;width:100%;padding:16px;background:var(--t1);border:none;border-radius:16px;color:var(--bg1);font-size:15px;font-weight:700;cursor:pointer">
+        ✓ Confirm &amp; Log Meal
+      </button>
+      <input type="file" id="meal-photo-input" accept="image/*" capture="environment" style="display:none" onchange="onPhotoChosen(this)">
+    </div>
+  </div>
+
 </div>
 <script src="js/data.js"></script>
 <script src="js/engine.js"></script>

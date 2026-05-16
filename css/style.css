@@ -373,3 +373,12 @@ html, body {
 .inline:last-child { border-bottom: none; }
 .ik { color: var(--t2); font-weight: 500; }
 .iv { color: var(--t1); font-weight: 700; }
+
+/* AI LOADING SPIN */
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ASSESS NEXT BTN */
+.assess-next-btn:disabled { opacity: 0.5; pointer-events: none; }
+
+/* MEAL PHOTO ICON */
+.meal-ico { position: relative; }
