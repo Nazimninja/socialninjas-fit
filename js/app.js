@@ -128,7 +128,7 @@ async function doPayment() {
       amount: order.amount,
       currency: order.currency,
       order_id: order.id,
-      name: 'SocialNinjas Fit',
+      name: 'Fit Ninja',
       description: 'Premium Fitness Coaching Plan',
       image: '',
       prefill: {
@@ -184,7 +184,7 @@ async function doPayment() {
       key: 'rzp_live_SQHi9o325buXiH',
       amount: 29900,
       currency: 'INR',
-      name: 'SocialNinjas Fit',
+      name: 'Fit Ninja',
       description: 'Premium Fitness Coaching Plan',
       prefill: {
         name: STATE.signupData.name || '',
@@ -369,6 +369,8 @@ function renderAssessStep() {
     html += '<div><div class="inp-label">Cycle length (days)</div><input class="inp" id="inp-cycle-len" type="number" min="21" max="45" placeholder="28" value="' + (assessAnswers.cycleLength || '28') + '" style="margin-bottom:0"></div>';
     html += '<div><div class="inp-label">Period duration (days)</div><input class="inp" id="inp-period-dur" type="number" min="2" max="10" placeholder="5" value="' + (assessAnswers.periodDuration || '5') + '" style="margin-bottom:0"></div>';
     html += '</div></div>';
+  } else if (step.type === 'text') {
+    html += '<input class="inp" id="inp-txt-' + step.key + '" placeholder="' + (step.placeholder || '') + '" value="' + (assessAnswers[step.key] || '') + '" style="margin-top:16px">';
   }
 
   document.getElementById('assess-body').innerHTML = html;
@@ -421,6 +423,10 @@ function assessNext() {
     if (!assessAnswers.weight || !assessAnswers.height || !assessAnswers.age) { alert('Please fill in all fields.'); return; }
     if (parseFloat(assessAnswers.weight) < 20 || parseFloat(assessAnswers.weight) > 300) { alert('Please enter a valid weight between 20–300 kg.'); return; }
     if (parseFloat(assessAnswers.height) < 100 || parseFloat(assessAnswers.height) > 250) { alert('Please enter a valid height between 100–250 cm.'); return; }
+  } else if (step.type === 'text') {
+    var txtEl = document.getElementById('inp-txt-' + step.key);
+    if (txtEl) assessAnswers[step.key] = txtEl.value.trim();
+    if (!assessAnswers[step.key]) { alert('Please enter your ' + step.key + ' to continue.'); return; }
   } else if (step.type === 'cycle') {
     // Collect cycle inputs
     var hasCycle = document.querySelector('.cycle-opt.sel');

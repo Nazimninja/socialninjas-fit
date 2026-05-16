@@ -16,6 +16,7 @@ export default async function handler(req, res) {
   const prompt = `You are an expert fitness coach doing a weekly plan review. Analyze progress and adapt the plan.
 
 CLIENT: ${answers.pname}, ${answers.gender}, ${answers.age}y, Goal: ${answers.goal}, Diet: ${answers.diet}
+TRAINING: ${answers.location === 'gym' ? 'Gym' : 'Home'} (${answers.equipment || 'None'})
 ORIGINAL PLAN: ${currentPlan.kcal} kcal/day, ${currentPlan.protein}g protein, ${currentPlan.carbs}g carbs, ${currentPlan.fat}g fat
 
 WEIGHT HISTORY (last ${weeks} weeks): ${weights.join(' → ')} kg

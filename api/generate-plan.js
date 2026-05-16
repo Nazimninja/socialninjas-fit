@@ -25,7 +25,8 @@ CLIENT PROFILE:
 - Gender: ${answers.gender}
 - Goal: ${goalMap[answers.goal]}
 - Diet: ${dietMap[answers.diet]}
-- Training location: ${answers.location === 'gym' ? 'Gym (has equipment)' : 'Home (bodyweight/minimal equipment)'}
+- Training location: ${answers.location === 'gym' ? 'Gym' : 'Home'}
+- Available equipment: ${answers.equipment || 'None'}
 - Available training days: ${answers.days} days per week
 ${cycleNote}
 
