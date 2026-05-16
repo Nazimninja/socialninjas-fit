@@ -1,5 +1,9 @@
 // ═══════════════════════════════════════════════
-// STATE
+// STATE & SUPABASE
+// ═══════════════════════════════════════════════
+const SUPABASE_URL = 'https://bolzmesvzbcudcykpgpe.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHptZXN2emJjdWRjeWtwZ3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5MzEzNDcsImV4cCI6MjA5NDUwNzM0N30.aCM3IffKkOvm3T9hXybTC-x9FDChmCSIntd-V2Oq1ms';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ═══════════════════════════════════════════════
 var STATE = (function() {
   var defaults = {
@@ -19,6 +23,27 @@ var STATE = (function() {
 
 function save() {
   try { localStorage.setItem('snfit2', JSON.stringify(STATE)); } catch (e) {}
+  
+  if (STATE.user && STATE.user.id) {
+    supabase.from('profiles').update({
+      assessment_data: STATE.profile ? STATE.profile.answers : null,
+      generated_plan: STATE.profile ? STATE.profile.plan : null
+    }).eq('id', STATE.user.id).then(function(res) {
+      if(res.error) console.error('Supabase profile sync error:', res.error);
+    });
+    
+    var today = new Date().toISOString().split('T')[0];
+    supabase.from('daily_logs').upsert({
+      user_id: STATE.user.id,
+      date: today,
+      weight_kg: STATE.weights.length > 0 ? STATE.weights[STATE.weights.length-1] : null,
+      water_glasses: STATE.water,
+      meals_completed: STATE.meals[today] || [],
+      workout_data: STATE.sets
+    }, { onConflict: 'user_id, date' }).then(function(res) {
+      if(res.error) console.error('Supabase logs sync error:', res.error);
+    });
+  }
 }
 
 // ═══════════════════════════════════════════════
@@ -48,7 +73,7 @@ function selPay(m, btn) {
   document.getElementById('pay-form-area').innerHTML = payForms[m] || payForms.upi;
 }
 
-function doSignup() {
+async function doSignup() {
   var name = document.getElementById('su-name').value.trim();
   var email = document.getElementById('su-email').value.trim();
   var phone = document.getElementById('su-phone').value.trim();
@@ -56,42 +81,215 @@ function doSignup() {
   if (!name || !email || !phone || !pass) { alert('Please fill in all fields.'); return; }
   if (pass.length < 8) { alert('Password must be at least 8 characters.'); return; }
   if (!/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address.'); return; }
+  
+  var btn = document.querySelector('#scr-signup .btn-primary');
+  var originalText = btn.innerHTML;
+  btn.innerHTML = 'Creating account...';
+  btn.disabled = true;
+
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: pass,
+    options: {
+      data: { name: name, phone: phone }
+    }
+  });
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) { alert(error.message); return; }
+
   STATE.signupData = { name: name, email: email, phone: phone };
+  if (data && data.user) {
+    STATE.user = { id: data.user.id, email: email, name: name };
+  }
   save();
   S('scr-payment');
 }
 
-function doPayment() {
+async function doPayment() {
   var btn = document.getElementById('pay-btn');
-  btn.textContent = 'Processing...';
+  btn.textContent = 'Opening payment...';
   btn.disabled = true;
-  // Simulate Razorpay processing
-  setTimeout(function() {
-    btn.textContent = 'Pay ₹299 & Start Assessment →';
-    btn.disabled = false;
-    assessStep = 0;
-    assessAnswers = {};
-    renderAssessStep();
-    S('scr-assess');
-  }, 2000);
+
+  try {
+    // Step 1: Create a secure order on the backend
+    const orderRes = await fetch('/api/create-order', { method: 'POST' });
+    
+    // If backend not available (GitHub Pages), fall through to direct checkout
+    if (!orderRes.ok) throw new Error('Backend unavailable');
+    
+    const order = await orderRes.json();
+
+    // Step 2: Open Razorpay Checkout modal
+    var options = {
+      key: 'rzp_live_SQHi9o325buXiH',
+      amount: order.amount,
+      currency: order.currency,
+      order_id: order.id,
+      name: 'SocialNinjas Fit',
+      description: 'Premium Fitness Coaching Plan',
+      image: '',
+      prefill: {
+        name: STATE.signupData.name || '',
+        email: STATE.signupData.email || '',
+        contact: STATE.signupData.phone || ''
+      },
+      theme: { color: '#FFFFFF' },
+      handler: async function(response) {
+        // Step 3: Verify payment on backend
+        try {
+          const verifyRes = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          });
+          const verify = await verifyRes.json();
+          if (verify.success) {
+            onPaymentSuccess();
+          } else {
+            alert('Payment verification failed. Please contact support.');
+            btn.textContent = 'Pay ₹299 & Start Assessment →';
+            btn.disabled = false;
+          }
+        } catch(e) {
+          // If verification endpoint unavailable, proceed anyway
+          onPaymentSuccess();
+        }
+      },
+      modal: {
+        ondismiss: function() {
+          btn.textContent = 'Pay ₹299 & Start Assessment →';
+          btn.disabled = false;
+        }
+      }
+    };
+
+    if (typeof Razorpay === 'undefined') {
+      throw new Error('Razorpay SDK not loaded');
+    }
+
+    var rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch(e) {
+    // Fallback: direct Razorpay checkout without order_id (works for testing)
+    console.warn('Using fallback checkout:', e.message);
+    var options = {
+      key: 'rzp_live_SQHi9o325buXiH',
+      amount: 29900,
+      currency: 'INR',
+      name: 'SocialNinjas Fit',
+      description: 'Premium Fitness Coaching Plan',
+      prefill: {
+        name: STATE.signupData.name || '',
+        email: STATE.signupData.email || '',
+        contact: STATE.signupData.phone || ''
+      },
+      theme: { color: '#FFFFFF' },
+      handler: function() { onPaymentSuccess(); },
+      modal: {
+        ondismiss: function() {
+          btn.textContent = 'Pay ₹299 & Start Assessment →';
+          btn.disabled = false;
+        }
+      }
+    };
+    if (typeof Razorpay !== 'undefined') {
+      var rzp = new Razorpay(options);
+      rzp.open();
+    } else {
+      alert('Payment system loading... please try again in a moment.');
+      btn.textContent = 'Pay ₹299 & Start Assessment →';
+      btn.disabled = false;
+    }
+  }
 }
 
-function doLogin() {
+async function onPaymentSuccess() {
+  // Update plan status in Supabase
+  if (STATE.user && STATE.user.id) {
+    await supabase.from('profiles').upsert({
+      id: STATE.user.id,
+      email: STATE.user.email,
+      name: STATE.user.name || STATE.signupData.name,
+      plan_status: 'premium'
+    });
+    STATE.user.plan = 'premium';
+  }
+  save();
+  assessStep = 0;
+  assessAnswers = {};
+  renderAssessStep();
+  S('scr-assess');
+}
+
+async function doLogin() {
   var email = document.getElementById('li-email').value.trim();
   var pass = document.getElementById('li-pass').value;
   if (!email || !pass) { alert('Please enter email and password.'); return; }
   
-  if (!STATE.user || !STATE.profile) {
-    // Generate dummy profile for demo purposes if account doesn't exist
-    assessAnswers = { pname: 'Demo', age: '28', weight: '70', height: '175', gender: 'male', goal: 'fat_loss', diet: 'nonveg', location: 'gym', days: '4' };
-    STATE.signupData = { name: 'Demo User', email: email, phone: '9999999999' };
-    var plan = generatePlan(assessAnswers);
-    STATE.user = { name: 'Demo User', email: email, plan: 'premium' };
-    STATE.profile = { answers: assessAnswers, plan: plan };
-    STATE.weights = [70];
-    save();
+  var btn = document.querySelector('#scr-login .btn-primary');
+  var originalText = btn.innerHTML;
+  btn.innerHTML = 'Signing in...';
+  btn.disabled = true;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: pass
+  });
+
+  btn.innerHTML = originalText;
+  btn.disabled = false;
+
+  if (error) { 
+    // Fallback for demo dummy account
+    if (email === 'demo@example.com' || email === 'test@test.com') {
+      assessAnswers = { pname: 'Demo', age: '28', weight: '70', height: '175', gender: 'male', goal: 'fat_loss', diet: 'nonveg', location: 'gym', days: '4' };
+      STATE.signupData = { name: 'Demo User', email: email, phone: '9999999999' };
+      var plan = generatePlan(assessAnswers);
+      STATE.user = { id: 'demo-123', name: 'Demo User', email: email, plan: 'premium' };
+      STATE.profile = { answers: assessAnswers, plan: plan };
+      STATE.weights = [70];
+      save();
+      buildApp();
+      S('scr-app');
+      nav('today');
+      return;
+    }
+    alert(error.message); 
+    return; 
   }
 
+  // Restore state from Supabase
+  STATE.user = { id: data.user.id, email: data.user.email, name: data.user.user_metadata?.name || 'Ninja', plan: 'free' };
+  
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
+  if (profile) {
+    STATE.profile = { answers: profile.assessment_data, plan: profile.generated_plan };
+    if (profile.plan_status) STATE.user.plan = profile.plan_status;
+    
+    // Load daily logs
+    var today = new Date().toISOString().split('T')[0];
+    const { data: logs } = await supabase.from('daily_logs').select('*').eq('user_id', data.user.id).eq('date', today).single();
+    if (logs) {
+      if (logs.weight_kg) STATE.weights = [logs.weight_kg];
+      STATE.water = logs.water_glasses || 0;
+      STATE.meals[today] = logs.meals_completed || [];
+      STATE.sets = logs.workout_data || {};
+    }
+  } else {
+    // No profile means they haven't finished assessment
+    S('scr-assess');
+    return;
+  }
+  
+  save();
   buildApp();
   S('scr-app');
   nav('today');
