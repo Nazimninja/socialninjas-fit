@@ -1542,7 +1542,12 @@ function fillFoodMacros() {
       S('scr-app');
       nav('today');
     } else {
-      S('scr-landing');
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'login') {
+        S('scr-login');
+      } else {
+        S('scr-landing');
+      }
     }
   } catch(e) {
     console.error('Init error, resetting to landing:', e);
