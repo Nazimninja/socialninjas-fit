@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+window.onerror = function(msg, url, line, col, error) {
+  var errDiv = document.getElementById('err-log');
+  if(!errDiv) {
+    errDiv = document.createElement('div');
+    errDiv.id = 'err-log';
+    errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:999999;padding:10px;font-size:12px;font-family:monospace;white-space:pre-wrap;';
+    document.body.appendChild(errDiv);
+  }
+  errDiv.innerHTML += msg + ' at ' + url + ':' + line + ':' + col + '\n';
+  return false;
+};
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -221,6 +234,14 @@
   <div class="modal hidden" id="modal-profile">
     <div class="modal-head"><span class="modal-title">My Profile</span><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body" id="profile-body"></div>
+  </div>
+
+  <div class="modal hidden" id="modal-update">
+    <div class="modal-head"><span class="modal-title">Monthly Update</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="update-body"></div>
+    <div class="modal-foot">
+      <button class="btn-primary" onclick="applyMonthlyUpdate()">Apply Update &amp; Adapt Plan</button>
+    </div>
   </div>
 
   <!-- PHOTO MEAL MODAL -->

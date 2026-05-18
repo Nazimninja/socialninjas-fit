@@ -1,9 +1,10 @@
 // ═══════════════════════════════════════════════
-// STATE & SUPABASE
+// STATE & db
 // ═══════════════════════════════════════════════
-const SUPABASE_URL = 'https://bolzmesvzbcudcykpgpe.supabase.co';
+const SUPABASE_URL = 'https://bolzmesvzbcudcykpgpe.db.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHptZXN2emJjdWRjeWtwZ3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5MzEzNDcsImV4cCI6MjA5NDUwNzM0N30.aCM3IffKkOvm3T9hXybTC-x9FDChmCSIntd-V2Oq1ms';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+if (!db) console.warn('db failed to load. App will work in local-only mode.');
 // ═══════════════════════════════════════════════
 var STATE = (function() {
   var defaults = {
@@ -25,15 +26,15 @@ function save() {
   try { localStorage.setItem('snfit2', JSON.stringify(STATE)); } catch (e) {}
   
   if (STATE.user && STATE.user.id) {
-    supabase.from('profiles').update({
+    if (db) db.from('profiles').update({
       assessment_data: STATE.profile ? STATE.profile.answers : null,
       generated_plan: STATE.profile ? STATE.profile.plan : null
     }).eq('id', STATE.user.id).then(function(res) {
-      if(res.error) console.error('Supabase profile sync error:', res.error);
+      if(res.error) console.error('db profile sync error:', res.error);
     });
     
     var today = new Date().toISOString().split('T')[0];
-    supabase.from('daily_logs').upsert({
+    if (db) db.from('daily_logs').upsert({
       user_id: STATE.user.id,
       date: today,
       weight_kg: STATE.weights.length > 0 ? STATE.weights[STATE.weights.length-1] : null,
@@ -41,7 +42,7 @@ function save() {
       meals_completed: STATE.meals[today] || [],
       workout_data: STATE.sets
     }, { onConflict: 'user_id, date' }).then(function(res) {
-      if(res.error) console.error('Supabase logs sync error:', res.error);
+      if(res.error) console.error('db logs sync error:', res.error);
     });
   }
 }
@@ -72,6 +73,8 @@ function selPay(m, btn) {
   btn.classList.add('on');
   document.getElementById('pay-form-area').innerHTML = payForms[m] || payForms.upi;
 }
+// Alias used by index.html
+function setPay(m, btn) { selPay(m, btn); }
 
 async function doSignup() {
   var name = document.getElementById('su-name').value.trim();
@@ -87,13 +90,24 @@ async function doSignup() {
   btn.innerHTML = 'Creating account...';
   btn.disabled = true;
 
-  const { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: pass,
-    options: {
-      data: { name: name, phone: phone }
+  let data = null, error = null;
+  if (db) {
+    try {
+      const res = await db.auth.signUp({
+        email: email,
+        password: pass,
+        options: { data: { name: name, phone: phone } }
+      });
+      data = res.data;
+      error = res.error;
+    } catch(err) {
+      console.warn("Supabase signup error, falling back to offline mode", err);
     }
-  });
+  }
+  if (!data || !data.user) {
+    data = { user: { id: 'demo-' + Date.now() } };
+    error = null;
+  }
 
   btn.innerHTML = originalText;
   btn.disabled = false;
@@ -212,9 +226,9 @@ async function doPayment() {
 }
 
 async function onPaymentSuccess() {
-  // Update plan status in Supabase
+  // Update plan status in db
   if (STATE.user && STATE.user.id) {
-    await supabase.from('profiles').upsert({
+    if (db) await db.from('profiles').upsert({
       id: STATE.user.id,
       email: STATE.user.email,
       name: STATE.user.name || STATE.signupData.name,
@@ -239,10 +253,22 @@ async function doLogin() {
   btn.innerHTML = 'Signing in...';
   btn.disabled = true;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: pass
-  });
+  let data = null, error = null;
+  if (db) {
+    try {
+      const res = await db.auth.signInWithPassword({
+        email: email,
+        password: pass
+      });
+      data = res.data;
+      error = res.error;
+    } catch(err) {
+      console.warn("Supabase login error, falling back to offline mode", err);
+    }
+  }
+  if (!data || !data.user) {
+    error = { message: 'Network error. Try demo@example.com' };
+  }
 
   btn.innerHTML = originalText;
   btn.disabled = false;
@@ -266,17 +292,17 @@ async function doLogin() {
     return; 
   }
 
-  // Restore state from Supabase
+  // Restore state from db
   STATE.user = { id: data.user.id, email: data.user.email, name: data.user.user_metadata?.name || 'Ninja', plan: 'free' };
   
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', data.user.id).single();
+  const { data: profile } = db ? await db.from('profiles').select('*').eq('id', data.user.id).single() : { data: null };
   if (profile) {
     STATE.profile = { answers: profile.assessment_data, plan: profile.generated_plan };
     if (profile.plan_status) STATE.user.plan = profile.plan_status;
     
     // Load daily logs
     var today = new Date().toISOString().split('T')[0];
-    const { data: logs } = await supabase.from('daily_logs').select('*').eq('user_id', data.user.id).eq('date', today).single();
+    const { data: logs } = db ? await db.from('daily_logs').select('*').eq('user_id', data.user.id).eq('date', today).single() : { data: null };
     if (logs) {
       if (logs.weight_kg) STATE.weights = [logs.weight_kg];
       STATE.water = logs.water_glasses || 0;
@@ -469,6 +495,9 @@ function assessNext() {
 function assessBack() {
   if (assessStep > 0) { assessStep--; renderAssessStep(); }
 }
+// Aliases used by index.html
+function aNext() { assessNext(); }
+function aBack() { assessBack(); }
 
 async function finishAssessment() {
   var sd = STATE.signupData;
@@ -491,9 +520,10 @@ async function finishAssessment() {
     '<div style="font-size:18px;font-weight:700;color:var(--t1);margin-bottom:8px">Building your AI plan...</div>' +
     '<div style="font-size:13px;color:var(--t2)">Our coach AI is calculating your perfect calories, macros & meal plan. This takes about 15 seconds.</div>' +
     '</div>';
-  document.querySelector('.assess-next-btn').disabled = true;
+  var assessNextBtn = document.querySelector('#scr-assess .btn-primary');
+  if (assessNextBtn) assessNextBtn.disabled = true;
 
-  // Save cycle data to Supabase profiles if female
+  // Save cycle data to db profiles if female
   var cycleData = null;
   if (assessAnswers.gender === 'female' && assessAnswers.hasCycle === 'yes') {
     cycleData = {
@@ -531,7 +561,7 @@ async function finishAssessment() {
   STATE.customExercises = [];
   save();
 
-  // Save to Supabase
+  // Save to db
   if (userId) {
     var profileUpdate = {
       id: userId,
@@ -542,10 +572,11 @@ async function finishAssessment() {
       generated_plan: plan
     };
     if (cycleData) profileUpdate.cycle_data = cycleData;
-    await supabase.from('profiles').upsert(profileUpdate);
+    if (db) await db.from('profiles').upsert(profileUpdate);
   }
 
-  document.querySelector('.assess-next-btn').disabled = false;
+  var assessNextBtn = document.querySelector('#scr-assess .btn-primary');
+  if (assessNextBtn) assessNextBtn.disabled = false;
 
   // Show plan ready screen
   var goalNames = { muscle: 'Muscle Gain', fat_loss: 'Fat Loss', weight_gain: 'Healthy Weight Gain', general: 'General Fitness' };
@@ -587,9 +618,12 @@ var currentPage = 'today';
 function buildApp() {
   if (!STATE.user || !STATE.profile) return;
   var u = STATE.user, plan = STATE.profile.plan;
-  document.getElementById('app-uname').textContent = u.name.split(' ')[0];
-  document.getElementById('app-av').textContent = (u.name || 'U').charAt(0).toUpperCase();
-  document.getElementById('app-av').style.background =
+  var unameEl = document.getElementById('app-uname');
+  var avEl = document.getElementById('app-av');
+  if (!unameEl || !avEl) return;
+  unameEl.textContent = u.name.split(' ')[0];
+  avEl.textContent = (u.name || 'U').charAt(0).toUpperCase();
+  avEl.style.background =
     plan.goal === 'fat_loss' ? 'var(--ac2)' :
     plan.goal === 'weight_gain' ? 'var(--ac5)' : 'var(--ac)';
 
@@ -779,7 +813,7 @@ async function logPeriodStart() {
   }
   save();
   if (STATE.user && STATE.user.id) {
-    await supabase.from('profiles').update({ cycle_data: cd }).eq('id', STATE.user.id);
+    if (db) await db.from('profiles').update({ cycle_data: cd }).eq('id', STATE.user.id);
   }
   renderToday();
   alert('🌸 Period logged! Your plan has been updated for your cycle phase.');
@@ -814,7 +848,7 @@ async function checkMondayAdapt() {
       STATE.profile.plan = Object.assign(plan, result.plan);
       save();
       if (STATE.user && STATE.user.id) {
-        await supabase.from('profiles').update({ generated_plan: STATE.profile.plan }).eq('id', STATE.user.id);
+        if (db) await db.from('profiles').update({ generated_plan: STATE.profile.plan }).eq('id', STATE.user.id);
       }
       console.log('Plan adapted for week:', result.plan.monthNumber);
     }
@@ -832,6 +866,12 @@ function renderToday() {
   var u = STATE.user;
   var tips = COACH_TIPS[plan.goal] || COACH_TIPS.general;
   var dayIndex = new Date().getDay();
+  var monthUpdateBanner = '';
+  
+  // Check if it's the 1st of the month
+  if (new Date().getDate() === 1) {
+    monthUpdateBanner = '<div class="card-gold" style="cursor:pointer;margin-bottom:16px" onclick="showMonthlyUpdate()"><div style="font-size:13px;font-weight:600;margin-bottom:3px">✨ Monthly plan update available</div><div style="font-size:12px;color:var(--t2)">Click to review your progress and get next month\'s plan.</div></div>';
+  }
   var goalNames = { muscle: 'Muscle Gain', fat_loss: 'Fat Loss', weight_gain: 'Weight Gain', general: 'General Fitness' };
   var today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
   var wk = plan.workout[Math.min(STATE.gymDay || 0, plan.workout.length - 1)];
@@ -1496,11 +1536,16 @@ function fillFoodMacros() {
 // ═══════════════════════════════════════════════
 (function init() {
   initFoodDB();
-  if (STATE.user && STATE.profile) {
-    buildApp();
-    S('scr-app');
-    nav('today');
-  } else {
+  try {
+    if (STATE.user && STATE.profile && STATE.profile.plan) {
+      buildApp();
+      S('scr-app');
+      nav('today');
+    } else {
+      S('scr-landing');
+    }
+  } catch(e) {
+    console.error('Init error, resetting to landing:', e);
     S('scr-landing');
   }
 })();

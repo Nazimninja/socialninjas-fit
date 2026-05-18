@@ -74,22 +74,22 @@ html, body {
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ONBOARDING */
-.ob-wrap { flex: 1; display: flex; flex-direction: column; padding: env(safe-area-inset-top,24px) 24px env(safe-area-inset-bottom,24px); overflow-y: auto; position: relative; z-index: 2; }
+.ob-wrap { flex: 1; display: flex; flex-direction: column; padding: env(safe-area-inset-top,16px) 24px env(safe-area-inset-bottom,24px); overflow-y: auto; position: relative; z-index: 2; }
 .ob-wrap::-webkit-scrollbar { display: none; }
-.ob-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; margin-top: 12px; }
+.ob-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; margin-top: 8px; }
 .ob-orb { width: 48px; height: 48px; border-radius: 14px; background: var(--t1); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(255,255,255,0.15); }
 .ob-orb svg { width: 26px; height: 26px; }
 .ob-title-sm { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
 .ob-sub-sm { font-size: 10px; color: var(--ac); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
-.ob-hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 20px; }
-.ob-tag { font-size: 10px; font-weight: 700; color: var(--ac); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; display: inline-block; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
-.ob-h1 { font-family: var(--fs); font-size: 42px; line-height: 1.1; margin-bottom: 18px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.ob-hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: 8px; min-height: 0; }
+.ob-tag { font-size: 10px; font-weight: 700; color: var(--ac); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; display: inline-block; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+.ob-h1 { font-family: var(--fs); font-size: 36px; line-height: 1.1; margin-bottom: 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 .ob-h1 em { color: var(--ac); font-style: italic; }
-.ob-desc { font-size: 14px; color: var(--t2); line-height: 1.7; margin-bottom: 32px; font-weight: 300; }
+.ob-desc { font-size: 13px; color: var(--t2); line-height: 1.6; margin-bottom: 16px; font-weight: 300; }
 
-.ob-feats { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
-.ob-feat { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--t1); font-weight: 500; }
+.ob-feats { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.ob-feat { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--t1); font-weight: 500; }
 .feat-ic { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(255,255,255,0.1); }
 
 .ob-actions { display: flex; flex-direction: column; gap: 12px; }
