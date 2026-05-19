@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+window.onerror = function(msg, url, line, col, error) {
+  var errDiv = document.getElementById('err-log');
+  if(!errDiv) {
+    errDiv = document.createElement('div');
+    errDiv.id = 'err-log';
+    errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:999999;padding:10px;font-size:12px;font-family:monospace;white-space:pre-wrap;';
+    document.body.appendChild(errDiv);
+  }
+  errDiv.innerHTML += msg + ' at ' + url + ':' + line + ':' + col + '\n';
+  return false;
+};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fit Ninja">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- LANDING -->
+  <div class="screen" id="scr-landing">
+    <div class="ob-wrap">
+      <div class="ob-logo">
+        <div class="ob-orb"><img src="assets/logo.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%"></div>
+        <div><div class="ob-title-sm">Fit Ninja</div><div class="ob-sub-sm">Premium Coaching · ₹299/mo</div></div>
+      </div>
+      <div class="ob-hero">
+        <div class="ob-tag">AI-Powered · Fully Personalized · Global Nutrition</div>
+        <div class="ob-h1">Your body.<br><em>Your plan.</em><br>Your results.</div>
+        <div class="ob-desc">Not a generic plan. A plan built from your body stats, your goal, your diet, and your lifestyle — recalculated every month as you progress.</div>
+        <div class="ob-feats">
+          <div class="ob-feat"><span class="feat-ic">🎯</span>Plan personalized to your exact goal & body</div>
+          <div class="ob-feat"><span class="feat-ic">🍽️</span>Meals matched to your diet preference (veg/non-veg/vegan/egg)</div>
+          <div class="ob-feat"><span class="feat-ic">💪</span>Gym or home workouts with video form guides</div>
+          <div class="ob-feat"><span class="feat-ic">➕</span>Add your own meals & exercises anytime</div>
+          <div class="ob-feat"><span class="feat-ic">📈</span>Monthly plan update based on real progress</div>
+          <div class="ob-feat"><span class="feat-ic">🛒</span>Smart grocery list with nutrition science</div>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button class="btn-primary" onclick="S('scr-signup')">Start for ₹299/month →</button>
+        <button class="btn-ghost" onclick="S('scr-login')">Already have an account</button>
+      </div>
+      <div class="ob-legal">Cancel anytime · Secure checkout · Privacy protected</div>
+    </div>
+  </div>
+
+  <!-- SIGN UP -->
+  <div class="screen hidden" id="scr-signup">
+    <div class="ob-wrap">
+      <div class="back-row"><button class="back-btn" onclick="S('scr-landing')">←</button><div><div class="step-title">Create account</div><div class="step-sub">Step 1 of 3</div></div></div>
+      <div class="form-body">
+        <div class="inp-label">Full name</div><input class="inp-field" id="su-name" placeholder="e.g. Nazim Pasha" type="text">
+        <div class="inp-label">Email address</div><input class="inp-field" id="su-email" placeholder="you@email.com" type="email">
+        <div class="inp-label">Phone number</div><input class="inp-field" id="su-phone" placeholder="+91 98765 43210" type="tel">
+        <div class="inp-label">Password (min 8 chars)</div><input class="inp-field" id="su-pass" placeholder="Create password" type="password">
+        <div class="privacy-note">🔒 Your data is encrypted and never shared. Your privacy is fully protected.</div>
+      </div>
+      <button class="btn-primary" onclick="doSignup()">Continue to payment →</button>
+      <div class="ob-legal">By continuing you agree to our Terms of Service and Privacy Policy</div>
+    </div>
+  </div>
+
+  <!-- PAYMENT -->
+  <div class="screen hidden" id="scr-payment">
+    <div class="back-row" style="padding:env(safe-area-inset-top,14px) 20px 12px;border-bottom:1px solid var(--bdr);flex-shrink:0"><button class="back-btn" onclick="S('scr-signup')">←</button><div><div class="step-title">Choose plan</div><div class="step-sub">Step 2 of 3</div></div></div>
+    <div class="pay-scroll">
+      <div class="plan-card">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-price">₹299<span>/month</span></div>
+        <div class="plan-name">Premium Individual Membership</div>
+        <div class="plan-feats">
+          <div class="pf">✓ Personalized nutrition plan (goal + diet specific)</div>
+          <div class="pf">✓ Custom workout program (gym or home)</div>
+          <div class="pf">✓ Exercise video guides for proper form</div>
+          <div class="pf">✓ Daily meal & custom food logging</div>
+          <div class="pf">✓ Add your own exercises with tracking</div>
+          <div class="pf">✓ Monthly plan update based on progress</div>
+          <div class="pf">✓ Weight trend & body measurement tracking</div>
+          <div class="pf">✓ AI coach feedback every week</div>
+          <div class="pf">✓ Smart grocery list with nutrition science</div>
+          <div class="pf">✓ Cancel anytime — no lock-in</div>
+        </div>
+      </div>
+      <div class="couple-banner">🎁 <strong>Add a partner</strong> for ₹199/month — both get individual plans</div>
+      <div class="sh">Payment method</div>
+      <div class="pay-methods" id="pay-methods">
+        <button class="pay-m on" onclick="setPay('upi',this)">UPI</button>
+        <button class="pay-m" onclick="setPay('card',this)">Card</button>
+        <button class="pay-m" onclick="setPay('nb',this)">Net Banking</button>
+        <button class="pay-m" onclick="setPay('wallet',this)">Wallet</button>
+      </div>
+      <div id="pay-form">
+        <div class="pay-box"><div class="inp-label">UPI ID</div><input class="inp-field" placeholder="yourname@upi" style="margin-bottom:0"></div>
+      </div>
+      <div class="secure-row">🔒 256-bit SSL · Razorpay · PCI-DSS Compliant</div>
+      <button class="btn-primary" id="pay-btn" onclick="doPayment()">Pay ₹299 &amp; Start Assessment →</button>
+      <div class="ob-legal">You will be charged ₹299 today. Renews monthly. Cancel anytime.</div>
+    </div>
+  </div>
+
+  <!-- ASSESSMENT -->
+  <div class="screen hidden" id="scr-assess">
+    <div class="assess-top">
+      <div class="assess-head"><span class="step-title">Fitness Assessment</span><span class="step-sub" id="step-lbl">Step 1 / 8</span></div>
+      <div class="seg-bar" id="seg-bar"></div>
+    </div>
+    <div class="assess-body" id="assess-body"></div>
+    <div class="assess-nav">
+      <button class="back-btn" id="ab-btn" onclick="aBack()">← Back</button>
+      <button class="btn-primary" style="flex:1" onclick="aNext()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- PLAN READY -->
+  <div class="screen hidden" id="scr-ready">
+    <div class="success-wrap">
+      <div class="success-orb">🎯</div>
+      <div class="success-title">Your personalized plan is ready.</div>
+      <div class="success-desc" id="ready-desc"></div>
+      <div class="card" id="ready-card" style="width:100%;text-align:left;margin-bottom:20px"></div>
+      <button class="btn-primary" onclick="launchApp()">Enter the app →</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="screen hidden" id="scr-login">
+    <div class="ob-wrap">
+      <div class="back-row" onclick="S('scr-landing')" style="cursor:pointer;margin-bottom:32px"><div class="brand-orb" style="width:32px;height:32px">←</div><div><div class="step-title" style="color:var(--t1)">Welcome back</div><div class="step-sub" style="color:var(--t2)">Sign in to your account</div></div></div>
+      
+      <div class="form-body" style="flex:1;display:flex;flex-direction:column;justify-content:center">
+        <div style="margin-bottom:24px">
+          <div class="inp-label">Email</div><input class="inp-field" id="li-email" type="email" placeholder="you@email.com">
+          <div class="inp-label" style="margin-top:16px">Password</div><input class="inp-field" id="li-pass" type="password" placeholder="Your password">
+          <div style="text-align:right;margin-top:8px"><span class="link-text">Forgot password?</span></div>
+        </div>
+        
+        <div style="margin-top:auto;padding-bottom:16px">
+          <button class="btn-primary" onclick="doLogin()" style="margin-bottom:16px">Sign in →</button>
+          <div class="ob-legal">No account? <span class="link-text" onclick="S('scr-signup')">Sign up for ₹299/month</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="screen hidden" id="scr-app">
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-row">
+          <div class="brand-orb"><img src="assets/logo.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%"></div>
+          <div><div class="brand-name">Fit Ninja</div><div class="brand-tag" id="app-tag">Premium</div></div>
+        </div>
+        <div class="user-chip" onclick="showProfile()">
+          <div class="user-av" id="app-av">N</div>
+          <div><div class="user-name" id="app-uname">User</div><div class="user-plan">● Active</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="app-pages" id="app-pages">
+      <div class="page on" id="page-today"><div class="pscroll" id="today-content"></div></div>
+      <div class="page" id="page-meals"><div class="pscroll" id="meals-content"></div></div>
+      <div class="page" id="page-workout"><div class="pscroll" id="workout-content"></div></div>
+      <div class="page" id="page-progress"><div class="pscroll" id="progress-content"></div></div>
+      <div class="page" id="page-nutrition"><div class="pscroll" id="nutrition-content"></div></div>
+      <div class="page" id="page-grocery"><div class="pscroll" id="grocery-content"></div></div>
+    </div>
+    <div class="bnav">
+      <button class="nb on" onclick="nav('today')" id="nav-today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Today</span></button>
+      <button class="nb" onclick="nav('meals')" id="nav-meals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg><span>Meals</span></button>
+      <button class="nb" onclick="nav('workout')" id="nav-workout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="6.5" y1="6.5" x2="17.5" y2="6.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="17.5"/><line x1="3" y1="10" x2="6" y2="10"/><line x1="18" y1="10" x2="21" y2="10"/><line x1="3" y1="14" x2="6" y2="14"/><line x1="18" y1="14" x2="21" y2="14"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="18" y1="10" x2="18" y2="14"/></svg><span>Workout</span></button>
+      <button class="nb" onclick="nav('progress')" id="nav-progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Progress</span></button>
+      <button class="nb" onclick="nav('nutrition')" id="nav-nutrition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>Nutrition</span></button>
+      <button class="nb" onclick="nav('grocery')" id="nav-grocery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.99-1.82l1.38-8.18H6"/></svg><span>Shop</span></button>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay hidden" id="modal-overlay" onclick="closeModal()"></div>
+
+  <!-- ADD MEAL MODAL -->
+  <div class="modal hidden" id="modal-meal">
+    <div class="modal-head"><span class="modal-title">Add custom meal</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="inp-label">Meal name</div>
+      <input class="inp-field" id="cm-name" list="food-db-list" placeholder="Search food or type custom name" oninput="fillFoodMacros()">
+      <datalist id="food-db-list"></datalist>
+      <div class="inp-label">Calories (kcal)</div><input class="inp-field" id="cm-kcal" type="number" placeholder="e.g. 320">
+      <div class="inp-label">Protein (g)</div><input class="inp-field" id="cm-prot" type="number" placeholder="e.g. 12">
+      <div class="inp-label">Carbs (g)</div><input class="inp-field" id="cm-carb" type="number" placeholder="e.g. 55">
+      <div class="inp-label">Fats (g)</div><input class="inp-field" id="cm-fat" type="number" placeholder="e.g. 4">
+      <div class="inp-label">Time eaten</div><input class="inp-field" id="cm-time" type="time" value="12:00">
+      <button class="btn-primary" onclick="addCustomMeal()">Add meal</button>
+    </div>
+  </div>
+
+  <!-- ADD EXERCISE MODAL -->
+  <div class="modal hidden" id="modal-ex">
+    <div class="modal-head"><span class="modal-title">Add custom exercise</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="inp-label">Exercise name</div><input class="inp-field" id="ce-name" placeholder="e.g. Cable lateral raise">
+      <div class="inp-label">Muscle group</div>
+      <select class="inp-field" id="ce-muscle"><option>Chest</option><option>Back</option><option>Shoulders</option><option>Biceps</option><option>Triceps</option><option>Legs</option><option>Core</option><option>Cardio</option><option>Full body</option></select>
+      <div class="inp-row-2">
+        <div><div class="inp-label">Sets</div><input class="inp-field" id="ce-sets" type="number" placeholder="4" min="1" max="20"></div>
+        <div><div class="inp-label">Reps</div><input class="inp-field" id="ce-reps" type="number" placeholder="12" min="1" max="100"></div>
+      </div>
+      <div class="inp-label">Weight (kg) — optional</div><input class="inp-field" id="ce-weight" type="number" placeholder="e.g. 20">
+      <div class="inp-label">Notes</div><input class="inp-field" id="ce-notes" placeholder="e.g. Superset with front raise">
+      <button class="btn-primary" onclick="addCustomEx()">Add exercise</button>
+    </div>
+  </div>
+
+  <!-- EXERCISE DEMO MODAL -->
+  <div class="modal hidden" id="modal-demo">
+    <div class="modal-head"><span class="modal-title" id="demo-title">Exercise Demo</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="demo-body"></div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div class="modal hidden" id="modal-profile">
+    <div class="modal-head"><span class="modal-title">My Profile</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="profile-body"></div>
+  </div>
+
+  <div class="modal hidden" id="modal-update">
+    <div class="modal-head"><span class="modal-title">Monthly Update</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="update-body"></div>
+    <div class="modal-foot">
+      <button class="btn-primary" onclick="applyMonthlyUpdate()">Apply Update &amp; Adapt Plan</button>
+    </div>
+  </div>
+
+  <!-- PHOTO MEAL MODAL -->
+  <div id="photo-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);flex-direction:column;align-items:center;justify-content:flex-end;padding:0">
+    <div style="background:var(--bg2);border-radius:24px 24px 0 0;width:100%;max-width:480px;padding:24px;box-sizing:border-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--t1)">📸 Log your meal</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:2px">Take a photo to confirm you ate this meal</div>
+        </div>
+        <button onclick="closePhotoModal()" style="background:var(--bg4);border:none;width:32px;height:32px;border-radius:50%;color:var(--t1);font-size:16px;cursor:pointer">✕</button>
+      </div>
+      <div id="photo-preview" style="display:none;margin-bottom:16px;border-radius:12px;overflow:hidden"></div>
+      <button onclick="openCamera()" style="width:100%;padding:16px;background:var(--bg3);border:2px dashed var(--bdr);border-radius:16px;color:var(--t1);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px">
+        📷 Open Camera / Choose Photo
+      </button>
+      <button id="photo-confirm-btn" onclick="confirmMealPhoto()" style="display:none;width:100%;padding:16px;background:var(--t1);border:none;border-radius:16px;color:var(--bg1);font-size:15px;font-weight:700;cursor:pointer">
+        ✓ Confirm &amp; Log Meal
+      </button>
+      <input type="file" id="meal-photo-input" accept="image/*" capture="environment" style="display:none" onchange="onPhotoChosen(this)">
+    </div>
+  </div>
+
+</div>
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
