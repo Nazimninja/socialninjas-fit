@@ -7,8 +7,8 @@ export default async function handler(req, res) {
 
   try {
     const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH',
-      key_secret: process.env.RAZORPAY_KEY_SECRET || 'Xhj2PoIJznFVUztdfqUJqWUV',
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
     const payment_capture = 1;
