@@ -1,0 +1,46 @@
+{
+  "name": "SocialNinjas Fit",
+  "short_name": "SNFit",
+  "description": "Premium personalized fitness & nutrition coaching app",
+  "start_url": "/socialninjas-fit/",
+  "scope": "/socialninjas-fit/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#00E5A0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23050508' width='192' height='192'/><g fill='%2300E5A0'><path d='M96 24l32 32v72h-64V56z' opacity='.9'/><circle cx='96' cy='144' r='12'/></g></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23050508' width='512' height='512'/><g fill='%2300E5A0'><path d='M256 64l85 85v192H171V149z' opacity='.9'/><circle cx='256' cy='384' r='32'/></g></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23050508' width='540' height='720'/><text x='270' y='300' font-size='48' fill='%2300E5A0' text-anchor='middle' font-family='sans-serif' font-weight='bold'>SocialNinjas Fit</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Assessment",
+      "url": "/socialninjas-fit/?page=assess",
+      "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%2300E5A0' width='96' height='96' rx='20'/><text x='48' y='56' font-size='48' text-anchor='middle' fill='%23050508'>📊</text></svg>", "sizes": "96x96", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Log Meal",
+      "url": "/socialninjas-fit/?page=meals",
+      "icons": [{ "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%2300E5A0' width='96' height='96' rx='20'/><text x='48' y='56' font-size='48' text-anchor='middle' fill='%23050508'>🍽️</text></svg>", "sizes": "96x96", "type": "image/svg+xml" }]
+    }
+  ]
+}
