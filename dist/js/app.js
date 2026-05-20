@@ -64,20 +64,18 @@ function S(id) {
 // ═══════════════════════════════════════════════
 var payMethod = 'upi';
 var payForms = {
-  upi: '<div class="pay-form"><div class="inp-label">UPI ID</div><input class="inp" placeholder="yourname@upi" style="margin-bottom:0"></div>',
-  card: '<div class="pay-form"><div class="inp-label">Card number</div><input class="inp" placeholder="1234 5678 9012 3456"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div class="inp-label">Expiry</div><input class="inp" placeholder="MM/YY" style="margin-bottom:0"></div><div><div class="inp-label">CVV</div><input class="inp" placeholder="•••" style="margin-bottom:0"></div></div></div>',
-  nb: '<div class="pay-form"><div class="inp-label">Select your bank</div><select class="inp" style="margin-bottom:0"><option>SBI</option><option>HDFC</option><option>ICICI</option><option>Axis</option><option>Kotak</option><option>Other</option></select></div>',
-  wallet: '<div class="pay-form"><div class="inp-label">Select wallet</div><div style="display:flex;gap:8px"><button class="pay-method on">Paytm</button><button class="pay-method" onclick="this.parentNode.querySelectorAll(\'.pay-method\').forEach(b=>b.classList.remove(\'on\'));this.classList.add(\'on\')">PhonePe</button><button class="pay-method" onclick="this.parentNode.querySelectorAll(\'.pay-method\').forEach(b=>b.classList.remove(\'on\'));this.classList.add(\'on\')">GPay</button></div></div>'
+  upi: '<div class="pay-box"><div class="inp-label">UPI ID</div><input class="inp-field" placeholder="yourname@upi" style="margin-bottom:0"></div>',
+  card: '<div class="pay-box"><div class="inp-label">Card number</div><input class="inp-field" placeholder="1234 5678 9012 3456"><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><div class="inp-label">Expiry</div><input class="inp-field" placeholder="MM/YY" style="margin-bottom:0"></div><div><div class="inp-label">CVV</div><input class="inp-field" placeholder="•••" style="margin-bottom:0"></div></div></div>',
+  nb: '<div class="pay-box"><div class="inp-label">Select your bank</div><select class="inp-field" style="margin-bottom:0"><option>SBI</option><option>HDFC</option><option>ICICI</option><option>Axis</option><option>Kotak</option><option>Other</option></select></div>',
+  netbanking: '<div class="pay-box"><div class="inp-label">Select your bank</div><select class="inp-field" style="margin-bottom:0"><option>SBI</option><option>HDFC</option><option>ICICI</option><option>Axis</option><option>Kotak</option><option>Other</option></select></div>',
+  wallet: '<div class="pay-box"><div class="inp-label">Select wallet</div><div style="display:flex;gap:8px"><button class="pay-m on" onclick="this.parentNode.querySelectorAll(\'.pay-m\').forEach(b=>b.classList.remove(\'on\'));this.classList.add(\'on\')">Paytm</button><button class="pay-m" onclick="this.parentNode.querySelectorAll(\'.pay-m\').forEach(b=>b.classList.remove(\'on\'));this.classList.add(\'on\')">PhonePe</button><button class="pay-m" onclick="this.parentNode.querySelectorAll(\'.pay-m\').forEach(b=>b.classList.remove(\'on\'));this.classList.add(\'on\')">GPay</button></div></div>'
 };
 
 function selPay(m, btn) {
   payMethod = m;
-  document.querySelectorAll('.pay-m, .pay-method').forEach(function(b) { b.classList.remove('on'); });
+  document.querySelectorAll('#pay-methods .pay-m').forEach(function(b) { b.classList.remove('on'); });
   btn.classList.add('on');
-  var formArea = document.getElementById('pay-form') || document.getElementById('pay-form-area');
-  if (formArea) {
-    formArea.innerHTML = payForms[m] || payForms.upi;
-  }
+  document.getElementById('pay-form').innerHTML = payForms[m] || payForms.upi;
 }
 // Alias used by app.html
 function setPay(m, btn) { selPay(m, btn); }
