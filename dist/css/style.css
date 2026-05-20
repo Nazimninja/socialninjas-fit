@@ -90,28 +90,28 @@ html, body {
 .ob-title-sm { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
 .ob-sub-sm { font-size: 10px; color: var(--ac); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
-.ob-hero { display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 2px; margin-top: 2px; }
-.ob-tag { font-size: 10px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: inline-block; background: rgba(191, 90, 242, 0.22); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(191, 90, 242, 0.45); align-self: flex-start; box-shadow: 0 0 10px rgba(191, 90, 242, 0.25); }
-.ob-h1 { font-family: var(--fs); font-size: 34px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.ob-hero { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; text-align: center; padding-bottom: 2px; margin-top: 2px; }
+.ob-tag { font-size: 10px; font-weight: 800; color: #FFFFFF !important; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: inline-block; background: rgba(191, 90, 242, 0.25); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(191, 90, 242, 0.6); align-self: center; text-align: center; box-shadow: 0 0 16px rgba(191, 90, 242, 0.35); margin-top: 2px; }
+.ob-h1 { font-family: var(--fs); font-size: 28px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); text-align: center; width: 100%; }
 .ob-h1 span { display: block; }
 .ob-h1 .line-green { background: linear-gradient(135deg, #FFF 0%, #A78BFA 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
-.ob-h1 .line-outline { -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85); color: transparent; display: block; text-shadow: 0 0 8px rgba(191, 90, 242, 0.4); }
-.ob-desc { font-size: 12.5px; color: var(--t2); line-height: 1.45; margin-bottom: 8px; font-weight: 400; }
+.ob-h1 .line-outline { -webkit-text-stroke: 1.8px #FFFFFF; color: rgba(255, 255, 255, 0.05); display: block; text-shadow: 0 0 16px rgba(191, 90, 242, 0.85), 0 0 4px rgba(191, 90, 242, 0.5); }
+.ob-desc { font-size: 12px; color: var(--t2); line-height: 1.4; margin-bottom: 10px; font-weight: 400; text-align: center; max-width: 90%; margin-left: auto; margin-right: auto; }
 
-.ob-feats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
-.ob-feat { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--t1); font-weight: 500; }
-.feat-ic { width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.ob-feats { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; align-self: center; align-items: flex-start; max-width: 95%; }
+.ob-feat { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--t1); font-weight: 500; text-align: left; }
+.feat-ic { width: 20px; height: 20px; border-radius: 5px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
-.ob-actions { display: flex; flex-direction: column; gap: 6px; }
-.ob-legal { font-size: 10px; color: var(--t3); text-align: center; margin-top: 8px; line-height: 1.4; }
+.ob-actions { display: flex; flex-direction: column; gap: 5px; width: 100%; margin-top: 4px; }
+.ob-legal { font-size: 10px; color: var(--t3); text-align: center; margin-top: 6px; line-height: 1.4; }
 
 /* BUTTONS */
-.btn-primary { width: 100%; padding: 16px; background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 700; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
+.btn-primary { width: 100%; padding: 14px 16px; background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%); border: none; border-radius: var(--r); font-size: 15px; font-weight: 800; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
 .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0)); transform: skewX(-20deg); transition: 0.5s; }
 .btn-primary:hover::after { left: 150%; }
 .btn-primary:active { transform: scale(0.98); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
 
-.btn-ghost { width: 100%; padding: 15px; background: var(--bg2); border: 1px solid var(--bdr-light); border-radius: var(--r); font-size: 15px; font-weight: 600; color: var(--t1); cursor: pointer; transition: all 0.2s; backdrop-filter: var(--glass-blur); }
+.btn-ghost { width: 100%; padding: 13px 15px; background: var(--bg2); border: 1px solid var(--bdr-light); border-radius: var(--r); font-size: 14px; font-weight: 700; color: var(--t1); cursor: pointer; transition: all 0.2s; backdrop-filter: var(--glass-blur); }
 .btn-ghost:active { background: var(--bg3); transform: scale(0.98); }
 
 .btn-sm { padding: 10px 18px; background: var(--bg3); border: 1px solid var(--bdr); border-radius: 12px; font-size: 13px; font-weight: 600; color: var(--t1); cursor: pointer; transition: 0.2s; backdrop-filter: var(--glass-blur); }
@@ -402,9 +402,9 @@ html, body {
   width: 100%;
 }
 .ob-logo-img {
-  height: 78px;
+  height: 60px;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(191, 90, 242, 0.85)) brightness(2.2) contrast(1.15);
+  filter: drop-shadow(0 0 20px rgba(191, 90, 242, 0.95)) brightness(2.8) contrast(1.1);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
@@ -413,28 +413,28 @@ html, body {
 }
 .ob-sub-sm-hl {
   font-size: 10px;
-  color: #E9D5FF;
-  font-weight: 800;
+  color: #F5F3FF;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 4px;
-  text-shadow: 0 0 12px rgba(191, 90, 242, 0.6);
+  text-shadow: 0 0 10px rgba(191, 90, 242, 0.5);
 }
 
 .brand-logo-container {
-  height: 48px;
+  height: 52px;
   display: flex;
   align-items: center;
 }
 .app-brand-logo {
   height: 100%;
-  max-height: 48px;
+  max-height: 52px;
   object-fit: contain;
-  filter: drop-shadow(0 0 12px rgba(191, 90, 242, 0.8)) brightness(2.2) contrast(1.15);
+  filter: drop-shadow(0 0 16px rgba(191, 90, 242, 0.9)) brightness(2.8) contrast(1.1);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
 
 @keyframes logoGlowPulse {
-  0%, 100% { filter: drop-shadow(0 0 8px rgba(191, 90, 242, 0.65)) brightness(2.0) contrast(1.1); transform: scale(1); }
-  50% { filter: drop-shadow(0 0 20px rgba(191, 90, 242, 0.9)) brightness(2.4) contrast(1.2); transform: scale(1.02); }
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(191, 90, 242, 0.75)) brightness(2.4) contrast(1.15); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 32px rgba(191, 90, 242, 0.98)) brightness(3.2) contrast(1.2); transform: scale(1.03); }
 }
