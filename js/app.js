@@ -357,12 +357,12 @@ function renderAssessStep() {
     });
     html += '</div>';
     html += '<div class="inp-row">'
-      + '<div><div class="inp-label">Your first name</div><input class="inp" id="inp-pname" placeholder="e.g. Rahul" value="' + (assessAnswers.pname || STATE.signupData.name || '') + '" style="margin-bottom:0"></div>'
-      + '<div><div class="inp-label">Age</div><input class="inp" id="inp-age" type="number" placeholder="e.g. 28" value="' + (assessAnswers.age || '') + '" style="margin-bottom:0"></div>'
+      + '<div><div class="inp-label">Your first name</div><input class="inp-field" id="inp-pname" placeholder="e.g. Rahul" value="' + (assessAnswers.pname || STATE.signupData.name || '') + '" style="margin-bottom:0"></div>'
+      + '<div><div class="inp-label">Age</div><input class="inp-field" id="inp-age" type="number" placeholder="e.g. 28" value="' + (assessAnswers.age || '') + '" style="margin-bottom:0"></div>'
       + '</div>';
     html += '<div class="inp-row" style="margin-top:12px">'
-      + '<div><div class="inp-label">Weight (kg)</div><input class="inp" id="inp-weight" type="number" step="0.1" placeholder="e.g. 70" value="' + (assessAnswers.weight || '') + '" style="margin-bottom:0"></div>'
-      + '<div><div class="inp-label">Height (cm)</div><input class="inp" id="inp-height" type="number" placeholder="e.g. 172" value="' + (assessAnswers.height || '') + '" style="margin-bottom:0"></div>'
+      + '<div><div class="inp-label">Weight (kg)</div><input class="inp-field" id="inp-weight" type="number" step="0.1" placeholder="e.g. 70" value="' + (assessAnswers.weight || '') + '" style="margin-bottom:0"></div>'
+      + '<div><div class="inp-label">Height (cm)</div><input class="inp-field" id="inp-height" type="number" placeholder="e.g. 172" value="' + (assessAnswers.height || '') + '" style="margin-bottom:0"></div>'
       + '</div>';
   } else if (step.type === 'cycle') {
     html += '<div class="opt-grid" style="grid-template-columns:1fr 1fr 1fr">';
@@ -377,13 +377,13 @@ function renderAssessStep() {
     html += '</div>';
     html += '<div id="cycle-details" style="' + (assessAnswers.hasCycle === 'yes' ? '' : 'display:none') + ';margin-top:16px">';
     html += '<div class="inp-label">When did your last period start?</div>';
-    html += '<input class="inp" id="inp-last-period" type="date" value="' + (assessAnswers.lastPeriodDate || '') + '" style="margin-bottom:12px">';
+    html += '<input class="inp-field" id="inp-last-period" type="date" value="' + (assessAnswers.lastPeriodDate || '') + '" style="margin-bottom:12px">';
     html += '<div class="inp-row">';
-    html += '<div><div class="inp-label">Cycle length (days)</div><input class="inp" id="inp-cycle-len" type="number" min="21" max="45" placeholder="28" value="' + (assessAnswers.cycleLength || '28') + '" style="margin-bottom:0"></div>';
-    html += '<div><div class="inp-label">Period duration (days)</div><input class="inp" id="inp-period-dur" type="number" min="2" max="10" placeholder="5" value="' + (assessAnswers.periodDuration || '5') + '" style="margin-bottom:0"></div>';
+    html += '<div><div class="inp-label">Cycle length (days)</div><input class="inp-field" id="inp-cycle-len" type="number" min="21" max="45" placeholder="28" value="' + (assessAnswers.cycleLength || '28') + '" style="margin-bottom:0"></div>';
+    html += '<div><div class="inp-label">Period duration (days)</div><input class="inp-field" id="inp-period-dur" type="number" min="2" max="10" placeholder="5" value="' + (assessAnswers.periodDuration || '5') + '" style="margin-bottom:0"></div>';
     html += '</div></div>';
   } else if (step.type === 'text') {
-    html += '<input class="inp" id="inp-txt-' + step.key + '" placeholder="' + (step.placeholder || '') + '" value="' + (assessAnswers[step.key] || '') + '" style="margin-top:16px">';
+    html += '<input class="inp-field" id="inp-txt-' + step.key + '" placeholder="' + (step.placeholder || '') + '" value="' + (assessAnswers[step.key] || '') + '" style="margin-top:16px">';
   }
 
   document.getElementById('assess-body').innerHTML = html;
@@ -1029,7 +1029,7 @@ function renderWorkout() {
     + '<div style="font-size:12px;color:var(--t2)">Tap sets as you complete them. Tap exercise name for demo video and form cues.</div>'
     + '</div>'
     + '<div class="dstrip" id="wk-strip">' + stripHtml + '</div>'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="sh" style="margin:0">Exercises</div><button class="btn-icon" onclick="openModal(\'modal-exercise\')">+ Add exercise</button></div>'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div class="sh" style="margin:0">Exercises</div><button class="btn-icon" onclick="openModal(\'modal-ex\')">+ Add exercise</button></div>'
     + '<div id="wk-exs"></div>'
     + renderCustomExercises();
 
