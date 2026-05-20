@@ -82,7 +82,7 @@ html, body {
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ONBOARDING */
-.ob-wrap { flex: 1; display: flex; flex-direction: column; padding: env(safe-area-inset-top,16px) 24px env(safe-area-inset-bottom,24px); overflow-y: auto; position: relative; z-index: 2; }
+.ob-wrap { flex: 1; display: flex; flex-direction: column; padding: env(safe-area-inset-top,10px) 20px env(safe-area-inset-bottom,16px); overflow-y: auto; position: relative; z-index: 2; }
 .ob-wrap::-webkit-scrollbar { display: none; }
 .ob-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; margin-top: 8px; }
 .ob-orb { width: 48px; height: 48px; border-radius: 14px; background: var(--t1); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(255,255,255,0.15); }
@@ -90,20 +90,20 @@ html, body {
 .ob-title-sm { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
 .ob-sub-sm { font-size: 10px; color: var(--ac); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
-.ob-hero { display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 16px; margin-top: 16px; }
-.ob-tag { font-size: 10px; font-weight: 700; color: var(--ac); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; display: inline-block; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); align-self: flex-start; }
-.ob-h1 { font-family: var(--fs); font-size: 38px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+.ob-hero { display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 2px; margin-top: 2px; }
+.ob-tag { font-size: 10px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: inline-block; background: rgba(191, 90, 242, 0.22); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(191, 90, 242, 0.45); align-self: flex-start; box-shadow: 0 0 10px rgba(191, 90, 242, 0.25); }
+.ob-h1 { font-family: var(--fs); font-size: 34px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
 .ob-h1 span { display: block; }
 .ob-h1 .line-green { background: linear-gradient(135deg, #FFF 0%, #A78BFA 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
-.ob-h1 .line-outline { -webkit-text-stroke: 1.5px rgba(255,255,255,0.4); color: transparent; display: block; }
-.ob-desc { font-size: 14px; color: var(--t2); line-height: 1.6; margin-bottom: 20px; font-weight: 400; }
+.ob-h1 .line-outline { -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85); color: transparent; display: block; text-shadow: 0 0 8px rgba(191, 90, 242, 0.4); }
+.ob-desc { font-size: 12.5px; color: var(--t2); line-height: 1.45; margin-bottom: 8px; font-weight: 400; }
 
-.ob-feats { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
-.ob-feat { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--t1); font-weight: 500; }
-.feat-ic { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.ob-feats { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.ob-feat { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--t1); font-weight: 500; }
+.feat-ic { width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
-.ob-actions { display: flex; flex-direction: column; gap: 12px; }
-.ob-legal { font-size: 11px; color: var(--t3); text-align: center; margin-top: 16px; line-height: 1.6; }
+.ob-actions { display: flex; flex-direction: column; gap: 6px; }
+.ob-legal { font-size: 10px; color: var(--t3); text-align: center; margin-top: 8px; line-height: 1.4; }
 
 /* BUTTONS */
 .btn-primary { width: 100%; padding: 16px; background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 700; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
@@ -397,44 +397,44 @@ html, body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 24px;
-  margin-top: 16px;
+  margin-bottom: 8px;
+  margin-top: 2px;
   width: 100%;
 }
 .ob-logo-img {
-  height: 130px;
+  height: 78px;
   object-fit: contain;
-  filter: drop-shadow(0 0 20px rgba(191, 90, 242, 0.75)) brightness(1.5) contrast(1.1);
+  filter: drop-shadow(0 0 18px rgba(191, 90, 242, 0.85)) brightness(2.2) contrast(1.15);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
 .ob-logo-img:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 .ob-sub-sm-hl {
-  font-size: 11px;
-  color: var(--ac);
-  font-weight: 700;
+  font-size: 10px;
+  color: #E9D5FF;
+  font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-top: 12px;
-  text-shadow: 0 2px 8px rgba(191, 90, 242, 0.3);
+  margin-top: 4px;
+  text-shadow: 0 0 12px rgba(191, 90, 242, 0.6);
 }
 
 .brand-logo-container {
-  height: 64px;
+  height: 48px;
   display: flex;
   align-items: center;
 }
 .app-brand-logo {
   height: 100%;
-  max-height: 64px;
+  max-height: 48px;
   object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(191, 90, 242, 0.65)) brightness(1.4) contrast(1.1);
+  filter: drop-shadow(0 0 12px rgba(191, 90, 242, 0.8)) brightness(2.2) contrast(1.15);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
 
 @keyframes logoGlowPulse {
-  0%, 100% { filter: drop-shadow(0 0 12px rgba(191, 90, 242, 0.55)) brightness(1.4) contrast(1.1); transform: scale(1); }
-  50% { filter: drop-shadow(0 0 28px rgba(191, 90, 242, 0.95)) brightness(1.75) contrast(1.25); transform: scale(1.04); }
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(191, 90, 242, 0.65)) brightness(2.0) contrast(1.1); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 20px rgba(191, 90, 242, 0.9)) brightness(2.4) contrast(1.2); transform: scale(1.02); }
 }
