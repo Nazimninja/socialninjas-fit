@@ -129,6 +129,31 @@ window.onerror = function(msg, url, line, col, error) {
     </div>
   </div>
 
+  <!-- INSTALL INSTRUCTIONS -->
+  <div class="screen hidden" id="scr-install">
+    <div class="success-wrap">
+      <div class="success-orb" style="animation:none;box-shadow:none;border-color:transparent;font-size:64px;margin-bottom:12px">🎉</div>
+      <div class="success-title">Payment Successful!</div>
+      <div class="success-desc">Thank you for joining Social Ninjas Fit. Before we begin, let's set you up for success.</div>
+      
+      <div class="card" style="width:100%;text-align:left;margin-bottom:24px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--t1)">How to add the app to your home screen:</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.6">
+          <div style="display:flex;gap:12px;margin-bottom:16px">
+            <span style="font-size:24px">🍎</span>
+            <span><b>iPhone (Safari):</b><br>Tap the Share icon at the bottom of Safari, then scroll down and tap "Add to Home Screen".</span>
+          </div>
+          <div style="display:flex;gap:12px">
+            <span style="font-size:24px">🤖</span>
+            <span><b>Android (Chrome):</b><br>Tap the 3 dots menu at the top right of Chrome, then tap "Install app" or "Add to Home screen".</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="btn-primary" onclick="S('scr-assess')">Done, let's start my assessment →</button>
+    </div>
+  </div>
+
   <!-- LOGIN -->
   <div class="screen hidden" id="scr-login">
     <div class="ob-wrap">

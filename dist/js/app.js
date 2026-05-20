@@ -227,7 +227,7 @@ async function onPaymentSuccess() {
   assessStep = 0;
   assessAnswers = {};
   renderAssessStep();
-  S('scr-assess');
+  S('scr-install');
 }
 
 async function doLogin() {
