@@ -18,10 +18,10 @@
   
   --t1: #F5F5F7; /* Apple off-white */
   --t2: #86868B; /* Elegant mid-gray */
-  --t3: #55555A;
+  --t3: #8E8E93; /* iOS inactive gray */
   
-  --bdr: rgba(255, 255, 255, 0.08);
-  --bdr-light: rgba(255, 255, 255, 0.15);
+  --bdr: rgba(255, 255, 255, 0.12);
+  --bdr-light: rgba(255, 255, 255, 0.2);
   
   --r: 20px;
   --r2: 28px;
