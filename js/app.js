@@ -4,7 +4,7 @@
 // Change this to your Vercel URL if hosting the frontend on a different provider (like Hostinger)
 const API_BASE = ''; 
 
-const SUPABASE_URL = 'https://bolzmesvzbcudcykpgpe.db.co';
+const SUPABASE_URL = 'https://bolzmesvzbcudcykpgpe.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJvbHptZXN2emJjdWRjeWtwZ3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5MzEzNDcsImV4cCI6MjA5NDUwNzM0N30.aCM3IffKkOvm3T9hXybTC-x9FDChmCSIntd-V2Oq1ms';
 const db = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 if (!db) console.warn('db failed to load. App will work in local-only mode.');
@@ -236,6 +236,17 @@ async function doGoogleLogin() {
     if (error) alert(error.message);
   } else {
     alert('Google login not configured.');
+  }
+}
+
+function togglePass(btn, id) {
+  var el = document.getElementById(id);
+  if (el.type === 'password') {
+    el.type = 'text';
+    btn.textContent = '🔒';
+  } else {
+    el.type = 'password';
+    btn.textContent = '👁️';
   }
 }
 

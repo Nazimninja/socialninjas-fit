@@ -70,7 +70,11 @@ window.onerror = function(msg, url, line, col, error) {
         <div class="inp-label">Full name</div><input class="inp-field" id="su-name" placeholder="e.g. Nazim Pasha" type="text">
         <div class="inp-label">Email address</div><input class="inp-field" id="su-email" placeholder="you@email.com" type="email">
         <div class="inp-label">Phone number</div><input class="inp-field" id="su-phone" placeholder="+91 98765 43210" type="tel">
-        <div class="inp-label">Password (min 8 chars)</div><input class="inp-field" id="su-pass" placeholder="Create password" type="password">
+        <div class="inp-label">Password (min 8 chars)</div>
+        <div style="position:relative">
+          <input class="inp-field" id="su-pass" placeholder="Create password" type="password" style="padding-right:40px">
+          <span onclick="togglePass(this, 'su-pass')" style="position:absolute;right:16px;top:14px;cursor:pointer;font-size:16px;color:var(--t2)">👁️</span>
+        </div>
         <div class="privacy-note">🔒 Your data is encrypted and never shared. Your privacy is fully protected.</div>
       </div>
       <button class="btn-primary" onclick="doGoogleLogin()" style="background:#fff;color:#000;border:1px solid #ddd;margin-bottom:12px;font-weight:600"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;height:18px;margin-right:12px;vertical-align:middle;position:relative;top:-1px">Sign up with Google</button>
@@ -163,7 +167,11 @@ window.onerror = function(msg, url, line, col, error) {
       <div class="form-body" style="flex:1;display:flex;flex-direction:column;justify-content:center">
         <div style="margin-bottom:24px">
           <div class="inp-label">Email</div><input class="inp-field" id="li-email" type="email" placeholder="you@email.com">
-          <div class="inp-label" style="margin-top:16px">Password</div><input class="inp-field" id="li-pass" type="password" placeholder="Your password">
+          <div class="inp-label" style="margin-top:16px">Password</div>
+          <div style="position:relative">
+            <input class="inp-field" id="li-pass" type="password" placeholder="Your password" style="padding-right:40px">
+            <span onclick="togglePass(this, 'li-pass')" style="position:absolute;right:16px;top:14px;cursor:pointer;font-size:16px;color:var(--t2)">👁️</span>
+          </div>
           <div style="text-align:right;margin-top:12px"><span class="link-text" onclick="doResetPassword()" style="font-size:13px;font-weight:600;cursor:pointer">Forgot password?</span></div>
         </div>
         
