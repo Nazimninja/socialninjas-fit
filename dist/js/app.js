@@ -1424,19 +1424,48 @@ function saveCustomMeal() {
 }
 
 // CUSTOM EXERCISE
-function saveCustomExercise() {
+function addCustomEx() {
   var name = document.getElementById('ce-name').value.trim();
-  var sets = document.getElementById('ce-sets').value;
-  var reps = document.getElementById('ce-reps').value;
-  var weight = document.getElementById('ce-weight').value;
+  var muscle = document.getElementById('ce-muscle').value;
+  var sets = parseInt(document.getElementById('ce-sets').value) || 4;
+  var reps = document.getElementById('ce-reps').value || '12';
+  var weight = document.getElementById('ce-weight').value || '';
   var notes = document.getElementById('ce-notes').value.trim();
+
   if (!name || !sets || !reps) { alert('Please fill in exercise name, sets and reps.'); return; }
-  STATE.customExercises = STATE.customExercises || [];
-  STATE.customExercises.push({ name: name, sets: sets, reps: reps, weight: weight, notes: notes });
+  if (!STATE.profile || !STATE.profile.plan || !STATE.profile.plan.workout) return;
+  
+  var day = STATE.profile.plan.workout[STATE.gymDay];
+  
+  // Convert rest day to workout day
+  if (day.r) {
+    day.r = false;
+    day.exercises = [];
+    day.focus = muscle;
+  }
+
+  var ex = {
+    key: 'custom_' + Date.now(),
+    name: name,
+    sets: sets,
+    reps: reps + (weight ? ' @ ' + weight + 'kg' : ''),
+    rest: '60s',
+    badge: muscle.toLowerCase()
+  };
+  if (notes) ex.tip = notes;
+
+  day.exercises.push(ex);
+  
+  STATE.profile.plan.workout[STATE.gymDay] = day;
+  if (db && STATE.user) {
+    db.from('profiles').update({ generated_plan: STATE.profile.plan }).eq('id', STATE.user.id);
+  }
+  
   save();
   closeModal();
+  
   ['ce-name', 'ce-sets', 'ce-reps', 'ce-weight', 'ce-notes'].forEach(function(id) { document.getElementById(id).value = ''; });
-  if (currentPage === 'workout') renderWorkout();
+  if (currentPage === 'workout') renderWorkout(STATE.gymDay);
   alert('✓ Exercise "' + name + '" added to today\'s session!');
 }
 
