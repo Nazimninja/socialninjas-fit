@@ -232,7 +232,7 @@ async function onPaymentSuccess() {
 
 async function doGoogleLogin() {
   if (db) {
-    const { data, error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+    const { data, error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + '/app.html' } });
     if (error) alert(error.message);
   } else {
     alert('Google login not configured.');
@@ -255,7 +255,7 @@ async function doResetPassword() {
   if (!email) email = prompt('Please enter your email to reset password:');
   if (!email) return;
   if (db) {
-    const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+    const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/app.html' });
     if (error) alert(error.message);
     else alert('Password reset link sent to ' + email + '!');
   }
