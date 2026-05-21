@@ -185,11 +185,22 @@ html, body {
 
 .inp-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+/* GENDER SELECT */
+.gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.gender-card { background: var(--bg2); border: 1px solid var(--bdr-light); border-radius: var(--r); padding: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: all 0.25s; backdrop-filter: var(--glass-blur); }
+.gender-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+.gender-card.sel { background: rgba(255,255,255,0.1); border-color: var(--ac); box-shadow: 0 8px 24px rgba(255,255,255,0.15); transform: translateY(-2px); }
+.gender-ico { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); margin-bottom: 4px; }
+.gender-name { font-size: 15px; font-weight: 700; color: var(--t1); }
+.gender-ck { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--t3); transition: 0.2s; margin-top: 4px; }
+.gender-card.sel .gender-ck { background: var(--ac); border-color: var(--ac); box-shadow: 0 0 10px var(--ac-glow); position: relative; }
+.gender-card.sel .gender-ck::after { content: ''; position: absolute; top: 6px; left: 6px; width: 6px; height: 6px; background: #000; border-radius: 50%; }
+
 /* SUCCESS */
-.success-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; }
-.success-orb { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 28px; box-shadow: 0 0 40px var(--ac-glow); animation: pulse 2s infinite; }
-.success-title { font-family: var(--fs); font-size: 32px; font-weight: 700; margin-bottom: 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-.success-desc { font-size: 15px; color: var(--t2); line-height: 1.6; margin-bottom: 32px; }
+.success-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 32px; text-align: center; overflow-y: auto; overflow-x: hidden; }
+.success-orb { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 28px; box-shadow: 0 0 40px var(--ac-glow); animation: pulse 2s infinite; flex-shrink: 0; }
+.success-title { font-family: var(--fs); font-size: 32px; font-weight: 700; margin-bottom: 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); flex-shrink: 0; }
+.success-desc { font-size: 15px; color: var(--t2); line-height: 1.6; margin-bottom: 32px; flex-shrink: 0; }
 
 /* MAIN APP TOPBAR */
 .topbar { padding: env(safe-area-inset-top,16px) 20px 0; flex-shrink: 0; z-index: 10; position: relative; }

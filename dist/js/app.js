@@ -375,7 +375,7 @@ function renderAssessStep() {
       html += '<div class="opt' + (sel ? ' sel' : '') + '" onclick="selOpt(\'' + step.key + '\',\'' + o.v + '\',this)">'
         + '<div class="opt-ico">' + o.ico + '</div>'
         + '<div class="opt-body"><div class="opt-name">' + o.n + '</div><div class="opt-desc">' + o.d + '</div></div>'
-        + '<div class="opt-ck">' + (sel ? '✓' : '') + '</div>'
+        + '<div class="opt-ck"></div>'
         + '</div>';
     });
     html += '</div>';
@@ -387,7 +387,7 @@ function renderAssessStep() {
       html += '<div class="gender-card' + (sel ? ' sel' : '') + '" onclick="selGender(\'' + g + '\',this)">'
         + '<div class="gender-ico">' + (g === 'male' ? '👨' : '👩') + '</div>'
         + '<div class="gender-name">' + (g === 'male' ? 'Male' : 'Female') + '</div>'
-        + '<div class="gender-ck">' + (sel ? '✓' : '') + '</div>'
+        + '<div class="gender-ck"></div>'
         + '</div>';
     });
     html += '</div>';
@@ -406,7 +406,7 @@ function renderAssessStep() {
       html += '<div class="opt cycle-opt' + (sel ? ' sel' : '') + '" data-val="' + o.v + '" onclick="selCycleOpt(this)">' +
         '<div class="opt-ico">' + o.ico + '</div>' +
         '<div class="opt-body"><div class="opt-name">' + o.n + '</div></div>' +
-        '<div class="opt-ck">' + (sel ? '✓' : '') + '</div>' +
+        '<div class="opt-ck"></div>' +
         '</div>';
     });
     html += '</div>';
