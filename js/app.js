@@ -88,10 +88,10 @@ async function doSignup() {
       data = res.data;
       error = res.error;
     } catch(err) {
-      console.warn("Supabase signup error, falling back to offline mode", err);
+      error = err;
     }
   }
-  if (!data || !data.user) {
+  if (!db) {
     data = { user: { id: 'demo-' + Date.now() } };
     error = null;
   }
@@ -281,11 +281,11 @@ async function doLogin() {
       data = res.data;
       error = res.error;
     } catch(err) {
-      console.warn("Supabase login error, falling back to offline mode", err);
+      error = err;
     }
   }
-  if (!data || !data.user) {
-    error = { message: 'Network error. Try demo@example.com' };
+  if (!db && email !== 'demo@example.com' && email !== 'test@test.com') {
+    error = { message: 'Database not configured.' };
   }
 
   btn.innerHTML = originalText;
