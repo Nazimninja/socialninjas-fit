@@ -230,6 +230,26 @@ async function onPaymentSuccess() {
   S('scr-install');
 }
 
+async function doGoogleLogin() {
+  if (db) {
+    const { data, error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+    if (error) alert(error.message);
+  } else {
+    alert('Google login not configured.');
+  }
+}
+
+async function doResetPassword() {
+  var email = document.getElementById('li-email').value.trim();
+  if (!email) email = prompt('Please enter your email to reset password:');
+  if (!email) return;
+  if (db) {
+    const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+    if (error) alert(error.message);
+    else alert('Password reset link sent to ' + email + '!');
+  }
+}
+
 async function doLogin() {
   var email = document.getElementById('li-email').value.trim();
   var pass = document.getElementById('li-pass').value;
@@ -275,7 +295,11 @@ async function doLogin() {
       nav('today');
       return;
     }
-    alert(error.message); 
+    if (error.message && error.message.toLowerCase().includes("email not confirmed")) {
+      alert("Please check your email inbox (and spam) to verify your account before logging in. \n\n(Admin Note: To remove this step, turn OFF 'Confirm email' in Supabase Auth settings).");
+    } else {
+      alert(error.message || 'Login failed'); 
+    }
     return; 
   }
 
@@ -1540,6 +1564,29 @@ function fillFoodMacros() {
       } else {
         S('scr-landing');
       }
+    }
+
+    if (db) {
+      db.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          const newPass = prompt("Enter a new password (min 8 characters):");
+          if (newPass && newPass.length >= 8) {
+            const { error } = await db.auth.updateUser({ password: newPass });
+            if (error) alert(error.message);
+            else { alert("Password updated successfully!"); S('scr-login'); }
+          }
+        } else if (event === 'SIGNED_IN' && session && (!STATE.user || STATE.user.id !== session.user.id)) {
+          const { data: profile } = await db.from('profiles').select('*').eq('id', session.user.id).single();
+          STATE.user = { id: session.user.id, email: session.user.email, name: session.user.user_metadata?.full_name || session.user.user_metadata?.name || 'Ninja', plan: profile ? profile.plan_status : 'free' };
+          if (profile && profile.generated_plan) {
+            STATE.profile = { answers: profile.assessment_data, plan: profile.generated_plan };
+            save(); buildApp(); S('scr-app'); nav('today');
+          } else {
+            STATE.signupData = { name: STATE.user.name, email: STATE.user.email, phone: '' };
+            save(); S('scr-payment');
+          }
+        }
+      });
     }
   } catch(e) {
     console.error('Init error, resetting to landing:', e);

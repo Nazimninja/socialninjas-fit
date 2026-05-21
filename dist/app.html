@@ -73,7 +73,8 @@ window.onerror = function(msg, url, line, col, error) {
         <div class="inp-label">Password (min 8 chars)</div><input class="inp-field" id="su-pass" placeholder="Create password" type="password">
         <div class="privacy-note">🔒 Your data is encrypted and never shared. Your privacy is fully protected.</div>
       </div>
-      <button class="btn-primary" onclick="doSignup()">Continue to payment →</button>
+      <button class="btn-primary" onclick="doGoogleLogin()" style="background:#fff;color:#000;border:1px solid #ddd;margin-bottom:12px;font-weight:600"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;height:18px;margin-right:12px;vertical-align:middle;position:relative;top:-1px">Sign up with Google</button>
+      <button class="btn-primary" onclick="doSignup()">Continue with Email →</button>
       <div class="ob-legal">By continuing you agree to our Terms of Service and Privacy Policy</div>
     </div>
   </div>
@@ -163,11 +164,12 @@ window.onerror = function(msg, url, line, col, error) {
         <div style="margin-bottom:24px">
           <div class="inp-label">Email</div><input class="inp-field" id="li-email" type="email" placeholder="you@email.com">
           <div class="inp-label" style="margin-top:16px">Password</div><input class="inp-field" id="li-pass" type="password" placeholder="Your password">
-          <div style="text-align:right;margin-top:8px"><span class="link-text">Forgot password?</span></div>
+          <div style="text-align:right;margin-top:12px"><span class="link-text" onclick="doResetPassword()" style="font-size:13px;font-weight:600;cursor:pointer">Forgot password?</span></div>
         </div>
         
         <div style="margin-top:auto;padding-bottom:16px">
-          <button class="btn-primary" onclick="doLogin()" style="margin-bottom:16px">Sign in →</button>
+          <button class="btn-primary" onclick="doGoogleLogin()" style="background:#fff;color:#000;border:1px solid #ddd;margin-bottom:12px;font-weight:600"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;height:18px;margin-right:12px;vertical-align:middle;position:relative;top:-1px">Sign in with Google</button>
+          <button class="btn-primary" onclick="doLogin()" style="margin-bottom:16px">Sign in with Email →</button>
           <div class="ob-legal">No account? <span class="link-text" onclick="S('scr-signup')">Sign up for ₹299/month</span></div>
         </div>
       </div>
