@@ -6,10 +6,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, razorpay_subscription_id } = req.body;
     const secret = process.env.RAZORPAY_KEY_SECRET;
+    
+    let sign;
+    if (razorpay_subscription_id) {
+      sign = razorpay_payment_id + '|' + razorpay_subscription_id;
+    } else {
+      sign = razorpay_order_id + '|' + razorpay_payment_id;
+    }
 
-    const sign = razorpay_order_id + '|' + razorpay_payment_id;
     const expectedSign = crypto
       .createHmac('sha256', secret)
       .update(sign.toString())

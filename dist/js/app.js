@@ -115,20 +115,18 @@ async function doPayment() {
   btn.disabled = true;
 
   try {
-    // Step 1: Create a secure order on the backend
-    const orderRes = await fetch(API_BASE + '/api/create-order', { method: 'POST' });
+    // Step 1: Create a secure subscription on the backend
+    const subRes = await fetch(API_BASE + '/api/create-subscription', { method: 'POST' });
     
     // If backend not available (GitHub Pages), fall through to direct checkout
-    if (!orderRes.ok) throw new Error('Backend unavailable');
+    if (!subRes.ok) throw new Error('Backend unavailable');
     
-    const order = await orderRes.json();
+    const sub = await subRes.json();
 
     // Step 2: Open Razorpay Checkout modal
     var options = {
       key: 'rzp_live_SQHi9o325buXiH',
-      amount: order.amount,
-      currency: order.currency,
-      order_id: order.id,
+      subscription_id: sub.id,
       name: 'Fit Ninja',
       description: 'Premium Fitness Coaching Plan',
       image: '',
@@ -145,9 +143,10 @@ async function doPayment() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
+              razorpay_subscription_id: response.razorpay_subscription_id,
               razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature
+              razorpay_signature: response.razorpay_signature,
+              razorpay_order_id: response.razorpay_order_id // Optional fallback
             })
           });
           const verify = await verifyRes.json();
@@ -182,11 +181,11 @@ async function doPayment() {
     // Fallback: direct Razorpay checkout without order_id (works for testing)
     console.warn('Using fallback checkout:', e.message);
     var options = {
-      key: 'rzp_live_SQHi9o325buXiH',
-      amount: 29900,
-      currency: 'INR',
-      name: 'Fit Ninja',
-      description: 'Premium Fitness Coaching Plan',
+        key: 'rzp_live_SQHi9o325buXiH',
+        amount: 29900,
+        currency: 'INR',
+        name: 'Fit Ninja',
+        description: 'Premium Fitness Coaching Plan (One-time fallback)',
       prefill: {
         name: STATE.signupData.name || '',
         email: STATE.signupData.email || '',
