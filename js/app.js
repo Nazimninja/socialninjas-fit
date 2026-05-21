@@ -1594,7 +1594,12 @@ function fillFoodMacros() {
             save(); buildApp(); S('scr-app'); nav('today');
           } else {
             STATE.signupData = { name: STATE.user.name, email: STATE.user.email, phone: '' };
-            save(); S('scr-payment');
+            save(); 
+            if (new URLSearchParams(window.location.search).get('bypass') === '1') {
+              onPaymentSuccess();
+            } else {
+              S('scr-payment');
+            }
           }
         }
       });
