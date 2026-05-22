@@ -886,6 +886,28 @@ async function checkMondayAdapt() {
 // ═══════════════════════════════════════════════
 // TODAY PAGE
 // ═══════════════════════════════════════════════
+
+function getDashboardImprovementHtml() {
+  var logs = STATE.weights || [];
+  if (logs.length < 2) return '';
+  var cur = logs[logs.length - 1];
+  var rate = parseFloat((cur - logs[logs.length - 2]).toFixed(2));
+  var goal = STATE.profile.plan.goal;
+  var fb = '';
+  if (goal === 'fat_loss') {
+    if (rate > -0.1) fb = 'Weight not dropping this week. Check your calorie tracking — are you logging everything? Reduce dinner carbs by half.';
+    else if (rate >= -0.7) fb = 'Perfect fat loss pace — losing ' + Math.abs(rate) + 'kg/week. Keep going.';
+    else fb = 'Losing too fast (' + Math.abs(rate) + 'kg/week). You risk muscle loss. Add 100 kcal and increase protein by 10g.';
+  } else if (goal === 'muscle' || goal === 'weight_gain') {
+    if (rate < 0.1) fb = 'Weight stalled this week. Not eating enough. Add 1 banana + 1 tbsp peanut butter daily.';
+    else if (rate <= 0.6) fb = 'Excellent — gaining ' + rate + 'kg this week. Perfect pace. Keep everything the same.';
+    else fb = 'Gaining too fast (' + rate + 'kg/week). Reduce dinner rice from 1 cup to 1/2 cup. Keep all other meals identical.';
+  } else {
+    fb = 'Consistency is the key metric. Keep hitting your daily targets.';
+  }
+  return '<div class="card-ac" style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px">How to improve this week</div><div style="font-size:13px;color:var(--t1);line-height:1.65">' + fb + '</div></div>';
+}
+
 function renderToday() {
   if (!STATE.profile) return;
   var plan = STATE.profile.plan;
@@ -953,6 +975,8 @@ function renderToday() {
   }
 
   document.getElementById('today-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Dashboard</div>' +
+    getDashboardImprovementHtml() +
     monthUpdateBanner +
     cycleBanner +
     '<div class="coach-card">'
@@ -997,6 +1021,7 @@ function renderMeals() {
   }
 
   document.getElementById('meals-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Meals</div>' +
     '<div id="meal-prog-wrap"></div>'
     + '<div class="shrow"><span class="sh" style="margin:0">Meals</span><button class="btn-icon" onclick="openModal(\'modal-meal\')">+ Add custom meal</button></div>'
     + mealsHtml
@@ -1072,6 +1097,7 @@ function renderWorkout() {
   var hdrText = loc === 'home' ? 'Home Program · ' + plan.days + ' days/week' : 'PPL Gym Program · ' + plan.days + ' days/week';
 
   document.getElementById('workout-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Workout</div>' +
     '<div class="card-ac" style="margin-bottom:12px">'
     + '<div style="font-size:11px;font-weight:700;color:var(--ac);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">' + hdrText + '</div>'
     + '<div style="font-size:12px;color:var(--t2)">Tap sets as you complete them. Tap exercise name for demo video and form cues.</div>'
@@ -1214,6 +1240,7 @@ function renderProgress() {
   var t = getTotals();
 
   document.getElementById('progress-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Progress</div>' +
     (bmi < 18.5 ? '<div class="card-red"><div style="font-size:12px;font-weight:700;color:var(--ac2);margin-bottom:4px">⚠ Low BMI</div><div style="font-size:12px;color:rgba(255,92,92,.8);line-height:1.6">Your BMI of ' + bmi + ' is below healthy range. Please consult a doctor before intensive training.</div></div>' : '')
     + '<div class="card-gold">'
     + '<div style="font-family:var(--fs);font-size:17px;margin-bottom:4px">Weekly check-in</div>'
@@ -1367,6 +1394,8 @@ function renderNutrition() {
   });
 
   document.getElementById('nutrition-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Recipes & prep</div>' +
+    '<div class="card" style="margin-bottom:16px"><div style="font-size:16px;font-weight:700;margin-bottom:6px">🔪 Meal Prep Guide</div><div style="font-size:13px;color:var(--t2);line-height:1.6">To save time this week, batch cook your main proteins (chicken/tofu/lentils) on Sunday and Wednesday. Pre-chop vegetables and store them in airtight containers. Cook rice or quinoa in bulk for 3 days at a time. This ensures you always have compliant food ready to eat!</div></div>' +
     '<div class="sh">Your plan</div>'
     + '<div class="card">'
     + row('Goal', goalNames[plan.goal] || plan.goal, 'var(--ac)')
@@ -1416,6 +1445,7 @@ function renderGrocery() {
   var lists = (GROCERY[diet] || GROCERY.nonveg).concat(GROCERY.common);
 
   document.getElementById('grocery-content').innerHTML =
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Grocery Shop</div>' +
     '<div class="card-ac" style="margin-bottom:14px">₹1,500–2,000/week · vegetables from sabzi mandi only<br><span style="font-size:11px;color:var(--t2)">Optimized for your ' + diet + ' plan</span></div>'
     + '<div style="display:flex;gap:8px;margin-bottom:14px">'
     + '<button class="btn-sm" style="flex:1" onclick="clearG()">Reset list</button>'
@@ -1590,7 +1620,8 @@ function showProfile() {
   var billing = u.billingDate ? new Date(u.billingDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A';
 
   document.getElementById('profile-body').innerHTML =
-    '<div style="text-align:center;margin-bottom:20px">'
+    '<div style="font-size:24px; font-weight:800; color:var(--t1); margin-top:0; margin-bottom:16px;">Profile Details</div>'
+    + '<div style="text-align:center;margin-bottom:20px">'
     + '<div style="width:60px;height:60px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#050508;margin:0 auto 10px">' + (u.name || 'U').charAt(0).toUpperCase() + '</div>'
     + '<div style="font-size:18px;font-weight:700">' + u.name + '</div>'
     + '<div style="font-size:12px;color:var(--t2)">' + u.email + '</div>'
@@ -1603,6 +1634,13 @@ function showProfile() {
     + row('Current month', 'Month ' + (plan.monthNumber || 1), 'var(--ac3)')
     + row('Next billing', billing, '')
     + row('Member since', new Date(u.joined).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), '')
+    + '</div>'
+    + '<div class="card" style="margin-top:12px">'
+    + '<div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--t1)">Assessment Data</div>'
+    + row('Age', STATE.profile.answers.age || 'N/A', '')
+    + row('Gender', STATE.profile.answers.gender ? STATE.profile.answers.gender.charAt(0).toUpperCase() + STATE.profile.answers.gender.slice(1) : 'N/A', '')
+    + row('Height', (STATE.profile.answers.height || 'N/A') + ' cm', '')
+    + row('Starting Weight', (STATE.profile.answers.weight || 'N/A') + ' kg', '')
     + '</div>'
     + '<div class="card-gold" style="cursor:pointer" onclick="showMonthlyUpdate();closeModal()"><div style="font-size:13px;font-weight:600;margin-bottom:3px">📊 Request monthly plan update</div><div style="font-size:12px;color:var(--t2)">Update your plan based on your progress</div></div>'
     + '<div class="card" style="margin-top:12px">'
