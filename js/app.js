@@ -29,6 +29,10 @@ function save() {
   try { localStorage.setItem('snfit2', JSON.stringify(STATE)); } catch (e) {}
   
   if (STATE.user && STATE.user.id) {
+    if (STATE.profile && STATE.profile.answers) {
+      STATE.profile.answers.progressPhotos = STATE.progressPhotos || [];
+    }
+    
     if (db) db.from('profiles').update({
       assessment_data: STATE.profile ? STATE.profile.answers : null,
       generated_plan: STATE.profile ? STATE.profile.plan : null
@@ -320,6 +324,7 @@ async function doLogin() {
   if (profile) {
     STATE.profile = { answers: profile.assessment_data, plan: profile.generated_plan };
     if (profile.plan_status) STATE.user.plan = profile.plan_status;
+    if (profile.assessment_data && profile.assessment_data.progressPhotos) STATE.progressPhotos = profile.assessment_data.progressPhotos;
     
     // Load daily logs
     var today = new Date().toISOString().split('T')[0];
@@ -891,7 +896,16 @@ function renderToday() {
   
   // Check if it's the 1st of the month
   if (new Date().getDate() === 1) {
-    monthUpdateBanner = '<div class="card-gold" style="cursor:pointer;margin-bottom:16px" onclick="showMonthlyUpdate()"><div style="font-size:13px;font-weight:600;margin-bottom:3px">✨ Monthly plan update available</div><div style="font-size:12px;color:var(--t2)">Click to review your progress and get next month\'s plan.</div></div>';
+    monthUpdateBanner += '<div class="card-gold" style="cursor:pointer;margin-bottom:16px" onclick="showMonthlyUpdate()"><div style="font-size:13px;font-weight:600;margin-bottom:3px">✨ Monthly plan update available</div><div style="font-size:12px;color:var(--t2)">Click to review your progress and get next month\'s plan.</div></div>';
+  }
+  
+  // Weekly Monday Check-in banner
+  var todayDateStr = new Date().toLocaleDateString('en-CA');
+  if (dayIndex === 1 && STATE.lastCheckInDate !== todayDateStr) {
+    monthUpdateBanner += '<div class="card-ac" style="cursor:pointer;margin-bottom:16px;background:rgba(255,100,100,0.1);border-color:rgba(255,100,100,0.3)" onclick="nav(\'progress\')">'
+      + '<div style="font-size:13px;font-weight:700;color:#ff5c5c;margin-bottom:3px">🚨 Monday Check-in Due!</div>'
+      + '<div style="font-size:12px;color:var(--t1)">Log your weight, upload a progress photo, and reset your grocery list.</div>'
+      + '<button class="btn-sm" style="margin-top:10px;width:100%">Check in now</button></div>';
   }
   var goalNames = { muscle: 'Muscle Gain', fat_loss: 'Fat Loss', weight_gain: 'Weight Gain', general: 'General Fitness' };
   var today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -1206,9 +1220,10 @@ function renderProgress() {
     + '<div style="font-size:12px;color:var(--t2);margin-bottom:12px">' + logs.length + ' entries · log every Monday before eating</div>'
     + '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">'
     + '<input class="inp" type="number" id="w-inp" placeholder="Weight (kg)" step="0.1" style="margin:0;flex:1">'
+    + '<button style="padding:12px;background:var(--bg3);border:none;border-radius:var(--r);color:var(--t1);cursor:pointer;font-size:16px" onclick="document.getElementById(\'progress-photo-upload\').click()">📸</button>'
     + '<button style="padding:12px 16px;background:var(--ac);border:none;border-radius:var(--r);font-size:13px;font-weight:700;color:#050508;cursor:pointer;font-family:var(--ff)" onclick="logWeight()">Log ✓</button>'
     + '</div>'
-    + '<div style="background:var(--bg3);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--t2);line-height:1.5">📸 Progress photo every Sunday — same pose, same lighting, same spot. Photos don\'t lie.</div>'
+    + '<div style="background:var(--bg3);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--t2);line-height:1.5">Upload a photo to see your visual timeline. Photos don\'t lie.</div>'
     + '</div>'
     + '<div class="sh">Overview</div>'
     + '<div class="stat-grid">'
@@ -1218,6 +1233,14 @@ function renderProgress() {
     + statBox(targetW.toFixed(0) + ' kg', 'Goal weight', 'var(--ac3)')
     + statBox(bmi, 'BMI', bmi < 18.5 ? 'var(--ac2)' : bmi > 25 ? 'var(--ac3)' : 'var(--ac)')
     + statBox((Math.abs(targetW - cur)).toFixed(1) + ' kg', 'To goal', '')
+    + '</div>'
+    + '<div class="sh">Progress Photos</div>'
+    + '<div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;margin-bottom:10px">'
+    + (STATE.progressPhotos && STATE.progressPhotos.length > 0 ? STATE.progressPhotos.map(function(p) {
+        return '<div style="flex-shrink:0;width:100px;height:140px;border-radius:8px;background:#222 url(' + p.url + ') center/cover;position:relative">'
+          + '<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);color:#fff;font-size:10px;padding:4px;text-align:center;border-bottom-left-radius:8px;border-bottom-right-radius:8px">' + p.weight + 'kg<br>' + p.date + '</div>'
+          + '</div>';
+      }).join('') : '<div style="font-size:12px;color:var(--t3);text-align:center;width:100%;padding:20px;background:var(--bg2);border-radius:8px">No photos uploaded yet</div>')
     + '</div>'
     + '<div class="sh">Weight trend</div>'
     + '<div class="card"><div style="font-size:11px;color:var(--t2);margin-bottom:10px">' + logs.length + ' week trend</div><div class="wchart" id="wchart"></div></div>'
@@ -1268,9 +1291,43 @@ function logWeight() {
   if (isNaN(v) || v < 20 || v > 300) { alert('Enter a valid weight (20–300 kg)'); return; }
   STATE.weights.push(Math.round(v * 10) / 10);
   if (STATE.weights.length > 16) STATE.weights.shift();
+  STATE.lastCheckInDate = new Date().toLocaleDateString('en-CA');
+  
+  if (STATE.pendingPhotoUrl) {
+    if (!STATE.progressPhotos) STATE.progressPhotos = [];
+    STATE.progressPhotos.push({
+      url: STATE.pendingPhotoUrl,
+      weight: Math.round(v * 10) / 10,
+      date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'})
+    });
+    STATE.pendingPhotoUrl = null;
+  }
+  
   save();
   document.getElementById('w-inp').value = '';
   renderProgress();
+}
+
+async function uploadProgressPhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  if (!db) { alert("Must be logged in to upload photos"); return; }
+  
+  var file = input.files[0];
+  var ext = file.name.split('.').pop();
+  var fileName = STATE.user.id + '/' + Date.now() + '.' + ext;
+  
+  document.getElementById('w-inp').placeholder = "Uploading...";
+  var res = await db.storage.from('progress_photos').upload(fileName, file);
+  document.getElementById('w-inp').placeholder = "Weight (kg)";
+  
+  if (res.error) {
+    console.error(res.error);
+    alert("Error uploading. Ensure 'progress_photos' bucket exists and is public.");
+  } else {
+    var urlRes = db.storage.from('progress_photos').getPublicUrl(fileName);
+    STATE.pendingPhotoUrl = urlRes.data.publicUrl;
+    alert("Photo attached! Now hit 'Log ✓' to save the check-in.");
+  }
 }
 
 function togMeasForm() {
