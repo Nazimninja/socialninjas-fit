@@ -227,7 +227,7 @@ html, body {
 
 /* BOTTOM NAV */
 .bnav { display: flex; justify-content: space-around; padding: 12px 10px env(safe-area-inset-bottom,16px); background: rgba(28,28,30,0.85); backdrop-filter: blur(24px); border-top: 1px solid var(--bdr-light); position: relative; z-index: 10; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
-.nb { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: var(--t3); cursor: pointer; transition: 0.3s; padding: 4px 0; }
+.nb { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: rgba(255,255,255,0.45); cursor: pointer; transition: 0.3s; padding: 4px 0; }
 .nb svg { width: 22px; height: 22px; transition: 0.3s; }
 .nb span { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; transition: 0.3s; }
 .nb.on { color: var(--ac); }
