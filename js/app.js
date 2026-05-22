@@ -1370,7 +1370,7 @@ function renderGrocery() {
               var key = (g.cat + i).replace(/\s/g, '').slice(0, 12);
               var got = STATE.grocery[key] || false;
               return '<div class="gi' + (got ? ' got' : '') + '" onclick="togG(\'' + key + '\',this)">'
-                + '<div class="gi-ck' + (got ? ' done' : '') + '">' + (got ? '✓' : '') + '</div>'
+                + '<div class="gi-ck' + (got ? ' done' : '') + '"></div>'
                 + '<span class="gi-name">' + item.n + '</span>'
                 + '<span class="gi-qty">' + item.q + '</span>'
                 + '</div>';
@@ -1381,7 +1381,7 @@ function renderGrocery() {
 function togG(key, el) {
   STATE.grocery[key] = !STATE.grocery[key]; save();
   el.classList.toggle('got');
-  var ck = el.querySelector('.gi-ck'); ck.classList.toggle('done'); ck.textContent = STATE.grocery[key] ? '✓' : '';
+  var ck = el.querySelector('.gi-ck'); ck.classList.toggle('done');
 }
 function clearG() { STATE.grocery = {}; save(); renderGrocery(); }
 function allG() {
