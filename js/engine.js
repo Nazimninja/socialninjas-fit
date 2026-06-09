@@ -133,8 +133,22 @@ function generateMonthlyUpdate(state) {
 
   if (weights.length < 2) {
     return {
-      canUpdate: false,
-      reason: 'You need at least 2 weight entries to generate a monthly update. Log your weight every Monday.'
+      canUpdate: true,
+      month: month + 1,
+      totalChange: 0,
+      weeklyRate: 0,
+      feedback: 'Welcome to Month ' + (month + 1) + '! We have successfully updated your plan for the next month. Since you have logged fewer than 2 weight entries, we kept your current calorie and macro targets intact. To unlock personalized target adjustments next month, make sure to log your weight every Monday morning.',
+      changes: [],
+      nextSteps: [
+        'Set a weekly calendar reminder to log your weight every Monday',
+        'Ensure you log your primary lifts to track progressive overload',
+        'Aim to hit your daily water and sleep targets consistently'
+      ],
+      workoutProgression: plan.location === 'home' ? 'Excellent home training consistency. This month, consider joining a gym to unlock the next level of progression.' : 'You\'ve completed Month ' + month + ' of the ' + plan.days + '-day program. Focus on increasing weights on all main lifts this month.',
+      newKcal: plan.kcal,
+      newProtein: plan.protein,
+      newFat: plan.fat,
+      newCarbs: plan.carbs
     };
   }
 

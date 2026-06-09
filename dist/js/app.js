@@ -1335,26 +1335,80 @@ function logWeight() {
   renderProgress();
 }
 
+function compressImage(file, maxWidth, maxHeight, quality, callback) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var w = img.width, h = img.height;
+      if (w > h) {
+        if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+      } else {
+        if (h > maxHeight) { w = Math.round(w * maxHeight / h); h = maxHeight; }
+      }
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--) { u8arr[n] = bstr.charCodeAt(n); }
+  return new Blob([u8arr], {type:mime});
+}
+
 async function uploadProgressPhoto(input) {
   if (!input.files || !input.files[0]) return;
-  if (!db) { alert("Must be logged in to upload photos"); return; }
   
   var file = input.files[0];
-  var ext = file.name.split('.').pop();
-  var fileName = STATE.user.id + '/' + Date.now() + '.' + ext;
+  var wInp = document.getElementById('w-inp');
+  if (wInp) wInp.placeholder = "Compressing...";
   
-  document.getElementById('w-inp').placeholder = "Uploading...";
-  var res = await db.storage.from('progress_photos').upload(fileName, file);
-  document.getElementById('w-inp').placeholder = "Weight (kg)";
-  
-  if (res.error) {
-    console.error(res.error);
-    alert("Error uploading. Ensure 'progress_photos' bucket exists and is public.");
-  } else {
-    var urlRes = db.storage.from('progress_photos').getPublicUrl(fileName);
-    STATE.pendingPhotoUrl = urlRes.data.publicUrl;
-    alert("Photo attached! Now hit 'Log ✓' to save the check-in.");
-  }
+  compressImage(file, 600, 600, 0.7, async function(dataUrl) {
+    if (wInp) wInp.placeholder = "Uploading...";
+    
+    var localFallback = function() {
+      STATE.pendingPhotoUrl = dataUrl;
+      if (wInp) wInp.placeholder = "Weight (kg)";
+      alert("Photo attached locally! Now hit 'Log ✓' to save the check-in.");
+    };
+
+    if (typeof db === 'undefined' || !db) {
+      console.warn("No Supabase DB connection; falling back to local storage.");
+      localFallback();
+      return;
+    }
+    
+    try {
+      var blob = dataURLtoBlob(dataUrl);
+      var ext = 'jpg';
+      var userId = (STATE.user && STATE.user.id) ? STATE.user.id : 'local';
+      var fileName = userId + '/' + Date.now() + '.' + ext;
+      var compressedFile = new File([blob], fileName, {type: 'image/jpeg'});
+      
+      var res = await db.storage.from('progress_photos').upload(fileName, compressedFile);
+      if (wInp) wInp.placeholder = "Weight (kg)";
+      
+      if (res.error) {
+        console.warn("Supabase upload failed, falling back to localStorage:", res.error);
+        localFallback();
+      } else {
+        var urlRes = db.storage.from('progress_photos').getPublicUrl(fileName);
+        STATE.pendingPhotoUrl = urlRes.data.publicUrl;
+        alert("Photo attached! Now hit 'Log ✓' to save the check-in.");
+      }
+    } catch(err) {
+      console.warn("Upload exception, falling back to localStorage:", err);
+      localFallback();
+    }
+  });
 }
 
 function togMeasForm() {
@@ -1566,6 +1620,12 @@ function showDemo(key) {
   }).join('');
   document.getElementById('demo-body').innerHTML =
     '<iframe class="demo-yt" src="https://www.youtube.com/embed/' + ex.ytId + '?rel=0&modestbranding=1" allowfullscreen></iframe>'
+    + '<div style="margin: 12px 0 16px;">'
+    + '  <a href="https://www.youtube.com/watch?v=' + ex.ytId + '" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: #FF0000; border-radius: 12px; color: #FFF; font-size: 14px; font-weight: 700; text-decoration: none; transition: background 0.2s; box-shadow: 0 4px 12px rgba(255,0,0,0.2);">'
+    + '    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="vertical-align: middle; display: inline-block; position: relative; top: -1px;"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
+    + '    Watch directly on YouTube'
+    + '  </a>'
+    + '</div>'
     + '<div class="demo-muscle">' + musclesHtml + '</div>'
     + '<div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:10px">FORM CUES</div>'
     + '<div class="demo-cues">' + cuesHtml + '</div>';

@@ -1,0 +1,11 @@
+# robots.txt for SocialNinjas Fit
+# Premium AI Fitness Coaching App
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Disallow: /api/
+Disallow: /dist/api/
+
+# Sitemap location
+Sitemap: https://socialninjas.fit/sitemap.xml

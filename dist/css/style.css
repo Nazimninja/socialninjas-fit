@@ -226,13 +226,14 @@ html, body {
 .pscroll::-webkit-scrollbar { display: none; }
 
 /* BOTTOM NAV */
-.bnav { display: flex; justify-content: space-around; padding: 12px 10px env(safe-area-inset-bottom,16px); background: rgba(28,28,30,0.85); backdrop-filter: blur(24px); border-top: 1px solid var(--bdr-light); position: relative; z-index: 10; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
-.nb { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: rgba(255,255,255,0.45); cursor: pointer; transition: 0.3s; padding: 4px 0; }
-.nb svg { width: 22px; height: 22px; transition: 0.3s; }
-.nb span { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; transition: 0.3s; }
+.bnav { display: flex; justify-content: space-around; padding: 14px 10px calc(env(safe-area-inset-bottom, 0px) + 24px); background: rgba(28,28,30,0.92); backdrop-filter: blur(24px); border-top: 1px solid var(--bdr-light); position: relative; z-index: 10; box-shadow: 0 -10px 40px rgba(0,0,0,0.6); }
+.nb { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; background: transparent; border: none; color: rgba(255, 255, 255, 0.72); cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); padding: 4px 0; }
+.nb svg { width: 22px; height: 22px; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.nb span { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .nb.on { color: var(--ac); }
-.nb.on svg { filter: drop-shadow(0 0 8px var(--ac-glow)); transform: translateY(-2px); }
-.nb.on span { color: var(--t1); }
+.nb.on svg { filter: drop-shadow(0 0 12px rgba(191, 90, 242, 0.65)); transform: translateY(-3px); }
+.nb.on span { color: #FFFFFF; font-weight: 800; }
+
 
 /* CARDS - GLASSMORPHISM */
 .card { background: var(--bg2); border: 1px solid var(--bdr-light); border-top: 1px solid rgba(255,255,255,0.12); border-radius: var(--r2); padding: 18px; margin-bottom: 14px; backdrop-filter: var(--glass-blur); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
@@ -451,3 +452,212 @@ html, body {
   0%, 100% { filter: drop-shadow(0 0 14px rgba(191, 90, 242, 0.75)) brightness(2.4) contrast(1.15); transform: scale(1); }
   50% { filter: drop-shadow(0 0 32px rgba(191, 90, 242, 0.98)) brightness(3.2) contrast(1.2); transform: scale(1.03); }
 }
+
+/* ==========================================================================
+   PREMIUM SALES & CHECKOUT REDESIGN
+   ========================================================================== */
+
+/* Social proof stars */
+.social-proof-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--t2);
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+/* Premium sales feats card grid */
+.premium-feats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin: 12px 0 16px;
+}
+
+.premium-feat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(28, 28, 30, 0.55); /* Glassmorphic elevated dark */
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.premium-feat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(191, 90, 242, 0.3);
+  box-shadow: 0 8px 24px rgba(191, 90, 242, 0.18);
+  background: rgba(28, 28, 30, 0.8);
+}
+
+.pfc-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(191, 90, 242, 0.18) 0%, rgba(124, 58, 237, 0.18) 100%);
+  border: 1px solid rgba(191, 90, 242, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(191, 90, 242, 0.15);
+  position: relative;
+}
+
+.pfc-content {
+  flex: 1;
+}
+
+.pfc-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--t1);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.pfc-desc {
+  font-size: 11px;
+  color: var(--t2);
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* Overwrite plan-card with elevated premium SaaS tier design */
+.pay-scroll .plan-card {
+  background: linear-gradient(135deg, rgba(28, 28, 30, 0.9) 0%, rgba(18, 18, 20, 0.96) 100%) !important;
+  border: 1px solid rgba(191, 90, 242, 0.32) !important;
+  border-radius: var(--r2);
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.55), 0 0 30px rgba(191, 90, 242, 0.15);
+}
+
+.pricing-strike {
+  font-size: 16px;
+  text-decoration: line-through;
+  color: var(--t3);
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.pricing-day-sub {
+  font-size: 12px;
+  color: #00E5A0;
+  font-weight: 700;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* Pulsing premium offer badge */
+.plan-badge-pulse {
+  font-size: 10px;
+  font-weight: 800;
+  color: #000000 !important;
+  background: linear-gradient(135deg, #00E5A0 0%, #00C47A 100%);
+  padding: 5px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(0, 229, 160, 0.4);
+  animation: badgeGlowPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes badgeGlowPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 229, 160, 0.3); transform: scale(1); }
+  50% { box-shadow: 0 0 20px rgba(0, 229, 160, 0.6); transform: scale(1.02); }
+}
+
+/* Beautiful circular checkmark badge for checkout items */
+.plan-card .pf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--t1);
+  line-height: 1.4;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.plan-card .pf::before {
+  content: '✓';
+  color: #00E5A0 !important;
+  background: rgba(0, 229, 160, 0.12);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 229, 160, 0.25);
+  box-shadow: 0 0 8px rgba(0, 229, 160, 0.15);
+}
+
+/* High-trust checkout guarantee rows */
+.checkout-trust-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: var(--r);
+  padding: 16px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.ct-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--t2);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.ct-row:last-child {
+  margin-bottom: 0;
+}
+
+.ct-icon {
+  font-size: 12px;
+  color: #BF5AF2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(191, 90, 242, 0.08);
+  flex-shrink: 0;
+  border: 1px solid rgba(191, 90, 242, 0.2);
+}
+
+.cta-pulse {
+  animation: ctaPulseAnim 2.5s ease-in-out infinite;
+}
+
+@keyframes ctaPulseAnim {
+  0%, 100% { box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); }
+  50% { box-shadow: 0 8px 36px rgba(191, 90, 242, 0.6); transform: scale(1.01); }
+}
+

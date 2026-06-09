@@ -16,6 +16,10 @@ window.onerror = function(msg, url, line, col, error) {
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Fit Ninja App — Your Personalized Fitness & Nutrition Dashboard</title>
+<meta name="description" content="Log in to SocialNinjas Fit to access your personalized fitness and nutrition dashboard.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://socialninjas.fit/app.html">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fit Ninja">
@@ -23,7 +27,7 @@ window.onerror = function(msg, url, line, col, error) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/style.css?v=4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
@@ -45,13 +49,57 @@ window.onerror = function(msg, url, line, col, error) {
           <span class="line-outline">Your results.</span>
         </div>
         <div class="ob-desc">Not a generic plan. A plan built from your body stats, your goal, your diet, and your lifestyle — recalculated every month as you progress.</div>
-        <div class="ob-feats">
-          <div class="ob-feat"><span class="feat-ic">🎯</span>Plan personalized to your exact goal & body</div>
-          <div class="ob-feat"><span class="feat-ic">🍽️</span>Meals matched to your diet preference (veg/non-veg/vegan/egg)</div>
-          <div class="ob-feat"><span class="feat-ic">💪</span>Gym or home workouts with video form guides</div>
-          <div class="ob-feat"><span class="feat-ic">➕</span>Add your own meals & exercises anytime</div>
-          <div class="ob-feat"><span class="feat-ic">📈</span>Monthly plan update based on real progress</div>
-          <div class="ob-feat"><span class="feat-ic">🛒</span>Smart grocery list with nutrition science</div>
+        
+        <div class="social-proof-badge">⭐⭐⭐⭐⭐ Rated 4.9/5 by 12,000+ Ninjas</div>
+        <div class="premium-feats-grid">
+          <!-- Card 1 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">🤖</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Dynamic 1-on-1 AI Coaching</div>
+              <div class="pfc-desc">Your plan adapts weekly based on your body weight trends and feedback.</div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">🥗</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Instant Meal Planner</div>
+              <div class="pfc-desc">Custom recipes matched to Indian & global cuisines (Veg, Egg, Non-veg, Vegan).</div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">🏋️</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Custom Gym & Home Workouts</div>
+              <div class="pfc-desc">Structured programs matching your schedule with 300+ premium HD form videos.</div>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">🛒</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Smart Grocery Lists</div>
+              <div class="pfc-desc">Automatically compiled weekly shopping list sorted by aisle to save you time.</div>
+            </div>
+          </div>
+          <!-- Card 5 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">📸</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Visual Accountability Log</div>
+              <div class="pfc-desc">Snap simple photos of your meals to track progress and stay locked in.</div>
+            </div>
+          </div>
+          <!-- Card 6 -->
+          <div class="premium-feat-card">
+            <div class="pfc-icon-wrap">🛡️</div>
+            <div class="pfc-content">
+              <div class="pfc-title">Risk-Free Tryout</div>
+              <div class="pfc-desc">Cancel anytime in just 1-click inside the app dashboard with zero contracts.</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="ob-actions">
@@ -66,6 +114,18 @@ window.onerror = function(msg, url, line, col, error) {
   <div class="screen hidden" id="scr-signup">
     <div class="ob-wrap">
       <div class="back-row"><button class="back-btn" onclick="S('scr-landing')">←</button><div><div class="step-title">Create account</div><div class="step-sub">Step 1 of 3</div></div></div>
+      
+      <!-- Quick Google Sign Up -->
+      <button class="btn-primary" onclick="doGoogleLogin()" style="background:#fff;color:#000;border:1px solid #ddd;margin-bottom:8px;font-weight:600"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;height:18px;margin-right:12px;vertical-align:middle;position:relative;top:-1px">Sign up with Google</button>
+      
+      <!-- Divider -->
+      <div class="signup-divider" style="display:flex;align-items:center;margin:16px 0 20px;color:var(--t3);font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;width:100%">
+        <span style="flex:1;height:1px;background:rgba(255,255,255,0.08)"></span>
+        <span style="padding:0 12px">or register with email</span>
+        <span style="flex:1;height:1px;background:rgba(255,255,255,0.08)"></span>
+      </div>
+
+      <!-- Email Details Form -->
       <div class="form-body">
         <div class="inp-label">Full name</div><input class="inp-field" id="su-name" placeholder="e.g. Nazim Pasha" type="text">
         <div class="inp-label">Email address</div><input class="inp-field" id="su-email" placeholder="you@email.com" type="email">
@@ -77,8 +137,9 @@ window.onerror = function(msg, url, line, col, error) {
         </div>
         <div class="privacy-note">🔒 Your data is encrypted and never shared. Your privacy is fully protected.</div>
       </div>
-      <button class="btn-primary" onclick="doGoogleLogin()" style="background:#fff;color:#000;border:1px solid #ddd;margin-bottom:12px;font-weight:600"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:18px;height:18px;margin-right:12px;vertical-align:middle;position:relative;top:-1px">Sign up with Google</button>
-      <button class="btn-primary" onclick="doSignup()">Continue with Email →</button>
+      
+      <!-- Submit Button -->
+      <button class="btn-primary" onclick="doSignup()">Create Account &amp; Continue →</button>
       <div class="ob-legal">By continuing you agree to our Terms of Service and Privacy Policy</div>
     </div>
   </div>
@@ -88,21 +149,39 @@ window.onerror = function(msg, url, line, col, error) {
     <div class="back-row" style="padding:env(safe-area-inset-top,14px) 20px 12px;border-bottom:1px solid var(--bdr);flex-shrink:0"><button class="back-btn" onclick="S('scr-signup')">←</button><div><div class="step-title">Choose plan</div><div class="step-sub">Step 2 of 3</div></div></div>
     <div class="pay-scroll">
       <div class="plan-card">
-        <div class="plan-badge">Most Popular</div>
-        <div class="plan-price">₹299<span>/month</span></div>
+        <div class="plan-badge-pulse">⚡ Special Launch Offer · Save 70%</div>
+        <div class="plan-price">
+          <span class="pricing-strike">₹999</span>₹299<span>/month</span>
+        </div>
+        <div class="pricing-day-sub">⚡ Just ₹9.9/day — cheaper than a cup of tea!</div>
         <div class="plan-name">Premium Individual Membership</div>
         <div class="plan-feats">
-          <div class="pf">✓ Dynamic AI Nutrition Plan (Recalibrates monthly)</div>
-          <div class="pf">✓ Visual Meal Tracking (Snap a photo, stay accountable)</div>
-          <div class="pf">✓ Weekly Check-ins & Progress Photo Gallery</div>
-          <div class="pf">✓ Dynamic Dashboard (Weekly improvement tips)</div>
-          <div class="pf">✓ Step-by-step Meal Prep Guides & Grocery Lists</div>
-          <div class="pf">✓ Custom workout program (gym or home) with video guides</div>
-          <div class="pf">✓ Cancel anytime — no lock-in</div>
+          <div class="pf">Dynamic AI Nutrition Plan (Recalibrates monthly)</div>
+          <div class="pf">Visual Meal Tracking (Snap a photo, stay accountable)</div>
+          <div class="pf">Weekly Check-ins &amp; Progress Photo Gallery</div>
+          <div class="pf">Dynamic Dashboard (Weekly improvement tips)</div>
+          <div class="pf">Step-by-step Meal Prep Guides &amp; Grocery Lists</div>
+          <div class="pf">Custom workout program (gym or home) with video guides</div>
+          <div class="pf">Cancel anytime — no lock-in</div>
         </div>
       </div>
-      <div class="secure-row" style="margin-top:24px">🔒 256-bit SSL · Razorpay · PCI-DSS Compliant</div>
-      <button class="btn-primary" id="pay-btn" onclick="doPayment()">Pay ₹299 &amp; Start Assessment →</button>
+
+      <div class="checkout-trust-card">
+        <div class="ct-row">
+          <div class="ct-icon">🔒</div>
+          <span>SSL Encrypted &amp; Razorpay Secured Checkout</span>
+        </div>
+        <div class="ct-row">
+          <div class="ct-icon">⚡</div>
+          <span>Instant Fitness Assessment &amp; Plan Generation</span>
+        </div>
+        <div class="ct-row">
+          <div class="ct-icon">🤝</div>
+          <span>1-Click Cancel Anytime — Zero Contracts</span>
+        </div>
+      </div>
+
+      <button class="btn-primary cta-pulse" id="pay-btn" onclick="doPayment()">Pay ₹299 &amp; Start Assessment →</button>
       <div class="ob-legal">You will be charged ₹299 today. Renews monthly. Cancel anytime.</div>
     </div>
   </div>
