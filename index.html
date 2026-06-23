@@ -342,6 +342,96 @@ nav.scrolled{background:rgba(0,0,0,.85);backdrop-filter:blur(20px);border-bottom
 .final-h2{font-family:var(--ff);font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:16px}
 .final-sub{font-size:16px;color:var(--t2);margin-bottom:40px;line-height:1.6}
 
+/* ── COMPARISON ── */
+.comparison {
+  padding: 100px 24px;
+  background: #080808;
+  color: white;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.comparison-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 48px;
+}
+.comp-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r);
+  padding: 32px 24px;
+  position: relative;
+  transition: all 0.25s;
+}
+.comp-card.premium {
+  background: linear-gradient(135deg, rgba(191,90,242,0.15) 0%, rgba(124,58,237,0.15) 100%);
+  border: 1px solid rgba(191, 90, 242, 0.45);
+  box-shadow: 0 10px 30px rgba(191, 90, 242, 0.15);
+}
+.comp-card:hover {
+  transform: translateY(-2px);
+}
+.comp-card-badge {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  background: var(--green);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 10px rgba(191,90,242,0.5);
+}
+.comp-card-title {
+  font-family: var(--ff);
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: white;
+}
+.comp-card-desc {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.comp-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.comp-point {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.comp-point-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.comp-point div {
+  color: rgba(255, 255, 255, 0.85);
+}
+.comp-point div strong {
+  color: white;
+}
+@media(max-width:900px){
+  .comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 /* ── FOOTER ── */
 footer{background:#0A0A0A;color:rgba(255,255,255,.5);padding:40px 24px;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.06)}
 footer strong{color:white}
@@ -408,14 +498,16 @@ footer a:hover{color:var(--green)}
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <img src="assets/logo.png?v=2" class="nav-logo-img" alt="Fit Ninja Logo">
   </a>
   <div class="nav-links">
-    <a href="#how-it-works">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
+    <a href="index.html#how-it-works">How it works</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#faq">FAQ</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
   </div>
   <a href="app.html" class="nav-cta">Start now →</a>
 </nav>
@@ -748,6 +840,82 @@ footer a:hover{color:var(--green)}
   </div>
 </section>
 
+<!-- COMPARISON: Fit Ninja vs Competitors -->
+<section class="comparison" id="comparison">
+  <div class="comparison-inner">
+    <div class="section-label reveal">Why Choose Fit Ninja</div>
+    <h2 class="section-h2 reveal">How We Compare: Fit Ninja vs. Others</h2>
+    <p class="pricing-sub reveal" style="max-width: 700px; margin: 12px auto 0;">Stop paying thousands for essential coaching. See how our AI-powered premium coach beats traditional training and static apps on features and price.</p>
+    
+    <div class="comparison-grid">
+      <!-- Traditional Trainer -->
+      <div class="comp-card reveal">
+        <h3 class="comp-card-title">Personal Trainer (Gym)</h3>
+        <p class="comp-card-desc">Extremely expensive manual option. Highly subject to trainer experience and availability.</p>
+        <ul class="comp-points">
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Very expensive:</strong> Typically costs ₹5,000 to ₹15,000+ per month on top of gym membership.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Inflexible schedules:</strong> Requires matching hours with your trainer; missed sessions are often lost.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Prone to templates:</strong> Many gym trainers reuse generic workout and diet sheets across multiple clients.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Fit Ninja (AI Coach) -->
+      <div class="comp-card premium reveal reveal-delay-1">
+        <div class="comp-card-badge">Best Value</div>
+        <h3 class="comp-card-title">Fit Ninja (AI Coaching)</h3>
+        <p class="comp-card-desc">Science-backed premium coaching that adapts to you dynamically, in your pocket, for less than ₹10/day.</p>
+        <ul class="comp-points">
+          <li class="comp-point">
+            <span class="comp-point-icon">✅</span>
+            <div><strong>Ultra affordable:</strong> Just ₹299/month. All premium features, diet logs, and progress tracking included.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">✅</span>
+            <div><strong>Truly personalized:</strong> Generates individual nutrition targets using Mifflin-St Jeor, tailored to 4 diets.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">✅</span>
+            <div><strong>Dynamic progressions:</strong> Weekly check-in log that recalculates and updates target values every month.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">✅</span>
+            <div><strong>Fail-safe photo logs:</strong> High-efficiency local compression to save image logs even if cloud sync is offline.</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Generic PDFs / Free Apps -->
+      <div class="comp-card reveal reveal-delay-2">
+        <h3 class="comp-card-title">Static Apps &amp; PDFs</h3>
+        <p class="comp-card-desc">Rigid calculators and static templates that fail to guide you through plateaus.</p>
+        <ul class="comp-points">
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Zero progression:</strong> Diet plans and workout routines never change as your body adapts.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Poor customization:</strong> Recommends the same standard meal lists without scaling ingredients to your macros.</div>
+          </li>
+          <li class="comp-point">
+            <span class="comp-point-icon">❌</span>
+            <div><strong>Annoying clutter:</strong> Free apps are filled with pop-up advertisements that slow your progress logging.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="faq-inner">
@@ -805,10 +973,32 @@ footer a:hover{color:var(--green)}
   </div>
 </section>
 
+<!-- SEO CONTENT SECTION -->
+<section class="seo-content" style="padding:80px 24px 40px;background:#050505;border-top:1px solid rgba(255,255,255,.05)">
+  <div style="max-width:900px;margin:0 auto;color:var(--t2);font-size:14px;line-height:1.75">
+    <h2 style="font-family:var(--ff);font-size:24px;font-weight:800;color:white;margin-bottom:20px;text-align:center">Fit Ninja: Your Premium AI Fitness &amp; Nutrition Coach</h2>
+    
+    <p style="margin-bottom:16px">Welcome to the future of personalized coaching. In a world where premium personal trainers cost thousands of rupees a month and generic fitness apps send you cookie-cutter PDF meal plans, <strong>Fit Ninja</strong> bridges the gap. We offer a state-of-the-art, interactive <strong>AI fitness coach</strong> that builds comprehensive training splits and customized diet plans tailored entirely around your body, your dietary choices, your workout location, and your fitness goals for just <strong>₹299/month</strong>.</p>
+    
+    <p style="margin-bottom:16px">Our coaching algorithm is built on the foundation of proven sports science. First, we compute your daily calorie requirement—your Total Daily Energy Expenditure (TDEE)—by analyzing your physical metrics (height, weight, age, activity level, and gender) using the renowned <strong>Mifflin-St Jeor equation</strong>. Next, we structure your daily macronutrient targets (proteins, fats, and carbohydrates) to match your exact goals, whether you are aiming for fat loss, lean muscle gain, healthy weight gain, or general fitness. Unlike generic trackers that require you to fit into their pre-built plans, Fit Ninja works backwards from your life, creating specialized menus for four distinct diet types: non-vegetarian, eggetarian, vegetarian, and vegan. Whether you prefer a plant-based vegan diet with CASHEW yogurt and tofu or a classic Indian vegetarian plan with paneer, dal, and ghee, every meal is realistic, easy to prep, and accessible locally in India and worldwide.</p>
+    
+    <p style="margin-bottom:16px">Our exercise programming is equally advanced. Whether you train in a commercial gym or at home, Fit Ninja generates a customized training plan (such as Push-Pull-Legs gym splits or full-body home splits) that targets your desired muscle groups. Every exercise in your routine is supported by step-by-step form guides and dynamic video demonstrations. You can log your training set-by-set directly in the PWA. If you need to make changes, you can add custom meals or custom exercises to your daily routine anytime, giving you full control over your fitness tracking.</p>
+    
+    <p style="margin-bottom:16px">Fit Ninja’s most powerful feature is our <strong>Monthly Progression Engine</strong>. Every week, you check in by logging your weight. At the end of the month, the engine reviews your progress. If you are gaining muscle too slowly, it adds extra calorie-dense options. If your fat loss stalls, it reduces calories or suggests minor cardio target increases. This mimics the exact decision-making process of a premium personal coach, ensuring you break through plateaus and continue making progress month after month. We also integrate a visual meal logging engine and a fail-safe progress photo log that compresses images locally before upload, saving them directly to your browser's local storage if database connections are offline.</p>
+    
+    <p style="margin-bottom:16px">Fit Ninja works seamlessly on all devices as a Progressive Web App (PWA). You can install it on your iPhone via Safari or Android via Chrome in seconds, enjoying a full-screen, lightning-fast dashboard experience that works offline. Secure checkout is powered by Razorpay, with no long-term contracts—cancel your membership from your profile at any time with a single click. Start your science-backed transformation today with Fit Ninja.</p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <p style="margin-bottom:10px"><strong>Fit Ninja</strong> · Premium AI Fitness Coaching</p>
-  <p><a href="#">Privacy Policy</a> · <a href="#">Terms of Service</a></p>
+  <p>
+    <a href="about.html">About Us</a> · 
+    <a href="contact.html">Contact Us</a> · 
+    <a href="privacy.html">Privacy Policy</a> · 
+    <a href="terms.html">Terms & Conditions</a>
+  </p>
   <p style="margin-top:10px">
     <a href="mailto:info@fit.socialninjas.in">📧 info@fit.socialninjas.in</a>
     &nbsp;·&nbsp;
