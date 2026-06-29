@@ -157,7 +157,7 @@ async function doPayment() {
           if (verify.success) {
             onPaymentSuccess();
           } else {
-            alert('Payment verification failed. Please contact support:\n📧 info@fit.socialninjas.in\n📲 WhatsApp: +91 8147757479');
+            alert('Payment verification failed. Please contact support:\n📧 info@socialninjas.in\n📲 WhatsApp: +91 8147757479');
             btn.textContent = 'Pay ₹299 & Start Assessment →';
             btn.disabled = false;
           }
@@ -1706,7 +1706,7 @@ function showProfile() {
     + '<div class="card" style="margin-top:12px">'
     + '<div style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--t1)">💬 Support</div>'
     + '<a href="https://wa.me/918147757479" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;padding:12px;background:#25D366;border-radius:12px;text-decoration:none;margin-bottom:10px"><span style="font-size:20px">📲</span><div><div style="font-size:13px;font-weight:700;color:#fff">WhatsApp Support</div><div style="font-size:11px;color:rgba(255,255,255,0.8)">+91 8147757479 · Quick replies</div></div></a>'
-    + '<a href="mailto:info@fit.socialninjas.in" style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg2);border-radius:12px;text-decoration:none"><span style="font-size:20px">📧</span><div><div style="font-size:13px;font-weight:600;color:var(--t1)">Email Support</div><div style="font-size:11px;color:var(--t2)">info@fit.socialninjas.in</div></div></a>'
+    + '<a href="mailto:info@socialninjas.in" style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg2);border-radius:12px;text-decoration:none"><span style="font-size:20px">📧</span><div><div style="font-size:13px;font-weight:600;color:var(--t1)">Email Support</div><div style="font-size:11px;color:var(--t2)">info@socialninjas.in</div></div></a>'
     + '</div>'
     + '<button onclick="doLogout()" style="width:100%;margin-top:16px;padding:14px;background:var(--bg3);border:1px solid var(--bdr);border-radius:12px;color:var(--ac2);font-weight:700;font-size:14px;cursor:pointer">Log out</button>';
   openModal('modal-profile');
@@ -1801,3 +1801,4 @@ function fillFoodMacros() {
     S('scr-landing');
   }
 })();
+
