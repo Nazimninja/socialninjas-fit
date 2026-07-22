@@ -1,25 +1,25 @@
 :root {
-  --bg: #FFFFFF;
+  --bg: #000000;
   --bg-gradient: none;
-  --bg2: #FAFAFA;
-  --bg3: #F0F4FF;
-  --bg4: #E8EEF8;
-  --bg5: #D0E0FF;
+  --bg2: #1C1C1E;
+  --bg3: #2C2C2E;
+  --bg4: #3A3A3C;
+  --bg5: #48484A;
   
   --ac: #1F4B99;
-  --ac-glow: rgba(31, 75, 153, 0.2);
+  --ac-glow: rgba(31, 75, 153, 0.35);
   
   --ac2: #FF453A;
   --ac3: #FFD60A;
   --ac4: #0A84FF;
   --ac5: #1F4B99;
   
-  --t1: #141414;
-  --t2: #5A5A5A;
+  --t1: #F5F5F7;
+  --t2: #86868B;
   --t3: #8E8E93;
   
-  --bdr: #EDEDED;
-  --bdr-light: rgba(0, 0, 0, 0.08);
+  --bdr: rgba(255, 255, 255, 0.12);
+  --bdr-light: rgba(255, 255, 255, 0.2);
   
   --r: 20px;
   --r2: 28px;
