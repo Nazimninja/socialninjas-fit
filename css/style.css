@@ -7,14 +7,14 @@
   --bg5: #48484A;
   
   /* Primary Action - Vibrant Brand Purple */
-  --ac: #BF5AF2;
+  --ac: #1F4B99;
   --ac-glow: rgba(191, 90, 242, 0.3);
   
   /* Premium Accent Colors */
   --ac2: #FF453A; /* Red */
   --ac3: #FFD60A; /* Yellow */
   --ac4: #0A84FF; /* Blue */
-  --ac5: #BF5AF2; /* Purple */
+  --ac5: #1F4B99; /* Purple */
   
   --t1: #F5F5F7; /* Apple off-white */
   --t2: #86868B; /* Elegant mid-gray */
@@ -106,7 +106,7 @@ html, body {
 .ob-legal { font-size: 11px; color: var(--t3); text-align: center; margin-top: 8px; line-height: 1.4; }
 
 /* BUTTONS */
-.btn-primary { width: 100%; padding: 16px 20px; background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 800; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
+.btn-primary { width: 100%; padding: 16px 20px; background: linear-gradient(135deg, #1F4B99 0%, #153880 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 800; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
 .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0)); transform: skewX(-20deg); transition: 0.5s; }
 .btn-primary:hover::after { left: 150%; }
 .btn-primary:active { transform: scale(0.98); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
@@ -638,7 +638,7 @@ html, body {
 
 .ct-icon {
   font-size: 12px;
-  color: #BF5AF2;
+  color: #1F4B99;
   display: flex;
   align-items: center;
   justify-content: center;
