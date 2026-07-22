@@ -1,27 +1,25 @@
 :root {
-  --bg: #000000;
+  --bg: #FFFFFF;
   --bg-gradient: none;
-  --bg2: #1C1C1E; /* iOS dark elevated */
-  --bg3: #2C2C2E;
-  --bg4: #3A3A3C;
-  --bg5: #48484A;
+  --bg2: #FAFAFA;
+  --bg3: #F0F4FF;
+  --bg4: #E8EEF8;
+  --bg5: #D0E0FF;
   
-  /* Primary Action - Vibrant Brand Purple */
   --ac: #1F4B99;
-  --ac-glow: rgba(191, 90, 242, 0.3);
+  --ac-glow: rgba(31, 75, 153, 0.2);
   
-  /* Premium Accent Colors */
-  --ac2: #FF453A; /* Red */
-  --ac3: #FFD60A; /* Yellow */
-  --ac4: #0A84FF; /* Blue */
-  --ac5: #1F4B99; /* Purple */
+  --ac2: #FF453A;
+  --ac3: #FFD60A;
+  --ac4: #0A84FF;
+  --ac5: #1F4B99;
   
-  --t1: #F5F5F7; /* Apple off-white */
-  --t2: #86868B; /* Elegant mid-gray */
-  --t3: #8E8E93; /* iOS inactive gray */
+  --t1: #141414;
+  --t2: #5A5A5A;
+  --t3: #8E8E93;
   
-  --bdr: rgba(255, 255, 255, 0.12);
-  --bdr-light: rgba(255, 255, 255, 0.2);
+  --bdr: #EDEDED;
+  --bdr-light: rgba(0, 0, 0, 0.08);
   
   --r: 20px;
   --r2: 28px;
