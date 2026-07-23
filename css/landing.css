@@ -1,16 +1,16 @@
 :root {
-  --bg: #000000;
-  --bg2: #1C1C1E;
-  --bg3: #2C2C2E;
+  --bg: #FFFFFF;
+  --bg2: #FAFAFA;
+  --bg3: #F8FAFC;
   --ac: #1F4B99;
-  --ac-glow: rgba(31, 75, 153, 0.35);
-  --t1: #F5F5F7;
-  --t2: #86868B;
-  --t3: #55555A;
-  --bdr: rgba(255, 255, 255, 0.08);
+  --ac-glow: rgba(31, 75, 153, 0.15);
+  --t1: #0F172A;
+  --t2: #475569;
+  --t3: #64748B;
+  --bdr: #E2E8F0;
   --ff: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  --grad-primary: linear-gradient(135deg, #1F4B99 0%, #153880 100%);
-  --grad-hover: linear-gradient(135deg, #2A5299 0%, #0F285C 100%);
+  --grad-primary: #1F4B99;
+  --grad-hover: #153880;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
