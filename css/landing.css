@@ -68,7 +68,7 @@ body { font-family: var(--ff); background-color: var(--bg); color: var(--t1); li
 .pricing-sub { color: var(--t2); margin-bottom: 40px; font-size: 16px; }
 .pricing-list { text-align: left; margin-bottom: 40px; display: flex; flex-direction: column; gap: 16px; }
 .pricing-item { display: flex; align-items: center; gap: 12px; color: var(--t1); font-size: 16px; font-weight: 500; }
-.pricing-item-ic { color: #A78BFA; }
+.pricing-item-ic { color: #5B9DF5; }
 
 /* FOOTER */
 .footer { border-top: 1px solid var(--bdr); padding: 40px 20px; text-align: center; color: var(--t3); font-size: 14px; }

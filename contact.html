@@ -17,7 +17,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --paper:#000000;--paper2:#1C1C1E;--ink:#000000;
-  --green:#BF5AF2;--green-d:#A78BFA;--green-l:rgba(191,90,242,0.15);
+  --green:#1F4B99;--green-d:#5B9DF5;--green-l:rgba(31, 75, 153,0.15);
   --amber:#FFD60A;--red:#FF453A;
   --t1:#F5F5F7;--t2:#86868B;--t3:#55555A;
   --ff:'Plus Jakarta Sans',-apple-system,sans-serif;--fb:'Plus Jakarta Sans',-apple-system,sans-serif;
@@ -29,12 +29,12 @@ body{font-family:var(--fb);background:var(--paper);color:var(--t1);overflow-x:hi
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:8px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
 .nav-logo{display:flex;align-items:center;text-decoration:none;height:88px;transition:height 0.3s}
-.nav-logo-img{height:100%;max-height:88px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(191,90,242,0.95)) brightness(2.8) contrast(1.1);transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
+.nav-logo-img{height:100%;max-height:88px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(31, 75, 153,0.95)) brightness(2.8) contrast(1.1);transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
 .nav-links{display:flex;align-items:center;gap:32px}
 .nav-links a{font-size:14px;font-weight:700;color:#FFFFFF;text-decoration:none;transition:all 0.2s ease;text-shadow:0 0 4px rgba(0,0,0,0.5)}
-.nav-links a:hover{color:#FFFFFF;text-shadow:0 0 12px rgba(191,90,242,0.95)}
-.nav-cta{padding:10px 22px;background:linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fb);text-decoration:none;transition:all .2s;box-shadow:0 4px 12px rgba(191,90,242,0.25)}
-.nav-cta:hover{background:linear-gradient(135deg, #C4B5FD 0%, #6D28D9 100%);transform:translateY(-1px);box-shadow:0 6px 16px rgba(124,58,237,0.35)}
+.nav-links a:hover{color:#FFFFFF;text-shadow:0 0 12px rgba(31, 75, 153,0.95)}
+.nav-cta{padding:10px 22px;background:linear-gradient(135deg, #1F4B99 0%, #153880 100%);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fb);text-decoration:none;transition:all .2s;box-shadow:0 4px 12px rgba(31, 75, 153,0.25)}
+.nav-cta:hover{background:linear-gradient(135deg, #5B9DF5 0%, #0F285C 100%);transform:translateY(-1px);box-shadow:0 6px 16px rgba(21, 56, 128,0.35)}
 @media(max-width:768px){
   nav{padding:8px 16px}
   .nav-logo{height:64px}
@@ -58,7 +58,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:8px 32px;display:fle
   font-size: clamp(32px, 5vw, 48px);
   font-weight: 800;
   margin-bottom: 16px;
-  background: linear-gradient(135deg,#fff 0%,#A78BFA 100%);
+  background: linear-gradient(135deg,#fff 0%,#5B9DF5 100%);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
@@ -89,7 +89,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:8px 32px;display:fle
 .contact-card:hover {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(191, 90, 242, 0.4);
+  border-color: rgba(31, 75, 153, 0.4);
 }
 .contact-icon {
   font-size: 32px;
@@ -122,9 +122,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:8px 32px;display:fle
   transition: all 0.2s;
 }
 .contact-card:hover .contact-btn {
-  background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%);
+  background: linear-gradient(135deg, #1F4B99 0%, #153880 100%);
   border-color: transparent;
-  box-shadow: 0 4px 12px rgba(191,90,242,0.25);
+  box-shadow: 0 4px 12px rgba(31, 75, 153,0.25);
 }
 @media(max-width:640px){
   .contact-grid {
