@@ -7,14 +7,14 @@
   --bg5: #48484A;
   
   /* Primary Action - Vibrant Brand Purple */
-  --ac: #BF5AF2;
-  --ac-glow: rgba(191, 90, 242, 0.3);
+  --ac: #1F4B99;
+  --ac-glow: rgba(31, 75, 153, 0.3);
   
   /* Premium Accent Colors */
   --ac2: #FF453A; /* Red */
   --ac3: #FFD60A; /* Yellow */
   --ac4: #0A84FF; /* Blue */
-  --ac5: #BF5AF2; /* Purple */
+  --ac5: #1F4B99; /* Purple */
   
   --t1: #F5F5F7; /* Apple off-white */
   --t2: #86868B; /* Elegant mid-gray */
@@ -91,11 +91,11 @@ html, body {
 .ob-sub-sm { font-size: 11px; color: var(--ac); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
 .ob-hero { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; text-align: center; padding-bottom: 2px; margin-top: 2px; }
-.ob-tag { font-size: 11px; font-weight: 800; color: #FFFFFF !important; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: inline-block; background: rgba(191, 90, 242, 0.25); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(191, 90, 242, 0.6); align-self: center; text-align: center; box-shadow: 0 0 16px rgba(191, 90, 242, 0.35); margin-top: 2px; }
+.ob-tag { font-size: 11px; font-weight: 800; color: #FFFFFF !important; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; display: inline-block; background: rgba(31, 75, 153, 0.25); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(31, 75, 153, 0.6); align-self: center; text-align: center; box-shadow: 0 0 16px rgba(31, 75, 153, 0.35); margin-top: 2px; }
 .ob-h1 { font-family: var(--fs); font-size: 34px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); text-align: center; width: 100%; }
 .ob-h1 span { display: block; }
-.ob-h1 .line-green { background: linear-gradient(135deg, #FFF 0%, #A78BFA 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
-.ob-h1 .line-outline { -webkit-text-stroke: 1.8px #FFFFFF; color: rgba(255, 255, 255, 0.05); display: block; text-shadow: 0 0 16px rgba(191, 90, 242, 0.85), 0 0 4px rgba(191, 90, 242, 0.5); }
+.ob-h1 .line-green { background: linear-gradient(135deg, #FFF 0%, #5B9DF5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
+.ob-h1 .line-outline { -webkit-text-stroke: 1.8px #FFFFFF; color: rgba(255, 255, 255, 0.05); display: block; text-shadow: 0 0 16px rgba(31, 75, 153, 0.85), 0 0 4px rgba(31, 75, 153, 0.5); }
 .ob-desc { font-size: 14px; color: var(--t2); line-height: 1.45; margin-bottom: 12px; font-weight: 400; text-align: center; max-width: 90%; margin-left: auto; margin-right: auto; }
 
 .ob-feats { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; align-self: center; align-items: flex-start; max-width: 95%; }
@@ -106,10 +106,10 @@ html, body {
 .ob-legal { font-size: 11px; color: var(--t3); text-align: center; margin-top: 8px; line-height: 1.4; }
 
 /* BUTTONS */
-.btn-primary { width: 100%; padding: 16px 20px; background: linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 800; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); position: relative; overflow: hidden; }
+.btn-primary { width: 100%; padding: 16px 20px; background: linear-gradient(135deg, #1F4B99 0%, #153880 100%); border: none; border-radius: var(--r); font-size: 16px; font-weight: 800; color: #FFFFFF; cursor: pointer; font-family: var(--ff); letter-spacing: -0.01em; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(31, 75, 153, 0.35); position: relative; overflow: hidden; }
 .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0)); transform: skewX(-20deg); transition: 0.5s; }
 .btn-primary:hover::after { left: 150%; }
-.btn-primary:active { transform: scale(0.98); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
+.btn-primary:active { transform: scale(0.98); box-shadow: 0 4px 12px rgba(21, 56, 128, 0.25); }
 
 .btn-ghost { width: 100%; padding: 15px 18px; background: var(--bg2); border: 1px solid var(--bdr-light); border-radius: var(--r); font-size: 15px; font-weight: 700; color: var(--t1); cursor: pointer; transition: all 0.2s; backdrop-filter: var(--glass-blur); }
 .btn-ghost:active { background: var(--bg3); transform: scale(0.98); }
@@ -230,7 +230,7 @@ html, body {
 .nb svg { width: 22px; height: 22px; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .nb span { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .nb.on { color: var(--ac); }
-.nb.on svg { filter: drop-shadow(0 0 12px rgba(191, 90, 242, 0.65)); transform: translateY(-3px); }
+.nb.on svg { filter: drop-shadow(0 0 12px rgba(31, 75, 153, 0.65)); transform: translateY(-3px); }
 .nb.on span { color: #FFFFFF; font-weight: 800; }
 
 /* CARDS - GLASSMORPHISM */
@@ -416,7 +416,7 @@ html, body {
 .ob-logo-img {
   height: 85px;
   object-fit: contain;
-  filter: drop-shadow(0 0 20px rgba(191, 90, 242, 0.95)) brightness(2.8) contrast(1.1);
+  filter: drop-shadow(0 0 20px rgba(31, 75, 153, 0.95)) none contrast(1.1);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
@@ -430,7 +430,7 @@ html, body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 4px;
-  text-shadow: 0 0 10px rgba(191, 90, 242, 0.5);
+  text-shadow: 0 0 10px rgba(31, 75, 153, 0.5);
 }
 
 .brand-logo-container {
@@ -442,13 +442,13 @@ html, body {
   height: 100%;
   max-height: 52px;
   object-fit: contain;
-  filter: drop-shadow(0 0 16px rgba(191, 90, 242, 0.9)) brightness(2.8) contrast(1.1);
+  filter: drop-shadow(0 0 16px rgba(31, 75, 153, 0.9)) none contrast(1.1);
   animation: logoGlowPulse 4s ease-in-out infinite;
 }
 
 @keyframes logoGlowPulse {
-  0%, 100% { filter: drop-shadow(0 0 14px rgba(191, 90, 242, 0.75)) brightness(2.4) contrast(1.15); transform: scale(1); }
-  50% { filter: drop-shadow(0 0 32px rgba(191, 90, 242, 0.98)) brightness(3.2) contrast(1.2); transform: scale(1.03); }
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(31, 75, 153, 0.75)) none contrast(1.15); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 32px rgba(31, 75, 153, 0.98)) none contrast(1.2); transform: scale(1.03); }
 }
 
 /* ==========================================================================
@@ -494,8 +494,8 @@ html, body {
 
 .premium-feat-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(191, 90, 242, 0.3);
-  box-shadow: 0 8px 24px rgba(191, 90, 242, 0.18);
+  border-color: rgba(31, 75, 153, 0.3);
+  box-shadow: 0 8px 24px rgba(31, 75, 153, 0.18);
   background: rgba(28, 28, 30, 0.8);
 }
 
@@ -503,14 +503,14 @@ html, body {
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(191, 90, 242, 0.18) 0%, rgba(124, 58, 237, 0.18) 100%);
-  border: 1px solid rgba(191, 90, 242, 0.3);
+  background: linear-gradient(135deg, rgba(31, 75, 153, 0.18) 0%, rgba(21, 56, 128, 0.18) 100%);
+  border: 1px solid rgba(31, 75, 153, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 17px;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(191, 90, 242, 0.15);
+  box-shadow: 0 4px 10px rgba(31, 75, 153, 0.15);
   position: relative;
 }
 
@@ -536,14 +536,14 @@ html, body {
 /* Overwrite plan-card with elevated premium SaaS tier design */
 .pay-scroll .plan-card {
   background: linear-gradient(135deg, rgba(28, 28, 30, 0.9) 0%, rgba(18, 18, 20, 0.96) 100%) !important;
-  border: 1px solid rgba(191, 90, 242, 0.32) !important;
+  border: 1px solid rgba(31, 75, 153, 0.32) !important;
   border-radius: var(--r2);
   padding: 24px;
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
   backdrop-filter: var(--glass-blur);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.55), 0 0 30px rgba(191, 90, 242, 0.15);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.55), 0 0 30px rgba(31, 75, 153, 0.15);
 }
 
 .pricing-strike {
@@ -638,16 +638,16 @@ html, body {
 
 .ct-icon {
   font-size: 12px;
-  color: #BF5AF2;
+  color: #1F4B99;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgba(191, 90, 242, 0.08);
+  background: rgba(31, 75, 153, 0.08);
   flex-shrink: 0;
-  border: 1px solid rgba(191, 90, 242, 0.2);
+  border: 1px solid rgba(31, 75, 153, 0.2);
 }
 
 .cta-pulse {
@@ -655,7 +655,7 @@ html, body {
 }
 
 @keyframes ctaPulseAnim {
-  0%, 100% { box-shadow: 0 8px 24px rgba(191, 90, 242, 0.35); }
-  50% { box-shadow: 0 8px 36px rgba(191, 90, 242, 0.6); transform: scale(1.01); }
+  0%, 100% { box-shadow: 0 8px 24px rgba(31, 75, 153, 0.35); }
+  50% { box-shadow: 0 8px 36px rgba(31, 75, 153, 0.6); transform: scale(1.01); }
 }
 
