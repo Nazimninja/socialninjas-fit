@@ -657,3 +657,99 @@ html, body {
   50% { box-shadow: 0 8px 36px rgba(31, 75, 153, 0.6); transform: scale(1.01); }
 }
 
+
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE / MOBILE-FIRST — COMPREHENSIVE FIX
+   Covers: small phones (360px), regular mobile (430px),
+           tablets (768px), and desktop (1024px+)
+════════════════════════════════════════════════════ */
+
+/* ── Safe area insets for modern iOS ── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .app { padding-bottom: env(safe-area-inset-bottom); }
+  .app-nav { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+/* ── Very small phones (360px and below) ── */
+@media (max-width: 360px) {
+  .app { max-width: 100vw; }
+  .ob-h1 { font-size: 28px !important; line-height: 1.15 !important; }
+  .ob-desc { font-size: 13px !important; }
+  .btn-primary, .btn-ghost { font-size: 14px !important; padding: 14px 18px !important; }
+  .ob-wrap { padding: 16px 14px 24px !important; }
+  .premium-feats-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .premium-feat-card { padding: 14px !important; }
+  .section-title { font-size: 18px !important; }
+  .dash-tab-label { font-size: 9px !important; }
+  .dash-tab-icon { font-size: 20px !important; }
+}
+
+/* ── Standard mobile (up to 480px) ── */
+@media (max-width: 480px) {
+  .ob-h1 { font-size: clamp(28px, 8vw, 36px) !important; }
+  .ob-desc { font-size: 14px !important; line-height: 1.6 !important; }
+  .ob-wrap { padding: 18px 16px 28px !important; }
+  .premium-feats-grid { gap: 10px !important; }
+  .premium-feat-card { padding: 14px 12px !important; }
+  .pfc-title { font-size: 13px !important; }
+  .pfc-desc { font-size: 12px !important; }
+  .btn-primary, .btn-ghost { font-size: 15px !important; padding: 15px 20px !important; border-radius: 14px !important; }
+  .ob-logo-img { width: 64px !important; height: 64px !important; }
+  .step-title { font-size: 18px !important; }
+  .section-title { font-size: 20px !important; }
+  .card { padding: 18px !important; border-radius: 16px !important; }
+  input, select, textarea { font-size: 16px !important; } /* Prevents iOS zoom */
+  .dash-tab { padding: 8px 4px !important; }
+  .dash-tab-label { font-size: 10px !important; }
+  .dash-tab-icon { font-size: 22px !important; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .checkin-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Web / Desktop (768px+) — expand the shell ── */
+@media (min-width: 768px) {
+  .app {
+    max-width: 480px !important;
+    border-radius: 24px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    height: calc(100dvh - 40px) !important;
+  }
+  body { background: #0a0a0a !important; }
+}
+
+@media (min-width: 1024px) {
+  .app { max-width: 500px !important; }
+  .ob-h1 { font-size: 40px !important; }
+  .ob-desc { font-size: 16px !important; }
+  .premium-feats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .btn-primary { font-size: 17px !important; padding: 18px 28px !important; }
+}
+
+/* ── Overflow safety — global ── */
+* { max-width: 100%; }
+img { max-width: 100% !important; height: auto; }
+.screen { overflow-x: hidden !important; }
+.ob-wrap { overflow-x: hidden !important; }
+
+/* ── Input tap target minimum size ── */
+input, select, button, .btn-primary, .btn-ghost {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* ── Smooth touch scrolling ── */
+.scroll, .ob-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ── Fix sticky elements on iOS ── */
+.app-nav, .dash-nav {
+  position: sticky;
+  bottom: 0;
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
