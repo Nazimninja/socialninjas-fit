@@ -131,6 +131,10 @@ async function doPayment() {
     var options = {
       key: 'rzp_live_SQHi9o325buXiH',
       subscription_id: sub.id,
+      notes: {
+        user_id: STATE.user ? STATE.user.id : '',
+        email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')
+      },
       name: 'Fit Ninja',
       description: 'Premium Fitness Coaching Plan',
       image: '',
@@ -190,6 +194,10 @@ async function doPayment() {
         currency: 'INR',
         name: 'Fit Ninja',
         description: 'Premium Fitness Coaching Plan (One-time fallback)',
+      notes: {
+        user_id: STATE.user ? STATE.user.id : '',
+        email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')
+      },
       prefill: {
         name: STATE.signupData.name || '',
         email: STATE.signupData.email || '',
