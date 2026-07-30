@@ -1,25 +1,25 @@
 :root {
-  --bg: #FFFFFF;
+  --bg: #07090e;
   --bg-gradient: none;
-  --bg2: #FAFAFA;
-  --bg3: #F8FAFC;
-  --bg4: #F1F5F9;
-  --bg5: #E2E8F0;
+  --bg2: #0e121d;
+  --bg3: #07090e;
+  --bg4: #07090e;
+  --bg5: rgba(255, 255, 255, 0.08);
   
   --ac: #1F4B99;
   --ac-glow: rgba(31, 75, 153, 0.15);
   
-  --ac2: #FF453A;
+  --ac2: #3ba213;
   --ac3: #FFD60A;
   --ac4: #0A84FF;
   --ac5: #1F4B99;
   
-  --t1: #0F172A;
-  --t2: #475569;
-  --t3: #64748B;
+  --t1: #ffffff;
+  --t2: #94a3b8;
+  --t3: #607080;
   
-  --bdr: #E2E8F0;
-  --bdr-light: rgba(0, 0, 0, 0.06);
+  --bdr: rgba(255, 255, 255, 0.08);
+  --bdr-light: rgba(255, 255, 255, 0.04);
   
   --r: 20px;
   --r2: 28px;
@@ -39,7 +39,7 @@ html, body {
   background: var(--bg);
   background-image: var(--bg-gradient);
   font-family: var(--ff);
-  color: var(--t1);
+  color: #ffffff;
   overflow: hidden;
 }
 
@@ -125,7 +125,7 @@ html, body {
 
 .form-body { flex: 1; margin-bottom: 20px; }
 .inp-label { font-size: 12px; color: var(--t2); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-.inp-field { width: 100%; background: var(--bg2); border: 1px solid var(--bdr-light); border-radius: 14px; padding: 14px 16px; font-size: 15px; color: var(--t1); font-family: var(--ff); outline: none; margin-bottom: 16px; transition: all 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); backdrop-filter: var(--glass-blur); }
+.inp-field { width: 100%; background: #07090e; border: 1px solid var(--bdr-light); border-radius: 14px; padding: 14px 16px; font-size: 15px; color: var(--t1); font-family: var(--ff); outline: none; margin-bottom: 16px; transition: all 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); backdrop-filter: var(--glass-blur); }
 .inp-field:focus { border-color: var(--ac); background: rgba(255,255,255,0.03); box-shadow: 0 0 0 4px rgba(255,255,255,0.1); }
 .inp-field::placeholder { color: var(--t3); }
 
