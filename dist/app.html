@@ -373,5 +373,19 @@ window.onerror = function(msg, url, line, col, error) {
 <script src="js/engine.js?v=8"></script>
 <script src="js/app.js?v=8"></script>
   <input type="file" id="progress-photo-upload" accept="image/*" style="display:none" onchange="uploadProgressPhoto(this)">
+
+<script>
+// PWA body-level mousemove spotlight event listener for all dynamic cards
+document.body.addEventListener('mousemove', e => {
+  const card = e.target.closest('.card, .card-ac, .premium-feat-card, .feat-card, .plan-card');
+  if (card) {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+  }
+});
+</script>
 </body>
 </html>
