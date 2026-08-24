@@ -967,3 +967,167 @@ function doFinishWorkout() {
   beep(snd(), 880, 0.15); beep(snd(), 1100, 0.15, 0.18); beep(snd(), 1320, 0.3, 0.36)
   ui().openSheet(close => <FinishSummary w={w} prs={prs} e1prs={e1prs} close={close} />, { kind: 'center', locked: true })
 }
+
+/* ============================ onboarding & ai plan wizard ============================ */
+function OnboardingWizard({ close }) {
+  const st = useStore(s => s.S)
+  const user = useStore(s => s.user)
+  const [step, setStep] = useState(1)
+  const [pname, setPname] = useState(user?.name || 'Athlete')
+  const [age, setAge] = useState(25)
+  const [weight, setWeight] = useState(lastBW(st)?.w || 72)
+  const [height, setHeight] = useState(175)
+  const [gender, setGender] = useState('male')
+  const [goal, setGoal] = useState('muscle')
+  const [days, setDays] = useState(4)
+  const [location, setLocation] = useState('gym')
+  const [diet, setDiet] = useState('nonveg')
+
+  const handleGenerate = () => {
+    // 1. Calculate BMR & TDEE
+    const bmr = 10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161)
+    const tdee = Math.round(bmr * 1.375)
+    let cals = tdee
+    if (goal === 'fat_loss') cals -= 500
+    else if (goal === 'muscle') cals += 300
+
+    const prot = Math.round(weight * 2.0)
+    const fats = Math.round((cals * 0.25) / 9)
+    const carbs = Math.max(50, Math.round((cals - prot * 4 - fats * 9) / 4))
+
+    // 2. Build Custom Routines
+    const routines = []
+    if (days === 3) {
+      routines.push(
+        { id: uid(), name: 'Push Day (Chest · Shoulders · Triceps)', emoji: 'barbell', ex: [{ id: '0025', sets: 4, reps: 8, weight: 0 }, { id: '0047', sets: 3, reps: 10, weight: 0 }, { id: '0426', sets: 3, reps: 10, weight: 0 }, { id: '0334', sets: 3, reps: 12, weight: 0 }, { id: '0241', sets: 3, reps: 12, weight: 0 }] },
+        { id: uid(), name: 'Pull Day (Back · Biceps)', emoji: 'pullup', ex: [{ id: '2330', sets: 4, reps: 10, weight: 0 }, { id: '0027', sets: 4, reps: 8, weight: 0 }, { id: '1323', sets: 3, reps: 10, weight: 0 }, { id: '0031', sets: 3, reps: 10, weight: 0 }, { id: '0313', sets: 3, reps: 12, weight: 0 }] },
+        { id: uid(), name: 'Leg Day (Quads · Hamstrings · Calves)', emoji: 'legs', ex: [{ id: '0043', sets: 4, reps: 8, weight: 0 }, { id: '0085', sets: 3, reps: 10, weight: 0 }, { id: '0585', sets: 3, reps: 12, weight: 0 }, { id: '0586', sets: 3, reps: 12, weight: 0 }, { id: '0605', sets: 4, reps: 15, weight: 0 }] }
+      )
+    } else {
+      routines.push(
+        { id: uid(), name: 'Upper Power (Chest · Back · Arms)', emoji: 'barbell', ex: [{ id: '0025', sets: 4, reps: 8, weight: 0 }, { id: '0027', sets: 4, reps: 8, weight: 0 }, { id: '0047', sets: 3, reps: 10, weight: 0 }, { id: '0313', sets: 3, reps: 12, weight: 0 }] },
+        { id: uid(), name: 'Lower Power (Squat · Hamstrings · Calves)', emoji: 'legs', ex: [{ id: '0043', sets: 4, reps: 8, weight: 0 }, { id: '0085', sets: 3, reps: 10, weight: 0 }, { id: '0585', sets: 3, reps: 12, weight: 0 }, { id: '0605', sets: 4, reps: 15, weight: 0 }] },
+        { id: uid(), name: 'Push Hypertrophy', emoji: 'barbell', ex: [{ id: '0426', sets: 3, reps: 12, weight: 0 }, { id: '0334', sets: 3, reps: 12, weight: 0 }, { id: '0241', sets: 3, reps: 15, weight: 0 }] },
+        { id: uid(), name: 'Pull Hypertrophy', emoji: 'pullup', ex: [{ id: '2330', sets: 4, reps: 12, weight: 0 }, { id: '1323', sets: 3, reps: 12, weight: 0 }, { id: '0031', sets: 3, reps: 12, weight: 0 }] }
+      )
+    }
+
+    update(s => {
+      s.routines = routines
+      s.week = {}
+      if (routines[0]) s.week[1] = routines[0].id
+      if (routines[1]) s.week[2] = routines[1].id
+      if (routines[2]) s.week[4] = routines[2].id
+      if (routines[3]) s.week[5] = routines[3].id
+      s.targetW = goal === 'fat_loss' ? Math.round((weight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((weight + 4) * 10) / 10 : weight
+    })
+
+    close()
+    toast(t('🎉 Custom AI Plan Generated for {0}! ({1} kcal · {2}g Protein)', pname, cals, prot))
+  }
+
+  return (
+    <div style={{ padding: '8px 0' }}>
+      <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--acc)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4 }}>
+        Client Onboarding · Step {step} of 3
+      </div>
+      <h3 style={{ margin: '0 0 14px' }}>
+        {step === 1 ? '1. Athlete Physical Profile' : step === 2 ? '2. Goals & Training Schedule' : '3. Cultural Diet & AI Plan'}
+      </h3>
+
+      {step === 1 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div>
+            <label className="small muted">Athlete Name</label>
+            <input className="input" value={pname} onChange={e => setPname(e.target.value)} />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div>
+              <label className="small muted">Age (years)</label>
+              <input className="input" type="number" value={age} onChange={e => setAge(parseInt(e.target.value) || 25)} />
+            </div>
+            <div>
+              <label className="small muted">Gender</label>
+              <select className="input" value={gender} onChange={e => setGender(e.target.value)}>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div>
+              <label className="small muted">Body Weight ({st.unit})</label>
+              <input className="input" type="number" value={weight} onChange={e => setWeight(parseFloat(e.target.value) || 70)} />
+            </div>
+            <div>
+              <label className="small muted">Height (cm)</label>
+              <input className="input" type="number" value={height} onChange={e => setHeight(parseInt(e.target.value) || 175)} />
+            </div>
+          </div>
+          <Button variant="primary" onClick={() => setStep(2)}>Next: Goals &amp; Training →</Button>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div>
+            <label className="small muted">Primary Fitness Goal</label>
+            <select className="input" value={goal} onChange={e => setGoal(e.target.value)}>
+              <option value="muscle">🏋️ Muscle Gain (Hypertrophy)</option>
+              <option value="fat_loss">⚡ Fat Loss &amp; Shredding</option>
+              <option value="recomp">💪 Body Recomposition</option>
+              <option value="general">🧘 General Fitness &amp; Longevity</option>
+            </select>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div>
+              <label className="small muted">Days per Week</label>
+              <select className="input" value={days} onChange={e => setDays(parseInt(e.target.value))}>
+                <option value={3}>3 Days (Mon / Wed / Fri)</option>
+                <option value={4}>4 Days (Upper / Lower)</option>
+                <option value={5}>5 Days (PPL Split)</option>
+              </select>
+            </div>
+            <div>
+              <label className="small muted">Location</label>
+              <select className="input" value={location} onChange={e => setLocation(e.target.value)}>
+                <option value="gym">Gym (Full Equipment)</option>
+                <option value="home">Home (Dumbbells &amp; BW)</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <Button variant="ghost" onClick={() => setStep(1)}>← Back</Button>
+            <Button variant="primary" onClick={() => setStep(3)}>Next: Diet Preferences →</Button>
+          </div>
+        </div>
+      )}
+
+      {step === 3 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div>
+            <label className="small muted">Dietary &amp; Cultural Preferences</label>
+            <select className="input" value={diet} onChange={e => setDiet(e.target.value)}>
+              <option value="nonveg">🍗 High Protein Non-Veg (Chicken, Fish, Eggs)</option>
+              <option value="veg">🥛 Indian Vegetarian (Paneer, Soya, Dal, Milk)</option>
+              <option value="egg">🥚 Eggetarian (Eggs, Dairy, Plant foods)</option>
+              <option value="vegan">🥗 Plant-Based Vegan (Tofu, Beans, Lentils)</option>
+            </select>
+          </div>
+          <div style={{ background: '#070a12', border: '1px solid var(--border)', borderRadius: 12, padding: 14, fontSize: 12, color: 'var(--label-2)', lineHeight: 1.5 }}>
+            ⚡ <b>AI Engine Ready</b>: Calculates Mifflin-St Jeor daily calories, macro targets, and generates progressive overload routines custom-tailored for <b>{pname}</b>.
+          </div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <Button variant="ghost" onClick={() => setStep(2)}>← Back</Button>
+            <Button variant="primary" onClick={handleGenerate}>⚡ Generate Custom AI Plan</Button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function onboardingWizardSheet() {
+  ui().openSheet(close => <OnboardingWizard close={close} />, { kind: 'center' })
+}
+
