@@ -1,6 +1,6 @@
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { webauthnOK, passkeyRegister } from '../lib/api.js'
+import { webauthnOK, passkeyRegister, verifyMemberEmail } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
@@ -49,7 +49,7 @@ export default function Login() {
 
   const handlePayment = () => {
     openRazorpayCheckout({
-      onSuccess: () => {
+      onSuccess: (res) => {
         setPaid(true)
         useUI.getState().openSheet(close => <RegisterSheet close={close} />)
       },
@@ -68,33 +68,20 @@ export default function Login() {
 
     setIsVerifying(true)
     try {
-      const res = await fetch('/api/verify-member', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      })
-
-      let data = {}
-      try {
-        const text = await res.text()
-        data = text ? JSON.parse(text) : {}
-      } catch (e) {
-        console.warn('Safe text parse fallback:', e)
-      }
-
-      if (res.ok && data.verified) {
-        setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: data.role === 'admin' })
+      const res = await verifyMemberEmail(email)
+      if (res.verified) {
+        try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
+        setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: res.role === 'admin' })
         setPaid(true)
         useUI.getState().toast('Subscription verified! Welcome to Fit Ninjas Pro.')
         setIsVerifying(false)
         return
       }
 
-      const errMsg = data.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'
-      useUI.getState().toast('❌ ' + errMsg)
+      useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'))
     } catch (err) {
-      console.error('Member verification network error:', err)
-      useUI.getState().toast('❌ Connection error. Please try again.')
+      console.error('Member verification error:', err)
+      useUI.getState().toast('❌ No active Pro subscription found for this email.')
     } finally {
       setIsVerifying(false)
     }
