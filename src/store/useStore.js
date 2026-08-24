@@ -95,6 +95,9 @@ export const useStore = create((set, get) => {
     isGuest: () => localStorage.getItem('gym_guest') === '1',
     setGuest(v) { if (v) localStorage.setItem('gym_guest', '1'); else localStorage.removeItem('gym_guest'); set({}) },
 
+    isPaid: () => localStorage.getItem('gym_paid') === '1' || !!get().user?.paid,
+    setPaid(v) { if (v) localStorage.setItem('gym_paid', '1'); else localStorage.removeItem('gym_paid'); set({}) },
+
     setUser(u) {
       if (u) { localStorage.setItem('gym_user', JSON.stringify(u)); localStorage.removeItem('gym_guest') }
       else localStorage.removeItem('gym_user')
