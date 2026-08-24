@@ -6,6 +6,14 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
 import { openRazorpayCheckout } from '../lib/payment.js'
 
+const ADMIN_LIST = [
+  'nazimpasha906@gmail.com',
+  'nazim@socialninjas.in',
+  'admin@socialninjas.in',
+  'support@socialninjas.in',
+  'fit@socialninjas.in'
+]
+
 export function RegisterSheet({ close }) {
   const { setUser, setPaid } = useStore()
   const [name, setName] = useState('')
@@ -49,7 +57,7 @@ export default function Login() {
 
   const handlePayment = () => {
     openRazorpayCheckout({
-      onSuccess: (res) => {
+      onSuccess: () => {
         setPaid(true)
         useUI.getState().openSheet(close => <RegisterSheet close={close} />)
       },
@@ -67,9 +75,20 @@ export default function Login() {
     }
 
     setIsVerifying(true)
+
+    // Instant Admin & Whitelist verification (Zero network overhead)
+    if (ADMIN_LIST.includes(email)) {
+      try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
+      setUser({ name: email.split('@')[0] || 'Admin', email, paid: true, admin: true })
+      setPaid(true)
+      useUI.getState().toast('Admin verified! Welcome back.')
+      setIsVerifying(false)
+      return
+    }
+
     try {
-      const res = await verifyMemberEmail(email)
-      if (res.verified) {
+      const res = await verifyMemberEmail(email).catch(() => ({ verified: false }))
+      if (res && res.verified) {
         try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
         setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: res.role === 'admin' })
         setPaid(true)
@@ -80,8 +99,7 @@ export default function Login() {
 
       useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'))
     } catch (err) {
-      console.error('Member verification error:', err)
-      useUI.getState().toast('❌ No active Pro subscription found for this email.')
+      useUI.getState().toast('❌ No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.')
     } finally {
       setIsVerifying(false)
     }

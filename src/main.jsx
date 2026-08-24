@@ -8,7 +8,18 @@ createRoot(document.getElementById('root')).render(
   <StrictMode><App /></StrictMode>
 )
 
-// Not in the mobile build: the native shell already serves everything from disk.
-if (!MOBILE && 'serviceWorker' in navigator && location.protocol === 'https:') {
-  navigator.serviceWorker.register('sw.js').catch(() => {})
+// Force unregister stale legacy service workers and clear browser caches
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    for (let reg of regs) {
+      reg.unregister()
+    }
+  })
+}
+if ('caches' in window) {
+  caches.keys().then(keys => {
+    for (let key of keys) {
+      if (!key.startsWith('fitninjas-v3')) caches.delete(key)
+    }
+  })
 }
