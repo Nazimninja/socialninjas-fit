@@ -63,7 +63,12 @@ export default function Login() {
     setIsVerifying(true)
     const { error } = await signInWithGoogle()
     if (error) {
-      useUI.getState().toast('Google Sign In: ' + (error.message || 'Could not connect to Google'))
+      if (error.message?.includes('provider is not enabled') || error.error_code === 'validation_failed') {
+        setShowSignInModal(true)
+        useUI.getState().toast('Please enter your Gmail address below to verify and sign in.')
+      } else {
+        useUI.getState().toast('Google Sign In: ' + (error.message || 'Could not connect to Google'))
+      }
       setIsVerifying(false)
     }
   }
