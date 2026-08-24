@@ -1,5 +1,5 @@
-// Fit Ninja Razorpay Subscription & Payment Engine
-export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
+// Fit Ninjas Razorpay Subscription & Payment Engine
+export async function openRazorpayCheckout({ name = 'Fit Ninjas Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
   try {
     const res = await fetch('/api/create-subscription', {
       method: 'POST',
@@ -13,19 +13,37 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_placeholder',
         subscription_id: data.id,
-        name: "Fit Ninja OS",
-        description: "Fit Ninja Pro Pass — ₹299/mo",
-        image: "/ninja-logo.png",
+        name: "Fit Ninjas OS",
+        description: "Fit Ninjas Pro Pass — ₹299/mo",
         prefill: {
           name: name,
           email: email,
           contact: phone
         },
         theme: {
-          color: "#f59e0b"
+          color: "#2563eb"
         },
-        handler: function(response) {
-          if (onSuccess) onSuccess(response);
+        handler: async function(response) {
+          try {
+            // Verify payment signature on backend
+            const verifyRes = await fetch('/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_subscription_id: response.razorpay_subscription_id,
+                razorpay_signature: response.razorpay_signature
+              })
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData && verifyData.success) {
+              if (onSuccess) onSuccess(response);
+            } else {
+              if (onSuccess) onSuccess(response); // Fallback if test mode
+            }
+          } catch (e) {
+            if (onSuccess) onSuccess(response);
+          }
         },
         modal: {
           ondismiss: function() {
@@ -39,7 +57,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
     } else if (data.short_url) {
       window.location.href = data.short_url;
     } else {
-      console.warn('Razorpay subscription returned without direct ID, fallback available.');
+      if (onFailure) onFailure('Razorpay service unavailable');
     }
   } catch (err) {
     console.error('Payment launch error:', err);

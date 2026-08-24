@@ -1,13 +1,13 @@
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { webauthnOK, passkeyLogin, passkeyRegister, BIO } from '../lib/api.js'
+import { webauthnOK, passkeyLogin, passkeyRegister } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
 import { openRazorpayCheckout } from '../lib/payment.js'
 
 export function RegisterSheet({ close }) {
-  const { setUser, pushState, pullState, setPaid } = useStore()
+  const { setUser, setPaid } = useStore()
   const [name, setName] = useState('')
   const ref = useRef(null)
   useEffect(() => { setTimeout(() => ref.current?.focus(), 250) }, [])
@@ -42,9 +42,10 @@ export function RegisterSheet({ close }) {
 }
 
 export default function Login() {
-  const { setUser, setGuest, setPaid, pullState } = useStore()
+  const { setUser, setPaid } = useStore()
   const [showSignInModal, setShowSignInModal] = useState(false)
   const [memberEmail, setMemberEmail] = useState('')
+  const [isVerifying, setIsVerifying] = useState(false)
 
   const handlePayment = () => {
     openRazorpayCheckout({
@@ -59,30 +60,38 @@ export default function Login() {
   }
 
   const handleMemberSignIn = async () => {
+    const email = memberEmail.trim().toLowerCase()
+    if (!email) {
+      useUI.getState().toast('Please enter your registered email or phone')
+      return
+    }
+
+    setIsVerifying(true)
     try {
-      if (webauthnOK()) {
-        const u = await passkeyLogin().catch(() => null)
-        if (u) {
-          setUser(u)
-          await pullState()
+      // Cross-check subscription with serverless endpoint
+      const res = await fetch('/api/verify-member', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      }).catch(() => null)
+
+      if (res && res.ok) {
+        const data = await res.json().catch(() => ({}))
+        if (data && data.verified) {
+          setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true })
           setPaid(true)
-          useUI.getState().toast(t('Welcome back, {0}', u.name))
+          useUI.getState().toast('Subscription verified! Welcome back.')
+          setIsVerifying(false)
           return
         }
       }
-      // Member email fallback / passcode verification
-      const email = memberEmail.trim()
-      if (!email) {
-        useUI.getState().toast('Please enter your email or member ID')
-        return
-      }
-      setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true })
-      setPaid(true)
-      useUI.getState().toast('Welcome back to Fit Ninjas Pro!')
-    } catch (e) {
-      setPaid(true)
-      setGuest(true)
-      useUI.getState().toast('Welcome back!')
+
+      // If API responds 403 / unverified: DO NOT allow login
+      useUI.getState().toast('❌ No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.')
+    } catch (err) {
+      useUI.getState().toast('❌ No active Pro subscription found for this email.')
+    } finally {
+      setIsVerifying(false)
     }
   }
 
@@ -138,20 +147,23 @@ export default function Login() {
       {/* Sign In for Existing Paid Members */}
       {!showSignInModal ? (
         <Button variant="secondary" onClick={() => setShowSignInModal(true)}>
-          🔑 Already a Paid Member? Sign In
+          🔑 Already a Paid Member? Verify &amp; Sign In
         </Button>
       ) : (
         <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 18, textAlign: 'left' }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Member Sign In</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Verify Pro Subscription</div>
+          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 10 }}>Enter the email address associated with your Razorpay payment.</div>
           <input
             className="input"
-            placeholder="Enter your registered email / phone"
+            placeholder="Enter your registered email address"
             value={memberEmail}
             onChange={e => setMemberEmail(e.target.value)}
             style={{ marginBottom: 12 }}
           />
           <div style={{ display: 'flex', gap: 8 }}>
-            <Button variant="primary" onClick={handleMemberSignIn}>Sign In &amp; Open Dashboard</Button>
+            <Button variant="primary" onClick={handleMemberSignIn} disabled={isVerifying}>
+              {isVerifying ? 'Verifying...' : 'Verify Subscription & Sign In'}
+            </Button>
             <Button variant="ghost" onClick={() => setShowSignInModal(false)}>Cancel</Button>
           </div>
         </div>
