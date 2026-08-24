@@ -1,4 +1,5 @@
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
+import Razorpay from 'razorpay';
 
 const ADMIN_EMAILS = [
   'nazimpasha906@gmail.com',
@@ -9,7 +10,6 @@ const ADMIN_EMAILS = [
 ];
 
 export default async function handler(req, res) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Content-Type', 'application/json');
@@ -75,7 +75,6 @@ export default async function handler(req, res) {
 
     if (key_id && key_secret) {
       try {
-        const Razorpay = require('razorpay');
         const razorpay = new Razorpay({ key_id, key_secret });
         const customers = await razorpay.customers.all({ count: 10 }).catch(() => null);
         
