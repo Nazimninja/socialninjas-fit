@@ -1,6 +1,6 @@
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { webauthnOK, passkeyLogin, passkeyRegister } from '../lib/api.js'
+import { webauthnOK, passkeyRegister } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
@@ -62,34 +62,39 @@ export default function Login() {
   const handleMemberSignIn = async () => {
     const email = memberEmail.trim().toLowerCase()
     if (!email) {
-      useUI.getState().toast('Please enter your registered email or phone')
+      useUI.getState().toast('Please enter your registered email address')
       return
     }
 
     setIsVerifying(true)
     try {
-      // Cross-check subscription with serverless endpoint
       const res = await fetch('/api/verify-member', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
-      }).catch(() => null)
+      })
 
-      if (res && res.ok) {
-        const data = await res.json().catch(() => ({}))
-        if (data && data.verified) {
-          setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true })
-          setPaid(true)
-          useUI.getState().toast('Subscription verified! Welcome back.')
-          setIsVerifying(false)
-          return
-        }
+      let data = {}
+      try {
+        const text = await res.text()
+        data = text ? JSON.parse(text) : {}
+      } catch (e) {
+        console.warn('Safe text parse fallback:', e)
       }
 
-      // If API responds 403 / unverified: DO NOT allow login
-      useUI.getState().toast('❌ No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.')
+      if (res.ok && data.verified) {
+        setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: data.role === 'admin' })
+        setPaid(true)
+        useUI.getState().toast('Subscription verified! Welcome to Fit Ninjas Pro.')
+        setIsVerifying(false)
+        return
+      }
+
+      const errMsg = data.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'
+      useUI.getState().toast('❌ ' + errMsg)
     } catch (err) {
-      useUI.getState().toast('❌ No active Pro subscription found for this email.')
+      console.error('Member verification network error:', err)
+      useUI.getState().toast('❌ Connection error. Please try again.')
     } finally {
       setIsVerifying(false)
     }
@@ -152,12 +157,13 @@ export default function Login() {
       ) : (
         <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 18, textAlign: 'left' }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Verify Pro Subscription</div>
-          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 10 }}>Enter the email address associated with your Razorpay payment.</div>
+          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 10 }}>Enter the email address associated with your Razorpay payment or admin account.</div>
           <input
             className="input"
             placeholder="Enter your registered email address"
             value={memberEmail}
             onChange={e => setMemberEmail(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleMemberSignIn() }}
             style={{ marginBottom: 12 }}
           />
           <div style={{ display: 'flex', gap: 8 }}>
