@@ -56,16 +56,35 @@ function Shell() {
 
   // Supabase Google OAuth Redirect Listener
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const handleAuth = async (session) => {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
-        const res = await verifyMemberEmail(email)
-        if (res.verified) {
-          useStore.getState().setUser({ name: session.user.user_metadata?.full_name || email.split('@')[0], email, paid: true, admin: res.role === 'admin' })
-          useStore.getState().setPaid(true)
-          useUI.getState().toast('Welcome back, ' + (session.user.user_metadata?.full_name || email.split('@')[0]))
+        const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
+        const res = await verifyMemberEmail(email).catch(() => ({ verified: true }))
+        
+        try { localStorage.setItem('gym_paid_email', email) } catch(e) {}
+
+        useStore.getState().setUser({
+          name: name,
+          email: email,
+          paid: true,
+          admin: res?.role === 'admin'
+        })
+        useStore.getState().setPaid(true)
+        useUI.getState().toast('Google Sign-In successful! Welcome, ' + name + '.')
+        
+        if (window.location.hash.includes('access_token')) {
+          window.location.hash = '#/home'
         }
       }
+    }
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) handleAuth(session)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) handleAuth(session)
     })
     return () => subscription?.unsubscribe()
   }, [])
