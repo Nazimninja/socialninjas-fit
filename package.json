@@ -1,12 +1,25 @@
 {
-  "name": "socialninjas-fit",
-  "version": "1.0.0",
-  "description": "Premium Fitness Coaching App",
+  "name": "fit-ninja",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Fit Ninja by Social Ninja's - Elite Fitness, Workout & Nutrition PWA",
   "scripts": {
-    "start": "node"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "razorpay": "^2.9.4",
-    "crypto": "^1.0.1"
+    "@capacitor/core": "^7.6.8",
+    "@supabase/supabase-js": "^2.49.1",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.2.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.2.0"
   }
 }
