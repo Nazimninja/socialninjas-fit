@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fit Ninja — 1,324+ Exercises, Workout OS & AI Nutrition by Social Ninja's</title>
-<meta name="description" content="Fit Ninja by Social Ninja's — 1,324+ animated exercise demos, guided workout player, smart rest timers, muscle heatmaps, and AI macro nutrition tracking for ₹299/month.">
-<meta name="keywords" content="fit ninja, social ninjas fit, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, diet planner">
+<title>Fit Ninjas — 1,324+ Exercises, Workout OS & AI Nutrition by Social Ninja's</title>
+<meta name="description" content="Fit Ninjas by Social Ninja's — 1,324+ animated exercise demos, guided workout player, smart rest timers, muscle heatmaps, and AI macro nutrition tracking for ₹299/month.">
+<meta name="keywords" content="fit ninjas, social ninjas fit, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, diet planner">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
 <link rel="canonical" href="https://fit.socialninjas.in/">
@@ -13,15 +13,12 @@
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fit.socialninjas.in/">
-<meta property="og:title" content="Fit Ninja — 1,324+ Exercises, Workout OS & AI Nutrition">
+<meta property="og:title" content="Fit Ninjas — 1,324+ Exercises, Workout OS & AI Nutrition">
 <meta property="og:description" content="1,324+ animated exercise demos, guided set player with smart rest timers, muscle heatmaps, and AI macro nutrition tracking.">
-<meta property="og:image" content="https://fit.socialninjas.in/logo.png">
-<meta property="og:site_name" content="Fit Ninja by Social Ninja's">
+<meta property="og:site_name" content="Fit Ninjas by Social Ninja's">
 <meta property="og:locale" content="en_IN">
 
 <meta name="theme-color" content="#070a12">
-<link rel="icon" type="image/png" href="/logo.png">
-<link rel="apple-touch-icon" href="/logo.png">
 
 <!-- Google Fonts: Unified Typography matching Social Ninja's -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,10 +29,9 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Fit Ninja by Social Ninja's",
+  "name": "Fit Ninjas by Social Ninja's",
   "url": "https://fit.socialninjas.in/",
-  "image": "https://fit.socialninjas.in/logo.png",
-  "description": "Fit Ninja delivers 1,324+ animated exercises, guided workout execution, muscle heatmaps, and AI macro nutrition planning.",
+  "description": "Fit Ninjas delivers 1,324+ animated exercises, guided workout execution, muscle heatmaps, and AI macro nutrition planning.",
   "applicationCategory": "HealthApplication, SportsApplication",
   "operatingSystem": "All (iOS, Android, Windows, macOS)",
   "offers": {
@@ -110,21 +106,18 @@ body {
   z-index: 1;
 }
 
-/* ── NAV ── */
+/* ── NAV (NO LOGO IMAGES) ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 12px 28px; display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; display: flex; align-items: center; justify-content: space-between;
   background: rgba(7, 10, 18, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
 .nav-brand {
-  display: flex; align-items: center; gap: 12px; text-decoration: none;
-}
-.nav-brand img {
-  height: 42px; width: 42px; object-fit: contain;
+  display: flex; flex-direction: column; justify-content: center; text-decoration: none;
 }
 .nav-brand-title {
-  font-size: 19px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
+  font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
 }
 .nav-brand-title span { color: var(--blue-light); }
 .nav-brand-sub {
@@ -309,14 +302,11 @@ footer a:hover { color: #fff; }
 <div class="glow-spot glow-1"></div>
 <div class="glow-spot glow-2"></div>
 
-<!-- ── NAVBAR ── -->
+<!-- ── NAVBAR (TEXT ONLY - NO BROKEN LOGO IMAGES) ── -->
 <nav>
   <a href="/" class="nav-brand">
-    <img src="/logo.png" alt="Social Ninja's Logo">
-    <div>
-      <div class="nav-brand-title">Fit<span>Ninja</span></div>
-      <div class="nav-brand-sub">BY SOCIAL NINJA'S</div>
-    </div>
+    <div class="nav-brand-title">Fit<span>Ninjas</span></div>
+    <div class="nav-brand-sub">BY SOCIAL NINJA'S</div>
   </a>
 
   <div class="nav-links">
@@ -336,7 +326,7 @@ footer a:hover { color: #fff; }
 <!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-badge">
-    <span>⚡ FIT NINJA 2.0 IS LIVE</span>
+    <span>⚡ FIT NINJAS 2.0 IS LIVE</span>
     <span>·</span>
     <span style="color:rgba(255,255,255,0.7)">1,324+ Exercises &amp; AI Macros</span>
   </div>
@@ -390,7 +380,7 @@ footer a:hover { color: #fff; }
     <button class="sc-tab" onclick="switchShowcase('macros', this)">🥗 AI Macro &amp; Nutrition Engine</button>
   </div>
 
-  <!-- PANE 1: EXERCISES -->
+  <!-- PANE 1: EXERCISES (CLEAN VECTOR CARDS - NO BROKEN IMAGES) -->
   <div class="sc-pane active" id="pane-exercises">
     <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:20px">
       <button class="ex-subtab active" onclick="filterEx('all', this)">All</button>
@@ -404,43 +394,59 @@ footer a:hover { color: #fff; }
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:16px" id="ex-grid">
       
-      <!-- Card 1 -->
-      <div class="spotlight-card ex-item" data-cat="chest" style="padding:14px">
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0025.jpg" alt="Barbell Bench Press" style="width:100%;height:160px;object-fit:cover;border-radius:10px" loading="lazy">
-        <div style="margin-top:12px">
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);text-transform:uppercase">Chest · Barbell</div>
-          <div style="font-size:15px;font-weight:800;color:#fff;margin:2px 0">Barbell Bench Press</div>
-          <div style="font-size:12px;color:var(--t3)">Primary: Pectoralis Major</div>
+      <!-- Card 1: Chest -->
+      <div class="spotlight-card ex-item" data-cat="chest" style="padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">🏋️</div>
+          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">CHEST · BARBELL</div>
+        </div>
+        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Bench Press</h3>
+        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Pectoralis Major · Secondary: Anterior Delts, Triceps</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+          <span style="color:#60A5FA;font-weight:700">Linear Overload</span>
+          <span style="color:#fff;font-weight:800">3-4 Sets · 6-10 Reps</span>
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="spotlight-card ex-item" data-cat="back" style="padding:14px">
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0150.jpg" alt="Lat Pulldown" style="width:100%;height:160px;object-fit:cover;border-radius:10px" loading="lazy">
-        <div style="margin-top:12px">
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);text-transform:uppercase">Back · Cable</div>
-          <div style="font-size:15px;font-weight:800;color:#fff;margin:2px 0">Wide-Grip Lat Pulldown</div>
-          <div style="font-size:12px;color:var(--t3)">Primary: Latissimus Dorsi</div>
+      <!-- Card 2: Back -->
+      <div class="spotlight-card ex-item" data-cat="back" style="padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">⚡</div>
+          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">BACK · CABLE</div>
+        </div>
+        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Wide-Grip Lat Pulldown</h3>
+        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Latissimus Dorsi · Secondary: Biceps, Teres Major</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+          <span style="color:#60A5FA;font-weight:700">Double Overload</span>
+          <span style="color:#fff;font-weight:800">3 Sets · 8-12 Reps</span>
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="spotlight-card ex-item" data-cat="legs" style="padding:14px">
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0043.jpg" alt="Back Squat" style="width:100%;height:160px;object-fit:cover;border-radius:10px" loading="lazy">
-        <div style="margin-top:12px">
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);text-transform:uppercase">Legs · Barbell</div>
-          <div style="font-size:15px;font-weight:800;color:#fff;margin:2px 0">Barbell Back Squat</div>
-          <div style="font-size:12px;color:var(--t3)">Primary: Quadriceps &amp; Glutes</div>
+      <!-- Card 3: Legs -->
+      <div class="spotlight-card ex-item" data-cat="legs" style="padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">🦵</div>
+          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">LEGS · BARBELL</div>
+        </div>
+        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Back Squat</h3>
+        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Quadriceps &amp; Glutes · Secondary: Hamstrings, Core</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+          <span style="color:#60A5FA;font-weight:700">Greyskull LP</span>
+          <span style="color:#fff;font-weight:800">3 Sets · 5+ Reps</span>
         </div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="spotlight-card ex-item" data-cat="arms" style="padding:14px">
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0313.jpg" alt="Incline Curl" style="width:100%;height:160px;object-fit:cover;border-radius:10px" loading="lazy">
-        <div style="margin-top:12px">
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);text-transform:uppercase">Arms · Dumbbells</div>
-          <div style="font-size:15px;font-weight:800;color:#fff;margin:2px 0">Incline Dumbbell Curl</div>
-          <div style="font-size:12px;color:var(--t3)">Primary: Biceps Brachii</div>
+      <!-- Card 4: Arms -->
+      <div class="spotlight-card ex-item" data-cat="arms" style="padding:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">💪</div>
+          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">ARMS · DUMBBELLS</div>
+        </div>
+        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Incline Dumbbell Curl</h3>
+        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Biceps Brachii (Long Head Stretch)</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+          <span style="color:#60A5FA;font-weight:700">Rep Progression</span>
+          <span style="color:#fff;font-weight:800">3 Sets · 10-12 Reps</span>
         </div>
       </div>
 
@@ -458,7 +464,7 @@ footer a:hover { color: #fff; }
         <div style="font-size:11px;font-weight:800;color:var(--blue-light);text-transform:uppercase;margin-bottom:6px">In-Session Engine</div>
         <h3 style="font-size:24px;font-weight:900;color:#fff;margin-bottom:12px">Guided Live Workout Player &amp; Smart Rest Timers</h3>
         <p style="font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:20px">
-          Fit Ninja tracks your working weights, manages supersets, counts down rest with sound cues, and locks your screen awake so your workout never pauses.
+          Fit Ninjas tracks your working weights, manages supersets, counts down rest with sound cues, and locks your screen awake so your workout never pauses.
         </p>
         <div style="display:flex;gap:10px">
           <a href="/app#/workout" class="btn-primary" style="font-size:13px">Start Live Workout →</a>
@@ -568,7 +574,7 @@ footer a:hover { color: #fff; }
 
   <div class="pricing-box">
     <div class="popular-badge">MOST POPULAR</div>
-    <h3 style="font-size:22px;font-weight:800;color:#fff;margin-top:8px">Fit Ninja All-Access Pro</h3>
+    <h3 style="font-size:22px;font-weight:800;color:#fff;margin-top:8px">Fit Ninjas All-Access Pro</h3>
     <div class="pricing-val">₹299 <span>/ month</span></div>
 
     <div class="pricing-feats">
@@ -595,11 +601,11 @@ footer a:hover { color: #fff; }
 
   <div class="faq-item open">
     <div class="faq-q" onclick="toggleFaq(this.parentElement)">
-      <span>What makes Fit Ninja different from other workout apps?</span>
+      <span>What makes Fit Ninjas different from other workout apps?</span>
       <span class="faq-arrow" style="font-size:20px">+</span>
     </div>
     <div class="faq-a">
-      Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA.
+      Fit Ninjas combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA.
     </div>
   </div>
 
@@ -609,7 +615,7 @@ footer a:hover { color: #fff; }
       <span class="faq-arrow" style="font-size:20px">+</span>
     </div>
     <div class="faq-a">
-      Yes! Fit Ninja is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you reconnect.
+      Yes! Fit Ninjas is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you reconnect.
     </div>
   </div>
 
@@ -637,8 +643,7 @@ footer a:hover { color: #fff; }
 <!-- ── FOOTER ── -->
 <footer>
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
-    <img src="/logo.png" alt="Social Ninja's Logo" style="width:26px;height:26px;object-fit:contain">
-    <span style="font-weight:800;color:#fff">Fit Ninja OS</span>
+    <span style="font-weight:900;color:#fff;font-size:15px">Fit<span style="color:var(--blue-light)">Ninjas</span> OS</span>
     <span>·</span>
     <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style="color:var(--blue-light);font-weight:700">Social Ninja's AI Agency</a></span>
   </div>

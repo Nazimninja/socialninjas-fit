@@ -52,13 +52,10 @@ export default function Login() {
   }
   const head = (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-        <img src="/ninja-logo.png" alt="Fit Ninja" style={{ width: 64, height: 64, objectFit: 'contain' }} />
-      </div>
-      <h1 style={{ fontSize: 32, fontWeight: 900, letterSpacing: '-.028em', margin: '4px 0 2px', color: '#fff' }}>
-        Fit<span style={{ color: 'var(--acc, #f59e0b)' }}>Ninja</span>
+      <h1 style={{ fontSize: 36, fontWeight: 900, letterSpacing: '-.028em', margin: '12px 0 2px', color: '#fff' }}>
+        Fit<span style={{ color: 'var(--acc, #2563eb)' }}>Ninjas</span>
       </h1>
-      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#888', marginBottom: 14 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--label-2, #94a3b8)', marginBottom: 18 }}>
         BY SOCIAL NINJA'S
       </div>
     </>
@@ -89,17 +86,17 @@ export default function Login() {
         <button
           onClick={() => openRazorpayCheckout({
             onSuccess: () => {
-              useUI.getState().toast('Payment received! Welcome to Fit Ninja Pro.');
+              useUI.getState().toast('Payment received! Welcome to Fit Ninjas Pro.');
               setGuest(true);
             },
             onFailure: (msg) => useUI.getState().toast(msg)
           })}
           style={{
-            background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(217,119,6,0.1))',
-            border: '1px solid rgba(245,158,11,0.4)',
+            background: 'linear-gradient(135deg, rgba(37,99,235,0.2), rgba(29,78,216,0.15))',
+            border: '1px solid rgba(37,99,235,0.4)',
             borderRadius: '12px',
             padding: '12px 18px',
-            color: '#f59e0b',
+            color: '#60a5fa',
             fontSize: '13px',
             fontWeight: '700',
             width: '100%',
@@ -110,7 +107,7 @@ export default function Login() {
             gap: '8px'
           }}
         >
-          <span>⚡ Get Fit Ninja Pro Pass — ₹299/mo</span>
+          <span>⚡ Get Fit Ninjas Pro Pass — ₹299/mo</span>
         </button>
       </div>
 
