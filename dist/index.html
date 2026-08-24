@@ -526,6 +526,26 @@ footer a:hover{color:#BF5AF2}
 @media(max-width:640px){.wa-float{padding:13px 16px;bottom:16px;right:16px}.wa-float span{display:none}}
 
 .seo-content{padding:80px 24px 40px;background:#07090e;border-top:1px solid rgba(255,255,255,0.08);color:#94a3b8;}
+
+/* ── INTERACTIVE SHOWCASE STYLES ── */
+.ex-tab{padding:8px 18px;border-radius:24px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#94a3b8;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--fb)}
+.ex-tab:hover{color:#fff;border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.06)}
+.ex-tab.active{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;border-color:#f59e0b;box-shadow:0 4px 14px rgba(245,158,11,0.3)}
+
+.ex-card{background:#0e121d;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:14px;transition:all .25s;backdrop-filter:blur(10px)}
+.ex-card:hover{transform:translateY(-3px);border-color:rgba(245,158,11,0.35);box-shadow:0 12px 30px rgba(0,0,0,0.4)}
+
+.timer-chip{padding:8px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:#07090e;color:#94a3b8;font-size:12.5px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--fb)}
+.timer-chip:hover{color:#fff;border-color:#38bdf8}
+.timer-chip.active{background:rgba(56,189,248,0.15);border-color:#38bdf8;color:#38bdf8}
+
+.goal-chip{padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:#07090e;color:#94a3b8;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;font-family:var(--fb)}
+.goal-chip:hover{color:#fff;border-color:#f59e0b}
+.goal-chip.active{background:rgba(245,158,11,0.15);border-color:#f59e0b;color:#f59e0b}
+
+@media(max-width:850px){
+  .player-grid-wrap, .calc-grid-wrap { grid-template-columns:1fr !important; gap:28px !important; }
+}
 </style>
 
 
@@ -701,49 +721,68 @@ footer a:hover{color:#BF5AF2}
         <div class="phone-content">
           <div class="phone-header">
             <div class="ph-logo">
-              <div class="ph-logo-dot"></div>
-              <span class="ph-logo-txt">Fit Ninja</span>
+              <div class="ph-logo-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></div>
+              <span class="ph-logo-txt">Fit Ninja · Live Session</span>
             </div>
-            <div class="ph-av">R</div>
+            <div class="ph-av" style="background:#f59e0b;color:#000">⚡</div>
           </div>
-          <div class="ph-coach">
-            <div class="ph-coach-tag">Coach insight</div>
-            <div class="ph-coach-text">Progressive overload is the only law. Add weight every 10 days. Track every lift.</div>
+          
+          <!-- Live Active Routine Card -->
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:8px 10px;margin-bottom:6px">
+            <div style="font-size:8px;font-weight:800;color:#f59e0b;text-transform:uppercase;letter-spacing:0.5px">In-Progress Workout</div>
+            <div style="font-size:11px;font-weight:700;color:#fff;margin:2px 0">Push Hypertrophy · Set 3/4</div>
+            <div style="font-size:9px;color:#94a3b8">Barbell Incline Bench · 80 kg × 8 reps</div>
           </div>
-          <div class="ph-rings">
+
+          <!-- Smart Rest Timer Pill -->
+          <div style="background:#111522;border:1px solid rgba(56,189,248,0.3);border-radius:10px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-size:12px">⏱️</span>
+              <div>
+                <div style="font-size:11px;font-weight:800;color:#38bdf8">01:28 Rest Timer</div>
+                <div style="font-size:8px;color:#64748b">Screen Wake Lock Active</div>
+              </div>
+            </div>
+            <div style="font-size:8px;font-weight:700;background:rgba(56,189,248,0.15);color:#38bdf8;padding:2px 6px;border-radius:6px">+30s</div>
+          </div>
+
+          <!-- Muscle Volume Bars -->
+          <div style="background:#0e121d;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;margin-bottom:6px">
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#888;font-weight:700;text-transform:uppercase;margin-bottom:4px">
+              <span>Target Muscle Volume</span>
+              <span style="color:#f59e0b">Chest &amp; Triceps</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="display:flex;justify-content:space-between;font-size:8.5px;color:#fff"><span>Upper Chest</span><span style="color:#f59e0b">94%</span></div>
+              <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px"><div style="width:94%;height:100%;background:#f59e0b;border-radius:2px"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:8.5px;color:#fff;margin-top:2px"><span>Triceps Brachii</span><span style="color:#34d399">86%</span></div>
+              <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px"><div style="width:86%;height:100%;background:#34d399;border-radius:2px"></div></div>
+            </div>
+          </div>
+
+          <!-- Daily Macro Rings -->
+          <div class="ph-rings" style="padding:4px 0">
             <div class="ph-ring">
-              <div class="ph-ring-circle" style="border-color:rgba(255,183,0,.3)"><span class="ph-ring-val" style="color:#FFB700;font-size:9px">72%</span></div>
-              <div class="ph-ring-lbl">Calories</div>
+              <div class="ph-ring-circle" style="border-color:rgba(245,158,11,.4);width:38px;height:38px"><span class="ph-ring-val" style="color:#f59e0b;font-size:8.5px">2,450</span></div>
+              <div class="ph-ring-lbl" style="font-size:7.5px">kcal</div>
             </div>
             <div class="ph-ring">
-              <div class="ph-ring-circle" style="border-color:rgba(108,142,255,.3)"><span class="ph-ring-val" style="color:#6C8EFF;font-size:9px">85%</span></div>
-              <div class="ph-ring-lbl">Protein</div>
+              <div class="ph-ring-circle" style="border-color:rgba(56,189,248,.4);width:38px;height:38px"><span class="ph-ring-val" style="color:#38bdf8;font-size:8.5px">165g</span></div>
+              <div class="ph-ring-lbl" style="font-size:7.5px">Protein</div>
             </div>
             <div class="ph-ring">
-              <div class="ph-ring-circle" style="border-color:rgba(0,196,122,.3)"><span class="ph-ring-val" style="color:#00C47A;font-size:9px">60%</span></div>
-              <div class="ph-ring-lbl">Water</div>
+              <div class="ph-ring-circle" style="border-color:rgba(52,211,153,.4);width:38px;height:38px"><span class="ph-ring-val" style="color:#34d399;font-size:8.5px">220g</span></div>
+              <div class="ph-ring-lbl" style="font-size:7.5px">Carbs</div>
             </div>
           </div>
-          <div class="ph-meal">
-            <div class="ph-meal-ico">🍳</div>
-            <div class="ph-meal-body"><div class="ph-meal-name">Post-workout breakfast</div><div class="ph-meal-detail">620 kcal · 46g protein · 8:00 AM</div></div>
-            <div class="ph-meal-ck">✓</div>
-          </div>
-          <div class="ph-meal">
-            <div class="ph-meal-ico">🥗</div>
-            <div class="ph-meal-body"><div class="ph-meal-name">Mid-morning snack</div><div class="ph-meal-detail">310 kcal · 14g protein · 11:00 AM</div></div>
-            <div class="ph-meal-ck">✓</div>
-          </div>
-          <div class="ph-meal" style="border-color:rgba(0,196,122,.2)">
-            <div class="ph-meal-ico">🥙</div>
-            <div class="ph-meal-body"><div class="ph-meal-name">Lunch + sandwich</div><div class="ph-meal-detail">740 kcal · 55g protein · 1:30 PM</div></div>
-            <div class="ph-meal-ck" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.3)">·</div>
-          </div>
+
+          <!-- Bottom Navigation Bar -->
           <div class="ph-bnav">
-            <div class="ph-nb on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11H5z"/></svg>Today</div>
-            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Meals</div>
-            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6.5" y1="6.5" x2="17.5" y2="6.5"/><line x1="3" y1="10" x2="6" y2="10"/><line x1="18" y1="10" x2="21" y2="10"/><line x1="6" y1="10" x2="6" y2="14"/></svg>Workout</div>
-            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Progress</div>
+            <div class="ph-nb on" style="color:#f59e0b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11H5z"/></svg>Home</div>
+            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Plan</div>
+            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Workout</div>
+            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Macros</div>
+            <div class="ph-nb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Stats</div>
           </div>
         </div>
       </div>
@@ -775,6 +814,298 @@ footer a:hover{color:#BF5AF2}
       <div class="prob-ic">⚡</div>
       <h3>Fit Ninja solves all three.</h3>
       <p>Personalized to your body. Recalculated every month. Built around your diet preference — veg, non-veg, eggetarian, or vegan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── INTERACTIVE 1,324+ EXERCISE SHOWCASE ── -->
+<section style="padding:100px 24px;background:#07090e;border-top:1px solid rgba(255,255,255,0.08)" id="exercises">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="section-label reveal">1,324+ Exercise Database</div>
+      <h2 class="section-h2 reveal">Searchable Animated Demos for Every Movement.</h2>
+      <p style="color:var(--t2);max-width:600px;margin:12px auto 0;font-size:15px">
+        No more guessing form. Every compound lift, dumbbell variation, cable angle, and bodyweight progression demonstrated in looping animated video GIFs.
+      </p>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+      <button class="ex-tab active" onclick="filterEx('all', this)">All (1,324+)</button>
+      <button class="ex-tab" onclick="filterEx('chest', this)">Chest</button>
+      <button class="ex-tab" onclick="filterEx('back', this)">Back &amp; Lats</button>
+      <button class="ex-tab" onclick="filterEx('legs', this)">Legs &amp; Glutes</button>
+      <button class="ex-tab" onclick="filterEx('shoulders', this)">Shoulders</button>
+      <button class="ex-tab" onclick="filterEx('arms', this)">Arms (Biceps/Triceps)</button>
+      <button class="ex-tab" onclick="filterEx('core', this)">Core &amp; Abs</button>
+    </div>
+
+    <!-- Exercise Grid -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px" id="exercise-grid">
+      
+      <!-- Ex 1 -->
+      <div class="ex-card spotlight-card" data-cat="chest">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0025.jpg" alt="Barbell Bench Press" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#f59e0b;border:1px solid rgba(245,158,11,0.3)">
+            CHEST · BARBELL
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Bench Press</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Pectoralis Major · Secondary: Anterior Delts, Triceps</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Linear Overload</span>
+            <span style="color:#f59e0b;font-weight:800">3-4 Sets · 6-10 Reps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ex 2 -->
+      <div class="ex-card spotlight-card" data-cat="back">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0150.jpg" alt="Lat Pulldown" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#38bdf8;border:1px solid rgba(56,189,248,0.3)">
+            BACK · CABLE
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Cable Wide-Grip Lat Pulldown</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Latissimus Dorsi · Secondary: Biceps, Teres Major</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Double Overload</span>
+            <span style="color:#f59e0b;font-weight:800">3 Sets · 8-12 Reps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ex 3 -->
+      <div class="ex-card spotlight-card" data-cat="legs">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0043.jpg" alt="Barbell Back Squat" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#34d399;border:1px solid rgba(52,211,153,0.3)">
+            LEGS · BARBELL
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Back Squat</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Quadriceps &amp; Glutes · Secondary: Hamstrings, Core</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Greyskull LP</span>
+            <span style="color:#f59e0b;font-weight:800">3 Sets · 5+ Reps (AMRAP)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ex 4 -->
+      <div class="ex-card spotlight-card" data-cat="arms">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0313.jpg" alt="Incline Dumbbell Curl" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#c084fc;border:1px solid rgba(192,132,252,0.3)">
+            ARMS · DUMBBELLS
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Incline Dumbbell Bicep Curl</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Biceps Brachii (Long Head Stretch)</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Rep Target</span>
+            <span style="color:#f59e0b;font-weight:800">3 Sets · 10-12 Reps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ex 5 -->
+      <div class="ex-card spotlight-card" data-cat="shoulders">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0177.jpg" alt="Cable Lateral Raise" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#fb923c;border:1px solid rgba(251,146,60,0.3)">
+            SHOULDERS · CABLE
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Cable Lateral Raise</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Lateral Deltoid (Constant Tension)</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Volume Target</span>
+            <span style="color:#f59e0b;font-weight:800">4 Sets · 12-15 Reps</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ex 6 -->
+      <div class="ex-card spotlight-card" data-cat="core">
+        <div style="height:180px;background:#0e121d;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/0443.jpg" alt="Hanging Leg Raise" style="width:100%;height:100%;object-fit:cover;opacity:0.9" loading="lazy">
+          <div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:800;color:#f43f5e;border:1px solid rgba(244,63,94,0.3)">
+            CORE · BODYWEIGHT
+          </div>
+        </div>
+        <div style="padding:16px 4px 4px">
+          <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Hanging Leg Raise</h3>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Lower Rectus Abdominis &amp; Hip Flexors</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
+            <span style="color:#38bdf8;font-weight:700">Progression: Strict Control</span>
+            <span style="color:#f59e0b;font-weight:800">3 Sets · 12-15 Reps</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA bottom of exercises -->
+    <div style="text-align:center;margin-top:36px">
+      <a href="app.html#/library" class="btn-hero-secondary" style="display:inline-flex;align-items:center;gap:8px">
+        <span>🏋️ Explore Full 1,324+ Library in App →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── LIVE WORKOUT PLAYER & SMART REST TIMER SPOTLIGHT ── -->
+<section style="padding:100px 24px;background:#090c14;border-top:1px solid rgba(255,255,255,0.08)" id="workout-player">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center" class="player-grid-wrap">
+    
+    <div>
+      <div class="section-label reveal">Guided Workout Execution</div>
+      <h2 class="section-h2 reveal">Smart Rest Timers, Sound Alerts &amp; Screen Wake Lock.</h2>
+      <p style="color:var(--t2);font-size:15px;line-height:1.7;margin-bottom:24px">
+        Never touch a generic timer app again. Fit Ninja keeps your screen awake between sets, pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio cues when rest expires.
+      </p>
+
+      <div style="display:grid;gap:14px;margin-bottom:32px">
+        <div style="display:flex;align-items:flex-start;gap:12px;background:#0e121d;padding:14px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.06)">
+          <div style="font-size:22px">⏱️</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">Automated Rest &amp; Work Timers</div>
+            <div style="font-size:13px;color:var(--t2)">Rest countdown starts the instant you check a set. Custom timers per exercise &amp; superset.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;background:#0e121d;padding:14px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.06)">
+          <div style="font-size:22px">🔒</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">Screen Wake Lock API</div>
+            <div style="font-size:13px;color:var(--t2)">Your phone stays active throughout your session — zero annoying screen lockouts between sets.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:12px;background:#0e121d;padding:14px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.06)">
+          <div style="font-size:22px">📈</div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#fff">Greyskull LP &amp; Linear Overload</div>
+            <div style="font-size:13px;color:var(--t2)">Auto-calculates next session weights and deloads based on scientific strength algorithms.</div>
+          </div>
+        </div>
+      </div>
+
+      <a href="app.html#/workout" class="btn-hero-primary">Start Live Workout Demo →</a>
+    </div>
+
+    <!-- Live Timer Interactive Simulation Card -->
+    <div style="background:#0e121d;border:1px solid rgba(245,158,11,0.3);border-radius:24px;padding:32px 28px;box-shadow:0 12px 40px rgba(0,0,0,0.5);text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);color:#f59e0b;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:16px">
+        ⚡ LIVE INTERACTIVE TIMER
+      </div>
+      
+      <div style="font-size:14px;color:var(--t2);margin-bottom:4px">Barbell Incline Bench Press · Rest Interval</div>
+      <div id="live-timer-display" style="font-size:58px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-1px;margin:8px 0">
+        01:30
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:24px">
+        <button class="timer-chip" onclick="startTimerSim(60, this)">60s Rest</button>
+        <button class="timer-chip active" onclick="startTimerSim(90, this)">90s Rest</button>
+        <button class="timer-chip" onclick="startTimerSim(120, this)">120s Rest</button>
+      </div>
+
+      <div style="background:#07090e;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;text-align:left">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:13px;font-weight:700;color:#fff">Next Set Weight:</span>
+          <span style="font-size:13px;font-weight:800;color:#34d399">82.5 kg (+2.5 kg Overload)</span>
+        </div>
+        <div style="font-size:11.5px;color:var(--t2)">
+          Previous workout: 80 kg × 8 reps completed successfully. Progression algorithm applied.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── INTERACTIVE AI MACRO & NUTRITION ENGINE CALCULATOR ── -->
+<section style="padding:100px 24px;background:#07090e;border-top:1px solid rgba(255,255,255,0.08)" id="macro-calculator">
+  <div style="max-width:1000px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="section-label reveal">AI Macro &amp; Nutrition Engine</div>
+      <h2 class="section-h2 reveal">Calculate Your Exact Calories &amp; Protein Target.</h2>
+      <p style="color:var(--t2);max-width:600px;margin:12px auto 0;font-size:15px">
+        Scientifically calibrated Mifflin-St Jeor energy calculator adjusted for your fitness goal and diet type.
+      </p>
+    </div>
+
+    <div style="background:#0e121d;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:36px 32px;display:grid;grid-template-columns:1fr 1fr;gap:40px" class="calc-grid-wrap">
+      
+      <!-- Input Controls -->
+      <div>
+        <div style="margin-bottom:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:14px;font-weight:700;color:#fff">Body Weight</span>
+            <span style="font-size:16px;font-weight:800;color:#f59e0b" id="bw-val">75 kg</span>
+          </div>
+          <input type="range" min="45" max="130" value="75" id="bw-slider" style="width:100%;accent-color:#f59e0b;cursor:pointer" oninput="updateMacroCalc()">
+        </div>
+
+        <div style="margin-bottom:20px">
+          <label style="font-size:14px;font-weight:700;color:#fff;display:block;margin-bottom:8px">Primary Goal</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <button class="goal-chip active" data-goal="loss" onclick="setGoalCalc('loss', this)">Fat Loss</button>
+            <button class="goal-chip" data-goal="recomp" onclick="setGoalCalc('recomp', this)">Recomp</button>
+            <button class="goal-chip" data-goal="bulk" onclick="setGoalCalc('bulk', this)">Muscle Gain</button>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px">
+          <label style="font-size:14px;font-weight:700;color:#fff;display:block;margin-bottom:8px">Activity Level</label>
+          <select id="act-select" style="width:100%;background:#07090e;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:12px 14px;border-radius:12px;font-size:13.5px;cursor:pointer" onchange="updateMacroCalc()">
+            <option value="1.2">Sedentary (Desk Job)</option>
+            <option value="1.375" selected>Moderate (Gym 3–4 days/week)</option>
+            <option value="1.55">Active (Gym 5–6 days/week)</option>
+            <option value="1.725">Very Active (Athlete / Physical Work)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Output Results Cards -->
+      <div style="background:#07090e;border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:24px;display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div style="font-size:12px;color:var(--t2);text-transform:uppercase;font-weight:700;letter-spacing:0.5px">Recommended Daily Intake</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin:8px 0 16px">
+            <span style="font-size:42px;font-weight:900;color:#fff" id="calc-cals">2,150</span>
+            <span style="font-size:16px;color:#f59e0b;font-weight:700">kcal / day</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center">
+            <div style="background:#0e121d;padding:10px;border-radius:12px;border:1px solid rgba(56,189,248,0.2)">
+              <div style="font-size:11px;color:#38bdf8;font-weight:700">PROTEIN</div>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-top:2px" id="calc-prot">150g</div>
+            </div>
+            <div style="background:#0e121d;padding:10px;border-radius:12px;border:1px solid rgba(52,211,153,0.2)">
+              <div style="font-size:11px;color:#34d399;font-weight:700">CARBS</div>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-top:2px" id="calc-carbs">220g</div>
+            </div>
+            <div style="background:#0e121d;padding:10px;border-radius:12px;border:1px solid rgba(245,158,11,0.2)">
+              <div style="font-size:11px;color:#f59e0b;font-weight:700">FATS</div>
+              <div style="font-size:18px;font-weight:800;color:#fff;margin-top:2px" id="calc-fats">55g</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="app.html#/nutrition" class="btn-hero-primary" style="margin-top:20px;text-align:center;justify-content:center">
+          Open AI Nutrition Plan in App →
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1231,7 +1562,7 @@ function raf(time) {
 requestAnimationFrame(raf);
 
 // Mousemove Spotlight Cards
-document.querySelectorAll('.problem-card, .feat-card, .diet-card, .diet-preview, .testi-card, .pricing-card, .comp-card').forEach(card => {
+document.querySelectorAll('.problem-card, .feat-card, .diet-card, .diet-preview, .testi-card, .pricing-card, .comp-card, .ex-card').forEach(card => {
   card.classList.add('spotlight-card');
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
@@ -1241,6 +1572,85 @@ document.querySelectorAll('.problem-card, .feat-card, .diet-card, .diet-preview,
     card.style.setProperty('--y', `${y}px`);
   });
 });
+
+// ── INTERACTIVE EXERCISE FILTER ──
+function filterEx(cat, el) {
+  document.querySelectorAll('.ex-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  document.querySelectorAll('.ex-card').forEach(function(card) {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// ── LIVE REST TIMER SIMULATOR ──
+var timerInterval = null;
+function startTimerSim(sec, el) {
+  if (el) {
+    document.querySelectorAll('.timer-chip').forEach(function(c) { c.classList.remove('active'); });
+    el.classList.add('active');
+  }
+  if (timerInterval) clearInterval(timerInterval);
+  var remaining = sec;
+  var disp = document.getElementById('live-timer-display');
+  function formatT(s) {
+    var m = Math.floor(s / 60);
+    var rem = s % 60;
+    return (m < 10 ? '0' : '') + m + ':' + (rem < 10 ? '0' : '') + rem;
+  }
+  disp.textContent = formatT(remaining);
+  timerInterval = setInterval(function() {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      disp.textContent = "00:00 (Ready!)";
+      disp.style.color = "#34d399";
+      setTimeout(function() {
+        disp.style.color = "#ffffff";
+        disp.textContent = formatT(sec);
+      }, 2500);
+    } else {
+      disp.textContent = formatT(remaining);
+    }
+  }, 1000);
+}
+
+// ── AI MACRO CALCULATOR ──
+var activeGoal = 'loss';
+function setGoalCalc(goal, el) {
+  activeGoal = goal;
+  document.querySelectorAll('.goal-chip').forEach(function(g) { g.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  updateMacroCalc();
+}
+
+function updateMacroCalc() {
+  var bw = parseFloat(document.getElementById('bw-slider').value) || 75;
+  document.getElementById('bw-val').textContent = bw + ' kg';
+  var act = parseFloat(document.getElementById('act-select').value) || 1.375;
+  
+  // BMR estimation (Mifflin-St Jeor approx)
+  var bmr = (10 * bw) + 625 + (5 * 175) - (5 * 26) + 5;
+  var tdee = bmr * act;
+  
+  var targetCals = tdee;
+  if (activeGoal === 'loss') targetCals -= 500;
+  else if (activeGoal === 'bulk') targetCals += 300;
+  
+  targetCals = Math.round(targetCals);
+  var protein = Math.round(bw * 2.0); // 2.0g per kg
+  var fats = Math.round((targetCals * 0.25) / 9);
+  var carbs = Math.max(50, Math.round((targetCals - (protein * 4) - (fats * 9)) / 4));
+  
+  document.getElementById('calc-cals').textContent = targetCals.toLocaleString();
+  document.getElementById('calc-prot').textContent = protein + 'g';
+  document.getElementById('calc-carbs').textContent = carbs + 'g';
+  document.getElementById('calc-fats').textContent = fats + 'g';
+}
+updateMacroCalc();
 </script>
 </body>
 </html>
