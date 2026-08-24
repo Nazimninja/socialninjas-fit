@@ -14,7 +14,6 @@ import ErrorBoundary from './components/ErrorBoundary.jsx'
 import Modals from './components/Modals.jsx'
 import Toast from './components/Toast.jsx'
 import RestTimer from './components/RestTimer.jsx'
-import Landing from './views/Landing.jsx'
 import Login from './views/Login.jsx'
 import Home from './views/Home.jsx'
 import Plan from './views/Plan.jsx'
@@ -51,16 +50,6 @@ function Shell() {
   useEffect(() => { window.scrollTo(0, 0) }, [loc.pathname])
   // bound to the workout, not to the route — checking Stats mid-session keeps the screen on
   useWakeLock(!!S.active && S.keepAwake !== false)
-
-  const isLanding = loc.pathname === '/' || loc.pathname === ''
-
-  if (isLanding) {
-    return (
-      <ErrorBoundary>
-        <Landing />
-      </ErrorBoundary>
-    )
-  }
 
   const authed = user || isGuest
   if (!ready && !authed) return (
