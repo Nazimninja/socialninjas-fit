@@ -73,9 +73,8 @@ function Shell() {
         useStore.getState().setPaid(true)
         useUI.getState().toast('Google Sign-In successful! Welcome, ' + name + '.')
         
-        if (window.location.hash.includes('access_token')) {
-          window.location.hash = '#/home'
-        }
+        // Instantly transition to /home view
+        navigate('/home', { replace: true })
       }
     }
 
@@ -87,7 +86,7 @@ function Shell() {
       if (session) handleAuth(session)
     })
     return () => subscription?.unsubscribe()
-  }, [])
+  }, [navigate])
 
   const isPaid = useStore(s => s.isPaid())
   const authed = (user || isGuest) && isPaid
