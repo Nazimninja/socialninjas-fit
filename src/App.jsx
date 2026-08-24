@@ -36,6 +36,9 @@ function applyPrefs(theme, accent) {
   if (meta) meta.content = de.dataset.theme === 'light' ? '#f2f2f7' : '#070a12'
 }
 
+import { supabase, verifyMemberEmail } from './lib/api.js'
+import { t } from './lib/i18n.js'
+
 function Shell() {
   const navigate = useNavigate()
   const loc = useLocation()
@@ -50,6 +53,22 @@ function Shell() {
   useEffect(() => { window.scrollTo(0, 0) }, [loc.pathname])
   // bound to the workout, not to the route — checking Stats mid-session keeps the screen on
   useWakeLock(!!S.active && S.keepAwake !== false)
+
+  // Supabase Google OAuth Redirect Listener
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user?.email) {
+        const email = session.user.email.toLowerCase().trim()
+        const res = await verifyMemberEmail(email)
+        if (res.verified) {
+          useStore.getState().setUser({ name: session.user.user_metadata?.full_name || email.split('@')[0], email, paid: true, admin: res.role === 'admin' })
+          useStore.getState().setPaid(true)
+          useUI.getState().toast('Welcome back, ' + (session.user.user_metadata?.full_name || email.split('@')[0]))
+        }
+      }
+    })
+    return () => subscription?.unsubscribe()
+  }, [])
 
   const isPaid = useStore(s => s.isPaid())
   const authed = (user || isGuest) && isPaid
