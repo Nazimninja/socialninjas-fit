@@ -20,6 +20,20 @@ const ADMIN_EMAILS = [
   'fit@socialninjas.in'
 ]
 
+export async function signInWithGoogle() {
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/app'
+      }
+    })
+    return { data, error }
+  } catch (err) {
+    return { error: err }
+  }
+}
+
 export async function verifyMemberEmail(email) {
   const clean = (email || '').trim().toLowerCase()
   if (!clean) return { verified: false, error: 'Email address is required' }
