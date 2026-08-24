@@ -36,17 +36,17 @@
   --sep-op:    rgba(84,84,88,.34);   /* for edges sitting over blur */
   --hair:      .5px;
 
-  /* system palette (iOS dark values) */
-  --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a;
-  --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6; --pink:#ff375f;
-  --purple:#bf5af2; --mint:#63e6e2; --brown:#ac8e68; --grey:#8e8e93;
+  /* system palette (Social Ninja Royal Blue theme) */
+  --blue:#2563eb; --green:#10b981; --red:#ef4444; --orange:#f97316;
+  --yellow:#eab308; --teal:#14b8a6; --indigo:#1f4b99; --pink:#ec4899;
+  --purple:#8b5cf6; --mint:#10b981; --grey:#94a3b8;
 
   /* accent (per-account, synced) */
-  --acc:  var(--green);
-  --acc-2:#248a3d;
-  --on-acc:#000000;
-  --acc-soft: color-mix(in srgb, var(--acc) 16%, transparent);
-  --acc-line: color-mix(in srgb, var(--acc) 38%, transparent);
+  --acc:  var(--blue);
+  --acc-2:#1d4ed8;
+  --on-acc:#ffffff;
+  --acc-soft: rgba(37, 99, 235, 0.16);
+  --acc-line: rgba(37, 99, 235, 0.38);
 
   /* geometry */
   --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px; --r-card:14px;
