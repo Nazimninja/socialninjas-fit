@@ -42,6 +42,8 @@ function RegisterSheet({ close }) {
   </>
 }
 
+import { openRazorpayCheckout } from '../lib/payment.js'
+
 export default function Login() {
   const { setUser, pullState, setGuest } = useStore()
   const signIn = async () => {
@@ -82,6 +84,36 @@ export default function Login() {
         </div>
       )}
       <Button variant="ghost" className="dim" onClick={() => setGuest(true)}>{t('Continue as Guest (Local Offline Mode)')}</Button>
+      
+      <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <button
+          onClick={() => openRazorpayCheckout({
+            onSuccess: () => {
+              useUI.getState().toast('Payment received! Welcome to Fit Ninja Pro.');
+              setGuest(true);
+            },
+            onFailure: (msg) => useUI.getState().toast(msg)
+          })}
+          style={{
+            background: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(217,119,6,0.1))',
+            border: '1px solid rgba(245,158,11,0.4)',
+            borderRadius: '12px',
+            padding: '12px 18px',
+            color: '#f59e0b',
+            fontSize: '13px',
+            fontWeight: '700',
+            width: '100%',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}
+        >
+          <span>⚡ Get Fit Ninja Pro Pass — ₹299/mo</span>
+        </button>
+      </div>
+
       <div className="dim small" style={{ marginTop: 24, lineHeight: 1.5 }}>
         {t('Passkeys use {0} — no passwords.', BIO)}<br />
         Offline-ready PWA with 1,324 animated exercise demos & AI macro engine.
