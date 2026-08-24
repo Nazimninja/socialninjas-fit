@@ -4,7 +4,7 @@ import { webauthnOK, passkeyRegister, verifyMemberEmail } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
-import { openRazorpayCheckout } from '../lib/payment.js'
+import { openRazorpayCheckout } from '../lib/payment.jsx'
 
 const ADMIN_LIST = [
   'nazimpasha906@gmail.com',
