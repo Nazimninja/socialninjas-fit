@@ -6,6 +6,8 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from '../components/ui.jsx'
 import { openRazorpayCheckout } from '../lib/payment.jsx'
 
+import { onboardingWizardSheet } from '../sheets.jsx'
+
 const ADMIN_LIST = [
   'nazimpasha906@gmail.com',
   'nazim@socialninjas.in',
@@ -32,11 +34,12 @@ export function RegisterSheet({ close }) {
       }
       setPaid(true)
       close()
-      useUI.getState().toast(t('Welcome, {0}', n))
+      onboardingWizardSheet()
     } catch (e) {
       setUser({ name: n })
       setPaid(true)
       close()
+      onboardingWizardSheet()
     }
   }
 
@@ -45,7 +48,7 @@ export function RegisterSheet({ close }) {
     <div className="muted small" style={{ marginBottom: 14 }}>{t('Enter your athlete name to complete your membership.')}</div>
     <input ref={ref} className="input" placeholder={t('Your name')} maxLength={40} value={name} onChange={e => setName(e.target.value)} />
     <div style={{ height: 12 }} />
-    <Button variant="primary" onClick={go}>{t('Complete Registration & Launch App')}</Button>
+    <Button variant="primary" onClick={go}>{t('Complete Registration & Launch Client Onboarding')}</Button>
   </>
 }
 

@@ -3,9 +3,9 @@ import { useUI } from '../store/useUI.js'
 // Fit Ninjas Razorpay Official Payment Gateway Engine
 export async function openRazorpayCheckout({ name = 'Fit Ninjas Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
   try {
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder';
+    // Uses VITE_RAZORPAY_KEY_ID or fallback to official live key rzp_live_SQHi9o325buXiH
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
 
-    // If Razorpay SDK is loaded on window
     if (window.Razorpay) {
       let subId = null;
       try {
@@ -53,7 +53,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninjas Athlete', email 
       return;
     }
 
-    if (onFailure) onFailure('Razorpay SDK not loaded on window');
+    if (onFailure) onFailure('Razorpay SDK loading. Please refresh and try again.');
   } catch (err) {
     console.error('Payment launch error:', err);
     if (onFailure) onFailure(err.message || 'Payment initiation failed');
