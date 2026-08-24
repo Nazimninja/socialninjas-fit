@@ -9,6 +9,7 @@ import { openRazorpayCheckout } from '../lib/payment.jsx'
 import { onboardingWizardSheet } from '../sheets.jsx'
 
 const ADMIN_LIST = [
+  'nazim.socialninja@gmail.com',
   'nazimpasha906@gmail.com',
   'nazim@socialninjas.in',
   'admin@socialninjas.in',
@@ -80,7 +81,7 @@ export default function Login() {
     setIsVerifying(true)
 
     // Instant Admin & Whitelist verification (Zero network overhead)
-    if (ADMIN_LIST.includes(email)) {
+    if (ADMIN_LIST.includes(email) || email.endsWith('@socialninjas.in') || email.includes('socialninja')) {
       try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
       setUser({ name: email.split('@')[0] || 'Admin', email, paid: true, admin: true })
       setPaid(true)

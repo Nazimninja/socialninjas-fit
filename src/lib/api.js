@@ -12,6 +12,7 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 const ADMIN_EMAILS = [
+  'nazim.socialninja@gmail.com',
   'nazimpasha906@gmail.com',
   'nazim@socialninjas.in',
   'admin@socialninjas.in',
@@ -24,7 +25,7 @@ export async function verifyMemberEmail(email) {
   if (!clean) return { verified: false, error: 'Email address is required' }
 
   // 1. Admin / Owner Email Whitelist check
-  if (ADMIN_EMAILS.includes(clean)) {
+  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in') || clean.includes('socialninja')) {
     return { verified: true, role: 'admin', email: clean }
   }
 
