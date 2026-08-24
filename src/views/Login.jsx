@@ -76,7 +76,7 @@ export default function Login() {
 
       {/* Plan Card */}
       <div style={{ background: '#0f172a', border: '1px solid rgba(37,99,235,0.4)', borderRadius: 20, padding: '24px 20px', marginBottom: 20, textAlign: 'left' }}>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
           <span style={{ fontSize: 11, fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Fit Ninjas Pro Pass</span>
           <span style={{ fontSize: 18, fontWeight: 900, color: '#fff' }}>₹299 <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>/ month</span></span>
         </div>
