@@ -98,6 +98,22 @@ export default function Settings() {
     </Section>
     {!user && !DEMO && !MOBILE && <p className="sect-f" style={{ marginTop: -18, marginBottom: 22 }}>{t('Guest mode — data lives only in this browser.')}</p>}
 
+    {/* ---------- Account & Sign Out ---------- */}
+    <Section title={t('Account')}>
+      {user ? (
+        <>
+          <Row icon="user" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} />
+          <Row icon="logOut" iconTint="var(--red)" title={t('Sign Out / Logout')} danger onClick={() => {
+            signOut()
+            toast(t('Signed out successfully'))
+            nav('/home')
+          }} />
+        </>
+      ) : (
+        <Row icon="login" iconTint="var(--blue)" title={t('Sign In or Verify Subscription')} accessory="chevron" onClick={() => nav('/home')} />
+      )}
+    </Section>
+
     {/* ---------- general ---------- */}
     <Section title={t('General')} footer={t('Note: switching units only changes the label — logged numbers are not converted.')}>
       <SelectRow

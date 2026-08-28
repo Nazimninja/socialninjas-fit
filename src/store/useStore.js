@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api } from '../lib/api.js'
+import { api, supabase } from '../lib/api.js'
 import { localTZ } from '../lib/format.js'
 import { registerCustom } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
@@ -73,8 +73,13 @@ export const useStore = create((set, get) => {
   // Everything a sign-out leaves behind on this device, whichever way it was triggered.
   const clearLocalSession = () => {
     get().setUser(null)
+    get().setPaid(false)
+    try { supabase.auth.signOut() } catch(e) {}
     localStorage.removeItem('gym_guest')
     localStorage.removeItem('gym_dirty')
+    localStorage.removeItem('gym_paid')
+    localStorage.removeItem('gym_paid_email')
+    localStorage.removeItem('gym_user')
     localStorage.removeItem(KEY)
     persist(clone(DEF), false)
   }
