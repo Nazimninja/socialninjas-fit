@@ -72,7 +72,7 @@ function Shell() {
           localStorage.setItem('gym_paid', '1')
         } catch(e) {}
 
-        // Log user in with paid access enabled — this triggers reactive re-render of Shell
+        // Log user in with paid access enabled — triggers reactive re-render of Shell
         useStore.getState().setUser({
           name: name,
           email: email,
@@ -88,7 +88,24 @@ function Shell() {
       }
     }
 
-    // getSession() handles the token in the URL hash — Supabase client parses it automatically
+    // If URL hash has access_token (implicit OAuth redirect), manually parse + set session.
+    // Supabase defaults to PKCE flow and won't auto-detect implicit hash tokens.
+    const hash = window.location.hash
+    if (hash.includes('access_token')) {
+      const params = new URLSearchParams(hash.replace(/^#/, ''))
+      const access_token = params.get('access_token')
+      const refresh_token = params.get('refresh_token') || ''
+      if (access_token) {
+        supabase.auth.setSession({ access_token, refresh_token })
+          .then(({ data: { session }, error }) => {
+            if (session) handleAuth(session)
+            else console.error('setSession error:', error)
+          })
+        return // onAuthStateChange will also fire, no need to call getSession too
+      }
+    }
+
+    // Normal load: check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) handleAuth(session)
     })
