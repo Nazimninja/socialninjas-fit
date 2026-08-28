@@ -9,7 +9,14 @@ export const webauthnOK = () => !!(window.PublicKeyCredential && navigator.crede
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co'
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2OTk0ODUsImV4cCI6MjA2NjI3NTQ4NX0.d9Y10-s4v2-eJzZ4w6Jz118sE7qN8c8Y9o9o9o9o9o9'
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    flowType: 'implicit',
+    detectSessionInUrl: true,
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+})
 
 const ADMIN_EMAILS = [
   'nazim.socialninja@gmail.com',

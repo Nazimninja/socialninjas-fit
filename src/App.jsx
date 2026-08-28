@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from './store/useStore.js'
 import { useUI } from './store/useUI.js'
@@ -25,6 +25,7 @@ import Library from './views/Library.jsx'
 import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
+import { supabase } from './lib/api.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -36,89 +37,95 @@ function applyPrefs(theme, accent) {
   if (meta) meta.content = de.dataset.theme === 'light' ? '#f2f2f7' : '#070a12'
 }
 
-import { supabase } from './lib/api.js'
-import { t } from './lib/i18n.js'
+// Try to decode a Supabase JWT and return { email, name } or null
+function decodeJWT(token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
+    const email = (payload.email || payload.user_metadata?.email || '').toLowerCase().trim()
+    const name = payload.user_metadata?.full_name || payload.user_metadata?.name || email.split('@')[0] || 'Athlete'
+    return email ? { email, name, payload } : null
+  } catch (e) {
+    return null
+  }
+}
 
-// Detect OAuth redirect immediately at module load time (before any React renders)
-// If the URL hash contains access_token, Supabase is about to fire SIGNED_IN.
-// We stash the email from localStorage early so the gate doesn't block.
-const isOAuthRedirect = typeof window !== 'undefined' && window.location.hash.includes('access_token')
+function loginUser(email, name) {
+  try {
+    localStorage.setItem('gym_paid_email', email)
+    localStorage.setItem('gym_paid', '1')
+  } catch(e) {}
+  useStore.getState().setUser({
+    name,
+    email,
+    paid: true,
+    admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
+  })
+  useStore.getState().setPaid(true)
+  useUI.getState().toast('Welcome, ' + name)
+}
 
 function Shell() {
   const navigate = useNavigate()
   const loc = useLocation()
   const { S, ready } = useStore()
   const isGuest = useStore(s => s.isGuest())
-  const langV = useLang()   // re-renders the whole shell when the language (pack) changes
+  const langV = useLang()
+  const [oauthLoading, setOAuthLoading] = useState(false)
+
   useEffect(() => { setNav(navigate) }, [navigate])
   useEffect(() => { applyPrefs(S.theme, S.accent) }, [S.theme, S.accent])
   useEffect(() => { setLang(S.lang || 'en') }, [S.lang])
   useEffect(() => { document.documentElement.lang = S.lang || 'en' }, [langV, S.lang])
-  // every tab/route change starts at the top of the page
   useEffect(() => { window.scrollTo(0, 0) }, [loc.pathname])
-  // bound to the workout, not to the route — checking Stats mid-session keeps the screen on
   useWakeLock(!!S.active && S.keepAwake !== false)
 
-  // Google OAuth redirect: decode the JWT in the URL hash directly (no Supabase API needed)
   useEffect(() => {
     const hash = window.location.hash
+
+    // Step 1: If URL hash has access_token, try to decode JWT immediately (synchronous)
     if (hash.includes('access_token')) {
-      try {
-        const params = new URLSearchParams(hash.replace(/^#/, ''))
-        const access_token = params.get('access_token')
-        if (access_token) {
-          // Decode JWT payload (middle part, base64url encoded)
-          const base64Payload = access_token.split('.')[1]
-          const payload = JSON.parse(atob(base64Payload.replace(/-/g, '+').replace(/_/g, '/')))
-          const email = (payload.email || '').toLowerCase().trim()
-          const name = payload.user_metadata?.full_name || payload.user_metadata?.name || email.split('@')[0] || 'Athlete'
-          if (email) {
-            try {
-              localStorage.setItem('gym_paid_email', email)
-              localStorage.setItem('gym_paid', '1')
-            } catch(e) {}
-            useStore.getState().setUser({
-              name,
-              email,
-              paid: true,
-              admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
-            })
-            useStore.getState().setPaid(true)
-            useUI.getState().toast('Welcome, ' + (name || email))
-            window.history.replaceState(null, '', window.location.pathname + '#/home')
-            navigate('/home', { replace: true })
-            return
-          }
+      setOAuthLoading(true)
+      const params = new URLSearchParams(hash.replace(/^#/, ''))
+      const token = params.get('access_token')
+      if (token) {
+        const decoded = decodeJWT(token)
+        if (decoded) {
+          loginUser(decoded.email, decoded.name)
+          window.history.replaceState(null, '', window.location.pathname + '#/home')
+          navigate('/home', { replace: true })
+          setOAuthLoading(false)
+          return
         }
-      } catch(e) {
-        console.error('JWT decode error:', e)
       }
     }
 
-    // Normal load (no OAuth redirect): check existing Supabase session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user?.email) {
+    // Step 2: Supabase onAuthStateChange handles the implicit flow token automatically
+    // (with flowType: 'implicit' + detectSessionInUrl: true in the client)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        const stored = localStorage.getItem('gym_paid_email')
-        if (stored === email || localStorage.getItem('gym_paid') === '1') {
-          useStore.getState().setUser({ name, email, paid: true, admin: email.includes('socialninja') })
-          useStore.getState().setPaid(true)
+        loginUser(email, name)
+        if (window.location.hash.includes('access_token')) {
+          window.history.replaceState(null, '', window.location.pathname + '#/home')
+          navigate('/home', { replace: true })
         }
+        setOAuthLoading(false)
       }
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // Step 3: Check for existing session on normal page load
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
-        const stored = localStorage.getItem('gym_paid_email')
-        if (stored === email || localStorage.getItem('gym_paid') === '1') {
+        if (localStorage.getItem('gym_paid_email') === email || localStorage.getItem('gym_paid') === '1') {
           const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-          useStore.getState().setUser({ name, email, paid: true, admin: email.includes('socialninja') })
-          useStore.getState().setPaid(true)
+          loginUser(email, name)
         }
       }
+      setOAuthLoading(false)
     })
+
     return () => subscription?.unsubscribe()
   }, [navigate])
 
@@ -126,22 +133,12 @@ function Shell() {
   const user = useStore(s => s.user)
   const authed = (user || isGuest) && paid
 
-  // If this is an OAuth redirect, show a loading spinner while Supabase processes the token.
-  // Do NOT show Login — that would flash the wrong screen before auth completes.
-  if (!ready && !authed) return (
-    <div id="app">
-      <div style={{ paddingTop: '44vh', display: 'flex', justifyContent: 'center', fontSize: 34, color: 'var(--label-3)' }}>
-        <Icon name="dumbbell" />
-      </div>
-    </div>
-  )
-
-  // If we're on an OAuth redirect and not yet authed, keep showing spinner (don't flash Login)
-  if (isOAuthRedirect && !authed) return (
+  // Show loading spinner only during boot (before ready) or active OAuth processing
+  if ((!ready && !authed) || oauthLoading) return (
     <div id="app">
       <div style={{ paddingTop: '44vh', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, color: 'var(--label-3)' }}>
         <Icon name="dumbbell" style={{ fontSize: 34 }} />
-        <div style={{ fontSize: 13, color: '#94a3b8' }}>Signing you in with Google…</div>
+        {oauthLoading && <div style={{ fontSize: 13, color: '#94a3b8' }}>Signing you in with Google…</div>}
       </div>
     </div>
   )
