@@ -36,8 +36,13 @@ function applyPrefs(theme, accent) {
   if (meta) meta.content = de.dataset.theme === 'light' ? '#f2f2f7' : '#070a12'
 }
 
-import { supabase, verifyMemberEmail } from './lib/api.js'
+import { supabase } from './lib/api.js'
 import { t } from './lib/i18n.js'
+
+// Detect OAuth redirect immediately at module load time (before any React renders)
+// If the URL hash contains access_token, Supabase is about to fire SIGNED_IN.
+// We stash the email from localStorage early so the gate doesn't block.
+const isOAuthRedirect = typeof window !== 'undefined' && window.location.hash.includes('access_token')
 
 function Shell() {
   const navigate = useNavigate()
@@ -67,7 +72,7 @@ function Shell() {
           localStorage.setItem('gym_paid', '1')
         } catch(e) {}
 
-        // Log user in with paid access enabled
+        // Log user in with paid access enabled — this triggers reactive re-render of Shell
         useStore.getState().setUser({
           name: name,
           email: email,
@@ -77,14 +82,13 @@ function Shell() {
         useStore.getState().setPaid(true)
         useUI.getState().toast('Signed in as ' + email)
         
-        // Clean URL hash and transition to /home
-        if (window.location.hash.includes('access_token')) {
-          window.history.replaceState(null, '', window.location.pathname + '#/home')
-        }
+        // Clean URL hash and navigate to dashboard
+        window.history.replaceState(null, '', window.location.pathname + '#/home')
         navigate('/home', { replace: true })
       }
     }
 
+    // getSession() handles the token in the URL hash — Supabase client parses it automatically
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) handleAuth(session)
     })
@@ -98,10 +102,23 @@ function Shell() {
   const paid = useStore(s => s.paid)
   const user = useStore(s => s.user)
   const authed = (user || isGuest) && paid
+
+  // If this is an OAuth redirect, show a loading spinner while Supabase processes the token.
+  // Do NOT show Login — that would flash the wrong screen before auth completes.
   if (!ready && !authed) return (
     <div id="app">
       <div style={{ paddingTop: '44vh', display: 'flex', justifyContent: 'center', fontSize: 34, color: 'var(--label-3)' }}>
         <Icon name="dumbbell" />
+      </div>
+    </div>
+  )
+
+  // If we're on an OAuth redirect and not yet authed, keep showing spinner (don't flash Login)
+  if (isOAuthRedirect && !authed) return (
+    <div id="app">
+      <div style={{ paddingTop: '44vh', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, color: 'var(--label-3)' }}>
+        <Icon name="dumbbell" style={{ fontSize: 34 }} />
+        <div style={{ fontSize: 13, color: '#94a3b8' }}>Signing you in with Google…</div>
       </div>
     </div>
   )
