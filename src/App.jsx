@@ -59,59 +59,65 @@ function Shell() {
   // bound to the workout, not to the route — checking Stats mid-session keeps the screen on
   useWakeLock(!!S.active && S.keepAwake !== false)
 
-  // Supabase Google OAuth Redirect Listener
+  // Google OAuth redirect: decode the JWT in the URL hash directly (no Supabase API needed)
   useEffect(() => {
-    const handleAuth = async (session) => {
+    const hash = window.location.hash
+    if (hash.includes('access_token')) {
+      try {
+        const params = new URLSearchParams(hash.replace(/^#/, ''))
+        const access_token = params.get('access_token')
+        if (access_token) {
+          // Decode JWT payload (middle part, base64url encoded)
+          const base64Payload = access_token.split('.')[1]
+          const payload = JSON.parse(atob(base64Payload.replace(/-/g, '+').replace(/_/g, '/')))
+          const email = (payload.email || '').toLowerCase().trim()
+          const name = payload.user_metadata?.full_name || payload.user_metadata?.name || email.split('@')[0] || 'Athlete'
+          if (email) {
+            try {
+              localStorage.setItem('gym_paid_email', email)
+              localStorage.setItem('gym_paid', '1')
+            } catch(e) {}
+            useStore.getState().setUser({
+              name,
+              email,
+              paid: true,
+              admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
+            })
+            useStore.getState().setPaid(true)
+            useUI.getState().toast('Welcome, ' + (name || email))
+            window.history.replaceState(null, '', window.location.pathname + '#/home')
+            navigate('/home', { replace: true })
+            return
+          }
+        }
+      } catch(e) {
+        console.error('JWT decode error:', e)
+      }
+    }
+
+    // Normal load (no OAuth redirect): check existing Supabase session
+    supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        
-        // Save verified email token to local storage
-        try {
-          localStorage.setItem('gym_paid_email', email)
-          localStorage.setItem('gym_paid', '1')
-        } catch(e) {}
-
-        // Log user in with paid access enabled — triggers reactive re-render of Shell
-        useStore.getState().setUser({
-          name: name,
-          email: email,
-          paid: true,
-          admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
-        })
-        useStore.getState().setPaid(true)
-        useUI.getState().toast('Signed in as ' + email)
-        
-        // Clean URL hash and navigate to dashboard
-        window.history.replaceState(null, '', window.location.pathname + '#/home')
-        navigate('/home', { replace: true })
+        const stored = localStorage.getItem('gym_paid_email')
+        if (stored === email || localStorage.getItem('gym_paid') === '1') {
+          useStore.getState().setUser({ name, email, paid: true, admin: email.includes('socialninja') })
+          useStore.getState().setPaid(true)
+        }
       }
-    }
-
-    // If URL hash has access_token (implicit OAuth redirect), manually parse + set session.
-    // Supabase defaults to PKCE flow and won't auto-detect implicit hash tokens.
-    const hash = window.location.hash
-    if (hash.includes('access_token')) {
-      const params = new URLSearchParams(hash.replace(/^#/, ''))
-      const access_token = params.get('access_token')
-      const refresh_token = params.get('refresh_token') || ''
-      if (access_token) {
-        supabase.auth.setSession({ access_token, refresh_token })
-          .then(({ data: { session }, error }) => {
-            if (session) handleAuth(session)
-            else console.error('setSession error:', error)
-          })
-        return // onAuthStateChange will also fire, no need to call getSession too
-      }
-    }
-
-    // Normal load: check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) handleAuth(session)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) handleAuth(session)
+      if (session?.user?.email) {
+        const email = session.user.email.toLowerCase().trim()
+        const stored = localStorage.getItem('gym_paid_email')
+        if (stored === email || localStorage.getItem('gym_paid') === '1') {
+          const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
+          useStore.getState().setUser({ name, email, paid: true, admin: email.includes('socialninja') })
+          useStore.getState().setPaid(true)
+        }
+      }
     })
     return () => subscription?.unsubscribe()
   }, [navigate])
