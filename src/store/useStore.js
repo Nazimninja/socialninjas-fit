@@ -87,6 +87,7 @@ export const useStore = create((set, get) => {
   return {
     S: (() => { const s = loadState(); registerCustom(s.customEx); return s })(),
     user: (() => { try { return JSON.parse(localStorage.getItem('gym_user')) || null } catch { return null } })(),
+    paid: localStorage.getItem('gym_paid') === '1' || !!localStorage.getItem('gym_paid_email'),
     ready: false,
 
     // Mutate a draft of S via producer fn, then persist + schedule sync.
@@ -98,15 +99,24 @@ export const useStore = create((set, get) => {
     replaceState(S, push = false) { persist(clone(S), push) },
 
     isGuest: () => localStorage.getItem('gym_guest') === '1',
-    setGuest(v) { if (v) localStorage.setItem('gym_guest', '1'); else localStorage.removeItem('gym_guest'); set({}) },
+    setGuest(v) { if (v) localStorage.setItem('gym_guest', '1'); else localStorage.removeItem('gym_guest'); set({ guest: !!v }) },
 
-    isPaid: () => localStorage.getItem('gym_paid') === '1' || !!get().user?.paid,
-    setPaid(v) { if (v) localStorage.setItem('gym_paid', '1'); else localStorage.removeItem('gym_paid'); set({}) },
+    isPaid: () => get().paid || localStorage.getItem('gym_paid') === '1' || !!get().user?.paid || !!localStorage.getItem('gym_paid_email'),
+    setPaid(v) {
+      if (v) { localStorage.setItem('gym_paid', '1') }
+      else { localStorage.removeItem('gym_paid'); localStorage.removeItem('gym_paid_email') }
+      set({ paid: !!v })
+    },
 
     setUser(u) {
-      if (u) { localStorage.setItem('gym_user', JSON.stringify(u)); localStorage.removeItem('gym_guest') }
-      else localStorage.removeItem('gym_user')
-      set({ user: u })
+      if (u) {
+        localStorage.setItem('gym_user', JSON.stringify(u))
+        localStorage.removeItem('gym_guest')
+        if (u.paid) localStorage.setItem('gym_paid', '1')
+      } else {
+        localStorage.removeItem('gym_user')
+      }
+      set({ user: u, paid: u ? (u.paid || get().paid) : false })
     },
 
     async pushState() {
