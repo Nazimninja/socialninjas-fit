@@ -42,7 +42,7 @@ import { t } from './lib/i18n.js'
 function Shell() {
   const navigate = useNavigate()
   const loc = useLocation()
-  const { S, user, ready } = useStore()
+  const { S, ready } = useStore()
   const isGuest = useStore(s => s.isGuest())
   const langV = useLang()   // re-renders the whole shell when the language (pack) changes
   useEffect(() => { setNav(navigate) }, [navigate])
@@ -95,8 +95,9 @@ function Shell() {
     return () => subscription?.unsubscribe()
   }, [navigate])
 
-  const isPaid = useStore(s => s.isPaid())
-  const authed = (user || isGuest) && isPaid
+  const paid = useStore(s => s.paid)
+  const user = useStore(s => s.user)
+  const authed = (user || isGuest) && paid
   if (!ready && !authed) return (
     <div id="app">
       <div style={{ paddingTop: '44vh', display: 'flex', justifyContent: 'center', fontSize: 34, color: 'var(--label-3)' }}>
