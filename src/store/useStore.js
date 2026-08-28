@@ -201,7 +201,25 @@ export const useStore = create((set, get) => {
           get().update(s => { s.reminder = { ...s.reminder, tz } })
         }
       } catch (e) {
-        if (e.status === 401) get().setUser(null)
+        // Only wipe the user on 401 if there is no locally persisted Google OAuth session.
+        // If gym_paid_email or gym_paid is set, the user signed in via Google — don't clear them.
+        if (e.status === 401) {
+          const hasPaidEmail = !!localStorage.getItem('gym_paid_email')
+          const hasPaidFlag = localStorage.getItem('gym_paid') === '1'
+          if (!hasPaidEmail && !hasPaidFlag) {
+            get().setUser(null)
+          }
+        }
+      }
+      // Restore local Google OAuth / paid-email session if not already set by /api/me
+      if (!get().user) {
+        const paidEmail = localStorage.getItem('gym_paid_email')
+        const isPaid = localStorage.getItem('gym_paid') === '1'
+        if (paidEmail && isPaid) {
+          const stored = JSON.parse(localStorage.getItem('gym_user') || 'null')
+          get().setUser(stored || { name: paidEmail.split('@')[0], email: paidEmail, paid: true })
+          get().setPaid(true)
+        }
       }
       set({ ready: true })
     }
