@@ -103,7 +103,10 @@ export async function verifyMemberEmail(email) {
 }
 
 export async function api(path, opts) {
-  const r = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts))
+  const isProd = !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1');
+  const baseUrl = isProd ? 'https://socialninjas-fit.vercel.app' : '';
+  const url = path.startsWith('/api/') ? baseUrl + path : path;
+  const r = await fetch(url, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts))
   const data = await r.json().catch(() => ({}))
   if (!r.ok) { const e = new Error(data.error || ('HTTP ' + r.status)); e.status = r.status; throw e }
   return data
