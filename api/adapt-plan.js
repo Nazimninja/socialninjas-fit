@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { answers, currentPlan, weeklyWeights } = req.body;
+  const { answers, currentPlan, weeklyWeights, workoutSummary, checkin } = req.body;
   if (!answers || !currentPlan) return res.status(400).json({ error: 'Missing data' });
 
   const OPENAI_KEY = process.env.OPENAI_API_KEY;
@@ -13,33 +13,70 @@ export default async function handler(req, res) {
   const weightChange = parseFloat((currentWeight - startWeight).toFixed(1));
   const weeks = weights.length;
 
-  const prompt = `You are an expert fitness coach doing a weekly plan review. Analyze progress and adapt the plan.
+  // Build workout performance summary text
+  let workoutText = '';
+  if (workoutSummary && workoutSummary.length > 0) {
+    const recent = workoutSummary.slice(-5);
+    workoutText = `
+RECENT WORKOUT PERFORMANCE (last ${recent.length} sessions):
+${recent.map(w => `- ${w.name || 'Workout'} on ${w.date}: ${w.setsCompleted}/${w.setsTotal} sets completed, top weights: ${(w.topWeights || []).slice(0,3).map(x => `${x.exercise} ${x.weight}kg`).join(', ')}`).join('\n')}
+Completion rate: ${workoutSummary.filter(w => w.completed).length}/${workoutSummary.length} workouts completed`;
+  }
+
+  // Build check-in summary
+  let checkinText = '';
+  if (checkin) {
+    const difficultyMap = { easy: '😅 Too Easy', good: '💪 Just Right', hard: '😤 Too Hard' };
+    const sorenessMap = { fresh: '😌 No Soreness', mild: '😐 Mild Soreness', sore: '😣 Very Sore' };
+    checkinText = `
+POST-WORKOUT CHECK-IN (most recent):
+- Difficulty: ${difficultyMap[checkin.difficulty] || checkin.difficulty}
+- Soreness/Recovery: ${sorenessMap[checkin.soreness] || checkin.soreness}`;
+    if (checkin.difficulty === 'easy') checkinText += '\n→ Weights feel too light, ready for progression';
+    if (checkin.difficulty === 'hard') checkinText += '\n→ Client is struggling, may need deload or volume reduction';
+    if (checkin.soreness === 'sore') checkinText += '\n→ Recovery is slow, consider extra rest day or reduce volume';
+  }
+
+  const prompt = `You are an expert AI fitness coach doing a real-time plan review. A client just logged new data. Analyze their progress immediately and adapt their plan with specific actionable changes.
 
 CLIENT: ${answers.pname}, ${answers.gender}, ${answers.age}y, Goal: ${answers.goal}, Diet: ${answers.diet}
-TRAINING: ${answers.location === 'gym' ? 'Gym' : 'Home'} (${answers.equipment || 'None'})
-ORIGINAL PLAN: ${currentPlan.kcal} kcal/day, ${currentPlan.protein}g protein, ${currentPlan.carbs}g carbs, ${currentPlan.fat}g fat
+TRAINING: ${answers.location === 'gym' ? 'Gym (full equipment)' : 'Home (dumbbells & bodyweight)'}
+CURRENT PLAN: ${currentPlan.kcal} kcal/day, ${currentPlan.protein}g protein, ${currentPlan.carbs}g carbs, ${currentPlan.fat}g fat
 
-WEIGHT HISTORY (last ${weeks} weeks): ${weights.join(' → ')} kg
-TOTAL CHANGE: ${weightChange > 0 ? '+' : ''}${weightChange} kg over ${weeks} weeks
+WEIGHT HISTORY (${weeks} data points): ${weights.join(' → ')} kg
+TOTAL CHANGE: ${weightChange > 0 ? '+' : ''}${weightChange} kg
+${workoutText}
+${checkinText}
 
-Analyze:
-- Is progress on track for their goal? (${answers.goal})
-- Fat loss target: ~0.5kg/week. Muscle gain: ~0.25kg/week. Weight gain: ~0.5kg/week.
-- If stalled (< 0.2kg change/week for 2+ weeks): adjust calories/macros
-- If losing too fast: increase calories
-- If gaining too fast (fat loss goal): reduce more
+ADAPTATION RULES (apply strictly):
+- Fat Loss goal: target 0.4-0.6 kg/week loss. If stalled (<0.2 kg change over 2+ weeks): -100 kcal from carbs. If losing >0.8 kg/week: +100 kcal. Protect muscle: keep protein ≥ 2g/kg.
+- Muscle Gain goal: target 0.2-0.3 kg/week gain. If no gain in 2+ weeks: +150 kcal. If gaining >0.5 kg/week: -100 kcal (too much fat).
+- Recomp: keep same calories, adjust protein higher if soreness is persistent.
+- If difficulty check-in = "easy" for 2+ sessions: suggest progressive overload (add weight or reps).
+- If difficulty check-in = "hard": suggest deload this week (reduce weights by 10%, same reps).
+- If soreness = "sore": add 1 rest day recommendation.
+- Workout completion < 80%: simplify plan, reduce volume.
 
-Return ONLY a valid JSON object (no markdown):
+Be a warm, encouraging coach. Celebrate progress. Be specific about what changed and why.
+
+Return ONLY valid JSON (no markdown, no explanation):
 {
   "kcal": 2050,
   "protein": 145,
   "carbs": 210,
   "fat": 63,
-  "coachNote": "Personalized 3-4 sentence analysis of their progress with specific actionable advice",
-  "changes": ["Reduced carbs by 15g due to weight plateau", "Added 5g protein to preserve muscle"],
-  "weeklyInsight": "One encouraging sentence acknowledging their effort",
-  "meals": [same structure as before with 6 meals tailored to their diet],
-  "workout": [same 7-day structure as before adapted if needed]
+  "coachNote": "Warm, personalized 2-3 sentence analysis of their specific progress with concrete observations",
+  "changes": ["Reduced carbs by 20g because weight has been stalling for 2 weeks", "Protein kept high to preserve your muscle gains"],
+  "weeklyInsight": "One energetic, personalized encouragement sentence with emoji",
+  "celebration": "One congratulatory sentence if they hit a milestone (PRs, streak, weight goal progress), or empty string",
+  "meals": [
+    {"t": "7:00 AM", "n": "Breakfast", "d": "Detailed food with quantities tailored to their diet", "i": "🍳", "k": 420, "p": 35, "note": "Coach tip"},
+    {"t": "10:30 AM", "n": "Mid-Morning", "d": "...", "i": "🥗", "k": 250, "p": 18, "note": "..."},
+    {"t": "1:00 PM", "n": "Lunch", "d": "...", "i": "🍱", "k": 550, "p": 40, "note": "..."},
+    {"t": "4:00 PM", "n": "Pre-Workout", "d": "...", "i": "⚡", "k": 220, "p": 15, "note": "..."},
+    {"t": "7:30 PM", "n": "Dinner", "d": "...", "i": "🍛", "k": 480, "p": 32, "note": "..."},
+    {"t": "9:30 PM", "n": "Night Snack", "d": "...", "i": "🥛", "k": 150, "p": 12, "note": "..."}
+  ]
 }`;
 
   try {
@@ -53,7 +90,7 @@ Return ONLY a valid JSON object (no markdown):
         model: 'gpt-4o',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.6,
-        max_tokens: 3000
+        max_tokens: 2500
       })
     });
 
@@ -66,8 +103,8 @@ Return ONLY a valid JSON object (no markdown):
 
     updatedPlan.lastUpdated = new Date().toISOString();
     updatedPlan.monthNumber = (currentPlan.monthNumber || 1) + 1;
-    updatedPlan.goal = currentPlan.goal;
-    updatedPlan.diet = currentPlan.diet;
+    updatedPlan.goal = currentPlan.goal || answers.goal;
+    updatedPlan.diet = currentPlan.diet || answers.diet;
 
     res.status(200).json({ plan: updatedPlan });
   } catch (err) {

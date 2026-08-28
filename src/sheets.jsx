@@ -20,6 +20,7 @@ import { buildPlanBundle, parsePlan, mergePlan, printPlan } from './lib/plan-sha
 import { estimate1RM, best1RM, is1RMRecord, REP_CAP } from './lib/onerm.js'
 import { nextPrescription, applyPrescription, policyFor, defaultIncrement, POLICIES_FOR, POLICY_NAME, POLICY_DESC, MAX_BW_SETS } from './lib/progression.js'
 import { MOBILE, shareExport } from './lib/mobile.js'
+import { api } from './lib/api.js'
 
 const S = () => useStore.getState().S
 const update = (...a) => useStore.getState().update(...a)
@@ -92,14 +93,21 @@ function BwSheet({ required, onDone, close }) {
   const save = () => {
     const n = Math.round((v || 0) * 10) / 10
     if (!n || n <= 0) { toast(t('Enter a valid weight')); return }
+    let weights = []
     update(s => {
       const iso = todayISO()
       const ex = s.bodyweight.find(b => b.d === iso)
       if (ex) { ex.w = n; ex.t = Date.now() } else s.bodyweight.push({ d: iso, w: n, t: Date.now() })
       s.bodyweight.sort((a, b) => (a.d < b.d ? -1 : 1))
+      weights = s.bodyweight.map(x => x.w)
     })
     close()
-    if (onDone) onDone(n); else toast(t('Weight saved'))
+    if (onDone) onDone(n)
+    else {
+      toast(t('Weight saved'))
+      // Automatically adapt plan after weight log
+      useStore.getState().adaptPlan(weights)
+    }
   }
   const recent = [...st.bodyweight].reverse().slice(0, 3)
   const delEntry = d => update(s => { s.bodyweight = s.bodyweight.filter(b => b.d !== d) })
@@ -965,7 +973,82 @@ function doFinishWorkout() {
   })
   useUI.getState().stopRest()
   beep(snd(), 880, 0.15); beep(snd(), 1100, 0.15, 0.18); beep(snd(), 1320, 0.3, 0.36)
-  ui().openSheet(close => <FinishSummary w={w} prs={prs} e1prs={e1prs} close={close} />, { kind: 'center', locked: true })
+  ui().openSheet(close => <PostWorkoutCheckin w={w} prs={prs} e1prs={e1prs} close={close} />, { kind: 'center', locked: true })
+}
+
+const resolveExerciseId = (name) => {
+  if (!name) return null;
+  const norm = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  for (const e of EXDB) {
+    if (e.n.toLowerCase().replace(/[^a-z0-9]/g, '') === norm) return e.id;
+  }
+  for (const e of EXDB) {
+    if (e.n.toLowerCase().includes(norm) || norm.includes(e.n.toLowerCase())) return e.id;
+  }
+  return null;
+};
+
+function PostWorkoutCheckin({ w, prs, e1prs, close }) {
+  const [difficulty, setDifficulty] = useState('good')
+  const [soreness, setSoreness] = useState('mild')
+
+  const handleSubmit = async () => {
+    update(s => {
+      s.checkins = s.checkins || []
+      s.checkins.push({
+        date: todayISO(),
+        workoutId: w.id,
+        difficulty,
+        soreness
+      })
+    })
+
+    // Auto adapt in the background
+    useStore.getState().adaptPlan([], { difficulty, soreness })
+
+    close()
+    ui().openSheet(closeSummary => <FinishSummary w={w} prs={prs} e1prs={e1prs} close={closeSummary} />, { kind: 'center', locked: true })
+  }
+
+  return (
+    <div style={{ textAlign: 'center', padding: '8px 0' }}>
+      <div style={{ fontSize: 44, display: 'flex', justifyContent: 'center', color: 'var(--acc)' }}>
+        <Icon name="sparkles" />
+      </div>
+      <h3 style={{ margin: '8px 0' }}>{t('Coach Check-in')}</h3>
+      <div className="muted small" style={{ marginBottom: 18 }}>
+        {t('Tell your AI Coach how today’s session felt so it can adjust next week’s plan.')}
+      </div>
+
+      <div style={{ textAlign: 'left', marginBottom: 16 }}>
+        <label className="small muted" style={{ display: 'block', marginBottom: 6 }}>{t('Session Difficulty')}</label>
+        <Segmented
+          value={difficulty}
+          onChange={setDifficulty}
+          options={[
+            { value: 'easy', label: t('😅 Too Easy') },
+            { value: 'good', label: t('💪 Just Right') },
+            { value: 'hard', label: t('😤 Too Hard') }
+          ]}
+        />
+      </div>
+
+      <div style={{ textAlign: 'left', marginBottom: 20 }}>
+        <label className="small muted" style={{ display: 'block', marginBottom: 6 }}>{t('Muscle Soreness & Recovery')}</label>
+        <Segmented
+          value={soreness}
+          onChange={setSoreness}
+          options={[
+            { value: 'fresh', label: t('😌 No Pain') },
+            { value: 'mild', label: t('😐 Mild') },
+            { value: 'sore', label: t('😣 Very Sore') }
+          ]}
+        />
+      </div>
+
+      <Button variant="primary" onClick={handleSubmit}>{t('Save & See Summary')}</Button>
+    </div>
+  )
 }
 
 /* ============================ onboarding & ai plan wizard ============================ */
@@ -982,48 +1065,96 @@ function OnboardingWizard({ close }) {
   const [days, setDays] = useState(4)
   const [location, setLocation] = useState('gym')
   const [diet, setDiet] = useState('nonveg')
+  const [loading, setLoading] = useState(false)
 
   const handleGenerate = () => {
-    // 1. Calculate BMR & TDEE
-    const bmr = 10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161)
-    const tdee = Math.round(bmr * 1.375)
-    let cals = tdee
-    if (goal === 'fat_loss') cals -= 500
-    else if (goal === 'muscle') cals += 300
-
-    const prot = Math.round(weight * 2.0)
-    const fats = Math.round((cals * 0.25) / 9)
-    const carbs = Math.max(50, Math.round((cals - prot * 4 - fats * 9) / 4))
-
-    // 2. Build Custom Routines
-    const routines = []
-    if (days === 3) {
-      routines.push(
-        { id: uid(), name: 'Push Day (Chest · Shoulders · Triceps)', emoji: 'barbell', ex: [{ id: '0025', sets: 4, reps: 8, weight: 0 }, { id: '0047', sets: 3, reps: 10, weight: 0 }, { id: '0426', sets: 3, reps: 10, weight: 0 }, { id: '0334', sets: 3, reps: 12, weight: 0 }, { id: '0241', sets: 3, reps: 12, weight: 0 }] },
-        { id: uid(), name: 'Pull Day (Back · Biceps)', emoji: 'pullup', ex: [{ id: '2330', sets: 4, reps: 10, weight: 0 }, { id: '0027', sets: 4, reps: 8, weight: 0 }, { id: '1323', sets: 3, reps: 10, weight: 0 }, { id: '0031', sets: 3, reps: 10, weight: 0 }, { id: '0313', sets: 3, reps: 12, weight: 0 }] },
-        { id: uid(), name: 'Leg Day (Quads · Hamstrings · Calves)', emoji: 'legs', ex: [{ id: '0043', sets: 4, reps: 8, weight: 0 }, { id: '0085', sets: 3, reps: 10, weight: 0 }, { id: '0585', sets: 3, reps: 12, weight: 0 }, { id: '0586', sets: 3, reps: 12, weight: 0 }, { id: '0605', sets: 4, reps: 15, weight: 0 }] }
-      )
-    } else {
-      routines.push(
-        { id: uid(), name: 'Upper Power (Chest · Back · Arms)', emoji: 'barbell', ex: [{ id: '0025', sets: 4, reps: 8, weight: 0 }, { id: '0027', sets: 4, reps: 8, weight: 0 }, { id: '0047', sets: 3, reps: 10, weight: 0 }, { id: '0313', sets: 3, reps: 12, weight: 0 }] },
-        { id: uid(), name: 'Lower Power (Squat · Hamstrings · Calves)', emoji: 'legs', ex: [{ id: '0043', sets: 4, reps: 8, weight: 0 }, { id: '0085', sets: 3, reps: 10, weight: 0 }, { id: '0585', sets: 3, reps: 12, weight: 0 }, { id: '0605', sets: 4, reps: 15, weight: 0 }] },
-        { id: uid(), name: 'Push Hypertrophy', emoji: 'barbell', ex: [{ id: '0426', sets: 3, reps: 12, weight: 0 }, { id: '0334', sets: 3, reps: 12, weight: 0 }, { id: '0241', sets: 3, reps: 15, weight: 0 }] },
-        { id: uid(), name: 'Pull Hypertrophy', emoji: 'pullup', ex: [{ id: '2330', sets: 4, reps: 12, weight: 0 }, { id: '1323', sets: 3, reps: 12, weight: 0 }, { id: '0031', sets: 3, reps: 12, weight: 0 }] }
-      )
-    }
-
-    update(s => {
-      s.routines = routines
-      s.week = {}
-      if (routines[0]) s.week[1] = routines[0].id
-      if (routines[1]) s.week[2] = routines[1].id
-      if (routines[2]) s.week[4] = routines[2].id
-      if (routines[3]) s.week[5] = routines[3].id
-      s.targetW = goal === 'fat_loss' ? Math.round((weight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((weight + 4) * 10) / 10 : weight
+    setLoading(true)
+    api('/api/generate-plan', {
+      method: 'POST',
+      body: JSON.stringify({
+        answers: { pname, age, weight, height, gender, goal, days, location, diet }
+      })
     })
+    .then(res => {
+      if (res.plan) {
+        update(s => {
+          s.aiPlan = res.plan
+          s.aiAnswers = { pname, age, weight, height, gender, goal, days, location, diet }
+          s.targetCalories = res.plan.kcal
+          s.targetProtein = res.plan.protein
+          s.targetW = goal === 'fat_loss' ? Math.round((weight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((weight + 4) * 10) / 10 : weight
+          
+          if (!s.bodyweight.length) {
+            s.bodyweight.push({ d: todayISO(), w: weight, t: Date.now() })
+          }
 
-    close()
-    toast(t('🎉 Custom AI Plan Generated for {0}! ({1} kcal · {2}g Protein)', pname, cals, prot))
+          const routines = []
+          const week = {}
+          let dayCount = 1
+
+          res.plan.workout.forEach(w => {
+            if (w.r) {
+              dayCount++
+              return
+            }
+
+            const routineId = uid()
+            const routine = {
+              id: routineId,
+              name: w.n + (w.t ? ' (' + w.t + ')' : ''),
+              emoji: w.n.toLowerCase().includes('leg') ? 'legs' : w.n.toLowerCase().includes('pull') ? 'pullup' : 'barbell',
+              ex: []
+            }
+
+            w.exercises.forEach(ex => {
+              const resolvedId = resolveExerciseId(ex.name)
+              if (resolvedId) {
+                routine.ex.push({ id: resolvedId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 })
+              } else {
+                const customId = 'cust_' + uid()
+                s.customEx.push({ id: customId, n: ex.name, bp: 'custom', tg: 'general', eq: 'barbell' })
+                routine.ex.push({ id: customId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 })
+              }
+            })
+
+            routines.push(routine)
+            week[dayCount] = routineId
+            dayCount++
+          })
+
+          s.routines = routines
+          s.week = week
+
+          s.aiCoachCard = {
+            coachNote: res.plan.coachNote,
+            changes: [],
+            weeklyInsight: res.plan.weeklyInsight || 'Welcome to your custom plan! Let’s crush it! 💪',
+            celebration: '',
+            seenAt: null
+          }
+        })
+        close()
+        toast(t('🎉 AI Plan Generated! ({0} kcal · {1}g Protein)', res.plan.kcal, res.plan.protein))
+      }
+    })
+    .catch(err => {
+      setLoading(false)
+      toast(t('❌ Error: {0}', err.message || err))
+    })
+  }
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '30px 10px' }}>
+        <div className="spin" style={{ fontSize: 50, color: 'var(--acc)', display: 'inline-block', marginBottom: 16 }}>
+          <Icon name="sparkles" />
+        </div>
+        <h3 style={{ margin: '8px 0' }}>{t('Designing Your Plan...')}</h3>
+        <div className="muted small" style={{ lineHeight: 1.6 }}>
+          {t('Our AI Fitness Coach is building your personalized meals, target macros, and custom progressive overload routine split.')}
+        </div>
+      </div>
+    )
   }
 
   return (

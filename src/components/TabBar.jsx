@@ -32,14 +32,13 @@ export default function TabBar({ onStart }) {
   return (
     <nav id="tabbar">
       <Tab k="home" icon="house" to="/home" label={t('Home')} />
-      <Tab k="plan" icon="calendar" to="/plan" label={t('Plan')} />
+      <Tab k="nutrition" icon="nutrition" to="/nutrition" label={t('Nutrition')} />
       <button className={'start' + (S.active ? ' rec' : '')} onClick={startWorkout}>
         <span className="cir"><Icon name={S.active ? 'play' : 'dumbbell'} /></span>
         <span>{S.active ? t('Resume') : t('Start')}</span>
       </button>
-      <Tab k="nutrition" icon="nutrition" to="/nutrition" label="Macros" />
-      <Tab k="stats" icon="chart" to="/stats" label={t('Stats')} />
-      <Tab k="library" icon="list" to="/library" label={t('Exercises')} />
+      <Tab k="stats" icon="chart" to="/stats" label={t('Progress')} />
+      <Tab k="library" icon="list" to="/library" label={t('Library')} />
     </nav>
   )
 }

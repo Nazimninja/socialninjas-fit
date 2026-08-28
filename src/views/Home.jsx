@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
@@ -16,6 +16,12 @@ export default function Home() {
   const S = useStore(s => s.S)
   const user = useStore(s => s.user)
   const [weekOffset, setWeekOffset] = useState(0)
+
+  useEffect(() => {
+    if (!S.routines.length && !S.active) {
+      onboardingWizardSheet()
+    }
+  }, [S.routines.length, S.active])
 
   const today = new Date()
   const routine = effectiveRoutine(S, todayISO())
@@ -60,6 +66,45 @@ export default function Home() {
       </div>
       <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
     </div>
+
+    {S.aiCoachCard && !S.aiCoachCard.seenAt && (
+      <div className="card" style={{ borderLeft: '4px solid var(--acc)', background: 'var(--surface-2)', padding: '16px' }}>
+        <div className="row" style={{ gap: 10, marginBottom: 8, justifyContent: 'space-between' }}>
+          <div className="row" style={{ gap: 8 }}>
+            <span style={{ color: 'var(--acc)', fontSize: 18 }}><Icon name="sparkles" /></span>
+            <span className="big" style={{ fontSize: 18, fontWeight: 700 }}>{t('Coach AI Adaptation')}</span>
+          </div>
+          <button className="iconbtn" onClick={() => useStore.getState().update(s => { if (s.aiCoachCard) s.aiCoachCard.seenAt = Date.now() })} style={{ opacity: 0.6 }} aria-label="Dismiss"><Icon name="close" /></button>
+        </div>
+
+        {S.aiCoachCard.celebration && (
+          <div className="accent" style={{ marginBottom: 8, fontSize: 14, fontWeight: 600 }}>
+            🎉 {S.aiCoachCard.celebration}
+          </div>
+        )}
+
+        <div className="small text-secondary" style={{ lineHeight: 1.5, marginBottom: 12, fontSize: 13, color: 'var(--label-2)' }}>
+          {S.aiCoachCard.coachNote}
+        </div>
+
+        {S.aiCoachCard.changes && S.aiCoachCard.changes.length > 0 && (
+          <div style={{ background: 'var(--surface-3)', borderRadius: 8, padding: '10px 12px', marginBottom: 12 }}>
+            <div className="small font-bold" style={{ marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: 10, color: 'var(--acc)', fontWeight: 800 }}>
+              {t('AI Target Adjustments:')}
+            </div>
+            <ul style={{ margin: 0, paddingLeft: 16, fontSize: 12, lineHeight: 1.4 }}>
+              {S.aiCoachCard.changes.map((change, i) => (
+                <li key={i} style={{ color: 'var(--label-2)' }}>{change}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="small font-medium italic" style={{ color: 'var(--acc)', fontSize: 12, fontWeight: 500 }}>
+          {S.aiCoachCard.weeklyInsight}
+        </div>
+      </div>
+    )}
 
     <div className="card">
       <div className="row between" style={{ marginBottom: 8 }}>
@@ -138,5 +183,29 @@ export default function Home() {
         <Icon name="calendar" className="chev" style={{ fontSize: 20 }} />
       </div>
     </div>
+
+    {S.workouts.length > 0 && (
+      <div className="card">
+        <h2 style={{ margin: '0 0 10px' }}>{t('Recent Workouts')}</h2>
+        <div className="list" style={{ gap: 8 }}>
+          {[...S.workouts].reverse().slice(0, 3).map(w => {
+            const completedSets = w.entries.reduce((n, e) => n + e.sets.filter(s => s.done).length, 0)
+            const durationMs = w.end - w.start
+            const mins = Math.round(durationMs / 60000)
+            return (
+              <div key={w.id} className="row between" style={{ padding: '8px 0', borderBottom: '1px solid var(--sep)' }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 14 }}>{w.name}</div>
+                  <div className="muted small" style={{ fontSize: 11 }}>{fmtDate(w.d, true)} · {mins} mins</div>
+                </div>
+                <span className="tag acc" style={{ fontSize: 11 }}>
+                  {w.prs?.length ? `🏆 ${w.prs.length} PRs` : `${completedSets} sets`}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )}
   </div>
 }

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { api, supabase } from '../lib/api.js'
 import { localTZ } from '../lib/format.js'
-import { registerCustom } from '../lib/exercises.js'
+import { registerCustom, EXIDX, EXDB } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
 import { MOBILE, nativeLoad, nativeSave, syncReminder } from '../lib/mobile.js'
 
@@ -11,11 +11,12 @@ export const DEF = {
   theme: 'dark', accent: 'lime', body: 'male', targetW: null,
   bodyweight: [], routines: [], week: {}, dayPlan: {},
   exWeights: {}, workouts: [], active: null, customEx: [], gifSize: 'full',
-  // effort: which per-set effort scale is logged — 'none' | 'rir' | 'rpe'. null, not 'none', so
-  // that a profile which never chose (loaded state is overlaid on DEF, on every path: local,
-  // server pull, backup import) still falls back to the `showRir` boolean this replaced and
-  // keeps the column it had. See effortOf.
-  reminder: { on: false, time: '08:00', tz: null }, effort: null
+  reminder: { on: false, time: '08:00', tz: null }, effort: null,
+  // AI coach fields
+  aiPlan: null,        // latest AI-generated nutrition plan { kcal, protein, carbs, fat, meals[], coachNote, ... }
+  aiAnswers: null,     // onboarding answers used to generate the plan { pname, age, weight, height, gender, goal, days, location, diet }
+  checkins: [],        // post-workout check-ins [{ date, workoutId, difficulty, soreness }]
+  aiCoachCard: null,   // latest AI coach message to show on Home { coachNote, changes[], weeklyInsight, celebration, seenAt }
 }
 const clone = o => JSON.parse(JSON.stringify(o))
 
@@ -161,6 +162,100 @@ export const useStore = create((set, get) => {
       const { buildDemoState } = await import('../lib/demoSeed.js')
       localStorage.removeItem('gym_dirty')
       persist(Object.assign(clone(DEF), buildDemoState()), false)
+    },
+
+    async adaptPlan(weeklyWeights = [], checkin = null) {
+      if (!get().S.aiAnswers) return;
+
+      const uid = () => Math.random().toString(36).substring(2, 15);
+      const resolveExerciseId = (name) => {
+        if (!name) return null;
+        const norm = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        for (const e of EXDB) {
+          if (e.n.toLowerCase().replace(/[^a-z0-9]/g, '') === norm) return e.id;
+        }
+        for (const e of EXDB) {
+          if (e.n.toLowerCase().includes(norm) || norm.includes(e.n.toLowerCase())) return e.id;
+        }
+        return null;
+      };
+
+      const workouts = get().S.workouts || [];
+      const workoutSummary = workouts.slice(-5).map(w => {
+        const totalSets = w.entries.reduce((acc, e) => acc + e.sets.length, 0);
+        const completedSets = w.entries.reduce((acc, e) => acc + e.sets.filter(s => s.done).length, 0);
+        return {
+          name: w.name,
+          date: w.d,
+          setsTotal: totalSets,
+          setsCompleted: completedSets,
+          completed: completedSets > 0,
+          topWeights: w.entries.map(e => ({
+            exercise: (EXIDX[e.id] || {}).n || e.id,
+            weight: Math.max(0, ...e.sets.filter(s => s.done).map(s => s.w || 0))
+          }))
+        };
+      });
+
+      try {
+        const res = await api('/api/adapt-plan', {
+          method: 'POST',
+          body: JSON.stringify({
+            answers: get().S.aiAnswers,
+            currentPlan: get().S.aiPlan || {
+              kcal: get().S.targetCalories || 2000,
+              protein: get().S.targetProtein || 140,
+              carbs: Math.round(((get().S.targetCalories || 2000) * 0.45) / 4),
+              fat: Math.round(((get().S.targetCalories || 2000) * 0.25) / 9),
+              monthNumber: 1
+            },
+            weeklyWeights: weeklyWeights.length ? weeklyWeights : get().S.bodyweight.slice(-4).map(b => b.w),
+            workoutSummary,
+            checkin
+          })
+        });
+
+        if (res.plan) {
+          get().update(s => {
+            s.aiPlan = res.plan;
+            s.targetCalories = res.plan.kcal;
+            s.targetProtein = res.plan.protein;
+            
+            s.aiCoachCard = {
+              coachNote: res.plan.coachNote,
+              changes: res.plan.changes || [],
+              weeklyInsight: res.plan.weeklyInsight,
+              celebration: res.plan.celebration || '',
+              seenAt: null
+            };
+
+            if (res.plan.workout && res.plan.workout.length) {
+              const updatedRoutines = [];
+              res.plan.workout.forEach(w => {
+                if (w.r) return;
+                let routine = s.routines.find(r => r.name.toLowerCase().includes(w.n.toLowerCase()));
+                if (!routine) {
+                  routine = { id: uid(), name: w.n, emoji: 'barbell', ex: [] };
+                  s.routines.push(routine);
+                }
+                const mappedEx = w.exercises.map(ex => {
+                  const resolvedId = resolveExerciseId(ex.name);
+                  if (resolvedId) {
+                    return { id: resolvedId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 };
+                  }
+                  const customId = 'cust_' + uid();
+                  s.customEx.push({ id: customId, n: ex.name, bp: 'custom', tg: 'general', eq: 'barbell' });
+                  return { id: customId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 };
+                });
+                routine.ex = mappedEx;
+                updatedRoutines.push(routine);
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Adapt plan error:', err);
+      }
     },
 
     // Boot: ask the server who we are, then pull.
