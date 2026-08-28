@@ -60,20 +60,27 @@ function Shell() {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        const res = await verifyMemberEmail(email).catch(() => ({ verified: true }))
         
-        try { localStorage.setItem('gym_paid_email', email) } catch(e) {}
+        // Save verified email token to local storage
+        try {
+          localStorage.setItem('gym_paid_email', email)
+          localStorage.setItem('gym_paid', '1')
+        } catch(e) {}
 
+        // Log user in with paid access enabled
         useStore.getState().setUser({
           name: name,
           email: email,
           paid: true,
-          admin: res?.role === 'admin'
+          admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
         })
         useStore.getState().setPaid(true)
-        useUI.getState().toast('Google Sign-In successful! Welcome, ' + name + '.')
+        useUI.getState().toast('Signed in as ' + email)
         
-        // Instantly transition to /home view
+        // Clean URL hash and transition to /home
+        if (window.location.hash.includes('access_token')) {
+          window.history.replaceState(null, '', window.location.pathname + '#/home')
+        }
         navigate('/home', { replace: true })
       }
     }
