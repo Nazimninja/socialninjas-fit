@@ -78,6 +78,19 @@ export default function Settings() {
         <>
           <Row icon="person" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} />
           {user.admin && <Row icon="wrench" iconTint="var(--indigo)" title={t('Admin dashboard')} accessory="chevron" onClick={() => nav('/admin')} />}
+          <Row
+            icon="upload"
+            iconTint="var(--acc)"
+            title={t('Sync with Cloud (Backup & Restore)')}
+            subtitle={t('Syncs your workout plan & history across all devices')}
+            accessory="chevron"
+            onClick={async () => {
+              toast(t('Syncing with Cloud...'))
+              await pushState()
+              await pullState()
+              toast(t('✓ Cloud Synced Successfully'))
+            }}
+          />
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
           <Row icon="barbell" iconTint="var(--blue)" title={t('Explore 12+ Workout Programs')} accessory="chevron" onClick={exploreProgramsSheet} />
           <Row icon="sparkles" iconTint="var(--yellow)" title={t('Redo AI Client Onboarding')} accessory="chevron" onClick={onboardingWizardSheet} />

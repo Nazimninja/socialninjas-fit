@@ -122,6 +122,7 @@ export const useStore = create((set, get) => {
         localStorage.setItem('gym_user', JSON.stringify(u))
         localStorage.removeItem('gym_guest')
         if (u.paid) localStorage.setItem('gym_paid', '1')
+        if (u.email) localStorage.setItem('gym_paid_email', u.email.trim().toLowerCase())
       } else {
         localStorage.removeItem('gym_user')
       }
@@ -129,14 +130,33 @@ export const useStore = create((set, get) => {
     },
 
     async pushState() {
-      if (!get().user) return
+      const user = get().user
+      const paidEmail = localStorage.getItem('gym_paid_email')
+      const email = user?.email || paidEmail
+      if (!email) return
       clearTimeout(pushTm)
-      try { await api('/api/data', { method: 'PUT', body: JSON.stringify({ state: get().S }) }); localStorage.removeItem('gym_dirty') }
-      catch (e) { localStorage.setItem('gym_dirty', '1') }
+      try {
+        await api('/api/data', {
+          method: 'PUT',
+          headers: { 'x-user-email': email },
+          body: JSON.stringify({ email, state: get().S })
+        })
+        localStorage.removeItem('gym_dirty')
+      } catch (e) {
+        localStorage.setItem('gym_dirty', '1')
+      }
     },
     async pullState() {
       try {
-        const { state } = await api('/api/data')
+        const user = get().user
+        const paidEmail = localStorage.getItem('gym_paid_email')
+        const email = user?.email || paidEmail
+        if (!email) return
+
+        const res = await api(`/api/data?email=${encodeURIComponent(email)}`, {
+          headers: { 'x-user-email': email }
+        })
+        const state = res.state
         const S = get().S
         const dirty = localStorage.getItem('gym_dirty') === '1'
         if (state && (!hasData(S) || ((state._ts || 0) >= (S._ts || 0) && !dirty))) {
@@ -144,7 +164,9 @@ export const useStore = create((set, get) => {
           const next = Object.assign(clone(DEF), state)
           if (active) next.active = active
           persist(next, false)
-        } else if (hasData(S)) { await get().pushState() }
+        } else if (hasData(S)) {
+          await get().pushState()
+        }
       } catch (e) { /* offline — keep local */ }
     },
 
@@ -266,23 +288,32 @@ export const useStore = create((set, get) => {
       }
     },
 
-    // Boot: ask the server who we are, then pull.
+    // Boot: restore session, pull state from cloud, and initialize.
     async boot() {
-      // Mobile build: no backend either — restore from the file mirror (the durable copy;
-      // localStorage may have been evicted since the last run) and go straight in.
+      // Restore local Google OAuth / paid-email session immediately
+      const paidEmail = localStorage.getItem('gym_paid_email')
+      const storedUser = JSON.parse(localStorage.getItem('gym_user') || 'null')
+      if (storedUser) {
+        get().setUser(storedUser)
+      } else if (paidEmail) {
+        get().setUser({ name: paidEmail.split('@')[0], email: paidEmail, paid: true })
+        get().setPaid(true)
+      }
+
       if (MOBILE) {
         const saved = await nativeLoad()
         const S = get().S
         if (saved && (!hasData(S) || (saved._ts || 0) >= (S._ts || 0))) {
           persist(Object.assign(clone(DEF), saved), false)
         } else if (hasData(S)) {
-          nativeSave(S)   // first run after an update from a file-less version: seed the mirror
+          nativeSave(S)
         }
         get().setGuest(true)
         syncReminder(get().S)
         set({ ready: true })
         return
       }
+
       // Demo build (GitHub Pages): no backend at all — seed once, stay in guest mode.
       if (DEMO) {
         if (!localStorage.getItem(DEMO_SEEDED)) {
@@ -293,37 +324,18 @@ export const useStore = create((set, get) => {
         set({ ready: true })
         return
       }
+
       try {
-        const me = await api('/api/me')
-        get().setUser(me.user)
+        // Sync with Cloudflare backend
         await get().pullState()
-        // Re-stamp the reminder's timezone on every load — keeps it correct if you're travelling,
-        // without needing to revisit Settings.
         const tz = localTZ()
         if (get().S.reminder?.on && get().S.reminder.tz !== tz) {
           get().update(s => { s.reminder = { ...s.reminder, tz } })
         }
       } catch (e) {
-        // Only wipe the user on 401 if there is no locally persisted Google OAuth session.
-        // If gym_paid_email or gym_paid is set, the user signed in via Google — don't clear them.
-        if (e.status === 401) {
-          const hasPaidEmail = !!localStorage.getItem('gym_paid_email')
-          const hasPaidFlag = localStorage.getItem('gym_paid') === '1'
-          if (!hasPaidEmail && !hasPaidFlag) {
-            get().setUser(null)
-          }
-        }
+        // non-fatal
       }
-      // Restore local Google OAuth / paid-email session if not already set by /api/me
-      if (!get().user) {
-        const paidEmail = localStorage.getItem('gym_paid_email')
-        const isPaid = localStorage.getItem('gym_paid') === '1'
-        if (paidEmail && isPaid) {
-          const stored = JSON.parse(localStorage.getItem('gym_user') || 'null')
-          get().setUser(stored || { name: paidEmail.split('@')[0], email: paidEmail, paid: true })
-          get().setPaid(true)
-        }
-      }
+
       set({ ready: true })
     }
   }
