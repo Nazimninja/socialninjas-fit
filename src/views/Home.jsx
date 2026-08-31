@@ -15,16 +15,6 @@ export default function Home() {
   const S = useStore(s => s.S)
   const user = useStore(s => s.user)
   const [weekOffset, setWeekOffset] = useState(0)
-  const hasPromptedOnboarding = useRef(false)
-
-  useEffect(() => {
-    if (hasPromptedOnboarding.current) return
-    hasPromptedOnboarding.current = true
-    const alreadyDone = S.onboarded || (S.routines && S.routines.length > 0) || S.aiPlan || localStorage.getItem('fit_onboarded') === '1'
-    if (!alreadyDone && !S.active) {
-      onboardingWizardSheet()
-    }
-  }, [S.onboarded, S.routines.length, S.aiPlan, S.active])
 
   const today = new Date()
   const routine = effectiveRoutine(S, todayISO())

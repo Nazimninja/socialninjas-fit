@@ -1032,14 +1032,19 @@ function buildCustomWorkoutSplit(days, location, goal, splitId) {
 export function convertPlanToStoreRoutines(workoutList) {
   const routines = []
   const week = {}
-  let dayCount = 1
 
-  workoutList.forEach(w => {
-    if (w.r) {
-      dayCount++
-      return
-    }
+  // Filter out pure rest days
+  const activeWorkouts = workoutList.filter(w => !w.r)
+  const count = activeWorkouts.length
 
+  // Day distribution: 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat
+  let daySlots = [1, 3, 5] // 3-day default: Mon, Wed, Fri
+  if (count === 2) daySlots = [1, 4] // Mon, Thu
+  else if (count === 4) daySlots = [1, 2, 4, 5] // Mon, Tue, Thu, Fri
+  else if (count === 5) daySlots = [1, 2, 3, 4, 5] // Mon - Fri
+  else if (count === 6) daySlots = [1, 2, 3, 4, 5, 6] // Mon - Sat
+
+  activeWorkouts.forEach((w, idx) => {
     const routineId = uid()
     const routine = {
       id: routineId,
@@ -1059,8 +1064,9 @@ export function convertPlanToStoreRoutines(workoutList) {
     })
 
     routines.push(routine)
-    week[dayCount] = routineId
-    dayCount++
+    if (daySlots[idx] !== undefined) {
+      week[daySlots[idx]] = routineId
+    }
   })
 
   return { routines, week }
