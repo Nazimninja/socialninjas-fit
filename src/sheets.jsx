@@ -21,6 +21,7 @@ import { estimate1RM, best1RM, is1RMRecord, REP_CAP } from './lib/onerm.js'
 import { nextPrescription, applyPrescription, policyFor, defaultIncrement, POLICIES_FOR, POLICY_NAME, POLICY_DESC, MAX_BW_SETS } from './lib/progression.js'
 import { MOBILE, shareExport } from './lib/mobile.js'
 import { api } from './lib/api.js'
+import { generateCustomPlan, convertPlanToStoreRoutines, PRESET_PROGRAMS, findEx } from './lib/planGenerator.js'
 
 const S = () => useStore.getState().S
 const update = (...a) => useStore.getState().update(...a)
@@ -1056,91 +1057,116 @@ function OnboardingWizard({ close }) {
   const st = useStore(s => s.S)
   const user = useStore(s => s.user)
   const [step, setStep] = useState(1)
-  const [pname, setPname] = useState(user?.name || 'Athlete')
-  const [age, setAge] = useState(25)
-  const [weight, setWeight] = useState(lastBW(st)?.w || 72)
-  const [height, setHeight] = useState(175)
+  
+  // Editable string state so inputs can be freely typed and cleared without snapping back
+  const [pname, setPname] = useState(user?.name || '')
+  const [age, setAge] = useState('25')
+  const [weight, setWeight] = useState(String(lastBW(st)?.w || '72'))
+  const [height, setHeight] = useState('175')
+  const [targetW, setTargetW] = useState('')
   const [gender, setGender] = useState('male')
   const [goal, setGoal] = useState('muscle')
   const [days, setDays] = useState(4)
   const [location, setLocation] = useState('gym')
+  const [experience, setExperience] = useState('intermediate')
+  const [focus, setFocus] = useState('balanced')
   const [diet, setDiet] = useState('nonveg')
   const [loading, setLoading] = useState(false)
 
-  const handleGenerate = () => {
-    setLoading(true)
-    api('/api/generate-plan', {
-      method: 'POST',
-      body: JSON.stringify({
-        answers: { pname, age, weight, height, gender, goal, days, location, diet }
-      })
-    })
-    .then(res => {
-      if (res.plan) {
-        update(s => {
-          s.aiPlan = res.plan
-          s.aiAnswers = { pname, age, weight, height, gender, goal, days, location, diet }
-          s.targetCalories = res.plan.kcal
-          s.targetProtein = res.plan.protein
-          s.targetW = goal === 'fat_loss' ? Math.round((weight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((weight + 4) * 10) / 10 : weight
-          
-          if (!s.bodyweight.length) {
-            s.bodyweight.push({ d: todayISO(), w: weight, t: Date.now() })
-          }
+  // Live Mifflin-St Jeor Energy Calculation preview
+  const numAge = Number(age) || 25
+  const numWeight = Number(weight) || 72
+  const numHeight = Number(height) || 175
+  const numDays = Number(days) || 4
 
-          const routines = []
-          const week = {}
-          let dayCount = 1
+  let bmrCalc = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5)
+  const actMultipliers = { 2: 1.35, 3: 1.45, 4: 1.55, 5: 1.65, 6: 1.75 }
+  const tdeeCalc = Math.round(bmrCalc * (actMultipliers[numDays] || 1.55))
+  let targetKcalCalc = tdeeCalc
+  if (goal === 'fat_loss') targetKcalCalc = Math.round(tdeeCalc - 450)
+  else if (goal === 'muscle') targetKcalCalc = Math.round(tdeeCalc + 350)
+  else if (goal === 'strength') targetKcalCalc = Math.round(tdeeCalc + 250)
+  else if (goal === 'recomp') targetKcalCalc = Math.round(tdeeCalc - 100)
 
-          res.plan.workout.forEach(w => {
-            if (w.r) {
-              dayCount++
-              return
-            }
+  const targetProteinCalc = Math.round(numWeight * (goal === 'fat_loss' || goal === 'recomp' ? 2.2 : 2.0))
 
-            const routineId = uid()
-            const routine = {
-              id: routineId,
-              name: w.n + (w.t ? ' (' + w.t + ')' : ''),
-              emoji: w.n.toLowerCase().includes('leg') ? 'legs' : w.n.toLowerCase().includes('pull') ? 'pullup' : 'barbell',
-              ex: []
-            }
+  const applyPlanToStore = (plan) => {
+    update(s => {
+      s.aiPlan = plan
+      s.aiAnswers = {
+        pname: pname || 'Athlete',
+        age: numAge,
+        weight: numWeight,
+        height: numHeight,
+        targetW: targetW ? Number(targetW) : null,
+        gender,
+        goal,
+        days: numDays,
+        location,
+        experience,
+        focus,
+        diet
+      }
+      s.targetCalories = plan.kcal
+      s.targetProtein = plan.protein
+      s.targetW = targetW ? Number(targetW) : (goal === 'fat_loss' ? Math.round((numWeight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((numWeight + 4) * 10) / 10 : numWeight)
+      
+      if (!s.bodyweight.length) {
+        s.bodyweight.push({ d: todayISO(), w: numWeight, t: Date.now() })
+      }
 
-            w.exercises.forEach(ex => {
-              const resolvedId = resolveExerciseId(ex.name)
-              if (resolvedId) {
-                routine.ex.push({ id: resolvedId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 })
-              } else {
-                const customId = 'cust_' + uid()
-                s.customEx.push({ id: customId, n: ex.name, bp: 'custom', tg: 'general', eq: 'barbell' })
-                routine.ex.push({ id: customId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 })
-              }
-            })
+      // Convert workout plan to store routines
+      const { routines, week } = convertPlanToStoreRoutines(plan.workout)
+      s.routines = routines
+      s.week = week
 
-            routines.push(routine)
-            week[dayCount] = routineId
-            dayCount++
-          })
-
-          s.routines = routines
-          s.week = week
-
-          s.aiCoachCard = {
-            coachNote: res.plan.coachNote,
-            changes: [],
-            weeklyInsight: res.plan.weeklyInsight || 'Welcome to your custom plan! Let’s crush it! 💪',
-            celebration: '',
-            seenAt: null
-          }
-        })
-        close()
-        toast(t('🎉 AI Plan Generated! ({0} kcal · {1}g Protein)', res.plan.kcal, res.plan.protein))
+      s.aiCoachCard = {
+        coachNote: plan.coachNote,
+        changes: [],
+        weeklyInsight: plan.weeklyInsight || 'Welcome to your custom plan! Let’s crush it! 💪',
+        celebration: '',
+        seenAt: null
       }
     })
-    .catch(err => {
-      setLoading(false)
-      toast(t('❌ Error: {0}', err.message || err))
-    })
+    close()
+    toast(t('🎉 Custom Plan Activated! ({0} kcal · {1}g Protein)', plan.kcal, plan.protein))
+  }
+
+  const handleGenerate = async () => {
+    setLoading(true)
+    const clientAnswers = {
+      pname: pname || 'Athlete',
+      age: numAge,
+      weight: numWeight,
+      height: numHeight,
+      targetW: targetW ? Number(targetW) : null,
+      gender,
+      goal,
+      days: numDays,
+      location,
+      experience,
+      focus,
+      diet
+    }
+
+    try {
+      // 1. Try serverless endpoint (OpenAI / Cloudflare Pages)
+      const res = await api('/api/generate-plan', {
+        method: 'POST',
+        body: JSON.stringify({ answers: clientAnswers })
+      }).catch(() => null)
+
+      if (res && res.plan && res.plan.workout && res.plan.workout.length > 0) {
+        applyPlanToStore(res.plan)
+        return
+      }
+    } catch (e) {
+      console.warn('Serverless plan generation fallback:', e)
+    }
+
+    // 2. Client-side smart generator (100% reliable, zero failures, customized with science-backed formulas & recipes)
+    const localPlan = generateCustomPlan(clientAnswers)
+    applyPlanToStore(localPlan)
   }
 
   if (loading) {
@@ -1149,9 +1175,9 @@ function OnboardingWizard({ close }) {
         <div className="spin" style={{ fontSize: 50, color: 'var(--acc)', display: 'inline-block', marginBottom: 16 }}>
           <Icon name="sparkles" />
         </div>
-        <h3 style={{ margin: '8px 0' }}>{t('Designing Your Plan...')}</h3>
-        <div className="muted small" style={{ lineHeight: 1.6 }}>
-          {t('Our AI Fitness Coach is building your personalized meals, target macros, and custom progressive overload routine split.')}
+        <h3 style={{ margin: '8px 0' }}>{t('Engineering Your Custom Plan...')}</h3>
+        <div className="muted small" style={{ lineHeight: 1.6, maxWidth: 320, margin: '0 auto' }}>
+          {t('Calculating Mifflin-St Jeor daily calories, macro ratios, cultural Indian meals, and your personalized {0}-day progressive overload routine.', numDays)}
         </div>
       </div>
     )
@@ -1163,19 +1189,30 @@ function OnboardingWizard({ close }) {
         Client Onboarding · Step {step} of 3
       </div>
       <h3 style={{ margin: '0 0 14px' }}>
-        {step === 1 ? '1. Athlete Physical Profile' : step === 2 ? '2. Goals & Training Schedule' : '3. Cultural Diet & AI Plan'}
+        {step === 1 ? '1. Athlete Physical Profile' : step === 2 ? '2. Goals, Schedule & Equipment' : '3. Cultural Diet & Plan Creation'}
       </h3>
 
       {step === 1 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div>
-            <label className="small muted">Athlete Name</label>
-            <input className="input" value={pname} onChange={e => setPname(e.target.value)} />
+            <label className="small muted">Athlete / Client Name</label>
+            <input
+              className="input"
+              value={pname}
+              placeholder="e.g. Nazim Pasha"
+              onChange={e => setPname(e.target.value)}
+            />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label className="small muted">Age (years)</label>
-              <input className="input" type="number" value={age} onChange={e => setAge(parseInt(e.target.value) || 25)} />
+              <input
+                className="input"
+                type="number"
+                value={age}
+                placeholder="25"
+                onChange={e => setAge(e.target.value)}
+              />
             </div>
             <div>
               <label className="small muted">Gender</label>
@@ -1187,15 +1224,39 @@ function OnboardingWizard({ close }) {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label className="small muted">Body Weight ({st.unit})</label>
-              <input className="input" type="number" value={weight} onChange={e => setWeight(parseFloat(e.target.value) || 70)} />
+              <label className="small muted">Current Body Weight ({st.unit})</label>
+              <input
+                className="input"
+                type="number"
+                step="0.1"
+                value={weight}
+                placeholder="72.0"
+                onChange={e => setWeight(e.target.value)}
+              />
             </div>
             <div>
               <label className="small muted">Height (cm)</label>
-              <input className="input" type="number" value={height} onChange={e => setHeight(parseInt(e.target.value) || 175)} />
+              <input
+                className="input"
+                type="number"
+                value={height}
+                placeholder="175"
+                onChange={e => setHeight(e.target.value)}
+              />
             </div>
           </div>
-          <Button variant="primary" onClick={() => setStep(2)}>Next: Goals &amp; Training →</Button>
+          <div>
+            <label className="small muted">Target Goal Weight ({st.unit}) <span style={{ opacity: 0.6 }}>(Optional)</span></label>
+            <input
+              className="input"
+              type="number"
+              step="0.1"
+              value={targetW}
+              placeholder={goal === 'fat_loss' ? String(Math.round((numWeight - 5) * 10) / 10) : String(Math.round((numWeight + 4) * 10) / 10)}
+              onChange={e => setTargetW(e.target.value)}
+            />
+          </div>
+          <Button variant="primary" onClick={() => setStep(2)}>Next: Goals &amp; Schedule →</Button>
         </div>
       )}
 
@@ -1204,32 +1265,55 @@ function OnboardingWizard({ close }) {
           <div>
             <label className="small muted">Primary Fitness Goal</label>
             <select className="input" value={goal} onChange={e => setGoal(e.target.value)}>
-              <option value="muscle">🏋️ Muscle Gain (Hypertrophy)</option>
-              <option value="fat_loss">⚡ Fat Loss &amp; Shredding</option>
-              <option value="recomp">💪 Body Recomposition</option>
+              <option value="muscle">🏋️ Hypertrophy &amp; Muscle Building</option>
+              <option value="fat_loss">⚡ Fat Loss &amp; Definition</option>
+              <option value="recomp">💪 Body Recomposition (Build Muscle &amp; Lose Fat)</option>
+              <option value="strength">🏆 Strength &amp; Heavy Powerlifting</option>
               <option value="general">🧘 General Fitness &amp; Longevity</option>
             </select>
           </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label className="small muted">Days per Week</label>
+              <label className="small muted">Training Days / Week</label>
               <select className="input" value={days} onChange={e => setDays(parseInt(e.target.value))}>
-                <option value={3}>3 Days (Mon / Wed / Fri)</option>
+                <option value={2}>2 Days (Full Body)</option>
+                <option value={3}>3 Days (PPL or Full Body)</option>
                 <option value={4}>4 Days (Upper / Lower)</option>
-                <option value={5}>5 Days (PPL Split)</option>
+                <option value={5}>5 Days (Push / Pull / Legs + Upper / Lower)</option>
+                <option value={6}>6 Days (PPL x2 / Arnold Split)</option>
               </select>
             </div>
             <div>
-              <label className="small muted">Location</label>
-              <select className="input" value={location} onChange={e => setLocation(e.target.value)}>
-                <option value="gym">Gym (Full Equipment)</option>
-                <option value="home">Home (Dumbbells &amp; BW)</option>
+              <label className="small muted">Training Experience</label>
+              <select className="input" value={experience} onChange={e => setExperience(e.target.value)}>
+                <option value="beginner">Beginner (&lt; 1 yr)</option>
+                <option value="intermediate">Intermediate (1-3 yrs)</option>
+                <option value="advanced">Advanced (3+ yrs)</option>
               </select>
             </div>
           </div>
+
+          <div>
+            <label className="small muted">Training Location &amp; Equipment</label>
+            <select className="input" value={location} onChange={e => setLocation(e.target.value)}>
+              <option value="gym">🏢 Commercial Gym (Full Barbells, Cables &amp; Machines)</option>
+              <option value="home">🏡 Home Gym (Dumbbells &amp; Bench Only)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="small muted">Muscle Focus Priority</label>
+            <select className="input" value={focus} onChange={e => setFocus(e.target.value)}>
+              <option value="balanced">⚖️ Balanced Full-Body Development</option>
+              <option value="upper">💪 Upper Body Focus (Chest, Back, Arms)</option>
+              <option value="lower">🍑 Lower Body &amp; Glutes Focus</option>
+            </select>
+          </div>
+
           <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
             <Button variant="ghost" onClick={() => setStep(1)}>← Back</Button>
-            <Button variant="primary" onClick={() => setStep(3)}>Next: Diet Preferences →</Button>
+            <Button variant="primary" onClick={() => setStep(3)}>Next: Nutrition &amp; Diet →</Button>
           </div>
         </div>
       )}
@@ -1239,15 +1323,37 @@ function OnboardingWizard({ close }) {
           <div>
             <label className="small muted">Dietary &amp; Cultural Preferences</label>
             <select className="input" value={diet} onChange={e => setDiet(e.target.value)}>
-              <option value="nonveg">🍗 High Protein Non-Veg (Chicken, Fish, Eggs)</option>
-              <option value="veg">🥛 Indian Vegetarian (Paneer, Soya, Dal, Milk)</option>
-              <option value="egg">🥚 Eggetarian (Eggs, Dairy, Plant foods)</option>
-              <option value="vegan">🥗 Plant-Based Vegan (Tofu, Beans, Lentils)</option>
+              <option value="nonveg">🍗 High-Protein Non-Veg (Chicken, Eggs, Fish, Dal)</option>
+              <option value="veg">🥛 Indian Vegetarian (Paneer, Soya Chunks, Dal, Dahi)</option>
+              <option value="egg">🥚 Eggetarian (Eggs, Dairy, Dal, Soya)</option>
+              <option value="vegan">🥗 100% Plant-Based Vegan (Tofu, Soya, Chickpeas)</option>
             </select>
           </div>
-          <div style={{ background: '#070a12', border: '1px solid var(--border)', borderRadius: 12, padding: 14, fontSize: 12, color: 'var(--label-2)', lineHeight: 1.5 }}>
-            ⚡ <b>AI Engine Ready</b>: Calculates Mifflin-St Jeor daily calories, macro targets, and generates progressive overload routines custom-tailored for <b>{pname}</b>.
+
+          {/* Live Calorie & Macro Target Breakdown */}
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 12, padding: 14 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--acc)', textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Icon name="sparkles" /> Estimated Energy &amp; Macro Targets
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, textAlign: 'center', marginBottom: 8 }}>
+              <div style={{ background: 'var(--surface)', padding: '8px 4px', borderRadius: 8 }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--label)' }}>{targetKcalCalc}</div>
+                <div className="small muted" style={{ fontSize: 10 }}>DAILY KCAL</div>
+              </div>
+              <div style={{ background: 'var(--surface)', padding: '8px 4px', borderRadius: 8 }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: '#38bdf8' }}>{targetProteinCalc}g</div>
+                <div className="small muted" style={{ fontSize: 10 }}>PROTEIN</div>
+              </div>
+              <div style={{ background: 'var(--surface)', padding: '8px 4px', borderRadius: 8 }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: '#f59e0b' }}>{numDays}d</div>
+                <div className="small muted" style={{ fontSize: 10 }}>SPLIT</div>
+              </div>
+            </div>
+            <div className="small muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
+              Calculated using the Mifflin-St Jeor equation. The AI Coach will auto-adjust weekly based on your logged workouts and bodyweight updates.
+            </div>
           </div>
+
           <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
             <Button variant="ghost" onClick={() => setStep(2)}>← Back</Button>
             <Button variant="primary" onClick={handleGenerate}>⚡ Generate Custom AI Plan</Button>
@@ -1258,7 +1364,116 @@ function OnboardingWizard({ close }) {
   )
 }
 
+/* ============================ Explore 12+ Pre-built Programs Sheet ============================ */
+function ExploreProgramsModal({ close }) {
+  const [selectedId, setSelectedId] = useState(PRESET_PROGRAMS[0].id)
+  const currentProgram = PRESET_PROGRAMS.find(p => p.id === selectedId) || PRESET_PROGRAMS[0]
+
+  const handleApplyProgram = (program) => {
+    update(s => {
+      const routines = []
+      const week = {}
+      let dayCount = 1
+
+      program.routines.forEach(r => {
+        const routineId = uid()
+        const routine = {
+          id: routineId,
+          name: r.name,
+          emoji: r.emoji,
+          ex: r.exercises.map(e => ({
+            id: findEx(e.name),
+            sets: e.sets,
+            reps: e.reps,
+            weight: e.weight || 0
+          }))
+        }
+        routines.push(routine)
+        week[dayCount] = routineId
+        dayCount++
+      })
+
+      s.routines = routines
+      s.week = week
+    })
+    close()
+    toast(t('✅ Activated "{0}" Program!', currentProgram.name))
+  }
+
+  return (
+    <div style={{ padding: '8px 0', maxHeight: '75vh', overflowY: 'auto' }}>
+      <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--acc)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4 }}>
+        Workout Library
+      </div>
+      <h3 style={{ margin: '0 0 12px' }}>Explore Workout Programs</h3>
+      <div className="muted small" style={{ marginBottom: 14 }}>
+        Choose from 12+ curated, science-backed workout splits designed for different schedules, goals, and equipment.
+      </div>
+
+      {/* Program Selector Pills */}
+      <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 10, marginBottom: 14 }}>
+        {PRESET_PROGRAMS.map(prog => (
+          <button
+            key={prog.id}
+            onClick={() => setSelectedId(prog.id)}
+            style={{
+              flex: 'none',
+              padding: '8px 12px',
+              borderRadius: 10,
+              fontSize: 12,
+              fontWeight: selectedId === prog.id ? 700 : 500,
+              background: selectedId === prog.id ? 'var(--acc)' : 'var(--surface-2)',
+              color: selectedId === prog.id ? 'var(--on-acc)' : 'var(--label)',
+              border: 'none',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {prog.name.split('(')[0]} ({prog.days}d)
+          </button>
+        ))}
+      </div>
+
+      {/* Selected Program Detail Card */}
+      <div style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 14, padding: 16, marginBottom: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+          <h4 style={{ margin: 0, fontSize: 16 }}>{currentProgram.name}</h4>
+          <span style={{ fontSize: 11, background: 'var(--surface)', padding: '3px 8px', borderRadius: 99, color: 'var(--acc)', fontWeight: 700 }}>
+            {currentProgram.badge}
+          </span>
+        </div>
+        <p className="small muted" style={{ margin: '0 0 14px', lineHeight: 1.45 }}>{currentProgram.desc}</p>
+
+        {/* Routines & Exercises in Program */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
+          {currentProgram.routines.map((r, idx) => (
+            <div key={idx} style={{ background: 'var(--surface)', borderRadius: 10, padding: 10 }}>
+              <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--label)', marginBottom: 6 }}>
+                Day {idx + 1}: {r.name}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {r.exercises.map((ex, eIdx) => (
+                  <span key={eIdx} style={{ fontSize: 11, background: 'var(--surface-2)', padding: '2px 7px', borderRadius: 6, color: 'var(--label-2)' }}>
+                    {ex.name} ({ex.sets}x{ex.reps})
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Button variant="primary" onClick={() => handleApplyProgram(currentProgram)}>
+          ⚡ Apply "{currentProgram.name.split('(')[0]}" to My Schedule
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 export function onboardingWizardSheet() {
   ui().openSheet(close => <OnboardingWizard close={close} />, { kind: 'center' })
 }
 
+export function exploreProgramsSheet() {
+  ui().openSheet(close => <ExploreProgramsModal close={close} />, { kind: 'center' })
+}

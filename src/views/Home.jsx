@@ -4,7 +4,7 @@ import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
 import { fmtNum, fmtDate, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, loadStarterPlan, bwDeltaColor, onboardingWizardSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, loadStarterPlan, bwDeltaColor, onboardingWizardSheet, exploreProgramsSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -129,15 +129,29 @@ export default function Home() {
       </div>
     </div>
 
-    {!S.routines.length && !S.active && (
+    {!S.routines.length && !S.active ? (
       <div className="card">
         <div className="row" style={{ gap: 10, marginBottom: 6 }}>
           <span className="lrow-i"><Icon name="sparkles" /></span>
-          <div className="big" style={{ fontSize: 22 }}>{t('Welcome!')}</div>
+          <div className="big" style={{ fontSize: 20 }}>{t('Get Started with Your Plan')}</div>
         </div>
-        <div className="muted small" style={{ marginBottom: 12 }}>{t('Complete client onboarding to build your personalized AI workout & nutrition plan — or load the starter PPL routine.')}</div>
-        <Button variant="primary" icon="sparkles" onClick={onboardingWizardSheet}>{t('⚡ Run AI Client Onboarding & Plan Generator')}</Button>
-        <div style={{ height: 8 }} /><Button onClick={loadStarterPlan}>{t('Load starter plan (PPL)')}</Button>
+        <div className="muted small" style={{ marginBottom: 12 }}>{t('Complete your client onboarding questionnaire for a 100% custom AI workout & Indian nutrition split, or choose from 12+ pre-built workout programs.')}</div>
+        <Button variant="primary" icon="sparkles" onClick={onboardingWizardSheet}>{t('⚡ Run AI Client Onboarding & Custom Plan')}</Button>
+        <div style={{ height: 8 }} />
+        <Button onClick={exploreProgramsSheet}>{t('🏋️ Explore 12+ Pre-built Workout Programs')}</Button>
+      </div>
+    ) : (
+      <div className="card" style={{ padding: '12px 14px' }}>
+        <div className="row between" style={{ alignItems: 'center' }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--label)' }}>{t('Workout & Nutrition Plan')}</div>
+            <div className="small muted" style={{ fontSize: 11 }}>{S.routines.length} routines · {S.targetCalories || 2000} kcal ({S.targetProtein || 140}g Protein)</div>
+          </div>
+          <div className="row" style={{ gap: 6 }}>
+            <Button size="sm" onClick={exploreProgramsSheet}>{t('Programs')}</Button>
+            <Button size="sm" variant="primary" onClick={onboardingWizardSheet}>{t('AI Redo')}</Button>
+          </div>
+        </div>
       </div>
     )}
 

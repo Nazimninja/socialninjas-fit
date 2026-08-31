@@ -10,7 +10,7 @@ import { wakeLockSupported } from '../lib/wakelock.js'
 import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
 import { DEMO, REPO } from '../lib/demo.js'
 import { MOBILE, shareExport, syncReminder } from '../lib/mobile.js'
-import { confirmSheet, onboardingWizardSheet } from '../sheets.jsx'
+import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet } from '../sheets.jsx'
 import Icon from '../components/Icon.jsx'
 import { Section, Row, SelectRow, Switch, Segmented, Button, TextField } from '../components/ui.jsx'
 
@@ -79,11 +79,15 @@ export default function Settings() {
           <Row icon="person" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} />
           {user.admin && <Row icon="wrench" iconTint="var(--indigo)" title={t('Admin dashboard')} accessory="chevron" onClick={() => nav('/admin')} />}
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
+          <Row icon="barbell" iconTint="var(--blue)" title={t('Explore 12+ Workout Programs')} accessory="chevron" onClick={exploreProgramsSheet} />
           <Row icon="sparkles" iconTint="var(--yellow)" title={t('Redo AI Client Onboarding')} accessory="chevron" onClick={onboardingWizardSheet} />
           <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={() => confirmSheet({ title: t('Sign out?'), message: t('Your data is cleared from this device.'), confirmText: t('Sign out'), danger: true, onConfirm: () => { signOut(); nav('/home'); toast(t('Signed out successfully')) } })} />
         </>
       ) : (
-        <Row icon="person" iconTint="var(--blue)" title={t('Sign In or Verify Subscription')} accessory="chevron" onClick={() => nav('/home')} />
+        <>
+          <Row icon="person" iconTint="var(--blue)" title={t('Sign In or Verify Subscription')} accessory="chevron" onClick={() => nav('/home')} />
+          <Row icon="barbell" iconTint="var(--acc)" title={t('Explore 12+ Workout Programs')} accessory="chevron" onClick={exploreProgramsSheet} />
+        </>
       )}
     </Section>
 
