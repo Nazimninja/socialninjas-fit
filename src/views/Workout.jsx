@@ -138,15 +138,26 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
       <span>{t(...plan.why)}</span>
     </div>}
     <div className="card" style={{ marginTop: 10, marginBottom: 0 }}>
+      {/* Friendly visual instruction for beginners */}
+      <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: 8, padding: '6px 10px', marginBottom: 8, fontSize: 11, color: 'var(--label-2)', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span>💡</span>
+        <span>Tap the circle <strong>(◯)</strong> after finishing a set to log it &amp; start rest timer.</span>
+      </div>
+
       {/* the header carries the same eff3 sizing as the rows, or the labels drift off their columns */}
-      <div className={'sethead' + (col3 ? ' eff3' : '')}><span className="n-sp" /><span className="w-sp">{col1.hd}</span>{col2 && <span className="r-sp">{col2.hd}</span>}{col3 && <span className="eff-sp">{col3.hd}</span>}{timed && <span className="ck-sp" />}<span className="ck-sp" /></div>
+      <div className={'sethead' + (col3 ? ' eff3' : '')}>
+        <span className="n-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>SET</span>
+        <span className="w-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col1.hd}</span>
+        {col2 && <span className="r-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col2.hd}</span>}
+        {col3 && <span className="eff-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col3.hd}</span>}
+        {timed && <span className="ck-sp" />}
+        <span className="ck-sp" style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--acc)' }}>DONE</span>
+      </div>
       {entry.sets.map((s, i) => <div key={i} className={'setrow' + (s.done ? ' done' : '') + (col3 ? ' eff3' : '')}>
         <div className="n">{i + 1}</div>
         {cell(s, i, col1, 'w')}
         {col2 && cell(s, i, col2, 'r')}
         {col3 && cell(s, i, col3, 'eff')}
-        {/* A timed set is started, not typed: the timer counts the hold down and checks the
-            set off itself. The checkbox stays for anyone who timed it on their own watch. */}
         {timed && <button className="setgo" aria-label={t('Start set')} disabled={s.done || !!working}
           onClick={() => onStartTimed(i)}><Icon name="play" /></button>}
         <Check checked={s.done} onChange={() => onToggle(i)} />
@@ -354,27 +365,101 @@ function ActiveWorkout() {
       )}
     </> : <div className="empty"><div className="ico"><Icon name="shuffle" /></div>{t('Freestyle workout — add your first exercise.')}</div>}
 
-    <div style={{ height: 12 }} />
-    <div className="row">
-      <Button icon="chevronLeft" disabled={unitIdx <= 0} onClick={() => update(s => { s.active.cur = units[unitIdx - 1][0] })}>{t('Prev')}</Button>
-      <Button trailingIcon="chevronRight" disabled={unitIdx < 0 || unitIdx >= units.length - 1} onClick={() => update(s => { s.active.cur = units[unitIdx + 1][0] })}>{t('Next')}</Button>
+    <div style={{ height: 14 }} />
+    
+    {/* Next / Prev Navigation */}
+    <div className="row" style={{ gap: 8 }}>
+      <Button
+        icon="chevronLeft"
+        disabled={unitIdx <= 0}
+        onClick={() => update(s => { s.active.cur = units[unitIdx - 1][0] })}
+        style={{ flex: 1, padding: '12px 8px', fontSize: 13, fontWeight: 700 }}
+      >
+        {t('← Prev Exercise')}
+      </Button>
+      <Button
+        trailingIcon="chevronRight"
+        disabled={unitIdx < 0 || unitIdx >= units.length - 1}
+        onClick={() => update(s => { s.active.cur = units[unitIdx + 1][0] })}
+        style={{ flex: 1, padding: '12px 8px', fontSize: 13, fontWeight: 700 }}
+      >
+        {unitIdx < units.length - 1 ? t('Next Exercise →') : t('Last Exercise ✓')}
+      </Button>
     </div>
-    <div style={{ height: 10 }} />
-    <Button onClick={() => exercisePicker(ex => exConfigSheet(ex, null, cfg => update(s => {
-      const full = { ...cfg, id: ex.id }
-      const plan = nextPrescription(s, full, s.routines.find(r => r.id === s.active.routineId))
-      s.active.entries.push({ id: ex.id, target: { ...cfg }, plan, sets: applyPrescription(buildSets(s, full), plan) })
-      s.active.cur = s.active.entries.length - 1
-    }), null, S.routines.find(r => r.id === A.routineId)))} icon="plus">{t('Add exercise')}</Button>
-    <div style={{ height: 10 }} />
+
+    {/* Finish / Session Management Card */}
     {(() => {
       const exDone = A.entries.filter(e => e.sets.length && e.sets.every(s => s.done)).length
       const allDone = A.entries.length > 0 && exDone === A.entries.length
-      return <button className={allDone ? 'btn primary' : 'btn ghost dim'} onClick={finishWorkout}>
-        {allDone ? t('Finish workout') : t('Finish workout early · {0} exercises', exDone + '/' + A.entries.length)}
-      </button>
+      return (
+        <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px', marginTop: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 13, color: allDone ? 'var(--acc)' : 'var(--label)' }}>
+                {allDone ? '🎉 All Planned Exercises Completed!' : `Session: ${exDone}/${A.entries.length} Exercises Done`}
+              </div>
+              <div className="small muted" style={{ fontSize: 11 }}>
+                {done}/{total} total sets logged
+              </div>
+            </div>
+            <Button
+              size="sm"
+              icon="plus"
+              onClick={() => exercisePicker(ex => exConfigSheet(ex, null, cfg => update(s => {
+                const full = { ...cfg, id: ex.id }
+                const plan = nextPrescription(s, full, s.routines.find(r => r.id === s.active.routineId))
+                s.active.entries.push({ id: ex.id, target: { ...cfg }, plan, sets: applyPrescription(buildSets(s, full), plan) })
+                s.active.cur = s.active.entries.length - 1
+              }), null, S.routines.find(r => r.id === A.routineId)))}
+            >
+              + Exercise
+            </Button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <button
+              type="button"
+              className={'btn ' + (allDone ? 'primary' : 'primary')}
+              onClick={finishWorkout}
+              style={{
+                width: '100%',
+                padding: '14px',
+                fontSize: 15,
+                fontWeight: 800,
+                background: allDone ? 'var(--acc)' : 'linear-gradient(135deg, rgba(16, 185, 129, 0.2), var(--surface-3))',
+                color: allDone ? 'var(--on-acc)' : 'var(--label)',
+                border: allDone ? 'none' : '1px solid var(--acc)',
+                borderRadius: 12,
+                cursor: 'pointer'
+              }}
+            >
+              {allDone ? '🎉 Finish & Save Workout' : `🏁 Finish Workout (${exDone}/${A.entries.length} Completed)`}
+            </button>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <Button variant="ghost" icon={A.paused ? 'play' : 'pause'} onClick={togglePauseWorkout} style={{ fontSize: 12 }}>
+                {A.paused ? '▶️ Resume' : '⏸️ Pause Workout'}
+              </Button>
+              <Button
+                variant="ghost"
+                icon="xmark"
+                onClick={() => confirmSheet({
+                  title: t('Discard workout?'),
+                  message: t('The sets you logged in this session will be lost.'),
+                  confirmText: t('Discard'),
+                  danger: true,
+                  onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') }
+                })}
+                style={{ fontSize: 12, color: 'var(--red)' }}
+              >
+                Discard Session
+              </Button>
+            </div>
+          </div>
+        </div>
+      )
     })()}
-    <div style={{ height: 40 }} />
+    <div style={{ height: 60 }} />
   </div>
 }
 
