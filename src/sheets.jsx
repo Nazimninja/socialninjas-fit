@@ -1704,9 +1704,10 @@ function WeeklyCheckinModal({ close }) {
   const S_state = useStore(s => s.S)
   const update = useStore(s => s.update)
   const lastBwVal = (S_state.bodyweight && S_state.bodyweight.length > 0) ? S_state.bodyweight[S_state.bodyweight.length - 1].w : (S_state.aiAnswers?.weight || 70)
+  const prevBwVal = (S_state.bodyweight && S_state.bodyweight.length > 1) ? S_state.bodyweight[S_state.bodyweight.length - 2].w : null
 
-  const [weightStr, setWeightStr] = useState(String(lastBwVal))
-  const [photos, setPhotos] = useState([])
+  const [weight, setWeight] = useState(lastBwVal)
+  const [photos, setPhotos] = useState([]) // [{ id, url, slot: 'front' | 'side' | 'back' }]
   const [difficulty, setDifficulty] = useState('good') // 'easy', 'good', 'hard'
   const [soreness, setSoreness] = useState('mild') // 'fresh', 'mild', 'sore'
   const [dietRating, setDietRating] = useState('on_track') // 'on_track', 'minor_slip', 'cravings'
@@ -1714,18 +1715,26 @@ function WeeklyCheckinModal({ close }) {
   const [loading, setLoading] = useState(false)
   const [compressing, setCompressing] = useState(false)
 
-  const handlePhotoUpload = async (e) => {
-    const files = Array.from(e.target.files || [])
-    if (!files.length) return
+  // Weight adjustments
+  const adjustWeight = (delta) => {
+    setWeight(prev => {
+      const next = Math.round((Number(prev) + delta) * 10) / 10
+      return Math.max(25, Math.min(300, next))
+    })
+  }
+
+  const deltaFromLast = prevBwVal ? Math.round((weight - prevBwVal) * 10) / 10 : 0
+
+  const handlePhotoUploadForSlot = async (slot, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
     setCompressing(true)
     try {
-      const compressedList = []
-      for (const file of files) {
-        if (photos.length + compressedList.length >= 4) break
-        const dataUrl = await compressImageFile(file)
-        compressedList.push({ id: uid(), url: dataUrl, label: 'Physique Photo' })
-      }
-      setPhotos(prev => [...prev, ...compressedList].slice(0, 4))
+      const dataUrl = await compressImageFile(file)
+      setPhotos(prev => {
+        const filtered = prev.filter(p => p.slot !== slot)
+        return [...filtered, { id: uid(), url: dataUrl, slot }]
+      })
     } catch (err) {
       toast('Failed to process photo: ' + err.message)
     } finally {
@@ -1733,12 +1742,14 @@ function WeeklyCheckinModal({ close }) {
     }
   }
 
-  const removePhoto = (idx) => {
-    setPhotos(prev => prev.filter((_, i) => i !== idx))
+  const removePhotoSlot = (slot) => {
+    setPhotos(prev => prev.filter(p => p.slot !== slot))
   }
 
+  const getPhotoForSlot = (slot) => photos.find(p => p.slot === slot)
+
   const handleSubmit = async () => {
-    const numericWeight = parseFloat(weightStr)
+    const numericWeight = Number(weight)
     if (isNaN(numericWeight) || numericWeight <= 20 || numericWeight >= 400) {
       toast('Please enter a valid bodyweight in ' + S_state.unit)
       return
@@ -1751,9 +1762,7 @@ function WeeklyCheckinModal({ close }) {
 
     // 1. Update client store with bodyweight, checkin, and photos
     update(s => {
-      // Add bodyweight log
       s.bodyweight.push({ d: checkinDate, t: Date.now(), w: numericWeight })
-      // Add checkin entry
       s.checkins = s.checkins || []
       s.checkins.push({
         id: checkinId,
@@ -1765,15 +1774,14 @@ function WeeklyCheckinModal({ close }) {
         notes,
         photos: photoUrls
       })
-      // Add photos to gallery
       s.photos = s.photos || []
-      photoUrls.forEach((url, i) => {
+      photos.forEach(p => {
         s.photos.push({
           id: uid(),
           date: checkinDate,
           weight: numericWeight,
-          photoUrl: url,
-          label: `Check-in ${checkinDate}`,
+          photoUrl: p.url,
+          label: `${p.slot.toUpperCase()} Pose · ${checkinDate}`,
           notes
         })
       })
@@ -1821,10 +1829,9 @@ function WeeklyCheckinModal({ close }) {
         })
         if (res && res.kcal) adapted = res
       } catch (e) {
-        // Fallback to deterministic Mifflin-St Jeor adaptation
+        // Fallback to deterministic adaptation
       }
 
-      // If remote failed or was unavailable, compute smart local adaptation
       if (!adapted) {
         const deltaW = weeklyWeights.length > 1 ? numericWeight - weeklyWeights[weeklyWeights.length - 2] : 0
         let newKcal = currentPlan.kcal
@@ -1834,25 +1841,25 @@ function WeeklyCheckinModal({ close }) {
         if (answers.goal === 'fat_loss') {
           if (deltaW > -0.2) {
             newKcal = Math.max(1400, newKcal - 100)
-            changes.push('Reduced daily target by 100 kcal to break weight plateau')
+            changes.push('Adjusted daily calories (-100 kcal) to accelerate fat loss')
           } else {
-            celebration = `Great fat loss pace (${Math.abs(deltaW).toFixed(1)} kg drop this week)!`
+            celebration = `Great fat loss progression (${Math.abs(deltaW).toFixed(1)} kg drop)!`
             changes.push('Maintained current calorie deficit as progression is optimal')
           }
         } else if (answers.goal === 'muscle') {
           if (deltaW < 0.1) {
             newKcal = newKcal + 120
-            changes.push('Increased calories by 120 kcal to accelerate muscle hypertrophy')
+            changes.push('Increased calories (+120 kcal) for sustained hypertrophy')
           } else {
             celebration = `Solid muscle gain trend (+${deltaW.toFixed(1)} kg)!`
-            changes.push('Preserved calorie surplus for steady lean tissue growth')
+            changes.push('Preserved calorie surplus for steady muscle building')
           }
         }
 
         if (difficulty === 'easy') {
-          changes.push('Weights felt light — increased recommended exercise working weights by 2.5kg')
+          changes.push('Progressive overload: recommended working weights bumped by +2.5kg')
         } else if (difficulty === 'hard' || soreness === 'sore') {
-          changes.push('Added extra recovery guidance to prevent central nervous system fatigue')
+          changes.push('Recovery protocol active: prioritizing sleep & hydration')
         }
 
         const newProtein = Math.round(numericWeight * 2.0)
@@ -1861,15 +1868,14 @@ function WeeklyCheckinModal({ close }) {
           protein: newProtein,
           carbs: Math.round((newKcal * 0.45) / 4),
           fat: Math.round((newKcal * 0.25) / 9),
-          coachNote: `Weekly check-in processed. Current weight logged at ${numericWeight} ${S_state.unit}. We adjusted your energy targets to optimize progressive overload and body composition.`,
+          coachNote: `Weekly check-in logged at ${numericWeight} ${S_state.unit}. Energy targets updated to support progressive overload.`,
           changes,
-          weeklyInsight: 'Keep tracking your daily meals and focus on quality protein intake post-workout! 🔥',
+          weeklyInsight: 'Keep pushing your working sets close to failure and hit your protein target! 🔥',
           celebration,
           meals: currentPlan.meals || []
         }
       }
 
-      // 3. Apply adapted plan
       update(s => {
         s.targetCalories = adapted.kcal
         s.targetProtein = adapted.protein
@@ -1883,7 +1889,7 @@ function WeeklyCheckinModal({ close }) {
         }
       })
 
-      toast('🎉 Check-in & Photos Saved! AI Plan Adapted.')
+      toast('🎉 Check-in & Photos Logged! AI Plan Adapted.')
       close()
     } catch (err) {
       toast('Check-in saved locally.')
@@ -1894,184 +1900,256 @@ function WeeklyCheckinModal({ close }) {
   }
 
   return (
-    <div style={{ maxHeight: '85vh', overflowY: 'auto', padding: '16px 20px 24px', width: '100%', maxWidth: '480px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: 'var(--label)' }}>
-            📸 Weekly Progress Check-in
-          </h3>
-          <div className="small muted" style={{ fontSize: 11 }}>
-            Update your bodyweight, upload physique photos &amp; let Coach AI adapt your plan.
+    <div style={{ maxHeight: '88vh', overflowY: 'auto', padding: '16px 20px 24px', width: '100%', maxWidth: '480px', boxSizing: 'border-box' }}>
+      {/* ── HEADER ──────────────────────────────────────────────── */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 38, height: 38, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
+            📸
+          </div>
+          <div>
+            <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--label)' }}>
+              Weekly Progress Check-in
+            </h3>
+            <div className="small muted" style={{ fontSize: 11 }}>
+              Monday Weigh-in &amp; AI Plan Adaptation
+            </div>
           </div>
         </div>
         <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
       </div>
 
-      {/* Step 1: Current Body Weight */}
-      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
-          1. Current Weigh-in ({S_state.unit})
-        </label>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      {/* ── SECTION 1: DIGITAL WEIGH-IN HUD ─────────────────────── */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, rgba(28, 28, 30, 0.95), rgba(18, 18, 20, 0.98))',
+          border: '1px solid var(--sep)',
+          borderRadius: 16,
+          padding: '16px 14px',
+          marginBottom: 14,
+          textAlign: 'center',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+        }}
+      >
+        <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--acc)', marginBottom: 10 }}>
+          ⚖️ Current Body Weight
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 10 }}>
           <button
             type="button"
-            className="iconbtn"
-            style={{ background: 'var(--surface-3)', width: 36, height: 36 }}
-            onClick={() => setWeightStr(s => String(Math.max(20, (parseFloat(s) || 70) - 0.2).toFixed(1)))}
-          >
-            <Icon name="minus" />
-          </button>
-          <input
-            type="number"
-            step="0.1"
-            value={weightStr}
-            onChange={e => setWeightStr(e.target.value)}
+            onClick={() => adjustWeight(-0.2)}
             style={{
-              flex: 1, background: 'var(--surface-3)', border: '1px solid var(--sep)',
-              borderRadius: 8, padding: '8px 12px', fontSize: 18, fontWeight: 800,
-              color: 'var(--label)', textAlign: 'center'
+              width: 44, height: 44, borderRadius: '50%', background: 'var(--surface-3)',
+              border: '1px solid var(--sep)', color: 'var(--label)', fontSize: 20, fontWeight: 700,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
             }}
-          />
+          >
+            −
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+            <span style={{ fontSize: 38, fontWeight: 900, color: 'var(--label)', letterSpacing: '-0.5px' }}>
+              {Number(weight).toFixed(1)}
+            </span>
+            <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--acc)' }}>
+              {S_state.unit}
+            </span>
+          </div>
+
           <button
             type="button"
-            className="iconbtn"
-            style={{ background: 'var(--surface-3)', width: 36, height: 36 }}
-            onClick={() => setWeightStr(s => String(Math.min(300, (parseFloat(s) || 70) + 0.2).toFixed(1)))}
+            onClick={() => adjustWeight(+0.2)}
+            style={{
+              width: 44, height: 44, borderRadius: '50%', background: 'var(--surface-3)',
+              border: '1px solid var(--sep)', color: 'var(--label)', fontSize: 20, fontWeight: 700,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+            }}
           >
-            <Icon name="plus" />
+            +
           </button>
+        </div>
+
+        {/* Delta vs Last Week */}
+        {prevBwVal ? (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: deltaFromLast > 0 ? 'rgba(56, 189, 248, 0.12)' : deltaFromLast < 0 ? 'rgba(16, 185, 129, 0.12)' : 'var(--surface-3)', border: '1px solid var(--sep)', borderRadius: 99, padding: '3px 10px', fontSize: 11, fontWeight: 700, color: deltaFromLast > 0 ? '#38bdf8' : deltaFromLast < 0 ? 'var(--acc)' : 'var(--label-2)' }}>
+            {deltaFromLast > 0 ? `📈 +${deltaFromLast} ${S_state.unit} since last check-in` : deltaFromLast < 0 ? `📉 ${deltaFromLast} ${S_state.unit} since last check-in` : `⚖️ No weight change`}
+          </div>
+        ) : (
+          <div style={{ fontSize: 11, color: 'var(--label-3)' }}>
+            First weekly weigh-in milestone
+          </div>
+        )}
+
+        {/* Quick Stepper Chips */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 12 }}>
+          {[-1.0, -0.5, +0.5, +1.0].map(d => (
+            <button
+              key={d}
+              type="button"
+              onClick={() => adjustWeight(d)}
+              style={{
+                background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 8,
+                padding: '4px 10px', fontSize: 11, fontWeight: 700, color: 'var(--label-2)', cursor: 'pointer'
+              }}
+            >
+              {d > 0 ? `+${d}` : d}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Step 2: Physique Progress Photos */}
-      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)' }}>
-            2. Physique Photos (Optional)
-          </label>
-          <span style={{ fontSize: 10, color: 'var(--label-3)' }}>{photos.length}/4 uploaded</span>
+      {/* ── SECTION 2: PHYSIQUE PHOTOS STUDIO ───────────────────── */}
+      <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 14px', marginBottom: 14 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--acc)' }}>
+            📸 Physique Progress Photos
+          </div>
+          <span style={{ fontSize: 10, color: 'var(--label-3)' }}>{photos.length}/3 Angles</span>
         </div>
 
-        {/* Photo Gallery Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 10 }}>
-          {photos.map((p, idx) => (
-            <div key={p.id || idx} style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', height: 80, background: '#000', border: '1px solid var(--sep)' }}>
-              <img src={p.url} alt="Progress" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+          {[
+            { slot: 'front', label: 'Front Pose', icon: '👤' },
+            { slot: 'side', label: 'Side Pose', icon: '🚶' },
+            { slot: 'back', label: 'Back Pose', icon: '🔙' }
+          ].map(item => {
+            const photo = getPhotoForSlot(item.slot)
+            return (
+              <div key={item.slot} style={{ textAlign: 'center' }}>
+                {photo ? (
+                  <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', height: 100, background: '#000', border: '1.5px solid var(--acc)' }}>
+                    <img src={photo.url} alt={item.label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <button
+                      type="button"
+                      onClick={() => removePhotoSlot(item.slot)}
+                      style={{
+                        position: 'absolute', top: 4, right: 4, background: 'rgba(0,0,0,0.75)',
+                        border: 'none', borderRadius: '50%', width: 22, height: 22, color: '#fff',
+                        fontSize: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                      }}
+                    >
+                      ✕
+                    </button>
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.75)', padding: '2px 0', fontSize: 9, fontWeight: 800, color: 'var(--acc)' }}>
+                      ✓ {item.label}
+                    </div>
+                  </div>
+                ) : (
+                  <label
+                    style={{
+                      height: 100, border: '1.5px dashed var(--sep)', borderRadius: 10,
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                      gap: 4, cursor: 'pointer', background: 'var(--surface-3)', color: 'var(--label-2)'
+                    }}
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handlePhotoUploadForSlot(item.slot, e)}
+                      style={{ display: 'none' }}
+                    />
+                    <span style={{ fontSize: 20 }}>{item.icon}</span>
+                    <span style={{ fontSize: 10, fontWeight: 700 }}>+ {item.label}</span>
+                  </label>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ── SECTION 3: TRAINING & FATIGUE RATINGS ────────────────── */}
+      <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 14px', marginBottom: 14 }}>
+        {/* Workout Difficulty */}
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
+            🏋️ How Did Workouts Feel This Week?
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+            {[
+              { id: 'easy', label: '😅 Too Easy', desc: 'Ready for more' },
+              { id: 'good', label: '💪 Just Right', desc: 'Great pump' },
+              { id: 'hard', label: '😤 Brutal', desc: 'Heavy fatigue' }
+            ].map(opt => (
               <button
+                key={opt.id}
                 type="button"
-                onClick={() => removePhoto(idx)}
+                onClick={() => setDifficulty(opt.id)}
                 style={{
-                  position: 'absolute', top: 3, right: 3, background: 'rgba(0,0,0,0.7)',
-                  border: 'none', borderRadius: '50%', width: 20, height: 20, color: '#fff',
-                  fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                  background: difficulty === opt.id ? 'var(--acc)' : 'var(--surface-3)',
+                  color: difficulty === opt.id ? 'var(--on-acc)' : 'var(--label)',
+                  border: '1px solid ' + (difficulty === opt.id ? 'var(--acc)' : 'var(--sep)'),
+                  borderRadius: 10, padding: '9px 4px', textAlign: 'center', cursor: 'pointer'
                 }}
               >
-                ✕
+                <div style={{ fontWeight: 800, fontSize: 11 }}>{opt.label}</div>
+                <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2 }}>{opt.desc}</div>
               </button>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
 
-          {photos.length < 4 && (
-            <label
-              style={{
-                height: 80, border: '2px dashed var(--sep)', borderRadius: 8,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                gap: 4, cursor: 'pointer', background: 'var(--surface-3)', color: 'var(--label-2)'
-              }}
-            >
-              <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} style={{ display: 'none' }} />
-              <span style={{ fontSize: 18 }}>📸</span>
-              <span style={{ fontSize: 10, fontWeight: 600 }}>{compressing ? 'Optimizing…' : '+ Add Photo'}</span>
-            </label>
-          )}
+        {/* Muscle Soreness & Recovery */}
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
+            🧘 Muscle Soreness &amp; Recovery:
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+            {[
+              { id: 'fresh', label: '🌿 Fresh', desc: 'No joint pain' },
+              { id: 'mild', label: '⚡ Mild', desc: 'Good soreness' },
+              { id: 'sore', label: '🛑 Very Sore', desc: 'Need recovery' }
+            ].map(opt => (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setSoreness(opt.id)}
+                style={{
+                  background: soreness === opt.id ? 'var(--surface-3)' : 'var(--surface-3)',
+                  color: soreness === opt.id ? 'var(--orange)' : 'var(--label)',
+                  border: '1.5px solid ' + (soreness === opt.id ? 'var(--orange)' : 'var(--sep)'),
+                  borderRadius: 10, padding: '9px 4px', textAlign: 'center', cursor: 'pointer'
+                }}
+              >
+                <div style={{ fontWeight: 800, fontSize: 11 }}>{opt.label}</div>
+                <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2 }}>{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Diet Adherence */}
+        <div>
+          <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
+            🥗 Nutrition &amp; Diet Adherence:
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+            {[
+              { id: 'on_track', label: '💯 100% On Track' },
+              { id: 'minor_slip', label: '🥪 80% Good' },
+              { id: 'cravings', label: '🍕 Off Track' }
+            ].map(opt => (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => setDietRating(opt.id)}
+                style={{
+                  background: dietRating === opt.id ? 'var(--acc)' : 'var(--surface-3)',
+                  color: dietRating === opt.id ? 'var(--on-acc)' : 'var(--label)',
+                  border: '1px solid ' + (dietRating === opt.id ? 'var(--acc)' : 'var(--sep)'),
+                  borderRadius: 10, padding: '9px 4px', textAlign: 'center', cursor: 'pointer', fontSize: 11, fontWeight: 800
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Step 3: Training & Soreness Ratings */}
-      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
-          3. How Did Your Workouts Feel?
-        </label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 10 }}>
-          {[
-            { id: 'easy', label: '😅 Too Easy', desc: 'Ready for more' },
-            { id: 'good', label: '💪 Just Right', desc: 'Great pump' },
-            { id: 'hard', label: '😤 Brutal', desc: 'High fatigue' }
-          ].map(opt => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => setDifficulty(opt.id)}
-              style={{
-                background: difficulty === opt.id ? 'var(--acc)' : 'var(--surface-3)',
-                color: difficulty === opt.id ? 'var(--on-acc)' : 'var(--label)',
-                border: '1px solid ' + (difficulty === opt.id ? 'var(--acc)' : 'var(--sep)'),
-                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer'
-              }}
-            >
-              <div style={{ fontWeight: 700, fontSize: 11 }}>{opt.label}</div>
-              <div style={{ fontSize: 9, opacity: 0.8 }}>{opt.desc}</div>
-            </button>
-          ))}
-        </div>
-
-        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
-          Muscle Recovery &amp; Soreness:
-        </label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
-          {[
-            { id: 'fresh', label: '😌 Fresh', desc: 'No aches' },
-            { id: 'mild', label: '😐 Normal', desc: 'Mild soreness' },
-            { id: 'sore', label: '😣 Very Sore', desc: 'Need recovery' }
-          ].map(opt => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => setSoreness(opt.id)}
-              style={{
-                background: soreness === opt.id ? 'var(--orange)' : 'var(--surface-3)',
-                color: soreness === opt.id ? '#000' : 'var(--label)',
-                border: '1px solid ' + (soreness === opt.id ? 'var(--orange)' : 'var(--sep)'),
-                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer'
-              }}
-            >
-              <div style={{ fontWeight: 700, fontSize: 11 }}>{opt.label}</div>
-              <div style={{ fontSize: 9, opacity: 0.8 }}>{opt.desc}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Step 4: Diet Adherence */}
-      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
-          4. Diet &amp; Nutrition Adherence
-        </label>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
-          {[
-            { id: 'on_track', label: '🥗 100% On Track' },
-            { id: 'minor_slip', label: '🥪 80% Good' },
-            { id: 'cravings', label: '🍕 High Cravings' }
-          ].map(opt => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => setDietRating(opt.id)}
-              style={{
-                background: dietRating === opt.id ? 'var(--acc)' : 'var(--surface-3)',
-                color: dietRating === opt.id ? 'var(--on-acc)' : 'var(--label)',
-                border: '1px solid ' + (dietRating === opt.id ? 'var(--acc)' : 'var(--sep)'),
-                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer', fontSize: 11, fontWeight: 700
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Step 5: Optional Feedback Notes */}
-      <div style={{ marginBottom: 16 }}>
+      {/* ── SECTION 4: COACH NOTES (OPTIONAL) ───────────────────── */}
+      <div style={{ marginBottom: 14 }}>
         <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-3)', display: 'block', marginBottom: 4 }}>
           Notes for Coach AI (Optional):
         </label>
@@ -2079,16 +2157,31 @@ function WeeklyCheckinModal({ close }) {
           rows={2}
           value={notes}
           onChange={e => setNotes(e.target.value)}
-          placeholder="e.g. Felt great on bench press, slight knee stiffness on squats, energy was high."
+          placeholder="e.g. Set new PR on incline dumbbell press! Feeling energetic."
           style={{
             width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)',
-            borderRadius: 8, padding: '8px 10px', fontSize: 12, color: 'var(--label)', boxSizing: 'border-box'
+            borderRadius: 10, padding: '10px 12px', fontSize: 12, color: 'var(--label)', boxSizing: 'border-box'
           }}
         />
       </div>
 
-      <Button variant="primary" onClick={handleSubmit} disabled={loading || compressing} icon="sparkles" style={{ width: '100%', padding: '12px', fontSize: 14, fontWeight: 700 }}>
-        {loading ? '⚡ Analyzing with Coach AI…' : '⚡ Submit Check-in & Adapt My AI Plan'}
+      {/* ── SUBMIT BUTTON ───────────────────────────────────────── */}
+      <Button
+        variant="primary"
+        onClick={handleSubmit}
+        disabled={loading || compressing}
+        icon="sparkles"
+        style={{
+          width: '100%',
+          padding: '14px',
+          fontSize: 15,
+          fontWeight: 800,
+          background: 'var(--acc)',
+          color: 'var(--on-acc)',
+          boxShadow: '0 4px 18px rgba(16, 185, 129, 0.3)'
+        }}
+      >
+        {loading ? '⚡ Analyzing & Adapting AI Plan…' : '⚡ Submit Check-in & Adapt My AI Plan'}
       </Button>
     </div>
   )
