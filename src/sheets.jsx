@@ -1053,27 +1053,56 @@ function PostWorkoutCheckin({ w, prs, e1prs, close }) {
 }
 
 /* ============================ onboarding & ai plan wizard ============================ */
+const ONBOARDING_SPLITS = {
+  3: [
+    { id: 'ppl-3', title: 'Push / Pull / Legs (PPL)', desc: 'Mon: Chest & Shoulders · Wed: Back & Arms · Fri: Legs', badge: 'Most Popular' },
+    { id: 'full-body-3', title: '3-Day Full Body Blast', desc: 'Mon / Wed / Fri: Full body compound workouts every session', badge: 'Best for Beginners' },
+    { id: 'calisthenics-3', title: 'Bodyweight & Calisthenics', desc: 'Push-ups, Pull-ups, Dips, Squats & Core (Zero Equipment)', badge: 'No Equipment' }
+  ],
+  4: [
+    { id: 'upper-lower-4', title: 'Upper / Lower Split', desc: 'Upper Body Mon/Thu · Lower Body Tue/Fri (3 Recovery Days)', badge: 'Best Balance' },
+    { id: 'bro-split-4', title: '4-Day Bodypart Split', desc: 'Day 1: Chest/Tri · Day 2: Back/Bi · Day 3: Shoulders · Day 4: Legs', badge: 'Bodybuilding' },
+    { id: 'home-dumbbell-4', title: 'Home Dumbbell & Bench', desc: 'Complete 4-day muscle routine using only dumbbells & bench', badge: 'Home Friendly' },
+    { id: 'fat-burn-shred-4', title: 'Fat Burn & Athletic Shred', desc: 'High-density supersets + compound lifting for rapid fat loss', badge: 'Shred & Tone' }
+  ],
+  5: [
+    { id: 'pplul-5', title: 'Push / Pull / Legs + Upper / Lower', desc: '3-Day PPL followed by 2-Day Upper/Lower for maximum growth', badge: 'Top Recommended' },
+    { id: 'bro-split-5', title: 'Classic 5-Day Bro Split', desc: 'Mon: Chest · Tue: Back · Wed: Shoulders · Thu: Arms · Fri: Legs', badge: 'Classic Mass' }
+  ],
+  6: [
+    { id: 'ppl-6', title: 'Push / Pull / Legs (2x/Week)', desc: 'Push A, Pull A, Legs A, Push B, Pull B, Legs B for maximum volume', badge: 'Advanced' },
+    { id: 'arnold-split-6', title: 'Arnold Schwarzenegger Split', desc: 'Chest+Back, Shoulders+Arms, Legs repeated twice a week', badge: 'Golden Era' }
+  ]
+}
+
 function OnboardingWizard({ close }) {
   const st = useStore(s => s.S)
   const user = useStore(s => s.user)
   const [step, setStep] = useState(1)
   
-  // Editable string state so inputs can be freely typed and cleared without snapping back
+  // State
   const [pname, setPname] = useState(user?.name || '')
   const [age, setAge] = useState('25')
   const [weight, setWeight] = useState(String(lastBW(st)?.w || '72'))
   const [height, setHeight] = useState('175')
-  const [targetW, setTargetW] = useState('')
   const [gender, setGender] = useState('male')
-  const [goal, setGoal] = useState('muscle')
+  const [goal, setGoal] = useState('muscle') // 'fat_loss', 'muscle', 'general'
   const [days, setDays] = useState(4)
-  const [location, setLocation] = useState('gym')
-  const [experience, setExperience] = useState('intermediate')
-  const [focus, setFocus] = useState('balanced')
-  const [diet, setDiet] = useState('nonveg')
+  const [location, setLocation] = useState('gym') // 'gym', 'home'
+  const [splitId, setSplitId] = useState('upper-lower-4')
+  const [diet, setDiet] = useState('nonveg') // 'nonveg', 'veg', 'egg', 'vegan'
   const [loading, setLoading] = useState(false)
 
-  // Live Mifflin-St Jeor Energy Calculation preview
+  // When days change, update default split
+  const handleDaysChange = (newDays) => {
+    setDays(newDays)
+    const available = ONBOARDING_SPLITS[newDays] || []
+    if (available.length > 0) {
+      setSplitId(available[0].id)
+    }
+  }
+
+  // Energy Calculation Preview
   const numAge = Number(age) || 25
   const numWeight = Number(weight) || 72
   const numHeight = Number(height) || 175
@@ -1085,10 +1114,9 @@ function OnboardingWizard({ close }) {
   let targetKcalCalc = tdeeCalc
   if (goal === 'fat_loss') targetKcalCalc = Math.round(tdeeCalc - 450)
   else if (goal === 'muscle') targetKcalCalc = Math.round(tdeeCalc + 350)
-  else if (goal === 'strength') targetKcalCalc = Math.round(tdeeCalc + 250)
-  else if (goal === 'recomp') targetKcalCalc = Math.round(tdeeCalc - 100)
+  else if (goal === 'general') targetKcalCalc = Math.round(tdeeCalc)
 
-  const targetProteinCalc = Math.round(numWeight * (goal === 'fat_loss' || goal === 'recomp' ? 2.2 : 2.0))
+  const targetProteinCalc = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0))
 
   const applyPlanToStore = (plan) => {
     localStorage.setItem('fit_onboarded', '1')
@@ -1101,18 +1129,16 @@ function OnboardingWizard({ close }) {
         age: numAge,
         weight: numWeight,
         height: numHeight,
-        targetW: targetW ? Number(targetW) : null,
         gender,
         goal,
         days: numDays,
         location,
-        experience,
-        focus,
+        splitId,
         diet
       }
       s.targetCalories = plan.kcal
       s.targetProtein = plan.protein
-      s.targetW = targetW ? Number(targetW) : (goal === 'fat_loss' ? Math.round((numWeight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((numWeight + 4) * 10) / 10 : numWeight)
+      s.targetW = goal === 'fat_loss' ? Math.round((numWeight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((numWeight + 4) * 10) / 10 : numWeight
       
       if (!s.bodyweight.length) {
         s.bodyweight.push({ d: todayISO(), w: numWeight, t: Date.now() })
@@ -1142,18 +1168,15 @@ function OnboardingWizard({ close }) {
       age: numAge,
       weight: numWeight,
       height: numHeight,
-      targetW: targetW ? Number(targetW) : null,
       gender,
       goal,
       days: numDays,
       location,
-      experience,
-      focus,
+      splitId,
       diet
     }
 
     try {
-      // 1. Try serverless endpoint (OpenAI / Cloudflare Pages)
       const res = await api('/api/generate-plan', {
         method: 'POST',
         body: JSON.stringify({ answers: clientAnswers })
@@ -1167,7 +1190,6 @@ function OnboardingWizard({ close }) {
       console.warn('Serverless plan generation fallback:', e)
     }
 
-    // 2. Client-side smart generator (100% reliable, zero failures, customized with science-backed formulas & recipes)
     const localPlan = generateCustomPlan(clientAnswers)
     applyPlanToStore(localPlan)
   }
@@ -1178,56 +1200,102 @@ function OnboardingWizard({ close }) {
         <div className="spin" style={{ fontSize: 50, color: 'var(--acc)', display: 'inline-block', marginBottom: 16 }}>
           <Icon name="sparkles" />
         </div>
-        <h3 style={{ margin: '8px 0' }}>{t('Engineering Your Custom Plan...')}</h3>
+        <h3 style={{ margin: '8px 0' }}>{t('Building Your Workout & Meal Plan...')}</h3>
         <div className="muted small" style={{ lineHeight: 1.6, maxWidth: 320, margin: '0 auto' }}>
-          {t('Calculating Mifflin-St Jeor daily calories, macro ratios, cultural Indian meals, and your personalized {0}-day progressive overload routine.', numDays)}
+          {t('Setting up your {0}-day schedule, target macros ({1} kcal), and Indian meals.', numDays, targetKcalCalc)}
         </div>
       </div>
     )
   }
 
-  return (
-    <div style={{ padding: '8px 0' }}>
-      <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--acc)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 4 }}>
-        Client Onboarding · Step {step} of 3
-      </div>
-      <h3 style={{ margin: '0 0 14px' }}>
-        {step === 1 ? '1. Athlete Physical Profile' : step === 2 ? '2. Goals, Schedule & Equipment' : '3. Cultural Diet & Plan Creation'}
-      </h3>
+  const activeSplits = ONBOARDING_SPLITS[days] || ONBOARDING_SPLITS[4]
 
+  return (
+    <div style={{ maxHeight: '85vh', overflowY: 'auto', padding: '16px 20px 24px', width: '100%', maxWidth: '480px' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--acc)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            Setup Plan · Step {step} of 3
+          </div>
+          <h3 style={{ margin: '2px 0 0', fontSize: 18, fontWeight: 800 }}>
+            {step === 1 ? '1. About You & Your Goal' : step === 2 ? '2. Choose Workout Days & Style' : '3. Nutrition & Diet Preference'}
+          </h3>
+        </div>
+        <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
+      </div>
+
+      {/* ── STEP 1: ABOUT YOU & GOAL ─────────────────────────────── */}
       {step === 1 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Name */}
           <div>
-            <label className="small muted">Athlete / Client Name</label>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 4 }}>
+              Your Name
+            </label>
             <input
               className="input"
               value={pname}
               placeholder="e.g. Nazim Pasha"
               onChange={e => setPname(e.target.value)}
+              style={{ width: '100%', boxSizing: 'border-box' }}
             />
           </div>
+
+          {/* Gender & Age */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label className="small muted">Age (years)</label>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 4 }}>
+                Gender
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                <button
+                  type="button"
+                  onClick={() => setGender('male')}
+                  style={{
+                    background: gender === 'male' ? 'var(--acc)' : 'var(--surface-2)',
+                    color: gender === 'male' ? 'var(--on-acc)' : 'var(--label)',
+                    border: '1px solid ' + (gender === 'male' ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 8, padding: '9px 4px', fontWeight: 700, fontSize: 12, cursor: 'pointer'
+                  }}
+                >
+                  👨 Male
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGender('female')}
+                  style={{
+                    background: gender === 'female' ? 'var(--acc)' : 'var(--surface-2)',
+                    color: gender === 'female' ? 'var(--on-acc)' : 'var(--label)',
+                    border: '1px solid ' + (gender === 'female' ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 8, padding: '9px 4px', fontWeight: 700, fontSize: 12, cursor: 'pointer'
+                  }}
+                >
+                  👩 Female
+                </button>
+              </div>
+            </div>
+            <div>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 4 }}>
+                Age (years)
+              </label>
               <input
                 className="input"
                 type="number"
                 value={age}
                 placeholder="25"
                 onChange={e => setAge(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', textAlign: 'center' }}
               />
             </div>
-            <div>
-              <label className="small muted">Gender</label>
-              <select className="input" value={gender} onChange={e => setGender(e.target.value)}>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
           </div>
+
+          {/* Weight & Height */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label className="small muted">Current Body Weight ({st.unit})</label>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 4 }}>
+                Body Weight ({st.unit})
+              </label>
               <input
                 className="input"
                 type="number"
@@ -1235,106 +1303,221 @@ function OnboardingWizard({ close }) {
                 value={weight}
                 placeholder="72.0"
                 onChange={e => setWeight(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', textAlign: 'center' }}
               />
             </div>
             <div>
-              <label className="small muted">Height (cm)</label>
+              <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 4 }}>
+                Height (cm)
+              </label>
               <input
                 className="input"
                 type="number"
                 value={height}
                 placeholder="175"
                 onChange={e => setHeight(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', textAlign: 'center' }}
               />
             </div>
           </div>
+
+          {/* Goal Selector - 3 Big Visual Cards */}
           <div>
-            <label className="small muted">Target Goal Weight ({st.unit}) <span style={{ opacity: 0.6 }}>(Optional)</span></label>
-            <input
-              className="input"
-              type="number"
-              step="0.1"
-              value={targetW}
-              placeholder={goal === 'fat_loss' ? String(Math.round((numWeight - 5) * 10) / 10) : String(Math.round((numWeight + 4) * 10) / 10)}
-              onChange={e => setTargetW(e.target.value)}
-            />
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+              What is your primary goal?
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { id: 'fat_loss', title: '🔥 Lose Fat & Get Lean', desc: 'Burn body fat, get shredded, maintain muscle tone' },
+                { id: 'muscle', title: '💪 Build Muscle & Get Big', desc: 'Hypertrophy training to gain muscle size & strength' },
+                { id: 'general', title: '⚡ Stay Fit & Athletic', desc: 'Healthy lifestyle, stamina, mobility & daily energy' }
+              ].map(g => (
+                <div
+                  key={g.id}
+                  onClick={() => setGoal(g.id)}
+                  style={{
+                    background: goal === g.id ? 'var(--surface-2)' : 'var(--surface)',
+                    border: '1.5px solid ' + (goal === g.id ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 10, padding: '12px 14px', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: 14, color: goal === g.id ? 'var(--acc)' : 'var(--label)' }}>
+                      {g.title}
+                    </div>
+                    <div className="small muted" style={{ fontSize: 11, marginTop: 2 }}>{g.desc}</div>
+                  </div>
+                  <div
+                    style={{
+                      width: 18, height: 18, borderRadius: '50%',
+                      border: '2px solid ' + (goal === g.id ? 'var(--acc)' : 'var(--sep)'),
+                      background: goal === g.id ? 'var(--acc)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}
+                  >
+                    {goal === g.id && <span style={{ color: 'var(--on-acc)', fontSize: 10, fontWeight: 900 }}>✓</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <Button variant="primary" onClick={() => setStep(2)}>Next: Goals &amp; Schedule →</Button>
+
+          <Button variant="primary" onClick={() => setStep(2)} style={{ padding: '12px', fontSize: 14, fontWeight: 700 }}>
+            Next: Workout Schedule →
+          </Button>
         </div>
       )}
 
+      {/* ── STEP 2: WORKOUT DAYS & SPLIT STYLE ───────────────────── */}
       {step === 2 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {/* Question 1: How many days? */}
           <div>
-            <label className="small muted">Primary Fitness Goal</label>
-            <select className="input" value={goal} onChange={e => setGoal(e.target.value)}>
-              <option value="muscle">🏋️ Hypertrophy &amp; Muscle Building</option>
-              <option value="fat_loss">⚡ Fat Loss &amp; Definition</option>
-              <option value="recomp">💪 Body Recomposition (Build Muscle &amp; Lose Fat)</option>
-              <option value="strength">🏆 Strength &amp; Heavy Powerlifting</option>
-              <option value="general">🧘 General Fitness &amp; Longevity</option>
-            </select>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <div>
-              <label className="small muted">Training Days / Week</label>
-              <select className="input" value={days} onChange={e => setDays(parseInt(e.target.value))}>
-                <option value={2}>2 Days (Full Body)</option>
-                <option value={3}>3 Days (PPL or Full Body)</option>
-                <option value={4}>4 Days (Upper / Lower)</option>
-                <option value={5}>5 Days (Push / Pull / Legs + Upper / Lower)</option>
-                <option value={6}>6 Days (PPL x2 / Arnold Split)</option>
-              </select>
-            </div>
-            <div>
-              <label className="small muted">Training Experience</label>
-              <select className="input" value={experience} onChange={e => setExperience(e.target.value)}>
-                <option value="beginner">Beginner (&lt; 1 yr)</option>
-                <option value="intermediate">Intermediate (1-3 yrs)</option>
-                <option value="advanced">Advanced (3+ yrs)</option>
-              </select>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+              1. How many days per week do you want to workout?
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+              {[3, 4, 5, 6].map(d => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => handleDaysChange(d)}
+                  style={{
+                    background: days === d ? 'var(--acc)' : 'var(--surface-2)',
+                    color: days === d ? 'var(--on-acc)' : 'var(--label)',
+                    border: '1px solid ' + (days === d ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 10, padding: '10px 4px', fontWeight: 800, fontSize: 13, cursor: 'pointer', textAlign: 'center'
+                  }}
+                >
+                  <div>{d} Days</div>
+                  <div style={{ fontSize: 9, opacity: 0.8, marginTop: 2 }}>/ week</div>
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Question 2: Location */}
           <div>
-            <label className="small muted">Training Location &amp; Equipment</label>
-            <select className="input" value={location} onChange={e => setLocation(e.target.value)}>
-              <option value="gym">🏢 Commercial Gym (Full Barbells, Cables &amp; Machines)</option>
-              <option value="home">🏡 Home Gym (Dumbbells &amp; Bench Only)</option>
-            </select>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
+              2. Where will you train?
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <button
+                type="button"
+                onClick={() => setLocation('gym')}
+                style={{
+                  background: location === 'gym' ? 'var(--surface-2)' : 'var(--surface)',
+                  color: location === 'gym' ? 'var(--acc)' : 'var(--label)',
+                  border: '1.5px solid ' + (location === 'gym' ? 'var(--acc)' : 'var(--sep)'),
+                  borderRadius: 10, padding: '10px 8px', fontWeight: 700, fontSize: 12, cursor: 'pointer', textAlign: 'center'
+                }}
+              >
+                🏢 Commercial Gym
+              </button>
+              <button
+                type="button"
+                onClick={() => setLocation('home')}
+                style={{
+                  background: location === 'home' ? 'var(--surface-2)' : 'var(--surface)',
+                  color: location === 'home' ? 'var(--acc)' : 'var(--label)',
+                  border: '1.5px solid ' + (location === 'home' ? 'var(--acc)' : 'var(--sep)'),
+                  borderRadius: 10, padding: '10px 8px', fontWeight: 700, fontSize: 12, cursor: 'pointer', textAlign: 'center'
+                }}
+              >
+                🏠 Home (Dumbbells)
+              </button>
+            </div>
           </div>
 
+          {/* Question 3: Select Workout Split / Style */}
           <div>
-            <label className="small muted">Muscle Focus Priority</label>
-            <select className="input" value={focus} onChange={e => setFocus(e.target.value)}>
-              <option value="balanced">⚖️ Balanced Full-Body Development</option>
-              <option value="upper">💪 Upper Body Focus (Chest, Back, Arms)</option>
-              <option value="lower">🍑 Lower Body &amp; Glutes Focus</option>
-            </select>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+              3. Choose Your Preferred Workout Style:
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {activeSplits.map(s => (
+                <div
+                  key={s.id}
+                  onClick={() => setSplitId(s.id)}
+                  style={{
+                    background: splitId === s.id ? 'var(--surface-2)' : 'var(--surface)',
+                    border: '1.5px solid ' + (splitId === s.id ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 10, padding: '12px 14px', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontWeight: 800, fontSize: 13, color: splitId === s.id ? 'var(--acc)' : 'var(--label)' }}>
+                        {s.title}
+                      </span>
+                      <span style={{ fontSize: 9, background: 'var(--surface-3)', color: 'var(--acc)', padding: '2px 6px', borderRadius: 4, fontWeight: 700 }}>
+                        {s.badge}
+                      </span>
+                    </div>
+                    <div className="small muted" style={{ fontSize: 11, marginTop: 3 }}>
+                      {s.desc}
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                      border: '2px solid ' + (splitId === s.id ? 'var(--acc)' : 'var(--sep)'),
+                      background: splitId === s.id ? 'var(--acc)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}
+                  >
+                    {splitId === s.id && <span style={{ color: 'var(--on-acc)', fontSize: 10, fontWeight: 900 }}>✓</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(1)}>← Back</Button>
-            <Button variant="primary" onClick={() => setStep(3)}>Next: Nutrition &amp; Diet →</Button>
+            <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '12px', fontSize: 14, fontWeight: 700 }}>
+              Next: Nutrition &amp; Diet →
+            </Button>
           </div>
         </div>
       )}
 
+      {/* ── STEP 3: NUTRITION & GENERATE ─────────────────────────── */}
       {step === 3 && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
-            <label className="small muted">Dietary &amp; Cultural Preferences</label>
-            <select className="input" value={diet} onChange={e => setDiet(e.target.value)}>
-              <option value="nonveg">🍗 High-Protein Non-Veg (Chicken, Eggs, Fish, Dal)</option>
-              <option value="veg">🥛 Indian Vegetarian (Paneer, Soya Chunks, Dal, Dahi)</option>
-              <option value="egg">🥚 Eggetarian (Eggs, Dairy, Dal, Soya)</option>
-              <option value="vegan">🥗 100% Plant-Based Vegan (Tofu, Soya, Chickpeas)</option>
-            </select>
+            <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+              What is your food preference?
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {[
+                { id: 'nonveg', title: '🍗 Non-Veg', desc: 'Chicken, Eggs, Fish, Meat' },
+                { id: 'veg', title: '🥛 Vegetarian', desc: 'Paneer, Soya, Dal, Milk' },
+                { id: 'egg', title: '🥚 Eggetarian', desc: 'Eggs + Vegetarian Diet' },
+                { id: 'vegan', title: '🥗 Vegan', desc: '100% Plant-based Tofu & Dal' }
+              ].map(d => (
+                <div
+                  key={d.id}
+                  onClick={() => setDiet(d.id)}
+                  style={{
+                    background: diet === d.id ? 'var(--surface-2)' : 'var(--surface)',
+                    border: '1.5px solid ' + (diet === d.id ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 10, padding: '10px 12px', cursor: 'pointer'
+                  }}
+                >
+                  <div style={{ fontWeight: 800, fontSize: 13, color: diet === d.id ? 'var(--acc)' : 'var(--label)' }}>
+                    {d.title}
+                  </div>
+                  <div className="small muted" style={{ fontSize: 10, marginTop: 2 }}>{d.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Live Calorie & Macro Target Breakdown */}
-          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: 12, padding: 14 }}>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 12, padding: 14 }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--acc)', textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Icon name="sparkles" /> Estimated Energy &amp; Macro Targets
             </div>
@@ -1348,18 +1531,20 @@ function OnboardingWizard({ close }) {
                 <div className="small muted" style={{ fontSize: 10 }}>PROTEIN</div>
               </div>
               <div style={{ background: 'var(--surface)', padding: '8px 4px', borderRadius: 8 }}>
-                <div style={{ fontSize: 18, fontWeight: 800, color: '#f59e0b' }}>{numDays}d</div>
-                <div className="small muted" style={{ fontSize: 10 }}>SPLIT</div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: '#f59e0b' }}>{numDays} Days</div>
+                <div className="small muted" style={{ fontSize: 10 }}>SCHEDULE</div>
               </div>
             </div>
             <div className="small muted" style={{ fontSize: 11, lineHeight: 1.4 }}>
-              Calculated using the Mifflin-St Jeor equation. The AI Coach will auto-adjust weekly based on your logged workouts and bodyweight updates.
+              Your plan will be built with your exact chosen split ({numDays} days) and Indian meal schedule.
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(2)}>← Back</Button>
-            <Button variant="primary" onClick={handleGenerate}>⚡ Generate Custom AI Plan</Button>
+            <Button variant="primary" onClick={handleGenerate} icon="sparkles" style={{ flex: 1, padding: '12px', fontSize: 14, fontWeight: 700 }}>
+              ⚡ Build My Workout &amp; Nutrition Plan
+            </Button>
           </div>
         </div>
       )}
