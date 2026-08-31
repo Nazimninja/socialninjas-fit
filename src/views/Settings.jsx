@@ -92,14 +92,12 @@ export default function Settings() {
             }}
           />
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
-          <Row icon="barbell" iconTint="var(--blue)" title={t('Explore 12+ Workout Programs')} accessory="chevron" onClick={exploreProgramsSheet} />
-          <Row icon="sparkles" iconTint="var(--yellow)" title={t('Redo AI Client Onboarding')} accessory="chevron" onClick={onboardingWizardSheet} />
+          <Row icon="sparkles" iconTint="var(--yellow)" title={t('Rebuild Custom Plan & Nutrition Protocol')} accessory="chevron" onClick={onboardingWizardSheet} />
           <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={() => confirmSheet({ title: t('Sign out?'), message: t('Your data is cleared from this device.'), confirmText: t('Sign out'), danger: true, onConfirm: () => { signOut(); nav('/home'); toast(t('Signed out successfully')) } })} />
         </>
       ) : (
         <>
           <Row icon="person" iconTint="var(--blue)" title={t('Sign In or Verify Subscription')} accessory="chevron" onClick={() => nav('/home')} />
-          <Row icon="barbell" iconTint="var(--acc)" title={t('Explore 12+ Workout Programs')} accessory="chevron" onClick={exploreProgramsSheet} />
         </>
       )}
     </Section>

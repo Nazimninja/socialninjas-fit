@@ -1235,7 +1235,18 @@ function OnboardingWizard({ close }) {
               {step === 1 ? 'Physical Profile' : step === 2 ? 'Training Architecture' : 'Nutrition Protocol'}
             </h2>
           </div>
-          <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
+          <button
+            onClick={close}
+            aria-label="Close"
+            style={{
+              width: 36, height: 36, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
+              color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', fontSize: 16, flexShrink: 0
+            }}
+          >
+            ✕
+          </button>
         </div>
       </div>
 
@@ -1576,99 +1587,11 @@ function OnboardingWizard({ close }) {
   )
 }
 
-/* ============================ Explore 12+ Pre-built Programs Sheet ============================ */
-function ExploreProgramsModal({ close }) {
-  const [selectedId, setSelectedId] = useState(PRESET_PROGRAMS[0].id)
-  const currentProgram = PRESET_PROGRAMS.find(p => p.id === selectedId) || PRESET_PROGRAMS[0]
-
-  const handleApplyProgram = (program) => {
-    update(s => {
-      const routines = []
-      const week = {}
-      let dayCount = 1
-
-      program.routines.forEach(r => {
-        const routineId = uid()
-        const routine = {
-          id: routineId,
-          name: r.name,
-          emoji: r.emoji || 'barbell',
-          ex: []
-        }
-
-        r.exercises.forEach(ex => {
-          const exId = findEx(ex.name)
-          routine.ex.push({
-            id: exId,
-            sets: parseInt(ex.sets) || 3,
-            reps: parseInt(String(ex.reps).split('-')[0]) || 10,
-            weight: 0
-          })
-        })
-
-        routines.push(routine)
-        week[dayCount] = routineId
-        dayCount++
-      })
-
-      s.routines = routines
-      s.week = week
-      s.onboarded = true
-    })
-    close()
-    toast(t('Program Activated: {0}', program.name))
-  }
-
-  return (
-    <div style={{ maxHeight: '88vh', overflowY: 'auto', padding: '16px 20px 24px', width: '100%', maxWidth: '480px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <div>
-          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800 }}>Explore Workout Programs</h3>
-          <div className="small muted" style={{ fontSize: 11 }}>12+ battle-tested training architectures</div>
-        </div>
-        <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
-        {PRESET_PROGRAMS.map(p => (
-          <div
-            key={p.id}
-            onClick={() => setSelectedId(p.id)}
-            style={{
-              background: selectedId === p.id ? 'var(--surface-2)' : 'var(--surface)',
-              border: '1.5px solid ' + (selectedId === p.id ? 'var(--acc)' : 'var(--sep)'),
-              borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              boxShadow: selectedId === p.id ? '0 0 16px rgba(16, 185, 129, 0.1)' : 'none',
-              transition: 'all 0.2s'
-            }}
-          >
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontWeight: 800, fontSize: 13, color: selectedId === p.id ? 'var(--acc)' : 'var(--label)' }}>{p.name}</span>
-                <span style={{ fontSize: 9, background: 'var(--surface-3)', color: 'var(--acc)', padding: '2px 6px', borderRadius: 4, fontWeight: 800 }}>{p.badge}</span>
-              </div>
-              <div className="small muted" style={{ fontSize: 11, marginTop: 3 }}>{p.desc}</div>
-            </div>
-            <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid ' + (selectedId === p.id ? 'var(--acc)' : 'var(--sep)'), background: selectedId === p.id ? 'var(--acc)' : 'transparent', flexShrink: 0 }} />
-          </div>
-        ))}
-      </div>
-
-      <Button variant="primary" onClick={() => handleApplyProgram(currentProgram)} icon="check" style={{ width: '100%', padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
-        Activate {currentProgram.name}
-      </Button>
-    </div>
-  )
-}
-
-export function exploreProgramsSheet() {
-  ui().openSheet(close => <ExploreProgramsModal close={close} />, { kind: 'center' })
-}
-
 export function onboardingWizardSheet() {
   ui().openSheet(close => <OnboardingWizard close={close} />, { kind: 'center' })
 }
+
+export const exploreProgramsSheet = onboardingWizardSheet;
 
 /* ============================ WEEKLY PROGRESS CHECK-IN (HIGH-END REDESIGN) ============================ */
 async function compressImageFile(file, maxDimension = 700, quality = 0.75) {
@@ -1921,7 +1844,18 @@ function WeeklyCheckinModal({ close }) {
             </div>
           </div>
         </div>
-        <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
+        <button
+          onClick={close}
+          aria-label="Close"
+          style={{
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
+            color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', fontSize: 16, flexShrink: 0
+          }}
+        >
+          ✕
+        </button>
       </div>
 
       {/* ── SECTION 1: DIGITAL WEIGH-IN HUD ─────────────────────── */}

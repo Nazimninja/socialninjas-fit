@@ -249,13 +249,13 @@ export default function Home() {
           {/* Quick Action Chips */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             <button
-              onClick={exploreProgramsSheet}
+              onClick={() => nav('/plan')}
               style={{
                 background: 'var(--surface)', border: '1px solid var(--sep)', borderRadius: '8px',
                 padding: '6px 10px', fontSize: '11px', fontWeight: '600', color: 'var(--label)', cursor: 'pointer'
               }}
             >
-              🏋️ Explore 12+ Programs
+              🏋️ Edit Custom Split
             </button>
             <button
               onClick={() => nav('/nutrition')}
@@ -264,7 +264,7 @@ export default function Home() {
                 padding: '6px 10px', fontSize: '11px', fontWeight: '600', color: 'var(--label)', cursor: 'pointer'
               }}
             >
-              🥗 View Indian Meals
+              🥗 View Recipes &amp; Meals
             </button>
             <button
               onClick={onboardingWizardSheet}
@@ -273,7 +273,7 @@ export default function Home() {
                 padding: '6px 10px', fontSize: '11px', fontWeight: '600', color: 'var(--acc)', cursor: 'pointer'
               }}
             >
-              ⚡ Redo Questionnaire
+              ⚡ Rebuild Plan &amp; Diet
             </button>
           </div>
         </div>
