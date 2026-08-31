@@ -43,13 +43,22 @@ function StartChooser() {
   </div>
 }
 
-/* ---------- elapsed clock (isolated so the workout tree doesn't re-render every second) ---------- */
-function Elapsed({ start }) {
+/* ---------- elapsed clock (supports pause, resume, and total paused duration) ---------- */
+function Elapsed({ start, paused, pausedAt, totalPausedMs = 0 }) {
   const [t, setT] = useState('0:00')
   useEffect(() => {
-    const tick = () => { const s = Math.floor((Date.now() - start) / 1000); setT(Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0')) }
-    tick(); const iv = setInterval(tick, 1000); return () => clearInterval(iv)
-  }, [start])
+    const calc = () => {
+      const currentPaused = paused ? (Date.now() - (pausedAt || Date.now())) : 0
+      const effectiveElapsedMs = Date.now() - start - (totalPausedMs || 0) - currentPaused
+      const s = Math.max(0, Math.floor(effectiveElapsedMs / 1000))
+      setT(Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'))
+    }
+    calc()
+    if (!paused) {
+      const iv = setInterval(calc, 1000)
+      return () => clearInterval(iv)
+    }
+  }, [start, paused, pausedAt, totalPausedMs])
   return <span>{t}</span>
 }
 
@@ -251,12 +260,82 @@ function ActiveWorkout() {
     }
   }, [])
 
+  const togglePauseWorkout = () => {
+    update(s => {
+      if (!s.active) return
+      if (s.active.paused) {
+        const pausedDuration = Date.now() - (s.active.pausedAt || Date.now())
+        s.active.totalPausedMs = (s.active.totalPausedMs || 0) + pausedDuration
+        s.active.paused = false
+        s.active.pausedAt = null
+        useUI.getState().toast(t('▶️ Workout Resumed'))
+      } else {
+        s.active.paused = true
+        s.active.pausedAt = Date.now()
+        useUI.getState().toast(t('⏸️ Workout Paused'))
+      }
+    })
+  }
+
   return <div className="narrow">
-    <div className="hdr">
-      <button className="iconbtn" aria-label={t('Discard')} onClick={() => confirmSheet({ title: t('Discard workout?'), message: t('The sets you logged in this session will be lost.'), confirmText: t('Discard'), danger: true, onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') } })}><Icon name="xmark" /></button>
-      <div style={{ textAlign: 'center' }}><div style={{ fontWeight: 600 }}>{A.name}</div><div className="sub"><Elapsed start={A.start} /> · {t('{0} sets', done + '/' + total)}</div></div>
-      <button className="iconbtn" style={{ color: 'var(--acc)' }} aria-label={t('Finish')} onClick={finishWorkout}><Icon name="check" /></button>
+    <div className="hdr" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <button className="iconbtn" title={t('Minimize to background')} onClick={() => nav('/home')}>
+          <Icon name="chevronDown" />
+        </button>
+        <button className="iconbtn dim" title={t('Discard workout')} onClick={() => confirmSheet({ title: t('Discard workout?'), message: t('The sets you logged in this session will be lost.'), confirmText: t('Discard'), danger: true, onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') } })}>
+          <Icon name="xmark" />
+        </button>
+      </div>
+
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontWeight: 700, fontSize: '15px' }}>{A.name}</div>
+        <div className="sub" style={{ fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+          <Elapsed start={A.start} paused={A.paused} pausedAt={A.pausedAt} totalPausedMs={A.totalPausedMs} /> · {t('{0} sets', done + '/' + total)}
+          {A.paused && <span style={{ color: 'var(--orange)', fontWeight: 600 }}>({t('Paused')})</span>}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <button
+          className="iconbtn"
+          style={{ color: A.paused ? 'var(--orange)' : 'var(--label-2)' }}
+          title={A.paused ? t('Resume workout') : t('Pause workout')}
+          onClick={togglePauseWorkout}
+        >
+          <Icon name={A.paused ? 'play' : 'pause'} />
+        </button>
+        <button className="iconbtn" style={{ color: 'var(--acc)' }} title={t('Finish')} onClick={finishWorkout}>
+          <Icon name="check" />
+        </button>
+      </div>
     </div>
+
+    {A.paused && (
+      <div style={{
+        background: 'color-mix(in srgb,var(--orange) 14%,var(--surface))',
+        border: '1px solid var(--orange)',
+        borderRadius: '12px',
+        padding: '12px 14px',
+        marginBottom: '14px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 10
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 20 }}>⏸️</span>
+          <div>
+            <div style={{ fontWeight: 700, color: 'var(--orange)', fontSize: 13 }}>{t('Workout Paused')}</div>
+            <div className="small muted" style={{ fontSize: 11 }}>{t('The session timer is paused. Tap resume when ready.')}</div>
+          </div>
+        </div>
+        <Button size="sm" variant="primary" style={{ background: 'var(--orange)', color: '#000' }} icon="play" onClick={togglePauseWorkout}>
+          {t('Resume')}
+        </Button>
+      </div>
+    )}
+
     <div className="wprog"><i style={{ width: (total ? done / total * 100 : 0) + '%' }} /></div>
 
     {A.entries.length ? <>

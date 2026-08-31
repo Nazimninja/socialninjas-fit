@@ -17,15 +17,15 @@ export default function Media({ ex, id, compact, minimizable }) {
   const mini = minimizable && gifSize === 'mini'
   const toggleSize = e => { e.stopPropagation(); update(s => { s.gifSize = mini ? 'full' : 'mini' }) }
   return (
-    <div className={'exmedia' + (compact ? ' compact' : '') + (mini ? ' mini' : '')} id={id} onClick={() => setPlaying(p => !p)}>
+    <div className={'exmedia' + (compact ? ' compact' : '') + (mini ? ' mini' : '')} id={id} onClick={() => setPlaying(p => !p)} style={{ cursor: 'pointer', userSelect: 'none' }}>
       <img decoding="async" src={playing ? gifSrc(ex) : imgSrc(ex)} alt={ex.n} />
       {minimizable && (
-        <button className="giftoggle" onClick={toggleSize}>
+        <button className="giftoggle" onClick={toggleSize} type="button">
           <Icon name={mini ? 'expand' : 'minimize'} />{mini ? t('Expand') : t('Minimize')}
         </button>
       )}
       {!mini && (
-        <span className="gifhint">
+        <span className="gifhint" style={{ pointerEvents: 'none' }}>
           <Icon name={playing ? 'pause' : 'play'} />{playing ? t('tap to pause') : t('tap to play')}
         </span>
       )}
