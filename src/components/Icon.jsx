@@ -103,6 +103,7 @@ const P = {
   lock: <><rect x="5" y="10.4" width="14" height="10" rx="2.8" /><path d="M8.4 10.4V7.8a3.6 3.6 0 0 1 7.2 0v2.6" /></>,
   download: <path d="M12 3.8v11.4M7.6 11.2 12 15.6l4.4-4.4M4.6 19.4h14.8" />,
   upload: <path d="M12 15.6V4.2M7.6 8.2 12 3.8l4.4 4.4M4.6 19.4h14.8" />,
+  camera: <><path d="M4 8h3.2l1.6-2.6h6.4L16.8 8H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z" /><circle cx="12" cy="14.2" r="3.6" /></>,
   wrench: <path d="M15.2 3.9a5 5 0 0 0-4.8 6.6l-6 6a2.1 2.1 0 0 0 3 3l6-6a5 5 0 0 0 6.1-6.3l-2.9 2.9-2.8-.7-.7-2.8Z" />,
   // checkered, not a pennant — this marks "finish workout", and a 2×2 grid is
   // what reads as a finish line at 16px
