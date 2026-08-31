@@ -54,7 +54,7 @@ export default function Home() {
   return <div className="narrow">
     <div className="hdr" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <img src="/ninja-logo.png" alt="Fit Ninja" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
+        <img src="/ninja-logo.png" alt="Fit Ninja" style={{ width: '38px', height: '38px', objectFit: 'cover', borderRadius: '10px' }} />
         <div>
           <h1 style={{ margin: 0, fontSize: '22px', fontWeight: '900', letterSpacing: '-0.5px' }}>
             {user ? `Hi, ${user.name}` : 'Fit Ninja'}
