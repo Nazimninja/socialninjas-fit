@@ -61,6 +61,7 @@ function loginUser(email, name) {
     admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
   })
   useStore.getState().setPaid(true)
+  useStore.getState().pullState()
   useUI.getState().toast('Welcome, ' + name)
 }
 

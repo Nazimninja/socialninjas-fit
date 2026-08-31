@@ -61,22 +61,29 @@ export const useStore = create((set, get) => {
     }
   }
 
-  // A setting changed right before switching away/closing the tab must not get lost mid-debounce
-  // (e.g. setting the reminder time then immediately backgrounding to test it). On mobile the
-  // same applies to the file mirror — backgrounding is often the last thing before the OS
-  // kills the app.
+  // Automatic background synchronization:
+  // - When app is backgrounded/hidden: flush local changes immediately to cloud (pushState)
+  // - When app is foregrounded/opened: silently pull latest changes from cloud (pullState)
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState !== 'hidden') return
-    if (MOBILE && saveTm) {
-      clearTimeout(saveTm)
-      saveTm = null
-      nativeSave(get().S)
-    }
-    if (pushTm) {
-      clearTimeout(pushTm)
-      pushTm = null
+    if (document.visibilityState === 'hidden') {
+      if (MOBILE && saveTm) {
+        clearTimeout(saveTm)
+        saveTm = null
+        nativeSave(get().S)
+      }
+      if (pushTm) {
+        clearTimeout(pushTm)
+        pushTm = null
+      }
       get().pushState()
+    } else if (document.visibilityState === 'visible') {
+      get().pullState()
     }
+  })
+
+  // Window focus listener for desktop and multi-tab sync
+  window.addEventListener('focus', () => {
+    get().pullState()
   })
 
   // Everything a sign-out leaves behind on this device, whichever way it was triggered.
