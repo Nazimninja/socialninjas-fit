@@ -13,6 +13,7 @@ export const DEF = {
   exWeights: {}, workouts: [], active: null, customEx: [], gifSize: 'full',
   reminder: { on: false, time: '08:00', tz: null }, effort: null,
   // AI coach fields
+  onboarded: false,    // true once user has completed initial onboarding & plan setup
   aiPlan: null,        // latest AI-generated nutrition plan { kcal, protein, carbs, fat, meals[], coachNote, ... }
   aiAnswers: null,     // onboarding answers used to generate the plan { pname, age, weight, height, gender, goal, days, location, diet }
   checkins: [],        // post-workout check-ins [{ date, workoutId, difficulty, soreness }]
@@ -28,7 +29,13 @@ function loadState() {
   return clone(DEF)
 }
 
-const hasData = st => !!((st.workouts || []).length || (st.routines || []).length || (st.bodyweight || []).length)
+const hasData = st => !!(
+  (st.workouts || []).length ||
+  (st.routines || []).length ||
+  (st.bodyweight || []).length ||
+  st.aiPlan ||
+  st.onboarded
+)
 
 export const useStore = create((set, get) => {
   let pushTm = null

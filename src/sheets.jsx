@@ -1091,7 +1091,10 @@ function OnboardingWizard({ close }) {
   const targetProteinCalc = Math.round(numWeight * (goal === 'fat_loss' || goal === 'recomp' ? 2.2 : 2.0))
 
   const applyPlanToStore = (plan) => {
+    localStorage.setItem('fit_onboarded', '1')
+    localStorage.setItem('gym_dirty', '1')
     update(s => {
+      s.onboarded = true
       s.aiPlan = plan
       s.aiAnswers = {
         pname: pname || 'Athlete',

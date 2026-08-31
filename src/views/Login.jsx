@@ -35,12 +35,10 @@ export function RegisterSheet({ close }) {
       }
       setPaid(true)
       close()
-      onboardingWizardSheet()
     } catch (e) {
       setUser({ name: n })
       setPaid(true)
       close()
-      onboardingWizardSheet()
     }
   }
 

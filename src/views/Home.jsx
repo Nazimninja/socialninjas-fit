@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
@@ -16,12 +16,16 @@ export default function Home() {
   const S = useStore(s => s.S)
   const user = useStore(s => s.user)
   const [weekOffset, setWeekOffset] = useState(0)
+  const hasPromptedOnboarding = useRef(false)
 
   useEffect(() => {
-    if (!S.routines.length && !S.active) {
+    if (hasPromptedOnboarding.current) return
+    hasPromptedOnboarding.current = true
+    const alreadyDone = S.onboarded || (S.routines && S.routines.length > 0) || S.aiPlan || localStorage.getItem('fit_onboarded') === '1'
+    if (!alreadyDone && !S.active) {
       onboardingWizardSheet()
     }
-  }, [S.routines.length, S.active])
+  }, [S.onboarded, S.routines.length, S.aiPlan, S.active])
 
   const today = new Date()
   const routine = effectiveRoutine(S, todayISO())
