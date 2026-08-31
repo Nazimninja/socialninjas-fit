@@ -16,7 +16,8 @@ export const DEF = {
   onboarded: false,    // true once user has completed initial onboarding & plan setup
   aiPlan: null,        // latest AI-generated nutrition plan { kcal, protein, carbs, fat, meals[], coachNote, ... }
   aiAnswers: null,     // onboarding answers used to generate the plan { pname, age, weight, height, gender, goal, days, location, diet }
-  checkins: [],        // post-workout check-ins [{ date, workoutId, difficulty, soreness }]
+  checkins: [],        // weekly & post-workout check-ins [{ id, date, weight, difficulty, soreness, dietRating, notes, photos[] }]
+  photos: [],          // physique progress photos [{ id, date, weight, photoUrl, label, notes }]
   aiCoachCard: null,   // latest AI coach message to show on Home { coachNote, changes[], weeklyInsight, celebration, seenAt }
 }
 const clone = o => JSON.parse(JSON.stringify(o))

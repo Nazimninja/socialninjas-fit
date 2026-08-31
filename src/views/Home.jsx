@@ -4,7 +4,7 @@ import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
 import { fmtNum, fmtDate, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, loadStarterPlan, bwDeltaColor, onboardingWizardSheet, exploreProgramsSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, loadStarterPlan, bwDeltaColor, onboardingWizardSheet, exploreProgramsSheet, weeklyCheckinSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -97,6 +97,37 @@ export default function Home() {
           </div>
           <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
         </div>
+      </div>
+
+      {/* ── MONDAY PROGRESS CHECK-IN BANNER ────────────────────── */}
+      <div
+        className="card"
+        style={{
+          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.16), rgba(28, 28, 30, 0.95))',
+          border: '1px solid rgba(37, 99, 235, 0.4)',
+          borderRadius: '16px',
+          padding: '14px 16px',
+          marginBottom: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 10
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ fontSize: '26px' }}>📸</span>
+          <div>
+            <div style={{ fontWeight: 800, color: 'var(--blue)', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Weekly Progress Check-in
+            </div>
+            <div className="small muted" style={{ fontSize: '11px', lineHeight: 1.3 }}>
+              Upload physique photos &amp; weight for Monday AI plan adaptation.
+            </div>
+          </div>
+        </div>
+        <Button size="sm" variant="primary" style={{ background: 'var(--blue)', color: '#fff', flexShrink: 0, fontWeight: 700 }} onClick={weeklyCheckinSheet}>
+          Check In
+        </Button>
       </div>
 
       {/* ── TODAY'S TRAINING HERO CARD ───────────────────────────── */}
@@ -380,6 +411,20 @@ export default function Home() {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
           <div
+            onClick={weeklyCheckinSheet}
+            style={{
+              background: 'var(--surface-2)', borderRadius: '12px', padding: '12px', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: '10px', border: '1px solid rgba(37,99,235,0.25)'
+            }}
+          >
+            <span style={{ fontSize: 20 }}>📸</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--blue)' }}>Photo Check-in</div>
+              <div className="small muted" style={{ fontSize: '11px' }}>Physique &amp; AI adapt</div>
+            </div>
+          </div>
+
+          <div
             onClick={() => nav('/library')}
             style={{
               background: 'var(--surface-2)', borderRadius: '12px', padding: '12px', cursor: 'pointer',
@@ -418,20 +463,6 @@ export default function Home() {
             <div>
               <div style={{ fontWeight: 700, fontSize: '13px' }}>12+ Programs</div>
               <div className="small muted" style={{ fontSize: '11px' }}>PPL, Arnold, Home</div>
-            </div>
-          </div>
-
-          <div
-            onClick={() => nav('/nutrition')}
-            style={{
-              background: 'var(--surface-2)', borderRadius: '12px', padding: '12px', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', gap: '10px'
-            }}
-          >
-            <span style={{ fontSize: 20 }}>🥗</span>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '13px' }}>Indian Nutrition</div>
-              <div className="small muted" style={{ fontSize: '11px' }}>Meal plan schedule</div>
             </div>
           </div>
         </div>

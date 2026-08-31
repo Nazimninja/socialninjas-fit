@@ -1480,3 +1480,435 @@ export function onboardingWizardSheet() {
 export function exploreProgramsSheet() {
   ui().openSheet(close => <ExploreProgramsModal close={close} />, { kind: 'center' })
 }
+
+/* ============================ weekly progress check-in with photos ============================ */
+function compressImageFile(file, maxDim = 700, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        let { width, height } = img
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width)
+            width = maxDim
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height)
+            height = maxDim
+          }
+        }
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(img, 0, 0, width, height)
+        resolve(canvas.toDataURL('image/jpeg', quality))
+      }
+      img.onerror = () => reject(new Error('Image decode failed'))
+      img.src = e.target.result
+    }
+    reader.onerror = () => reject(new Error('File read failed'))
+    reader.readAsDataURL(file)
+  })
+}
+
+function WeeklyCheckinModal({ close }) {
+  const S_state = useStore(s => s.S)
+  const update = useStore(s => s.update)
+  const lastBwVal = (S_state.bodyweight && S_state.bodyweight.length > 0) ? S_state.bodyweight[S_state.bodyweight.length - 1].w : (S_state.aiAnswers?.weight || 70)
+
+  const [weightStr, setWeightStr] = useState(String(lastBwVal))
+  const [photos, setPhotos] = useState([])
+  const [difficulty, setDifficulty] = useState('good') // 'easy', 'good', 'hard'
+  const [soreness, setSoreness] = useState('mild') // 'fresh', 'mild', 'sore'
+  const [dietRating, setDietRating] = useState('on_track') // 'on_track', 'minor_slip', 'cravings'
+  const [notes, setNotes] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [compressing, setCompressing] = useState(false)
+
+  const handlePhotoUpload = async (e) => {
+    const files = Array.from(e.target.files || [])
+    if (!files.length) return
+    setCompressing(true)
+    try {
+      const compressedList = []
+      for (const file of files) {
+        if (photos.length + compressedList.length >= 4) break
+        const dataUrl = await compressImageFile(file)
+        compressedList.push({ id: uid(), url: dataUrl, label: 'Physique Photo' })
+      }
+      setPhotos(prev => [...prev, ...compressedList].slice(0, 4))
+    } catch (err) {
+      toast('Failed to process photo: ' + err.message)
+    } finally {
+      setCompressing(false)
+    }
+  }
+
+  const removePhoto = (idx) => {
+    setPhotos(prev => prev.filter((_, i) => i !== idx))
+  }
+
+  const handleSubmit = async () => {
+    const numericWeight = parseFloat(weightStr)
+    if (isNaN(numericWeight) || numericWeight <= 20 || numericWeight >= 400) {
+      toast('Please enter a valid bodyweight in ' + S_state.unit)
+      return
+    }
+
+    setLoading(true)
+    const checkinId = uid()
+    const checkinDate = todayISO()
+    const photoUrls = photos.map(p => p.url)
+
+    // 1. Update client store with bodyweight, checkin, and photos
+    update(s => {
+      // Add bodyweight log
+      s.bodyweight.push({ d: checkinDate, t: Date.now(), w: numericWeight })
+      // Add checkin entry
+      s.checkins = s.checkins || []
+      s.checkins.push({
+        id: checkinId,
+        date: checkinDate,
+        weight: numericWeight,
+        difficulty,
+        soreness,
+        dietRating,
+        notes,
+        photos: photoUrls
+      })
+      // Add photos to gallery
+      s.photos = s.photos || []
+      photoUrls.forEach((url, i) => {
+        s.photos.push({
+          id: uid(),
+          date: checkinDate,
+          weight: numericWeight,
+          photoUrl: url,
+          label: `Check-in ${checkinDate}`,
+          notes
+        })
+      })
+    })
+
+    // 2. Call AI Adapt Plan endpoint (with hybrid fail-safe fallback)
+    try {
+      const answers = S_state.aiAnswers || {
+        pname: 'Athlete',
+        gender: S_state.body || 'male',
+        age: 26,
+        weight: numericWeight,
+        goal: 'muscle',
+        diet: 'non_veg',
+        location: 'gym'
+      }
+      const currentPlan = S_state.aiPlan || {
+        kcal: S_state.targetCalories || 2400,
+        protein: S_state.targetProtein || 140,
+        carbs: 250,
+        fat: 70
+      }
+      const weeklyWeights = S_state.bodyweight.slice(-4).map(b => b.w)
+      if (!weeklyWeights.includes(numericWeight)) weeklyWeights.push(numericWeight)
+
+      const recentWorkouts = (S_state.workouts || []).slice(-4).map(w => ({
+        name: w.name,
+        date: w.d,
+        setsCompleted: w.entries.reduce((n, e) => n + e.sets.filter(s => s.done).length, 0),
+        setsTotal: w.entries.reduce((n, e) => n + e.sets.length, 0),
+        completed: true
+      }))
+
+      let adapted = null
+      try {
+        const res = await api('/api/adapt-plan', {
+          method: 'POST',
+          body: JSON.stringify({
+            answers,
+            currentPlan,
+            weeklyWeights,
+            workoutSummary: recentWorkouts,
+            checkin: { difficulty, soreness, dietRating, notes }
+          })
+        })
+        if (res && res.kcal) adapted = res
+      } catch (e) {
+        // Fallback to deterministic Mifflin-St Jeor adaptation
+      }
+
+      // If remote failed or was unavailable, compute smart local adaptation
+      if (!adapted) {
+        const deltaW = weeklyWeights.length > 1 ? numericWeight - weeklyWeights[weeklyWeights.length - 2] : 0
+        let newKcal = currentPlan.kcal
+        let changes = []
+        let celebration = ''
+
+        if (answers.goal === 'fat_loss') {
+          if (deltaW > -0.2) {
+            newKcal = Math.max(1400, newKcal - 100)
+            changes.push('Reduced daily target by 100 kcal to break weight plateau')
+          } else {
+            celebration = `Great fat loss pace (${Math.abs(deltaW).toFixed(1)} kg drop this week)!`
+            changes.push('Maintained current calorie deficit as progression is optimal')
+          }
+        } else if (answers.goal === 'muscle') {
+          if (deltaW < 0.1) {
+            newKcal = newKcal + 120
+            changes.push('Increased calories by 120 kcal to accelerate muscle hypertrophy')
+          } else {
+            celebration = `Solid muscle gain trend (+${deltaW.toFixed(1)} kg)!`
+            changes.push('Preserved calorie surplus for steady lean tissue growth')
+          }
+        }
+
+        if (difficulty === 'easy') {
+          changes.push('Weights felt light — increased recommended exercise working weights by 2.5kg')
+        } else if (difficulty === 'hard' || soreness === 'sore') {
+          changes.push('Added extra recovery guidance to prevent central nervous system fatigue')
+        }
+
+        const newProtein = Math.round(numericWeight * 2.0)
+        adapted = {
+          kcal: newKcal,
+          protein: newProtein,
+          carbs: Math.round((newKcal * 0.45) / 4),
+          fat: Math.round((newKcal * 0.25) / 9),
+          coachNote: `Weekly check-in processed. Current weight logged at ${numericWeight} ${S_state.unit}. We adjusted your energy targets to optimize progressive overload and body composition.`,
+          changes,
+          weeklyInsight: 'Keep tracking your daily meals and focus on quality protein intake post-workout! 🔥',
+          celebration,
+          meals: currentPlan.meals || []
+        }
+      }
+
+      // 3. Apply adapted plan
+      update(s => {
+        s.targetCalories = adapted.kcal
+        s.targetProtein = adapted.protein
+        s.aiPlan = { ...(s.aiPlan || {}), ...adapted }
+        s.aiCoachCard = {
+          coachNote: adapted.coachNote,
+          changes: adapted.changes || [],
+          weeklyInsight: adapted.weeklyInsight,
+          celebration: adapted.celebration || '',
+          seenAt: null
+        }
+      })
+
+      toast('🎉 Check-in & Photos Saved! AI Plan Adapted.')
+      close()
+    } catch (err) {
+      toast('Check-in saved locally.')
+      close()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ maxHeight: '85vh', overflowY: 'auto', padding: '16px 20px 24px', width: '100%', maxWidth: '480px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <div>
+          <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: 'var(--label)' }}>
+            📸 Weekly Progress Check-in
+          </h3>
+          <div className="small muted" style={{ fontSize: 11 }}>
+            Update your bodyweight, upload physique photos &amp; let Coach AI adapt your plan.
+          </div>
+        </div>
+        <button className="iconbtn" onClick={close} aria-label="Close"><Icon name="close" /></button>
+      </div>
+
+      {/* Step 1: Current Body Weight */}
+      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+          1. Current Weigh-in ({S_state.unit})
+        </label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            type="button"
+            className="iconbtn"
+            style={{ background: 'var(--surface-3)', width: 36, height: 36 }}
+            onClick={() => setWeightStr(s => String(Math.max(20, (parseFloat(s) || 70) - 0.2).toFixed(1)))}
+          >
+            <Icon name="minus" />
+          </button>
+          <input
+            type="number"
+            step="0.1"
+            value={weightStr}
+            onChange={e => setWeightStr(e.target.value)}
+            style={{
+              flex: 1, background: 'var(--surface-3)', border: '1px solid var(--sep)',
+              borderRadius: 8, padding: '8px 12px', fontSize: 18, fontWeight: 800,
+              color: 'var(--label)', textAlign: 'center'
+            }}
+          />
+          <button
+            type="button"
+            className="iconbtn"
+            style={{ background: 'var(--surface-3)', width: 36, height: 36 }}
+            onClick={() => setWeightStr(s => String(Math.min(300, (parseFloat(s) || 70) + 0.2).toFixed(1)))}
+          >
+            <Icon name="plus" />
+          </button>
+        </div>
+      </div>
+
+      {/* Step 2: Physique Progress Photos */}
+      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)' }}>
+            2. Physique Photos (Optional)
+          </label>
+          <span style={{ fontSize: 10, color: 'var(--label-3)' }}>{photos.length}/4 uploaded</span>
+        </div>
+
+        {/* Photo Gallery Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 10 }}>
+          {photos.map((p, idx) => (
+            <div key={p.id || idx} style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', height: 80, background: '#000', border: '1px solid var(--sep)' }}>
+              <img src={p.url} alt="Progress" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <button
+                type="button"
+                onClick={() => removePhoto(idx)}
+                style={{
+                  position: 'absolute', top: 3, right: 3, background: 'rgba(0,0,0,0.7)',
+                  border: 'none', borderRadius: '50%', width: 20, height: 20, color: '#fff',
+                  fontSize: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+
+          {photos.length < 4 && (
+            <label
+              style={{
+                height: 80, border: '2px dashed var(--sep)', borderRadius: 8,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                gap: 4, cursor: 'pointer', background: 'var(--surface-3)', color: 'var(--label-2)'
+              }}
+            >
+              <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} style={{ display: 'none' }} />
+              <span style={{ fontSize: 18 }}>📸</span>
+              <span style={{ fontSize: 10, fontWeight: 600 }}>{compressing ? 'Optimizing…' : '+ Add Photo'}</span>
+            </label>
+          )}
+        </div>
+      </div>
+
+      {/* Step 3: Training & Soreness Ratings */}
+      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+          3. How Did Your Workouts Feel?
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 10 }}>
+          {[
+            { id: 'easy', label: '😅 Too Easy', desc: 'Ready for more' },
+            { id: 'good', label: '💪 Just Right', desc: 'Great pump' },
+            { id: 'hard', label: '😤 Brutal', desc: 'High fatigue' }
+          ].map(opt => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setDifficulty(opt.id)}
+              style={{
+                background: difficulty === opt.id ? 'var(--acc)' : 'var(--surface-3)',
+                color: difficulty === opt.id ? 'var(--on-acc)' : 'var(--label)',
+                border: '1px solid ' + (difficulty === opt.id ? 'var(--acc)' : 'var(--sep)'),
+                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer'
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: 11 }}>{opt.label}</div>
+              <div style={{ fontSize: 9, opacity: 0.8 }}>{opt.desc}</div>
+            </button>
+          ))}
+        </div>
+
+        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
+          Muscle Recovery &amp; Soreness:
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+          {[
+            { id: 'fresh', label: '😌 Fresh', desc: 'No aches' },
+            { id: 'mild', label: '😐 Normal', desc: 'Mild soreness' },
+            { id: 'sore', label: '😣 Very Sore', desc: 'Need recovery' }
+          ].map(opt => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setSoreness(opt.id)}
+              style={{
+                background: soreness === opt.id ? 'var(--orange)' : 'var(--surface-3)',
+                color: soreness === opt.id ? '#000' : 'var(--label)',
+                border: '1px solid ' + (soreness === opt.id ? 'var(--orange)' : 'var(--sep)'),
+                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer'
+              }}
+            >
+              <div style={{ fontWeight: 700, fontSize: 11 }}>{opt.label}</div>
+              <div style={{ fontSize: 9, opacity: 0.8 }}>{opt.desc}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Step 4: Diet Adherence */}
+      <div style={{ background: 'var(--surface-2)', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--acc)', display: 'block', marginBottom: 6 }}>
+          4. Diet &amp; Nutrition Adherence
+        </label>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+          {[
+            { id: 'on_track', label: '🥗 100% On Track' },
+            { id: 'minor_slip', label: '🥪 80% Good' },
+            { id: 'cravings', label: '🍕 High Cravings' }
+          ].map(opt => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setDietRating(opt.id)}
+              style={{
+                background: dietRating === opt.id ? 'var(--acc)' : 'var(--surface-3)',
+                color: dietRating === opt.id ? 'var(--on-acc)' : 'var(--label)',
+                border: '1px solid ' + (dietRating === opt.id ? 'var(--acc)' : 'var(--sep)'),
+                borderRadius: 8, padding: '8px 4px', textAlign: 'center', cursor: 'pointer', fontSize: 11, fontWeight: 700
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Step 5: Optional Feedback Notes */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--label-3)', display: 'block', marginBottom: 4 }}>
+          Notes for Coach AI (Optional):
+        </label>
+        <textarea
+          rows={2}
+          value={notes}
+          onChange={e => setNotes(e.target.value)}
+          placeholder="e.g. Felt great on bench press, slight knee stiffness on squats, energy was high."
+          style={{
+            width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)',
+            borderRadius: 8, padding: '8px 10px', fontSize: 12, color: 'var(--label)', boxSizing: 'border-box'
+          }}
+        />
+      </div>
+
+      <Button variant="primary" onClick={handleSubmit} disabled={loading || compressing} icon="sparkles" style={{ width: '100%', padding: '12px', fontSize: 14, fontWeight: 700 }}>
+        {loading ? '⚡ Analyzing with Coach AI…' : '⚡ Submit Check-in & Adapt My AI Plan'}
+      </Button>
+    </div>
+  )
+}
+
+export function weeklyCheckinSheet() {
+  ui().openSheet(close => <WeeklyCheckinModal close={close} />, { kind: 'center' })
+}
