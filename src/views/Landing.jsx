@@ -45,7 +45,7 @@ export default function Landing() {
         maxWidth: '1200px', margin: '0 auto'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => nav('/')}>
-          <img src="/ninja-logo.png" alt="Fit Ninja" style={{ width: '38px', height: '38px', objectFit: 'cover', borderRadius: '8px' }} />
+          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
           <div>
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
               Fit<span style={{ color: '#f59e0b' }}>Ninja</span>
@@ -336,7 +336,7 @@ export default function Landing() {
         textAlign: 'center', fontSize: '12px', color: '#666', marginTop: '60px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
-          <img src="/ninja-logo.png" alt="Fit Ninja" style={{ width: '28px', height: '28px', objectFit: 'cover', borderRadius: '6px' }} />
+          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
           <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja OS</span>
           <span>·</span>
           <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's AI Agency</a></span>
