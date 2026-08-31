@@ -215,50 +215,6 @@ export default function Home() {
         </Button>
       </div>
 
-      {/* ── DAILY NUTRITION & MACRO TARGETS HUD ──────────────────── */}
-      <div className="card" style={{ padding: '16px', marginBottom: '14px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--acc)' }}>
-              Daily Fuel &amp; Macro Targets
-            </div>
-            <div style={{ fontSize: '16px', fontWeight: '800', marginTop: '2px' }}>
-              {targetKcal} <span style={{ fontSize: '12px', color: 'var(--label-3)', fontWeight: '500' }}>KCAL / DAY</span>
-            </div>
-          </div>
-          <Button size="sm" onClick={() => nav('/nutrition')}>
-            {t('Meals & Recipes →')}
-          </Button>
-        </div>
-
-        {/* 3 Macro Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
-          <div style={{ background: 'var(--surface-2)', padding: '10px 8px', borderRadius: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', color: '#38bdf8', fontWeight: '700' }}>PROTEIN</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>{targetProtein}g</div>
-            <div style={{ fontSize: '10px', color: 'var(--label-3)', marginTop: '2px' }}>{Math.round(targetProtein * 4)} kcal</div>
-          </div>
-
-          <div style={{ background: 'var(--surface-2)', padding: '10px 8px', borderRadius: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', color: '#f59e0b', fontWeight: '700' }}>CARBS</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>{targetCarbs}g</div>
-            <div style={{ fontSize: '10px', color: 'var(--label-3)', marginTop: '2px' }}>{Math.round(targetCarbs * 4)} kcal</div>
-          </div>
-
-          <div style={{ background: 'var(--surface-2)', padding: '10px 8px', borderRadius: '10px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', color: '#ec4899', fontWeight: '700' }}>FATS</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>{targetFat}g</div>
-            <div style={{ fontSize: '10px', color: 'var(--label-3)', marginTop: '2px' }}>{Math.round(targetFat * 9)} kcal</div>
-          </div>
-        </div>
-
-        {/* Diet & Food Preference Tag */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', color: 'var(--label-2)', background: 'var(--surface-3)', padding: '6px 10px', borderRadius: '8px' }}>
-          <span>Diet: <b>{S.aiAnswers?.diet ? S.aiAnswers.diet.toUpperCase() : 'HIGH PROTEIN'}</b></span>
-          <span>Goal: <b>{S.aiAnswers?.goal ? S.aiAnswers.goal.toUpperCase() : 'MUSCLE GAIN'}</b></span>
-        </div>
-      </div>
-
       {/* ── COACH AI INSIGHT & ADAPTATION ────────────────────────── */}
       {S.aiCoachCard && (
         <div

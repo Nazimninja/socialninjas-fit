@@ -4,54 +4,178 @@ import Icon from '../components/Icon.jsx';
 import { useUI } from '../store/useUI.js';
 import { api } from '../lib/api.js';
 import { t } from '../lib/i18n.js';
+import { todayISO } from '../lib/format.js';
+
+// Curated High-Protein Recipes for Reference
+const RECIPES_DB = [
+  {
+    id: 'r1',
+    title: 'Tandoori Grilled Chicken Breast & Brown Rice',
+    type: 'nonveg',
+    time: '25 mins',
+    kcal: 520,
+    protein: 48,
+    carbs: 45,
+    fat: 12,
+    ingredients: [
+      '200g Skinless Chicken Breast (sliced)',
+      '100g Cooked Brown Rice / Quinoa',
+      '2 tbsp Low-Fat Curd / Greek Yogurt',
+      '1 tsp Ginger-Garlic Paste & Tandoori Masala',
+      '1/2 Lemon & Fresh Coriander'
+    ],
+    instructions: [
+      'Marinate sliced chicken in curd, ginger-garlic paste, tandoori masala, salt, and lemon for 15 mins.',
+      'Pan-sear or air-fry at 200°C for 12-14 mins until golden and juicy.',
+      'Serve warm alongside 100g steamed brown rice and mixed cucumbers.'
+    ]
+  },
+  {
+    id: 'r2',
+    title: 'High-Protein Paneer Bhurji & Multigrain Roti',
+    type: 'veg',
+    time: '15 mins',
+    kcal: 460,
+    protein: 34,
+    carbs: 38,
+    fat: 18,
+    ingredients: [
+      '150g Low-Fat Paneer (crumbled)',
+      '1 Medium Multigrain Roti / Chapati',
+      '1 Chopped Onion, Tomato, & Green Chili',
+      '1 tsp Olive Oil / Desi Ghee',
+      'Turmeric, Cumin Seeds, & Fresh Coriander'
+    ],
+    instructions: [
+      'Heat oil/ghee in a pan with cumin seeds, onions, and tomatoes until soft.',
+      'Add turmeric, chili powder, and crumbled low-fat paneer.',
+      'Sauté on medium heat for 4-5 mins. Garnish with coriander and serve with warm roti.'
+    ]
+  },
+  {
+    id: 'r3',
+    title: 'Egg White Masala Scramble & Oats',
+    type: 'egg',
+    time: '10 mins',
+    kcal: 380,
+    protein: 36,
+    carbs: 42,
+    fat: 7,
+    ingredients: [
+      '4 Egg Whites + 1 Whole Egg',
+      '45g Rolled Oats (cooked in water or unsweetened almond milk)',
+      '1/2 Bell Pepper, Onion, & Baby Spinach',
+      '1 pinch Cinnamon & Salt'
+    ],
+    instructions: [
+      'Whisk egg whites with whole egg, salt, and pepper.',
+      'Sauté peppers and spinach for 2 mins, then pour eggs and scramble softly.',
+      'Cook rolled oats in a separate bowl with cinnamon. Enjoy as a power breakfast!'
+    ]
+  },
+  {
+    id: 'r4',
+    title: 'Soya Chunks & Moong Dal Power Bowl',
+    type: 'veg',
+    time: '20 mins',
+    kcal: 490,
+    protein: 42,
+    carbs: 58,
+    fat: 8,
+    ingredients: [
+      '50g Soya Chunks (boiled & squeezed dry)',
+      '1 Bowl Cooked Yellow Moong Dal Tadka',
+      '80g Steamed Basmati or Brown Rice',
+      '1 Cucumber & Tomato salad with lemon'
+    ],
+    instructions: [
+      'Boil soya chunks in salted water for 5 mins, drain and squeeze out excess water.',
+      'Sauté soya chunks with light cumin and onion-tomato gravy.',
+      'Assemble with steamed rice, hot moong dal, and fresh lemon salad.'
+    ]
+  },
+  {
+    id: 'r5',
+    title: 'Whey Protein Oats & Chia Power Bowl',
+    type: 'snack',
+    time: '5 mins',
+    kcal: 340,
+    protein: 32,
+    carbs: 38,
+    fat: 6,
+    ingredients: [
+      '1 Scoop Whey Protein Isolate (Chocolate or Vanilla)',
+      '40g Instant / Rolled Oats',
+      '1 tsp Chia Seeds',
+      '1/2 Sliced Banana & Pinch of Cinnamon',
+      '150ml Warm Water or Almond Milk'
+    ],
+    instructions: [
+      'Cook oats with warm water/almond milk for 2 minutes.',
+      'Let cool slightly, then stir in 1 scoop of whey protein until smooth and creamy.',
+      'Top with banana slices, chia seeds, and a dash of cinnamon.'
+    ]
+  },
+  {
+    id: 'r6',
+    title: 'Pan-Seared Fish Fillet with Roasted Veggies',
+    type: 'nonveg',
+    time: '18 mins',
+    kcal: 420,
+    protein: 44,
+    carbs: 22,
+    fat: 14,
+    ingredients: [
+      '200g Tilapia / Basa / Cod Fillet',
+      '100g Steamed Broccoli & Zucchini',
+      '1 tsp Extra Virgin Olive Oil',
+      'Black Pepper, Garlic Powder, & Sea Salt',
+      '1/2 Lemon Wedge'
+    ],
+    instructions: [
+      'Season fish fillets generously with garlic powder, crushed black pepper, and salt.',
+      'Pan-sear in olive oil for 3-4 mins each side until crispy and flaky.',
+      'Toss broccoli and zucchini in the pan drippings for 2 mins. Finish with fresh lemon.'
+    ]
+  }
+];
 
 export default function Nutrition() {
   const S = useStore(s => s.S);
   const update = useStore(s => s.update);
   const toast = msg => useUI.getState().toast(msg);
 
-  // Check if AI plan exists
+  const today = todayISO();
   const aiPlan = S.aiPlan;
 
-  // Parameters form state
-  const [showParams, setShowParams] = useState(false);
-  const [weight, setWeight] = useState(() => S.nutritionWeight || (S.aiAnswers?.weight) || 75);
-  const [height, setHeight] = useState(() => S.nutritionHeight || (S.aiAnswers?.height) || 175);
-  const [age, setAge] = useState(() => S.nutritionAge || (S.aiAnswers?.age) || 26);
-  const [gender, setGender] = useState(() => S.nutritionGender || (S.aiAnswers?.gender) || 'male');
-  const [activity, setActivity] = useState(() => S.nutritionActivity || 'moderate');
-  const [goal, setGoal] = useState(() => S.nutritionGoal || (S.aiAnswers?.goal) || 'fat_loss');
-  const [dietType, setDietType] = useState(() => S.nutritionDietType || 'high_protein');
-  
-  const [waterGlasses, setWaterGlasses] = useState(() => {
-    try {
-      const saved = localStorage.getItem(`fit_ninja_water_${new Date().toDateString()}`);
-      return saved ? parseInt(saved, 10) : 4;
-    } catch { return 4; }
-  });
+  // Meal logging state
+  const loggedMealsMap = S.loggedMeals || {};
+  const todayLogs = loggedMealsMap[today] || [];
 
-  const [saving, setSaving] = useState(false);
-  const [checkedGrocery, setCheckedGrocery] = useState({});
+  // Recipe reference filter
+  const [recipeFilter, setRecipeFilter] = useState('all');
+  const [expandedRecipe, setExpandedRecipe] = useState(null);
 
-  // Save water tracker
-  const logWater = (delta) => {
-    const next = Math.max(0, Math.min(20, waterGlasses + delta));
-    setWaterGlasses(next);
-    try { localStorage.setItem(`fit_ninja_water_${new Date().toDateString()}`, next.toString()); } catch {}
-  };
+  // Custom meal modal state
+  const [showCustomModal, setShowCustomModal] = useState(false);
+  const [customMealType, setCustomMealType] = useState('Breakfast');
+  const [customTitle, setCustomTitle] = useState('');
+  const [customKcal, setCustomKcal] = useState('');
+  const [customProtein, setCustomProtein] = useState('');
 
-  // 1. Calculate fallback targets if AI plan doesn't exist
+  // Target metrics calculation
+  const weight = S.nutritionWeight || S.aiAnswers?.weight || 75;
+  const height = S.nutritionHeight || S.aiAnswers?.height || 175;
+  const age = S.nutritionAge || S.aiAnswers?.age || 26;
+  const gender = S.nutritionGender || S.aiAnswers?.gender || 'male';
+  const activity = S.nutritionActivity || 'moderate';
+  const goal = S.nutritionGoal || S.aiAnswers?.goal || 'muscle_gain';
+
   const bmr = gender === 'male'
     ? Math.round(10 * weight + 6.25 * height - 5 * age + 5)
     : Math.round(10 * weight + 6.25 * height - 5 * age - 161);
 
-  const actMultipliers = {
-    sedentary: 1.2,
-    light: 1.375,
-    moderate: 1.55,
-    very_active: 1.725,
-    extra_active: 1.9
-  };
+  const actMultipliers = { sedentary: 1.2, light: 1.375, moderate: 1.55, very_active: 1.725, extra_active: 1.9 };
   const tdee = Math.round(bmr * (actMultipliers[activity] || 1.55));
 
   let calcCalories = tdee;
@@ -59,485 +183,492 @@ export default function Nutrition() {
   else if (goal === 'muscle_gain' || goal === 'muscle') calcCalories = Math.round(tdee + 300);
   else if (goal === 'recomp') calcCalories = Math.round(tdee - 200);
 
-  const calcProtein = Math.round(weight * 2.2);
-  const calcFat = Math.round((calcCalories * 0.25) / 9);
-  const calcCarbs = Math.max(0, Math.round((calcCalories - calcProtein * 4 - calcFat * 9) / 4));
+  const targetKcal = aiPlan?.kcal || S.targetCalories || calcCalories;
+  const targetProtein = aiPlan?.protein || S.targetProtein || Math.round(weight * 2.2);
+  const targetCarbs = aiPlan?.carbs || Math.round((targetKcal * 0.45) / 4);
+  const targetFat = aiPlan?.fat || Math.round((targetKcal * 0.25) / 9);
 
-  // Determine current active metrics (AI vs local calculated fallback)
-  const targetCalories = aiPlan ? aiPlan.kcal : calcCalories;
-  const proteinGrams = aiPlan ? aiPlan.protein : calcProtein;
-  const carbGrams = aiPlan ? aiPlan.carbs : calcCarbs;
-  const fatGrams = aiPlan ? aiPlan.fat : calcFat;
+  // Default suggested meals
+  const defaultMeals = [
+    {
+      id: 'm1',
+      slot: 'Breakfast',
+      time: '8:30 AM',
+      title: S.aiAnswers?.diet === 'veg' ? 'Paneer Bhurji & Multigrain Toast' : 'Egg White Scramble & Rolled Oats',
+      kcal: Math.round(targetKcal * 0.25),
+      protein: Math.round(targetProtein * 0.25),
+      carbs: Math.round(targetCarbs * 0.25),
+      fat: Math.round(targetFat * 0.25),
+      note: S.aiAnswers?.diet === 'veg' ? '150g Low-fat Paneer, 2 Slices Toast, Black Coffee' : '4 Egg Whites + 1 Egg, 50g Oats, Berries'
+    },
+    {
+      id: 'm2',
+      slot: 'Lunch',
+      time: '1:30 PM',
+      title: S.aiAnswers?.diet === 'veg' ? 'Soya Chunks & Dal Tadka Rice Bowl' : 'Grilled Chicken Breast, Brown Rice & Broccoli',
+      kcal: Math.round(targetKcal * 0.35),
+      protein: Math.round(targetProtein * 0.35),
+      carbs: Math.round(targetCarbs * 0.35),
+      fat: Math.round(targetFat * 0.35),
+      note: S.aiAnswers?.diet === 'veg' ? '50g Soya Chunks Curry, 1 Bowl Dal, 100g Rice, Salad' : '200g Grilled Chicken, 100g Rice, Steamed Veggies'
+    },
+    {
+      id: 'm3',
+      slot: 'Pre/Post Workout Fuel',
+      time: '5:00 PM',
+      title: 'Whey Protein Isolate & Banana',
+      kcal: Math.round(targetKcal * 0.15),
+      protein: Math.round(targetProtein * 0.2),
+      carbs: Math.round(targetCarbs * 0.15),
+      fat: Math.round(targetFat * 0.1),
+      note: '1 Scoop Whey Protein with cold water, 1 Medium Banana, 8 Almonds'
+    },
+    {
+      id: 'm4',
+      slot: 'Dinner',
+      time: '8:30 PM',
+      title: S.aiAnswers?.diet === 'veg' ? 'Tofu/Paneer Tikka & Multigrain Roti' : 'Pan-Seared Fish / Chicken & Green Salad',
+      kcal: Math.round(targetKcal * 0.25),
+      protein: Math.round(targetProtein * 0.2),
+      carbs: Math.round(targetCarbs * 0.25),
+      fat: Math.round(targetFat * 0.3),
+      note: S.aiAnswers?.diet === 'veg' ? '150g Grilled Tofu or Paneer, 1 Roti, Mixed Salad' : '180g Fish or Chicken Breast, Large Garden Salad'
+    }
+  ];
 
-  const proteinCalories = proteinGrams * 4;
-  const fatCalories = fatGrams * 9;
-  const carbCalories = carbGrams * 4;
+  // Calculate Consumed Totals
+  const consumedKcal = todayLogs.reduce((sum, item) => sum + (item.kcal || 0), 0);
+  const consumedProtein = todayLogs.reduce((sum, item) => sum + (item.protein || 0), 0);
+  const consumedCarbs = todayLogs.reduce((sum, item) => sum + (item.carbs || 0), 0);
+  const consumedFat = todayLogs.reduce((sum, item) => sum + (item.fat || 0), 0);
 
-  // Save changes to Fit Ninja user store and recalculate AI plan
-  const handleSavePreferences = async () => {
-    setSaving(true);
+  const remainingKcal = Math.max(0, targetKcal - consumedKcal);
+  const kcalPercent = Math.min(100, Math.round((consumedKcal / targetKcal) * 100));
+
+  // Toggle or Log a Suggested Meal
+  const toggleSuggestedMeal = (meal) => {
+    const isLogged = todayLogs.some(item => item.id === meal.id || item.slot === meal.slot);
     update(s => {
-      s.nutritionWeight = weight;
-      s.nutritionHeight = height;
-      s.nutritionAge = age;
-      s.nutritionGender = gender;
-      s.nutritionActivity = activity;
-      s.nutritionGoal = goal;
-      s.nutritionDietType = dietType;
-      
-      s.aiAnswers = {
-        pname: s.aiAnswers?.pname || s.user?.name || 'Athlete',
-        age,
-        weight,
-        height,
-        gender,
-        goal,
-        days: s.aiAnswers?.days || 4,
-        location: s.aiAnswers?.location || 'gym',
-        diet: dietType === 'high_protein' ? 'nonveg' : dietType === 'indian_veg' ? 'veg' : dietType === 'vegan' ? 'vegan' : 'egg'
-      };
-    });
+      if (!s.loggedMeals) s.loggedMeals = {};
+      if (!s.loggedMeals[today]) s.loggedMeals[today] = [];
 
-    toast('🤖 Coach AI is recalculating your nutrition targets...');
-
-    try {
-      const res = await api('/api/generate-plan', {
-        method: 'POST',
-        body: JSON.stringify({
-          answers: useStore.getState().S.aiAnswers
-        })
-      });
-
-      if (res.plan) {
-        update(s => {
-          s.aiPlan = res.plan;
-          s.targetCalories = res.plan.kcal;
-          s.targetProtein = res.plan.protein;
-          
-          s.aiCoachCard = {
-            coachNote: res.plan.coachNote,
-            changes: [],
-            weeklyInsight: res.plan.weeklyInsight || 'Your nutrition plan has been updated! Let’s crush it! 💪',
-            celebration: '',
-            seenAt: null
-          };
+      if (isLogged) {
+        s.loggedMeals[today] = s.loggedMeals[today].filter(item => item.id !== meal.id && item.slot !== meal.slot);
+        toast(`Removed ${meal.slot} from today's log`);
+      } else {
+        s.loggedMeals[today].push({
+          id: meal.id,
+          slot: meal.slot,
+          title: meal.title,
+          kcal: meal.kcal,
+          protein: meal.protein,
+          carbs: meal.carbs,
+          fat: meal.fat,
+          completed: true,
+          loggedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
-        toast('✓ AI plan re-generated successfully!');
-        setShowParams(false);
+        toast(`✓ Logged ${meal.slot} (+${meal.kcal} kcal, +${meal.protein}g protein)`);
       }
-    } catch (err) {
-      toast('❌ Error re-generating plan: ' + err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Daily Meal Schedule
-  const getMeals = () => {
-    if (aiPlan && aiPlan.meals && aiPlan.meals.length > 0) {
-      return aiPlan.meals.map(m => ({
-        meal: m.n || m.meal,
-        title: m.d || m.title,
-        kcal: m.k || m.kcal || 0,
-        p: m.p || 0,
-        items: m.note || m.items || ''
-      }));
-    }
-
-    // Local standard fallback meals
-    if (dietType === 'indian_veg') {
-      return [
-        { meal: 'Breakfast (8:30 AM)', title: 'Paneer Bhurji & Multigrain Toast', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.25), items: '150g Low-fat Paneer, 2 Slices Whole Grain Toast, Spinach, Black Coffee' },
-        { meal: 'Lunch (1:30 PM)', title: 'Soya Chunks & Dal Tadka Bowl', kcal: Math.round(targetCalories * 0.35), p: Math.round(proteinGrams * 0.35), items: '50g Soya Chunks Curry, 1 Bowl Yellow Dal, 100g Cooked Brown Rice, Green Salad' },
-        { meal: 'Pre-Workout Fuel (5:00 PM)', title: 'Whey Isolate & Banana', kcal: Math.round(targetCalories * 0.15), p: Math.round(proteinGrams * 0.2), items: '1 Scoop Whey Protein with Water, 1 Medium Banana, 10 Almonds' },
-        { meal: 'Dinner (8:30 PM)', title: 'Tofu/Paneer Stir-Fry & Roti', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.2), items: '150g Grilled Tofu or Paneer, Mixed Peppers & Broccoli, 1 Multigrain Chapati' },
-      ];
-    }
-    if (dietType === 'keto') {
-      return [
-        { meal: 'Breakfast (8:30 AM)', title: 'Scrambled Eggs with Avocado & Butter', kcal: Math.round(targetCalories * 0.3), p: Math.round(proteinGrams * 0.3), items: '3 Whole Eggs cooked in Grass-fed Butter, 1/2 Avocado, Black Coffee' },
-        { meal: 'Lunch (1:30 PM)', title: 'Grilled Chicken Caesar Salad', kcal: Math.round(targetCalories * 0.35), p: Math.round(proteinGrams * 0.4), items: '200g Grilled Chicken Breast, Romaine Lettuce, Olive Oil, Parmesan' },
-        { meal: 'Snack (5:00 PM)', title: 'Walnuts & Dark Chocolate', kcal: Math.round(targetCalories * 0.1), p: Math.round(proteinGrams * 0.05), items: '30g Walnuts, 1 Square 90% Dark Chocolate' },
-        { meal: 'Dinner (8:30 PM)', title: 'Pan-Seared Salmon & Asparagus', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.25), items: '180g Wild Salmon, Asparagus spears sautéed in Garlic Ghee' },
-      ];
-    }
-    if (dietType === 'vegan') {
-      return [
-        { meal: 'Breakfast (8:30 AM)', title: 'Tofu Scramble & Oatmeal', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.25), items: '150g Firm Tofu Scramble, 50g Oats with Chia Seeds & Almond Milk' },
-        { meal: 'Lunch (1:30 PM)', title: 'Soya Chunks & Chickpea Buddha Bowl', kcal: Math.round(targetCalories * 0.35), p: Math.round(proteinGrams * 0.35), items: '60g Soya Chunks, 100g Boiled Chickpeas, Quinoa & Steamed Vegetables' },
-        { meal: 'Pre-Workout Fuel (5:00 PM)', title: 'Plant Protein & Peanut Butter Toast', kcal: Math.round(targetCalories * 0.15), p: Math.round(proteinGrams * 0.2), items: '1 Scoop Pea/Rice Protein, 1 Slice Whole Grain Toast with 1 tbsp Natural Peanut Butter' },
-        { meal: 'Dinner (8:30 PM)', title: 'Lentil Dal & Brown Rice Bowl', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.2), items: '1 Big Bowl Mixed Lentil Dal, 100g Cooked Brown Rice, Roasted Broccoli' },
-      ];
-    }
-    return [
-      { meal: 'Breakfast (8:30 AM)', title: 'Egg White Omelette & Rolled Oats', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.25), items: '4 Egg Whites + 1 Whole Egg, 50g Rolled Oats with Berries & Cinnamon' },
-      { meal: 'Lunch (1:30 PM)', title: 'Lean Chicken Breast & Sweet Potato', kcal: Math.round(targetCalories * 0.35), p: Math.round(proteinGrams * 0.35), items: '200g Grilled Chicken Breast, 150g Baked Sweet Potato, Steamed Broccoli' },
-      { meal: 'Pre-Workout Fuel (5:00 PM)', title: 'Greek Yogurt & Whey Protein', kcal: Math.round(targetCalories * 0.15), p: Math.round(proteinGrams * 0.2), items: '150g Non-fat Greek Yogurt, 1/2 Scoop Whey, 1 Rice Cake with Honey' },
-      { meal: 'Dinner (8:30 PM)', title: 'White Fish / Grilled Paneer & Veggies', kcal: Math.round(targetCalories * 0.25), p: Math.round(proteinGrams * 0.2), items: '200g Tilapia or Low-fat Paneer, Large Mixed Garden Salad with Lemon Dressing' },
-    ];
-  };
-
-  // Weekly Grocery Shopping List Generator
-  const getGroceryList = () => {
-    if (dietType === 'indian_veg') {
-      return [
-        { cat: '🥩 Protein Staples', items: ['Low-fat Paneer (1.5 kg)', 'Soya Chunks / Soya Granules (1 kg)', 'Firm Organic Tofu (500g)', 'Yellow Moong Dal & Toor Dal (1 kg)', 'Whey Isolate Protein Powder (1 Tub)'] },
-        { cat: '🍚 Complex Carbs', items: ['Rolled Oats (1 kg)', 'Brown Rice / Red Rice (1 kg)', 'Multigrain Atta / Chapati (2 kg)', 'Moong Sprouts (500g)'] },
-        { cat: '🥑 Healthy Fats & Nuts', items: ['Desi Ghee (250g)', 'Natural Peanut Butter (500g)', 'Raw Almonds & Walnuts (250g)', 'Chia Seeds (200g)'] },
-        { cat: '🥦 Fresh Produce', items: ['Fresh Palak / Spinach (3 Bunches)', 'Broccoli (2 Heads)', 'Green & Yellow Bell Peppers (1 kg)', 'Cucumbers & Tomatoes (2 kg)', 'Lemons & Garlic'] }
-      ];
-    }
-    if (dietType === 'keto') {
-      return [
-        { cat: '🥩 Protein & Healthy Fats', items: ['Whole Eggs (3 Dozen)', 'Grass-fed Butter (500g)', 'Chicken Thighs / Breast (2 kg)', 'Salmon Fillets (1 kg)', 'Full-fat Cottage Cheese / Paneer (1 kg)'] },
-        { cat: '🥑 Keto Oils & Nuts', items: ['Avocados (6 Units)', 'Extra Virgin Olive Oil (500ml)', 'Walnuts & Pecans (300g)', 'Heavy Whipping Cream (250ml)', '90% Dark Chocolate'] },
-        { cat: '🥦 Low-Carb Veggies', items: ['Asparagus Spears (500g)', 'Fresh Spinach (3 Bunches)', 'Broccoli & Cauliflower (2 Heads)', 'Romaine Lettuce'] }
-      ];
-    }
-    if (dietType === 'vegan') {
-      return [
-        { cat: '🥗 Plant Protein Staples', items: ['Firm Tofu (2 kg)', 'Soya Chunks (1.5 kg)', 'Boiled Chickpeas & Black Beans (1 kg)', 'Lentils (Moong, Masoor, Chana Dal) (2 kg)', 'Pea/Rice Plant Protein Powder'] },
-        { cat: '🍚 Grains & Complex Carbs', items: ['Organic Quinoa (500g)', 'Rolled Oats (1 kg)', 'Sweet Potatoes (1.5 kg)', 'Brown Rice (1 kg)'] },
-        { cat: '🥑 Healthy Fats & Seeds', items: ['Natural Peanut Butter (1 kg)', 'Flax Seeds & Chia Seeds (500g)', 'Walnuts & Almonds (300g)', 'Unsweetened Almond Milk (2L)'] }
-      ];
-    }
-    return [
-      { cat: '🥩 High Protein Staples', items: ['Boneless Chicken Breast (2 kg)', 'Whole Eggs (2 Dozen)', 'Egg Whites Carton (1L)', 'Tilapia / Fish Fillets (1 kg)', 'Whey Isolate Protein (1 Tub)'] },
-      { cat: '🍚 Complex Carbs', items: ['Rolled Oats (1 kg)', 'Sweet Potatoes (1.5 kg)', 'Whole Grain Multigrain Bread (1 Loaf)', 'Brown Rice (1 kg)'] },
-      { cat: '🥑 Healthy Fats & Nuts', items: ['Raw Almonds (300g)', 'Natural Peanut Butter (500g)', 'Extra Virgin Olive Oil (500ml)', 'Chia Seeds'] },
-      { cat: '🥦 Fresh Produce & Dairy', items: ['Non-fat Greek Yogurt (1 kg)', 'Fresh Broccoli (2 Heads)', 'Spinach & Salad Greens (3 Bunches)', 'Lemons & Garlic'] }
-    ];
-  };
-
-  const meals = getMeals();
-  const grocery = getGroceryList();
-
-  const toggleGroceryItem = (item) => {
-    setCheckedGrocery(prev => ({ ...prev, [item]: !prev[item] }));
-  };
-
-  const copyGroceryListText = () => {
-    let text = `🛒 FIT NINJAS WEEKLY GROCERY SHOPPING LIST\nTarget: ${targetCalories} kcal | Protein: ${proteinGrams}g\n\n`;
-    grocery.forEach(g => {
-      text += `${g.cat}:\n`;
-      g.items.forEach(i => { text += `  [${checkedGrocery[i] ? 'X' : ' '}] ${i}\n`; });
-      text += `\n`;
     });
-    navigator.clipboard.writeText(text).then(() => toast('📋 Grocery list copied to clipboard!'));
   };
+
+  // Add Custom Food / Meal
+  const handleAddCustomMeal = () => {
+    const k = parseInt(customKcal, 10) || 0;
+    const p = parseInt(customProtein, 10) || 0;
+    if (!customTitle.trim()) { toast('Please enter a meal name'); return; }
+    if (k <= 0) { toast('Please enter calories'); return; }
+
+    update(s => {
+      if (!s.loggedMeals) s.loggedMeals = {};
+      if (!s.loggedMeals[today]) s.loggedMeals[today] = [];
+
+      s.loggedMeals[today].push({
+        id: 'c_' + Date.now(),
+        slot: customMealType,
+        title: customTitle.trim(),
+        kcal: k,
+        protein: p,
+        carbs: Math.round((k * 0.4) / 4),
+        fat: Math.round((k * 0.25) / 9),
+        completed: true,
+        loggedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      });
+    });
+
+    toast(`✓ Added ${customTitle} (+${k} kcal)`);
+    setCustomTitle('');
+    setCustomKcal('');
+    setCustomProtein('');
+    setShowCustomModal(false);
+  };
+
+  // Filtered recipes
+  const filteredRecipes = RECIPES_DB.filter(r => {
+    if (recipeFilter === 'all') return true;
+    if (recipeFilter === 'veg') return r.type === 'veg';
+    if (recipeFilter === 'nonveg') return r.type === 'nonveg' || r.type === 'egg';
+    if (recipeFilter === 'snack') return r.type === 'snack';
+    return true;
+  });
 
   return (
-    <div className="view-content" style={{ padding: '16px', maxWidth: '600px', margin: '0 auto', paddingBottom: '90px' }}>
+    <div className="view-content" style={{ padding: '16px', maxWidth: '600px', margin: '0 auto', paddingBottom: '120px' }}>
       
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
+      {/* ── HEADER ───────────────────────────────────────────── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: '800', margin: 0, color: 'var(--label-1, #fff)', letterSpacing: '-0.5px' }}>
-            {t('AI Nutrition & Diet')}
+          <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
+            {t('Nutrition & Macros')}
           </h1>
-          <p style={{ fontSize: '13px', color: 'var(--label-3, #888)', margin: '4px 0 0' }}>
-            {t('Fit Ninja Energy, Macros & Grocery Engine')}
+          <p style={{ fontSize: '12px', color: 'var(--label-3, #94a3b8)', margin: '3px 0 0' }}>
+            {t('Daily fuel targets, 1-tap meal logging & recipe references')}
           </p>
         </div>
+        <button
+          onClick={() => setShowCustomModal(true)}
+          style={{
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            border: 'none',
+            borderRadius: '10px',
+            padding: '8px 14px',
+            color: '#fff',
+            fontSize: '12px',
+            fontWeight: '800',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            cursor: 'pointer'
+          }}
+        >
+          <span>+ Log Food</span>
+        </button>
       </div>
 
-      {/* Target Macros Cockpit Card */}
+      {/* ── DAILY TARGETS & CONSUMPTION COCKPIT ─────────────── */}
       <div style={{
-        background: 'var(--card-bg, #11141d)',
-        border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
+        background: '#0f172a',
+        border: '1px solid rgba(16, 185, 129, 0.3)',
         borderRadius: '18px',
-        padding: '20px',
+        padding: '18px',
         marginBottom: '16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.2)'
+        boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--accent, #f59e0b)' }}>
-              {t('Daily Target Calories')}
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: '#10b981' }}>
+              {t('Daily Fuel Target')}
             </div>
-            <div style={{ fontSize: '36px', fontWeight: '900', color: '#fff', lineHeight: 1.1, marginTop: '4px' }}>
-              {targetCalories} <span style={{ fontSize: '16px', color: 'var(--label-3, #888)', fontWeight: '500' }}>kcal</span>
+            <div style={{ fontSize: '32px', fontWeight: '900', color: '#fff', lineHeight: 1.1, marginTop: '4px' }}>
+              {consumedKcal} <span style={{ fontSize: '15px', color: '#94a3b8', fontWeight: '500' }}>/ {targetKcal} kcal</span>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '11px', color: 'var(--label-3, #888)' }}>{t('BMR')}: {bmr} kcal</div>
-            <div style={{ fontSize: '11px', color: 'var(--label-3, #888)' }}>{t('TDEE')}: {tdee} kcal</div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>REMAINING</div>
+            <div style={{ fontSize: '18px', fontWeight: '800', color: remainingKcal === 0 ? '#10b981' : '#38bdf8' }}>
+              {remainingKcal} kcal
+            </div>
           </div>
         </div>
 
-        {/* Macro Bars */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: '12px' }}>
-          <div style={{ background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#f59e0b', textTransform: 'uppercase' }}>{t('Protein')}</div>
-            <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>{proteinGrams}g</div>
-            <div style={{ fontSize: '10px', color: '#888' }}>{proteinCalories} kcal</div>
+        {/* Progress bar */}
+        <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden', marginBottom: '16px' }}>
+          <div style={{
+            width: `${kcalPercent}%`,
+            height: '100%',
+            background: kcalPercent >= 100 ? '#10b981' : 'linear-gradient(90deg, #38bdf8, #10b981)',
+            borderRadius: '99px',
+            transition: 'width 0.3s ease'
+          }} />
+        </div>
+
+        {/* 3 Macro Target Progress Cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+          <div style={{ background: '#1e293b', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase' }}>PROTEIN</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
+              {consumedProtein}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetProtein}g</span>
+            </div>
+            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+              {Math.max(0, targetProtein - consumedProtein)}g left
+            </div>
           </div>
 
-          <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#38bdf8', textTransform: 'uppercase' }}>{t('Carbs')}</div>
-            <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>{carbGrams}g</div>
-            <div style={{ fontSize: '10px', color: '#888' }}>{carbCalories} kcal</div>
+          <div style={{ background: '#1e293b', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#f59e0b', textTransform: 'uppercase' }}>CARBS</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
+              {consumedCarbs}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetCarbs}g</span>
+            </div>
+            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+              {Math.max(0, targetCarbs - consumedCarbs)}g left
+            </div>
           </div>
 
-          <div style={{ background: 'rgba(244, 63, 94, 0.1)', border: '1px solid rgba(244, 63, 94, 0.2)', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#f43f5e', textTransform: 'uppercase' }}>{t('Fats')}</div>
-            <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>{fatGrams}g</div>
-            <div style={{ fontSize: '10px', color: '#888' }}>{fatCalories} kcal</div>
+          <div style={{ background: '#1e293b', border: '1px solid rgba(244, 63, 94, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#f43f5e', textTransform: 'uppercase' }}>FATS</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
+              {consumedFat}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetFat}g</span>
+            </div>
+            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+              {Math.max(0, targetFat - consumedFat)}g left
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Hydration / Water Tracker */}
-      <div style={{
-        background: 'var(--card-bg, #11141d)',
-        border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
-        borderRadius: '18px',
-        padding: '16px',
-        marginBottom: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ fontSize: '26px' }}>💧</div>
-          <div>
-            <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>{t('Hydration Tracker')}</div>
-            <div style={{ fontSize: '11px', color: '#38bdf8', fontWeight: '600' }}>
-              {waterGlasses} / 8 {t('Glasses')} ({Math.round(waterGlasses * 250)} ml)
-            </div>
-          </div>
+      {/* ── DAILY MEAL SCHEDULE & LOGGING ───────────────────── */}
+      <div style={{ marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+          <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+            🍽️ {t("Today's Meals & Logging")}
+          </h2>
+          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+            {todayLogs.length} of 4 Logged
+          </span>
         </div>
-        <div style={{ display: 'flex', gap: '6px' }}>
-          <button
-            onClick={() => logWater(-1)}
-            style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', border: 'none', color: '#fff', fontWeight: '700', cursor: 'pointer' }}
-          >-</button>
-          <button
-            onClick={() => logWater(1)}
-            style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#38bdf8', border: 'none', color: '#000', fontWeight: '700', cursor: 'pointer' }}
-          >+</button>
-        </div>
-      </div>
-
-      {/* Collapsible Param Config card */}
-      <button 
-        onClick={() => setShowParams(!showParams)}
-        style={{
-          width: '100%',
-          background: 'var(--card-bg, #11141d)',
-          border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
-          borderRadius: '18px',
-          padding: '16px',
-          color: '#fff',
-          fontWeight: '700',
-          fontSize: '13px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          cursor: 'pointer',
-          marginBottom: '16px',
-          textAlign: 'left'
-        }}
-      >
-        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '16px' }}>⚙️</span> {t('Recalculate Calories & Macros')}
-        </span>
-        <span style={{ display: 'flex', color: 'var(--label-3)' }}>
-          <Icon name={showParams ? 'chevronUp' : 'chevronDown'} />
-        </span>
-      </button>
-
-      {showParams && (
-        <div style={{
-          background: 'var(--card-bg, #11141d)',
-          border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
-          borderRadius: '18px',
-          padding: '18px',
-          marginBottom: '16px'
-        }}>
-          <h3 style={{ fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#fff', marginBottom: '14px' }}>
-            {t('Body Parameters & Objective')}
-          </h3>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', marginBottom: '12px' }}>
-            <div>
-              <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>{t('Body Weight')} (kg)</label>
-              <input
-                type="number"
-                value={weight}
-                onChange={e => setWeight(parseFloat(e.target.value) || 0)}
-                style={{ width: '100%', background: '#0a0d14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '14px' }}
-              />
-            </div>
-            <div>
-              <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>{t('Height')} (cm)</label>
-              <input
-                type="number"
-                value={height}
-                onChange={e => setHeight(parseFloat(e.target.value) || 0)}
-                style={{ width: '100%', background: '#0a0d14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '14px' }}
-              />
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', marginBottom: '16px' }}>
-            <div>
-              <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>{t('Primary Goal')}</label>
-              <select
-                value={goal}
-                onChange={e => setGoal(e.target.value)}
-                style={{ width: '100%', background: '#0a0d14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
-              >
-                <option value="fat_loss">{t('Fat Loss')}</option>
-                <option value="recomp">{t('Body Recomp')}</option>
-                <option value="maintenance">{t('Maintenance')}</option>
-                <option value="muscle_gain">{t('Muscle Gain')}</option>
-              </select>
-            </div>
-
-            <div>
-              <label style={{ fontSize: '11px', color: '#888', display: 'block', marginBottom: '4px' }}>{t('Diet Type')}</label>
-              <select
-                value={dietType}
-                onChange={e => setDietType(e.target.value)}
-                style={{ width: '100%', background: '#0a0d14', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
-              >
-                <option value="high_protein">High Protein (Non-Veg)</option>
-                <option value="indian_veg">Indian Vegetarian</option>
-                <option value="keto">Keto</option>
-                <option value="vegan">Vegan</option>
-              </select>
-            </div>
-          </div>
-
-          <button
-            onClick={handleSavePreferences}
-            disabled={saving}
-            style={{
-              width: '100%',
-              background: 'var(--accent, #f59e0b)',
-              color: '#000',
-              border: 'none',
-              borderRadius: '12px',
-              padding: '12px',
-              fontWeight: '700',
-              fontSize: '14px',
-              cursor: 'pointer'
-            }}
-          >
-            {saving ? t('Recalculating...') : t('Update Coach Plan')}
-          </button>
-        </div>
-      )}
-
-      {/* Suggested Daily Meal Schedule */}
-      <div style={{
-        background: 'var(--card-bg, #11141d)',
-        border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
-        borderRadius: '18px',
-        padding: '18px',
-        marginBottom: '16px'
-      }}>
-        <h3 style={{ fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#fff', marginBottom: '14px' }}>
-          {t('Suggested Daily Meal Breakdown')}
-        </h3>
 
         <div style={{ display: 'grid', gap: '10px' }}>
-          {meals.map((m, idx) => (
-            <div key={idx} style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px', padding: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--accent, #f59e0b)' }}>{m.meal}</span>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: '#34d399' }}>{m.kcal} kcal · {m.p}g P</span>
+          {defaultMeals.map(meal => {
+            const isDone = todayLogs.some(item => item.id === meal.id || item.slot === meal.slot);
+            return (
+              <div
+                key={meal.id}
+                style={{
+                  background: isDone ? 'rgba(16, 185, 129, 0.08)' : '#0f172a',
+                  border: isDone ? '1px solid #10b981' : '1px solid rgba(255, 255, 255, 0.06)',
+                  borderRadius: '14px',
+                  padding: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px'
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: isDone ? '#10b981' : '#38bdf8', textTransform: 'uppercase' }}>
+                      {meal.slot}
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#94a3b8' }}>• {meal.time}</span>
+                  </div>
+                  <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {meal.title}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                    {meal.note}
+                  </div>
+                  <div style={{ fontSize: '11px', fontWeight: '700', color: '#10b981', marginTop: '4px' }}>
+                    {meal.kcal} kcal · {meal.protein}g Protein
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => toggleSuggestedMeal(meal)}
+                  style={{
+                    background: isDone ? '#10b981' : 'rgba(255, 255, 255, 0.06)',
+                    color: isDone ? '#000' : '#fff',
+                    border: isDone ? 'none' : '1px solid rgba(255, 255, 255, 0.15)',
+                    borderRadius: '10px',
+                    padding: '8px 14px',
+                    fontSize: '12px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    flexShrink: 0
+                  }}
+                >
+                  {isDone ? '✓ Logged' : '+ Log'}
+                </button>
               </div>
-              <div style={{ fontSize: '13px', fontWeight: '700', color: '#fff', marginBottom: '3px' }}>{m.title}</div>
-              <div style={{ fontSize: '11px', color: '#888', lineHeight: 1.4 }}>{m.items}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Fit Ninjas Weekly Grocery Shopping List Card */}
-      <div style={{
-        background: 'var(--card-bg, #11141d)',
-        border: '1px solid var(--card-border, rgba(255,255,255,0.08))',
-        borderRadius: '18px',
-        padding: '18px',
-        marginBottom: '16px'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+      {/* ── HIGH-PROTEIN RECIPE REFERENCE STUDIO ──────────────── */}
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <div>
-            <h3 style={{ fontSize: '13px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#fff', margin: 0 }}>
-              🛒 {t('Weekly Grocery Shopping List')}
-            </h3>
-            <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>
-              {t('Tailored for')} {dietType === 'indian_veg' ? t('Indian Vegetarian') : dietType === 'keto' ? t('Keto') : dietType === 'vegan' ? t('Vegan') : t('High Protein (Non-Veg)')}
+            <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+              👨‍🍳 {t('Curated Recipes for Reference')}
+            </h2>
+            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+              {t('High-protein meals tailored to your diet')}
             </div>
           </div>
-          <button
-            onClick={copyGroceryListText}
-            style={{
-              background: 'rgba(56, 189, 248, 0.15)',
-              border: '1px solid rgba(56, 189, 248, 0.3)',
-              color: '#38bdf8',
-              borderRadius: '8px',
-              padding: '6px 12px',
-              fontSize: '11px',
-              fontWeight: '700',
-              cursor: 'pointer'
-            }}
-          >
-            📋 {t('Copy List')}
-          </button>
         </div>
 
-        <div style={{ display: 'grid', gap: '14px' }}>
-          {grocery.map((g, idx) => (
-            <div key={idx} style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '12px', padding: '12px' }}>
-              <div style={{ fontSize: '12px', fontWeight: '800', color: 'var(--accent, #f59e0b)', marginBottom: '8px' }}>
-                {g.cat}
-              </div>
-              <div style={{ display: 'grid', gap: '6px' }}>
-                {g.items.map((item, i) => {
-                  const isChecked = !!checkedGrocery[item];
-                  return (
-                    <div
-                      key={i}
-                      onClick={() => toggleGroceryItem(item)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        fontSize: '12px',
-                        color: isChecked ? '#64748b' : '#e2e8f0',
-                        textDecoration: isChecked ? 'line-through' : 'none',
-                        cursor: 'pointer',
-                        padding: '2px 0'
-                      }}
-                    >
-                      <div style={{
-                        width: '16px',
-                        height: '16px',
-                        borderRadius: '4px',
-                        border: isChecked ? '1px solid #10b981' : '1px solid rgba(255,255,255,0.2)',
-                        background: isChecked ? '#10b981' : 'transparent',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '10px',
-                        color: '#000',
-                        fontWeight: '900'
-                      }}>
-                        {isChecked ? '✓' : ''}
-                      </div>
-                      <span>{item}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+        {/* Filter Pills */}
+        <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '12px' }}>
+          {[
+            { id: 'all', label: 'All Recipes' },
+            { id: 'nonveg', label: '🍗 High-Protein Non-Veg' },
+            { id: 'veg', label: '🥗 Indian Vegetarian' },
+            { id: 'snack', label: '⚡ Quick Fuel / Snacks' }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setRecipeFilter(tab.id)}
+              style={{
+                background: recipeFilter === tab.id ? '#38bdf8' : '#1e293b',
+                color: recipeFilter === tab.id ? '#000' : '#cbd5e1',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '11.5px',
+                fontWeight: '700',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer'
+              }}
+            >
+              {tab.label}
+            </button>
           ))}
         </div>
+
+        {/* Recipe Cards */}
+        <div style={{ display: 'grid', gap: '12px' }}>
+          {filteredRecipes.map(recipe => {
+            const isExpanded = expandedRecipe === recipe.id;
+            return (
+              <div
+                key={recipe.id}
+                style={{
+                  background: '#0f172a',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '14px',
+                  padding: '16px',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setExpandedRecipe(isExpanded ? null : recipe.id)}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                      ⏱️ {recipe.time}
+                    </span>
+                    <h3 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: '6px 0 4px' }}>
+                      {recipe.title}
+                    </h3>
+                  </div>
+                  <span style={{ color: '#94a3b8', fontSize: '18px' }}>
+                    {isExpanded ? '−' : '+'}
+                  </span>
+                </div>
+
+                {/* Macro summary row */}
+                <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: '#94a3b8', marginTop: '6px' }}>
+                  <span>🔥 <strong style={{ color: '#fff' }}>{recipe.kcal}</strong> kcal</span>
+                  <span>💪 <strong style={{ color: '#38bdf8' }}>{recipe.protein}g</strong> Protein</span>
+                  <span>🍞 <strong style={{ color: '#f59e0b' }}>{recipe.carbs}g</strong> Carbs</span>
+                  <span>🥑 <strong style={{ color: '#f43f5e' }}>{recipe.fat}g</strong> Fat</span>
+                </div>
+
+                {/* Expanded ingredients & preparation steps */}
+                {isExpanded && (
+                  <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '6px' }}>
+                      Ingredients:
+                    </div>
+                    <ul style={{ margin: '0 0 12px 18px', padding: 0, fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                      {recipe.ingredients.map((ing, i) => (
+                        <li key={i}>{ing}</li>
+                      ))}
+                    </ul>
+
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#10b981', textTransform: 'uppercase', marginBottom: '6px' }}>
+                      Preparation Steps:
+                    </div>
+                    <ol style={{ margin: '0 0 0 18px', padding: 0, fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                      {recipe.instructions.map((step, i) => (
+                        <li key={i}>{step}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
+
+      {/* ── CUSTOM FOOD LOGGING MODAL ─────────────────────────── */}
+      {showCustomModal && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '16px'
+        }}>
+          <div style={{
+            background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)',
+            borderRadius: '20px', padding: '22px', width: '100%', maxWidth: '420px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#fff' }}>+ Log Custom Food</h3>
+              <button onClick={() => setShowCustomModal(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+            </div>
+
+            <div style={{ display: 'grid', gap: '12px' }}>
+              <div>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Meal Slot</label>
+                <select
+                  value={customMealType}
+                  onChange={e => setCustomMealType(e.target.value)}
+                  style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                >
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Pre/Post Workout">Pre/Post Workout</option>
+                  <option value="Dinner">Dinner</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Food / Meal Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2 Boiled Eggs & Protein Shake"
+                  value={customTitle}
+                  onChange={e => setCustomTitle(e.target.value)}
+                  style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Calories (kcal)</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 350"
+                    value={customKcal}
+                    onChange={e => setCustomKcal(e.target.value)}
+                    style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Protein (g)</label>
+                  <input
+                    type="number"
+                    placeholder="e.g. 28"
+                    value={customProtein}
+                    onChange={e => setCustomProtein(e.target.value)}
+                    style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={handleAddCustomMeal}
+                style={{
+                  background: '#10b981', border: 'none', borderRadius: '12px',
+                  padding: '12px', color: '#000', fontSize: '14px', fontWeight: '800',
+                  marginTop: '6px', cursor: 'pointer'
+                }}
+              >
+                Log Meal to Today's Tracker
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

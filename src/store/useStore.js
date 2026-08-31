@@ -19,6 +19,7 @@ export const DEF = {
   checkins: [],        // weekly & post-workout check-ins [{ id, date, weight, difficulty, soreness, dietRating, notes, photos[] }]
   photos: [],          // physique progress photos [{ id, date, weight, photoUrl, label, notes }]
   aiCoachCard: null,   // latest AI coach message to show on Home { coachNote, changes[], weeklyInsight, celebration, seenAt }
+  loggedMeals: {},     // daily logged meals { 'YYYY-MM-DD': [{ id, mealType, title, kcal, protein, carbs, fat, completed }] }
 }
 const clone = o => JSON.parse(JSON.stringify(o))
 
