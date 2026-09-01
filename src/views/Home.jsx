@@ -254,9 +254,9 @@ export default function Home() {
           <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Meals</span>
         </div>
 
-        {/* Tile 3: Rebuild Plan */}
+        {/* Tile 3: Progress & Stats */}
         <div
-          onClick={onboardingWizardSheet}
+          onClick={() => nav('/stats')}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             background: 'var(--card-bg)',
@@ -270,8 +270,8 @@ export default function Home() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>⚡</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Rebuild</span>
+          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>📊</span>
+          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Progress</span>
         </div>
 
         {/* Tile 4: Check-in */}

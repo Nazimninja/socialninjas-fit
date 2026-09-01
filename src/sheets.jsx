@@ -2127,8 +2127,10 @@ function WeeklyCheckinModal({ close }) {
         }
       })
 
-      toast('Weekly Check-in Logged · AI Plan Adapted')
       close()
+      setTimeout(() => {
+        weeklyPlanUpdateSheet(adapted)
+      }, 120)
     } catch (err) {
       toast('Check-in saved locally.')
       close()
@@ -2448,4 +2450,87 @@ function WeeklyCheckinModal({ close }) {
 
 export function weeklyCheckinSheet() {
   ui().openSheet(close => <WeeklyCheckinModal close={close} />)
+}
+
+/* ============================ WEEKLY PLAN UPDATE BRIEFING ============================ */
+function WeeklyPlanUpdateModal({ plan, close }) {
+  const changes = plan?.changes || []
+
+  return (
+    <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 14px', textAlign: 'center' }}>
+      <div style={{ width: 48, height: 48, borderRadius: 16, background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--acc)', margin: '0 auto 12px', fontSize: 24 }}>
+        🚀
+      </div>
+
+      <h3 style={{ margin: '0 0 6px', fontSize: 20, fontWeight: 900, color: 'var(--label)', letterSpacing: '-0.5px' }}>
+        AI Plan Periodization Adapted!
+      </h3>
+      <p style={{ margin: '0 0 18px', fontSize: 12, color: 'var(--label-2)', lineHeight: 1.4 }}>
+        Your weekly check-in, logged workouts, and macro adherence have been synthesized into your updated protocol.
+      </p>
+
+      {/* New Macro Targets Preview */}
+      <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 16px', marginBottom: 16, textAlign: 'left' }}>
+        <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-2)', marginBottom: 8 }}>
+          Updated Daily Targets
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, textAlign: 'center' }}>
+          <div style={{ background: 'var(--card-bg)', border: '1px solid var(--sep)', borderRadius: 10, padding: '8px 4px' }}>
+            <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--label-3)' }}>CALORIES</div>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--label)', marginTop: 2 }}>{plan?.kcal}</div>
+          </div>
+          <div style={{ background: 'var(--card-bg)', border: '1px solid var(--sep)', borderRadius: 10, padding: '8px 4px' }}>
+            <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--label-3)' }}>PROTEIN</div>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--label)', marginTop: 2 }}>{plan?.protein}g</div>
+          </div>
+          <div style={{ background: 'var(--card-bg)', border: '1px solid var(--sep)', borderRadius: 10, padding: '8px 4px' }}>
+            <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--label-3)' }}>CARBS</div>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--label)', marginTop: 2 }}>{plan?.carbs || '—'}g</div>
+          </div>
+          <div style={{ background: 'var(--card-bg)', border: '1px solid var(--sep)', borderRadius: 10, padding: '8px 4px' }}>
+            <div style={{ fontSize: 9, fontWeight: 800, color: 'var(--label-3)' }}>FATS</div>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--label)', marginTop: 2 }}>{plan?.fat || '—'}g</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Protocol Changes List */}
+      {changes.length > 0 && (
+        <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 16px', marginBottom: 18, textAlign: 'left' }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-2)', marginBottom: 8 }}>
+            AI Coach Calibrations
+          </div>
+          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--label)', lineHeight: 1.5 }}>
+            {changes.map((chg, i) => (
+              <li key={i} style={{ marginBottom: 4 }}>{chg}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {plan?.weeklyInsight && (
+        <div style={{ fontSize: 12, color: 'var(--acc)', fontWeight: 700, marginBottom: 20, lineHeight: 1.4 }}>
+          💡 {plan.weeklyInsight}
+        </div>
+      )}
+
+      <Button
+        variant="primary"
+        onClick={() => { close(); nav('/home') }}
+        style={{
+          width: '100%',
+          padding: '14px',
+          fontSize: 14,
+          fontWeight: 800,
+          borderRadius: 12
+        }}
+      >
+        🔥 Execute Updated Protocol
+      </Button>
+    </div>
+  )
+}
+
+export function weeklyPlanUpdateSheet(plan) {
+  ui().openSheet(close => <WeeklyPlanUpdateModal plan={plan} close={close} />, { kind: 'center' })
 }
