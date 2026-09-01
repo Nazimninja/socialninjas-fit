@@ -17,12 +17,12 @@
    ========================================================================== */
 
 :root {
-  /* surfaces — stealth obsidian ninja theme matching Fit Ninja logo */
-  --bg:        #070a0f;
-  --bg-el:     #0c1119;   /* elevated backdrop (sheets, bars) */
-  --surface:   #111823;   /* card / grouped-list fill */
-  --surface-2: #172030;   /* pressed + nested fill */
-  --surface-3: #1f2b40;   /* controls (segmented track, switch off) */
+  /* surfaces — deep pitch black & dark slate theme */
+  --bg:        #000000;
+  --bg-el:     #090d16;   /* elevated backdrop (sheets, bars) */
+  --surface:   #0f172a;   /* card / grouped-list fill */
+  --surface-2: #1e293b;   /* pressed + nested fill */
+  --surface-3: #27354f;   /* controls (segmented track, switch off) */
 
   /* text */
   --label:     #ffffff;
@@ -32,29 +32,29 @@
 
   /* lines */
   --sep:       rgba(255,255,255,.08);
-  --sep-op:    rgba(0,240,255,.15);   /* for edges sitting over blur */
+  --sep-op:    rgba(37,99,235,.20);
   --hair:      .5px;
 
-  /* signature Fit Ninja palette: Electric Cyan, Stealth Obsidian, Metallic Platinum */
-  --cyan:      #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.35);
-  --blue:      #00d2ff;
-  --green:     #00f0ff;
-  --teal:      #06b6d4;
+  /* palette: Deep Royal Blue, Pitch Black, Crisp White & Silver */
+  --blue:      #2563eb;
+  --blue-light:#3b82f6;
+  --blue-dark: #1d4ed8;
+  --green:     #2563eb;
+  --teal:      #2563eb;
   --silver:    #e2e8f0;
   --grey:      #94a3b8;
-  --red:       #f43f5e;
-  --orange:    #00f0ff;
-  --yellow:    #38bdf8;
-  --purple:    #00d2ff;
-  --mint:      #00f0ff;
+  --red:       #ef4444;
+  --orange:    #2563eb;
+  --yellow:    #3b82f6;
+  --purple:    #2563eb;
+  --mint:      #2563eb;
 
-  /* accent (Fit Ninja Signature Neon Cyan) */
-  --acc:       #00f0ff;
-  --acc-2:     #00c4d4;
-  --on-acc:    #000000;
-  --acc-soft:  rgba(0, 240, 255, 0.12);
-  --acc-line:  rgba(0, 240, 255, 0.35);
+  /* accent (Rich Royal Blue default) */
+  --acc:       #2563eb;
+  --acc-2:     #1d4ed8;
+  --on-acc:    #ffffff;
+  --acc-soft:  rgba(37, 99, 235, 0.16);
+  --acc-line:  rgba(37, 99, 235, 0.40);
 
   /* geometry */
   --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px; --r-card:14px;
@@ -84,22 +84,24 @@
   --sep:       rgba(60,60,67,.29);
   --sep-op:    rgba(60,60,67,.20);
 
-  --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500;
-  --yellow:#ffcc00; --teal:#30b0c7; --indigo:#5856d6; --pink:#ff2d55;
-  --purple:#af52de; --mint:#00c7be; --brown:#a2845e; --grey:#8e8e93;
-  --acc-2:#248a3d;
+  --blue:#2563eb; --green:#2563eb; --red:#ff3b30; --orange:#2563eb;
+  --yellow:#3b82f6; --teal:#2563eb; --indigo:#1d4ed8; --pink:#ec4899;
+  --purple:#2563eb; --mint:#2563eb; --grey:#8e8e93;
+  --acc-2:#1d4ed8;
   --on-acc:#ffffff;
 }
 
-/* accents — Apple's system colours, so a recolour never looks off-system */
-:root[data-accent="lime"]  { --acc:var(--green);  --acc-2:#248a3d; --on-acc:#000 }
-:root[data-accent="sky"]   { --acc:var(--blue);   --acc-2:#0060df; --on-acc:#fff }
-:root[data-accent="orange"]{ --acc:var(--orange); --acc-2:#c76b00; --on-acc:#000 }
-:root[data-accent="violet"]{ --acc:var(--purple); --acc-2:#8944ab; --on-acc:#fff }
-:root[data-accent="pink"]  { --acc:var(--pink);   --acc-2:#d70036; --on-acc:#fff }
-:root[data-accent="red"]   { --acc:var(--red);    --acc-2:#d70015; --on-acc:#fff }
-:root[data-accent="teal"]  { --acc:var(--teal);   --acc-2:#0071a4; --on-acc:#000 }
-:root[data-accent="gold"]  { --acc:var(--yellow); --acc-2:#b25000; --on-acc:#000 }
+/* accents — default to Black & Royal Blue for all signups & existing users */
+:root[data-accent="lime"],
+:root[data-accent="sky"],
+:root[data-accent="teal"],
+:root[data-accent="blue"] {
+  --acc:       #2563eb;
+  --acc-2:     #1d4ed8;
+  --on-acc:    #ffffff;
+  --acc-soft:  rgba(37, 99, 235, 0.16);
+  --acc-line:  rgba(37, 99, 235, 0.40);
+}
 /* Label colour on a filled accent button is picked per accent by measured contrast,
    not by taste. Button text is 17px/600, so the AA bar is 3:1 (large text). White on
    the light-theme green is 2.22:1 and on teal 2.57:1 — both fail, and green is the
