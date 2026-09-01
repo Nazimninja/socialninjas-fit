@@ -61,16 +61,19 @@ export default function Home() {
   const targetCarbs = S.aiPlan?.carbs || Math.round((targetKcal * 0.45) / 4)
   const targetFat = S.aiPlan?.fat || Math.round((targetKcal * 0.25) / 9)
 
+  const dayOfWeek = today.getDay() // 0 = Sunday, 6 = Saturday
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
+  const lastCheckin = S.checkins && S.checkins.length > 0 ? S.checkins[S.checkins.length - 1] : null
+  const checkedInThisWeekend = lastCheckin && (Date.now() - (new Date(lastCheckin.date).getTime() || 0) < 4 * 24 * 3600 * 1000)
+  const athleteName = S.aiAnswers?.pname || user?.name || 'Athlete'
+
   const onToday = () => {
     if (S.active) nav('/workout')
     else if (routine) startFlow(routine.id)
     else dayOverrideSheet(todayISO())
   }
 
-  const athleteName = user?.name || user?.email?.split('@')[0] || 'Athlete'
-
   // Readiness calculation based on recovery
-  const lastCheckin = S.checkins && S.checkins.length > 0 ? S.checkins[S.checkins.length - 1] : null
   const readinessScore = lastCheckin?.soreness === 'sore' ? 78 : lastCheckin?.soreness === 'mild' ? 92 : 96
 
   return (
@@ -274,26 +277,131 @@ export default function Home() {
           <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Progress</span>
         </div>
 
-        {/* Tile 4: Check-in */}
+        {/* Tile 4: Weekend Check-in (or Exercise Library on Weekdays) */}
+        {isWeekend ? (
+          <div
+            onClick={weeklyCheckinSheet}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              background: checkedInThisWeekend ? 'var(--card-bg)' : 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, var(--card-bg) 100%)',
+              border: checkedInThisWeekend ? '1px solid var(--card-border)' : '1.5px solid var(--acc)',
+              borderTop: '1px solid var(--card-border-top)',
+              boxShadow: 'var(--card-shadow)',
+              borderRadius: '16px',
+              padding: '14px 6px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'transform 0.15s ease',
+              position: 'relative'
+            }}
+          >
+            {!checkedInThisWeekend && (
+              <span style={{ position: 'absolute', top: '-4px', right: '-4px', width: '8px', height: '8px', borderRadius: '50%', background: 'var(--acc)', boxShadow: '0 0 6px var(--acc)' }} />
+            )}
+            <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>📸</span>
+            <span style={{ fontSize: '11px', fontWeight: '800', color: checkedInThisWeekend ? 'var(--label)' : 'var(--acc)', lineHeight: 1.2 }}>Check-in</span>
+          </div>
+        ) : (
+          <div
+            onClick={() => nav('/library')}
+            style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--card-bg)',
+              border: '1px solid var(--card-border)',
+              borderTop: '1px solid var(--card-border-top)',
+              boxShadow: 'var(--card-shadow)',
+              borderRadius: '16px',
+              padding: '14px 6px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'transform 0.15s ease'
+            }}
+          >
+            <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>📖</span>
+            <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Library</span>
+          </div>
+        )}
+      </div>
+
+      {/* ── WEEKEND AI COACH CHECK-IN INTELLIGENCE BANNER ──────── */}
+      {isWeekend && (
         <div
-          onClick={weeklyCheckinSheet}
           style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
+            background: checkedInThisWeekend
+              ? 'var(--card-bg)'
+              : 'linear-gradient(135deg, rgba(16,185,129,0.12) 0%, var(--card-bg) 100%)',
+            border: checkedInThisWeekend ? '1px solid var(--card-border)' : '1.5px solid var(--acc)',
             borderTop: '1px solid var(--card-border-top)',
+            borderRadius: '20px',
+            padding: '18px 20px',
+            marginBottom: '16px',
             boxShadow: 'var(--card-shadow)',
-            borderRadius: '16px',
-            padding: '14px 6px',
-            cursor: 'pointer',
-            textAlign: 'center',
-            transition: 'transform 0.15s ease'
+            position: 'relative'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>📸</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Check-in</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+            <span style={{
+              fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px',
+              color: checkedInThisWeekend ? 'var(--label-2)' : 'var(--acc)',
+              background: 'var(--surface-2)', padding: '3px 8px', borderRadius: '6px'
+            }}>
+              {checkedInThisWeekend ? '✓ WEEKEND CHECK-IN COMPLETED' : '🌟 WEEKEND COACH AUDIT · DUE'}
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--label-3)', fontWeight: '700' }}>
+              {t(DAYS[today.getDay()])} Guidance
+            </span>
+          </div>
+
+          <h3 style={{ margin: '0 0 6px', fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>
+            {checkedInThisWeekend
+              ? `Protocol Calibrated for Next Week, ${athleteName}`
+              : `Weekend Progress Check-in, ${athleteName}`}
+          </h3>
+
+          <p style={{ margin: '0 0 14px', fontSize: '12.5px', color: 'var(--label-2)', lineHeight: 1.45 }}>
+            {checkedInThisWeekend
+              ? (S.aiCoachCard?.weeklyInsight || `Your training volume and energy targets (${targetKcal} kcal · ${targetProtein}g Protein) are locked in. Rest and recover for next week's sessions!`)
+              : `You've logged ${wThisWeek} workouts this week! Complete your weekend check-in to log your weigh-in, recovery metrics, and let your AI Coach adapt your progressive overload protocol.`}
+          </p>
+
+          {!checkedInThisWeekend ? (
+            <button
+              onClick={weeklyCheckinSheet}
+              style={{
+                background: 'var(--btn-pri-bg)',
+                color: 'var(--btn-pri-color)',
+                border: '1px solid var(--btn-pri-border)',
+                borderRadius: '12px',
+                padding: '12px 18px',
+                fontSize: '13px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                width: '100%',
+                boxShadow: 'var(--btn-pri-shadow)'
+              }}
+            >
+              <span>📸 Complete Weekend Check-in &amp; Adapt Plan →</span>
+            </button>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11.5px', color: 'var(--label)', fontWeight: '700', background: 'var(--surface-2)', padding: '8px 12px', borderRadius: '10px' }}>
+              <span>⚡ Next Cycle: Ready for Monday</span>
+              <button
+                onClick={weeklyCheckinSheet}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--acc)',
+                  fontSize: '11.5px', fontWeight: '800', cursor: 'pointer', textDecoration: 'underline'
+                }}
+              >
+                Review Check-in
+              </button>
+            </div>
+          )}
         </div>
-      </div>
+      )}
 
       {/* ── 4. CULT.FIT STYLE WEEKLY CALENDAR STRIP ───────────────── */}
       <div className="card" style={{ padding: '14px 16px', marginBottom: '16px' }}>
