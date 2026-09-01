@@ -10,7 +10,7 @@ import { wakeLockSupported } from '../lib/wakelock.js'
 import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
 import { DEMO, REPO } from '../lib/demo.js'
 import { MOBILE, shareExport, syncReminder } from '../lib/mobile.js'
-import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet } from '../sheets.jsx'
+import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet, athleteProfileSheet } from '../sheets.jsx'
 import Icon from '../components/Icon.jsx'
 import { Section, Row, SelectRow, Switch, Segmented, Button, TextField } from '../components/ui.jsx'
 
@@ -76,7 +76,7 @@ export default function Settings() {
     <Section title={t('Account')}>
       {user ? (
         <>
-          <Row icon="person" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} />
+          <Row icon="person" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} accessory="chevron" onClick={athleteProfileSheet} />
           {user.admin && <Row icon="wrench" iconTint="var(--indigo)" title={t('Admin dashboard')} accessory="chevron" onClick={() => nav('/admin')} />}
           <Row
             icon="upload"

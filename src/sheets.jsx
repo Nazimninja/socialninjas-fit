@@ -1056,20 +1056,21 @@ function PostWorkoutCheckin({ w, prs, e1prs, close }) {
 function OnboardingWizard({ close }) {
   const st = useStore(s => s.S)
   const user = useStore(s => s.user)
+  const saved = st.aiAnswers || {}
   const [step, setStep] = useState(1)
   
-  // Form State
-  const [pname, setPname] = useState(user?.name || '')
-  const [age, setAge] = useState('25')
-  const [weight, setWeight] = useState(String(lastBW(st)?.w || '72'))
-  const [height, setHeight] = useState('175')
-  const [gender, setGender] = useState('male')
-  const [goal, setGoal] = useState('muscle') // 'fat_loss', 'muscle', 'strength', 'general'
-  const [days, setDays] = useState(4)
-  const [location, setLocation] = useState('gym') // 'gym', 'home', 'calisthenics'
-  const [experience, setExperience] = useState('intermediate') // 'beginner', 'intermediate', 'advanced'
-  const [focus, setFocus] = useState('balanced') // 'balanced', 'upper', 'vtaper', 'legs'
-  const [diet, setDiet] = useState('nonveg') // 'nonveg', 'veg', 'egg', 'vegan'
+  // Form State: ALWAYS prefill from saved profile data so nothing is ever lost
+  const [pname, setPname] = useState(saved.pname || user?.name || user?.email?.split('@')[0] || '')
+  const [age, setAge] = useState(String(saved.age || '25'))
+  const [weight, setWeight] = useState(String(saved.weight || lastBW(st)?.w || '72'))
+  const [height, setHeight] = useState(String(saved.height || '175'))
+  const [gender, setGender] = useState(saved.gender || st.body || 'male')
+  const [goal, setGoal] = useState(saved.goal || 'muscle') // 'fat_loss', 'muscle', 'strength', 'general'
+  const [days, setDays] = useState(saved.days || 4)
+  const [location, setLocation] = useState(saved.location || 'gym') // 'gym', 'home', 'calisthenics'
+  const [experience, setExperience] = useState(saved.experience || 'intermediate') // 'beginner', 'intermediate', 'advanced'
+  const [focus, setFocus] = useState(saved.focus || 'balanced') // 'balanced', 'upper', 'vtaper', 'legs'
+  const [diet, setDiet] = useState(saved.diet || 'nonveg') // 'nonveg', 'veg', 'egg', 'vegan'
   const [loading, setLoading] = useState(false)
 
   // Energy Calculation Preview
@@ -1091,8 +1092,17 @@ function OnboardingWizard({ close }) {
   const applyPlanToStore = (plan) => {
     localStorage.setItem('fit_onboarded', '1')
     localStorage.setItem('gym_dirty', '1')
+
+    if (pname) {
+      const curUser = useStore.getState().user
+      if (curUser) {
+        useStore.getState().setUser({ ...curUser, name: pname })
+      }
+    }
+
     update(s => {
       s.onboarded = true
+      s.body = gender
       s.aiPlan = plan
       s.aiAnswers = {
         pname: pname || 'Athlete',
@@ -1111,8 +1121,12 @@ function OnboardingWizard({ close }) {
       s.targetProtein = plan.protein
       s.targetW = goal === 'fat_loss' ? Math.round((numWeight - 5) * 10) / 10 : goal === 'muscle' ? Math.round((numWeight + 4) * 10) / 10 : numWeight
       
-      if (!s.bodyweight.length) {
-        s.bodyweight.push({ d: todayISO(), w: numWeight, t: Date.now() })
+      const today = todayISO()
+      const existingBw = s.bodyweight.find(b => b.d === today)
+      if (existingBw) {
+        existingBw.w = numWeight
+      } else {
+        s.bodyweight.push({ d: today, w: numWeight, t: Date.now() })
       }
 
       // Convert custom workout plan to store routines
@@ -1129,7 +1143,7 @@ function OnboardingWizard({ close }) {
       }
     })
     close()
-    toast(t('Custom Plan Activated · {0} kcal · {1}g Protein', plan.kcal, plan.protein))
+    toast(t('Profile & Custom Plan Saved · {0} kcal · {1}g Protein', plan.kcal, plan.protein))
   }
 
   const handleGenerate = async () => {
@@ -1592,6 +1606,304 @@ export function onboardingWizardSheet() {
 }
 
 export const exploreProgramsSheet = onboardingWizardSheet;
+
+/* ============================ ATHLETE PROFILE & HEALTH MATRIX (CULT.FIT STYLE) ============================ */
+function AthleteProfileModal({ close }) {
+  const st = useStore(s => s.S)
+  const user = useStore(s => s.user)
+  const saved = st.aiAnswers || {}
+  
+  const [name, setName] = useState(saved.pname || user?.name || user?.email?.split('@')[0] || 'Athlete')
+  const [age, setAge] = useState(String(saved.age || '25'))
+  const [weight, setWeight] = useState(String(saved.weight || lastBW(st)?.w || '72'))
+  const [height, setHeight] = useState(String(saved.height || '175'))
+  const [gender, setGender] = useState(saved.gender || st.body || 'male')
+  const [goal, setGoal] = useState(saved.goal || 'muscle')
+  const [days, setDays] = useState(saved.days || 4)
+  const [location, setLocation] = useState(saved.location || 'gym')
+  const [diet, setDiet] = useState(saved.diet || 'nonveg')
+  const [targetWeight, setTargetWeight] = useState(String(st.targetW || saved.weight || '72'))
+
+  const numAge = Number(age) || 25
+  const numWeight = Number(weight) || 72
+  const numHeight = Number(height) || 175
+  const numDays = Number(days) || 4
+
+  // Live Math calculations
+  const bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5)
+  const actMultipliers = { 2: 1.35, 3: 1.45, 4: 1.55, 5: 1.65, 6: 1.75 }
+  const tdee = Math.round(bmr * (actMultipliers[numDays] || 1.55))
+
+  let targetKcal = tdee
+  if (goal === 'fat_loss') targetKcal = Math.round(tdee - 450)
+  else if (goal === 'muscle') targetKcal = Math.round(tdee + 350)
+  else if (goal === 'strength') targetKcal = Math.round(tdee + 200)
+
+  const targetProtein = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0))
+  const heightM = numHeight / 100
+  const bmi = parseFloat((numWeight / (heightM * heightM)).toFixed(1))
+
+  const handleSaveProfile = () => {
+    // Update user store
+    if (name && user) {
+      useStore.getState().setUser({ ...user, name })
+    }
+
+    update(s => {
+      s.body = gender
+      s.targetCalories = targetKcal
+      s.targetProtein = targetProtein
+      s.targetW = Number(targetWeight) || null
+      s.aiAnswers = {
+        ...(s.aiAnswers || {}),
+        pname: name,
+        age: numAge,
+        weight: numWeight,
+        height: numHeight,
+        gender,
+        goal,
+        days: numDays,
+        location,
+        diet
+      }
+
+      // Update bodyweight entry for today
+      const today = todayISO()
+      const existingBw = s.bodyweight.find(b => b.d === today)
+      if (existingBw) {
+        existingBw.w = numWeight
+      } else {
+        s.bodyweight.push({ d: today, w: numWeight, t: Date.now() })
+      }
+    })
+
+    toast('✓ Profile & Health Matrix Saved Permanently')
+    close()
+  }
+
+  return (
+    <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 20px' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ position: 'relative' }}>
+            <img
+              src="/ninja-logo.png?v=3"
+              alt="Avatar"
+              style={{
+                width: 48, height: 48, borderRadius: '50%', background: '#121216',
+                border: '1.5px solid rgba(255,255,255,0.2)', objectFit: 'contain', padding: 2
+              }}
+            />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 12, height: 12, borderRadius: '50%', background: '#ffffff', border: '2px solid #000' }} />
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <h2 style={{ margin: 0, fontSize: 19, fontWeight: 900, color: '#fff' }}>{name}</h2>
+              <span style={{ fontSize: 9.5, fontWeight: 900, background: '#ffffff', color: '#000000', padding: '2px 7px', borderRadius: 4, textTransform: 'uppercase' }}>
+                PRO PASS
+              </span>
+            </div>
+            <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 2 }}>
+              {user?.email || 'Fit Ninja Member'} • <span style={{ color: '#ffffff', fontWeight: 700 }}>Active Protocol</span>
+            </div>
+          </div>
+        </div>
+        <button
+          onClick={close}
+          aria-label="Close"
+          style={{
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
+            color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer', fontSize: 16, flexShrink: 0
+          }}
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Physiological Inputs Card */}
+      <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.25)', borderRadius: 18, padding: '16px', marginBottom: 14 }}>
+        <div style={{ fontSize: 10.5, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
+          Physiological Identity
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {/* Athlete Name */}
+          <div>
+            <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              Full Name / Nickname
+            </label>
+            <input
+              value={name}
+              onChange={e => setName(e.target.value)}
+              style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700 }}
+            />
+          </div>
+
+          {/* Biological Sex & Age */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 8 }}>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Biological Sex
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: 2 }}>
+                <button
+                  type="button"
+                  onClick={() => setGender('male')}
+                  style={{
+                    background: gender === 'male' ? '#ffffff' : 'transparent',
+                    color: gender === 'male' ? '#000000' : '#ffffff',
+                    border: 'none', borderRadius: 8, padding: '8px 0', fontWeight: 800, fontSize: 12, cursor: 'pointer'
+                  }}
+                >
+                  Male
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGender('female')}
+                  style={{
+                    background: gender === 'female' ? '#ffffff' : 'transparent',
+                    color: gender === 'female' ? '#000000' : '#ffffff',
+                    border: 'none', borderRadius: 8, padding: '8px 0', fontWeight: 800, fontSize: 12, cursor: 'pointer'
+                  }}
+                >
+                  Female
+                </button>
+              </div>
+            </div>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Age (Yrs)
+              </label>
+              <input
+                type="number"
+                value={age}
+                onChange={e => setAge(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+              />
+            </div>
+          </div>
+
+          {/* Current Bodyweight & Height */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Bodyweight ({st.unit})
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={weight}
+                onChange={e => setWeight(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+              />
+            </div>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Height (cm)
+              </label>
+              <input
+                type="number"
+                value={height}
+                onChange={e => setHeight(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+              />
+            </div>
+          </div>
+
+          {/* Goal & Target Weight */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 8 }}>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Primary Goal
+              </label>
+              <select
+                value={goal}
+                onChange={e => setGoal(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#fff', fontWeight: 700 }}
+              >
+                <option value="fat_loss">Cut &amp; Definition</option>
+                <option value="muscle">Hypertrophy &amp; Mass</option>
+                <option value="strength">Raw Strength &amp; Power</option>
+                <option value="general">Athletic Conditioning</option>
+              </select>
+            </div>
+            <div>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+                Goal Wt ({st.unit})
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                value={targetWeight}
+                onChange={e => setTargetWeight(e.target.value)}
+                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Calculated Metabolic Telemetry */}
+      <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.25)', borderRadius: 18, padding: '16px', marginBottom: 16 }}>
+        <div style={{ fontSize: 10.5, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <Icon name="sparkles" /> Active Metabolic Blueprint
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, textAlign: 'center' }}>
+          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{targetKcal}</div>
+            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>KCAL/DAY</div>
+          </div>
+          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{targetProtein}g</div>
+            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>PROTEIN</div>
+          </div>
+          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{bmr}</div>
+            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
+          </div>
+          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{bmi}</div>
+            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>BMI</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <Button
+          variant="primary"
+          onClick={handleSaveProfile}
+          style={{
+            padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12,
+            background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)', color: '#000000',
+            boxShadow: '0 4px 18px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff'
+          }}
+        >
+          💾 Save Profile &amp; Recalibrate Blueprint
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={() => { close(); onboardingWizardSheet() }}
+          style={{
+            padding: '12px', fontSize: 13, fontWeight: 800, borderRadius: 12,
+            background: 'linear-gradient(180deg, #24242c 0%, #15151a 100%)',
+            border: '1px solid rgba(255,255,255,0.18)', color: '#ffffff'
+          }}
+        >
+          ⚡ Re-Run Full AI Custom Plan Generator →
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export function athleteProfileSheet() {
+  ui().openSheet(close => <AthleteProfileModal close={close} />)
+}
+
 
 /* ============================ WEEKLY PROGRESS CHECK-IN (HIGH-END REDESIGN) ============================ */
 async function compressImageFile(file, maxDimension = 700, quality = 0.75) {

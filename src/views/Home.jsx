@@ -5,7 +5,7 @@ import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActi
 import { fmtNum, fmtDate, fmtVol, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
 import { EXIDX } from '../lib/exercises.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, onboardingWizardSheet, weeklyCheckinSheet, exConfigSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, onboardingWizardSheet, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -77,7 +77,10 @@ export default function Home() {
       
       {/* ── 1. CULT.FIT STYLE TOP ATHLETE HEADER ─────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', paddingTop: '6px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div
+          onClick={() => athleteProfileSheet()}
+          style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+        >
           <div style={{ position: 'relative' }}>
             <img
               src="/ninja-logo.png?v=3"
@@ -100,6 +103,9 @@ export default function Home() {
               <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff' }}>
                 {athleteName}
               </h1>
+              <span style={{ fontSize: '9px', fontWeight: '900', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                PROFILE ⚙️
+              </span>
             </div>
             <div style={{ fontSize: '11.5px', color: 'rgba(255,255,255,0.6)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>⚡ {readinessScore}% Readiness</span>
