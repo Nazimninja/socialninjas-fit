@@ -90,24 +90,24 @@ export default function Home() {
                 height: '46px',
                 borderRadius: '50%',
                 objectFit: 'contain',
-                background: '#141418',
-                border: '1.5px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6)',
+                background: 'var(--surface-2)',
+                border: '1.5px solid var(--card-border)',
+                boxShadow: 'var(--card-shadow)',
                 padding: '2px'
               }}
             />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '11px', height: '11px', borderRadius: '50%', background: '#ffffff', border: '2px solid #000' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '11px', height: '11px', borderRadius: '50%', background: 'var(--acc)', border: '2px solid var(--bg)' }} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff' }}>
+              <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px', color: 'var(--label)' }}>
                 {athleteName}
               </h1>
-              <span style={{ fontSize: '9px', fontWeight: '900', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <span style={{ fontSize: '9px', fontWeight: '900', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 PROFILE ⚙️
               </span>
             </div>
-            <div style={{ fontSize: '11.5px', color: 'rgba(255,255,255,0.6)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ fontSize: '11.5px', color: 'var(--label-2)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>⚡ {readinessScore}% Readiness</span>
               <span>•</span>
               <span>{today.toLocaleDateString(dateLocale(), { weekday: 'short', day: 'numeric', month: 'short' })}</span>
@@ -120,11 +120,11 @@ export default function Home() {
             onClick={() => calendarSheet()}
             style={{
               display: 'flex', alignItems: 'center', gap: '5px',
-              background: 'linear-gradient(180deg, #222228 0%, #151518 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              borderTop: '1px solid rgba(255, 255, 255, 0.3)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)',
-              borderRadius: '99px', padding: '6px 12px', fontSize: '12px', fontWeight: '800', color: '#ffffff',
+              background: 'var(--icon-box-bg)',
+              border: '1px solid var(--icon-box-border)',
+              borderTop: '1px solid var(--icon-box-top)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.15)',
+              borderRadius: '99px', padding: '6px 12px', fontSize: '12px', fontWeight: '800', color: 'var(--label)',
               cursor: 'pointer'
             }}
           >
@@ -142,19 +142,19 @@ export default function Home() {
         style={{
           position: 'relative',
           overflow: 'hidden',
-          background: 'linear-gradient(145deg, #1c1c24 0%, #101014 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.14)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.28)',
+          background: 'var(--card-bg)',
+          border: '1px solid var(--card-border)',
+          borderTop: '1px solid var(--card-border-top)',
           borderRadius: '22px',
           padding: '18px 20px',
           marginBottom: '16px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)'
+          boxShadow: 'var(--card-shadow)'
         }}
       >
-        {/* Subtle Watermark Logo Emblem (Cult.fit style) */}
+        {/* Subtle Watermark Logo Emblem */}
         <div style={{
           position: 'absolute', right: '-15px', top: '-10px', width: '130px', height: '130px',
-          opacity: 0.07, pointerEvents: 'none', background: 'radial-gradient(circle, #fff 0%, transparent 70%)',
+          opacity: 0.06, pointerEvents: 'none', background: 'radial-gradient(circle, var(--label) 0%, transparent 70%)',
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <img src="/ninja-logo.png?v=3" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
@@ -163,43 +163,43 @@ export default function Home() {
         {/* Top Tag & Status */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ffffff', boxShadow: '0 0 6px #fff' }} />
-            <span style={{ fontSize: '10.5px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: '#ffffff' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--acc)', boxShadow: '0 0 6px var(--acc)' }} />
+            <span style={{ fontSize: '10.5px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--label)' }}>
               ACTIVE PROTOCOL
             </span>
           </div>
-          <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#ffffff', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+          <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--label)', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
             FIT NINJA ELITE
           </span>
         </div>
 
         {/* Big Card Title */}
-        <h2 style={{ margin: '0 0 4px', fontSize: '21px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>
+        <h2 style={{ margin: '0 0 4px', fontSize: '21px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.5px' }}>
           Coach AI Intelligence Plan
         </h2>
-        <div style={{ fontSize: '12px', color: '#a1a1aa', marginBottom: '14px', lineHeight: 1.4 }}>
+        <div style={{ fontSize: '12px', color: 'var(--label-2)', marginBottom: '14px', lineHeight: 1.4 }}>
           {S.aiCoachCard?.coachNote || `Customized training split and precision nutrition calibrated for your goals.`}
         </div>
 
         {/* Macro Badges Strip */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '14px' }}>
-          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: '#ffffff' }}>
-            🔥 {targetKcal} <span style={{ color: '#71717a', fontSize: '10px' }}>kcal</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: 'var(--label)' }}>
+            🔥 {targetKcal} <span style={{ color: 'var(--label-3)', fontSize: '10px' }}>kcal</span>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: '#ffffff' }}>
-            🥩 {targetProtein}g <span style={{ color: '#71717a', fontSize: '10px' }}>Protein</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: 'var(--label)' }}>
+            🥩 {targetProtein}g <span style={{ color: 'var(--label-3)', fontSize: '10px' }}>Protein</span>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: '#ffffff' }}>
-            🍚 {targetCarbs}g <span style={{ color: '#71717a', fontSize: '10px' }}>Carbs</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: 'var(--label)' }}>
+            🍚 {targetCarbs}g <span style={{ color: 'var(--label-3)', fontSize: '10px' }}>Carbs</span>
           </div>
-          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: '#ffffff' }}>
-            🥑 {targetFat}g <span style={{ color: '#71717a', fontSize: '10px' }}>Fats</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '8px', padding: '4px 10px', fontSize: '11px', fontWeight: '800', color: 'var(--label)' }}>
+            🥑 {targetFat}g <span style={{ color: 'var(--label-3)', fontSize: '10px' }}>Fats</span>
           </div>
         </div>
 
-        {/* Bottom Progress Bevel Bar (Cult.fit card red/white line style) */}
-        <div style={{ width: '100%', height: '3px', background: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden' }}>
-          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.4) 100%)' }} />
+        {/* Bottom Progress Bar */}
+        <div style={{ width: '100%', height: '3px', background: 'var(--sep)', borderRadius: '99px', overflow: 'hidden' }}>
+          <div style={{ width: '100%', height: '100%', background: 'linear-gradient(90deg, var(--label) 0%, var(--label-2) 100%)' }} />
         </div>
       </div>
 
@@ -210,10 +210,10 @@ export default function Home() {
           onClick={() => nav('/plan')}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(180deg, #202028 0%, #131317 100%)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            borderTop: '1px solid rgba(255,255,255,0.28)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)',
+            background: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+            borderTop: '1px solid var(--card-border-top)',
+            boxShadow: 'var(--card-shadow)',
             borderRadius: '16px',
             padding: '14px 6px',
             cursor: 'pointer',
@@ -221,8 +221,8 @@ export default function Home() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>🏋️</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>Split</span>
+          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>🏋️</span>
+          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Split</span>
         </div>
 
         {/* Tile 2: Nutrition & Recipes */}
@@ -230,10 +230,10 @@ export default function Home() {
           onClick={() => nav('/nutrition')}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(180deg, #202028 0%, #131317 100%)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            borderTop: '1px solid rgba(255,255,255,0.28)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)',
+            background: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+            borderTop: '1px solid var(--card-border-top)',
+            boxShadow: 'var(--card-shadow)',
             borderRadius: '16px',
             padding: '14px 6px',
             cursor: 'pointer',
@@ -241,8 +241,8 @@ export default function Home() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>🥗</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>Meals</span>
+          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>🥗</span>
+          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Meals</span>
         </div>
 
         {/* Tile 3: Rebuild Plan */}
@@ -250,10 +250,10 @@ export default function Home() {
           onClick={onboardingWizardSheet}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(180deg, #202028 0%, #131317 100%)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            borderTop: '1px solid rgba(255,255,255,0.28)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)',
+            background: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+            borderTop: '1px solid var(--card-border-top)',
+            boxShadow: 'var(--card-shadow)',
             borderRadius: '16px',
             padding: '14px 6px',
             cursor: 'pointer',
@@ -261,8 +261,8 @@ export default function Home() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>⚡</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>Rebuild</span>
+          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>⚡</span>
+          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Rebuild</span>
         </div>
 
         {/* Tile 4: Check-in */}
@@ -270,10 +270,10 @@ export default function Home() {
           onClick={weeklyCheckinSheet}
           style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'linear-gradient(180deg, #202028 0%, #131317 100%)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            borderTop: '1px solid rgba(255,255,255,0.28)',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)',
+            background: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+            borderTop: '1px solid var(--card-border-top)',
+            boxShadow: 'var(--card-shadow)',
             borderRadius: '16px',
             padding: '14px 6px',
             cursor: 'pointer',
@@ -281,22 +281,22 @@ export default function Home() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))' }}>📸</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>Check-in</span>
+          <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>📸</span>
+          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Check-in</span>
         </div>
       </div>
 
       {/* ── 4. CULT.FIT STYLE WEEKLY CALENDAR STRIP ───────────────── */}
-      <div className="card" style={{ padding: '14px 16px', marginBottom: '16px', background: '#121216', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '18px' }}>
+      <div className="card" style={{ padding: '14px 16px', marginBottom: '16px' }}>
         <div className="row between" style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: '14px', fontWeight: '900', color: '#fff' }}>{wkLabel}</div>
+          <div style={{ fontSize: '14px', fontWeight: '900', color: 'var(--label)' }}>{wkLabel}</div>
           <div className="row" style={{ gap: 4 }}>
             <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 13 }} onClick={() => setWeekOffset(w => w - 1)} aria-label="Previous week"><Icon name="chevronLeft" /></button>
             <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 13 }} onClick={() => setWeekOffset(w => w + 1)} aria-label="Next week"><Icon name="chevronRight" /></button>
           </div>
         </div>
         <div className="week" style={{ marginBottom: '10px' }}>{strip}</div>
-        <div className="small muted" style={{ fontSize: '11px', textAlign: 'center', color: '#71717a' }}>
+        <div className="small muted" style={{ fontSize: '11px', textAlign: 'center' }}>
           Tap any day to customize routine assignments or set rest days.
         </div>
       </div>
@@ -304,13 +304,13 @@ export default function Home() {
       {/* ── 5. CULT.FIT HERO WORKOUT CENTER ───────────────────────── */}
       <div
         style={{
-          background: 'linear-gradient(180deg, #1a1a22 0%, #101014 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.3)',
+          background: 'var(--card-bg)',
+          border: '1px solid var(--card-border)',
+          borderTop: '1px solid var(--card-border-top)',
           borderRadius: '22px',
           padding: '20px',
           marginBottom: '16px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)'
+          boxShadow: 'var(--card-shadow)'
         }}
       >
         {/* Header Badges */}
@@ -318,20 +318,20 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{
               width: '7px', height: '7px', borderRadius: '50%',
-              background: '#ffffff',
-              boxShadow: '0 0 8px rgba(255, 255, 255, 0.8)'
+              background: 'var(--acc)',
+              boxShadow: '0 0 8px var(--acc)'
             }} />
-            <span style={{ fontSize: '11px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: '#ffffff' }}>
+            <span style={{ fontSize: '11px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--label)' }}>
               {S.active ? '⚡ Workout In Progress' : routine ? "Today's Training Focus" : 'Active Recovery Day'}
             </span>
           </div>
 
           {routine && (
             <div style={{ display: 'flex', gap: '6px' }}>
-              <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', padding: '3px 8px', borderRadius: '6px', color: '#e2e8f0' }}>
+              <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'var(--surface-2)', border: '1px solid var(--sep)', padding: '3px 8px', borderRadius: '6px', color: 'var(--label-2)' }}>
                 ⏱️ ~45 min
               </span>
-              <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.25)', padding: '3px 8px', borderRadius: '6px', color: '#ffffff' }}>
+              <span style={{ fontSize: '10.5px', fontWeight: '800', background: 'var(--surface-3)', border: '1px solid var(--sep-op)', padding: '3px 8px', borderRadius: '6px', color: 'var(--label)' }}>
                 {routine.ex.length} Exercises
               </span>
             </div>
@@ -343,21 +343,21 @@ export default function Home() {
           <div
             style={{
               width: '54px', height: '54px', borderRadius: '16px',
-              background: 'linear-gradient(180deg, #2a2a34 0%, #17171d 100%)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderTop: '1px solid rgba(255, 255, 255, 0.35)',
-              color: '#ffffff',
+              background: 'var(--icon-box-bg)',
+              border: '1px solid var(--icon-box-border)',
+              borderTop: '1px solid var(--icon-box-top)',
+              color: 'var(--label)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0,
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
           >
             <Icon name={S.active ? 'timer' : routine ? glyphOf(routine.emoji) : 'moon'} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ margin: '0 0 3px', fontSize: '19px', fontWeight: '900', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <h2 style={{ margin: '0 0 3px', fontSize: '19px', fontWeight: '900', color: 'var(--label)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {S.active ? S.active.name : routine ? routine.name : t('Rest & Muscle Recovery')}
             </h2>
-            <div style={{ fontSize: '12px', color: '#a1a1aa', lineHeight: 1.3 }}>
+            <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.3 }}>
               {S.active
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed so far`
                 : routine
@@ -367,10 +367,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Interactive Exercise Preview List (Clickable Drilldown) */}
+        {/* Interactive Exercise Preview List */}
         {routine && routine.ex && routine.ex.length > 0 && !S.active && (
-          <div style={{ background: '#0c0c0f', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
-            <div style={{ fontSize: '10.5px', fontWeight: '900', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+            <div style={{ fontSize: '10.5px', fontWeight: '900', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
               Prescribed Exercise Lineup:
             </div>
             <div style={{ display: 'grid', gap: '6px' }}>
@@ -382,20 +382,19 @@ export default function Home() {
                     onClick={() => exConfigSheet(e, true, () => {}, () => {}, routine)}
                     style={{
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                      background: 'linear-gradient(180deg, #1c1c22 0%, #131317 100%)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      borderTop: '1px solid rgba(255,255,255,0.18)',
+                      background: 'var(--card-bg)',
+                      border: '1px solid var(--card-border)',
                       borderRadius: '10px',
                       padding: '8px 12px', cursor: 'pointer', transition: 'all 0.15s'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-                      <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: '900' }}>#{idx + 1}</span>
-                      <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--label-3)', fontWeight: '900' }}>#{idx + 1}</span>
+                      <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--label)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {exObj.n}
                       </span>
                     </div>
-                    <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#cbd5e1', flexShrink: 0 }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', flexShrink: 0 }}>
                       {e.sets || 3} × {e.reps || 10}
                     </span>
                   </div>
@@ -410,9 +409,9 @@ export default function Home() {
           onClick={onToday}
           style={{
             width: '100%',
-            background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
-            color: '#000000',
-            border: '1px solid #ffffff',
+            background: 'var(--btn-pri-bg)',
+            color: 'var(--btn-pri-color)',
+            border: '1px solid var(--btn-pri-border)',
             borderRadius: '14px',
             padding: '15px',
             fontSize: '15px',
@@ -422,7 +421,7 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.25), inset 0 1px 0 #ffffff'
+            boxShadow: 'var(--btn-pri-shadow)'
           }}
         >
           <span>
@@ -438,27 +437,27 @@ export default function Home() {
       {/* ── 6. CULT.FIT ACTIVITY & RECORDS TELEMETRY HUD ──────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '16px' }}>
         {/* Workouts Completed */}
-        <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', fontWeight: '900', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+        <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center', boxShadow: 'var(--card-shadow)' }}>
+          <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
             SESSIONS
           </div>
-          <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
-            {wThisWeek} <span style={{ fontSize: '11px', color: '#71717a' }}>/ {plannedPerWeek}</span>
+          <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', marginTop: '3px' }}>
+            {wThisWeek} <span style={{ fontSize: '11px', color: 'var(--label-3)' }}>/ {plannedPerWeek}</span>
           </div>
-          <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden', marginTop: '8px' }}>
-            <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: '#ffffff', borderRadius: '99px' }} />
+          <div style={{ width: '100%', height: '4px', background: 'var(--surface-2)', borderRadius: '99px', overflow: 'hidden', marginTop: '8px' }}>
+            <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: 'var(--acc)', borderRadius: '99px' }} />
           </div>
         </div>
 
         {/* Total Volume */}
-        <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', fontWeight: '900', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+        <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center', boxShadow: 'var(--card-shadow)' }}>
+          <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
             VOLUME
           </div>
-          <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
+          <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', marginTop: '3px' }}>
             {totalWeeklyVol > 0 ? fmtVol(totalWeeklyVol, S.unit) : '0 kg'}
           </div>
-          <div style={{ fontSize: '9.5px', color: '#71717a', marginTop: '4px' }}>
+          <div style={{ fontSize: '9.5px', color: 'var(--label-3)', marginTop: '4px' }}>
             {thisWeekWorkouts.length} logs this wk
           </div>
         </div>
@@ -466,31 +465,31 @@ export default function Home() {
         {/* Current Bodyweight */}
         <div
           onClick={() => bwSheet()}
-          style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center', cursor: 'pointer' }}
+          style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '18px', padding: '14px 10px', textAlign: 'center', cursor: 'pointer', boxShadow: 'var(--card-shadow)' }}
         >
-          <div style={{ fontSize: '10px', fontWeight: '900', color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
             WEIGHT
           </div>
-          <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
-            {bw ? fmtNum(bw.w) : '--'} <span style={{ fontSize: '10px', color: '#71717a' }}>{S.unit}</span>
+          <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', marginTop: '3px' }}>
+            {bw ? fmtNum(bw.w) : '--'} <span style={{ fontSize: '10px', color: 'var(--label-3)' }}>{S.unit}</span>
           </div>
-          <div style={{ fontSize: '9.5px', color: '#e2e8f0', fontWeight: '800', marginTop: '4px' }}>
+          <div style={{ fontSize: '9.5px', color: 'var(--label-2)', fontWeight: '800', marginTop: '4px' }}>
             {delta ? (delta > 0 ? `+${fmtNum(delta)} ${S.unit}` : `${fmtNum(delta)} ${S.unit}`) : 'Log today'}
           </div>
         </div>
       </div>
 
       {/* ── 7. BODYWEIGHT PROGRESS TRACKER ────────────────────────── */}
-      <div className="card" style={{ padding: '18px', marginBottom: '16px', background: '#121216', border: '1px solid rgba(255,255,255,0.1)', borderTop: '1px solid rgba(255,255,255,0.2)', borderRadius: '18px' }}>
+      <div className="card" style={{ padding: '18px', marginBottom: '16px' }}>
         <div className="row between" style={{ marginBottom: 8 }}>
           <div>
-            <div style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: '#71717a' }}>
+            <div style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--label-3)' }}>
               Body Composition
             </div>
-            <h2 style={{ margin: '2px 0 0', fontSize: '17px', fontWeight: '900', color: '#fff' }}>{t('Weight Progress')}</h2>
+            <h2 style={{ margin: '2px 0 0', fontSize: '17px', fontWeight: '900', color: 'var(--label)' }}>{t('Weight Progress')}</h2>
           </div>
           <div className="row" style={{ gap: 6 }}>
-            <Button size="sm" icon="target" style={S.targetW ? { color: '#ffffff' } : undefined} onClick={goalSheet}>
+            <Button size="sm" icon="target" onClick={goalSheet}>
               {S.targetW ? `${fmtNum(S.targetW)} ${S.unit}` : t('Set Goal')}
             </Button>
             <Button size="sm" icon="plus" onClick={() => bwSheet()}>
@@ -502,7 +501,7 @@ export default function Home() {
         {bw ? (
           <>
             <div className="row" style={{ gap: 8, alignItems: 'baseline', marginTop: '6px' }}>
-              <div className="big" style={{ fontSize: '26px', fontWeight: '900', color: '#fff' }}>
+              <div className="big" style={{ fontSize: '26px', fontWeight: '900', color: 'var(--label)' }}>
                 {fmtNum(bw.w)} <span className="muted" style={{ fontSize: '14px', fontWeight: '500' }}>{S.unit}</span>
               </div>
               {!!delta && (
@@ -511,7 +510,7 @@ export default function Home() {
                   {fmtNum(Math.abs(delta))} {S.unit}
                 </span>
               )}
-              <span className="dim small" style={{ marginLeft: 'auto', fontSize: '11px', color: '#71717a' }}>{fmtDate(bw.d, true)}</span>
+              <span className="dim small" style={{ marginLeft: 'auto', fontSize: '11px', color: 'var(--label-3)' }}>{fmtDate(bw.d, true)}</span>
             </div>
 
             {bwPoints.length > 1 && (

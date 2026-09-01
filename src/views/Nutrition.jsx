@@ -318,28 +318,28 @@ export default function Nutrition() {
       {/* ── HEADER ───────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: '#fff', letterSpacing: '-0.5px' }}>
+          <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: 'var(--label)', letterSpacing: '-0.5px' }}>
             {t('Nutrition & Macros')}
           </h1>
-          <p style={{ fontSize: '12px', color: 'var(--label-3, #94a3b8)', margin: '3px 0 0' }}>
+          <p style={{ fontSize: '12px', color: 'var(--label-2)', margin: '3px 0 0' }}>
             {t('Daily fuel targets, 1-tap meal logging & recipe references')}
           </p>
         </div>
         <button
           onClick={() => setShowCustomModal(true)}
           style={{
-            background: '#ffffff',
-            border: 'none',
+            background: 'var(--btn-pri-bg)',
+            border: '1px solid var(--btn-pri-border)',
             borderRadius: '10px',
             padding: '8px 14px',
-            color: '#000000',
+            color: 'var(--btn-pri-color)',
             fontSize: '12px',
             fontWeight: '900',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
             cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(255, 255, 255, 0.15)'
+            boxShadow: 'var(--btn-pri-shadow)'
           }}
         >
           <span>+ Log Food</span>
@@ -348,70 +348,70 @@ export default function Nutrition() {
 
       {/* ── DAILY TARGETS & CONSUMPTION COCKPIT ─────────────── */}
       <div style={{
-        background: '#121215',
-        border: '1px solid rgba(255, 255, 255, 0.12)',
+        background: 'var(--card-bg)',
+        border: '1px solid var(--card-border)',
+        borderTop: '1px solid var(--card-border-top)',
         borderRadius: '18px',
         padding: '18px',
         marginBottom: '16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+        boxShadow: 'var(--card-shadow)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: '#ffffff' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--label)' }}>
               {t('Daily Fuel Target')}
             </div>
-            <div style={{ fontSize: '32px', fontWeight: '900', color: '#fff', lineHeight: 1.1, marginTop: '4px' }}>
-              {consumedKcal} <span style={{ fontSize: '15px', color: '#94a3b8', fontWeight: '500' }}>/ {targetKcal} kcal</span>
+            <div style={{ fontSize: '32px', fontWeight: '900', color: 'var(--label)', lineHeight: 1.1, marginTop: '4px' }}>
+              {consumedKcal} <span style={{ fontSize: '15px', color: 'var(--label-2)', fontWeight: '500' }}>/ {targetKcal} kcal</span>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>REMAINING</div>
-            <div style={{ fontSize: '18px', fontWeight: '800', color: '#ffffff' }}>
+            <div style={{ fontSize: '11px', color: 'var(--label-3)', fontWeight: '700' }}>REMAINING</div>
+            <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--label)' }}>
               {remainingKcal} kcal
             </div>
           </div>
         </div>
 
         {/* Progress bar */}
-        <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden', marginBottom: '16px' }}>
+        <div style={{ width: '100%', height: '8px', background: 'var(--surface-2)', borderRadius: '99px', overflow: 'hidden', marginBottom: '16px' }}>
           <div style={{
             width: `${kcalPercent}%`,
             height: '100%',
-            background: '#ffffff',
+            background: 'var(--acc)',
             borderRadius: '99px',
-            transition: 'width 0.3s ease',
-            boxShadow: '0 0 10px rgba(255, 255, 255, 0.4)'
+            transition: 'width 0.3s ease'
           }} />
         </div>
 
         {/* 3 Macro Target Progress Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-          <div style={{ background: '#1a1a1f', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffffff', textTransform: 'uppercase' }}>PROTEIN</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
-              {consumedProtein}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetProtein}g</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase' }}>PROTEIN</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>
+              {consumedProtein}g <span style={{ fontSize: '10px', color: 'var(--label-3)' }}>/ {targetProtein}g</span>
             </div>
-            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+            <div style={{ fontSize: '9px', color: 'var(--label-2)', marginTop: '2px' }}>
               {Math.max(0, targetProtein - consumedProtein)}g left
             </div>
           </div>
 
-          <div style={{ background: '#1a1a1f', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#e2e8f0', textTransform: 'uppercase' }}>CARBS</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
-              {consumedCarbs}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetCarbs}g</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase' }}>CARBS</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>
+              {consumedCarbs}g <span style={{ fontSize: '10px', color: 'var(--label-3)' }}>/ {targetCarbs}g</span>
             </div>
-            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+            <div style={{ fontSize: '9px', color: 'var(--label-2)', marginTop: '2px' }}>
               {Math.max(0, targetCarbs - consumedCarbs)}g left
             </div>
           </div>
 
-          <div style={{ background: '#1a1a1f', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#cbd5e1', textTransform: 'uppercase' }}>FATS</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
-              {consumedFat}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetFat}g</span>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase' }}>FATS</div>
+            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>
+              {consumedFat}g <span style={{ fontSize: '10px', color: 'var(--label-3)' }}>/ {targetFat}g</span>
             </div>
-            <div style={{ fontSize: '9px', color: '#94a3b8', marginTop: '2px' }}>
+            <div style={{ fontSize: '9px', color: 'var(--label-2)', marginTop: '2px' }}>
               {Math.max(0, targetFat - consumedFat)}g left
             </div>
           </div>
@@ -421,10 +421,10 @@ export default function Nutrition() {
       {/* ── DAILY MEAL SCHEDULE & LOGGING ───────────────────── */}
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-          <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+          <h2 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--label)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
             🍽️ {t("Today's Meals & Logging")}
           </h2>
-          <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+          <span style={{ fontSize: '11px', color: 'var(--label-2)' }}>
             {todayLogs.length} of 4 Logged
           </span>
         </div>
@@ -436,30 +436,31 @@ export default function Nutrition() {
               <div
                 key={meal.id}
                 style={{
-                  background: isDone ? 'rgba(255, 255, 255, 0.06)' : '#121215',
-                  border: isDone ? '1px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.06)',
+                  background: isDone ? 'var(--surface-2)' : 'var(--card-bg)',
+                  border: isDone ? '1px solid var(--acc)' : '1px solid var(--card-border)',
                   borderRadius: '14px',
                   padding: '14px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  gap: '12px'
+                  gap: '12px',
+                  boxShadow: 'var(--card-shadow)'
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: isDone ? '#ffffff' : '#cbd5e1', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase' }}>
                       {meal.slot}
                     </span>
-                    <span style={{ fontSize: '11px', color: '#94a3b8' }}>• {meal.time}</span>
+                    <span style={{ fontSize: '11px', color: 'var(--label-3)' }}>• {meal.time}</span>
                   </div>
-                  <div style={{ fontSize: '13.5px', fontWeight: '700', color: '#fff', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: '700', color: 'var(--label)', marginBottom: '4px' }}>
                     {meal.title}
                   </div>
-                  <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.3 }}>
+                  <div style={{ fontSize: '11.5px', color: 'var(--label-2)', lineHeight: 1.3 }}>
                     {meal.note}
                   </div>
-                  <div style={{ display: 'flex', gap: '10px', marginTop: '6px', fontSize: '11px', fontWeight: '700', color: '#cbd5e1' }}>
+                  <div style={{ display: 'flex', gap: '10px', marginTop: '6px', fontSize: '11px', fontWeight: '700', color: 'var(--label-2)' }}>
                     <span>🔥 {meal.kcal} kcal</span>
                     <span>🥩 {meal.protein}g Protein</span>
                     <span>🍚 {meal.carbs}g Carbs</span>
@@ -472,9 +473,9 @@ export default function Nutrition() {
                     width: '38px',
                     height: '38px',
                     borderRadius: '50%',
-                    background: isDone ? '#ffffff' : 'rgba(255, 255, 255, 0.06)',
-                    border: isDone ? 'none' : '1.5px solid rgba(255, 255, 255, 0.2)',
-                    color: isDone ? '#000000' : '#94a3b8',
+                    background: isDone ? 'var(--btn-pri-bg)' : 'var(--surface-2)',
+                    border: isDone ? 'none' : '1.5px solid var(--sep-op)',
+                    color: isDone ? 'var(--btn-pri-color)' : 'var(--label)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -497,10 +498,10 @@ export default function Nutrition() {
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <div>
-            <h2 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+            <h2 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--label)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.8px' }}>
               👨‍🍳 {t('Curated Recipes for Reference')}
             </h2>
-            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+            <div style={{ fontSize: '11px', color: 'var(--label-2)', marginTop: '2px' }}>
               {t('High-protein meals tailored to your diet')}
             </div>
           </div>
@@ -518,9 +519,9 @@ export default function Nutrition() {
               key={tab.id}
               onClick={() => setRecipeFilter(tab.id)}
               style={{
-                background: recipeFilter === tab.id ? '#38bdf8' : '#1e293b',
-                color: recipeFilter === tab.id ? '#000' : '#cbd5e1',
-                border: 'none',
+                background: recipeFilter === tab.id ? 'var(--btn-pri-bg)' : 'var(--surface-2)',
+                color: recipeFilter === tab.id ? 'var(--btn-pri-color)' : 'var(--label)',
+                border: '1px solid var(--sep)',
                 borderRadius: '8px',
                 padding: '6px 12px',
                 fontSize: '11.5px',
@@ -542,52 +543,54 @@ export default function Nutrition() {
               <div
                 key={recipe.id}
                 style={{
-                  background: '#0f172a',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'var(--card-bg)',
+                  border: '1px solid var(--card-border)',
+                  borderTop: '1px solid var(--card-border-top)',
                   borderRadius: '14px',
                   padding: '16px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  boxShadow: 'var(--card-shadow)'
                 }}
                 onClick={() => setExpandedRecipe(isExpanded ? null : recipe.id)}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
-                    <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '10px', fontWeight: '800', background: 'var(--surface-2)', color: 'var(--label)', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
                       ⏱️ {recipe.time}
                     </span>
-                    <h3 style={{ fontSize: '15px', fontWeight: '800', color: '#fff', margin: '6px 0 4px' }}>
+                    <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--label)', margin: '6px 0 4px' }}>
                       {recipe.title}
                     </h3>
                   </div>
-                  <span style={{ color: '#94a3b8', fontSize: '18px' }}>
+                  <span style={{ color: 'var(--label-2)', fontSize: '18px' }}>
                     {isExpanded ? '−' : '+'}
                   </span>
                 </div>
 
                 {/* Macro summary row */}
-                <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: '#94a3b8', marginTop: '6px' }}>
-                  <span>🔥 <strong style={{ color: '#fff' }}>{recipe.kcal}</strong> kcal</span>
-                  <span>💪 <strong style={{ color: '#38bdf8' }}>{recipe.protein}g</strong> Protein</span>
-                  <span>🍞 <strong style={{ color: '#f59e0b' }}>{recipe.carbs}g</strong> Carbs</span>
-                  <span>🥑 <strong style={{ color: '#f43f5e' }}>{recipe.fat}g</strong> Fat</span>
+                <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: 'var(--label-2)', marginTop: '6px' }}>
+                  <span>🔥 <strong style={{ color: 'var(--label)' }}>{recipe.kcal}</strong> kcal</span>
+                  <span>💪 <strong style={{ color: 'var(--label)' }}>{recipe.protein}g</strong> Protein</span>
+                  <span>🍞 <strong style={{ color: 'var(--label)' }}>{recipe.carbs}g</strong> Carbs</span>
+                  <span>🥑 <strong style={{ color: 'var(--label)' }}>{recipe.fat}g</strong> Fat</span>
                 </div>
 
                 {/* Expanded ingredients & preparation steps */}
                 {isExpanded && (
-                  <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid var(--sep)' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase', marginBottom: '6px' }}>
                       Ingredients:
                     </div>
-                    <ul style={{ margin: '0 0 12px 18px', padding: 0, fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                    <ul style={{ margin: '0 0 12px 18px', padding: 0, fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.5 }}>
                       {recipe.ingredients.map((ing, i) => (
                         <li key={i}>{ing}</li>
                       ))}
                     </ul>
 
-                    <div style={{ fontSize: '12px', fontWeight: '800', color: '#10b981', textTransform: 'uppercase', marginBottom: '6px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase', marginBottom: '6px' }}>
                       Preparation Steps:
                     </div>
-                    <ol style={{ margin: '0 0 0 18px', padding: 0, fontSize: '12px', color: '#cbd5e1', lineHeight: 1.5 }}>
+                    <ol style={{ margin: '0 0 0 18px', padding: 0, fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.5 }}>
                       {recipe.instructions.map((step, i) => (
                         <li key={i}>{step}</li>
                       ))}
@@ -603,25 +606,26 @@ export default function Nutrition() {
       {/* ── CUSTOM FOOD LOGGING MODAL ─────────────────────────── */}
       {showCustomModal && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)',
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '16px'
         }}>
           <div style={{
-            background: '#0f172a', border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: '20px', padding: '22px', width: '100%', maxWidth: '420px'
+            background: 'var(--bg-el)', border: '1px solid var(--card-border)',
+            borderRadius: '20px', padding: '22px', width: '100%', maxWidth: '420px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.4)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#fff' }}>+ Log Custom Food</h3>
-              <button onClick={() => setShowCustomModal(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: 'var(--label)' }}>+ Log Custom Food</h3>
+              <button onClick={() => setShowCustomModal(false)} style={{ background: 'none', border: 'none', color: 'var(--label-2)', fontSize: '20px', cursor: 'pointer' }}>✕</button>
             </div>
 
             <div style={{ display: 'grid', gap: '12px' }}>
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Meal Slot</label>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Meal Slot</label>
                 <select
                   value={customMealType}
                   onChange={e => setCustomMealType(e.target.value)}
-                  style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
                 >
                   <option value="Breakfast">Breakfast</option>
                   <option value="Lunch">Lunch</option>
@@ -631,35 +635,35 @@ export default function Nutrition() {
               </div>
 
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Food / Meal Name</label>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Food / Meal Name</label>
                 <input
                   type="text"
                   placeholder="e.g. 2 Boiled Eggs & Protein Shake"
                   value={customTitle}
                   onChange={e => setCustomTitle(e.target.value)}
-                  style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Calories (kcal)</label>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Calories (kcal)</label>
                   <input
                     type="number"
                     placeholder="e.g. 350"
                     value={customKcal}
                     onChange={e => setCustomKcal(e.target.value)}
-                    style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Protein (g)</label>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Protein (g)</label>
                   <input
                     type="number"
                     placeholder="e.g. 28"
                     value={customProtein}
                     onChange={e => setCustomProtein(e.target.value)}
-                    style={{ width: '100%', background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px', color: '#fff', fontSize: '13px' }}
+                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
                   />
                 </div>
               </div>
@@ -667,9 +671,9 @@ export default function Nutrition() {
               <button
                 onClick={handleAddCustomMeal}
                 style={{
-                  background: '#10b981', border: 'none', borderRadius: '12px',
-                  padding: '12px', color: '#000', fontSize: '14px', fontWeight: '800',
-                  marginTop: '6px', cursor: 'pointer'
+                  background: 'var(--btn-pri-bg)', color: 'var(--btn-pri-color)', border: '1px solid var(--btn-pri-border)',
+                  borderRadius: '12px', padding: '12px', fontSize: '14px', fontWeight: '800',
+                  marginTop: '6px', cursor: 'pointer', boxShadow: 'var(--btn-pri-shadow)'
                 }}
               >
                 Log Meal to Today's Tracker

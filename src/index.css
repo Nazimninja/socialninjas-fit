@@ -422,34 +422,37 @@ h4.sec{
   position:fixed;left:0;right:0;bottom:0;z-index:50;
   display:flex;justify-content:space-around;align-items:flex-end;
   padding:7px 6px calc(6px + var(--sab));
-  background:color-mix(in srgb,var(--bg-el) 80%,transparent);
+  background:color-mix(in srgb,var(--bg-el) 85%,transparent);
   backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);
-  border-top:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 -4px 20px rgba(0,0,0,0.5);
+  border-top:1px solid var(--sep);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.15);
 }
-:root[data-theme="light"] #tabbar{background:rgba(249,249,251,.78)}
+:root[data-theme="light"] #tabbar{
+  background:rgba(255, 255, 255, 0.92);
+  border-top:1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.06);
+}
 #tabbar button{
   flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
-  color:var(--label-3);font-size:10px;font-weight:500;letter-spacing:.005em;padding-top:3px;
+  color:var(--label-3);font-size:10px;font-weight:600;letter-spacing:.005em;padding-top:3px;
   transition:color var(--fast);
 }
-#tabbar button .icn{font-size:25px;--icon-stroke:1.65;color:var(--label)}
-#tabbar button.on{color:var(--acc)}
-#tabbar button.on .icn{--icon-stroke:2;color:inherit;opacity:1}
+#tabbar button .icn{font-size:25px;--icon-stroke:1.65;color:var(--label-2)}
+#tabbar button.on{color:var(--label);font-weight:800}
+#tabbar button.on .icn{--icon-stroke:2.2;color:var(--label);opacity:1}
 #tabbar button.start{margin-top:-24px}
 #tabbar button.start .cir{
   width:52px;height:52px;border-radius:50%;
-  background:linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-  color:#000000;
-  border:1.5px solid #ffffff;
+  background:var(--btn-pri-bg);
+  color:var(--btn-pri-color);
+  border:1.5px solid var(--btn-pri-border);
   display:flex;align-items:center;justify-content:center;position:relative;
-  box-shadow:0 6px 20px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff;
+  box-shadow:var(--btn-pri-shadow);
   transition:transform var(--fast) var(--ease);
 }
 #tabbar button.start:active .cir{transform:scale(.93)}
-#tabbar button.start .cir .icn{font-size:26px;--icon-stroke:2;color:inherit;opacity:1}
-#tabbar button.start span{color:#ffffff;font-weight:700}
-#tabbar button.start .cir{color:#000000}
+#tabbar button.start .cir .icn{font-size:26px;--icon-stroke:2.2;color:inherit;opacity:1}
+#tabbar button.start span{color:var(--label);font-weight:700}
 #tabbar button.start.rec .cir{background:var(--orange);color:#000;box-shadow:0 6px 18px -4px color-mix(in srgb,var(--orange) 55%,transparent)}
 #tabbar button.start.rec span{color:var(--orange)}
 #tabbar button.start.rec .cir::after{
@@ -464,19 +467,20 @@ h4.sec{
   flex:1;text-align:center;padding:8px 2px 9px;border-radius:10px;
   background:none;border:none;transition:background var(--fast);
 }
-.wday .lbl{font-size:11px;color:var(--label-3);font-weight:500;text-transform:uppercase;letter-spacing:.03em}
-.wday .num{font-size:17px;font-weight:400;margin:4px 0;letter-spacing:-.012em}
+.wday .lbl{font-size:11px;color:var(--label-3);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.wday .num{font-size:16px;font-weight:600;margin:4px 0;letter-spacing:-.012em;color:var(--label)}
 .wday .dot{width:5px;height:5px;border-radius:50%;background:transparent;margin:0 auto}
 .wday .dot.plan{background:var(--label-3)}
 .wday .dot.ovr{background:var(--orange)}
 .wday .dot.done{background:var(--acc)}
 .wday:active{background:var(--surface-2)}
 .wday.today .num{
-  background:linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-  color:#000000;font-weight:700;
+  background:var(--btn-pri-bg);
+  color:var(--btn-pri-color);
+  font-weight:800;
   width:31px;height:31px;border-radius:50%;display:flex;align-items:center;
   justify-content:center;margin:2px auto;
-  box-shadow:0 3px 10px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff;
+  box-shadow:var(--btn-pri-shadow);
 }
 
 /* ----------------------------------------------------------------- list -- */
