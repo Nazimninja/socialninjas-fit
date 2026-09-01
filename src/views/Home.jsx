@@ -15,6 +15,7 @@ export default function Home() {
   const nav = useNavigate()
   const S = useStore(s => s.S)
   const user = useStore(s => s.user)
+  const update = useStore(s => s.update)
   const [weekOffset, setWeekOffset] = useState(0)
 
   const today = new Date()
@@ -116,6 +117,14 @@ export default function Home() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            className="iconbtn"
+            onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })}
+            aria-label="Toggle Theme"
+            title="Toggle Light/Dark Theme"
+          >
+            <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
+          </button>
           <div
             onClick={() => calendarSheet()}
             style={{
