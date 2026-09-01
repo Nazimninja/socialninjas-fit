@@ -1211,7 +1211,7 @@ function OnboardingWizard({ close }) {
   const activeSplits = ONBOARDING_SPLITS[days] || ONBOARDING_SPLITS[4]
 
   return (
-    <div style={{ maxHeight: '88vh', overflowY: 'auto', padding: '20px 22px 28px', width: '100%', maxWidth: '480px', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 20px' }}>
       {/* ── LUXURY PROGRESS HEADER ───────────────────────────────── */}
       <div style={{ marginBottom: 18 }}>
         <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
@@ -1588,7 +1588,7 @@ function OnboardingWizard({ close }) {
 }
 
 export function onboardingWizardSheet() {
-  ui().openSheet(close => <OnboardingWizard close={close} />, { kind: 'center' })
+  ui().openSheet(close => <OnboardingWizard close={close} />)
 }
 
 export const exploreProgramsSheet = onboardingWizardSheet;
@@ -1828,7 +1828,7 @@ function WeeklyCheckinModal({ close }) {
   }
 
   return (
-    <div style={{ maxHeight: '88vh', overflowY: 'auto', padding: '20px 22px 28px', width: '100%', maxWidth: '480px', boxSizing: 'border-box' }}>
+    <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 20px' }}>
       {/* ── LUXURY HEADER ───────────────────────────────────────── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -2136,5 +2136,5 @@ function WeeklyCheckinModal({ close }) {
 }
 
 export function weeklyCheckinSheet() {
-  ui().openSheet(close => <WeeklyCheckinModal close={close} />, { kind: 'center' })
+  ui().openSheet(close => <WeeklyCheckinModal close={close} />)
 }
