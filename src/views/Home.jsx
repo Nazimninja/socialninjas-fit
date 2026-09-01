@@ -55,6 +55,11 @@ export default function Home() {
 
   const bwPoints = S.bodyweight.slice(-30).map(b => ({ t: b.t || new Date(b.d).getTime(), y: b.w, d: b.d }))
 
+  const targetKcal = S.targetCalories || S.aiPlan?.kcal || 2400
+  const targetProtein = S.targetProtein || S.aiPlan?.protein || 140
+  const targetCarbs = S.aiPlan?.carbs || Math.round((targetKcal * 0.45) / 4)
+  const targetFat = S.aiPlan?.fat || Math.round((targetKcal * 0.25) / 9)
+
   const onToday = () => {
     if (S.active) nav('/workout')
     else if (routine) startFlow(routine.id)
@@ -70,16 +75,16 @@ export default function Home() {
   return (
     <div className="narrow" style={{ paddingBottom: '120px' }}>
       
-      {/* ── 1. ATHLETE PROFILE & READINESS TOP HEADER ─────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', paddingTop: '4px' }}>
+      {/* ── 1. TOP ATHLETE GREETING & STATUS ─────────────────────── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', paddingTop: '4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ position: 'relative' }}>
             <img
               src="/ninja-logo.png?v=3"
               alt="Fit Ninja"
               style={{
-                width: '46px',
-                height: '46px',
+                width: '44px',
+                height: '44px',
                 borderRadius: '12px',
                 objectFit: 'contain',
                 background: 'linear-gradient(135deg, #1e293b, #0f172a)',
@@ -91,14 +96,14 @@ export default function Home() {
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff' }}>
+              <h1 style={{ margin: 0, fontSize: '19px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff' }}>
                 Hi, {athleteName}
               </h1>
               <span style={{ fontSize: '9px', fontWeight: '800', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 PRO PASS
               </span>
             </div>
-            <div style={{ fontSize: '11.5px', color: 'var(--label-3)', marginTop: '2px', fontWeight: '500' }}>
+            <div style={{ fontSize: '11px', color: 'var(--label-3)', marginTop: '2px', fontWeight: '500' }}>
               {today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'short' })} • <span style={{ color: '#10b981', fontWeight: '700' }}>⚡ {readinessScore}% Readiness</span>
             </div>
           </div>
@@ -110,7 +115,7 @@ export default function Home() {
             style={{
               display: 'flex', alignItems: 'center', gap: '5px',
               background: 'rgba(249, 115, 22, 0.12)', border: '1px solid rgba(249, 115, 22, 0.3)',
-              borderRadius: '99px', padding: '6px 11px', fontSize: '12px', fontWeight: '800', color: 'var(--orange)',
+              borderRadius: '99px', padding: '5px 10px', fontSize: '12px', fontWeight: '800', color: 'var(--orange)',
               cursor: 'pointer'
             }}
           >
@@ -123,41 +128,101 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── 2. MONDAY PROGRESS CHECK-IN BANNER ────────────────────── */}
+      {/* ── 2. COACH AI INTELLIGENCE BRIEFING (TOP POSITION) ──────── */}
       <div
         className="card"
         style={{
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.18) 0%, rgba(15, 23, 42, 0.95) 100%)',
-          border: '1px solid rgba(37, 99, 235, 0.4)',
-          borderRadius: '16px',
-          padding: '14px 16px',
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(20, 30, 50, 0.95) 100%)',
+          border: '1px solid rgba(16, 185, 129, 0.25)',
+          borderLeft: '4px solid #10b981',
+          borderRadius: '18px',
+          padding: '16px',
           marginBottom: '14px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 12,
-          boxShadow: '0 4px 20px rgba(37, 99, 235, 0.15)'
+          boxShadow: '0 8px 24px rgba(0,0,0,0.35)'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(37, 99, 235, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
-            📸
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ color: '#10b981', fontSize: '17px', display: 'flex', alignItems: 'center' }}>
+              <Icon name="sparkles" />
+            </span>
+            <span style={{ fontSize: '14.5px', fontWeight: '800', color: '#fff', letterSpacing: '-0.2px' }}>
+              Coach AI Intelligence Briefing
+            </span>
           </div>
-          <div>
-            <div style={{ fontWeight: 800, color: '#60a5fa', fontSize: '12.5px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
-              Weekly Progress Check-in
-            </div>
-            <div style={{ fontSize: '11px', color: '#cbd5e1', lineHeight: 1.3, marginTop: '2px' }}>
-              Upload physique photos &amp; weight for Monday AI adaptation.
-            </div>
-          </div>
+          <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'rgba(16,185,129,0.15)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            ACTIVE PLAN
+          </span>
         </div>
-        <Button size="sm" variant="primary" style={{ background: '#2563eb', color: '#fff', flexShrink: 0, fontWeight: 800, borderRadius: '10px', padding: '8px 14px' }} onClick={weeklyCheckinSheet}>
-          Check In →
-        </Button>
+
+        {/* Personalized Targets Strip */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#f59e0b', padding: '3px 8px', borderRadius: '6px' }}>
+            🔥 {targetKcal} kcal
+          </span>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#38bdf8', padding: '3px 8px', borderRadius: '6px' }}>
+            🥩 {targetProtein}g Protein
+          </span>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#a78bfa', padding: '3px 8px', borderRadius: '6px' }}>
+            🍚 {targetCarbs}g Carbs
+          </span>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#34d399', padding: '3px 8px', borderRadius: '6px' }}>
+            🥑 {targetFat}g Fats
+          </span>
+        </div>
+
+        <div style={{ fontSize: '12.5px', color: '#cbd5e1', lineHeight: 1.45, marginBottom: '12px' }}>
+          {S.aiCoachCard?.coachNote || `Your customized plan is configured. Maintain consistency on your training days, progressive overload on compound lifts, and hit your protein target.`}
+        </div>
+
+        {/* Quick Action Shortcuts */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          <button
+            onClick={() => nav('/plan')}
+            style={{
+              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
+            }}
+          >
+            🏋️ Manage Split
+          </button>
+          <button
+            onClick={() => nav('/nutrition')}
+            style={{
+              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
+            }}
+          >
+            🥗 Recipes &amp; Macros
+          </button>
+          <button
+            onClick={onboardingWizardSheet}
+            style={{
+              background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '8px',
+              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#10b981', cursor: 'pointer'
+            }}
+          >
+            ⚡ Rebuild Plan
+          </button>
+        </div>
       </div>
 
-      {/* ── 3. HERO WORKOUT COMMAND CENTER ────────────────────────── */}
+      {/* ── 3. WEEKLY SCHEDULE CALENDAR STRIP ──────────────────────── */}
+      <div className="card" style={{ padding: '14px 16px', marginBottom: '14px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+        <div className="row between" style={{ marginBottom: 10 }}>
+          <div style={{ fontSize: '13.5px', fontWeight: '800', color: '#fff' }}>{wkLabel}</div>
+          <div className="row" style={{ gap: 4 }}>
+            <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 13 }} onClick={() => setWeekOffset(w => w - 1)} aria-label="Previous week"><Icon name="chevronLeft" /></button>
+            <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 13 }} onClick={() => setWeekOffset(w => w + 1)} aria-label="Next week"><Icon name="chevronRight" /></button>
+          </div>
+        </div>
+        <div className="week" style={{ marginBottom: '10px' }}>{strip}</div>
+        <div className="small muted" style={{ fontSize: '11px', textAlign: 'center', color: '#94a3b8' }}>
+          Tap any day to customize routine assignments or set rest days.
+        </div>
+      </div>
+
+      {/* ── 4. HERO WORKOUT COMMAND CENTER ────────────────────────── */}
       <div
         className="card"
         style={{
@@ -210,17 +275,17 @@ export default function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
           <div
             style={{
-              width: '54px', height: '54px', borderRadius: '16px',
+              width: '52px', height: '52px', borderRadius: '16px',
               background: S.active ? 'var(--orange)' : routine ? '#10b981' : 'var(--surface-2)',
               color: S.active ? '#000' : routine ? '#000' : 'var(--on-acc)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0,
               boxShadow: S.active ? '0 4px 16px rgba(249,115,22,0.4)' : routine ? '0 4px 16px rgba(16,185,129,0.3)' : 'none'
             }}
           >
             <Icon name={S.active ? 'timer' : routine ? glyphOf(routine.emoji) : 'moon'} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h2 style={{ margin: '0 0 3px', fontSize: '19px', fontWeight: '900', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <h2 style={{ margin: '0 0 3px', fontSize: '18px', fontWeight: '900', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {S.active ? S.active.name : routine ? routine.name : t('Rest & Muscle Recovery')}
             </h2>
             <div style={{ fontSize: '12px', color: '#94a3b8', lineHeight: 1.3 }}>
@@ -235,8 +300,8 @@ export default function Home() {
 
         {/* Interactive Exercise Preview List (Clickable Drilldown) */}
         {routine && routine.ex && routine.ex.length > 0 && !S.active && (
-          <div style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '12px', marginBottom: '16px' }}>
-            <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
+          <div style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
               Prescribed Exercise Lineup:
             </div>
             <div style={{ display: 'grid', gap: '6px' }}>
@@ -306,7 +371,7 @@ export default function Home() {
         </button>
       </div>
 
-      {/* ── 4. WEEKLY TRAINING TELEMETRY HUD ──────────────────────── */}
+      {/* ── 5. WEEKLY TRAINING TELEMETRY HUD ──────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '14px' }}>
         {/* Workouts Completed */}
         <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
@@ -351,80 +416,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── 5. COACH AI INTELLIGENCE BRIEFING ─────────────────────── */}
-      <div
-        className="card"
-        style={{
-          background: 'linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.6))',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderLeft: '4px solid #10b981',
-          borderRadius: '16px',
-          padding: '16px',
-          marginBottom: '14px'
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#10b981', fontSize: '18px' }}><Icon name="sparkles" /></span>
-            <span style={{ fontSize: '15px', fontWeight: '800', color: '#fff' }}>Coach AI Briefing</span>
-          </div>
-          <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(16,185,129,0.15)', color: '#10b981', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase' }}>
-            Active Split
-          </span>
-        </div>
-
-        <div style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.5, marginBottom: '12px' }}>
-          {S.aiCoachCard?.coachNote || 'Your progressive overload routine is configured. Focus on clean biomechanics, full range of motion, and 2-3 reps in reserve.'}
-        </div>
-
-        {/* Quick Shortcut Buttons */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-          <button
-            onClick={() => nav('/plan')}
-            style={{
-              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
-              padding: '6px 12px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
-            }}
-          >
-            🏋️ Manage Split
-          </button>
-          <button
-            onClick={() => nav('/nutrition')}
-            style={{
-              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
-              padding: '6px 12px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
-            }}
-          >
-            🥗 Recipes &amp; Macros
-          </button>
-          <button
-            onClick={onboardingWizardSheet}
-            style={{
-              background: '#1e293b', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '8px',
-              padding: '6px 12px', fontSize: '11px', fontWeight: '700', color: '#10b981', cursor: 'pointer'
-            }}
-          >
-            ⚡ Rebuild Plan
-          </button>
-        </div>
-      </div>
-
-      {/* ── 6. INTERACTIVE 7-DAY SCHEDULE STRIP ───────────────────── */}
-      <div className="card" style={{ padding: '16px', marginBottom: '14px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
-        <div className="row between" style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: '14px', fontWeight: '800', color: '#fff' }}>{wkLabel}</div>
-          <div className="row" style={{ gap: 4 }}>
-            <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 14 }} onClick={() => setWeekOffset(w => w - 1)} aria-label="Previous week"><Icon name="chevronLeft" /></button>
-            <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 14 }} onClick={() => setWeekOffset(w => w + 1)} aria-label="Next week"><Icon name="chevronRight" /></button>
-          </div>
-        </div>
-        <div className="week" style={{ marginBottom: '12px' }}>{strip}</div>
-        <div className="small muted" style={{ fontSize: '11px', textAlign: 'center', color: '#94a3b8' }}>
-          Tap any day above to reschedule routines or inspect exercises.
-        </div>
-      </div>
-
-      {/* ── 7. BODYWEIGHT PROGRESS CHART ─────────────────────────── */}
+      {/* ── 6. BODYWEIGHT PROGRESS TRACKER ────────────────────────── */}
       <div className="card" style={{ padding: '16px', marginBottom: '14px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
         <div className="row between" style={{ marginBottom: 8 }}>
           <div>
@@ -471,6 +463,39 @@ export default function Home() {
             <Button size="sm" onClick={() => bwSheet()}>{t('Log weight')}</Button>
           </div>
         )}
+      </div>
+
+      {/* ── 7. WEEKLY PROGRESS CHECK-IN BANNER ────────────────────── */}
+      <div
+        className="card"
+        style={{
+          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%)',
+          border: '1px solid rgba(37, 99, 235, 0.35)',
+          borderRadius: '16px',
+          padding: '14px 16px',
+          marginBottom: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 12
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(37, 99, 235, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
+            📸
+          </div>
+          <div>
+            <div style={{ fontWeight: 800, color: '#60a5fa', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+              Weekly Progress Check-in
+            </div>
+            <div style={{ fontSize: '11px', color: '#cbd5e1', lineHeight: 1.3, marginTop: '2px' }}>
+              Upload physique photos &amp; weight for Monday AI adaptation.
+            </div>
+          </div>
+        </div>
+        <Button size="sm" variant="primary" style={{ background: '#2563eb', color: '#fff', flexShrink: 0, fontWeight: 800, borderRadius: '10px', padding: '7px 12px', fontSize: '12px' }} onClick={weeklyCheckinSheet}>
+          Check In →
+        </Button>
       </div>
 
     </div>
