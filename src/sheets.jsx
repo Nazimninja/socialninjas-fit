@@ -1884,15 +1884,6 @@ function AthleteProfileModal({ close }) {
         >
           💾 Save Profile &amp; Recalibrate Blueprint
         </Button>
-        <Button
-          variant="ghost"
-          onClick={() => { close(); onboardingWizardSheet() }}
-          style={{
-            padding: '12px', fontSize: 13, fontWeight: 800, borderRadius: 12
-          }}
-        >
-          ⚡ Re-Run Full AI Custom Plan Generator →
-        </Button>
       </div>
     </div>
   )
