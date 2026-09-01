@@ -32,6 +32,8 @@ export async function onRequest(context) {
       goal = 'muscle',
       days = 4,
       location = 'gym',
+      experience = 'intermediate',
+      focus = 'balanced',
       diet = 'nonveg'
     } = answers;
 
@@ -39,66 +41,52 @@ export async function onRequest(context) {
 
     if (OPENAI_KEY) {
       try {
-        const goalMap = { muscle: 'Muscle Gain', fat_loss: 'Fat Loss', recomp: 'Body Recomposition', strength: 'Strength & Power', general: 'General Fitness' };
-        const dietMap = { nonveg: 'Non-vegetarian (includes chicken, eggs, fish)', egg: 'Eggetarian (eggs only, no meat)', veg: 'Vegetarian (no eggs, no meat)', vegan: 'Vegan (plant-based only)' };
+        const goalMap = { muscle: 'Muscle Hypertrophy & Mass', fat_loss: 'Fat Loss & Definition', strength: 'Raw Strength & Power', general: 'General Fitness & Athletic Conditioning' };
+        const dietMap = { nonveg: 'Non-vegetarian (includes chicken, eggs, fish)', egg: 'Eggetarian (eggs only, no meat)', veg: 'Vegetarian (paneer, soya, dal, dahi)', vegan: 'Vegan (plant-based only)' };
+        const locMap = { gym: 'Commercial Gym with Barbells, Dumbbells, Cables, and Machines', home: 'Home Setup with Dumbbells and Adjustable Bench', calisthenics: 'Zero Equipment Bodyweight and Calisthenics' };
+        const focusMap = { balanced: 'Balanced full body proportion', upper: 'Upper Body (Chest, Delts & Arms priority)', vtaper: 'V-Taper (Back width, Lats & Shoulders)', legs: 'Lower Body (Quads, Glutes & Hamstrings)' };
 
-        const prompt = `You are an expert fitness and nutrition coach specializing in Indian clients. Create a highly personalized, science-backed fitness plan.
+        const prompt = `You are a world-class biomechanics strength coach and elite Indian sports nutritionist.
+Create a 100% bespoke, custom training and nutrition plan tailored specifically for this individual from scratch.
 
 CLIENT PROFILE:
 - Name: ${pname}
-- Age: ${age} years
-- Weight: ${weight} kg
-- Height: ${height} cm
-- Gender: ${gender}
-- Goal: ${goalMap[goal] || goal}
-- Diet: ${dietMap[diet] || diet}
-- Training location: ${location === 'gym' ? 'Gym' : 'Home'}
-- Training days: ${days} days per week
+- Age: ${age} years | Gender: ${gender} | Weight: ${weight} kg | Height: ${height} cm
+- Fitness Objective: ${goalMap[goal] || goal}
+- Cultural Nutrition: ${dietMap[diet] || diet}
+- Training Environment: ${locMap[location] || location}
+- Training Frequency: EXACTLY ${days} DAYS PER WEEK
+- Lifting Experience: ${experience}
+- Priority Focus: ${focusMap[focus] || focus}
 
-Calculate:
-- BMR using Mifflin-St Jeor formula
-- TDEE with activity factor based on ${days} training days
-- Calorie target for goal (deficit for fat loss, surplus for muscle/weight gain)
-- Macro split: protein (2g/kg bodyweight min), carbs (45-55% total), fats (remaining)
+INSTRUCTIONS:
+1. Calculate BMR (Mifflin-St Jeor formula) and TDEE based on ${days} training days.
+2. Calibrate daily calorie target (${goal === 'fat_loss' ? 'deficit' : goal === 'muscle' ? 'surplus' : 'maintenance'}) and macro split (Protein ~2.0-2.2g/kg, Carbs 45-55%, Fats 20-25%).
+3. Generate EXACTLY ${days} distinct, custom workout routines in the "workout" array (one for each of the ${days} training days). Each routine must contain 5-6 exercises appropriately matched to their equipment (${location}) and experience (${experience}).
+4. Provide 5 authentic Indian meals tailored to their dietary preference (${diet}) that hit their exact macro targets.
 
-Return ONLY a valid JSON object with this EXACT structure (no markdown, no explanation):
+Return ONLY a valid JSON object with this EXACT schema:
 {
-  "kcal": 2100,
-  "protein": 140,
-  "carbs": 220,
+  "kcal": 2400,
+  "protein": 145,
+  "carbs": 270,
   "fat": 65,
-  "bmi": 22.5,
+  "bmi": 23.5,
   "goal": "${goal}",
   "diet": "${diet}",
-  "coachNote": "2-3 sentence personalized insight about this client's specific situation",
+  "coachNote": "2-3 personalized sentences highlighting their custom training architecture and progressive overload targets.",
+  "weeklyInsight": "1 motivating tactical coaching tip.",
   "meals": [
-    {"t": "8:00 AM", "n": "Breakfast", "d": "Detailed Indian food description with quantities", "i": "🍳", "k": 450, "p": 35, "note": "Coach tip"},
-    {"t": "11:30 AM", "n": "Mid-Morning", "d": "...", "i": "🥗", "k": 280, "p": 18, "note": "..."},
-    {"t": "1:30 PM", "n": "Lunch", "d": "...", "i": "🍱", "k": 580, "p": 42, "note": "..."},
-    {"t": "5:00 PM", "n": "Pre-Workout Snack", "d": "...", "i": "⚡", "k": 250, "p": 15, "note": "..."},
-    {"t": "8:30 PM", "n": "Dinner", "d": "...", "i": "🍛", "k": 480, "p": 30, "note": "..."}
+    {"t": "8:00 AM", "n": "Breakfast", "d": "Meal description with quantities", "i": "🍳", "k": 480, "p": 35, "note": "Tip"},
+    {"t": "11:30 AM", "n": "Mid-Morning", "d": "...", "i": "🥗", "k": 250, "p": 15, "note": "..."},
+    {"t": "1:30 PM", "n": "Lunch", "d": "...", "i": "🍱", "k": 650, "p": 45, "note": "..."},
+    {"t": "5:00 PM", "n": "Pre-Workout Snack", "d": "...", "i": "⚡", "k": 220, "p": 10, "note": "..."},
+    {"t": "8:30 PM", "n": "Dinner", "d": "...", "i": "🍛", "k": 500, "p": 35, "note": "..."}
   ],
   "workout": [
-    {"n": "Push Day", "t": "Chest · Shoulders · Triceps", "exercises": [
-      {"name": "barbell bench press", "sets": "4", "reps": "8-10", "badge": "push"},
-      {"name": "dumbbell incline bench press", "sets": "3", "reps": "10-12", "badge": "push"},
-      {"name": "standing dumbbell overhead press", "sets": "3", "reps": "10-12", "badge": "push"},
-      {"name": "dumbbell lateral raise", "sets": "3", "reps": "12-15", "badge": "push"},
-      {"name": "cable tricep pushdown", "sets": "3", "reps": "12-15", "badge": "push"}
-    ]},
-    {"n": "Pull Day", "t": "Back · Biceps", "exercises": [
-      {"name": "barbell deadlift", "sets": "4", "reps": "6-8", "badge": "pull"},
-      {"name": "pull-up", "sets": "4", "reps": "6-10", "badge": "pull"},
-      {"name": "barbell bent over row", "sets": "3", "reps": "8-10", "badge": "pull"},
-      {"name": "cable seated row", "sets": "3", "reps": "10-12", "badge": "pull"},
-      {"name": "dumbbell alternate bicep curl", "sets": "3", "reps": "12-15", "badge": "pull"}
-    ]},
-    {"n": "Leg Day", "t": "Quads · Hamstrings · Calves", "exercises": [
-      {"name": "barbell squat", "sets": "4", "reps": "8-10", "badge": "legs"},
-      {"name": "barbell romanian deadlift", "sets": "3", "reps": "10-12", "badge": "legs"},
-      {"name": "leg press", "sets": "3", "reps": "12-15", "badge": "legs"},
-      {"name": "dumbbell walking lunges", "sets": "3", "reps": "12 each", "badge": "legs"},
-      {"name": "standing calf raises", "sets": "4", "reps": "15-20", "badge": "legs"}
+    // EXACTLY ${days} workout objects here
+    {"n": "Day 1: Upper Strength & Chest Arc", "t": "Chest · Shoulders · Triceps", "exercises": [
+      {"name": "barbell bench press", "sets": "4", "reps": "8", "badge": "push"}
     ]}
   ]
 }`;
@@ -113,7 +101,7 @@ Return ONLY a valid JSON object with this EXACT structure (no markdown, no expla
             model: 'gpt-4o',
             messages: [{ role: 'user', content: prompt }],
             temperature: 0.7,
-            max_tokens: 3000
+            max_tokens: 3500
           })
         });
 
@@ -132,13 +120,13 @@ Return ONLY a valid JSON object with this EXACT structure (no markdown, no expla
       }
     }
 
-    // Fallback: Smart Science-Backed Generator
+    // Fallback: Smart Science-Backed Custom Generator
     const numAge = Number(age) || 25;
     const numWeight = Number(weight) || 72;
     const numHeight = Number(height) || 175;
     const numDays = Number(days) || 4;
 
-    let bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5);
+    const bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5);
     const actMap = { 2: 1.35, 3: 1.45, 4: 1.55, 5: 1.65, 6: 1.75 };
     const tdee = Math.round(bmr * (actMap[numDays] || 1.55));
 
@@ -146,9 +134,8 @@ Return ONLY a valid JSON object with this EXACT structure (no markdown, no expla
     if (goal === 'fat_loss') kcal = Math.round(tdee - 450);
     else if (goal === 'muscle') kcal = Math.round(tdee + 350);
     else if (goal === 'strength') kcal = Math.round(tdee + 250);
-    else if (goal === 'recomp') kcal = Math.round(tdee - 100);
 
-    const protein = Math.round(numWeight * (goal === 'fat_loss' || goal === 'recomp' ? 2.2 : 2.0));
+    const protein = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0));
     const fat = Math.round((kcal * 0.25) / 9);
     const carbs = Math.max(0, Math.round((kcal - (protein * 4) - (fat * 9)) / 4));
 
@@ -163,29 +150,128 @@ Return ONLY a valid JSON object with this EXACT structure (no markdown, no expla
       { t: '8:30 PM', n: 'Recovery Dinner', d: diet === 'nonveg' ? '120g Chicken tikka + mixed veg + 2 rotis' : '100g Tofu/Paneer curry + dal + 2 rotis', i: '🍛', k: Math.round(kcal * 0.14), p: Math.round(protein * 0.12), note: 'Overnight tissue repair.' }
     ];
 
-    const workout = [
-      { n: 'Push Day', t: 'Chest · Shoulders · Triceps', exercises: [
-        { name: 'barbell bench press', sets: '4', reps: '8', badge: 'push' },
-        { name: 'dumbbell incline bench press', sets: '3', reps: '10', badge: 'push' },
-        { name: 'standing dumbbell overhead press', sets: '3', reps: '10', badge: 'push' },
-        { name: 'dumbbell lateral raise', sets: '3', reps: '12', badge: 'push' },
-        { name: 'cable tricep pushdown', sets: '3', reps: '12', badge: 'push' }
-      ]},
-      { n: 'Pull Day', t: 'Back · Biceps', exercises: [
-        { name: 'barbell deadlift', sets: '4', reps: '6', badge: 'pull' },
-        { name: 'pull-up', sets: '4', reps: '8', badge: 'pull' },
-        { name: 'barbell bent over row', sets: '3', reps: '10', badge: 'pull' },
-        { name: 'cable seated row', sets: '3', reps: '10', badge: 'pull' },
-        { name: 'dumbbell alternate bicep curl', sets: '3', reps: '12', badge: 'pull' }
-      ]},
-      { n: 'Leg Day', t: 'Quads · Hamstrings · Calves', exercises: [
-        { name: 'barbell squat', sets: '4', reps: '8', badge: 'legs' },
-        { name: 'barbell romanian deadlift', sets: '3', reps: '10', badge: 'legs' },
-        { name: 'leg press', sets: '3', reps: '12', badge: 'legs' },
-        { name: 'dumbbell walking lunges', sets: '3', reps: '12 each', badge: 'legs' },
-        { name: 'standing calf raises', sets: '4', reps: '15', badge: 'legs' }
-      ]}
-    ];
+    // Dynamic workout building based on days
+    let workout = [];
+    if (numDays === 3) {
+      workout = [
+        { n: 'Day 1: Push Hypertrophy', t: 'Chest · Shoulders · Triceps', exercises: [
+          { name: 'barbell bench press', sets: '4', reps: '8', badge: 'push' },
+          { name: 'dumbbell incline bench press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'standing dumbbell overhead press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: '3', reps: '12', badge: 'push' },
+          { name: 'cable tricep pushdown', sets: '3', reps: '12', badge: 'push' }
+        ]},
+        { n: 'Day 2: Pull Power & Lat Width', t: 'Back · Biceps · Rear Delts', exercises: [
+          { name: 'barbell deadlift', sets: '4', reps: '6', badge: 'pull' },
+          { name: 'lat pulldown', sets: '4', reps: '8', badge: 'pull' },
+          { name: 'barbell bent over row', sets: '3', reps: '10', badge: 'pull' },
+          { name: 'cable seated row', sets: '3', reps: '10', badge: 'pull' },
+          { name: 'dumbbell alternate bicep curl', sets: '3', reps: '12', badge: 'pull' }
+        ]},
+        { n: 'Day 3: Quad & Calves Power', t: 'Quads · Hamstrings · Calves', exercises: [
+          { name: 'barbell squat', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'barbell romanian deadlift', sets: '3', reps: '10', badge: 'legs' },
+          { name: 'leg press', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'lying leg curls', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'standing calf raises', sets: '4', reps: '15', badge: 'legs' }
+        ]}
+      ];
+    } else if (numDays === 5) {
+      workout = [
+        { n: 'Day 1: Chest & Triceps Hypertrophy', t: 'Chest · Triceps', exercises: [
+          { name: 'barbell bench press', sets: '4', reps: '8', badge: 'push' },
+          { name: 'dumbbell incline bench press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'cable crossover', sets: '3', reps: '12', badge: 'push' },
+          { name: 'cable tricep pushdown', sets: '3', reps: '12', badge: 'push' }
+        ]},
+        { n: 'Day 2: Back & Lat Thickness', t: 'Lats · Upper Back · Biceps', exercises: [
+          { name: 'barbell deadlift', sets: '4', reps: '6', badge: 'pull' },
+          { name: 'lat pulldown', sets: '4', reps: '8', badge: 'pull' },
+          { name: 'barbell bent over row', sets: '3', reps: '10', badge: 'pull' },
+          { name: 'barbell curl', sets: '3', reps: '10', badge: 'pull' }
+        ]},
+        { n: 'Day 3: Quad Power & Calves', t: 'Quads · Calves', exercises: [
+          { name: 'barbell squat', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'leg press', sets: '3', reps: '10', badge: 'legs' },
+          { name: 'leg extensions', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'standing calf raises', sets: '4', reps: '15', badge: 'legs' }
+        ]},
+        { n: 'Day 4: Shoulders & Arms Focus', t: 'Delts · Biceps · Triceps', exercises: [
+          { name: 'standing dumbbell overhead press', sets: '4', reps: '8', badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: '4', reps: '12', badge: 'push' },
+          { name: 'cable face pull', sets: '3', reps: '15', badge: 'pull' },
+          { name: 'hammer curl', sets: '3', reps: '12', badge: 'pull' }
+        ]},
+        { n: 'Day 5: Posterior Chain & Core', t: 'Hamstrings · Glutes · Abs', exercises: [
+          { name: 'barbell romanian deadlift', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'lying leg curls', sets: '4', reps: '12', badge: 'legs' },
+          { name: 'hanging leg raise', sets: '3', reps: '15', badge: 'core' }
+        ]}
+      ];
+    } else if (numDays === 6) {
+      workout = [
+        { n: 'Day 1: Push A (Chest Compound)', t: 'Chest · Shoulders · Triceps', exercises: [
+          { name: 'barbell bench press', sets: '4', reps: '8', badge: 'push' },
+          { name: 'dumbbell incline bench press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'standing dumbbell overhead press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'cable tricep pushdown', sets: '3', reps: '12', badge: 'push' }
+        ]},
+        { n: 'Day 2: Pull A (Lat Width)', t: 'Back · Biceps', exercises: [
+          { name: 'pull-up', sets: '4', reps: '8', badge: 'pull' },
+          { name: 'lat pulldown', sets: '3', reps: '10', badge: 'pull' },
+          { name: 'barbell bent over row', sets: '3', reps: '10', badge: 'pull' },
+          { name: 'barbell curl', sets: '3', reps: '10', badge: 'pull' }
+        ]},
+        { n: 'Day 3: Legs A (Quad Focus)', t: 'Quads · Calves', exercises: [
+          { name: 'barbell squat', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'leg press', sets: '3', reps: '10', badge: 'legs' },
+          { name: 'standing calf raises', sets: '4', reps: '15', badge: 'legs' }
+        ]},
+        { n: 'Day 4: Push B (Incline & Delts)', t: 'Incline Chest · Delts', exercises: [
+          { name: 'incline dumbbell bench press', sets: '4', reps: '10', badge: 'push' },
+          { name: 'dips', sets: '3', reps: '10', badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: '4', reps: '12', badge: 'push' }
+        ]},
+        { n: 'Day 5: Pull B (Back Thickness)', t: 'Deadlifts · Rows', exercises: [
+          { name: 'barbell deadlift', sets: '4', reps: '6', badge: 'pull' },
+          { name: 'cable seated row', sets: '4', reps: '10', badge: 'pull' },
+          { name: 'hammer curl', sets: '3', reps: '12', badge: 'pull' }
+        ]},
+        { n: 'Day 6: Legs B (Posterior Chain)', t: 'Hamstrings · Glutes', exercises: [
+          { name: 'barbell romanian deadlift', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'goblet squat', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'lying leg curls', sets: '3', reps: '12', badge: 'legs' }
+        ]}
+      ];
+    } else {
+      // Default 4 Days
+      workout = [
+        { n: 'Day 1: Upper Power & Chest Compound', t: 'Chest · Back · Shoulders', exercises: [
+          { name: 'barbell bench press', sets: '4', reps: '8', badge: 'push' },
+          { name: 'barbell bent over row', sets: '4', reps: '8', badge: 'pull' },
+          { name: 'standing dumbbell overhead press', sets: '3', reps: '10', badge: 'push' },
+          { name: 'cable tricep pushdown', sets: '3', reps: '12', badge: 'push' }
+        ]},
+        { n: 'Day 2: Lower Power & Quad Focus', t: 'Quads · Hamstrings · Calves', exercises: [
+          { name: 'barbell squat', sets: '4', reps: '8', badge: 'legs' },
+          { name: 'barbell romanian deadlift', sets: '3', reps: '10', badge: 'legs' },
+          { name: 'leg press', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'standing calf raises', sets: '4', reps: '15', badge: 'legs' }
+        ]},
+        { n: 'Day 3: Upper Hypertrophy & V-Taper', t: 'Incline Chest · Lats · Delts · Arms', exercises: [
+          { name: 'dumbbell incline bench press', sets: '4', reps: '10', badge: 'push' },
+          { name: 'lat pulldown', sets: '4', reps: '8', badge: 'pull' },
+          { name: 'dumbbell lateral raise', sets: '4', reps: '12', badge: 'push' },
+          { name: 'dumbbell alternate bicep curl', sets: '3', reps: '12', badge: 'pull' }
+        ]},
+        { n: 'Day 4: Lower Hypertrophy & Deadlift Power', t: 'Hamstrings · Quads · Core', exercises: [
+          { name: 'barbell deadlift', sets: '4', reps: '6', badge: 'pull' },
+          { name: 'dumbbell walking lunges', sets: '3', reps: '10 each', badge: 'legs' },
+          { name: 'lying leg curls', sets: '3', reps: '12', badge: 'legs' },
+          { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' }
+        ]}
+      ];
+    }
 
     const plan = {
       kcal,
@@ -195,8 +281,8 @@ Return ONLY a valid JSON object with this EXACT structure (no markdown, no expla
       bmi,
       goal,
       diet,
-      coachNote: `${pname}, your personalized plan is engineered for ${goal}. With a target of ${kcal} kcal (${protein}g Protein · ${carbs}g Carbs · ${fat}g Fats) and your ${numDays}-day ${location === 'gym' ? 'Gym' : 'Home'} routine, you will maximize muscle retention and progression.`,
-      weeklyInsight: `Consistency is your superpower, ${pname}! Execute this week’s sessions with progressive overload. 🚀`,
+      coachNote: `${pname}, your 100% custom plan is engineered for ${goal.replace('_', ' ')}. With a daily target of ${kcal} kcal (${protein}g Protein · ${carbs}g Carbs · ${fat}g Fats) and a ${numDays}-day ${location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics'} split, your protocol is configured for progressive overload.`,
+      weeklyInsight: `Consistency is your superpower, ${pname}! Push your working sets with intensity. 🚀`,
       meals,
       workout,
       generatedAt: new Date().toISOString(),

@@ -1,9 +1,9 @@
 // Workout Programs & Starter Routines Library
-// Provides 12+ pre-built programs and default starter routines.
 import { uid } from './format.js'
-import { PRESET_PROGRAMS, findEx } from './planGenerator.js'
+import { findEx } from './planGenerator.js'
 
-export { PRESET_PROGRAMS }
+export const PRESET_PROGRAMS = []
+
 
 // Default 3-day PPL for backward compatibility
 const DEFAULT_SPEC = [

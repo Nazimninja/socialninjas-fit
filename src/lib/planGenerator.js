@@ -1,6 +1,6 @@
 // Fit Ninjas AI Fitness & Nutrition Plan Engine
-// Generates 100% personalized workout splits and Indian nutrition meal plans
-// based on Mifflin-St Jeor formula, equipment, experience, schedule, and cultural diet.
+// Generates 100% personalized, custom workout routines and cultural Indian nutrition meal plans
+// dynamically generated based on athlete's profile, training frequency, equipment, experience, focus muscles, and diet.
 
 import { uid } from './format.js'
 import { EXDB } from './exercises-data.js'
@@ -30,760 +30,424 @@ export function findEx(nameOrKeywords, fallbackEq = 'barbell') {
 }
 
 /* ==========================================================================
-   PRESET WORKOUT PROGRAMS LIBRARY (12+ Professional Templates)
+   DYNAMIC CUSTOM WORKOUT GENERATOR (100% Tailored from Scratch)
    ========================================================================== */
-export const PRESET_PROGRAMS = [
-  {
-    id: 'ppl-3',
-    name: 'Push / Pull / Legs (3 Days)',
-    badge: '3 Days · Gym',
-    desc: 'The classic hypertrophy split. Push muscles on Monday, Pull muscles on Wednesday, Legs on Friday.',
-    days: 3,
-    level: 'Beginner - Intermediate',
-    goal: 'muscle',
-    routines: [
+export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experience = 'intermediate', focus = 'balanced', goal = 'muscle' }) {
+  const numDays = Number(days) || 4
+  const isGym = location === 'gym'
+  const isHome = location === 'home'
+  const isCalisthenics = location === 'calisthenics'
+
+  // Set counts based on experience
+  const mainSets = experience === 'advanced' ? 4 : experience === 'beginner' ? 3 : 3
+  const accSets = experience === 'advanced' ? 4 : 3
+
+  // Rep ranges based on goal
+  const mainReps = goal === 'strength' ? 6 : goal === 'fat_loss' ? 10 : 8
+  const accReps = goal === 'strength' ? 8 : goal === 'fat_loss' ? 12 : 10
+  const isoReps = goal === 'fat_loss' ? 15 : 12
+
+  // ── 3 DAYS CUSTOM SPLIT ──
+  if (numDays === 3) {
+    if (isCalisthenics) {
+      return [
+        {
+          n: 'Day 1: Upper Body Push & Core Mechanics',
+          t: 'Chest · Shoulders · Triceps · Abs',
+          exercises: [
+            { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'dips', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'pike pushup', sets: String(accSets), reps: '10-12', badge: 'push' },
+            { name: 'diamond pushup', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'plank', sets: '3', reps: '45s hold', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 2: Back Width & Pull Dynamics',
+          t: 'Lats · Upper Back · Biceps · Rear Delts',
+          exercises: [
+            { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+            { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+            { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+            { name: 'scapular pullup', sets: String(accSets), reps: '12-15', badge: 'pull' },
+            { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 3: Lower Body Power & Calisthenics Conditioning',
+          t: 'Quads · Hamstrings · Glutes · Calves',
+          exercises: [
+            { name: 'bodyweight squat', sets: String(mainSets), reps: '15-20', badge: 'legs' },
+            { name: 'walking lunges', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+            { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+            { name: 'single leg calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
+            { name: 'jump squat', sets: '3', reps: '12-15', badge: 'legs' }
+          ]
+        }
+      ]
+    }
+
+    if (isHome) {
+      return [
+        {
+          n: 'Day 1: Dumbbell Upper Body & Chest Focus',
+          t: 'Chest · Shoulders · Triceps',
+          exercises: [
+            { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+            { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+            { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+            { name: 'dumbbell overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+          ]
+        },
+        {
+          n: 'Day 2: Dumbbell Back Width & Arm Power',
+          t: 'Back · Biceps · Rear Delts',
+          exercises: [
+            { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+            { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+            { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+            { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+            { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+          ]
+        },
+        {
+          n: 'Day 3: Dumbbell Lower Body & Core Strength',
+          t: 'Quads · Hamstrings · Glutes · Calves',
+          exercises: [
+            { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+            { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+            { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+            { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'plank', sets: '3', reps: '60s hold', badge: 'core' }
+          ]
+        }
+      ]
+    }
+
+    // Gym 3 Days
+    return [
       {
-        name: 'Push Day (Chest · Shoulders · Triceps)',
-        emoji: 'barbell',
+        n: 'Day 1: Push Hypertrophy & Chest Arc',
+        t: 'Chest · Shoulders · Triceps',
         exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'dumbbell incline bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'standing dumbbell overhead press', sets: 3, reps: 10, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 3, reps: 12, weight: 0 },
-          { name: 'cable tricep pushdown', sets: 3, reps: 12, weight: 0 },
-          { name: 'dips', sets: 3, reps: 10, weight: 0 }
+          { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
         ]
       },
       {
-        name: 'Pull Day (Back · Biceps · Rear Delts)',
-        emoji: 'pullup',
+        n: 'Day 2: Lat Width & Back Power',
+        t: 'Back · Biceps · Rear Delts',
         exercises: [
-          { name: 'barbell deadlift', sets: 4, reps: 6, weight: 0 },
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'barbell bent over row', sets: 3, reps: 10, weight: 0 },
-          { name: 'cable seated row', sets: 3, reps: 10, weight: 0 },
-          { name: 'face pull', sets: 3, reps: 15, weight: 0 },
-          { name: 'dumbbell alternate bicep curl', sets: 3, reps: 12, weight: 0 }
+          { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+          { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+          { name: 'barbell bent over row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
         ]
       },
       {
-        name: 'Leg Day (Quads · Hamstrings · Calves)',
-        emoji: 'legs',
+        n: 'Day 3: Quad & Posterior Chain Power',
+        t: 'Quads · Hamstrings · Calves',
         exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'barbell romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'lying leg curls', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'ppl-6',
-    name: 'Push / Pull / Legs Hypertrophy (6 Days)',
-    badge: '6 Days · Advanced',
-    desc: 'High frequency PPL hitting each muscle group twice weekly for maximum muscle growth.',
-    days: 6,
-    level: 'Intermediate - Advanced',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Push A (Chest Focus)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 6, weight: 0 },
-          { name: 'dumbbell incline bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'cable crossover', sets: 3, reps: 12, weight: 0 },
-          { name: 'overhead dumbbell press', sets: 3, reps: 10, weight: 0 },
-          { name: 'cable tricep pushdown', sets: 3, reps: 12, weight: 0 },
-          { name: 'skull crusher', sets: 3, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Pull A (Back Width & Lat Focus)',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'lat pulldown', sets: 3, reps: 10, weight: 0 },
-          { name: 'barbell bent over row', sets: 4, reps: 8, weight: 0 },
-          { name: 'cable face pull', sets: 3, reps: 15, weight: 0 },
-          { name: 'barbell curl', sets: 3, reps: 10, weight: 0 },
-          { name: 'hammer curl', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Legs A (Quad & Squat Focus)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 6, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg extensions', sets: 3, reps: 12, weight: 0 },
-          { name: 'barbell romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Push B (Shoulders & Incline Focus)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'standing barbell overhead press', sets: 4, reps: 8, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 4, reps: 10, weight: 0 },
-          { name: 'dips', sets: 3, reps: 10, weight: 0 },
-          { name: 'lateral raise', sets: 4, reps: 15, weight: 0 },
-          { name: 'overhead tricep extension', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Pull B (Back Thickness & Rows)',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'barbell deadlift', sets: 3, reps: 5, weight: 0 },
-          { name: 'seated cable row', sets: 4, reps: 10, weight: 0 },
-          { name: 'one arm dumbbell row', sets: 3, reps: 10, weight: 0 },
-          { name: 'reverse fly', sets: 3, reps: 15, weight: 0 },
-          { name: 'incline dumbbell curl', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Legs B (Hamstrings & Posterior Chain)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell romanian deadlift', sets: 4, reps: 8, weight: 0 },
-          { name: 'goblet squat', sets: 3, reps: 12, weight: 0 },
-          { name: 'lying leg curls', sets: 4, reps: 12, weight: 0 },
-          { name: 'walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'seated calf raise', sets: 4, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'upper-lower-4',
-    name: 'Upper / Lower Power Split (4 Days)',
-    badge: '4 Days · All Levels',
-    desc: 'The gold standard 4-day split. Upper Body Mon/Thu, Lower Body Tue/Fri with 3 full recovery days.',
-    days: 4,
-    level: 'All Levels',
-    goal: 'recomp',
-    routines: [
-      {
-        name: 'Upper A (Heavy Strength)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 6, weight: 0 },
-          { name: 'barbell bent over row', sets: 4, reps: 6, weight: 0 },
-          { name: 'standing overhead press', sets: 3, reps: 8, weight: 0 },
-          { name: 'lat pulldown', sets: 3, reps: 10, weight: 0 },
-          { name: 'barbell curl', sets: 3, reps: 10, weight: 0 },
-          { name: 'tricep pushdown', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Lower A (Squat Focus)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 6, weight: 0 },
-          { name: 'romanian deadlift', sets: 3, reps: 8, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Upper B (Hypertrophy & Volume)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'incline dumbbell bench press', sets: 4, reps: 10, weight: 0 },
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'seated cable row', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 4, reps: 15, weight: 0 },
-          { name: 'incline dumbbell curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'cable overhead tricep extension', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Lower B (Deadlift & Posterior Chain)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell deadlift', sets: 3, reps: 5, weight: 0 },
-          { name: 'front squat', sets: 3, reps: 8, weight: 0 },
-          { name: 'dumbbell walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'lying leg curls', sets: 3, reps: 12, weight: 0 },
-          { name: 'hanging leg raise', sets: 3, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'full-body-3',
-    name: 'Full Body Functional Strength (3 Days)',
-    badge: '3 Days · Busy Schedule',
-    desc: 'Hit full body 3 days a week (Mon/Wed/Fri). High muscle protein synthesis with maximum recovery.',
-    days: 3,
-    level: 'Beginner - Intermediate',
-    goal: 'general',
-    routines: [
-      {
-        name: 'Full Body A (Squat & Press)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell squat', sets: 3, reps: 8, weight: 0 },
-          { name: 'barbell bench press', sets: 3, reps: 8, weight: 0 },
-          { name: 'barbell bent over row', sets: 3, reps: 10, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 3, reps: 12, weight: 0 },
-          { name: 'bicep curl', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Full Body B (Deadlift & Overhead)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell deadlift', sets: 3, reps: 6, weight: 0 },
-          { name: 'standing overhead press', sets: 3, reps: 8, weight: 0 },
-          { name: 'lat pulldown', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'tricep pushdown', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Full Body C (Hypertrophy & Core)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'dumbbell romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'seated cable row', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'plank', sets: 3, reps: 45, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'arnold-split-6',
-    name: 'Arnold Golden Era Split (6 Days)',
-    badge: '6 Days · Bodybuilding',
-    desc: 'Arnold Schwarzenegger’s legendary split: Chest+Back, Shoulders+Arms, Legs repeated twice a week.',
-    days: 6,
-    level: 'Advanced',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Chest & Back Superset',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'barbell bent over row', sets: 4, reps: 8, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'pull-up', sets: 3, reps: 8, weight: 0 },
-          { name: 'dumbbell fly', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Shoulders & Arms',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'standing barbell overhead press', sets: 4, reps: 8, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 4, reps: 12, weight: 0 },
-          { name: 'rear delt reverse fly', sets: 3, reps: 15, weight: 0 },
-          { name: 'barbell curl', sets: 4, reps: 10, weight: 0 },
-          { name: 'skull crusher', sets: 4, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Legs & Calves',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'leg curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'home-dumbbell-4',
-    name: 'Home Dumbbell & Bench Only (4 Days)',
-    badge: '4 Days · Home Gym',
-    desc: 'Optimized for home athletes with a pair of adjustable dumbbells and a flat/incline bench.',
-    days: 4,
-    level: 'All Levels',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Home Upper A (Chest & Back)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'dumbbell bench press', sets: 4, reps: 10, weight: 0 },
-          { name: 'one arm dumbbell row', sets: 4, reps: 10, weight: 0 },
-          { name: 'incline dumbbell press', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell pullovers', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 3, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Home Lower A (Quads & Glutes)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'goblet squat', sets: 4, reps: 12, weight: 0 },
-          { name: 'dumbbell romanian deadlift', sets: 4, reps: 10, weight: 0 },
-          { name: 'dumbbell bulgarian split squat', sets: 3, reps: 10, weight: 0 },
-          { name: 'single leg calf raise', sets: 4, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Home Upper B (Shoulders & Arms)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'seated dumbbell shoulder press', sets: 4, reps: 10, weight: 0 },
-          { name: 'dumbbell rear delt fly', sets: 3, reps: 15, weight: 0 },
-          { name: 'dumbbell bicep curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'overhead dumbbell tricep extension', sets: 3, reps: 12, weight: 0 },
-          { name: 'hammer curl', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Home Lower B & Core',
-        emoji: 'legs',
-        exercises: [
-          { name: 'dumbbell walking lunges', sets: 4, reps: 12, weight: 0 },
-          { name: 'dumbbell sumo squat', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell hip thrust', sets: 3, reps: 15, weight: 0 },
-          { name: 'plank', sets: 3, reps: 60, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'calisthenics-3',
-    name: 'Pure Bodyweight & Calisthenics (3 Days)',
-    badge: '3 Days · Zero Equipment',
-    desc: 'Master your own bodyweight with progressive push-ups, pull-ups, squats, dips, and core circuits.',
-    days: 3,
-    level: 'All Levels',
-    goal: 'general',
-    routines: [
-      {
-        name: 'Calisthenics Upper Push & Core',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'push-up', sets: 4, reps: 15, weight: 0 },
-          { name: 'diamond push-up', sets: 3, reps: 12, weight: 0 },
-          { name: 'pike push up', sets: 3, reps: 10, weight: 0 },
-          { name: 'dips', sets: 3, reps: 12, weight: 0 },
-          { name: 'plank', sets: 3, reps: 60, weight: 0 }
-        ]
-      },
-      {
-        name: 'Calisthenics Pull & Back',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'chin-up', sets: 3, reps: 8, weight: 0 },
-          { name: 'inverted row', sets: 4, reps: 12, weight: 0 },
-          { name: 'hanging knee raise', sets: 3, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Calisthenics Lower Body & Explosiveness',
-        emoji: 'legs',
-        exercises: [
-          { name: 'bodyweight squat', sets: 4, reps: 20, weight: 0 },
-          { name: 'walking lunges', sets: 3, reps: 15, weight: 0 },
-          { name: 'single leg calf raise', sets: 4, reps: 20, weight: 0 },
-          { name: 'jump squat', sets: 3, reps: 12, weight: 0 },
-          { name: 'glute bridge', sets: 3, reps: 20, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'fat-burn-shred-4',
-    name: 'Fat Burn & Athletic Shred (4 Days)',
-    badge: '4 Days · Fat Loss',
-    desc: 'High-intensity resistance training paired with compound supersets for maximum caloric expenditure.',
-    days: 4,
-    level: 'Intermediate',
-    goal: 'fat_loss',
-    routines: [
-      {
-        name: 'Upper Body Shred & Density',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'dumbbell bench press', sets: 4, reps: 12, weight: 0 },
-          { name: 'lat pulldown', sets: 4, reps: 12, weight: 0 },
-          { name: 'dumbbell shoulder press', sets: 3, reps: 12, weight: 0 },
-          { name: 'cable row', sets: 3, reps: 12, weight: 0 },
-          { name: 'mountain climber', sets: 3, reps: 30, weight: 0 }
-        ]
-      },
-      {
-        name: 'Lower Body Metabolic Burn',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 10, weight: 0 },
-          { name: 'dumbbell romanian deadlift', sets: 3, reps: 12, weight: 0 },
-          { name: 'walking lunges', sets: 3, reps: 15, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 15, weight: 0 },
-          { name: 'box jump', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Push & Core HIIT',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'incline dumbbell press', sets: 4, reps: 12, weight: 0 },
-          { name: 'dips', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 4, reps: 15, weight: 0 },
-          { name: 'hanging leg raise', sets: 3, reps: 15, weight: 0 },
-          { name: 'burpee', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Pull & Posterior Chain Power',
-        emoji: 'pullup',
-        exercises: [
-  {
-    id: 'pplul-5',
-    name: 'Push / Pull / Legs + Upper / Lower (5 Days)',
-    badge: '5 Days · High Frequency',
-    desc: 'The ultimate 5-day routine: 3-day PPL followed by 2-day Upper/Lower for maximum weekly muscle growth.',
-    days: 5,
-    level: 'Intermediate - Advanced',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Day 1: Push (Chest · Shoulders · Triceps)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'standing overhead press', sets: 3, reps: 10, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 4, reps: 15, weight: 0 },
-          { name: 'tricep pushdown', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 2: Pull (Back · Biceps · Rear Delts)',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'barbell deadlift', sets: 3, reps: 5, weight: 0 },
-          { name: 'lat pulldown', sets: 4, reps: 10, weight: 0 },
-          { name: 'barbell bent over row', sets: 3, reps: 10, weight: 0 },
-          { name: 'face pull', sets: 3, reps: 15, weight: 0 },
-          { name: 'barbell curl', sets: 3, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 3: Legs (Quads · Hamstrings · Calves)',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 4: Upper Body Power',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'incline dumbbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'seated cable row', sets: 3, reps: 10, weight: 0 },
-          { name: 'dumbbell shoulder press', sets: 3, reps: 10, weight: 0 },
-          { name: 'hammer curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'dips', sets: 3, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 5: Lower Body & Abs',
-        emoji: 'legs',
-        exercises: [
-          { name: 'front squat', sets: 3, reps: 8, weight: 0 },
-          { name: 'dumbbell walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'lying leg curls', sets: 4, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 },
-          { name: 'hanging leg raise', sets: 3, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'bro-split-5',
-    name: 'Classic 5-Day Bodybuilding Bro Split',
-    badge: '5 Days · Single Muscle',
-    desc: 'One muscle group per day with maximum volume: Chest, Back, Shoulders, Arms, and Legs.',
-    days: 5,
-    level: 'All Levels',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Monday: Chest Annihilation',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 4, reps: 10, weight: 0 },
-          { name: 'decline dumbbell bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'cable crossover', sets: 3, reps: 12, weight: 0 },
-          { name: 'push-up', sets: 3, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Tuesday: Back Thickness & Width',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'barbell deadlift', sets: 4, reps: 6, weight: 0 },
-          { name: 'lat pulldown', sets: 4, reps: 10, weight: 0 },
-          { name: 'barbell bent over row', sets: 4, reps: 8, weight: 0 },
-          { name: 'one arm dumbbell row', sets: 3, reps: 10, weight: 0 },
-          { name: 'seated cable row', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Wednesday: 3D Boulder Shoulders',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'standing overhead press', sets: 4, reps: 8, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 5, reps: 15, weight: 0 },
-          { name: 'seated dumbbell shoulder press', sets: 3, reps: 10, weight: 0 },
-          { name: 'face pull', sets: 4, reps: 15, weight: 0 },
-          { name: 'dumbbell shrugs', sets: 4, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Thursday: Arms Blitz (Biceps & Triceps)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell curl', sets: 4, reps: 10, weight: 0 },
-          { name: 'close grip bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'hammer curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'tricep pushdown', sets: 4, reps: 12, weight: 0 },
-          { name: 'incline dumbbell curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'skull crusher', sets: 3, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Friday: Heavy Leg Day',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'leg press', sets: 4, reps: 12, weight: 0 },
-          { name: 'romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'leg extensions', sets: 3, reps: 15, weight: 0 },
-          { name: 'lying leg curls', sets: 3, reps: 12, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'bro-split-4',
-    name: '4-Day Bodypart Split (Chest/Back/Shoulders/Legs)',
-    badge: '4 Days · Classic',
-    desc: 'Targeted 4-day split: Chest & Triceps, Back & Biceps, Shoulders & Abs, Legs.',
-    days: 4,
-    level: 'All Levels',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Day 1: Chest & Triceps',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'barbell bench press', sets: 4, reps: 8, weight: 0 },
-          { name: 'incline dumbbell bench press', sets: 3, reps: 10, weight: 0 },
-          { name: 'dips', sets: 3, reps: 10, weight: 0 },
-          { name: 'cable tricep pushdown', sets: 4, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 2: Back & Biceps',
-        emoji: 'pullup',
-        exercises: [
-          { name: 'pull-up', sets: 4, reps: 8, weight: 0 },
-          { name: 'barbell bent over row', sets: 4, reps: 8, weight: 0 },
-          { name: 'lat pulldown', sets: 3, reps: 10, weight: 0 },
-          { name: 'barbell curl', sets: 4, reps: 10, weight: 0 },
-          { name: 'hammer curl', sets: 3, reps: 12, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 3: Shoulders & Abs',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'standing overhead press', sets: 4, reps: 8, weight: 0 },
-          { name: 'dumbbell lateral raise', sets: 4, reps: 15, weight: 0 },
-          { name: 'face pull', sets: 3, reps: 15, weight: 0 },
-          { name: 'hanging leg raise', sets: 3, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Day 4: Legs & Calves',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'romanian deadlift', sets: 3, reps: 10, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      }
-    ]
-  },
-          { name: 'seated cable row', sets: 3, reps: 12, weight: 0 },
-          { name: 'face pull', sets: 4, reps: 15, weight: 0 },
-          { name: 'air bike', sets: 3, reps: 20, weight: 0 }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'glute-lower-4',
-    name: 'Glutes & Lower Body Curve Focus (4 Days)',
-    badge: '4 Days · Lower Focus',
-    desc: 'Targeted hypertrophy for glutes, hamstrings, and quads with upper body maintenance.',
-    days: 4,
-    level: 'All Levels',
-    goal: 'muscle',
-    routines: [
-      {
-        name: 'Glute & Hamstring Hypertrophy',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell hip thrust', sets: 4, reps: 10, weight: 0 },
-          { name: 'romanian deadlift', sets: 4, reps: 10, weight: 0 },
-          { name: 'dumbbell bulgarian split squat', sets: 3, reps: 12, weight: 0 },
-          { name: 'lying leg curls', sets: 3, reps: 12, weight: 0 },
-          { name: 'cable kickback', sets: 3, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Upper Body Tone (Back & Shoulders)',
-        emoji: 'barbell',
-        exercises: [
-          { name: 'lat pulldown', sets: 4, reps: 10, weight: 0 },
-          { name: 'dumbbell shoulder press', sets: 3, reps: 10, weight: 0 },
-          { name: 'seated cable row', sets: 3, reps: 12, weight: 0 },
-          { name: 'lateral raise', sets: 3, reps: 15, weight: 0 },
-          { name: 'push-up', sets: 3, reps: 10, weight: 0 }
-        ]
-      },
-      {
-        name: 'Quad & Glute Power',
-        emoji: 'legs',
-        exercises: [
-          { name: 'barbell squat', sets: 4, reps: 8, weight: 0 },
-          { name: 'leg press', sets: 3, reps: 12, weight: 0 },
-          { name: 'walking lunges', sets: 3, reps: 12, weight: 0 },
-          { name: 'leg extensions', sets: 3, reps: 15, weight: 0 },
-          { name: 'standing calf raises', sets: 4, reps: 15, weight: 0 }
-        ]
-      },
-      {
-        name: 'Full Body Glute Burner & Abs',
-        emoji: 'legs',
-        exercises: [
-          { name: 'goblet squat', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell romanian deadlift', sets: 3, reps: 12, weight: 0 },
-          { name: 'dumbbell bicep curl', sets: 3, reps: 12, weight: 0 },
-          { name: 'tricep pushdown', sets: 3, reps: 12, weight: 0 },
-          { name: 'plank', sets: 3, reps: 60, weight: 0 }
+          { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+          { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'barbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+          { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
         ]
       }
     ]
   }
-]
+
+  // ── 4 DAYS CUSTOM SPLIT ──
+  if (numDays === 4) {
+    if (isHome) {
+      return [
+        {
+          n: 'Day 1: Upper Body Strength & Chest Focus',
+          t: 'Chest · Back · Shoulders',
+          exercises: [
+            { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+            { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+            { name: 'incline dumbbell bench press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+            { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+            { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+          ]
+        },
+        {
+          n: 'Day 2: Lower Body Power & Quad Hypertrophy',
+          t: 'Quads · Hamstrings · Glutes · Calves',
+          exercises: [
+            { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+            { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+            { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
+            { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'plank', sets: '3', reps: '60s hold', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 3: Upper Body Hypertrophy & Arms Overload',
+          t: 'Shoulders · Back · Triceps · Biceps',
+          exercises: [
+            { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+            { name: 'dumbbell floor fly', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+            { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+            { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+          ]
+        },
+        {
+          n: 'Day 4: Posterior Chain & Functional Conditioning',
+          t: 'Hamstrings · Calves · Core',
+          exercises: [
+            { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+            { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+            { name: 'dumbbell calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' },
+            { name: 'push-up', sets: '3', reps: '15', badge: 'push' }
+          ]
+        }
+      ]
+    }
+
+    // Gym 4 Days
+    return [
+      {
+        n: 'Day 1: Upper Power & Chest Compound Overload',
+        t: 'Chest · Upper Back · Delts',
+        exercises: [
+          { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+          { name: 'barbell bent over row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+          { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+          { name: 'lat pulldown', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+        ]
+      },
+      {
+        n: 'Day 2: Lower Power & Squat Specialization',
+        t: 'Quads · Hamstrings · Glutes · Calves',
+        exercises: [
+          { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+          { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'leg press', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+          { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+        ]
+      },
+      {
+        n: 'Day 3: Upper Hypertrophy & V-Taper Sculpt',
+        t: 'Incline Chest · Lats · Lateral Delts · Arms',
+        exercises: [
+          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+          { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+        ]
+      },
+      {
+        n: 'Day 4: Lower Hypertrophy & Posterior Chain',
+        t: 'Hamstrings · Quads · Core',
+        exercises: [
+          { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+          { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
+          { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'seated calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' }
+        ]
+      }
+    ]
+  }
+
+  // ── 5 DAYS CUSTOM SPLIT ──
+  if (numDays === 5) {
+    return [
+      {
+        n: 'Day 1: Chest & Triceps Hypertrophy',
+        t: 'Chest · Triceps Overload',
+        exercises: [
+          { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'dips', sets: String(accSets), reps: '10', badge: 'push' },
+          { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+        ]
+      },
+      {
+        n: 'Day 2: Back Thickness & Biceps Arc',
+        t: 'Lats · Upper Back · Biceps',
+        exercises: [
+          { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+          { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+          { name: 'barbell bent over row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+        ]
+      },
+      {
+        n: 'Day 3: Quad & Calves Power Development',
+        t: 'Quads · Calves Focus',
+        exercises: [
+          { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+          { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'dumbbell walking lunges', sets: String(accSets), reps: '12 each', badge: 'legs' },
+          { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+        ]
+      },
+      {
+        n: 'Day 4: Boulder Shoulders & Traps Isolation',
+        t: 'Front Delts · Side Delts · Rear Delts',
+        exercises: [
+          { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: String(mainSets), reps: String(isoReps), badge: 'push' },
+          { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+          { name: 'barbell shrug', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+        ]
+      },
+      {
+        n: 'Day 5: Posterior Chain & Arm Finisher',
+        t: 'Hamstrings · Glutes · Biceps & Triceps',
+        exercises: [
+          { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+          { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'hanging leg raise', sets: '3', reps: '15', badge: 'core' }
+        ]
+      }
+    ]
+  }
+
+  // ── 6 DAYS CUSTOM SPLIT ──
+  return [
+    {
+      n: 'Day 1: Push A · Chest Compound & Front Delts',
+      t: 'Chest · Shoulders · Triceps',
+      exercises: [
+        { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+        { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+        { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+        { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+        { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+      ]
+    },
+    {
+      n: 'Day 2: Pull A · Lat Width & Biceps Hypertrophy',
+      t: 'Back · Biceps · Rear Delts',
+      exercises: [
+        { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+        { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+        { name: 'barbell bent over row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+        { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+        { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+      ]
+    },
+    {
+      n: 'Day 3: Legs A · Quad Overload & Calves',
+      t: 'Quads · Hamstrings · Calves',
+      exercises: [
+        { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+        { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+        { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+        { name: 'barbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+        { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+      ]
+    },
+    {
+      n: 'Day 4: Push B · Incline Hypertrophy & Lateral Delts',
+      t: 'Incline Chest · Delts · Triceps',
+      exercises: [
+        { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+        { name: 'dips', sets: String(mainSets), reps: '10', badge: 'push' },
+        { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+        { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+        { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+      ]
+    },
+    {
+      n: 'Day 5: Pull B · Back Thickness & Heavy Rows',
+      t: 'Back · Biceps',
+      exercises: [
+        { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+        { name: 'cable seated row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+        { name: 'one arm dumbbell row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+        { name: 'reverse fly', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+        { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+      ]
+    },
+    {
+      n: 'Day 6: Legs B · Posterior Chain & Glutes Focus',
+      t: 'Hamstrings · Glutes · Calves',
+      exercises: [
+        { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+        { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+        { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+        { name: 'dumbbell walking lunges', sets: String(accSets), reps: '12 each', badge: 'legs' },
+        { name: 'seated calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+      ]
+    }
+  ]
+}
 
 /* ==========================================================================
-   DYNAMIC SMART AI PLAN GENERATOR
+   DYNAMIC CUSTOM PLAN GENERATOR (Full Protocol)
    ========================================================================== */
 export function generateCustomPlan(answers) {
   const {
     pname = 'Athlete',
+    gender = 'male',
     age = 25,
     weight = 72,
     height = 175,
-    gender = 'male',
     goal = 'muscle',
+    diet = 'nonveg',
     days = 4,
     location = 'gym',
-    diet = 'nonveg',
-    focus = 'balanced',
-    experience = 'intermediate'
-  } = answers
+    experience = 'intermediate',
+    focus = 'balanced'
+  } = answers || {}
 
   const numAge = Number(age) || 25
-  const numWeight = Number(weight) || 70
+  const numWeight = Number(weight) || 72
   const numHeight = Number(height) || 175
   const numDays = Number(days) || 4
 
-  // 1. Mifflin-St Jeor BMR
-  let bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge)
-  bmr = gender === 'female' ? bmr - 161 : bmr + 5
+  // BMR via Mifflin-St Jeor Formula
+  const bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5)
+  const actMultipliers = { 2: 1.35, 3: 1.45, 4: 1.55, 5: 1.65, 6: 1.75 }
+  const tdee = Math.round(bmr * (actMultipliers[numDays] || 1.55))
 
-  // 2. Activity Multiplier based on training frequency
-  const activityFactors = { 2: 1.35, 3: 1.45, 4: 1.55, 5: 1.65, 6: 1.75 }
-  const tdee = Math.round(bmr * (activityFactors[numDays] || 1.5))
+  let targetKcal = tdee
+  if (goal === 'fat_loss') targetKcal = Math.round(tdee - 450)
+  else if (goal === 'muscle') targetKcal = Math.round(tdee + 350)
+  else if (goal === 'strength') targetKcal = Math.round(tdee + 200)
 
-  // 3. Goal Calorie Adjustment
-  let kcal = tdee
-  if (goal === 'fat_loss') kcal = Math.round(tdee - 450)
-  else if (goal === 'muscle') kcal = Math.round(tdee + 350)
-  else if (goal === 'strength') kcal = Math.round(tdee + 250)
-  else if (goal === 'recomp') kcal = Math.round(tdee - 100)
+  const targetProtein = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0))
+  const targetFat = Math.round((targetKcal * 0.25) / 9)
+  const targetCarbs = Math.max(0, Math.round((targetKcal - (targetProtein * 4) - (targetFat * 9)) / 4))
 
-  // Minimum safety floor
-  if (gender === 'female' && kcal < 1350) kcal = 1350
-  if (gender === 'male' && kcal < 1650) kcal = 1650
-
-  // 4. Macro Targets Calculation (Science-backed)
-  // Protein: 2.0g to 2.2g per kg bodyweight
-  const proteinPerKg = goal === 'fat_loss' || goal === 'recomp' ? 2.2 : 2.0
-  const protein = Math.round(numWeight * proteinPerKg)
-  const proteinKcal = protein * 4
-
-  // Fats: 25-30% of total calories
-  const fatKcal = Math.round(kcal * 0.25)
-  const fat = Math.round(fatKcal / 9)
-
-  // Carbs: Remaining calories
-  const carbKcal = Math.max(0, kcal - proteinKcal - fatKcal)
-  const carbs = Math.round(carbKcal / 4)
-
-  // BMI
   const heightM = numHeight / 100
   const bmi = parseFloat((numWeight / (heightM * heightM)).toFixed(1))
 
-  // 5. Build Cultural Indian Meal Schedule tailored to Diet Type
-  const meals = buildCustomMeals(diet, kcal, protein, carbs, fat, pname)
-
-  // 6. Select & Build Workout Routines Split based on chosen days, split preference & goal
-  const workout = buildCustomWorkoutSplit(numDays, location, goal, answers.splitId || focus)
-
-  // 7. Personalized Coach Insight
-  const goalNames = {
-    muscle: 'Hypertrophy & Muscle Building',
-    fat_loss: 'Fat Loss & Athletic Shredding',
-    recomp: 'Body Recomposition',
-    strength: 'Strength & Power',
-    general: 'General Longevity & Fitness'
-  }
-
-  const coachNote = `${pname}, your personalized plan is engineered for ${goalNames[goal] || 'Fitness'}. With a target of ${kcal} kcal (${protein}g Protein · ${carbs}g Carbs · ${fat}g Healthy Fats) and your ${numDays}-day ${location === 'gym' ? 'Gym' : 'Home'} routine, you will maximize muscle retention and progression.`
+  const meals = buildCustomDietPlan(diet, targetKcal, targetProtein)
+  const workout = buildDynamicCustomWorkout({ days: numDays, location, experience, focus, goal })
 
   return {
-    kcal,
-    protein,
-    carbs,
-    fat,
+    kcal: targetKcal,
+    protein: targetProtein,
+    carbs: targetCarbs,
+    fat: targetFat,
     bmi,
     goal,
     diet,
-    coachNote,
-    weeklyInsight: `Consistency is your superpower, ${pname}! Execute this week’s sessions with progressive overload. 🚀`,
+    coachNote: `${pname}, your 100% custom training & nutrition architecture is calibrated for ${goal.replace('_', ' ')}. With a daily target of ${targetKcal} kcal (${targetProtein}g Protein) and a dedicated ${numDays}-day ${location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics'} routine, your protocol is configured for steady progressive overload.`,
+    weeklyInsight: `Consistency is your superpower, ${pname}! Execute your prescribed working sets close to failure. 🚀`,
     meals,
     workout,
     generatedAt: new Date().toISOString(),
@@ -793,151 +457,151 @@ export function generateCustomPlan(answers) {
 }
 
 /* ==========================================================================
-   MEAL BUILDER (Gram-Accurate Indian Recipes)
+   AUTHENTIC INDIAN NUTRITION ENGINE
    ========================================================================== */
-function buildCustomMeals(diet, totalKcal, totalP, totalC, totalF, name) {
+function buildCustomDietPlan(diet, totalKcal, totalP) {
   if (diet === 'nonveg') {
     return [
       {
         t: '8:00 AM',
         n: 'High-Protein Breakfast',
-        d: '3 Whole Eggs + 2 Egg Whites scrambled with spinach & tomatoes + 2 whole wheat rotis or brown toast + black coffee / green tea',
+        d: '3 Whole Eggs + 2 Egg Whites scramble / omelette cooked in 5g ghee + 2 whole wheat rotis or multigrain toast',
         i: '🍳',
-        k: Math.round(totalKcal * 0.26),
-        p: Math.round(totalP * 0.28),
-        note: 'High leucine egg protein to kickstart muscle protein synthesis after overnight fasting.'
+        k: Math.round(totalKcal * 0.28),
+        p: Math.round(totalP * 0.30),
+        note: 'Complete amino acid profile to stimulate morning muscle protein synthesis.'
       },
       {
         t: '11:30 AM',
-        n: 'Mid-Morning Snack',
-        d: '1 scoop Whey Protein or Greek Yogurt (150g) + 1 banana + 10 almonds & walnuts',
-        i: '🥜',
-        k: Math.round(totalKcal * 0.16),
-        p: Math.round(totalP * 0.20),
-        note: 'Sustained energy and micronutrients for optimal metabolic rate.'
+        n: 'Mid-Morning Fuel',
+        d: 'Roasted Chana (40g) + 1 small banana / apple + green tea',
+        i: '🥗',
+        k: Math.round(totalKcal * 0.14),
+        p: Math.round(totalP * 0.14),
+        note: 'Complex fiber and micronutrients to stabilize insulin.'
       },
       {
         t: '1:30 PM',
-        n: 'Power Lunch',
-        d: '150g Grilled/Tandoori Chicken Breast or Fish Curry + 1.5 cups steamed basmati rice or 2 rotis + 1 bowl yellow dal + cucumber salad',
+        n: 'Anabolic Power Lunch',
+        d: '160g Chicken Breast curry / Fish curry + 1.5 cups steamed basmati rice + 1 bowl yellow dal + cucumber salad',
         i: '🍱',
-        k: Math.round(totalKcal * 0.32),
-        p: Math.round(totalP * 0.32),
-        note: 'Complex carbs and lean poultry for glycogen replenishment and sustained afternoon focus.'
+        k: Math.round(totalKcal * 0.34),
+        p: Math.round(totalP * 0.36),
+        note: 'Primary muscle-building meal replenishing intramuscular glycogen.'
       },
       {
         t: '5:00 PM',
-        n: 'Pre-Workout Fuel',
-        d: '2 brown bread slices with peanut butter (15g) + black coffee / apple with pinch of cinnamon',
+        n: 'Pre-Workout Snack',
+        d: '2 slices brown bread with 1 tbsp peanut butter + black coffee',
         i: '⚡',
-        k: Math.round(totalKcal * 0.12),
+        k: Math.round(totalKcal * 0.10),
         p: Math.round(totalP * 0.08),
-        note: 'Fast-digesting glucose for peak explosive energy during training.'
+        note: 'Fast-digesting complex carbs and natural caffeine for lifting power.'
       },
       {
         t: '8:30 PM',
         n: 'Recovery Dinner',
-        d: '120g Chicken Tikka / Soya Chaap + 1 bowl mixed vegetable sabzi + 2 whole wheat rotis + cucumber mint raita',
+        d: '140g Grilled Chicken Tikka / Egg Curry (3 eggs) + 2 whole wheat rotis + 1 bowl curd (dahi) + mixed vegetable sabzi',
         i: '🍛',
         k: Math.round(totalKcal * 0.14),
         p: Math.round(totalP * 0.12),
-        note: 'Nutrient-rich dinner to facilitate tissue repair during sleep.'
+        note: 'Slow-digesting casein and protein for overnight muscle repair.'
       }
     ]
   } else if (diet === 'veg') {
     return [
       {
         t: '8:00 AM',
-        n: 'Vegetarian High-Protein Breakfast',
-        d: '150g Paneer Bhurji / Soya Paneer scramble with onions, tomatoes & green chillies + 2 whole wheat rotis + 1 glass low-fat milk / tea',
-        i: '🥛',
+        n: 'High-Protein Veg Breakfast',
+        d: '150g Low-Fat Paneer Bhurji / Soya Paneer with onions & tomatoes + 2 multigrain rotis + 1 glass warm milk (optional)',
+        i: '🧀',
         k: Math.round(totalKcal * 0.28),
         p: Math.round(totalP * 0.28),
-        note: 'Casein & whey protein blend from fresh paneer for steady amino acid release.'
+        note: 'High-density vegetarian protein to halt morning muscle breakdown.'
       },
       {
         t: '11:30 AM',
         n: 'Mid-Morning Boost',
-        d: '1 cup roasted chana (50g) or sprouted moong salad with lemon & chaat masala + 1 fruit (apple or guava)',
+        d: 'Sprouted Moong & Kala Chana Chaat (1 bowl) with lemon & cucumber + 10 almonds',
         i: '🥗',
         k: Math.round(totalKcal * 0.15),
         p: Math.round(totalP * 0.18),
-        note: 'Fiber-packed legume protein for gut health and appetite control.'
+        note: 'Living enzymes, plant iron, and sustained fiber.'
       },
       {
         t: '1:30 PM',
-        n: 'Complete Protein Lunch',
-        d: '1 bowl Soya Chunks curry (50g dry soya) + 1 cup yellow dal tadka + 1.5 cups steamed rice + fresh green salad with curd',
+        n: 'Vegetarian Muscle Lunch',
+        d: '1 bowl Soya Chunks curry (50g dry soya) + 1 bowl thick Dal Tadka + 1.5 cups steamed rice + 1 bowl curd (dahi)',
         i: '🍱',
-        k: Math.round(totalKcal * 0.32),
-        p: Math.round(totalP * 0.32),
-        note: 'Soya chunks provide a complete amino acid profile (52g protein per 100g) ideal for vegetarians.'
+        k: Math.round(totalKcal * 0.33),
+        p: Math.round(totalP * 0.34),
+        note: 'Complete synergistic protein from soya, dal, and dairy.'
       },
       {
         t: '5:00 PM',
-        n: 'Pre-Workout Snack',
-        d: '1 cup Sattu drink with jeera & black salt or 2 multigrain bread slices with almond butter',
+        n: 'Pre-Workout Fuel',
+        d: '1 banana + 1 cup roasted makhana (foxnuts) + black coffee',
         i: '⚡',
-        k: Math.round(totalKcal * 0.11),
-        p: Math.round(totalP * 0.10),
-        note: 'Traditional Indian energy drink with natural electrolytes.'
+        k: Math.round(totalKcal * 0.10),
+        p: Math.round(totalP * 0.08),
+        note: 'Clean pre-training carbohydrates.'
       },
       {
         t: '8:30 PM',
-        n: 'Nourishing Dinner',
-        d: '100g Tofu / Paneer Matar curry + 1 bowl mixed dal + 2 rotis + cucumber tomato salad',
+        n: 'Restorative Dinner',
+        d: '120g Paneer / Tofu curry + 2 whole wheat rotis + 1 bowl mixed green vegetable sabzi + 1 bowl curd',
         i: '🍛',
         k: Math.round(totalKcal * 0.14),
         p: Math.round(totalP * 0.12),
-        note: 'Light on digestion yet protein-dense to support nighttime recovery.'
+        note: 'Casein-rich paneer to feed muscles throughout sleep.'
       }
     ]
   } else if (diet === 'egg') {
     return [
       {
         t: '8:00 AM',
-        n: 'Eggetarian Power Breakfast',
-        d: '2 Whole Eggs + 3 Egg Whites masala omelette with onions & coriander + 2 multigrain toasts or rotis',
-        i: '🥚',
+        n: 'Eggetarian Breakfast',
+        d: '3 Whole Eggs + 2 Egg Whites masala omelette + 2 multigrain rotis',
+        i: '🍳',
         k: Math.round(totalKcal * 0.28),
         p: Math.round(totalP * 0.30),
-        note: 'Highest biological value protein source to prime muscles.'
+        note: 'Complete whole egg amino acid matrix.'
       },
       {
         t: '11:30 AM',
-        n: 'Mid-Morning Snack',
+        n: 'Mid-Morning Boost',
         d: '2 boiled egg whites + 1 handful mixed nuts (almonds, walnuts) + green tea',
         i: '🥜',
         k: Math.round(totalKcal * 0.14),
         p: Math.round(totalP * 0.16),
-        note: 'Clean protein and omega-3 fats for joint lubrication.'
+        note: 'Omega-3 fats and pure protein.'
       },
       {
         t: '1:30 PM',
-        n: 'Egg & Paneer Lunch',
-        d: 'Egg Curry (3 eggs) or Paneer Bhurji (100g) + 1 bowl thick dal + 1.5 cups rice + mixed kachumber salad',
+        n: 'Power Lunch',
+        d: 'Egg Curry (3 eggs) or Paneer Bhurji (100g) + 1 bowl thick dal + 1.5 cups rice + salad',
         i: '🍱',
-        k: Math.round(totalKcal * 0.32),
-        p: Math.round(totalP * 0.32),
-        note: 'High-density protein with complex carbs to replenish muscle glycogen.'
+        k: Math.round(totalKcal * 0.34),
+        p: Math.round(totalP * 0.34),
+        note: 'Optimal fuel for workout recovery.'
       },
       {
         t: '5:00 PM',
-        n: 'Pre-Workout Boost',
-        d: '1 banana + 1 black coffee or roasted peanuts (30g)',
+        n: 'Pre-Workout Fuel',
+        d: '1 banana + 1 tbsp peanut butter + black coffee',
         i: '⚡',
-        k: Math.round(totalKcal * 0.12),
+        k: Math.round(totalKcal * 0.10),
         p: Math.round(totalP * 0.08),
-        note: 'Electrolytes and potassium to prevent workout cramping.'
+        note: 'Electrolytes and fast energy.'
       },
       {
         t: '8:30 PM',
         n: 'Recovery Dinner',
-        d: 'Egg Bhurji (3 eggs) or Soya Curry + 2 whole wheat rotis + 1 bowl curd (dahi)',
+        d: 'Egg Bhurji (3 eggs) or Soya Curry + 2 rotis + 1 bowl curd',
         i: '🍛',
         k: Math.round(totalKcal * 0.14),
-        p: Math.round(totalP * 0.14),
-        note: 'Balanced combination of slow-digesting casein and egg protein.'
+        p: Math.round(totalP * 0.12),
+        note: 'Overnight tissue repair.'
       }
     ]
   } else {
@@ -946,7 +610,7 @@ function buildCustomMeals(diet, totalKcal, totalP, totalC, totalF, name) {
       {
         t: '8:00 AM',
         n: 'Plant-Based Breakfast',
-        d: '150g Tofu Scramble with turmeric, tomatoes & spinach + 2 multigrain rotis / oats cooked with soy milk & berries',
+        d: '150g Tofu Scramble with turmeric, tomatoes & spinach + 2 multigrain rotis / oats with soy milk & berries',
         i: '🥗',
         k: Math.round(totalKcal * 0.28),
         p: Math.round(totalP * 0.28),
@@ -964,11 +628,11 @@ function buildCustomMeals(diet, totalKcal, totalP, totalC, totalF, name) {
       {
         t: '1:30 PM',
         n: 'High-Fiber Plant Lunch',
-        d: '1 bowl Rajma / Chole (Chickpeas) + 1.5 cups brown/basmati rice + 100g Pan-seared Tofu + green salad',
+        d: '1 bowl Rajma / Chole + 1.5 cups rice + 100g pan-seared Tofu + green salad',
         i: '🍱',
         k: Math.round(totalKcal * 0.32),
         p: Math.round(totalP * 0.32),
-        note: 'Synergistic amino acid combination of grains (rice) and legumes (rajma/tofu).'
+        note: 'Synergistic amino acid combination of rice and legumes.'
       },
       {
         t: '5:00 PM',
@@ -982,7 +646,7 @@ function buildCustomMeals(diet, totalKcal, totalP, totalC, totalF, name) {
       {
         t: '8:30 PM',
         n: 'Plant Protein Dinner',
-        d: '1 bowl Soya Chunks curry + 2 whole wheat rotis + 1 bowl steamed broccoli & mixed vegetables',
+        d: '1 bowl Soya Chunks curry (50g soya) + 2 whole wheat rotis + steamed vegetables',
         i: '🍛',
         k: Math.round(totalKcal * 0.14),
         p: Math.round(totalP * 0.14),
@@ -992,48 +656,11 @@ function buildCustomMeals(diet, totalKcal, totalP, totalC, totalF, name) {
   }
 }
 
-/* ==========================================================================
-   WORKOUT SPLIT BUILDER
-   ========================================================================== */
-function buildCustomWorkoutSplit(days, location, goal, splitId) {
-  let preset = null
-  if (splitId) {
-    preset = PRESET_PROGRAMS.find(p => p.id === splitId)
-  }
-  if (!preset) {
-    if (location === 'home') {
-      preset = PRESET_PROGRAMS.find(p => p.id === 'home-dumbbell-4') || PRESET_PROGRAMS[0]
-    } else if (days === 3) {
-      preset = PRESET_PROGRAMS.find(p => p.id === 'ppl-3') || PRESET_PROGRAMS[0]
-    } else if (days === 4) {
-      preset = PRESET_PROGRAMS.find(p => p.id === 'upper-lower-4') || PRESET_PROGRAMS[2]
-    } else if (days === 5) {
-      preset = PRESET_PROGRAMS.find(p => p.id === 'pplul-5') || PRESET_PROGRAMS.find(p => p.id === 'bro-split-5') || PRESET_PROGRAMS[0]
-    } else if (days === 6) {
-      preset = PRESET_PROGRAMS.find(p => p.id === 'ppl-6') || PRESET_PROGRAMS.find(p => p.id === 'arnold-split-6') || PRESET_PROGRAMS[1]
-    } else {
-      preset = PRESET_PROGRAMS[0]
-    }
-  }
-
-  return preset.routines.map(r => ({
-    n: r.name,
-    t: r.name.split('(')[1]?.replace(')', '') || 'Strength & Hypertrophy',
-    exercises: r.exercises.map(ex => ({
-      name: ex.name,
-      sets: String(ex.sets),
-      reps: String(ex.reps),
-      badge: r.emoji === 'legs' ? 'legs' : r.emoji === 'pullup' ? 'pull' : 'push'
-    }))
-  }))
-}
-
-// Convert generated workout or preset program into Zustand store routines structure
+// Convert generated workout into Zustand store routines structure
 export function convertPlanToStoreRoutines(workoutList) {
   const routines = []
   const week = {}
 
-  // Filter out pure rest days
   const activeWorkouts = workoutList.filter(w => !w.r)
   const count = activeWorkouts.length
 
@@ -1046,10 +673,13 @@ export function convertPlanToStoreRoutines(workoutList) {
 
   activeWorkouts.forEach((w, idx) => {
     const routineId = uid()
+    const rName = w.n || w.name || `Day ${idx + 1}`
+    const rNameLower = rName.toLowerCase()
+    
     const routine = {
       id: routineId,
-      name: w.n || w.name,
-      emoji: (w.n || w.name).toLowerCase().includes('leg') ? 'legs' : (w.n || w.name).toLowerCase().includes('pull') ? 'pullup' : 'barbell',
+      name: rName,
+      emoji: rNameLower.includes('leg') ? 'legs' : rNameLower.includes('pull') || rNameLower.includes('back') ? 'pullup' : 'barbell',
       ex: []
     }
 
