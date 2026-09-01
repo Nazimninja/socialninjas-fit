@@ -72,21 +72,12 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
   const cardio = mode === 'cardio'
   const timed = mode === 'time'
   const last = lastEntryFor(S, entry.id)
-  // The same number the "confirm your working weight" sheet calls your best, so the two
-  // never disagree inside one session: heaviest logged set, or the working weight you kept.
   const best = cardio ? 0 : Math.max(bestWeightFor(S, entry.id), (S.exWeights[entry.id] || {}).w || 0)
-  // What the progression policy decided for this session, and why (issue #17). Computed when
-  // the session was built so the reason matches the numbers already in the rows.
   const plan = entry.plan
-  // A bodyweight set has no weight to type, so the column is not there (issue #32) — one
-  // stepper instead of two, which is the whole point of the flag. Adding a belt weight in the
-  // config brings it back, now labelled as the addition it is.
   const cfg = { ...(entry.target || {}), id: entry.id }
   const bw = !cardio && isBw(cfg)
   const added = bw && entry.sets.some(s => s.w > 0)
   const loadCol = { f: 'w', step: 2.5, dec: true, hd: bw ? t('Added ({0})', S.unit) : t('Weight ({0})', S.unit) }
-  // The reps column is the total in every mode, unilateral included — the stepper walks in
-  // twos there so the number you land on is one you can actually split evenly.
   const repCol = { f: 'r', step: repStep(cfg), dec: false, hd: t('Reps') }
   const col1 = cardio ? { f: 'min', step: 1, dec: false, hd: t('Duration (min)') }
     : timed ? { f: 'sec', step: 5, dec: false, hd: t('Seconds') }
@@ -94,81 +85,331 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
   const col2 = cardio ? { f: 'speed', step: 0.5, dec: true, hd: t('Speed (km/h)') }
     : timed ? ((bw && !added) ? null : loadCol)
       : (bw && !added) ? null : repCol
-  // Effort (RIR or RPE, whichever the profile logs) only makes sense for weighted rep sets,
-  // not cardio/timed holds, and is opt-in since it adds a third stepper to every row. `opt`
-  // because an unlogged effort is not the same as 0 — RIR 0 says the set went to failure.
   const kind = effortOf(S)
   const eff = EFFORT[kind]
   const col3 = mode === 'reps' && eff ? { ...eff, eff: kind, dec: true, opt: true, hd: t(eff.hd) } : null
-  // The effort column walks its own scale — see stepEffort. Weight and reps step up from 0
-  // with no ceiling, as they always did.
+
   const bump = (s, i, col, dir) => {
     if (col.eff) return onField(i, col.f, stepEffort(col.eff, s[col.f], dir))
     onField(i, col.f, Math.max(0, Math.round(((s[col.f] || 0) + dir * col.step) * 100) / 100))
   }
-  // Uses the shared stepper markup so a set row picks up the same control styling
-  // as every other +/- field in the app.
+
   const cell = (s, i, col, cls) => (
-    <div className={'stp ' + cls}>
-      <button aria-label="Decrease" onClick={() => bump(s, i, col, -1)}><Icon name="minus" /></button>
-      {/* a typed effort is capped — there is no RPE 12, and 12 reps in reserve is a warm-up */}
-      <span className="val"><NumberField decimal={col.dec} nullable={col.opt} value={s[col.f] ?? ''}
-        onChange={v => onField(i, col.f, col.eff ? capEffort(col.eff, v) : v)} /></span>
-      <button aria-label="Increase" onClick={() => bump(s, i, col, 1)}><Icon name="plus" /></button>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        background: s.done ? 'var(--surface-3)' : 'var(--surface-2)',
+        border: '1px solid var(--sep)',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        minWidth: 0,
+        height: '42px',
+        flex: cls === 'w' ? 1.3 : 1,
+        transition: 'all 0.15s ease'
+      }}
+    >
+      <button
+        aria-label="Decrease"
+        onClick={() => bump(s, i, col, -1)}
+        disabled={s.done}
+        style={{
+          width: '32px',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--label-2)',
+          fontSize: '15px',
+          fontWeight: '900',
+          cursor: s.done ? 'default' : 'pointer',
+          background: 'none',
+          border: 'none'
+        }}
+      >
+        −
+      </button>
+      <span style={{ flex: 1, minWidth: 0, textAlign: 'center' }}>
+        <NumberField
+          decimal={col.dec}
+          nullable={col.opt}
+          value={s[col.f] ?? ''}
+          onChange={v => onField(i, col.f, col.eff ? capEffort(col.eff, v) : v)}
+          disabled={s.done}
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            background: 'none',
+            border: 'none',
+            fontSize: '15px',
+            fontWeight: '800',
+            color: s.done ? 'var(--label-2)' : 'var(--label)'
+          }}
+        />
+      </span>
+      <button
+        aria-label="Increase"
+        onClick={() => bump(s, i, col, 1)}
+        disabled={s.done}
+        style={{
+          width: '32px',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--label-2)',
+          fontSize: '15px',
+          fontWeight: '900',
+          cursor: s.done ? 'default' : 'pointer',
+          background: 'none',
+          border: 'none'
+        }}
+      >
+        +
+      </button>
     </div>
   )
-  return <>
-    <Media ex={ex} key={entry.id} compact={compact} minimizable />
-    <div className="row between" style={{ marginBottom: 6 }}>
-      <div style={{ fontSize: compact ? 17 : 20, fontWeight: 600, letterSpacing: '-.02em', textTransform: 'capitalize', lineHeight: 1.2 }}>{ex.n}</div>
-      <button className="iconbtn" aria-label={t('Details')} onClick={() => exerciseDetailSheet(ex)}><Icon name="info" /></button>
-    </div>
-    <div className="row" style={{ gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-      {cardio && <span className="tag acc"><Icon name="figureRun" />{t('Cardio')}</span>}
-      {/* You log the total; this is the split, so the set in front of you is unambiguous
-          without the rep count having to mean two different things (issue #31). */}
-      {!cardio && !timed && isPerSide(cfg) && <span className="tag acc nocap"><Icon name="shuffle" />{t('{0} per side', fmtNum(sideReps(entry.sets.find(s => !s.done)?.r ?? entry.sets[0]?.r)))}</span>}
-      {(ex.tg || ex.bp) && <span className="tag">{t(ex.tg || ex.bp)}</span>}
-      {ex.eq && <span className="tag">{t(ex.eq)}</span>}
-      {best > 0 && <span className="tag nocap">{t('Best:')} {fmtNum(best)} {S.unit}</span>}
-    </div>
-    {last && <div className="small dim" style={{ marginBottom: 4 }}>{t('Last time')} ({fmtDate(last.d)}): {last.sets.map(s => setLabel(entry.id, s, last.target)).join(', ')}</div>}
-    {plan && plan.why && plan.kind !== 'off' && <div className={'progline' + (plan.kind === 'deload' ? ' warn' : '')}>
-      <Icon name={plan.kind === 'up' ? 'arrowUp' : plan.kind === 'deload' ? 'arrowDown' : 'lightbulb'} />
-      <span>{t(...plan.why)}</span>
-    </div>}
-    <div className="card" style={{ marginTop: 10, marginBottom: 0 }}>
-      {/* Friendly visual instruction for beginners */}
-      <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: 8, padding: '6px 10px', marginBottom: 8, fontSize: 11, color: 'var(--label-2)', display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span>💡</span>
-        <span>Tap the circle <strong>(◯)</strong> after finishing a set to log it &amp; start rest timer.</span>
+
+  const completedSetsCount = entry.sets.filter(s => s.done).length
+
+  return (
+    <div style={{ position: 'relative' }}>
+      {/* Exercise Media Hero */}
+      <Media ex={ex} key={entry.id} compact={compact} minimizable />
+
+      {/* Exercise Title & Tags Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', gap: '8px' }}>
+        <div>
+          <h2 style={{ fontSize: compact ? '17px' : '21px', fontWeight: '900', color: 'var(--label)', margin: '0 0 4px', letterSpacing: '-0.4px', textTransform: 'capitalize' }}>
+            {ex.n}
+          </h2>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+            {cardio && <span className="tag acc"><Icon name="figureRun" />{t('Cardio')}</span>}
+            {!cardio && !timed && isPerSide(cfg) && <span className="tag acc nocap"><Icon name="shuffle" />{t('{0} per side', fmtNum(sideReps(entry.sets.find(s => !s.done)?.r ?? entry.sets[0]?.r)))}</span>}
+            {(ex.tg || ex.bp) && <span className="tag" style={{ fontSize: '10.5px', fontWeight: '800' }}>{t(ex.tg || ex.bp)}</span>}
+            {ex.eq && <span className="tag" style={{ fontSize: '10.5px', fontWeight: '800' }}>{t(ex.eq)}</span>}
+            {best > 0 && <span className="tag nocap" style={{ fontSize: '10.5px', fontWeight: '800' }}>🏆 {fmtNum(best)} {S.unit} PR</span>}
+          </div>
+        </div>
+
+        <button
+          className="iconbtn"
+          aria-label={t('Details')}
+          onClick={() => exerciseDetailSheet(ex)}
+          style={{
+            background: 'var(--surface-2)',
+            border: '1px solid var(--sep)',
+            borderRadius: '10px',
+            width: '36px',
+            height: '36px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--label-2)',
+            cursor: 'pointer',
+            flexShrink: 0
+          }}
+        >
+          <Icon name="info" />
+        </button>
       </div>
 
-      {/* the header carries the same eff3 sizing as the rows, or the labels drift off their columns */}
-      <div className={'sethead' + (col3 ? ' eff3' : '')}>
-        <span className="n-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>SET</span>
-        <span className="w-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col1.hd}</span>
-        {col2 && <span className="r-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col2.hd}</span>}
-        {col3 && <span className="eff-sp" style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase' }}>{col3.hd}</span>}
-        {timed && <span className="ck-sp" />}
-        <span className="ck-sp" style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--acc)' }}>DONE</span>
-      </div>
-      {entry.sets.map((s, i) => <div key={i} className={'setrow' + (s.done ? ' done' : '') + (col3 ? ' eff3' : '')}>
-        <div className="n">{i + 1}</div>
-        {cell(s, i, col1, 'w')}
-        {col2 && cell(s, i, col2, 'r')}
-        {col3 && cell(s, i, col3, 'eff')}
-        {timed && <button className="setgo" aria-label={t('Start set')} disabled={s.done || !!working}
-          onClick={() => onStartTimed(i)}><Icon name="play" /></button>}
-        <Check checked={s.done} onChange={() => onToggle(i)} />
-      </div>)}
-      <div style={{ height: 8 }} />
-      <div className="row">
-        <Button size="sm" icon="minus" disabled={entry.sets.length <= 1} onClick={onRemoveSet}>{t('Remove set')}</Button>
-        <Button size="sm" icon="plus" onClick={onAddSet}>{t('Add set')}</Button>
+      {/* Previous Performance or Progression Target */}
+      {last ? (
+        <div style={{
+          background: 'var(--surface-2)',
+          border: '1px solid var(--sep)',
+          borderRadius: '10px',
+          padding: '7px 12px',
+          marginBottom: '12px',
+          fontSize: '11px',
+          color: 'var(--label-2)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px'
+        }}>
+          <span style={{ fontWeight: '800', color: 'var(--label)' }}>⏱️ Last ({fmtDate(last.d)}):</span>
+          <span>{last.sets.map(s => setLabel(entry.id, s, last.target)).join(' · ')}</span>
+        </div>
+      ) : (
+        <div style={{
+          background: 'var(--surface-2)',
+          border: '1px solid var(--sep)',
+          borderRadius: '10px',
+          padding: '7px 12px',
+          marginBottom: '12px',
+          fontSize: '11px',
+          color: 'var(--label-2)'
+        }}>
+          📍 First time logging — this session sets your baseline!
+        </div>
+      )}
+
+      {plan && plan.why && plan.kind !== 'off' && (
+        <div className={'progline' + (plan.kind === 'deload' ? ' warn' : '')} style={{ marginBottom: '10px' }}>
+          <Icon name={plan.kind === 'up' ? 'arrowUp' : plan.kind === 'deload' ? 'arrowDown' : 'lightbulb'} />
+          <span>{t(...plan.why)}</span>
+        </div>
+      )}
+
+      {/* Precision Set Logging Card */}
+      <div
+        style={{
+          background: 'var(--card-bg)',
+          border: '1px solid var(--card-border)',
+          borderTop: '1px solid var(--card-border-top)',
+          borderRadius: '20px',
+          padding: '16px',
+          boxShadow: 'var(--card-shadow)',
+          marginBottom: '14px'
+        }}
+      >
+        {/* Table Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingBottom: '8px', borderBottom: '1px solid var(--sep)', marginBottom: '8px' }}>
+          <span style={{ width: '28px', fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textAlign: 'center', textTransform: 'uppercase' }}>SET</span>
+          <span style={{ flex: 1.3, fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textAlign: 'center', textTransform: 'uppercase' }}>{col1.hd}</span>
+          {col2 && <span style={{ flex: 1, fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textAlign: 'center', textTransform: 'uppercase' }}>{col2.hd}</span>}
+          {col3 && <span style={{ flex: 0.9, fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', textAlign: 'center', textTransform: 'uppercase' }}>{col3.hd}</span>}
+          {timed && <span style={{ width: '36px' }} />}
+          <span style={{ width: '38px', fontSize: '10px', fontWeight: '900', color: 'var(--acc)', textAlign: 'center', textTransform: 'uppercase' }}>LOG</span>
+        </div>
+
+        {/* Set Rows */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {entry.sets.map((s, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '4px 0',
+                opacity: s.done ? 0.6 : 1,
+                transition: 'opacity 0.2s ease'
+              }}
+            >
+              {/* Set Number Badge */}
+              <div
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '50%',
+                  background: s.done ? 'var(--acc)' : 'var(--surface-3)',
+                  color: s.done ? 'var(--on-acc)' : 'var(--label)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  fontWeight: '900',
+                  flexShrink: 0,
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                {i + 1}
+              </div>
+
+              {/* Col 1 (Weight or Reps) */}
+              {cell(s, i, col1, 'w')}
+
+              {/* Col 2 (Reps) */}
+              {col2 && cell(s, i, col2, 'r')}
+
+              {/* Col 3 (Effort / RPE) */}
+              {col3 && cell(s, i, col3, 'eff')}
+
+              {/* Timed Hold Trigger */}
+              {timed && (
+                <button
+                  aria-label={t('Start set')}
+                  disabled={s.done || !!working}
+                  onClick={() => onStartTimed(i)}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    background: 'var(--surface-3)',
+                    border: '1px solid var(--sep)',
+                    color: 'var(--acc)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    flexShrink: 0
+                  }}
+                >
+                  <Icon name="play" />
+                </button>
+              )}
+
+              {/* Checkmark Completion Button */}
+              <button
+                type="button"
+                onClick={() => onToggle(i)}
+                style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '12px',
+                  background: s.done ? 'var(--acc)' : 'var(--surface-2)',
+                  border: s.done ? '1.5px solid var(--acc)' : '1.5px solid var(--sep)',
+                  color: s.done ? 'var(--on-acc)' : 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '16px',
+                  fontWeight: '900',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  transition: 'all 0.15s ease',
+                  boxShadow: s.done ? '0 0 10px rgba(16, 185, 129, 0.3)' : 'none'
+                }}
+              >
+                {s.done ? '✓' : ''}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Set Controls (Add / Remove) */}
+        <div style={{ display: 'flex', gap: '8px', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid var(--sep)' }}>
+          <button
+            type="button"
+            disabled={entry.sets.length <= 1}
+            onClick={onRemoveSet}
+            style={{
+              flex: 1,
+              background: 'var(--surface-2)',
+              border: '1px solid var(--sep)',
+              color: entry.sets.length <= 1 ? 'var(--label-3)' : 'var(--label)',
+              padding: '9px 12px',
+              borderRadius: '10px',
+              fontSize: '12px',
+              fontWeight: '800',
+              cursor: entry.sets.length <= 1 ? 'default' : 'pointer'
+            }}
+          >
+            — Remove Set
+          </button>
+          <button
+            type="button"
+            onClick={onAddSet}
+            style={{
+              flex: 1,
+              background: 'var(--surface-2)',
+              border: '1px solid var(--sep)',
+              color: 'var(--label)',
+              padding: '9px 12px',
+              borderRadius: '10px',
+              fontSize: '12px',
+              fontWeight: '800',
+              cursor: 'pointer'
+            }}
+          >
+            + Add Set
+          </button>
+        </div>
       </div>
     </div>
-  </>
+  )
 }
 
 /* ---------- active workout ---------- */
@@ -188,8 +429,6 @@ function ActiveWorkout() {
   const done = setsDoneActive(A)
 
   const mutEntry = (idx, fn) => update(s => { fn(s.active.entries[idx]) }, true)
-  // Clearing an optional field drops the key rather than storing null, so a set only carries
-  // what was actually logged — in the session, in history and in a backup.
   const setField = (idx, i, field, v) => mutEntry(idx, e => {
     if (v == null) delete e.sets[i][field]; else e.sets[i][field] = v
   })
@@ -203,10 +442,6 @@ function ActiveWorkout() {
   })
   const removeSet = idx => mutEntry(idx, e => { if (e.sets.length > 1) e.sets.pop() })
 
-  // A timed set is held, not typed. The work timer records what was actually held — an early
-  // finish logs 0:38 of a 0:45 target rather than crediting the full prescription — and then
-  // checks the set off through the normal path, so rest, supersets and the finish prompt all
-  // behave exactly as they do for a reps set.
   const startTimed = (idx, i) => {
     const e = A.entries[idx]
     useUI.getState().startWork(e.sets[i].sec || 45, exOr(e.id).n, elapsed => {
@@ -228,24 +463,18 @@ function ActiveWorkout() {
         const unitDone = unit.every(ui => (ui === idx ? e : A.entries[ui]).sets.every(x => x.done))
         if (isLastExInUnit && !unitDone) startRest(S.restSec)
         else if (unitDone) stopRest()
-        if (unitDone && isLastUnit) workoutDone = true      // last exercise's last set → done
-        // Only loaded reps training has a "working weight" worth confirming — a bodyweight
-        // plank has nothing to put in that slider, and neither does a set of push-ups
-        // (issue #32: the fewest taps that still record what happened).
+        if (unitDone && isLastUnit) workoutDone = true
         const loaded = m === 'reps' && !(isBw({ ...(e.target || {}), id: e.id }) && !e.sets.some(x => x.w > 0))
         if (e.sets.every(x => x.done)) { exJustDone = true; if (loaded && !e.asked) { e.asked = true; askTop = true } }
       }
     })
-    // reps: topWeight first (it chains into the finish/continue prompt on the last unit).
-    // cardio/timed or already-confirmed: go straight to the prompt.
     if (askTop) topWeightSheet(idx)
     else if (workoutDone) workoutCompleteSheet()
     else if (exJustDone && cardioEntry) useUI.getState().toast(t('Cardio logged'))
     else if (exJustDone && m === 'time') useUI.getState().toast(t('Hold logged'))
   }
 
-  // Live-presence heartbeat so the admin dashboard can show who's training now. Signed-in only —
-  // guests have no server session. Reads fresh state each tick so progress stays current.
+  // Live-presence heartbeat
   useEffect(() => {
     if (!useStore.getState().user) return
     let stopped = false
@@ -265,7 +494,6 @@ function ActiveWorkout() {
     const iv = setInterval(() => { if (!stopped) ping(true) }, 20000)
     return () => {
       stopped = true; clearInterval(iv)
-      // best-effort "left" signal: sendBeacon survives a tab close, fetch covers in-app nav
       try { navigator.sendBeacon?.('/api/activity', new Blob([JSON.stringify({ active: false })], { type: 'application/json' })) } catch { /* */ }
       api('/api/activity', { method: 'POST', body: JSON.stringify({ active: false }) }).catch(() => {})
     }
@@ -288,120 +516,294 @@ function ActiveWorkout() {
     })
   }
 
-  return <div className="narrow">
-    <div className="hdr" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <button className="iconbtn" title={t('Minimize to background')} onClick={() => nav('/home')}>
-          <Icon name="chevronDown" />
-        </button>
-        <button className="iconbtn dim" title={t('Discard workout')} onClick={() => confirmSheet({ title: t('Discard workout?'), message: t('The sets you logged in this session will be lost.'), confirmText: t('Discard'), danger: true, onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') } })}>
-          <Icon name="xmark" />
-        </button>
-      </div>
+  const currentEntry = A.entries[cur]
+  const currentExAllDone = currentEntry && currentEntry.sets.length > 0 && currentEntry.sets.every(s => s.done)
+  const nextUncompletedSetIdx = currentEntry ? currentEntry.sets.findIndex(s => !s.done) : -1
 
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontWeight: 700, fontSize: '15px' }}>{A.name}</div>
-        <div className="sub" style={{ fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-          <Elapsed start={A.start} paused={A.paused} pausedAt={A.pausedAt} totalPausedMs={A.totalPausedMs} /> · {t('{0} sets', done + '/' + total)}
-          {A.paused && <span style={{ color: 'var(--orange)', fontWeight: 600 }}>({t('Paused')})</span>}
+  return (
+    <div className="narrow" style={{ paddingBottom: '120px' }}>
+      
+      {/* ── FOCUS HEADER HUD ─────────────────────────────────────── */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '10px',
+          padding: '6px 0'
+        }}
+      >
+        {/* Left: Minimize & Discard */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button
+            className="iconbtn"
+            title={t('Minimize to background')}
+            onClick={() => nav('/home')}
+            style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--surface-2)', border: '1px solid var(--sep)' }}
+          >
+            <Icon name="chevronDown" />
+          </button>
+          <button
+            className="iconbtn dim"
+            title={t('Discard workout')}
+            onClick={() => confirmSheet({
+              title: t('Discard workout?'),
+              message: t('The sets you logged in this session will be lost.'),
+              confirmText: t('Discard'),
+              danger: true,
+              onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') }
+            })}
+            style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--red)' }}
+          >
+            <Icon name="xmark" />
+          </button>
         </div>
-      </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <button
-          className="iconbtn"
-          style={{ color: A.paused ? 'var(--orange)' : 'var(--label-2)' }}
-          title={A.paused ? t('Resume workout') : t('Pause workout')}
-          onClick={togglePauseWorkout}
-        >
-          <Icon name={A.paused ? 'play' : 'pause'} />
-        </button>
-        <button className="iconbtn" style={{ color: 'var(--acc)' }} title={t('Finish')} onClick={finishWorkout}>
-          <Icon name="check" />
-        </button>
-      </div>
-    </div>
-
-    {A.paused && (
-      <div style={{
-        background: 'color-mix(in srgb,var(--orange) 14%,var(--surface))',
-        border: '1px solid var(--orange)',
-        borderRadius: '12px',
-        padding: '12px 14px',
-        marginBottom: '14px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 10
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 20 }}>⏸️</span>
-          <div>
-            <div style={{ fontWeight: 700, color: 'var(--orange)', fontSize: 13 }}>{t('Workout Paused')}</div>
-            <div className="small muted" style={{ fontSize: 11 }}>{t('The session timer is paused. Tap resume when ready.')}</div>
+        {/* Center: Routine & Pulsing Live Timer */}
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontWeight: '900', fontSize: '15px', color: 'var(--label)', letterSpacing: '-0.3px' }}>
+            {A.name}
+          </div>
+          <div style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '2px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: A.paused ? 'var(--orange)' : 'var(--acc)', boxShadow: A.paused ? 'none' : '0 0 6px var(--acc)' }} />
+            <Elapsed start={A.start} paused={A.paused} pausedAt={A.pausedAt} totalPausedMs={A.totalPausedMs} />
+            <span>·</span>
+            <span>{done}/{total} Sets</span>
+            {A.paused && <span style={{ color: 'var(--orange)' }}>(Paused)</span>}
           </div>
         </div>
-        <Button size="sm" variant="primary" style={{ background: 'var(--orange)', color: '#000' }} icon="play" onClick={togglePauseWorkout}>
-          {t('Resume')}
-        </Button>
-      </div>
-    )}
 
-    <div className="wprog"><i style={{ width: (total ? done / total * 100 : 0) + '%' }} /></div>
-
-    {A.entries.length ? <>
-      <div className="muted small" style={{ marginBottom: 6 }}>{isSuperset ? t('Superset {0} / {1}', unitIdx + 1, units.length) : t('Exercise {0} / {1}', unitIdx + 1, units.length)}</div>
-      {isSuperset ? (
-        <div className="ss-card">
-          <div className="ss-hd"><Icon name="link" />{t('Superset · do these back-to-back, rest after both')}</div>
-          {unit.map((idx, k) => <div key={idx} className="ss-ex">
-            {k > 0 && <div className="ss-amp">+</div>}
-            <ExerciseBlock entryIdx={idx} compact
-              onToggle={i => toggle(idx, i)} onField={(i, f, v) => setField(idx, i, f, v)} onAddSet={() => addSet(idx)} onRemoveSet={() => removeSet(idx)} onStartTimed={i => startTimed(idx, i)} />
-          </div>)}
+        {/* Right: Pause & Finish Check */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <button
+            className="iconbtn"
+            style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: A.paused ? 'var(--orange)' : 'var(--label)' }}
+            title={A.paused ? t('Resume workout') : t('Pause workout')}
+            onClick={togglePauseWorkout}
+          >
+            <Icon name={A.paused ? 'play' : 'pause'} />
+          </button>
+          <button
+            className="iconbtn"
+            style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'var(--acc)', border: 'none', color: 'var(--on-acc)', fontWeight: '900' }}
+            title={t('Finish')}
+            onClick={finishWorkout}
+          >
+            <Icon name="check" />
+          </button>
         </div>
-      ) : (
-        <ExerciseBlock entryIdx={cur} onToggle={i => toggle(cur, i)} onField={(i, f, v) => setField(cur, i, f, v)} onAddSet={() => addSet(cur)} onRemoveSet={() => removeSet(cur)} onStartTimed={i => startTimed(cur, i)} />
-      )}
-    </> : <div className="empty"><div className="ico"><Icon name="shuffle" /></div>{t('Freestyle workout — add your first exercise.')}</div>}
+      </div>
 
-    <div style={{ height: 14 }} />
-    
-    {/* Next / Prev Navigation */}
-    <div className="row" style={{ gap: 8 }}>
-      <Button
-        icon="chevronLeft"
-        disabled={unitIdx <= 0}
-        onClick={() => update(s => { s.active.cur = units[unitIdx - 1][0] })}
-        style={{ flex: 1, padding: '12px 8px', fontSize: 13, fontWeight: 700 }}
-      >
-        {t('← Prev Exercise')}
-      </Button>
-      <Button
-        trailingIcon="chevronRight"
-        disabled={unitIdx < 0 || unitIdx >= units.length - 1}
-        onClick={() => update(s => { s.active.cur = units[unitIdx + 1][0] })}
-        style={{ flex: 1, padding: '12px 8px', fontSize: 13, fontWeight: 700 }}
-      >
-        {unitIdx < units.length - 1 ? t('Next Exercise →') : t('Last Exercise ✓')}
-      </Button>
-    </div>
+      {/* ── REAL-TIME PROGRESS BAR ───────────────────────────────── */}
+      <div style={{ width: '100%', height: '4px', background: 'var(--surface-2)', borderRadius: '99px', overflow: 'hidden', marginBottom: '14px' }}>
+        <div style={{ width: (total ? (done / total * 100) : 0) + '%', height: '100%', background: 'linear-gradient(90deg, var(--acc) 0%, var(--label) 100%)', transition: 'width 0.3s ease' }} />
+      </div>
 
-    {/* Finish / Session Management Card */}
-    {(() => {
-      const exDone = A.entries.filter(e => e.sets.length && e.sets.every(s => s.done)).length
-      const allDone = A.entries.length > 0 && exDone === A.entries.length
-      return (
-        <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px', marginTop: 14 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+      {/* ── PAUSE BANNER (IF PAUSED) ─────────────────────────────── */}
+      {A.paused && (
+        <div style={{
+          background: 'color-mix(in srgb,var(--orange) 14%,var(--surface))',
+          border: '1px solid var(--orange)',
+          borderRadius: '14px',
+          padding: '12px 14px',
+          marginBottom: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 10
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 20 }}>⏸️</span>
             <div>
-              <div style={{ fontWeight: 800, fontSize: 13, color: allDone ? 'var(--acc)' : 'var(--label)' }}>
-                {allDone ? '🎉 All Planned Exercises Completed!' : `Session: ${exDone}/${A.entries.length} Exercises Done`}
-              </div>
-              <div className="small muted" style={{ fontSize: 11 }}>
-                {done}/{total} total sets logged
-              </div>
+              <div style={{ fontWeight: 800, color: 'var(--orange)', fontSize: 13 }}>{t('Workout Paused')}</div>
+              <div className="small muted" style={{ fontSize: 11 }}>{t('The session timer is paused. Tap resume when ready.')}</div>
             </div>
+          </div>
+          <Button size="sm" variant="primary" style={{ background: 'var(--orange)', color: '#000', fontWeight: '800' }} icon="play" onClick={togglePauseWorkout}>
+            {t('Resume')}
+          </Button>
+        </div>
+      )}
+
+      {/* ── HORIZONTAL EXERCISE CAROUSEL / NAVIGATOR ─────────────── */}
+      {A.entries.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            overflowX: 'auto',
+            paddingBottom: '4px',
+            marginBottom: '14px',
+            scrollbarWidth: 'none',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
+          {A.entries.map((entry, idx) => {
+            const exInfo = exOr(entry.id)
+            const setsDone = entry.sets.filter(s => s.done).length
+            const isEntryComplete = entry.sets.length > 0 && setsDone === entry.sets.length
+            const isSelected = cur === idx
+
+            return (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => update(s => { s.active.cur = idx })}
+                style={{
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '7px 12px',
+                  borderRadius: '12px',
+                  background: isSelected ? 'var(--card-bg)' : 'var(--surface-2)',
+                  border: isSelected ? '1.5px solid var(--label)' : '1px solid var(--sep)',
+                  color: isSelected ? 'var(--label)' : 'var(--label-2)',
+                  cursor: 'pointer',
+                  boxShadow: isSelected ? 'var(--card-shadow)' : 'none',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <span style={{ fontSize: '11px', fontWeight: '900' }}>
+                  {idx + 1}. {exInfo.n.length > 14 ? exInfo.n.slice(0, 14) + '…' : exInfo.n}
+                </span>
+                <span style={{
+                  fontSize: '10px',
+                  fontWeight: '800',
+                  background: isEntryComplete ? 'var(--acc)' : isSelected ? 'var(--surface-3)' : 'var(--surface-3)',
+                  color: isEntryComplete ? 'var(--on-acc)' : 'var(--label-2)',
+                  padding: '2px 6px',
+                  borderRadius: '6px'
+                }}>
+                  {isEntryComplete ? '✓' : `${setsDone}/${entry.sets.length}`}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {/* ── ACTIVE EXERCISE HERO & SET LOGGING ────────────────────── */}
+      {A.entries.length ? (
+        isSuperset ? (
+          <div className="ss-card">
+            <div className="ss-hd"><Icon name="link" />{t('Superset · do these back-to-back, rest after both')}</div>
+            {unit.map((idx, k) => (
+              <div key={idx} className="ss-ex">
+                {k > 0 && <div className="ss-amp">+</div>}
+                <ExerciseBlock
+                  entryIdx={idx}
+                  compact
+                  onToggle={i => toggle(idx, i)}
+                  onField={(i, f, v) => setField(idx, i, f, v)}
+                  onAddSet={() => addSet(idx)}
+                  onRemoveSet={() => removeSet(idx)}
+                  onStartTimed={i => startTimed(idx, i)}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ExerciseBlock
+            entryIdx={cur}
+            onToggle={i => toggle(cur, i)}
+            onField={(i, f, v) => setField(cur, i, f, v)}
+            onAddSet={() => addSet(cur)}
+            onRemoveSet={() => removeSet(cur)}
+            onStartTimed={i => startTimed(cur, i)}
+          />
+        )
+      ) : (
+        <div className="empty">
+          <div className="ico"><Icon name="shuffle" /></div>
+          {t('Freestyle workout — add your first exercise.')}
+        </div>
+      )}
+
+      {/* ── SMART NEXT-STEP ACTION HUD ───────────────────────────── */}
+      {A.entries.length > 0 && (
+        <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {/* Main Contextual Step Button */}
+          {nextUncompletedSetIdx !== -1 ? (
+            <button
+              type="button"
+              onClick={() => toggle(cur, nextUncompletedSetIdx)}
+              style={{
+                width: '100%',
+                padding: '14px',
+                fontSize: '14.5px',
+                fontWeight: '900',
+                borderRadius: '14px',
+                background: 'var(--btn-pri-bg)',
+                color: 'var(--btn-pri-color)',
+                border: '1px solid var(--btn-pri-border)',
+                boxShadow: 'var(--btn-pri-shadow)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+            >
+              <span>⚡ Log Set {nextUncompletedSetIdx + 1} Done</span>
+            </button>
+          ) : cur < A.entries.length - 1 ? (
+            <button
+              type="button"
+              onClick={() => update(s => { s.active.cur = cur + 1 })}
+              style={{
+                width: '100%',
+                padding: '14px',
+                fontSize: '14.5px',
+                fontWeight: '900',
+                borderRadius: '14px',
+                background: 'var(--acc)',
+                color: 'var(--on-acc)',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+            >
+              <span>Next Exercise: {exOr(A.entries[cur + 1].id).n} →</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={finishWorkout}
+              style={{
+                width: '100%',
+                padding: '15px',
+                fontSize: '15px',
+                fontWeight: '900',
+                borderRadius: '14px',
+                background: 'var(--acc)',
+                color: 'var(--on-acc)',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 20px rgba(16, 185, 129, 0.35)'
+              }}
+            >
+              <span>🎉 All Sets Done · Finish Workout</span>
+            </button>
+          )}
+
+          {/* Secondary Controls: Add Exercise & Prev/Next */}
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button
+              icon="chevronLeft"
+              disabled={cur <= 0}
+              onClick={() => update(s => { s.active.cur = cur - 1 })}
+              style={{ flex: 1, padding: '10px 8px', fontSize: '12px', fontWeight: '800' }}
+            >
+              Prev
+            </Button>
             <Button
               size="sm"
               icon="plus"
@@ -411,59 +813,27 @@ function ActiveWorkout() {
                 s.active.entries.push({ id: ex.id, target: { ...cfg }, plan, sets: applyPrescription(buildSets(s, full), plan) })
                 s.active.cur = s.active.entries.length - 1
               }), null, S.routines.find(r => r.id === A.routineId)))}
+              style={{ flex: 1.2, padding: '10px 8px', fontSize: '12px', fontWeight: '800' }}
             >
               + Exercise
             </Button>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <button
-              type="button"
-              className={'btn ' + (allDone ? 'primary' : 'primary')}
-              onClick={finishWorkout}
-              style={{
-                width: '100%',
-                padding: '14px',
-                fontSize: 15,
-                fontWeight: 800,
-                background: allDone ? 'var(--acc)' : 'linear-gradient(135deg, rgba(16, 185, 129, 0.2), var(--surface-3))',
-                color: allDone ? 'var(--on-acc)' : 'var(--label)',
-                border: allDone ? 'none' : '1px solid var(--acc)',
-                borderRadius: 12,
-                cursor: 'pointer'
-              }}
+            <Button
+              trailingIcon="chevronRight"
+              disabled={cur >= A.entries.length - 1}
+              onClick={() => update(s => { s.active.cur = cur + 1 })}
+              style={{ flex: 1, padding: '10px 8px', fontSize: '12px', fontWeight: '800' }}
             >
-              {allDone ? '🎉 Finish & Save Workout' : `🏁 Finish Workout (${exDone}/${A.entries.length} Completed)`}
-            </button>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              <Button variant="ghost" icon={A.paused ? 'play' : 'pause'} onClick={togglePauseWorkout} style={{ fontSize: 12 }}>
-                {A.paused ? '▶️ Resume' : '⏸️ Pause Workout'}
-              </Button>
-              <Button
-                variant="ghost"
-                icon="xmark"
-                onClick={() => confirmSheet({
-                  title: t('Discard workout?'),
-                  message: t('The sets you logged in this session will be lost.'),
-                  confirmText: t('Discard'),
-                  danger: true,
-                  onConfirm: () => { update(s => { s.active = null }); stopRest(); nav('/home') }
-                })}
-                style={{ fontSize: 12, color: 'var(--red)' }}
-              >
-                Discard Session
-              </Button>
-            </div>
+              Next
+            </Button>
           </div>
         </div>
-      )
-    })()}
-    <div style={{ height: 60 }} />
-  </div>
+      )}
+    </div>
+  )
 }
 
 export default function Workout() {
   const active = useStore(s => s.S.active)
   return active ? <ActiveWorkout /> : <StartChooser />
 }
+
