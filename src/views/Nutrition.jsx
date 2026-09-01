@@ -328,17 +328,18 @@ export default function Nutrition() {
         <button
           onClick={() => setShowCustomModal(true)}
           style={{
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            background: 'linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%)',
             border: 'none',
             borderRadius: '10px',
             padding: '8px 14px',
-            color: '#fff',
+            color: '#000',
             fontSize: '12px',
-            fontWeight: '800',
+            fontWeight: '900',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            boxShadow: '0 4px 14px rgba(0, 240, 255, 0.3)'
           }}
         >
           <span>+ Log Food</span>
@@ -347,16 +348,16 @@ export default function Nutrition() {
 
       {/* ── DAILY TARGETS & CONSUMPTION COCKPIT ─────────────── */}
       <div style={{
-        background: '#0f172a',
-        border: '1px solid rgba(16, 185, 129, 0.3)',
+        background: '#111823',
+        border: '1px solid rgba(0, 240, 255, 0.25)',
         borderRadius: '18px',
         padding: '18px',
         marginBottom: '16px',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+        boxShadow: '0 8px 24px rgba(0,0,0,0.35)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: '#10b981' }}>
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--acc)' }}>
               {t('Daily Fuel Target')}
             </div>
             <div style={{ fontSize: '32px', fontWeight: '900', color: '#fff', lineHeight: 1.1, marginTop: '4px' }}>
@@ -365,7 +366,7 @@ export default function Nutrition() {
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>REMAINING</div>
-            <div style={{ fontSize: '18px', fontWeight: '800', color: remainingKcal === 0 ? '#10b981' : '#38bdf8' }}>
+            <div style={{ fontSize: '18px', fontWeight: '800', color: remainingKcal === 0 ? 'var(--acc)' : '#e2e8f0' }}>
               {remainingKcal} kcal
             </div>
           </div>
@@ -376,16 +377,17 @@ export default function Nutrition() {
           <div style={{
             width: `${kcalPercent}%`,
             height: '100%',
-            background: kcalPercent >= 100 ? '#10b981' : 'linear-gradient(90deg, #38bdf8, #10b981)',
+            background: 'linear-gradient(90deg, #00f0ff, #00b4d8)',
             borderRadius: '99px',
-            transition: 'width 0.3s ease'
+            transition: 'width 0.3s ease',
+            boxShadow: '0 0 10px rgba(0, 240, 255, 0.5)'
           }} />
         </div>
 
         {/* 3 Macro Target Progress Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-          <div style={{ background: '#1e293b', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase' }}>PROTEIN</div>
+          <div style={{ background: '#172030', border: '1px solid rgba(0, 240, 255, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--acc)', textTransform: 'uppercase' }}>PROTEIN</div>
             <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
               {consumedProtein}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetProtein}g</span>
             </div>
@@ -394,8 +396,8 @@ export default function Nutrition() {
             </div>
           </div>
 
-          <div style={{ background: '#1e293b', border: '1px solid rgba(245, 158, 11, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#f59e0b', textTransform: 'uppercase' }}>CARBS</div>
+          <div style={{ background: '#172030', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#e2e8f0', textTransform: 'uppercase' }}>CARBS</div>
             <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
               {consumedCarbs}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetCarbs}g</span>
             </div>
@@ -404,8 +406,8 @@ export default function Nutrition() {
             </div>
           </div>
 
-          <div style={{ background: '#1e293b', border: '1px solid rgba(244, 63, 94, 0.2)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: '#f43f5e', textTransform: 'uppercase' }}>FATS</div>
+          <div style={{ background: '#172030', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#cbd5e1', textTransform: 'uppercase' }}>FATS</div>
             <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', marginTop: '2px' }}>
               {consumedFat}g <span style={{ fontSize: '10px', color: '#94a3b8' }}>/ {targetFat}g</span>
             </div>
@@ -434,8 +436,8 @@ export default function Nutrition() {
               <div
                 key={meal.id}
                 style={{
-                  background: isDone ? 'rgba(16, 185, 129, 0.08)' : '#0f172a',
-                  border: isDone ? '1px solid #10b981' : '1px solid rgba(255, 255, 255, 0.06)',
+                  background: isDone ? 'rgba(0, 240, 255, 0.08)' : '#111823',
+                  border: isDone ? '1px solid var(--acc)' : '1px solid rgba(255, 255, 255, 0.06)',
                   borderRadius: '14px',
                   padding: '14px',
                   display: 'flex',
@@ -446,7 +448,7 @@ export default function Nutrition() {
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: isDone ? '#10b981' : '#38bdf8', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: isDone ? 'var(--acc)' : '#cbd5e1', textTransform: 'uppercase' }}>
                       {meal.slot}
                     </span>
                     <span style={{ fontSize: '11px', color: '#94a3b8' }}>• {meal.time}</span>
