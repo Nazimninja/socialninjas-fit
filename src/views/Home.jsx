@@ -217,7 +217,7 @@ export default function Home() {
 
       {/* ── 3. CULT.FIT 4-TILE QUICK LAUNCHER GRID ────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '18px' }}>
-        {/* Tile 1: Manage Split */}
+        {/* Tile 1: Workout Plan */}
         <div
           onClick={() => nav('/plan')}
           style={{
@@ -227,14 +227,14 @@ export default function Home() {
             borderTop: '1px solid var(--card-border-top)',
             boxShadow: 'var(--card-shadow)',
             borderRadius: '16px',
-            padding: '14px 6px',
+            padding: '14px 4px',
             cursor: 'pointer',
             textAlign: 'center',
             transition: 'transform 0.15s ease'
           }}
         >
           <span style={{ fontSize: '24px', marginBottom: '6px', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' }}>🏋️</span>
-          <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Split</span>
+          <span style={{ fontSize: '10.5px', fontWeight: '800', color: 'var(--label)', lineHeight: 1.2 }}>Workout Plan</span>
         </div>
 
         {/* Tile 2: Nutrition & Recipes */}
