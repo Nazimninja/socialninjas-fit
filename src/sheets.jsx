@@ -1346,41 +1346,41 @@ function OnboardingWizard({ close }) {
                   key={g.id}
                   onClick={() => setGoal(g.id)}
                   style={{
-                    background: goal === g.id ? 'linear-gradient(180deg, #222228 0%, #151518 100%)' : 'var(--surface)',
-                    border: '1.5px solid ' + (goal === g.id ? '#ffffff' : 'var(--sep)'),
+                    background: goal === g.id ? 'var(--card-bg)' : 'var(--surface-2)',
+                    border: '1.5px solid ' + (goal === g.id ? 'var(--acc)' : 'var(--sep)'),
                     borderRadius: 12, padding: '14px 16px', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    boxShadow: goal === g.id ? '0 0 16px rgba(255, 255, 255, 0.15)' : 'none',
+                    boxShadow: goal === g.id ? 'var(--card-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ width: 36, height: 36, borderRadius: 10, background: goal === g.id ? '#ffffff' : 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: goal === g.id ? '#000000' : 'var(--label-2)' }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: goal === g.id ? 'var(--btn-pri-bg)' : 'var(--surface-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: goal === g.id ? 'var(--btn-pri-color)' : 'var(--label-2)' }}>
                       <Icon name={g.icon} />
                     </div>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 14, color: '#ffffff' }}>
+                      <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--label)' }}>
                         {g.title}
                       </div>
-                      <div className="small muted" style={{ fontSize: 11, marginTop: 2, lineHeight: 1.3, color: '#a1a1aa' }}>{g.desc}</div>
+                      <div className="small muted" style={{ fontSize: 11, marginTop: 2, lineHeight: 1.3, color: 'var(--label-2)' }}>{g.desc}</div>
                     </div>
                   </div>
                   <div
                     style={{
                       width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
-                      border: '2px solid ' + (goal === g.id ? '#ffffff' : 'var(--sep)'),
-                      background: goal === g.id ? '#ffffff' : 'transparent',
+                      border: '2px solid ' + (goal === g.id ? 'var(--acc)' : 'var(--sep)'),
+                      background: goal === g.id ? 'var(--acc)' : 'transparent',
                       display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}
                   >
-                    {goal === g.id && <span style={{ color: '#000000', fontSize: 10, fontWeight: 900 }}>✓</span>}
+                    {goal === g.id && <span style={{ color: 'var(--on-acc)', fontSize: 10, fontWeight: 900 }}>✓</span>}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <Button variant="primary" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12, background: '#ffffff', color: '#000000' }}>
+          <Button variant="primary" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
             Next: Training Architecture →
           </Button>
         </div>
@@ -1391,7 +1391,7 @@ function OnboardingWizard({ close }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Question 1: Frequency */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#ffffff', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
               1. Training Frequency (Days per Week)
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
@@ -1401,11 +1401,11 @@ function OnboardingWizard({ close }) {
                   type="button"
                   onClick={() => setDays(d)}
                   style={{
-                    background: days === d ? '#ffffff' : 'linear-gradient(180deg, #222228 0%, #151518 100%)',
-                    color: days === d ? '#000000' : '#ffffff',
-                    border: '1px solid ' + (days === d ? '#ffffff' : 'rgba(255,255,255,0.15)'),
+                    background: days === d ? 'var(--btn-pri-bg)' : 'var(--surface-2)',
+                    color: days === d ? 'var(--btn-pri-color)' : 'var(--label)',
+                    border: '1px solid ' + (days === d ? 'var(--btn-pri-border)' : 'var(--sep)'),
                     borderRadius: 10, padding: '10px 4px', fontWeight: 900, fontSize: 13, cursor: 'pointer', textAlign: 'center',
-                    boxShadow: days === d ? '0 0 16px rgba(255, 255, 255, 0.25)' : '0 2px 6px rgba(0,0,0,0.4)',
+                    boxShadow: days === d ? 'var(--btn-pri-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
@@ -1418,7 +1418,7 @@ function OnboardingWizard({ close }) {
 
           {/* Question 2: Training Environment & Equipment */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#ffffff', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
               2. Training Setup &amp; Equipment
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 8 }}>
@@ -1432,27 +1432,27 @@ function OnboardingWizard({ close }) {
                   type="button"
                   onClick={() => setLocation(env.id)}
                   style={{
-                    background: location === env.id ? 'linear-gradient(180deg, #25252e 0%, #17171d 100%)' : 'var(--surface)',
-                    color: '#ffffff',
-                    border: '1.5px solid ' + (location === env.id ? '#ffffff' : 'rgba(255,255,255,0.1)'),
+                    background: location === env.id ? 'var(--card-bg)' : 'var(--surface-2)',
+                    color: 'var(--label)',
+                    border: '1.5px solid ' + (location === env.id ? 'var(--acc)' : 'var(--sep)'),
                     borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     textAlign: 'left',
-                    boxShadow: location === env.id ? '0 0 16px rgba(255, 255, 255, 0.15)' : 'none',
+                    boxShadow: location === env.id ? 'var(--card-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ width: 34, height: 34, borderRadius: 8, background: location === env.id ? '#ffffff' : 'var(--surface-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: location === env.id ? '#000000' : '#ffffff' }}>
+                    <div style={{ width: 34, height: 34, borderRadius: 8, background: location === env.id ? 'var(--btn-pri-bg)' : 'var(--surface-3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: location === env.id ? 'var(--btn-pri-color)' : 'var(--label)' }}>
                       <Icon name={env.icon} />
                     </div>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 13, color: '#ffffff' }}>{env.label}</div>
-                      <div style={{ fontSize: 10.5, color: '#a1a1aa', marginTop: 2 }}>{env.desc}</div>
+                      <div style={{ fontWeight: 800, fontSize: 13, color: 'var(--label)' }}>{env.label}</div>
+                      <div style={{ fontSize: 10.5, color: 'var(--label-2)', marginTop: 2 }}>{env.desc}</div>
                     </div>
                   </div>
-                  <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid ' + (location === env.id ? '#ffffff' : 'rgba(255,255,255,0.2)'), background: location === env.id ? '#ffffff' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {location === env.id && <span style={{ color: '#000', fontSize: 9, fontWeight: 900 }}>✓</span>}
+                  <div style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid ' + (location === env.id ? 'var(--acc)' : 'var(--sep)'), background: location === env.id ? 'var(--acc)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {location === env.id && <span style={{ color: 'var(--on-acc)', fontSize: 9, fontWeight: 900 }}>✓</span>}
                   </div>
                 </button>
               ))}
@@ -1461,7 +1461,7 @@ function OnboardingWizard({ close }) {
 
           {/* Question 3: Lifting Experience */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#ffffff', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
               3. Lifting Experience &amp; Level
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
@@ -1475,11 +1475,11 @@ function OnboardingWizard({ close }) {
                   type="button"
                   onClick={() => setExperience(lvl.id)}
                   style={{
-                    background: experience === lvl.id ? '#ffffff' : 'linear-gradient(180deg, #222228 0%, #151518 100%)',
-                    color: experience === lvl.id ? '#000000' : '#ffffff',
-                    border: '1px solid ' + (experience === lvl.id ? '#ffffff' : 'rgba(255,255,255,0.15)'),
+                    background: experience === lvl.id ? 'var(--btn-pri-bg)' : 'var(--surface-2)',
+                    color: experience === lvl.id ? 'var(--btn-pri-color)' : 'var(--label)',
+                    border: '1px solid ' + (experience === lvl.id ? 'var(--btn-pri-border)' : 'var(--sep)'),
                     borderRadius: 10, padding: '10px 4px', fontWeight: 800, fontSize: 12, cursor: 'pointer', textAlign: 'center',
-                    boxShadow: experience === lvl.id ? '0 0 16px rgba(255, 255, 255, 0.25)' : 'none',
+                    boxShadow: experience === lvl.id ? 'var(--btn-pri-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
@@ -1492,7 +1492,7 @@ function OnboardingWizard({ close }) {
 
           {/* Question 4: Focus Muscle Prioritization */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#ffffff', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
               4. Target Muscle Group Prioritization
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -1506,17 +1506,17 @@ function OnboardingWizard({ close }) {
                   key={f.id}
                   onClick={() => setFocus(f.id)}
                   style={{
-                    background: focus === f.id ? 'linear-gradient(180deg, #25252e 0%, #17171d 100%)' : 'var(--surface)',
-                    border: '1.5px solid ' + (focus === f.id ? '#ffffff' : 'rgba(255,255,255,0.1)'),
+                    background: focus === f.id ? 'var(--card-bg)' : 'var(--surface-2)',
+                    border: '1.5px solid ' + (focus === f.id ? 'var(--acc)' : 'var(--sep)'),
                     borderRadius: 12, padding: '12px 10px', cursor: 'pointer',
-                    boxShadow: focus === f.id ? '0 0 14px rgba(255, 255, 255, 0.15)' : 'none',
+                    boxShadow: focus === f.id ? 'var(--card-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
-                  <div style={{ fontWeight: 800, fontSize: 12.5, color: '#ffffff' }}>
+                  <div style={{ fontWeight: 800, fontSize: 12.5, color: 'var(--label)' }}>
                     {f.label}
                   </div>
-                  <div style={{ fontSize: 10, color: '#a1a1aa', marginTop: 2 }}>{f.desc}</div>
+                  <div style={{ fontSize: 10, color: 'var(--label-2)', marginTop: 2 }}>{f.desc}</div>
                 </div>
               ))}
             </div>
@@ -1524,7 +1524,7 @@ function OnboardingWizard({ close }) {
 
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(1)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
-            <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12, background: '#ffffff', color: '#000000' }}>
+            <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
               Next: Nutrition Protocol →
             </Button>
           </div>
@@ -1535,7 +1535,7 @@ function OnboardingWizard({ close }) {
       {step === 3 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: '#ffffff', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
               Dietary Preference &amp; Cultural Food
             </label>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -1549,49 +1549,49 @@ function OnboardingWizard({ close }) {
                   key={d.id}
                   onClick={() => setDiet(d.id)}
                   style={{
-                    background: diet === d.id ? 'linear-gradient(180deg, #25252e 0%, #17171d 100%)' : 'var(--surface)',
-                    border: '1.5px solid ' + (diet === d.id ? '#ffffff' : 'rgba(255,255,255,0.1)'),
+                    background: diet === d.id ? 'var(--card-bg)' : 'var(--surface-2)',
+                    border: '1.5px solid ' + (diet === d.id ? 'var(--acc)' : 'var(--sep)'),
                     borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
-                    boxShadow: diet === d.id ? '0 0 14px rgba(255, 255, 255, 0.15)' : 'none',
+                    boxShadow: diet === d.id ? 'var(--card-shadow)' : 'none',
                     transition: 'all 0.2s'
                   }}
                 >
-                  <div style={{ fontWeight: 800, fontSize: 13, color: '#ffffff' }}>
+                  <div style={{ fontWeight: 800, fontSize: 13, color: 'var(--label)' }}>
                     {d.title}
                   </div>
-                  <div className="small muted" style={{ fontSize: 10, marginTop: 2, lineHeight: 1.3, color: '#a1a1aa' }}>{d.desc}</div>
+                  <div className="small muted" style={{ fontSize: 10, marginTop: 2, lineHeight: 1.3, color: 'var(--label-2)' }}>{d.desc}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Metabolic Energy Target HUD */}
-          <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.14)', borderTop: '1px solid rgba(255,255,255,0.28)', borderRadius: 18, padding: '16px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.5)' }}>
-            <div style={{ fontSize: 10, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px 14px', boxShadow: 'var(--card-shadow)' }}>
+            <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Icon name="sparkles" /> Calculated Metabolic Targets
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, textAlign: 'center', marginBottom: 8 }}>
-              <div style={{ background: '#1a1a20', padding: '10px 6px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: 18, fontWeight: 900, color: '#ffffff' }}>{targetKcalCalc}</div>
-                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: '#a1a1aa' }}>KCAL / DAY</div>
+              <div style={{ background: 'var(--surface-2)', padding: '10px 6px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--label)' }}>{targetKcalCalc}</div>
+                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: 'var(--label-2)' }}>KCAL / DAY</div>
               </div>
-              <div style={{ background: '#1a1a20', padding: '10px 6px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: 18, fontWeight: 900, color: '#ffffff' }}>{targetProteinCalc}g</div>
-                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: '#a1a1aa' }}>PROTEIN</div>
+              <div style={{ background: 'var(--surface-2)', padding: '10px 6px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--label)' }}>{targetProteinCalc}g</div>
+                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: 'var(--label-2)' }}>PROTEIN</div>
               </div>
-              <div style={{ background: '#1a1a20', padding: '10px 6px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ fontSize: 18, fontWeight: 900, color: '#ffffff' }}>{numDays} Days</div>
-                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: '#a1a1aa' }}>SCHEDULE</div>
+              <div style={{ background: 'var(--surface-2)', padding: '10px 6px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--label)' }}>{numDays} Days</div>
+                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: 'var(--label-2)' }}>SCHEDULE</div>
               </div>
             </div>
-            <div className="small muted" style={{ fontSize: 11, lineHeight: 1.4, textAlign: 'center', color: '#a1a1aa' }}>
+            <div className="small muted" style={{ fontSize: 11, lineHeight: 1.4, textAlign: 'center', color: 'var(--label-2)' }}>
               Scientifically calibrated using the Mifflin-St Jeor formula and your training volume.
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
-            <Button variant="primary" onClick={handleGenerate} icon="sparkles" style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12, background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)', color: '#000000', boxShadow: '0 4px 20px rgba(255, 255, 255, 0.25), inset 0 1px 0 #ffffff' }}>
+            <Button variant="primary" onClick={handleGenerate} icon="sparkles" style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12 }}>
               ⚡ Build My Custom Workout &amp; Nutrition Plan
             </Button>
           </div>
@@ -1691,21 +1691,21 @@ function AthleteProfileModal({ close }) {
               src="/ninja-logo.png?v=3"
               alt="Avatar"
               style={{
-                width: 48, height: 48, borderRadius: '50%', background: '#121216',
-                border: '1.5px solid rgba(255,255,255,0.2)', objectFit: 'contain', padding: 2
+                width: 48, height: 48, borderRadius: '50%', background: 'var(--surface-2)',
+                border: '1.5px solid var(--card-border)', objectFit: 'contain', padding: 2
               }}
             />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 12, height: 12, borderRadius: '50%', background: '#ffffff', border: '2px solid #000' }} />
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 12, height: 12, borderRadius: '50%', background: 'var(--acc)', border: '2px solid var(--bg)' }} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <h2 style={{ margin: 0, fontSize: 19, fontWeight: 900, color: '#fff' }}>{name}</h2>
-              <span style={{ fontSize: 9.5, fontWeight: 900, background: '#ffffff', color: '#000000', padding: '2px 7px', borderRadius: 4, textTransform: 'uppercase' }}>
+              <h2 style={{ margin: 0, fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{name}</h2>
+              <span style={{ fontSize: 9.5, fontWeight: 900, background: 'var(--btn-pri-bg)', color: 'var(--btn-pri-color)', border: '1px solid var(--btn-pri-border)', padding: '2px 7px', borderRadius: 4, textTransform: 'uppercase' }}>
                 PRO PASS
               </span>
             </div>
-            <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 2 }}>
-              {user?.email || 'Fit Ninja Member'} • <span style={{ color: '#ffffff', fontWeight: 700 }}>Active Protocol</span>
+            <div style={{ fontSize: 11.5, color: 'var(--label-2)', marginTop: 2 }}>
+              {user?.email || 'Fit Ninja Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Protocol</span>
             </div>
           </div>
         </div>
@@ -1714,8 +1714,8 @@ function AthleteProfileModal({ close }) {
           aria-label="Close"
           style={{
             width: 36, height: 36, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
-            color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--surface-2)', border: '1px solid var(--sep)',
+            color: 'var(--label)', display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', fontSize: 16, flexShrink: 0
           }}
         >
@@ -1724,37 +1724,38 @@ function AthleteProfileModal({ close }) {
       </div>
 
       {/* Physiological Inputs Card */}
-      <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.25)', borderRadius: 18, padding: '16px', marginBottom: 14 }}>
-        <div style={{ fontSize: 10.5, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
+      <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px', marginBottom: 14, boxShadow: 'var(--card-shadow)' }}>
+        <div style={{ fontSize: 10.5, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
           Physiological Identity
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* Athlete Name */}
           <div>
-            <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+            <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
               Full Name / Nickname
             </label>
             <input
               value={name}
               onChange={e => setName(e.target.value)}
-              style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700 }}
+              style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--label)', fontWeight: 700 }}
             />
           </div>
 
           {/* Biological Sex & Age */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 8 }}>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Biological Sex
               </label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: 2 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: 2 }}>
                 <button
                   type="button"
                   onClick={() => setGender('male')}
                   style={{
-                    background: gender === 'male' ? '#ffffff' : 'transparent',
-                    color: gender === 'male' ? '#000000' : '#ffffff',
+                    background: gender === 'male' ? 'var(--card-bg)' : 'transparent',
+                    color: gender === 'male' ? 'var(--label)' : 'var(--label-2)',
+                    boxShadow: gender === 'male' ? '0 2px 6px rgba(0,0,0,0.1)' : 'none',
                     border: 'none', borderRadius: 8, padding: '8px 0', fontWeight: 800, fontSize: 12, cursor: 'pointer'
                   }}
                 >
@@ -1764,8 +1765,9 @@ function AthleteProfileModal({ close }) {
                   type="button"
                   onClick={() => setGender('female')}
                   style={{
-                    background: gender === 'female' ? '#ffffff' : 'transparent',
-                    color: gender === 'female' ? '#000000' : '#ffffff',
+                    background: gender === 'female' ? 'var(--card-bg)' : 'transparent',
+                    color: gender === 'female' ? 'var(--label)' : 'var(--label-2)',
+                    boxShadow: gender === 'female' ? '0 2px 6px rgba(0,0,0,0.1)' : 'none',
                     border: 'none', borderRadius: 8, padding: '8px 0', fontWeight: 800, fontSize: 12, cursor: 'pointer'
                   }}
                 >
@@ -1774,14 +1776,14 @@ function AthleteProfileModal({ close }) {
               </div>
             </div>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Age (Yrs)
               </label>
               <input
                 type="number"
                 value={age}
                 onChange={e => setAge(e.target.value)}
-                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--label)', fontWeight: 700, textAlign: 'center' }}
               />
             </div>
           </div>
@@ -1789,7 +1791,7 @@ function AthleteProfileModal({ close }) {
           {/* Current Bodyweight & Height */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Bodyweight ({st.unit})
               </label>
               <input
@@ -1797,18 +1799,18 @@ function AthleteProfileModal({ close }) {
                 step="0.1"
                 value={weight}
                 onChange={e => setWeight(e.target.value)}
-                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--label)', fontWeight: 700, textAlign: 'center' }}
               />
             </div>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Height (cm)
               </label>
               <input
                 type="number"
                 value={height}
                 onChange={e => setHeight(e.target.value)}
-                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--label)', fontWeight: 700, textAlign: 'center' }}
               />
             </div>
           </div>
@@ -1816,13 +1818,13 @@ function AthleteProfileModal({ close }) {
           {/* Goal & Target Weight */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: 8 }}>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Primary Goal
               </label>
               <select
                 value={goal}
                 onChange={e => setGoal(e.target.value)}
-                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: '#fff', fontWeight: 700 }}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: 'var(--label)', fontWeight: 700 }}
               >
                 <option value="fat_loss">Cut &amp; Definition</option>
                 <option value="muscle">Hypertrophy &amp; Mass</option>
@@ -1831,7 +1833,7 @@ function AthleteProfileModal({ close }) {
               </select>
             </div>
             <div>
-              <label style={{ fontSize: 10.5, fontWeight: 700, color: '#a1a1aa', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
+              <label style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--label-2)', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>
                 Goal Wt ({st.unit})
               </label>
               <input
@@ -1839,7 +1841,7 @@ function AthleteProfileModal({ close }) {
                 step="0.1"
                 value={targetWeight}
                 onChange={e => setTargetWeight(e.target.value)}
-                style={{ width: '100%', boxSizing: 'border-box', background: '#1a1a20', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: '#fff', fontWeight: 700, textAlign: 'center' }}
+                style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 14, color: 'var(--label)', fontWeight: 700, textAlign: 'center' }}
               />
             </div>
           </div>
@@ -1847,26 +1849,26 @@ function AthleteProfileModal({ close }) {
       </div>
 
       {/* Calculated Metabolic Telemetry */}
-      <div style={{ background: '#121216', border: '1px solid rgba(255,255,255,0.12)', borderTop: '1px solid rgba(255,255,255,0.25)', borderRadius: 18, padding: '16px', marginBottom: 16 }}>
-        <div style={{ fontSize: 10.5, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px', marginBottom: 16, boxShadow: 'var(--card-shadow)' }}>
+        <div style={{ fontSize: 10.5, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
           <Icon name="sparkles" /> Active Metabolic Blueprint
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, textAlign: 'center' }}>
-          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{targetKcal}</div>
-            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>KCAL/DAY</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{targetKcal}</div>
+            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>KCAL/DAY</div>
           </div>
-          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{targetProtein}g</div>
-            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>PROTEIN</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{targetProtein}g</div>
+            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>PROTEIN</div>
           </div>
-          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{bmr}</div>
-            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{bmr}</div>
+            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
           </div>
-          <div style={{ background: '#1a1a20', padding: '10px 4px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>{bmi}</div>
-            <div style={{ fontSize: 9, color: '#a1a1aa', fontWeight: 700, marginTop: 2 }}>BMI</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{bmi}</div>
+            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMI</div>
           </div>
         </div>
       </div>
@@ -1877,9 +1879,7 @@ function AthleteProfileModal({ close }) {
           variant="primary"
           onClick={handleSaveProfile}
           style={{
-            padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12,
-            background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)', color: '#000000',
-            boxShadow: '0 4px 18px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff'
+            padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12
           }}
         >
           💾 Save Profile &amp; Recalibrate Blueprint
@@ -1888,9 +1888,7 @@ function AthleteProfileModal({ close }) {
           variant="ghost"
           onClick={() => { close(); onboardingWizardSheet() }}
           style={{
-            padding: '12px', fontSize: 13, fontWeight: 800, borderRadius: 12,
-            background: 'linear-gradient(180deg, #24242c 0%, #15151a 100%)',
-            border: '1px solid rgba(255,255,255,0.18)', color: '#ffffff'
+            padding: '12px', fontSize: 13, fontWeight: 800, borderRadius: 12
           }}
         >
           ⚡ Re-Run Full AI Custom Plan Generator →
@@ -2161,8 +2159,8 @@ function WeeklyCheckinModal({ close }) {
           aria-label="Close"
           style={{
             width: 36, height: 36, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)',
-            color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'var(--surface-2)', border: '1px solid var(--sep)',
+            color: 'var(--label)', display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer', fontSize: 16, flexShrink: 0
           }}
         >
@@ -2173,13 +2171,14 @@ function WeeklyCheckinModal({ close }) {
       {/* ── SECTION 1: DIGITAL WEIGH-IN HUD ─────────────────────── */}
       <div
         style={{
-          background: 'linear-gradient(135deg, rgba(28, 28, 30, 0.95), rgba(18, 18, 20, 0.98))',
-          border: '1px solid var(--sep)',
+          background: 'var(--card-bg)',
+          border: '1px solid var(--card-border)',
+          borderTop: '1px solid var(--card-border-top)',
           borderRadius: 16,
           padding: '18px 14px',
           marginBottom: 14,
           textAlign: 'center',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+          boxShadow: 'var(--card-shadow)'
         }}
       >
         <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.2px', color: 'var(--acc)', marginBottom: 10 }}>
@@ -2253,7 +2252,7 @@ function WeeklyCheckinModal({ close }) {
       </div>
 
       {/* ── SECTION 2: PHYSIQUE STUDIO (3-ANGLE CAMERA) ─────────── */}
-      <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '16px 14px', marginBottom: 14 }}>
+      <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 16, padding: '16px 14px', marginBottom: 14, boxShadow: 'var(--card-shadow)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
           <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--acc)' }}>
             Physique Check-In Photos
