@@ -17,44 +17,44 @@
    ========================================================================== */
 
 :root {
-  /* surfaces — deep pitch black & dark slate theme */
+  /* surfaces — minimalist luxury obsidian & carbon (pure dark monochrome) */
   --bg:        #000000;
-  --bg-el:     #090d16;   /* elevated backdrop (sheets, bars) */
-  --surface:   #0f172a;   /* card / grouped-list fill */
-  --surface-2: #1e293b;   /* pressed + nested fill */
-  --surface-3: #27354f;   /* controls (segmented track, switch off) */
+  --bg-el:     #0c0c0e;   /* elevated backdrop (sheets, bars) */
+  --surface:   #121215;   /* card / grouped-list fill */
+  --surface-2: #1a1a1f;   /* pressed + nested fill */
+  --surface-3: #26262c;   /* controls (segmented track, switch off) */
 
   /* text */
   --label:     #ffffff;
-  --label-2:   rgba(235,240,250,.68);
-  --label-3:   rgba(235,240,250,.38);
-  --label-4:   rgba(235,240,250,.18);
+  --label-2:   rgba(255,255,255,.72);
+  --label-3:   rgba(255,255,255,.42);
+  --label-4:   rgba(255,255,255,.20);
 
   /* lines */
   --sep:       rgba(255,255,255,.08);
-  --sep-op:    rgba(37,99,235,.20);
+  --sep-op:    rgba(255,255,255,.14);
   --hair:      .5px;
 
-  /* palette: Deep Royal Blue, Pitch Black, Crisp White & Silver */
-  --blue:      #2563eb;
-  --blue-light:#3b82f6;
-  --blue-dark: #1d4ed8;
-  --green:     #2563eb;
-  --teal:      #2563eb;
+  /* palette: Pure Platinum Silver, Stealth Obsidian, Crisp White */
+  --blue:      #ffffff;
+  --blue-light:#e2e8f0;
+  --blue-dark: #cbd5e1;
+  --green:     #ffffff;
+  --teal:      #ffffff;
   --silver:    #e2e8f0;
   --grey:      #94a3b8;
   --red:       #ef4444;
-  --orange:    #2563eb;
-  --yellow:    #3b82f6;
-  --purple:    #2563eb;
-  --mint:      #2563eb;
+  --orange:    #ffffff;
+  --yellow:    #ffffff;
+  --purple:    #ffffff;
+  --mint:      #ffffff;
 
-  /* accent (Rich Royal Blue default) */
-  --acc:       #2563eb;
-  --acc-2:     #1d4ed8;
-  --on-acc:    #ffffff;
-  --acc-soft:  rgba(37, 99, 235, 0.16);
-  --acc-line:  rgba(37, 99, 235, 0.40);
+  /* accent (Crisp Platinum White) */
+  --acc:       #ffffff;
+  --acc-2:     #e2e8f0;
+  --on-acc:    #000000;
+  --acc-soft:  rgba(255, 255, 255, 0.12);
+  --acc-line:  rgba(255, 255, 255, 0.30);
 
   /* geometry */
   --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:22px; --r-card:14px;
@@ -70,37 +70,38 @@
 }
 
 :root[data-theme="light"] {
-  --bg:        #f2f2f7;
-  --bg-el:     #f7f7fa;
+  --bg:        #f4f4f6;
+  --bg-el:     #ffffff;
   --surface:   #ffffff;
-  --surface-2: #ececef;
-  --surface-3: #e3e3e8;
+  --surface-2: #ececf0;
+  --surface-3: #e2e2e7;
 
   --label:     #000000;
-  --label-2:   rgba(60,60,67,.60);
-  --label-3:   rgba(60,60,67,.30);
-  --label-4:   rgba(60,60,67,.16);
+  --label-2:   rgba(0,0,0,.60);
+  --label-3:   rgba(0,0,0,.35);
+  --label-4:   rgba(0,0,0,.18);
 
-  --sep:       rgba(60,60,67,.29);
-  --sep-op:    rgba(60,60,67,.20);
+  --sep:       rgba(0,0,0,.10);
+  --sep-op:    rgba(0,0,0,.15);
 
-  --blue:#2563eb; --green:#2563eb; --red:#ff3b30; --orange:#2563eb;
-  --yellow:#3b82f6; --teal:#2563eb; --indigo:#1d4ed8; --pink:#ec4899;
-  --purple:#2563eb; --mint:#2563eb; --grey:#8e8e93;
-  --acc-2:#1d4ed8;
+  --blue:#000000; --green:#000000; --red:#ef4444; --orange:#000000;
+  --yellow:#000000; --teal:#000000; --indigo:#000000; --pink:#000000;
+  --purple:#000000; --mint:#000000; --grey:#71717a;
+  --acc-2:#27272a;
   --on-acc:#ffffff;
 }
 
-/* accents — default to Black & Royal Blue for all signups & existing users */
+/* accents — default to Minimalist Platinum Silver across all profiles */
 :root[data-accent="lime"],
 :root[data-accent="sky"],
 :root[data-accent="teal"],
+:root[data-accent="silver"],
 :root[data-accent="blue"] {
-  --acc:       #2563eb;
-  --acc-2:     #1d4ed8;
-  --on-acc:    #ffffff;
-  --acc-soft:  rgba(37, 99, 235, 0.16);
-  --acc-line:  rgba(37, 99, 235, 0.40);
+  --acc:       #ffffff;
+  --acc-2:     #e2e8f0;
+  --on-acc:    #000000;
+  --acc-soft:  rgba(255, 255, 255, 0.12);
+  --acc-line:  rgba(255, 255, 255, 0.30);
 }
 /* Label colour on a filled accent button is picked per accent by measured contrast,
    not by taste. Button text is 17px/600, so the AA bar is 3:1 (large text). White on

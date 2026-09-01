@@ -87,25 +87,25 @@ export default function Home() {
                 height: '46px',
                 borderRadius: '12px',
                 objectFit: 'contain',
-                background: 'linear-gradient(135deg, #101726, #000000)',
-                border: '1px solid rgba(37, 99, 235, 0.35)',
-                boxShadow: '0 0 14px rgba(37, 99, 235, 0.2)',
+                background: '#121215',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6)',
                 padding: '2px'
               }}
             />
-            <div style={{ position: 'absolute', bottom: -1, right: -1, width: '10px', height: '10px', borderRadius: '50%', background: '#2563eb', border: '2px solid #000', boxShadow: '0 0 8px #2563eb' }} />
+            <div style={{ position: 'absolute', bottom: -1, right: -1, width: '10px', height: '10px', borderRadius: '50%', background: '#ffffff', border: '2px solid #000' }} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <h1 style={{ margin: 0, fontSize: '19px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff' }}>
                 Hi, {athleteName}
               </h1>
-              <span style={{ fontSize: '9px', fontWeight: '900', background: 'rgba(37, 99, 235, 0.15)', color: '#60a5fa', border: '1px solid rgba(37, 99, 235, 0.35)', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <span style={{ fontSize: '9px', fontWeight: '900', background: 'rgba(255, 255, 255, 0.1)', color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.2)', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                 PRO PASS
               </span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--label-3)', marginTop: '2px', fontWeight: '500' }}>
-              {today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'short' })} • <span style={{ color: '#60a5fa', fontWeight: '700' }}>⚡ {readinessScore}% Readiness</span>
+              {today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'short' })} • <span style={{ color: '#ffffff', fontWeight: '700' }}>⚡ {readinessScore}% Readiness</span>
             </div>
           </div>
         </div>
@@ -115,8 +115,8 @@ export default function Home() {
             onClick={() => calendarSheet()}
             style={{
               display: 'flex', alignItems: 'center', gap: '5px',
-              background: 'rgba(37, 99, 235, 0.12)', border: '1px solid rgba(37, 99, 235, 0.35)',
-              borderRadius: '99px', padding: '5px 10px', fontSize: '12px', fontWeight: '800', color: '#60a5fa',
+              background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: '99px', padding: '5px 10px', fontSize: '12px', fontWeight: '800', color: '#ffffff',
               cursor: 'pointer'
             }}
           >
@@ -133,41 +133,41 @@ export default function Home() {
       <div
         className="card"
         style={{
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(10, 14, 23, 0.98) 100%)',
-          border: '1px solid rgba(37, 99, 235, 0.25)',
-          borderLeft: '4px solid #2563eb',
+          background: '#121215',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderLeft: '3.5px solid #ffffff',
           borderRadius: '18px',
           padding: '16px',
           marginBottom: '14px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.45), 0 0 16px rgba(37,99,235,0.08)'
+          boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: '#60a5fa', fontSize: '17px', display: 'flex', alignItems: 'center' }}>
+            <span style={{ color: '#ffffff', fontSize: '16px', display: 'flex', alignItems: 'center' }}>
               <Icon name="sparkles" />
             </span>
             <span style={{ fontSize: '14.5px', fontWeight: '800', color: '#fff', letterSpacing: '-0.2px' }}>
               Coach AI Intelligence Briefing
             </span>
           </div>
-          <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'rgba(37, 99, 235, 0.15)', color: '#60a5fa', border: '1px solid rgba(37, 99, 235, 0.35)', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.08)', color: '#ffffff', border: '1px solid rgba(255, 255, 255, 0.18)', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             ACTIVE PLAN
           </span>
         </div>
 
-        {/* Personalized Targets Strip (Black & Royal Blue & Silver Badges) */}
+        {/* Personalized Targets Strip (Monochrome Platinum Badges) */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '10px' }}>
-          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(37, 99, 235, 0.15)', border: '1px solid rgba(37, 99, 235, 0.35)', color: '#60a5fa', padding: '3px 8px', borderRadius: '6px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', color: '#ffffff', padding: '3px 8px', borderRadius: '6px' }}>
             🔥 {targetKcal} kcal
           </span>
-          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#e2e8f0', padding: '3px 8px', borderRadius: '6px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#e2e8f0', padding: '3px 8px', borderRadius: '6px' }}>
             🥩 {targetProtein}g Protein
           </span>
-          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#cbd5e1', padding: '3px 8px', borderRadius: '6px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#cbd5e1', padding: '3px 8px', borderRadius: '6px' }}>
             🍚 {targetCarbs}g Carbs
           </span>
-          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: '#94a3b8', padding: '3px 8px', borderRadius: '6px' }}>
+          <span style={{ fontSize: '11px', fontWeight: '800', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#94a3b8', padding: '3px 8px', borderRadius: '6px' }}>
             🥑 {targetFat}g Fats
           </span>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
           <button
             onClick={() => nav('/plan')}
             style={{
-              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+              background: '#1a1a1f', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px',
               padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
             }}
           >
@@ -190,7 +190,7 @@ export default function Home() {
           <button
             onClick={() => nav('/nutrition')}
             style={{
-              background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+              background: '#1a1a1f', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px',
               padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
             }}
           >
@@ -199,8 +199,8 @@ export default function Home() {
           <button
             onClick={onboardingWizardSheet}
             style={{
-              background: 'rgba(37, 99, 235, 0.15)', border: '1px solid rgba(37, 99, 235, 0.4)', borderRadius: '8px',
-              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#60a5fa', cursor: 'pointer'
+              background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '8px',
+              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#ffffff', cursor: 'pointer'
             }}
           >
             ⚡ Rebuild Plan
@@ -209,7 +209,7 @@ export default function Home() {
       </div>
 
       {/* ── 3. WEEKLY SCHEDULE CALENDAR STRIP ──────────────────────── */}
-      <div className="card" style={{ padding: '14px 16px', marginBottom: '14px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+      <div className="card" style={{ padding: '14px 16px', marginBottom: '14px', background: '#121215', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
         <div className="row between" style={{ marginBottom: 10 }}>
           <div style={{ fontSize: '13.5px', fontWeight: '800', color: '#fff' }}>{wkLabel}</div>
           <div className="row" style={{ gap: 4 }}>
@@ -227,24 +227,12 @@ export default function Home() {
       <div
         className="card"
         style={{
-          background: S.active
-            ? 'linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(10, 14, 23, 0.98) 100%)'
-            : routine
-              ? 'linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(10, 14, 23, 0.98) 100%)'
-              : 'linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(10, 14, 23, 0.98) 100%)',
-          border: S.active
-            ? '1.5px solid #2563eb'
-            : routine
-              ? '1.5px solid rgba(37, 99, 235, 0.45)'
-              : '1px solid var(--sep)',
+          background: '#121215',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '20px',
           padding: '18px',
           marginBottom: '14px',
-          boxShadow: S.active
-            ? '0 10px 30px rgba(37, 99, 235, 0.25)'
-            : routine
-              ? '0 10px 30px rgba(37, 99, 235, 0.18)'
-              : '0 8px 24px rgba(0,0,0,0.3)'
+          boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
         }}
       >
         {/* Header Badge */}
@@ -252,10 +240,10 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{
               width: '7px', height: '7px', borderRadius: '50%',
-              background: S.active || routine ? '#2563eb' : '#94a3b8',
-              boxShadow: S.active || routine ? '0 0 8px #2563eb' : 'none'
+              background: '#ffffff',
+              boxShadow: '0 0 6px rgba(255, 255, 255, 0.6)'
             }} />
-            <span style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase', color: S.active || routine ? '#60a5fa' : 'var(--label-3)' }}>
+            <span style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase', color: '#ffffff' }}>
               {S.active ? '⚡ Workout In Progress' : routine ? "Today's Training Focus" : 'Active Recovery Day'}
             </span>
           </div>
@@ -265,7 +253,7 @@ export default function Home() {
               <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', padding: '3px 8px', borderRadius: '6px', color: '#cbd5e1' }}>
                 ⏱️ ~45 min
               </span>
-              <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(37, 99, 235, 0.18)', border: '1px solid rgba(37, 99, 235, 0.4)', padding: '3px 8px', borderRadius: '6px', color: '#60a5fa' }}>
+              <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.2)', padding: '3px 8px', borderRadius: '6px', color: '#ffffff' }}>
                 {routine.ex.length} Exercises
               </span>
             </div>
@@ -277,10 +265,11 @@ export default function Home() {
           <div
             style={{
               width: '52px', height: '52px', borderRadius: '16px',
-              background: S.active || routine ? 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)' : 'var(--surface-2)',
+              background: '#1a1a1f',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
               color: '#ffffff',
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0,
-              boxShadow: S.active || routine ? '0 4px 16px rgba(37, 99, 235, 0.4)' : 'none'
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)'
             }}
           >
             <Icon name={S.active ? 'timer' : routine ? glyphOf(routine.emoji) : 'moon'} />
@@ -301,7 +290,7 @@ export default function Home() {
 
         {/* Interactive Exercise Preview List (Clickable Drilldown) */}
         {routine && routine.ex && routine.ex.length > 0 && !S.active && (
-          <div style={{ background: '#0a0e17', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+          <div style={{ background: '#0a0a0c', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
             <div style={{ fontSize: '10px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
               Prescribed Exercise Lineup:
             </div>
@@ -314,17 +303,17 @@ export default function Home() {
                     onClick={() => exConfigSheet(e, true, () => {}, () => {}, routine)}
                     style={{
                       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                      background: '#1e293b', border: '1px solid rgba(255,255,255,0.04)', borderRadius: '8px',
+                      background: '#18181c', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px',
                       padding: '7px 10px', cursor: 'pointer', transition: 'all 0.15s'
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-                      <span style={{ fontSize: '11px', color: '#60a5fa', fontWeight: '800' }}>#{idx + 1}</span>
+                      <span style={{ fontSize: '11px', color: '#ffffff', fontWeight: '800' }}>#{idx + 1}</span>
                       <span style={{ fontSize: '12.5px', fontWeight: '700', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {exObj.n}
                       </span>
                     </div>
-                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#60a5fa', flexShrink: 0 }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#cbd5e1', flexShrink: 0 }}>
                       {e.sets || 3} × {e.reps || 10}
                     </span>
                   </div>
@@ -334,13 +323,13 @@ export default function Home() {
           </div>
         )}
 
-        {/* Main CTA Action Button in Royal Blue */}
+        {/* Main CTA Action Button in Crisp Luxury White */}
         <button
           onClick={onToday}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-            color: '#ffffff',
+            background: '#ffffff',
+            color: '#000000',
             border: 'none',
             borderRadius: '14px',
             padding: '14px',
@@ -351,7 +340,7 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 6px 20px rgba(37, 99, 235, 0.4)'
+            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.18)'
           }}
         >
           <span>
@@ -367,21 +356,21 @@ export default function Home() {
       {/* ── 5. WEEKLY TRAINING TELEMETRY HUD ──────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '14px' }}>
         {/* Workouts Completed */}
-        <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ background: '#121215', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             SESSIONS
           </div>
           <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
             {wThisWeek} <span style={{ fontSize: '11px', color: '#94a3b8' }}>/ {plannedPerWeek}</span>
           </div>
           <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '99px', overflow: 'hidden', marginTop: '6px' }}>
-            <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: '#2563eb', borderRadius: '99px' }} />
+            <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: '#ffffff', borderRadius: '99px' }} />
           </div>
         </div>
 
         {/* Total Volume */}
-        <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
-          <div style={{ fontSize: '10px', fontWeight: '800', color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+        <div style={{ background: '#121215', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             VOLUME
           </div>
           <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
@@ -395,22 +384,22 @@ export default function Home() {
         {/* Current Bodyweight */}
         <div
           onClick={() => bwSheet()}
-          style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center', cursor: 'pointer' }}
+          style={{ background: '#121215', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center', cursor: 'pointer' }}
         >
-          <div style={{ fontSize: '10px', fontWeight: '800', color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div style={{ fontSize: '10px', fontWeight: '800', color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
             WEIGHT
           </div>
           <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px' }}>
             {bw ? fmtNum(bw.w) : '--'} <span style={{ fontSize: '10px', color: '#94a3b8' }}>{S.unit}</span>
           </div>
-          <div style={{ fontSize: '9.5px', color: delta ? (delta < 0 ? '#60a5fa' : '#e2e8f0') : '#94a3b8', fontWeight: '700', marginTop: '4px' }}>
+          <div style={{ fontSize: '9.5px', color: '#cbd5e1', fontWeight: '700', marginTop: '4px' }}>
             {delta ? (delta > 0 ? `+${fmtNum(delta)} ${S.unit}` : `${fmtNum(delta)} ${S.unit}`) : 'Log today'}
           </div>
         </div>
       </div>
 
       {/* ── 6. BODYWEIGHT PROGRESS TRACKER ────────────────────────── */}
-      <div className="card" style={{ padding: '16px', marginBottom: '14px', background: '#0f172a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
+      <div className="card" style={{ padding: '16px', marginBottom: '14px', background: '#121215', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px' }}>
         <div className="row between" style={{ marginBottom: 8 }}>
           <div>
             <div style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase', color: '#94a3b8' }}>
@@ -419,7 +408,7 @@ export default function Home() {
             <h2 style={{ margin: '2px 0 0', fontSize: '17px', fontWeight: '900', color: '#fff' }}>{t('Weight Progress')}</h2>
           </div>
           <div className="row" style={{ gap: 6 }}>
-            <Button size="sm" icon="target" style={S.targetW ? { color: 'var(--acc)' } : undefined} onClick={goalSheet}>
+            <Button size="sm" icon="target" style={S.targetW ? { color: '#ffffff' } : undefined} onClick={goalSheet}>
               {S.targetW ? `${fmtNum(S.targetW)} ${S.unit}` : t('Set Goal')}
             </Button>
             <Button size="sm" icon="plus" onClick={() => bwSheet()}>
@@ -462,8 +451,8 @@ export default function Home() {
       <div
         className="card"
         style={{
-          background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.16) 0%, rgba(10, 14, 23, 0.98) 100%)',
-          border: '1px solid rgba(37, 99, 235, 0.35)',
+          background: '#121215',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '16px',
           padding: '14px 16px',
           marginBottom: '14px',
@@ -474,11 +463,11 @@ export default function Home() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: 'rgba(37, 99, 235, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
+          <div style={{ width: '38px', height: '38px', borderRadius: '10px', background: '#1a1a1f', border: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
             📸
           </div>
           <div>
-            <div style={{ fontWeight: 800, color: '#60a5fa', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+            <div style={{ fontWeight: 800, color: '#ffffff', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
               Weekly Progress Check-in
             </div>
             <div style={{ fontSize: '11px', color: '#cbd5e1', lineHeight: 1.3, marginTop: '2px' }}>
@@ -486,7 +475,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Button size="sm" variant="primary" style={{ background: '#2563eb', color: '#ffffff', flexShrink: 0, fontWeight: 900, borderRadius: '10px', padding: '7px 12px', fontSize: '12px' }} onClick={weeklyCheckinSheet}>
+        <Button size="sm" variant="primary" style={{ background: '#ffffff', color: '#000000', flexShrink: 0, fontWeight: 900, borderRadius: '10px', padding: '7px 12px', fontSize: '12px' }} onClick={weeklyCheckinSheet}>
           Check In →
         </Button>
       </div>
