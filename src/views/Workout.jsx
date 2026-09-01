@@ -214,8 +214,8 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
         </button>
       </div>
 
-      {/* Previous Performance or Progression Target */}
-      {last ? (
+      {/* Previous Performance Reference */}
+      {last && (
         <div style={{
           background: 'var(--surface-2)',
           border: '1px solid var(--sep)',
@@ -230,18 +230,6 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
         }}>
           <span style={{ fontWeight: '800', color: 'var(--label)' }}>⏱️ Last ({fmtDate(last.d)}):</span>
           <span>{last.sets.map(s => setLabel(entry.id, s, last.target)).join(' · ')}</span>
-        </div>
-      ) : (
-        <div style={{
-          background: 'var(--surface-2)',
-          border: '1px solid var(--sep)',
-          borderRadius: '10px',
-          padding: '7px 12px',
-          marginBottom: '12px',
-          fontSize: '11px',
-          color: 'var(--label-2)'
-        }}>
-          📍 First time logging — this session sets your baseline!
         </div>
       )}
 

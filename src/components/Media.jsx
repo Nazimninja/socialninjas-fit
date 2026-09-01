@@ -25,7 +25,7 @@ export default function Media({ ex, id, compact, minimizable }) {
         position: 'relative',
         borderRadius: '18px',
         overflow: 'hidden',
-        background: 'var(--surface-2)',
+        background: '#ffffff',
         border: '1px solid var(--card-border)',
         marginBottom: '12px',
         cursor: 'pointer',
@@ -33,6 +33,7 @@ export default function Media({ ex, id, compact, minimizable }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        padding: '12px',
         boxShadow: 'var(--card-shadow)'
       }}
     >
@@ -41,11 +42,11 @@ export default function Media({ ex, id, compact, minimizable }) {
         src={playing ? gifSrc(ex) : imgSrc(ex)}
         alt={ex.n}
         style={{
-          width: '100%',
-          height: mini ? '110px' : compact ? '140px' : '200px',
+          maxWidth: '100%',
+          height: mini ? '130px' : compact ? '150px' : '220px',
+          maxHeight: '260px',
           objectFit: 'contain',
-          display: 'block',
-          mixBlendMode: 'multiply'
+          display: 'block'
         }}
       />
       {minimizable && (
