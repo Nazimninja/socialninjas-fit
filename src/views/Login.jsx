@@ -42,13 +42,28 @@ export function RegisterSheet({ close }) {
     }
   }
 
-  return <>
-    <h3>{t('Complete your Fit Ninjas Profile')}</h3>
-    <div className="muted small" style={{ marginBottom: 14 }}>{t('Enter your athlete name to complete your membership.')}</div>
-    <input ref={ref} className="input" placeholder={t('Your name')} maxLength={40} value={name} onChange={e => setName(e.target.value)} />
-    <div style={{ height: 12 }} />
-    <Button variant="primary" onClick={go}>{t('Complete Registration & Launch Client Onboarding')}</Button>
-  </>
+  return (
+    <div style={{ padding: '8px 4px' }}>
+      <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', margin: '0 0 6px' }}>
+        {t('Complete your Fit Ninjas Profile')}
+      </h3>
+      <div className="muted small" style={{ marginBottom: '16px', fontSize: '13px', color: 'var(--label-2)' }}>
+        {t('Enter your athlete name to complete your membership setup.')}
+      </div>
+      <input
+        ref={ref}
+        className="input"
+        placeholder={t('Your full athlete name')}
+        maxLength={40}
+        value={name}
+        onChange={e => setName(e.target.value)}
+        style={{ marginBottom: '14px', fontSize: '15px' }}
+      />
+      <Button variant="primary" onClick={go} style={{ width: '100%', padding: '14px', fontWeight: '800' }}>
+        {t('Complete Registration & Launch Client Onboarding')}
+      </Button>
+    </div>
+  )
 }
 
 export default function Login() {
@@ -121,75 +136,214 @@ export default function Login() {
     }
   }
 
-  const wrap = { display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '82vh', textAlign: 'center' }
-
   return (
-    <div className="narrow" style={wrap}>
-      <h1 style={{ fontSize: 38, fontWeight: 900, letterSpacing: '-.03em', margin: '0 0 2px', color: '#fff' }}>
-        Fit<span style={{ color: '#38bdf8' }}>Ninjas</span>
-      </h1>
-      <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#94a3b8', marginBottom: 20 }}>
-        BY SOCIAL NINJA'S
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        padding: '32px 16px 60px',
+        maxWidth: '520px',
+        margin: '0 auto',
+        textAlign: 'center'
+      }}
+    >
+      {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
+      <div style={{ position: 'relative', marginBottom: '18px' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '120px',
+            height: '120px',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(37,99,235,0) 70%)',
+            filter: 'blur(20px)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }}
+        />
+        <img
+          src="/ninja-logo.png"
+          alt="Fit Ninjas Official Emblem"
+          style={{
+            position: 'relative',
+            width: '92px',
+            height: '92px',
+            borderRadius: '26px',
+            boxShadow: '0 16px 36px rgba(0,0,0,0.5), 0 0 0 2px rgba(56,189,248,0.35)',
+            zIndex: 1,
+            display: 'block',
+            margin: '0 auto',
+            objectFit: 'cover'
+          }}
+        />
       </div>
 
-      {/* Plan Card */}
-      <div style={{ background: '#0f172a', border: '1px solid rgba(37,99,235,0.4)', borderRadius: 20, padding: '24px 20px', marginBottom: 20, textAlign: 'left' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>Fit Ninjas Pro Pass</span>
-          <span style={{ fontSize: 18, fontWeight: 900, color: '#fff' }}>₹299 <span style={{ fontSize: 11, color: '#94a3b8', fontWeight: 500 }}>/ month</span></span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '4px' }}>
+        <h1 style={{ fontSize: '34px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
+          Fit<span style={{ color: '#38bdf8' }}>Ninjas</span>
+        </h1>
+        <span
+          style={{
+            background: 'linear-gradient(135deg, #38bdf8, #2563eb)',
+            color: '#ffffff',
+            fontSize: '10px',
+            fontWeight: '900',
+            padding: '3px 8px',
+            borderRadius: '6px',
+            letterSpacing: '0.6px',
+            textTransform: 'uppercase'
+          }}
+        >
+          PRO
+        </span>
+      </div>
+
+      <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.8px', color: '#94a3b8', marginBottom: '24px' }}>
+        BY SOCIAL NINJA'S · AI ATHLETE SYSTEM
+      </div>
+
+      {/* ── 2. PRO PASS VALUE COCKPIT CARD ───────────────────────── */}
+      <div
+        style={{
+          width: '100%',
+          background: 'linear-gradient(165deg, rgba(15,23,42,0.95) 0%, rgba(10,15,30,0.98) 100%)',
+          border: '1px solid rgba(56,189,248,0.35)',
+          borderRadius: '24px',
+          padding: '24px 20px',
+          marginBottom: '20px',
+          textAlign: 'left',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1)',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Top Offer Pill */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+          <span
+            style={{
+              background: 'rgba(56,189,248,0.15)',
+              border: '1px solid rgba(56,189,248,0.4)',
+              color: '#38bdf8',
+              fontSize: '10.5px',
+              fontWeight: '900',
+              textTransform: 'uppercase',
+              letterSpacing: '0.8px',
+              padding: '4px 10px',
+              borderRadius: '99px'
+            }}
+          >
+            ⚡ ALL-ACCESS MEMBERSHIP
+          </span>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
+              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
+              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+            </div>
+            <div style={{ fontSize: '10px', color: '#22c55e', fontWeight: '800', marginTop: '1px' }}>
+              Save 70% · Just ₹9.9 / day
+            </div>
+          </div>
         </div>
 
-        <div style={{ fontSize: 12.5, color: '#cbd5e1', lineHeight: 1.6, display: 'grid', gap: 6, marginBottom: 18 }}>
-          <div>✓ 1,324+ Animated Video Exercise Demos</div>
-          <div>✓ Guided Workout Player &amp; Smart Rest Timers</div>
-          <div>✓ Anatomical Muscle Volume Heatmaps</div>
-          <div>✓ AI Macro &amp; Nutrition Engine (Veg &amp; Non-Veg)</div>
-          <div>✓ Greyskull LP Progressive Overload Trackers</div>
+        {/* Feature Stack with High-Contrast Icons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '22px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🎬</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>1,324+ HD Video Exercise Guides</div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Anatomical cues, technique videos, &amp; setup walkthroughs.</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🧠</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Autonomous AI Coach &amp; Check-ins</div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Adapts weight targets, reps &amp; calories based on weekly check-ins.</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🥗</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Custom Diet Engine (Veg &amp; Non-Veg)</div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>5-meal daily custom nutrition protocols with 25+ verified foods.</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>📊</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Anatomical Muscle Volume Heatmaps</div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>3D fatigue tracking &amp; Greyskull LP progressive overload curves.</div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>⏱️</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Distraction-Free Active Workout Player</div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Live session HUD, tactile set steppers, &amp; adaptive rest timers.</div>
+            </div>
+          </div>
         </div>
 
+        {/* Primary Checkout CTA */}
         <button
           onClick={handlePayment}
           style={{
-            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #2563eb 50%, #1d4ed8 100%)',
             border: 'none',
-            borderRadius: '12px',
-            padding: '14px 18px',
+            borderRadius: '16px',
+            padding: '16px 20px',
             color: '#ffffff',
-            fontSize: '14px',
-            fontWeight: '800',
+            fontSize: '15px',
+            fontWeight: '900',
             width: '100%',
             cursor: 'pointer',
-            boxShadow: '0 6px 20px rgba(37,99,235,0.4)',
+            boxShadow: '0 8px 30px rgba(37,99,235,0.5), inset 0 1px 1px rgba(255,255,255,0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '8px'
+            gap: '8px',
+            letterSpacing: '-0.2px',
+            transition: 'transform 0.15s ease'
           }}
         >
-          <span>⚡ Subscribe &amp; Unlock App — ₹299/mo</span>
+          <span>⚡ Unlock Fit Ninjas Pro — ₹299/mo</span>
         </button>
+
+        <div style={{ fontSize: '10.5px', color: '#94a3b8', textAlign: 'center', marginTop: '10px', fontWeight: '600' }}>
+          🔒 Instant 1-Click Activation via UPI, Cards, NetBanking · Cancel Anytime
+        </div>
       </div>
 
-      {/* Google Sign In & Paid Member Verification */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* ── 3. GOOGLE SIGN IN & MEMBER ACCESS ─────────────────────── */}
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <button
           onClick={handleGoogleSignIn}
           disabled={isVerifying}
           style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
-            borderRadius: '12px',
-            padding: '12px 18px',
+            borderRadius: '14px',
+            padding: '14px 18px',
             color: '#0f172a',
-            fontSize: '14px',
-            fontWeight: '700',
+            fontSize: '14.5px',
+            fontWeight: '800',
             width: '100%',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '10px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+            boxShadow: '0 4px 14px rgba(0,0,0,0.1)'
           }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24">
@@ -202,33 +356,78 @@ export default function Login() {
         </button>
 
         {!showSignInModal ? (
-          <Button variant="secondary" onClick={() => setShowSignInModal(true)}>
-            🔑 Already a Paid Member? Verify &amp; Sign In
-          </Button>
+          <button
+            type="button"
+            onClick={() => setShowSignInModal(true)}
+            style={{
+              background: 'rgba(15,23,42,0.8)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              borderRadius: '14px',
+              padding: '13px 18px',
+              color: '#e2e8f0',
+              fontSize: '13.5px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            <span>🔑 Already a Paid Member? Verify &amp; Sign In</span>
+          </button>
         ) : (
-        <div style={{ background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 18, textAlign: 'left' }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#fff', marginBottom: 4 }}>Verify Pro Subscription</div>
-          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 10 }}>Enter the email address associated with your Razorpay payment or admin account.</div>
-          <input
-            className="input"
-            placeholder="Enter your registered email address"
-            value={memberEmail}
-            onChange={e => setMemberEmail(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') handleMemberSignIn() }}
-            style={{ marginBottom: 12 }}
-          />
-          <div style={{ display: 'flex', gap: 8 }}>
-            <Button variant="primary" onClick={handleMemberSignIn} disabled={isVerifying}>
-              {isVerifying ? 'Verifying...' : 'Verify Subscription & Sign In'}
-            </Button>
-            <Button variant="ghost" onClick={() => setShowSignInModal(false)}>Cancel</Button>
+          <div
+            style={{
+              background: '#0f172a',
+              border: '1px solid rgba(56,189,248,0.3)',
+              borderRadius: '18px',
+              padding: '18px',
+              textAlign: 'left',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+            }}
+          >
+            <div style={{ fontSize: '13.5px', fontWeight: '800', color: '#ffffff', marginBottom: '4px' }}>
+              Verify Paid Membership
+            </div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '12px' }}>
+              Enter the email address used during Razorpay checkout or your registered athlete email.
+            </div>
+            <input
+              className="input"
+              placeholder="athlete@example.com"
+              value={memberEmail}
+              onChange={e => setMemberEmail(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleMemberSignIn() }}
+              style={{ marginBottom: '12px', background: 'rgba(255,255,255,0.06)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}
+            />
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <Button variant="primary" onClick={handleMemberSignIn} disabled={isVerifying} style={{ flex: 1, padding: '10px', fontWeight: '800' }}>
+                {isVerifying ? 'Verifying...' : 'Verify & Sign In'}
+              </Button>
+              <Button variant="ghost" onClick={() => setShowSignInModal(false)} style={{ color: '#94a3b8' }}>
+                Cancel
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
 
-      <div className="dim small" style={{ marginTop: 18, lineHeight: 1.5, fontSize: 11 }}>
-        Cancel anytime · Instant access after checkout · Secure Razorpay Payments
+      {/* ── 4. TRUST & SECURITY BADGES ────────────────────────────── */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '24px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          🔒 256-Bit SSL
+        </span>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          💳 Razorpay Verified
+        </span>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          ⭐ 4.9/5 Rating
+        </span>
+      </div>
+
+      <div style={{ marginTop: '10px', fontSize: '10.5px', color: '#64748b', lineHeight: 1.4 }}>
+        Cancel anytime in 1-click · Instant full-access unlock · Dedicated WhatsApp &amp; Email Support
       </div>
     </div>
   )
