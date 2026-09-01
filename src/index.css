@@ -265,31 +265,85 @@ h4.sec{
 /* -------------------------------------------------------------- buttons -- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:7px;width:100%;
-  padding:14px 18px;border-radius:var(--r);font-size:17px;font-weight:600;
-  letter-spacing:-.012em;background:var(--surface-2);color:var(--label);
-  transition:transform var(--fast) var(--ease),background var(--fast),opacity var(--fast);
+  padding:13px 18px;border-radius:var(--r);font-size:16px;font-weight:700;
+  letter-spacing:-.012em;
+  background:linear-gradient(180deg, #24242b 0%, #16161a 100%);
+  color:#ffffff;
+  border:1px solid rgba(255,255,255,0.18);
+  border-top:1px solid rgba(255,255,255,0.30);
+  box-shadow:0 3px 10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.16);
+  cursor:pointer;
+  transition:transform var(--fast) var(--ease),background var(--fast),box-shadow var(--fast),opacity var(--fast);
 }
-.btn .icn{font-size:19px}
-.btn:active{transform:scale(.975)}
-.btn.primary{background:var(--acc);color:var(--on-acc)}
-.btn.primary:active{background:var(--acc-2)}
-.btn.tinted{background:var(--acc-soft);color:var(--acc)}
-.btn.danger{background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
-.btn.ghost,.btn.plain{background:none;color:var(--acc);font-weight:400}
-.btn.ghost:active,.btn.plain:active{background:var(--surface-2)}
-.btn.sm{padding:8px 14px;width:auto;font-size:15px;border-radius:var(--r-sm);gap:5px}
-.btn.sm .icn{font-size:16px}
-.btn.xs{padding:5px 10px;width:auto;font-size:13px;border-radius:7px;gap:4px}
+.btn .icn{font-size:18px}
+.btn:active{
+  transform:scale(.975);
+  box-shadow:0 1px 4px rgba(0,0,0,0.6), inset 0 1px 2px rgba(0,0,0,0.4);
+}
+.btn.primary{
+  background:linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  color:#000000;
+  border:1px solid #ffffff;
+  border-top:1px solid #ffffff;
+  box-shadow:0 4px 16px rgba(255,255,255,0.22), inset 0 1px 0 #ffffff;
+}
+.btn.primary:active{
+  background:#d1d5db;
+  box-shadow:0 2px 6px rgba(255,255,255,0.12), inset 0 1px 2px rgba(0,0,0,0.2);
+}
+.btn.tinted{
+  background:linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.08) 100%);
+  border:1px solid rgba(255,255,255,0.22);
+  border-top:1px solid rgba(255,255,255,0.35);
+  box-shadow:0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  color:#ffffff;
+}
+.btn.danger{
+  background:linear-gradient(180deg, rgba(239,68,68,0.22) 0%, rgba(239,68,68,0.12) 100%);
+  border:1px solid rgba(239,68,68,0.35);
+  border-top:1px solid rgba(239,68,68,0.5);
+  box-shadow:0 2px 8px rgba(239,68,68,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  color:#ef4444;
+}
+.btn.ghost,.btn.plain{
+  background:linear-gradient(180deg, #222228 0%, #17171b 100%);
+  color:#ffffff;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,0.15);
+  border-top:1px solid rgba(255,255,255,0.25);
+  box-shadow:0 2px 6px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.btn.ghost:active,.btn.plain:active{background:#1a1a1f}
+.btn.sm{padding:8px 14px;width:auto;font-size:14px;font-weight:700;border-radius:var(--r-sm);gap:5px}
+.btn.sm .icn{font-size:15px}
+.btn.xs{padding:5px 10px;width:auto;font-size:12px;font-weight:700;border-radius:7px;gap:4px}
 .btn:disabled{opacity:.32;pointer-events:none}
+
+.iconbtn{
+  width:36px;height:36px;border-radius:10px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg, #24242b 0%, #16161a 100%);
+  border:1px solid rgba(255,255,255,0.16);
+  border-top:1px solid rgba(255,255,255,0.28);
+  box-shadow:0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+  color:#ffffff;cursor:pointer;
+  transition:transform var(--fast) var(--ease),box-shadow var(--fast),background var(--fast);
+}
+.iconbtn:active{
+  transform:scale(.92);
+  background:#121215;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);
+}
 
 /* ----------------------------------------------------------- tab bar ----- */
 #tabbar{
   position:fixed;left:0;right:0;bottom:0;z-index:50;
   display:flex;justify-content:space-around;align-items:flex-end;
   padding:7px 6px calc(6px + var(--sab));
-  background:color-mix(in srgb,var(--bg-el) 72%,transparent);
+  background:color-mix(in srgb,var(--bg-el) 80%,transparent);
   backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);
-  border-top:var(--hair) solid var(--sep-op);
+  border-top:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.5);
 }
 :root[data-theme="light"] #tabbar{background:rgba(249,249,251,.78)}
 #tabbar button{
@@ -297,29 +351,23 @@ h4.sec{
   color:var(--label-3);font-size:10px;font-weight:500;letter-spacing:.005em;padding-top:3px;
   transition:color var(--fast);
 }
-/* The inactive tint is semi-transparent, so wherever two strokes cross inside an
-   icon (the calendar's hangers over its frame, the divider's caps on its sides)
-   the alpha doubled up and the icon read as a stack of loose layers. Carrying the
-   fade on the <svg> instead of in the stroke colour flattens the icon first and
-   fades it as one shape — and it does that for every icon, not just this one. */
 #tabbar button .icn{font-size:25px;--icon-stroke:1.65;color:var(--label)}
 #tabbar button.on{color:var(--acc)}
 #tabbar button.on .icn{--icon-stroke:2;color:inherit;opacity:1}
 #tabbar button.start{margin-top:-24px}
 #tabbar button.start .cir{
-  width:52px;height:52px;border-radius:50%;background:var(--acc);color:var(--on-acc);
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  color:#000000;
+  border:1.5px solid #ffffff;
   display:flex;align-items:center;justify-content:center;position:relative;
-  box-shadow:0 6px 18px -4px color-mix(in srgb,var(--acc) 55%,transparent);
+  box-shadow:0 6px 20px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff;
   transition:transform var(--fast) var(--ease);
 }
 #tabbar button.start:active .cir{transform:scale(.93)}
 #tabbar button.start .cir .icn{font-size:26px;--icon-stroke:2;color:inherit;opacity:1}
-#tabbar button.start span{color:var(--acc);font-weight:600}
-/* `.cir` is itself a <span>, so the label rules above and below reach it too and
-   outrank the `.cir` block — which is how the running state ended up painting an
-   orange play glyph onto an orange disc. Both states restate their own colour.
-   The disc is orange in either theme, so its glyph is black, not `--on-acc`. */
-#tabbar button.start .cir{color:var(--on-acc)}
+#tabbar button.start span{color:#ffffff;font-weight:700}
+#tabbar button.start .cir{color:#000000}
 #tabbar button.start.rec .cir{background:var(--orange);color:#000;box-shadow:0 6px 18px -4px color-mix(in srgb,var(--orange) 55%,transparent)}
 #tabbar button.start.rec span{color:var(--orange)}
 #tabbar button.start.rec .cir::after{
@@ -342,9 +390,11 @@ h4.sec{
 .wday .dot.done{background:var(--acc)}
 .wday:active{background:var(--surface-2)}
 .wday.today .num{
-  background:var(--acc);color:var(--on-acc);font-weight:600;
+  background:linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  color:#000000;font-weight:700;
   width:31px;height:31px;border-radius:50%;display:flex;align-items:center;
   justify-content:center;margin:2px auto;
+  box-shadow:0 3px 10px rgba(255,255,255,0.25), inset 0 1px 0 #ffffff;
 }
 
 /* ----------------------------------------------------------------- list -- */

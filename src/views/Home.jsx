@@ -176,13 +176,24 @@ export default function Home() {
           {S.aiCoachCard?.coachNote || `Your customized plan is configured. Maintain consistency on your training days, progressive overload on compound lifts, and hit your protein target.`}
         </div>
 
-        {/* Quick Action Shortcuts */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+        {/* Quick Action Shortcuts with Tactile Raised Button Affordance */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           <button
             onClick={() => nav('/plan')}
             style={{
-              background: '#1a1a1f', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px',
-              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
+              background: 'linear-gradient(180deg, #25252c 0%, #17171c 100%)',
+              border: '1px solid rgba(255,255,255,0.18)',
+              borderTop: '1px solid rgba(255,255,255,0.30)',
+              boxShadow: '0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)',
+              borderRadius: '10px',
+              padding: '8px 13px',
+              fontSize: '12px',
+              fontWeight: '800',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
             }}
           >
             🏋️ Manage Split
@@ -190,8 +201,19 @@ export default function Home() {
           <button
             onClick={() => nav('/nutrition')}
             style={{
-              background: '#1a1a1f', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px',
-              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#fff', cursor: 'pointer'
+              background: 'linear-gradient(180deg, #25252c 0%, #17171c 100%)',
+              border: '1px solid rgba(255,255,255,0.18)',
+              borderTop: '1px solid rgba(255,255,255,0.30)',
+              boxShadow: '0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.15)',
+              borderRadius: '10px',
+              padding: '8px 13px',
+              fontSize: '12px',
+              fontWeight: '800',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
             }}
           >
             🥗 Recipes &amp; Macros
@@ -199,8 +221,19 @@ export default function Home() {
           <button
             onClick={onboardingWizardSheet}
             style={{
-              background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '8px',
-              padding: '6px 11px', fontSize: '11px', fontWeight: '700', color: '#ffffff', cursor: 'pointer'
+              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              borderTop: '1px solid rgba(255,255,255,0.40)',
+              boxShadow: '0 3px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
+              borderRadius: '10px',
+              padding: '8px 13px',
+              fontSize: '12px',
+              fontWeight: '800',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
             }}
           >
             ⚡ Rebuild Plan
@@ -323,14 +356,14 @@ export default function Home() {
           </div>
         )}
 
-        {/* Main CTA Action Button in Crisp Luxury White */}
+        {/* Main CTA Action Button with Tactile Depth & Bevel Highlight */}
         <button
           onClick={onToday}
           style={{
             width: '100%',
-            background: '#ffffff',
+            background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
             color: '#000000',
-            border: 'none',
+            border: '1px solid #ffffff',
             borderRadius: '14px',
             padding: '14px',
             fontSize: '15px',
@@ -340,7 +373,7 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.18)'
+            boxShadow: '0 4px 20px rgba(255, 255, 255, 0.25), inset 0 1px 0 #ffffff'
           }}
         >
           <span>
