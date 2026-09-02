@@ -70,6 +70,7 @@ export default function Login() {
   const { user, setUser, setPaid } = useStore()
   const [showSignInModal, setShowSignInModal] = useState(false)
   const [memberEmail, setMemberEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
 
   const handleGoogleSignIn = async () => {
@@ -89,9 +90,11 @@ export default function Login() {
   const handlePayment = () => {
     const activeEmail = (user?.email || memberEmail || '').trim().toLowerCase()
     const activeName = user?.name || ''
+    const cleanPhone = phone.trim() ? ('+91' + phone.trim().replace(/^(\+91|0)/, '')) : ''
     openRazorpayCheckout({
       name: activeName || 'Fit Ninja Athlete',
       email: activeEmail,
+      phone: cleanPhone,
       onSuccess: async (response) => {
         if (activeEmail) {
           try {
@@ -363,6 +366,32 @@ export default function Login() {
               <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Distraction-Free Active Workout Player</div>
               <div style={{ fontSize: '11px', color: '#94a3b8' }}>Live session HUD, tactile set steppers, &amp; adaptive rest timers.</div>
             </div>
+          </div>
+        </div>
+
+        {/* Optional Mobile Number Input */}
+        <div style={{ marginBottom: '14px' }}>
+          <label style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'block', marginBottom: '6px' }}>
+            Mobile Number (Optional · for payment receipt &amp; UPI)
+          </label>
+          <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '10px 14px', gap: '8px' }}>
+            <span style={{ fontSize: '13px', fontWeight: '700', color: '#94a3b8' }}>🇮🇳 +91</span>
+            <input
+              type="tel"
+              placeholder="Enter 10-digit mobile number"
+              maxLength={10}
+              value={phone}
+              onChange={e => setPhone(e.target.value.replace(/\D/g, ''))}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                color: '#ffffff',
+                fontSize: '13.5px',
+                fontWeight: '700',
+                width: '100%'
+              }}
+            />
           </div>
         </div>
 
