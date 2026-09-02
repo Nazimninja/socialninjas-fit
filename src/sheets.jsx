@@ -113,14 +113,33 @@ function BwSheet({ required, onDone, close }) {
   const recent = [...st.bodyweight].reverse().slice(0, 3)
   const delEntry = d => update(s => { s.bodyweight = s.bodyweight.filter(b => b.d !== d) })
   return <>
-    <h3>{required ? t('Quick check-in') : t('Log body weight')}</h3>
-    <div className="muted small">{required ? t('Slide or tap to set your weight — tracked before every workout so your curve stays honest.') : t('Today') + ', ' + fmtDate(todayISO(), true)}</div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <button
+          onClick={close}
+          className="iconbtn"
+          style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          aria-label={t('Back')}
+        >
+          <Icon name="chevronLeft" />
+        </button>
+        <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800 }}>{required ? t('Quick check-in') : t('Log body weight')}</h3>
+      </div>
+      <button
+        onClick={close}
+        style={{ background: 'none', border: 'none', color: 'var(--label-3)', fontSize: 13, fontWeight: 700, cursor: 'pointer', padding: '6px 8px' }}
+      >
+        {t('Cancel')}
+      </button>
+    </div>
+    <div className="muted small" style={{ marginBottom: 12 }}>{required ? t('Slide or tap to set your weight — tracked before every workout so your curve stays honest.') : t('Today') + ', ' + fmtDate(todayISO(), true)}</div>
     <WeightInput value={v} setValue={setV} unit={unit} />
     <div style={{ height: 14 }} />
     <Button variant="primary" onClick={save}>{required ? t('Save & start workout') : t('Save')}</Button>
     {required && <>
       <div style={{ height: 8 }} /><Button variant="ghost" className="dim" onClick={() => { close(); onDone && onDone(null) }}>{t('Start without weighing in')}</Button>
       <div style={{ height: 2 }} /><Button variant="ghost" className="dim" icon="reset" onClick={() => { close(); nav('/workout') }}>{t('Choose a different workout')}</Button>
+      <div style={{ height: 2 }} /><Button variant="ghost" className="dim" onClick={close}>{t('Cancel & go back')}</Button>
     </>}
     {!required && recent.length > 0 && <>
       <h4 className="sec">{t('Recent weigh-ins')}</h4>
@@ -135,7 +154,7 @@ function BwSheet({ required, onDone, close }) {
   </>
 }
 export function bwSheet(opts = {}) {
-  const h = ui().openSheet(close => <BwSheet {...opts} close={close} />, { locked: !!opts.required })
+  const h = ui().openSheet(close => <BwSheet {...opts} close={close} />, { locked: false })
   return h
 }
 
