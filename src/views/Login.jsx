@@ -185,7 +185,7 @@ export default function Login() {
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '4px' }}>
         <h1 style={{ fontSize: '34px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
-          Fit<span style={{ color: '#38bdf8' }}>Ninjas</span>
+          Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
         </h1>
         <span
           style={{

@@ -48,7 +48,7 @@ export default function Landing() {
           <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
           <div>
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
-              Fit<span style={{ color: '#f59e0b' }}>Ninjas</span>
+              Fit<span style={{ color: '#f59e0b' }}>Ninja</span>
             </div>
             <div style={{ fontSize: '9px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: '#888' }}>
               BY SOCIAL NINJA'S
