@@ -34,7 +34,7 @@ export async function onRequest(context) {
     }
 
     // 1. Check if Admin/Owner email
-    if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in') || cleanEmail.includes('socialninja')) {
+    if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')) {
       return new Response(JSON.stringify({ verified: true, role: 'admin', email: cleanEmail }), { headers, status: 200 });
     }
 

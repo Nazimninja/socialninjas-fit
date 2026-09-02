@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import Razorpay from 'razorpay';
 
 const ADMIN_EMAILS = [
+  'nazim.socialninja@gmail.com',
   'nazimpasha906@gmail.com',
   'nazim@socialninjas.in',
   'admin@socialninjas.in',

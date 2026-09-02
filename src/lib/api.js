@@ -18,7 +18,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   }
 })
 
-const ADMIN_EMAILS = [
+export const ADMIN_EMAILS = [
   'nazim.socialninja@gmail.com',
   'nazimpasha906@gmail.com',
   'nazim@socialninjas.in',
@@ -45,20 +45,12 @@ export async function verifyMemberEmail(email) {
   const clean = (email || '').trim().toLowerCase()
   if (!clean) return { verified: false, error: 'Email address is required' }
 
-  // 1. Admin / Owner Email Whitelist check
-  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in') || clean.includes('socialninja')) {
+  // 1. Admin / Owner Email Whitelist check (EXACT matches or company domain only)
+  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in')) {
     return { verified: true, role: 'admin', email: clean }
   }
 
-  // 2. Check local verified payment token on this device
-  try {
-    const paidEmail = (localStorage.getItem('gym_paid_email') || '').trim().toLowerCase()
-    if (paidEmail && paidEmail === clean) {
-      return { verified: true, email: clean }
-    }
-  } catch (e) {}
-
-  // 3. Query Supabase DB for active subscription/user
+  // 2. Query Supabase DB for active subscription/user
   try {
     const { data: user } = await supabase
       .from('users')

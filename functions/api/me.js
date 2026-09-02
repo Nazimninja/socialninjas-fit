@@ -29,7 +29,7 @@ export async function onRequest(context) {
     'fit@socialninjas.in'
   ];
 
-  const isAdmin = ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in') || cleanEmail.includes('socialninja');
+  const isAdmin = ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in');
 
   return new Response(JSON.stringify({
     user: {

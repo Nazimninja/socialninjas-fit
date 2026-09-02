@@ -25,7 +25,7 @@ import Library from './views/Library.jsx'
 import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
-import { supabase } from './lib/api.js'
+import { supabase, ADMIN_EMAILS } from './lib/api.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -49,20 +49,74 @@ function decodeJWT(token) {
   }
 }
 
-function loginUser(email, name) {
-  try {
-    localStorage.setItem('gym_paid_email', email)
-    localStorage.setItem('gym_paid', '1')
-  } catch(e) {}
-  useStore.getState().setUser({
-    name,
-    email,
-    paid: true,
-    admin: email.includes('socialninja') || email === 'nazimpasha906@gmail.com'
-  })
-  useStore.getState().setPaid(true)
-  useStore.getState().pullState()
-  useUI.getState().toast('Welcome, ' + name)
+async function handleAuthUser(email, name, navigate) {
+  if (!email) return
+  const cleanEmail = email.toLowerCase().trim()
+
+  // 1. Check Admin whitelist (EXACT match or @socialninjas.in domain only)
+  let isPaid = false
+  let isAdmin = false
+
+  if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')) {
+    isPaid = true
+    isAdmin = true
+  } else {
+    // 2. Query Supabase database for active subscription
+    try {
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('email', cleanEmail)
+        .maybeSingle()
+
+      if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
+        isPaid = true
+      }
+    } catch (e) {
+      console.warn('Subscription check error:', e)
+    }
+
+    if (!isPaid) {
+      try {
+        const { data: u } = await supabase
+          .from('users')
+          .select('*')
+          .eq('email', cleanEmail)
+          .maybeSingle()
+
+        if (u && (u.paid || u.role === 'admin' || u.subscription_status === 'active')) {
+          isPaid = true
+          if (u.role === 'admin') isAdmin = true
+        }
+      } catch (e) {}
+    }
+  }
+
+  // Set user state in store
+  const userObj = {
+    name: name || cleanEmail.split('@')[0] || 'Athlete',
+    email: cleanEmail,
+    paid: isPaid,
+    admin: isAdmin
+  }
+
+  useStore.getState().setUser(userObj)
+  useStore.getState().setPaid(isPaid)
+
+  if (isPaid) {
+    useStore.getState().pullState()
+    useUI.getState().toast(isAdmin ? 'Welcome, Admin ' + userObj.name : 'Welcome to Fit Ninja Pro, ' + userObj.name)
+    if (window.location.hash.includes('access_token')) {
+      window.history.replaceState(null, '', window.location.pathname + '#/home')
+    }
+    navigate('/home', { replace: true })
+  } else {
+    // UNPAID USER: Stay strictly on the paywall screen!
+    useUI.getState().toast('Signed in as ' + cleanEmail + '. Please unlock Pro Pass to access the app.')
+    if (window.location.hash.includes('access_token')) {
+      window.history.replaceState(null, '', window.location.pathname + '#/app')
+    }
+  }
 }
 
 function Shell() {
@@ -83,7 +137,7 @@ function Shell() {
   useEffect(() => {
     const hash = window.location.hash
 
-    // Step 1: If URL hash has access_token, try to decode JWT immediately (synchronous)
+    // Step 1: If URL hash has access_token, try to decode JWT immediately
     if (hash.includes('access_token')) {
       setOAuthLoading(true)
       const params = new URLSearchParams(hash.replace(/^#/, ''))
@@ -91,27 +145,18 @@ function Shell() {
       if (token) {
         const decoded = decodeJWT(token)
         if (decoded) {
-          loginUser(decoded.email, decoded.name)
-          window.history.replaceState(null, '', window.location.pathname + '#/home')
-          navigate('/home', { replace: true })
-          setOAuthLoading(false)
+          handleAuthUser(decoded.email, decoded.name, navigate).finally(() => setOAuthLoading(false))
           return
         }
       }
     }
 
     // Step 2: Supabase onAuthStateChange handles the implicit flow token automatically
-    // (with flowType: 'implicit' + detectSessionInUrl: true in the client)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        loginUser(email, name)
-        if (window.location.hash.includes('access_token')) {
-          window.history.replaceState(null, '', window.location.pathname + '#/home')
-          navigate('/home', { replace: true })
-        }
-        setOAuthLoading(false)
+        handleAuthUser(email, name, navigate).finally(() => setOAuthLoading(false))
       }
     })
 
@@ -119,12 +164,11 @@ function Shell() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
-        if (localStorage.getItem('gym_paid_email') === email || localStorage.getItem('gym_paid') === '1') {
-          const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-          loginUser(email, name)
-        }
+        const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
+        handleAuthUser(email, name, navigate).finally(() => setOAuthLoading(false))
+      } else {
+        setOAuthLoading(false)
       }
-      setOAuthLoading(false)
     })
 
     return () => subscription?.unsubscribe()

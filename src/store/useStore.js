@@ -104,7 +104,14 @@ export const useStore = create((set, get) => {
   return {
     S: (() => { const s = loadState(); registerCustom(s.customEx); return s })(),
     user: (() => { try { return JSON.parse(localStorage.getItem('gym_user')) || null } catch { return null } })(),
-    paid: localStorage.getItem('gym_paid') === '1' || !!localStorage.getItem('gym_paid_email'),
+    paid: (() => {
+      try {
+        const u = JSON.parse(localStorage.getItem('gym_user') || 'null')
+        return !!(u && u.paid)
+      } catch {
+        return false
+      }
+    })(),
     ready: false,
 
     // Mutate a draft of S via producer fn, then persist + schedule sync.
@@ -118,10 +125,16 @@ export const useStore = create((set, get) => {
     isGuest: () => localStorage.getItem('gym_guest') === '1',
     setGuest(v) { if (v) localStorage.setItem('gym_guest', '1'); else localStorage.removeItem('gym_guest'); set({ guest: !!v }) },
 
-    isPaid: () => get().paid || localStorage.getItem('gym_paid') === '1' || !!get().user?.paid || !!localStorage.getItem('gym_paid_email'),
+    isPaid: () => !!get().user?.paid && !!get().paid,
     setPaid(v) {
-      if (v) { localStorage.setItem('gym_paid', '1') }
-      else { localStorage.removeItem('gym_paid'); localStorage.removeItem('gym_paid_email') }
+      if (v) {
+        localStorage.setItem('gym_paid', '1')
+        const email = get().user?.email
+        if (email) localStorage.setItem('gym_paid_email', email.trim().toLowerCase())
+      } else {
+        localStorage.removeItem('gym_paid')
+        localStorage.removeItem('gym_paid_email')
+      }
       set({ paid: !!v })
     },
 
@@ -129,12 +142,19 @@ export const useStore = create((set, get) => {
       if (u) {
         localStorage.setItem('gym_user', JSON.stringify(u))
         localStorage.removeItem('gym_guest')
-        if (u.paid) localStorage.setItem('gym_paid', '1')
-        if (u.email) localStorage.setItem('gym_paid_email', u.email.trim().toLowerCase())
+        if (u.paid) {
+          localStorage.setItem('gym_paid', '1')
+          if (u.email) localStorage.setItem('gym_paid_email', u.email.trim().toLowerCase())
+        } else {
+          localStorage.removeItem('gym_paid')
+          localStorage.removeItem('gym_paid_email')
+        }
       } else {
         localStorage.removeItem('gym_user')
+        localStorage.removeItem('gym_paid')
+        localStorage.removeItem('gym_paid_email')
       }
-      set({ user: u, paid: u ? (u.paid || get().paid) : false })
+      set({ user: u, paid: !!u?.paid })
     },
 
     async pushState() {

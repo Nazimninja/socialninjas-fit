@@ -67,7 +67,7 @@ export function RegisterSheet({ close }) {
 }
 
 export default function Login() {
-  const { setUser, setPaid } = useStore()
+  const { user, setUser, setPaid } = useStore()
   const [showSignInModal, setShowSignInModal] = useState(false)
   const [memberEmail, setMemberEmail] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
@@ -87,9 +87,32 @@ export default function Login() {
   }
 
   const handlePayment = () => {
+    const activeEmail = (user?.email || memberEmail || '').trim().toLowerCase()
+    const activeName = user?.name || ''
     openRazorpayCheckout({
-      onSuccess: () => {
+      name: activeName || 'Fit Ninja Athlete',
+      email: activeEmail,
+      onSuccess: async (response) => {
+        if (activeEmail) {
+          try {
+            await supabase.from('subscriptions').upsert({
+              email: activeEmail,
+              status: 'active',
+              razorpay_payment_id: response.razorpay_payment_id || response.razorpay_subscription_id,
+              updated_at: new Date().toISOString()
+            })
+          } catch (e) {
+            console.warn('Supabase subscription record:', e)
+          }
+        }
+        setUser({
+          name: activeName || activeEmail.split('@')[0] || 'Athlete',
+          email: activeEmail,
+          paid: true,
+          admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
+        })
         setPaid(true)
+        useUI.getState().toast('Payment verified! Welcome to Fit Ninja Pro.')
         useUI.getState().openSheet(close => <RegisterSheet close={close} />)
       },
       onFailure: (msg) => {
@@ -107,9 +130,8 @@ export default function Login() {
 
     setIsVerifying(true)
 
-    // Instant Admin & Whitelist verification (Zero network overhead)
-    if (ADMIN_LIST.includes(email) || email.endsWith('@socialninjas.in') || email.includes('socialninja')) {
-      try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
+    // Instant Admin & Whitelist verification (EXACT matches or company domain only)
+    if (ADMIN_LIST.includes(email) || email.endsWith('@socialninjas.in')) {
       setUser({ name: email.split('@')[0] || 'Admin', email, paid: true, admin: true })
       setPaid(true)
       useUI.getState().toast('Admin verified! Welcome back.')
@@ -120,7 +142,6 @@ export default function Login() {
     try {
       const res = await verifyMemberEmail(email).catch(() => ({ verified: false }))
       if (res && res.verified) {
-        try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
         setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: res.role === 'admin' })
         setPaid(true)
         useUI.getState().toast('Subscription verified! Welcome to Fit Ninja Pro.')
@@ -206,6 +227,57 @@ export default function Login() {
       <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.8px', color: '#94a3b8', marginBottom: '24px' }}>
         BY SOCIAL NINJA'S · AI ATHLETE SYSTEM
       </div>
+
+      {/* Authenticated Unpaid User Banner */}
+      {user?.email && (
+        <div
+          style={{
+            width: '100%',
+            background: 'rgba(56, 189, 248, 0.08)',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
+            borderRadius: '16px',
+            padding: '12px 16px',
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px'
+          }}
+        >
+          <div style={{ textAlign: 'left' }}>
+            <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+              AUTHENTICATED WITH GOOGLE
+            </div>
+            <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', wordBreak: 'break-all' }}>
+              {user.email}
+            </div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+              ⚠️ Pro Pass required to unlock app
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setUser(null)
+              setPaid(false)
+              try { supabase.auth.signOut() } catch (e) {}
+            }}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.18)',
+              color: '#ffffff',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              fontSize: '11px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
 
       {/* ── 2. PRO PASS VALUE COCKPIT CARD ───────────────────────── */}
       <div
