@@ -1,6 +1,6 @@
 {
-  "name": "Fit Ninja",
-  "short_name": "Fit Ninja",
+  "name": "Fit Ninjas",
+  "short_name": "Fit Ninjas",
   "description": "Premium personalized fitness & nutrition coaching app",
   "start_url": "/",
   "scope": "/",
@@ -25,7 +25,7 @@
   "categories": ["health", "fitness"],
   "screenshots": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23050508' width='540' height='720'/><text x='270' y='300' font-size='48' fill='%2300E5A0' text-anchor='middle' font-family='sans-serif' font-weight='bold'>Fit Ninja</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23050508' width='540' height='720'/><text x='270' y='300' font-size='48' fill='%2300E5A0' text-anchor='middle' font-family='sans-serif' font-weight='bold'>Fit Ninjas</text></svg>",
       "sizes": "540x720",
       "type": "image/svg+xml",
       "form_factor": "narrow"

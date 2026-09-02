@@ -1705,7 +1705,7 @@ function AthleteProfileModal({ close }) {
               </span>
             </div>
             <div style={{ fontSize: 11.5, color: 'var(--label-2)', marginTop: 2 }}>
-              {user?.email || 'Fit Ninja Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Protocol</span>
+              {user?.email || 'Fit Ninjas Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Protocol</span>
             </div>
           </div>
         </div>
