@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore.js';
 import Icon from '../components/Icon.jsx';
 import { useUI } from '../store/useUI.js';
@@ -178,6 +179,7 @@ const RECIPES_DB = [
 ];
 
 export default function Nutrition() {
+  const nav = useNavigate();
   const S = useStore(s => s.S);
   const update = useStore(s => s.update);
   const toast = msg => useUI.getState().toast(msg);
@@ -432,14 +434,23 @@ export default function Nutrition() {
     <div className="view-content" style={{ padding: '16px', maxWidth: '600px', margin: '0 auto', paddingBottom: '148px' }}>
 
       {/* ── HEADER ─────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '20px', paddingTop: '4px' }}>
-        <div>
-          <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
-            {S.customDiet ? 'Custom Protocol' : 'AI Calibrated'}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', paddingTop: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button
+            onClick={() => nav('/home')}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}
+            aria-label="Back"
+          >
+            <Icon name="chevronLeft" />
+          </button>
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
+              {S.customDiet ? 'Custom Protocol' : 'AI Calibrated'}
+            </div>
+            <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: '#fff', letterSpacing: '-0.6px' }}>
+              {t('Nutrition & Macros')}
+            </h1>
           </div>
-          <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: '#fff', letterSpacing: '-0.6px' }}>
-            {t('Nutrition & Macros')}
-          </h1>
         </div>
         <button
           onClick={() => setShowCustomModal(true)}

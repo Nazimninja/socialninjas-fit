@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { EXDB, BODYPARTS, allExercises, equipmentOf } from '../lib/exercises.js'
 import { bestWeightFor } from '../lib/history.js'
@@ -10,6 +11,7 @@ import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
 
 export default function Library() {
+  const nav = useNavigate()
   const S = useStore(s => s.S)
   const [q, setQ] = useState('')
   const [bp, setBp] = useState('')
@@ -23,7 +25,19 @@ export default function Library() {
   const f = eqOn ? base.filter(e => e.eq === eqOn) : base
 
   return <>
-    <div className="hdr"><div><h1>{t('Exercises')}</h1><div className="sub">{t('{0} exercises with animations', EXDB.length)}</div></div></div>
+    <div className="hdr" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+      <button
+        onClick={() => nav('/home')}
+        style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}
+        aria-label="Back"
+      >
+        <Icon name="chevronLeft" />
+      </button>
+      <div>
+        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{t('Exercises')}</h1>
+        <div className="sub" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{t('{0} exercises with animations', EXDB.length)}</div>
+      </div>
+    </div>
     <div className="search" style={{ marginBottom: 10 }}><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
       <input className="input" placeholder={t('Search…')} value={q} onChange={e => { setQ(e.target.value); setShown(40) }} /></div>
     <div className="chips" style={{ marginBottom: eqOpts.length > 1 ? 8 : 12 }}>
