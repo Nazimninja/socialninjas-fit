@@ -126,24 +126,24 @@ async function doPayment() {
     if (!subRes.ok) throw new Error('Backend unavailable');
     
     const sub = await subRes.json();
+    const hasGenuineSub = sub && sub.id && typeof sub.id === 'string' && sub.id.startsWith('sub_') && !sub.id.startsWith('sub_test');
 
     // Step 2: Open Razorpay Checkout modal
     var options = {
       key: 'rzp_live_SQHi9o325buXiH',
-      subscription_id: sub.id,
       notes: {
         user_id: STATE.user ? STATE.user.id : '',
         email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')
       },
       name: 'Fit Ninja',
-      description: 'Premium Fitness Coaching Plan',
-      image: '',
+      description: 'Pro Pass Membership — ₹299/mo',
+      image: 'https://fit.socialninjas.in/ninja-logo.png',
       prefill: {
         name: STATE.signupData.name || '',
         email: STATE.signupData.email || '',
         contact: STATE.signupData.phone || ''
       },
-      theme: { color: '#FFFFFF' },
+      theme: { color: '#2563EB' },
       handler: async function(response) {
         // Step 3: Verify payment on backend
         try {
@@ -177,6 +177,13 @@ async function doPayment() {
         }
       }
     };
+
+    if (hasGenuineSub) {
+      options.subscription_id = sub.id;
+    } else {
+      options.amount = 29900;
+      options.currency = 'INR';
+    }
 
     if (typeof Razorpay === 'undefined') {
       throw new Error('Razorpay SDK not loaded');

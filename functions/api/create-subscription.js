@@ -22,8 +22,8 @@ export async function onRequest(context) {
 
     if (!key_id || !key_secret) {
       return new Response(JSON.stringify({
-        id: 'sub_test_' + Date.now(),
-        short_url: 'https://fit.socialninjas.in/app'
+        ok: false,
+        direct_checkout: true
       }), { headers, status: 200 });
     }
 
@@ -45,16 +45,17 @@ export async function onRequest(context) {
 
     const data = await rzpResponse.json();
     if (!rzpResponse.ok) {
-      return new Response(JSON.stringify({ error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: rzpResponse.status });
+      return new Response(JSON.stringify({ ok: false, direct_checkout: true, error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
     }
 
     return new Response(JSON.stringify({
+      ok: true,
       id: data.id,
       entity: data.entity,
       short_url: data.short_url
     }), { headers, status: 200 });
   } catch (error) {
     console.error('Razorpay Error:', error);
-    return new Response(JSON.stringify({ error: 'Error creating Razorpay subscription' }), { headers, status: 500 });
+    return new Response(JSON.stringify({ ok: false, direct_checkout: true, error: 'Subscription unavailable, use direct checkout' }), { headers, status: 200 });
   }
 }

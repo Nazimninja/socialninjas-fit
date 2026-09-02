@@ -17,7 +17,10 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         if (res.ok) {
           const text = await res.text();
           const data = text ? JSON.parse(text) : {};
-          subId = data.id || null;
+          // Only accept a genuine Razorpay subscription ID (not mock or test fallback string)
+          if (data.id && typeof data.id === 'string' && data.id.startsWith('sub_') && !data.id.startsWith('sub_test')) {
+            subId = data.id;
+          }
         }
       } catch (e) {
         console.warn('Subscription endpoint fallback:', e);
@@ -25,19 +28,17 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
 
       const options = {
         key: razorpayKey,
-        amount: 29900, // ₹299.00 INR in paise
-        currency: 'INR',
-        name: 'Fit Ninja OS',
-        description: 'Fit Ninja All-Access Pro Pass — ₹299/mo',
+        name: 'Fit Ninja',
+        description: 'Pro Pass Membership — ₹299/mo',
+        image: 'https://fit.socialninjas.in/ninja-logo.png',
         prefill: {
-          name: name,
-          email: email,
-          contact: phone
+          name: name || '',
+          email: email || '',
+          contact: phone || ''
         },
         theme: {
           color: '#2563eb'
         },
-        ...(subId ? { subscription_id: subId } : {}),
         handler: function(response) {
           if (onSuccess) onSuccess(response);
         },
@@ -47,6 +48,15 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
           }
         }
       };
+
+      if (subId) {
+        // Genuine Razorpay Subscription ID: amount and currency MUST be omitted
+        options.subscription_id = subId;
+      } else {
+        // Direct One-Click Live Checkout (UPI QR, GPay, PhonePe, Cards, NetBanking)
+        options.amount = 29900; // ₹299.00 in paise
+        options.currency = 'INR';
+      }
 
       const rzp = new window.Razorpay(options);
       rzp.open();

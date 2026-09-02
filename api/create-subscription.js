@@ -19,8 +19,8 @@ export default async function handler(req, res) {
 
     if (!key_id || !key_secret) {
       return res.status(200).json({
-        id: 'sub_test_' + Date.now(),
-        short_url: 'https://fit.socialninjas.in/app'
+        ok: false,
+        direct_checkout: true
       });
     }
 
@@ -35,12 +35,13 @@ export default async function handler(req, res) {
     const response = await razorpay.subscriptions.create(options);
     
     return res.status(200).json({
+      ok: true,
       id: response.id,
       entity: response.entity,
       short_url: response.short_url
     });
   } catch (error) {
     console.error('Razorpay Error:', error);
-    return res.status(500).json({ error: 'Error creating Razorpay subscription' });
+    return res.status(200).json({ ok: false, direct_checkout: true, error: 'Subscription unavailable, use direct checkout' });
   }
 }
