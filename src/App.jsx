@@ -209,8 +209,8 @@ function Shell() {
           )}
         </ErrorBoundary>
       </div>
-      <TabBar onStart={startFlow} />
-      <RestTimer />
+      {authed && <TabBar onStart={startFlow} />}
+      {authed && <RestTimer />}
       <Modals />
       <Toast />
     </>

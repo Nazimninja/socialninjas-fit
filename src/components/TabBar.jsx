@@ -10,7 +10,9 @@ export default function TabBar({ onStart }) {
   const loc = useLocation()
   const S = useStore(s => s.S)
   const user = useStore(s => s.user)
+  const paid = useStore(s => s.paid)
   const isGuest = useStore(s => s.isGuest())
+  if (!paid) return null
   if (loc.pathname === '/' || loc.pathname === '' || loc.pathname === '/workout') return null
   if (!user && !isGuest) return null
   const cur = loc.pathname.split('/')[1] || 'home'
