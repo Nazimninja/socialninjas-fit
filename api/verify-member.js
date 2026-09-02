@@ -91,7 +91,7 @@ export default async function handler(req, res) {
 
     return res.status(403).json({
       verified: false,
-      error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'
+      error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'
     });
 
   } catch (err) {

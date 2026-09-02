@@ -45,7 +45,7 @@ export function RegisterSheet({ close }) {
   return (
     <div style={{ padding: '8px 4px' }}>
       <h3 style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', margin: '0 0 6px' }}>
-        {t('Complete your Fit Ninjas Profile')}
+        {t('Complete your Fit Ninja Profile')}
       </h3>
       <div className="muted small" style={{ marginBottom: '16px', fontSize: '13px', color: 'var(--label-2)' }}>
         {t('Enter your athlete name to complete your membership setup.')}
@@ -123,14 +123,14 @@ export default function Login() {
         try { localStorage.setItem('gym_paid_email', email) } catch (e) {}
         setUser({ name: email.split('@')[0] || 'Athlete', email, paid: true, admin: res.role === 'admin' })
         setPaid(true)
-        useUI.getState().toast('Subscription verified! Welcome to Fit Ninjas Pro.')
+        useUI.getState().toast('Subscription verified! Welcome to Fit Ninja Pro.')
         setIsVerifying(false)
         return
       }
 
-      useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'))
+      useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'))
     } catch (err) {
-      useUI.getState().toast('❌ No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.')
+      useUI.getState().toast('❌ No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.')
     } finally {
       setIsVerifying(false)
     }
@@ -168,7 +168,7 @@ export default function Login() {
         />
         <img
           src="/ninja-logo.png"
-          alt="Fit Ninjas Official Emblem"
+          alt="Fit Ninja Official Emblem"
           style={{
             position: 'relative',
             width: '92px',
@@ -316,7 +316,7 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          <span>⚡ Unlock Fit Ninjas Pro — ₹299/mo</span>
+          <span>⚡ Unlock Fit Ninja Pro — ₹299/mo</span>
         </button>
 
         <div style={{ fontSize: '10.5px', color: '#94a3b8', textAlign: 'center', marginTop: '10px', fontWeight: '600' }}>

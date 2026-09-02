@@ -88,7 +88,7 @@ export default function Home() {
           <div style={{ position: 'relative' }}>
             <img
               src="/ninja-logo.png?v=3"
-              alt="Fit Ninjas"
+              alt="Fit Ninja"
               style={{
                 width: '46px',
                 height: '46px',
@@ -181,7 +181,7 @@ export default function Home() {
             </span>
           </div>
           <span style={{ fontSize: '9.5px', fontWeight: '800', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--label)', padding: '2px 8px', borderRadius: '99px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
-            FIT NINJAS ELITE
+            FIT NINJA ELITE
           </span>
         </div>
 

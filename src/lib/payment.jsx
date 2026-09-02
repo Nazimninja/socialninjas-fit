@@ -1,7 +1,7 @@
 import { useUI } from '../store/useUI.js'
 
-// Fit Ninjas Razorpay Official Payment Gateway Engine
-export async function openRazorpayCheckout({ name = 'Fit Ninjas Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
+// Fit Ninja Razorpay Official Payment Gateway Engine
+export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
   try {
     // Uses VITE_RAZORPAY_KEY_ID or fallback to official live key rzp_live_SQHi9o325buXiH
     const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
@@ -27,8 +27,8 @@ export async function openRazorpayCheckout({ name = 'Fit Ninjas Athlete', email 
         key: razorpayKey,
         amount: 29900, // ₹299.00 INR in paise
         currency: 'INR',
-        name: 'Fit Ninjas OS',
-        description: 'Fit Ninjas All-Access Pro Pass — ₹299/mo',
+        name: 'Fit Ninja OS',
+        description: 'Fit Ninja All-Access Pro Pass — ₹299/mo',
         prefill: {
           name: name,
           email: email,

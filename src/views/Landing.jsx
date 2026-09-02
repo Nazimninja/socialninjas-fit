@@ -12,23 +12,23 @@ export default function Landing() {
 
   const faqs = [
     {
-      q: "What makes Fit Ninjas different from other gym workout apps?",
-      a: "Fit Ninjas combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA."
+      q: "What makes Fit Ninja different from other gym workout apps?",
+      a: "Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA."
     },
     {
       q: "Does the app work without an internet connection?",
-      a: "Yes! Fit Ninjas is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you're connected."
+      a: "Yes! Fit Ninja is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you're connected."
     },
     {
       q: "How do the guided workout player and rest timers work?",
-      a: "When you start a session, Fit Ninjas keeps your phone screen awake (Screen Wake Lock API), pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio cues when your rest timer expires."
+      a: "When you start a session, Fit Ninja keeps your phone screen awake (Screen Wake Lock API), pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio cues when your rest timer expires."
     },
     {
       q: "Can I customize my diet preferences for the AI Nutrition engine?",
       a: "Absolutely. You can select between High Protein Balanced, Indian Vegetarian (Paneer, Soya, Dal), Ketogenic Low-Carb, and Plant-Based Vegan with customized daily macro targets."
     },
     {
-      q: "How much does Fit Ninjas cost?",
+      q: "How much does Fit Ninja cost?",
       a: "You can use the core workout tracker, exercises, and guest mode for free. Full access to the AI Macro engine, unlimited custom workouts, and cloud sync is available for just ₹299/month."
     }
   ];
@@ -45,7 +45,7 @@ export default function Landing() {
         maxWidth: '1200px', margin: '0 auto'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => nav('/')}>
-          <img src="/ninja-logo.png?v=3" alt="Fit Ninjas" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
+          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
           <div>
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
               Fit<span style={{ color: '#f59e0b' }}>Ninjas</span>
@@ -95,7 +95,7 @@ export default function Landing() {
           borderRadius: '50px', padding: '6px 16px', fontSize: '12px', fontWeight: '700', color: '#f59e0b',
           marginBottom: '20px'
         }}>
-          <span>🔥 FIT NINJAS 2.0 IS LIVE</span>
+          <span>🔥 FIT NINJA 2.0 IS LIVE</span>
           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#f59e0b' }}></span>
           <span style={{ color: 'rgba(255,255,255,0.7)' }}>1,324+ Exercises & AI Macros</span>
         </div>
@@ -272,7 +272,7 @@ export default function Landing() {
             MOST POPULAR
           </div>
 
-          <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninjas All-Access Pro</h3>
+          <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja All-Access Pro</h3>
           <div style={{ fontSize: '42px', fontWeight: '900', color: '#fff', margin: '14px 0' }}>
             ₹299 <span style={{ fontSize: '16px', color: '#888', fontWeight: '500' }}>/ month</span>
           </div>
@@ -336,8 +336,8 @@ export default function Landing() {
         textAlign: 'center', fontSize: '12px', color: '#666', marginTop: '60px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
-          <img src="/ninja-logo.png?v=3" alt="Fit Ninjas" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
-          <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninjas OS</span>
+          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
+          <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja OS</span>
           <span>·</span>
           <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's AI Agency</a></span>
         </div>

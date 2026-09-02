@@ -1,4 +1,4 @@
-// Fit Ninjas Web & PWA Storage & Export Engine
+// Fit Ninja Web & PWA Storage & Export Engine
 import { t } from './i18n.js'
 
 export const MOBILE = false
@@ -25,7 +25,7 @@ export async function shareExport(json, filename) {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = filename || 'fitninjas-backup.json'
+    a.download = filename || 'fitninja-backup.json'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)

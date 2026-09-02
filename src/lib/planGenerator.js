@@ -1,4 +1,4 @@
-// Fit Ninjas AI Fitness & Nutrition Plan Engine
+// Fit Ninja AI Fitness & Nutrition Plan Engine
 // Generates 100% personalized, custom workout routines and cultural Indian nutrition meal plans
 // dynamically generated based on athlete's profile, training frequency, equipment, experience, focus muscles, and diet.
 

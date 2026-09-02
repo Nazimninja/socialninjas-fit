@@ -1,9 +1,9 @@
 {
-  "name": "fit-ninjas",
+  "name": "fit-ninja",
   "private": true,
   "version": "2.0.0",
   "type": "module",
-  "description": "Fit Ninjas by Social Ninja's - Elite Fitness, Workout & Nutrition PWA",
+  "description": "Fit Ninja by Social Ninja's - Elite Fitness, Workout & Nutrition PWA",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

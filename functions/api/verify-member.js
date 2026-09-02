@@ -109,7 +109,7 @@ export async function onRequest(context) {
 
     return new Response(JSON.stringify({
       verified: false,
-      error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'
+      error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'
     }), { headers, status: 403 });
 
   } catch (err) {

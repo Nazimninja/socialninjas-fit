@@ -98,7 +98,7 @@ export async function verifyMemberEmail(email) {
 
   return {
     verified: false,
-    error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninjas.'
+    error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'
   }
 }
 

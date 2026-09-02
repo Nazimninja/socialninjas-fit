@@ -19,7 +19,7 @@ if ('serviceWorker' in navigator) {
 if ('caches' in window) {
   caches.keys().then(keys => {
     for (let key of keys) {
-      if (!key.startsWith('fitninjas-v3')) caches.delete(key)
+      if (!key.startsWith('fitninja-v3')) caches.delete(key)
     }
   })
 }
