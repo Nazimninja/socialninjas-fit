@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fit Ninja — AI Hypertrophy OS, 1,324+ Exercises & Custom Nutrition by Social Ninja's</title>
-<meta name="description" content="Fit Ninja by Social Ninja's — The elite AI body transformation OS. 1,324+ animated exercise demos, focused workout player, smart rest timers, muscle heatmaps, and autonomous AI diet plans.">
+<meta name="description" content="Fit Ninja by Social Ninja's — The elite AI body transformation OS. 1,324+ animated exercise demos, guided gym set player, smart rest timers, Indian & global AI nutrition, and weekend coach check-ins.">
 <meta name="keywords" content="fit ninja, social ninjas fit, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, diet planner">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
@@ -49,23 +49,36 @@
 </script>
 
 <style>
-/* ── SOCIAL NINJA BRAND TOKENS (ROYAL BLUE) ── */
+/* ── BRAND TOKENS (FIT NINJA OFFICIAL IDENTITY) ── */
 :root {
   --bg: #070a12;
-  --bg-card: #0f172a;
-  --bg-card-hover: #131d35;
-  --blue-primary: #1F4B99;
-  --blue-accent: #2563EB;
-  --blue-light: #60A5FA;
-  --blue-glow: rgba(37, 99, 235, 0.28);
-  --acc-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  --bg-card: #0d1322;
+  --bg-card-elevated: #111a30;
+  --bg-card-hover: #15223e;
+  
+  --blue-primary: #2563EB;
+  --blue-accent: #38BDF8;
+  --blue-glow: rgba(56, 189, 248, 0.22);
+  --blue-glow-deep: rgba(37, 99, 235, 0.25);
+  
+  --acc-gradient: linear-gradient(135deg, #38BDF8 0%, #2563EB 100%);
+  --acc-gradient-btn: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  
+  --green: #22c55e;
+  --green-glow: rgba(34, 197, 94, 0.2);
+  
   --t1: #ffffff;
   --t2: #94a3b8;
   --t3: #64748b;
+  
   --border: rgba(255, 255, 255, 0.08);
-  --border-acc: rgba(37, 99, 235, 0.35);
+  --border-acc: rgba(56, 189, 248, 0.35);
+  --border-card: rgba(255, 255, 255, 0.1);
+  --border-card-top: rgba(255, 255, 255, 0.22);
+  
   --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
   --r: 20px;
+  --r-sm: 12px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -78,40 +91,34 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Ambient Glows */
+/* Ambient Radial Glows */
 .glow-spot {
   position: absolute;
   border-radius: 50%;
   filter: blur(140px);
   pointer-events: none;
-  opacity: 0.16;
+  opacity: 0.18;
   z-index: 0;
 }
-.glow-1 { width: 550px; height: 550px; background: var(--blue-accent); top: 0%; left: 50%; transform: translateX(-50%); }
-.glow-2 { width: 500px; height: 500px; background: var(--blue-primary); top: 35%; right: -10%; }
-.glow-3 { width: 450px; height: 450px; background: #4f46e5; top: 70%; left: -10%; }
+.glow-1 { width: 550px; height: 550px; background: var(--blue-primary); top: 0%; left: 50%; transform: translateX(-50%); }
+.glow-2 { width: 500px; height: 500px; background: var(--blue-accent); top: 25%; right: -10%; }
+.glow-3 { width: 450px; height: 450px; background: #1d4ed8; top: 60%; left: -10%; }
 
-/* Spotlight Card */
+/* Spotlight Card Base */
 .spotlight-card {
   position: relative;
   overflow: hidden;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-card);
+  border-top: 1px solid var(--border-card-top);
   border-radius: var(--r);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .spotlight-card:hover {
   border-color: var(--border-acc);
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-}
-.spotlight-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(600px circle at var(--x, 0px) var(--y, 0px), rgba(37, 99, 235, 0.1), transparent 40%);
-  pointer-events: none;
-  z-index: 1;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 24px var(--blue-glow);
 }
 
 /* ── NAVBAR ── */
@@ -129,210 +136,293 @@ nav {
   display: flex; align-items: center; gap: 12px; text-decoration: none; z-index: 2;
 }
 .nav-logo {
-  width: 38px; height: 38px; border-radius: 11px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-  border: 1.5px solid rgba(37, 99, 235, 0.4);
+  width: 40px; height: 40px; border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
   object-fit: cover;
 }
 .nav-brand-title {
   font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
   display: flex; align-items: center; gap: 6px;
 }
-.nav-brand-title span { color: var(--blue-light); }
+.nav-brand-title span { color: var(--blue-accent); }
 .nav-brand-badge {
   font-size: 9px; font-weight: 900; background: var(--acc-gradient); color: #fff;
   padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px;
 }
 .nav-brand-sub {
-  font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.4px; color: var(--t2); margin-top: 2px;
+  font-size: 8.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.4px; color: var(--t2); margin-top: 3px;
 }
 .nav-links {
   position: absolute; left: 50%; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 28px; z-index: 1;
+  display: flex; align-items: center; gap: 24px;
 }
 .nav-links a {
-  font-size: 13.5px; font-weight: 700; color: var(--t2); text-decoration: none; transition: color 0.2s;
+  font-size: 13.5px; font-weight: 600; color: var(--t2); text-decoration: none;
+  transition: color 0.2s ease;
 }
 .nav-links a:hover { color: #fff; }
 .nav-right {
-  display: flex; align-items: center; gap: 10px; z-index: 2; margin-left: auto;
+  display: flex; align-items: center; gap: 10px; z-index: 2;
 }
 .nav-btn-outline {
-  font-size: 13px; font-weight: 700; color: #fff; text-decoration: none;
-  padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border);
-  background: rgba(255,255,255,0.05); transition: all 0.2s;
+  padding: 8px 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.04);
+  color: #fff; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none;
+  transition: all 0.2s;
 }
-.nav-btn-outline:hover { background: rgba(255,255,255,0.12); }
+.nav-btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
 .nav-btn-primary {
-  padding: 9px 20px; background: var(--acc-gradient); color: #fff;
+  padding: 8px 18px; background: var(--acc-gradient-btn); color: #fff;
   border-radius: 12px; font-size: 13px; font-weight: 800; text-decoration: none;
-  box-shadow: 0 4px 16px var(--blue-glow); transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); transition: all 0.2s;
 }
-.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(37, 99, 235, 0.45); }
-@media(max-width: 860px) {
+.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5); }
+@media(max-width: 900px) {
   .nav-links { display: none; }
 }
 
-/* ── HERO ── */
+/* ── HERO SECTION ── */
 .hero {
-  min-height: 92vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 135px 20px 60px; position: relative; margin: 0 auto;
-  max-width: 1100px; width: 100%;
+  position: relative; z-index: 1;
+  padding: 130px 24px 70px;
+  max-width: 1080px; margin: 0 auto; text-align: center;
 }
 .hero-emblem-wrap {
-  position: relative; margin: 0 auto 22px; display: flex; align-items: center; justify-content: center;
+  position: relative; width: 88px; height: 88px; margin: 0 auto 20px;
 }
 .hero-emblem-glow {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 140px; height: 140px; background: radial-gradient(circle, rgba(37,99,235,0.4) 0%, rgba(31,75,153,0) 70%);
-  filter: blur(24px); pointer-events: none;
+  position: absolute; inset: -14px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, rgba(37, 99, 235, 0) 70%);
+  filter: blur(18px); border-radius: 50%; pointer-events: none;
 }
 .hero-emblem {
-  position: relative; width: 100px; height: 100px; border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 0 2px rgba(37,99,235,0.4);
-  object-fit: cover; z-index: 2; margin: 0 auto;
+  width: 88px; height: 88px; border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.6), 0 0 0 2px rgba(56, 189, 248, 0.4);
+  position: relative; z-index: 1; object-fit: cover;
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(37, 99, 235, 0.12); border: 1px solid var(--border-acc);
-  border-radius: 30px; padding: 6px 18px; font-size: 12px; font-weight: 800; color: var(--blue-light);
-  text-transform: uppercase; letter-spacing: 0.8px; margin: 0 auto 20px;
+  background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 99px; padding: 6px 16px; font-size: 11.5px; font-weight: 800;
+  color: var(--blue-accent); margin-bottom: 20px; letter-spacing: 0.8px; text-transform: uppercase;
 }
 .hero-h1 {
-  font-size: clamp(38px, 6.5vw, 70px); font-weight: 900; line-height: 1.08; letter-spacing: -0.04em;
-  max-width: 960px; margin: 0 auto 20px; color: #fff; text-align: center; width: 100%;
+  font-size: clamp(34px, 6.2vw, 62px); font-weight: 900;
+  line-height: 1.08; letter-spacing: -1.8px; margin-bottom: 20px; color: #fff;
 }
 .hero-h1 .highlight {
-  background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #2563EB 100%);
+  background: linear-gradient(135deg, #ffffff 10%, #93C5FD 50%, #38BDF8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-sub {
-  font-size: clamp(15px, 2vw, 18.5px); color: var(--t2); line-height: 1.65; max-width: 720px;
-  margin: 0 auto 34px; text-align: center; width: 100%;
+  font-size: clamp(15px, 2vw, 17.5px); color: var(--t2); line-height: 1.65;
+  max-width: 780px; margin: 0 auto 32px; font-weight: 500;
 }
 .hero-actions {
-  display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin: 0 auto 44px;
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 44px;
 }
 .btn-primary {
-  padding: 15px 32px; background: var(--acc-gradient); color: #fff;
-  border-radius: 14px; font-size: 15px; font-weight: 800; text-decoration: none;
-  box-shadow: 0 8px 26px var(--blue-glow); transition: all 0.2s; border: none; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 8px; font-family: var(--font);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 28px; background: var(--acc-gradient-btn);
+  color: #fff; font-size: 15px; font-weight: 800; border-radius: 14px;
+  text-decoration: none; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: all 0.2s; border: none; cursor: pointer;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(37, 99, 235, 0.45); }
+.btn-primary:hover {
+  transform: translateY(-2px); box-shadow: 0 12px 30px rgba(37, 99, 235, 0.55);
+}
 .btn-secondary {
-  padding: 15px 28px; background: rgba(255,255,255,0.06); color: #fff;
-  border: 1px solid var(--border); border-radius: 14px; font-size: 15px; font-weight: 700;
-  text-decoration: none; transition: all 0.2s; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: var(--font);
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 26px; background: var(--bg-card); border: 1px solid var(--border-card);
+  color: #fff; font-size: 15px; font-weight: 700; border-radius: 14px;
+  text-decoration: none; transition: all 0.2s;
 }
-.btn-secondary:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+.btn-secondary:hover {
+  background: var(--bg-card-elevated); border-color: rgba(255,255,255,0.2); transform: translateY(-1px);
+}
 
 /* Metric Strip */
 .metrics-strip {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
-  max-width: 840px; width: 100%; margin: 0 auto;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
-  padding: 18px 22px; text-align: center; box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+  max-width: 860px; margin: 0 auto;
+  background: rgba(13, 19, 34, 0.7); border: 1px solid var(--border);
+  border-radius: 18px; padding: 18px 24px; backdrop-filter: blur(12px);
 }
-.metric-num { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
-.metric-lbl { font-size: 11px; font-weight: 800; color: var(--t3); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
-@media(max-width: 600px) { .metrics-strip { grid-template-columns: 1fr 1fr; gap: 12px; } }
+.metric-num { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
+.metric-lbl { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+@media(max-width: 640px) {
+  .metrics-strip { grid-template-columns: 1fr 1fr; gap: 16px; }
+}
 
-/* ── INTERACTIVE 3-IN-1 FEATURE SHOWCASE ── */
-.showcase-sec {
-  padding: 80px 20px; max-width: 1100px; margin: 0 auto;
+/* ── INTERACTIVE APP SIMULATOR (COCKPIT HERO) ── */
+.cockpit-wrap {
+  max-width: 1040px; margin: 0 auto 90px; padding: 0 20px;
 }
-.showcase-header { text-align: center; margin-bottom: 36px; }
+.cockpit-frame {
+  background: linear-gradient(170deg, #0f172a 0%, #070a12 100%);
+  border: 1px solid var(--border-acc); border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 30px var(--blue-glow);
+  overflow: hidden;
+}
+.cockpit-topbar {
+  padding: 14px 22px; background: rgba(7, 10, 18, 0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.cockpit-tag {
+  display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 1px; color: var(--blue-accent);
+}
+.cockpit-pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--blue-accent);
+  box-shadow: 0 0 10px var(--blue-accent);
+}
+.cockpit-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.cockpit-tab-btn {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--t2); padding: 7px 14px; border-radius: 10px;
+  font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.cockpit-tab-btn.active {
+  background: rgba(56, 189, 248, 0.15); border-color: var(--blue-accent);
+  color: #fff;
+}
+.cockpit-content { padding: 28px; }
+.cockpit-view { display: none; }
+.cockpit-view.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── SECTION HEADINGS ── */
 .section-tag {
-  font-size: 11px; font-weight: 800; color: var(--blue-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+  display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--blue-accent); margin-bottom: 8px;
 }
 .section-h2 {
-  font-size: clamp(28px, 4vw, 42px); font-weight: 900; letter-spacing: -0.03em; color: #fff;
+  font-size: clamp(26px, 4vw, 38px); font-weight: 900; letter-spacing: -1px;
+  color: #fff; margin-bottom: 14px;
 }
-.showcase-nav {
-  display: flex; justify-content: center; gap: 10px; margin-bottom: 32px; flex-wrap: wrap;
-}
-.sc-tab {
-  padding: 10px 22px; border-radius: 30px; border: 1px solid var(--border);
-  background: var(--bg-card); color: var(--t2); font-size: 13.5px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font);
-}
-.sc-tab:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
-.sc-tab.active {
-  background: var(--acc-gradient); color: #fff; border-color: var(--blue-accent);
-  box-shadow: 0 4px 16px var(--blue-glow);
+.section-sub {
+  font-size: 15px; color: var(--t2); max-width: 650px; margin: 0 auto; line-height: 1.6;
 }
 
-.sc-pane { display: none; }
-.sc-pane.active { display: block; animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-/* Subtabs & Buttons */
-.ex-subtab {
-  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
-  background: rgba(255,255,255,0.03); color: var(--t2); font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font);
+/* ── 6 CORE VALUE PILLARS (HOW IT HELPS YOU) ── */
+.pillars-sec {
+  padding: 40px 24px 80px; max-width: 1140px; margin: 0 auto;
 }
-.ex-subtab.active { background: var(--blue-accent); color: #fff; border-color: var(--blue-accent); }
-
-.timer-btn {
-  padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border);
-  background: #070a12; color: var(--t2); font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font);
-}
-.timer-btn.active { background: rgba(37, 99, 235, 0.2); border-color: var(--blue-light); color: var(--blue-light); }
-
-/* ── 4 PILLARS GRID ── */
 .pillars-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 40px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px;
 }
-.pillar-card {
-  padding: 28px; border-radius: var(--r); background: var(--bg-card); border: 1px solid var(--border);
-}
-.pillar-card h3 { font-size: 18px; font-weight: 800; color: #fff; margin: 10px 0 6px; }
-.pillar-card p { font-size: 13.5px; color: var(--t2); line-height: 1.6; }
-@media(max-width: 700px) { .pillars-grid { grid-template-columns: 1fr; } }
+@media(max-width: 900px) { .pillars-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 600px) { .pillars-grid { grid-template-columns: 1fr; } }
 
-/* ── PRICING CARD ── */
-.pricing-sec { padding: 80px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+.pillar-card {
+  padding: 24px 22px; display: flex; flex-direction: column; justify-content: space-between;
+}
+.pillar-ico-box {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px;
+}
+.pillar-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.pillar-desc { font-size: 13.5px; color: var(--t2); line-height: 1.6; margin-bottom: 16px; }
+.pillar-badge {
+  font-size: 11px; font-weight: 800; color: var(--blue-accent);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+/* ── 1,324+ EXERCISE BROWSER ── */
+.showcase-sec {
+  padding: 40px 24px 80px; max-width: 1140px; margin: 0 auto;
+}
+.filter-pills {
+  display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 24px 0;
+}
+.filter-pill {
+  padding: 7px 18px; border-radius: 99px; background: var(--bg-card);
+  border: 1px solid var(--border); color: var(--t2); font-size: 12.5px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+}
+.filter-pill.active {
+  background: var(--blue-primary); border-color: var(--blue-accent); color: #fff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+.ex-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;
+}
+.ex-card {
+  padding: 20px;
+}
+
+/* ── NUTRITION & MACRO CALCULATOR ── */
+.calc-sec {
+  padding: 40px 24px 80px; max-width: 1040px; margin: 0 auto;
+}
+.calc-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+@media(max-width: 768px) { .calc-grid { grid-template-columns: 1fr; } }
+
+/* ── PRICING SECTION ── */
+.pricing-sec {
+  padding: 60px 24px 90px; max-width: 820px; margin: 0 auto; text-align: center;
+}
 .pricing-box {
-  background: linear-gradient(135deg, #0f172a 0%, #090e1a 100%);
-  border: 1px solid var(--border-acc); border-radius: 24px; padding: 40px 32px;
-  position: relative; box-shadow: 0 16px 50px rgba(0,0,0,0.5); margin-top: 32px;
+  background: linear-gradient(165deg, rgba(15,23,42,0.98) 0%, rgba(10,15,30,0.99) 100%);
+  border: 1.5px solid var(--border-acc); border-radius: 28px;
+  padding: 40px 32px; box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 30px var(--blue-glow);
+  position: relative; overflow: hidden; margin-top: 32px; text-align: left;
 }
-.popular-badge {
-  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  background: var(--acc-gradient); color: #fff; font-size: 11px; font-weight: 900;
-  padding: 4px 16px; border-radius: 20px; letter-spacing: 0.8px;
+.pricing-popular-pill {
+  position: absolute; top: 18px; right: 22px;
+  background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.45);
+  color: var(--blue-accent); font-size: 10.5px; font-weight: 900;
+  text-transform: uppercase; letter-spacing: 0.8px; padding: 4px 12px; border-radius: 99px;
 }
-.pricing-val { font-size: 48px; font-weight: 900; color: #fff; margin: 14px 0; }
-.pricing-val span { font-size: 16px; font-weight: 500; color: var(--t2); }
+.pricing-val {
+  font-size: 46px; font-weight: 900; color: #fff; letter-spacing: -1px; margin: 12px 0 6px;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.pricing-orig {
+  font-size: 16px; color: var(--t3); text-decoration: line-through; font-weight: 600;
+}
+.pricing-period {
+  font-size: 15px; color: var(--t2); font-weight: 600;
+}
 .pricing-feats {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left;
-  margin: 28px 0; font-size: 13.5px; color: rgba(255,255,255,0.88);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0;
 }
 @media(max-width: 600px) { .pricing-feats { grid-template-columns: 1fr; } }
+.feat-item {
+  display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.9);
+}
+.feat-item span { color: var(--blue-accent); font-weight: 900; }
 
 /* ── FAQ ── */
-.faq-sec { padding: 60px 20px 80px; max-width: 740px; margin: 0 auto; }
+.faq-sec {
+  padding: 40px 24px 90px; max-width: 760px; margin: 0 auto;
+}
 .faq-item {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
-  margin-bottom: 10px; overflow: hidden;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+  margin-bottom: 12px; overflow: hidden; transition: border-color 0.2s;
 }
+.faq-item:hover { border-color: rgba(255,255,255,0.18); }
 .faq-q {
-  padding: 18px 20px; font-size: 15px; font-weight: 700; color: #fff;
-  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  padding: 18px 22px; display: flex; align-items: center; justify-content: space-between;
+  font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
 }
+.faq-arrow { color: var(--blue-accent); font-size: 18px; transition: transform 0.2s; }
 .faq-a {
-  display: none; padding: 0 20px 18px; font-size: 13.5px; color: var(--t2); line-height: 1.65;
+  display: none; padding: 0 22px 18px; font-size: 13.5px; color: var(--t2); line-height: 1.65;
 }
 .faq-item.open .faq-a { display: block; }
-.faq-item.open .faq-arrow { transform: rotate(45deg); color: var(--blue-light); }
+.faq-item.open .faq-arrow { transform: rotate(45deg); }
 
 /* ── FOOTER ── */
 footer {
-  border-top: 1px solid var(--border); padding: 40px 20px; text-align: center;
-  font-size: 12px; color: var(--t3);
+  border-top: 1px solid var(--border); padding: 40px 24px; text-align: center;
+  font-size: 12px; color: var(--t3); background: #05070d;
 }
 footer a { color: var(--t2); text-decoration: none; transition: color 0.2s; }
 footer a:hover { color: #fff; }
@@ -361,9 +451,10 @@ footer a:hover { color: #fff; }
     </a>
 
     <div class="nav-links">
-      <a href="#showcase">1,324+ Exercises</a>
-      <a href="#showcase">Workout Player</a>
-      <a href="#showcase">AI Nutrition</a>
+      <a href="#cockpit">App Cockpit</a>
+      <a href="#solutions">How It Helps</a>
+      <a href="#exercises">1,324+ Demos</a>
+      <a href="#nutrition">AI Diets</a>
       <a href="#pricing">Pro Pass</a>
       <a href="#faq">FAQ</a>
     </div>
@@ -375,7 +466,7 @@ footer a:hover { color: #fff; }
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- ── 1. HERO SECTION ── -->
 <section class="hero">
   <div class="hero-emblem-wrap">
     <div class="hero-emblem-glow"></div>
@@ -385,314 +476,670 @@ footer a:hover { color: #fff; }
   <div class="hero-badge">
     <span>⚡ AUTONOMOUS AI ATHLETE OS</span>
     <span>·</span>
-    <span style="color:rgba(255,255,255,0.75)">1,324+ Exercises &amp; Custom Diets</span>
+    <span style="color:rgba(255,255,255,0.75)">1,324+ Video Demos · Custom Indian &amp; Global Diets</span>
   </div>
 
   <h1 class="hero-h1">
-    Build Muscle. Master Nutrition.<br>
-    <span class="highlight">Driven by Autonomous AI.</span>
+    Your Personal AI Coach<br>
+    <span class="highlight">&amp; In-Gym Workout OS.</span>
   </h1>
 
   <p class="hero-sub">
-    The elite all-in-one workout and body transformation OS. Guided in-session set player with smart rest timers, 1,324+ animated HD exercise demos, 3D anatomical heatmaps, and autonomous AI-adapted weekly diet &amp; workout progression.
+    Eliminate guesswork, plateaus, and generic meal plans. Fit Ninja generates your complete 7-day training schedule, guides your sets with live rest timers and 1,324+ video demos, customizes your macros (Indian Veg, Non-Veg, Keto), and automatically adapts your plan every weekend.
   </p>
 
   <div class="hero-actions">
-    <a href="/app" class="btn-primary">⚡ Unlock Fit Ninja Pro (₹299/mo)</a>
-    <a href="#showcase" class="btn-secondary">👁️ Explore Features &amp; 1,324+ Demos</a>
+    <a href="/app" class="btn-primary">⚡ Unlock Fit Ninja Pro — ₹299/mo</a>
+    <a href="#cockpit" class="btn-secondary">👁️ See Live App Cockpit Preview</a>
   </div>
 
   <!-- Metric Strip -->
   <div class="metrics-strip">
     <div>
-      <div class="metric-num" style="color:var(--blue-light)">1,324+</div>
-      <div class="metric-lbl">Animated Demos</div>
+      <div class="metric-num" style="color:var(--blue-accent)">1,324+</div>
+      <div class="metric-lbl">HD Video Demos</div>
     </div>
     <div>
-      <div class="metric-num" style="color:#60A5FA">100%</div>
-      <div class="metric-lbl">Offline PWA</div>
+      <div class="metric-num" style="color:#60A5FA">7-Day Split</div>
+      <div class="metric-lbl">Custom Schedule</div>
     </div>
     <div>
-      <div class="metric-num" style="color:#93C5FD">4.9 ★</div>
-      <div class="metric-lbl">User Rating</div>
+      <div class="metric-num" style="color:#22c55e">Indian Veg</div>
+      <div class="metric-lbl">&amp; Global Diets</div>
     </div>
     <div>
-      <div class="metric-num" style="color:var(--blue-light)">₹299/mo</div>
-      <div class="metric-lbl">Pro Pass</div>
+      <div class="metric-num" style="color:var(--blue-accent)">₹9.9/day</div>
+      <div class="metric-lbl">Cancel Anytime</div>
     </div>
   </div>
 </section>
 
-<!-- ── STREAMLINED 3-IN-1 FEATURE SHOWCASE ── -->
-<section class="showcase-sec" id="showcase">
-  <div class="showcase-header">
-    <div class="section-tag">Interactive Feature Suite</div>
-    <h2 class="section-h2">Everything Built for Fast Progress.</h2>
+<!-- ── 2. LIVE INTERACTIVE APP COCKPIT PREVIEW ── -->
+<section class="cockpit-wrap" id="cockpit">
+  <div style="text-align:center;margin-bottom:24px">
+    <div class="section-tag">Interactive App Interface</div>
+    <h2 class="section-h2">Experience the Fit Ninja System.</h2>
+    <p class="section-sub">Explore how Fit Ninja guides your weekly training, logs sets in real-time, and personalizes your nutrition.</p>
   </div>
 
-  <!-- Tabs Navigation -->
-  <div class="showcase-nav">
-    <button class="sc-tab active" onclick="switchShowcase('exercises', this)">🏋️ 1,324+ Animated Exercises</button>
-    <button class="sc-tab" onclick="switchShowcase('player', this)">⏱️ Guided Workout &amp; Rest Timers</button>
-    <button class="sc-tab" onclick="switchShowcase('macros', this)">🥗 AI Macro &amp; Nutrition Engine</button>
-  </div>
-
-  <!-- PANE 1: EXERCISES (CLEAN VECTOR CARDS - NO BROKEN IMAGES) -->
-  <div class="sc-pane active" id="pane-exercises">
-    <div style="display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:20px">
-      <button class="ex-subtab active" onclick="filterEx('all', this)">All</button>
-      <button class="ex-subtab" onclick="filterEx('chest', this)">Chest</button>
-      <button class="ex-subtab" onclick="filterEx('back', this)">Back</button>
-      <button class="ex-subtab" onclick="filterEx('legs', this)">Legs</button>
-      <button class="ex-subtab" onclick="filterEx('arms', this)">Arms</button>
-      <button class="ex-subtab" onclick="filterEx('shoulders', this)">Shoulders</button>
-      <button class="ex-subtab" onclick="filterEx('core', this)">Core</button>
+  <div class="cockpit-frame">
+    <div class="cockpit-topbar">
+      <div class="cockpit-tag">
+        <div class="cockpit-pulse"></div>
+        <span>FIT NINJA ELITE · ACTIVE ATHLETE PROTOCOL</span>
+      </div>
+      <div class="cockpit-tabs">
+        <button class="cockpit-tab-btn active" onclick="switchCockpit('split', this)">📅 7-Day Workout Split</button>
+        <button class="cockpit-tab-btn" onclick="switchCockpit('player', this)">⏱️ Live Gym Player &amp; Rest Timer</button>
+        <button class="cockpit-tab-btn" onclick="switchCockpit('diet', this)">🥗 Culture AI Nutrition</button>
+        <button class="cockpit-tab-btn" onclick="switchCockpit('checkin', this)">🤖 Weekend AI Check-In</button>
+      </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:16px" id="ex-grid">
+    <div class="cockpit-content">
       
-      <!-- Card 1: Chest -->
-      <div class="spotlight-card ex-item" data-cat="chest" style="padding:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">🏋️</div>
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">CHEST · BARBELL</div>
-        </div>
-        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Bench Press</h3>
-        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Pectoralis Major · Secondary: Anterior Delts, Triceps</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
-          <span style="color:#60A5FA;font-weight:700">Linear Overload</span>
-          <span style="color:#fff;font-weight:800">3-4 Sets · 6-10 Reps</span>
-        </div>
-      </div>
-
-      <!-- Card 2: Back -->
-      <div class="spotlight-card ex-item" data-cat="back" style="padding:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">⚡</div>
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">BACK · CABLE</div>
-        </div>
-        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Wide-Grip Lat Pulldown</h3>
-        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Latissimus Dorsi · Secondary: Biceps, Teres Major</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
-          <span style="color:#60A5FA;font-weight:700">Double Overload</span>
-          <span style="color:#fff;font-weight:800">3 Sets · 8-12 Reps</span>
-        </div>
-      </div>
-
-      <!-- Card 3: Legs -->
-      <div class="spotlight-card ex-item" data-cat="legs" style="padding:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">🦵</div>
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">LEGS · BARBELL</div>
-        </div>
-        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Back Squat</h3>
-        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Quadriceps &amp; Glutes · Secondary: Hamstrings, Core</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
-          <span style="color:#60A5FA;font-weight:700">Greyskull LP</span>
-          <span style="color:#fff;font-weight:800">3 Sets · 5+ Reps</span>
-        </div>
-      </div>
-
-      <!-- Card 4: Arms -->
-      <div class="spotlight-card ex-item" data-cat="arms" style="padding:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="width:44px;height:44px;border-radius:12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);display:flex;align-items:center;justify-content:center;font-size:22px">💪</div>
-          <div style="font-size:10px;font-weight:800;color:var(--blue-light);background:rgba(37,99,235,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(37,99,235,0.25)">ARMS · DUMBBELLS</div>
-        </div>
-        <h3 style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Incline Dumbbell Curl</h3>
-        <p style="font-size:12px;color:var(--t2);margin-bottom:14px">Primary: Biceps Brachii (Long Head Stretch)</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:11.5px;border-top:1px solid rgba(255,255,255,0.06);padding-top:10px">
-          <span style="color:#60A5FA;font-weight:700">Rep Progression</span>
-          <span style="color:#fff;font-weight:800">3 Sets · 10-12 Reps</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="text-align:center;margin-top:24px">
-      <a href="/app#/library" class="btn-secondary" style="font-size:13px">Open Full 1,324+ Library in App →</a>
-    </div>
-  </div>
-
-  <!-- PANE 2: WORKOUT PLAYER -->
-  <div class="sc-pane" id="pane-player">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:32px" class="showcase-inner-grid">
-      <div>
-        <div style="font-size:11px;font-weight:800;color:var(--blue-light);text-transform:uppercase;margin-bottom:6px">In-Session Engine</div>
-        <h3 style="font-size:24px;font-weight:900;color:#fff;margin-bottom:12px">Guided Live Workout Player &amp; Smart Rest Timers</h3>
-        <p style="font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:20px">
-          Fit Ninja tracks your working weights, manages supersets, counts down rest with sound cues, and locks your screen awake so your workout never pauses.
-        </p>
-        <div style="display:flex;gap:10px">
-          <a href="/app#/workout" class="btn-primary" style="font-size:13px">Start Live Workout →</a>
-        </div>
-      </div>
-
-      <!-- Live Simulator -->
-      <div style="background:#070a12;border:1px solid var(--border-acc);border-radius:18px;padding:24px;text-align:center">
-        <div style="font-size:11px;font-weight:700;color:var(--blue-light);text-transform:uppercase">Interactive Rest Countdown</div>
-        <div id="sc-timer-val" style="font-size:52px;font-weight:900;color:#fff;margin:10px 0;font-variant-numeric:tabular-nums">01:30</div>
-        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px">
-          <button class="timer-btn" onclick="scTimer(60, this)">60s</button>
-          <button class="timer-btn active" onclick="scTimer(90, this)">90s</button>
-          <button class="timer-btn" onclick="scTimer(120, this)">120s</button>
-        </div>
-        <div style="font-size:12px;color:var(--t3)">Screen Wake Lock Active · Sounds cue at 00:00</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PANE 3: AI MACROS -->
-  <div class="sc-pane" id="pane-macros">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:32px" class="showcase-inner-grid">
-      <div>
-        <div style="font-size:11px;font-weight:800;color:var(--blue-light);text-transform:uppercase;margin-bottom:6px">Energy &amp; Nutrition</div>
-        <h3 style="font-size:24px;font-weight:900;color:#fff;margin-bottom:12px">AI Macro Calculator</h3>
-        
-        <div style="margin:16px 0">
-          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">
-            <span>Body Weight</span>
-            <span style="color:var(--blue-light)" id="sc-bw-txt">75 kg</span>
+      <!-- VIEW 1: 7-DAY WORKOUT SPLIT BLUEPRINT -->
+      <div class="cockpit-view active" id="view-split">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+          <div>
+            <h3 style="font-size:20px;font-weight:900;color:#fff">Weekly Hypertrophy Blueprint (4-Day Upper/Lower Split)</h3>
+            <p style="font-size:12.5px;color:var(--t2)">Calibrated for Lean Muscle Gain · 16 Total Sets/Day · Progressive Volume</p>
           </div>
-          <input type="range" min="45" max="130" value="75" id="sc-bw-range" style="width:100%;accent-color:var(--blue-accent)" oninput="calcScMacro()">
+          <span style="font-size:11px;font-weight:800;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.35);color:var(--blue-accent);padding:4px 10px;border-radius:99px">
+            4 WORKOUTS / 3 REST DAYS
+          </span>
         </div>
 
-        <div style="margin-bottom:16px">
-          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Goal</div>
-          <div style="display:flex;gap:6px">
-            <button class="timer-btn active" id="btn-sc-loss" onclick="setScGoal('loss', this)">Fat Loss</button>
-            <button class="timer-btn" id="btn-sc-recomp" onclick="setScGoal('recomp', this)">Recomp</button>
-            <button class="timer-btn" id="btn-sc-bulk" onclick="setScGoal('bulk', this)">Muscle Gain</button>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:12px">
+          
+          <!-- Monday -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-acc);border-radius:14px;padding:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:11px;font-weight:900;color:var(--blue-accent)">MON · PUSH / CHEST</span>
+              <span style="font-size:10px;background:rgba(37,99,235,0.2);color:#93c5fd;padding:2px 6px;border-radius:4px;font-weight:700">5 Exercises</span>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Incline DB Press + Flyes</div>
+            <div style="font-size:11.5px;color:var(--t2);line-height:1.4">Target: Pectorals &amp; Anterior Delts<br>Prescription: 3 Sets · 8-12 Reps</div>
           </div>
+
+          <!-- Tuesday -->
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:11px;font-weight:900;color:var(--blue-accent)">TUE · PULL / BACK</span>
+              <span style="font-size:10px;background:rgba(37,99,235,0.2);color:#93c5fd;padding:2px 6px;border-radius:4px;font-weight:700">5 Exercises</span>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Barbell Row + Lat Pulldown</div>
+            <div style="font-size:11.5px;color:var(--t2);line-height:1.4">Target: Lats, Rhomboids, Biceps<br>Prescription: 4 Sets · 6-10 Reps</div>
+          </div>
+
+          <!-- Wednesday -->
+          <div style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px;opacity:0.85">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:11px;font-weight:900;color:#94a3b8">WED · RECOVERY</span>
+              <span style="font-size:10px;background:rgba(255,255,255,0.08);color:#94a3b8;padding:2px 6px;border-radius:4px;font-weight:700">Active Rest</span>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Mobility &amp; Core Protocol</div>
+            <div style="font-size:11.5px;color:var(--t2);line-height:1.4">Target: CNS Recovery &amp; Stretching<br>Cardio: 8,000 Step Goal</div>
+          </div>
+
+          <!-- Thursday -->
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <span style="font-size:11px;font-weight:900;color:var(--blue-accent)">THU · LEGS / QUADS</span>
+              <span style="font-size:10px;background:rgba(37,99,235,0.2);color:#93c5fd;padding:2px 6px;border-radius:4px;font-weight:700">5 Exercises</span>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Barbell Squats + RDLs</div>
+            <div style="font-size:11.5px;color:var(--t2);line-height:1.4">Target: Quads, Glutes &amp; Hamstrings<br>Prescription: 4 Sets · 6-8 Reps</div>
+          </div>
+
+        </div>
+
+        <div style="text-align:right;margin-top:16px">
+          <a href="/app#/plan" class="btn-primary" style="padding:10px 20px;font-size:13px">▶ Start Monday Session in App →</a>
         </div>
       </div>
 
-      <!-- Macro Results -->
-      <div style="background:#070a12;border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;flex-direction:column;justify-content:center;text-align:center">
-        <div style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase">Target Calories</div>
-        <div style="font-size:42px;font-weight:900;color:#fff;margin:4px 0" id="sc-res-cals">2,150 <span style="font-size:14px;color:var(--blue-light)">kcal</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px">
-          <div style="background:var(--bg-card);padding:8px;border-radius:10px">
-            <div style="font-size:10px;color:var(--blue-light);font-weight:700">PROTEIN</div>
-            <div style="font-size:16px;font-weight:800;color:#fff" id="sc-res-prot">150g</div>
+      <!-- VIEW 2: LIVE GYM PLAYER & REST TIMER -->
+      <div class="cockpit-view" id="view-player">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center" class="cockpit-split-grid">
+          <div>
+            <div style="font-size:11px;font-weight:800;color:var(--blue-accent);text-transform:uppercase;margin-bottom:4px">
+              Live In-Session HUD
+            </div>
+            <h3 style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Tactile Set Stepper &amp; Rest Timer</h3>
+            <p style="font-size:13.5px;color:var(--t2);line-height:1.6;margin-bottom:16px">
+              Fit Ninja keeps your phone display awake, automatically pre-fills previous weights, and sounds audio chimes when your rest interval is over so you stay locked in.
+            </p>
+
+            <!-- Interactive Set Logger Table -->
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:12px">
+              <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;color:var(--t3);border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:8px">
+                <span>SET</span>
+                <span>PREVIOUS</span>
+                <span>KG</span>
+                <span>REPS</span>
+                <span>STATUS</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <span>1</span>
+                <span style="color:var(--t2)">80 kg × 10</span>
+                <span style="color:#fff">80 kg</span>
+                <span style="color:#fff">10</span>
+                <span style="color:var(--green);font-size:12px">✓ Completed</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <span>2</span>
+                <span style="color:var(--t2)">85 kg × 8</span>
+                <span style="color:#fff">85 kg</span>
+                <span style="color:#fff">8</span>
+                <span style="color:var(--green);font-size:12px">✓ Completed</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;padding:6px 0">
+                <span style="color:var(--blue-accent)">3 (Active)</span>
+                <span style="color:var(--t2)">85 kg × 8</span>
+                <span style="color:var(--blue-accent)">87.5 kg</span>
+                <span style="color:var(--blue-accent)">AMRAP</span>
+                <button style="background:var(--acc-gradient-btn);color:#fff;border:none;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;cursor:pointer">Log Set</button>
+              </div>
+            </div>
           </div>
-          <div style="background:var(--bg-card);padding:8px;border-radius:10px">
-            <div style="font-size:10px;color:#60A5FA;font-weight:700">CARBS</div>
-            <div style="font-size:16px;font-weight:800;color:#fff" id="sc-res-carbs">220g</div>
-          </div>
-          <div style="background:var(--bg-card);padding:8px;border-radius:10px">
-            <div style="font-size:10px;color:#93C5FD;font-weight:700">FATS</div>
-            <div style="font-size:16px;font-weight:800;color:#fff" id="sc-res-fats">55g</div>
+
+          <!-- Interactive Rest Timer Widget -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-acc);border-radius:20px;padding:24px;text-align:center">
+            <div style="font-size:11px;font-weight:800;color:var(--blue-accent);text-transform:uppercase">Smart Rest Countdown</div>
+            <div id="demo-timer-val" style="font-size:56px;font-weight:900;color:#fff;margin:8px 0;font-variant-numeric:tabular-nums;letter-spacing:-1px">01:30</div>
+            <div style="display:flex;justify-content:center;gap:8px;margin-bottom:14px">
+              <button class="filter-pill active" onclick="setDemoTimer(60, this)">60s</button>
+              <button class="filter-pill" onclick="setDemoTimer(90, this)">90s</button>
+              <button class="filter-pill" onclick="setDemoTimer(120, this)">120s</button>
+            </div>
+            <div style="font-size:12px;color:var(--t3)">Screen Wake Lock Active · Automatic Audio Chime on 00:00</div>
           </div>
         </div>
       </div>
+
+      <!-- VIEW 3: CULTURE-SPECIFIC AI DIETS -->
+      <div class="cockpit-view" id="view-diet">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" class="cockpit-split-grid">
+          <div>
+            <div style="font-size:11px;font-weight:800;color:var(--blue-accent);text-transform:uppercase;margin-bottom:4px">
+              Precision Nutrition Architecture
+            </div>
+            <h3 style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Tailored to Indian &amp; Global Diets</h3>
+            <p style="font-size:13.5px;color:var(--t2);line-height:1.6;margin-bottom:16px">
+              No generic salad diets. Choose your actual cultural food preferences and receive gram-precise protein, carb, and healthy fat portions.
+            </p>
+
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+              <button class="filter-pill active" onclick="switchDietDemo('veg', this)">🇮🇳 Indian Vegetarian</button>
+              <button class="filter-pill" onclick="switchDietDemo('nonveg', this)">🍗 High Protein Non-Veg</button>
+              <button class="filter-pill" onclick="switchDietDemo('vegan', this)">🌱 100% Plant Vegan</button>
+            </div>
+
+            <div id="diet-sample-box" style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px">
+              <div style="font-size:13px;font-weight:800;color:#fff;margin-bottom:8px">Sample Daily Meals:</div>
+              <div style="font-size:12.5px;color:var(--t2);line-height:1.6" id="diet-sample-text">
+                • <strong>Breakfast:</strong> Sprouted Moong &amp; Paneer Bhurji (32g Protein)<br>
+                • <strong>Lunch:</strong> Soya Chunks Curry + Brown Rice + Cucumber Salad (42g Protein)<br>
+                • <strong>Snack:</strong> Roasted Chana + Whey Isolate / Greek Yogurt (28g Protein)<br>
+                • <strong>Dinner:</strong> Dal Tadka with Low-Carb Roti + Stir-Fried Tofu (35g Protein)
+              </div>
+            </div>
+          </div>
+
+          <!-- Macro Result Rings -->
+          <div style="background:var(--bg-card);border:1px solid var(--border-acc);border-radius:20px;padding:24px;text-align:center;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase">Daily Target Energy</div>
+            <div style="font-size:44px;font-weight:900;color:#fff;margin:4px 0">2,250 <span style="font-size:14px;color:var(--blue-accent)">kcal</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px">
+              <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);padding:12px 8px;border-radius:12px">
+                <div style="font-size:10px;color:var(--blue-accent);font-weight:800">PROTEIN</div>
+                <div style="font-size:18px;font-weight:900;color:#fff;margin-top:2px">155g</div>
+                <div style="font-size:9.5px;color:var(--t3)">2g per kg bodyweight</div>
+              </div>
+              <div style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);padding:12px 8px;border-radius:12px">
+                <div style="font-size:10px;color:#93c5fd;font-weight:800">CARBS</div>
+                <div style="font-size:18px;font-weight:900;color:#fff;margin-top:2px">230g</div>
+                <div style="font-size:9.5px;color:var(--t3)">Fuel for gym sessions</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);padding:12px 8px;border-radius:12px">
+                <div style="font-size:10px;color:#cbd5e1;font-weight:800">FATS</div>
+                <div style="font-size:18px;font-weight:900;color:#fff;margin-top:2px">58g</div>
+                <div style="font-size:9.5px;color:var(--t3)">Hormonal balance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: WEEKEND AI CHECK-IN -->
+      <div class="cockpit-view" id="view-checkin">
+        <div style="max-width:720px;margin:0 auto;text-align:center">
+          <div style="width:52px;height:52px;border-radius:16px;background:rgba(56,189,248,0.15);border:1px solid var(--border-acc);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px">
+            🤖
+          </div>
+          <h3 style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Autonomous Weekend Coach Check-In</h3>
+          <p style="font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:20px">
+            Unlike static workout PDF plans, Fit Ninja continuously monitors your training logs. Every weekend, your AI coach synthesizes your completed sets, weight trend, and workout volume, and prompts you with calibrated adjustments.
+          </p>
+
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:left;margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <span style="font-size:10.5px;font-weight:900;background:var(--acc-gradient-btn);color:#fff;padding:2px 8px;border-radius:4px">COACH AI FEEDBACK</span>
+              <span style="font-size:11.5px;color:var(--t2)">Week 3 Evaluation · Adherence 92%</span>
+            </div>
+            <div style="font-size:13.5px;color:#fff;line-height:1.6">
+              "Great consistency on Incline Bench and Squats. You completed all working sets in target rep zones. For next week, I am bumping your working bench weight from 80kg to 82.5kg (+2.5kg) and increasing daily protein intake by +10g to support muscle protein synthesis."
+            </div>
+          </div>
+
+          <a href="/app" class="btn-primary" style="font-size:14px">Experience Full AI Coach in App →</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ── 4 CORE PILLARS ── -->
-<section style="padding:40px 20px 80px;max-width:1100px;margin:0 auto">
-  <div style="text-align:center;margin-bottom:28px">
-    <div class="section-tag">Scientific Architecture</div>
-    <h2 class="section-h2">Why Fit Ninja Transforms You Faster.</h2>
+<!-- ── 3. HOW FIT NINJA HELPS YOU (6 REAL PROBLEMS SOLVED) ── -->
+<section class="pillars-sec" id="solutions">
+  <div style="text-align:center;margin-bottom:16px">
+    <div class="section-tag">Direct Problem Solver</div>
+    <h2 class="section-h2">Why Fit Ninja Replaces Outdated Apps.</h2>
+    <p class="section-sub">Built by sports scientists and engineers to eliminate the real roadblocks athletes face every day.</p>
   </div>
 
   <div class="pillars-grid">
+    
+    <!-- 1 -->
     <div class="pillar-card spotlight-card">
-      <div style="font-size:28px">🧬</div>
-      <h3>Anatomical Muscle Heatmaps</h3>
-      <p>Real-time front &amp; back body visualizer highlighting weekly muscle volume distribution so you never under-train any muscle group.</p>
+      <div>
+        <div class="pillar-ico-box">📅</div>
+        <div class="pillar-title">Never Wonder What To Do Today</div>
+        <div class="pillar-desc">
+          Fit Ninja computes your 7-day schedule (Push/Pull/Legs, Upper/Lower, or Bro Split) matched exactly to your training frequency (3 to 6 days).
+        </div>
+      </div>
+      <div class="pillar-badge">✓ 7-Day Visual Blueprint</div>
     </div>
 
+    <!-- 2 -->
     <div class="pillar-card spotlight-card">
-      <div style="font-size:28px">📈</div>
-      <h3>Greyskull LP &amp; Strength Overload</h3>
-      <p>Automated progressive overload algorithms calculate your next workout weights, rep-targets, and deload percentages automatically.</p>
+      <div>
+        <div class="pillar-ico-box">🏋️</div>
+        <div class="pillar-title">1,324+ Animated Video Demos</div>
+        <div class="pillar-desc">
+          Stop scrolling YouTube for exercise form. Get instant high-definition video loops of barbell, dumbbell, cable, and machine movements with muscle targeting.
+        </div>
+      </div>
+      <div class="pillar-badge">✓ Zero Broken Video Links</div>
     </div>
 
+    <!-- 3 -->
     <div class="pillar-card spotlight-card">
-      <div style="font-size:28px">🍲</div>
-      <h3>4 Cultural Diet Types</h3>
-      <p>Complete meal schedules for High Protein Non-Veg, Indian Vegetarian (Paneer, Soya, Dal), Eggetarian, and Plant-Based Vegan.</p>
+      <div>
+        <div class="pillar-ico-box">⏱️</div>
+        <div class="pillar-title">Focused In-Session Gym Player</div>
+        <div class="pillar-desc">
+          Locks your phone screen awake, pre-fills your previous working weights, and rings audible rest timers so you don't doomscroll social media.
+        </div>
+      </div>
+      <div class="pillar-badge">✓ Screen Wake Lock + Beeps</div>
     </div>
 
+    <!-- 4 -->
     <div class="pillar-card spotlight-card">
-      <div style="font-size:28px">📱</div>
-      <h3>100% Offline-Capable PWA</h3>
-      <p>Install on iPhone or Android directly from your browser. Full workout and macro engine functions seamlessly inside the gym with zero internet lag.</p>
+      <div>
+        <div class="pillar-ico-box">🍲</div>
+        <div class="pillar-title">Real Indian &amp; Global Diets</div>
+        <div class="pillar-desc">
+          Finally, an app that actually knows Paneer, Soya Chunks, Dal, and Sprouts. Gram-level macro calculations tailored for Indian vegetarians, non-veg, and vegans.
+        </div>
+      </div>
+      <div class="pillar-badge">✓ Paneer, Soya &amp; Whey Focused</div>
+    </div>
+
+    <!-- 5 -->
+    <div class="pillar-card spotlight-card">
+      <div>
+        <div class="pillar-ico-box">📈</div>
+        <div class="pillar-title">Greyskull LP &amp; Overload Engine</div>
+        <div class="pillar-desc">
+          Automatic progressive overload calculations ensure you steadily add weight and volume every single week without hitting premature plateaus.
+        </div>
+      </div>
+      <div class="pillar-badge">✓ Science-Backed Periodization</div>
+    </div>
+
+    <!-- 6 -->
+    <div class="pillar-card spotlight-card">
+      <div>
+        <div class="pillar-ico-box">📱</div>
+        <div class="pillar-title">100% Offline Basement Ready</div>
+        <div class="pillar-desc">
+          Gym has zero cellular signal in the basement? Fit Ninja is an offline-first PWA that loads instantly and logs workouts without waiting for servers.
+        </div>
+      </div>
+      <div class="pillar-badge">✓ Local Storage Sync</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── 4. 1,324+ EXERCISE DEMO SHOWCASE ── -->
+<section class="showcase-sec" id="exercises">
+  <div style="text-align:center;margin-bottom:14px">
+    <div class="section-tag">Comprehensive Exercise Library</div>
+    <h2 class="section-h2">1,324+ Animated Movements. Zero Guesswork.</h2>
+    <p class="section-sub">Explore every compound and isolation movement with target muscle cues and recommended rep progressions.</p>
+  </div>
+
+  <div class="filter-pills">
+    <button class="filter-pill active" onclick="filterCategory('all', this)">All Movements</button>
+    <button class="filter-pill" onclick="filterCategory('chest', this)">Chest</button>
+    <button class="filter-pill" onclick="filterCategory('back', this)">Back</button>
+    <button class="filter-pill" onclick="filterCategory('legs', this)">Legs</button>
+    <button class="filter-pill" onclick="filterCategory('shoulders', this)">Shoulders</button>
+    <button class="filter-pill" onclick="filterCategory('arms', this)">Arms</button>
+    <button class="filter-pill" onclick="filterCategory('core', this)">Core</button>
+  </div>
+
+  <div class="ex-grid" id="ex-card-grid">
+    
+    <!-- Item 1 -->
+    <div class="spotlight-card ex-card" data-cat="chest">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🏋️</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">BARBELL · CHEST</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Bench Press</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Pectoralis Major · Secondary: Triceps, Anterior Delts</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Linear Overload</span>
+        <span style="color:#fff">3-4 Sets · 6-10 Reps</span>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="spotlight-card ex-card" data-cat="back">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">⚡</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">CABLE · BACK</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Wide-Grip Lat Pulldown</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Latissimus Dorsi · Secondary: Biceps Brachii, Teres</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Double Progression</span>
+        <span style="color:#fff">3 Sets · 8-12 Reps</span>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="spotlight-card ex-card" data-cat="legs">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🦵</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">BARBELL · LEGS</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Barbell Back Squat</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Quadriceps &amp; Gluteus · Secondary: Adductors, Core</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Greyskull LP</span>
+        <span style="color:#fff">3 Sets · 5+ Reps</span>
+      </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="spotlight-card ex-card" data-cat="shoulders">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🛡️</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">DUMBBELL · SHOULDERS</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Seated Dumbbell Overhead Press</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Anterior &amp; Lateral Delts · Secondary: Triceps</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Rep Progression</span>
+        <span style="color:#fff">3 Sets · 8-12 Reps</span>
+      </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="spotlight-card ex-card" data-cat="arms">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">💪</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">DUMBBELL · ARMS</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Incline Dumbbell Bicep Curl</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Biceps Brachii Long Head (Deep Stretch Profile)</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Hypertrophy Volume</span>
+        <span style="color:#fff">3 Sets · 10-12 Reps</span>
+      </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="spotlight-card ex-card" data-cat="core">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🎯</div>
+        <span style="font-size:10px;font-weight:800;color:var(--blue-accent);background:rgba(56,189,248,0.1);padding:3px 8px;border-radius:99px">CABLE · CORE</span>
+      </div>
+      <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Kneeling Cable Ab Crunch</div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:12px">Primary: Rectus Abdominis · Spinal Flexion Under Constant Tension</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;border-top:1px solid var(--border);padding-top:10px">
+        <span style="color:#60A5FA">Progressive Load</span>
+        <span style="color:#fff">3 Sets · 12-15 Reps</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:28px">
+    <a href="/app#/library" class="btn-secondary" style="font-size:13.5px">Open All 1,324+ Demos in Fit Ninja App →</a>
+  </div>
+</section>
+
+<!-- ── 5. INTERACTIVE MACRO & CALORIE ENGINE ── -->
+<section class="calc-sec" id="nutrition">
+  <div style="text-align:center;margin-bottom:28px">
+    <div class="section-tag">Scientific Energy Balance</div>
+    <h2 class="section-h2">Instant AI Macro Calculator.</h2>
+    <p class="section-sub">See how Fit Ninja computes your exact calories, protein target, and carbs based on body stats.</p>
+  </div>
+
+  <div class="spotlight-card" style="padding:32px">
+    <div class="calc-grid">
+      <div>
+        <div style="margin-bottom:20px">
+          <div style="display:flex;justify-content:space-between;font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px">
+            <span>Current Body Weight</span>
+            <span style="color:var(--blue-accent)" id="calc-bw-val">75 kg</span>
+          </div>
+          <input type="range" min="45" max="130" value="75" id="calc-bw-range" style="width:100%;accent-color:var(--blue-primary);cursor:pointer" oninput="runMacroCalc()">
+        </div>
+
+        <div style="margin-bottom:20px">
+          <div style="font-size:13.5px;font-weight:800;color:#fff;margin-bottom:8px">Your Fitness Objective</div>
+          <div style="display:flex;gap:8px">
+            <button class="filter-pill active" id="goal-loss" onclick="setGoal('loss', this)">Fat Loss (-500 kcal)</button>
+            <button class="filter-pill" id="goal-recomp" onclick="setGoal('recomp', this)">Recomposition</button>
+            <button class="filter-pill" id="goal-bulk" onclick="setGoal('bulk', this)">Lean Bulk (+300 kcal)</button>
+          </div>
+        </div>
+
+        <div style="font-size:12px;color:var(--t3);line-height:1.5">
+          Calculations leverage Mifflin-St Jeor metabolic equations with 2.0g protein / kg bodyweight for maximum muscle protein synthesis.
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div style="background:#070a12;border:1px solid var(--border-acc);border-radius:18px;padding:24px;text-align:center;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase">Prescribed Daily Calories</div>
+        <div style="font-size:46px;font-weight:900;color:#fff;margin:6px 0" id="res-cals">2,150 <span style="font-size:14px;color:var(--blue-accent)">kcal</span></div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px">
+          <div style="background:var(--bg-card);padding:10px 6px;border-radius:10px">
+            <div style="font-size:10px;color:var(--blue-accent);font-weight:800">PROTEIN</div>
+            <div style="font-size:17px;font-weight:900;color:#fff" id="res-prot">150g</div>
+          </div>
+          <div style="background:var(--bg-card);padding:10px 6px;border-radius:10px">
+            <div style="font-size:10px;color:#93c5fd;font-weight:800">CARBS</div>
+            <div style="font-size:17px;font-weight:900;color:#fff" id="res-carbs">220g</div>
+          </div>
+          <div style="background:var(--bg-card);padding:10px 6px;border-radius:10px">
+            <div style="font-size:10px;color:#cbd5e1;font-weight:800">FATS</div>
+            <div style="font-size:17px;font-weight:900;color:#fff" id="res-fats">55g</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── PRICING ── -->
+<!-- ── 6. COMPARISON MATRIX (FIT NINJA VS OTHERS) ── -->
+<section style="padding:40px 24px 80px;max-width:980px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:28px">
+    <div class="section-tag">Value Proposition</div>
+    <h2 class="section-h2">Why Athletes Choose Fit Ninja.</h2>
+  </div>
+
+  <div class="spotlight-card" style="padding:24px;overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;text-align:left;font-size:13.5px">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);color:var(--t3);font-size:11px;text-transform:uppercase;letter-spacing:1px">
+          <th style="padding:12px 14px">FEATURE</th>
+          <th style="padding:12px 14px;color:var(--blue-accent);font-weight:900">FIT NINJA PRO</th>
+          <th style="padding:12px 14px">PERSONAL TRAINER</th>
+          <th style="padding:12px 14px">GENERIC APPS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:14px;font-weight:700;color:#fff">Monthly Cost</td>
+          <td style="padding:14px;font-weight:900;color:var(--green)">₹299 / month</td>
+          <td style="padding:14px;color:var(--t2)">₹8,000 – ₹15,000</td>
+          <td style="padding:14px;color:var(--t2)">₹1,200 – ₹2,400</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:14px;font-weight:700;color:#fff">Indian Vegetarian Diets</td>
+          <td style="padding:14px;color:var(--blue-accent);font-weight:800">✓ Full Indian Veg &amp; Soya</td>
+          <td style="padding:14px;color:var(--t2)">Often Generic / Vague</td>
+          <td style="padding:14px;color:#ef4444">✗ Western Salads Only</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:14px;font-weight:700;color:#fff">Animated Exercise Demos</td>
+          <td style="padding:14px;color:var(--blue-accent);font-weight:800">✓ 1,324+ HD Video Loops</td>
+          <td style="padding:14px;color:var(--t2)">Only in scheduled hour</td>
+          <td style="padding:14px;color:var(--t2)">Limited (~150 exercises)</td>
+        </tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+          <td style="padding:14px;font-weight:700;color:#fff">Weekend AI Adaptations</td>
+          <td style="padding:14px;color:var(--blue-accent);font-weight:800">✓ Auto-calibrates weekly</td>
+          <td style="padding:14px;color:var(--t2)">Rarely documented</td>
+          <td style="padding:14px;color:#ef4444">✗ Static PDF templates</td>
+        </tr>
+        <tr>
+          <td style="padding:14px;font-weight:700;color:#fff">Contract &amp; Cancellation</td>
+          <td style="padding:14px;color:var(--green);font-weight:800">Cancel Anytime (0 Fee)</td>
+          <td style="padding:14px;color:var(--t2)">3 to 6 Month Lock-in</td>
+          <td style="padding:14px;color:var(--t2)">Annual upfront fee</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── 7. PRO PASS PRICING ── -->
 <section class="pricing-sec" id="pricing">
-  <div class="section-tag">Simple Pricing</div>
-  <h2 class="section-h2">One Pass. Full Power.</h2>
+  <div class="section-tag">Simple All-Access Pricing</div>
+  <h2 class="section-h2">Unlock the Entire Engine.</h2>
+  <p class="section-sub">Less than a single protein scoop per day. Zero long-term contracts. Cancel with 1 tap at any time.</p>
 
   <div class="pricing-box">
-    <div class="popular-badge">MOST POPULAR</div>
-    <h3 style="font-size:22px;font-weight:800;color:#fff;margin-top:8px">Fit Ninja All-Access Pro</h3>
-    <div class="pricing-val">₹299 <span>/ month</span></div>
+    <div class="pricing-popular-pill">⚡ PRO PASS MEMBERSHIP</div>
+    
+    <div style="font-size:20px;font-weight:900;color:#fff">Fit Ninja All-Access Pro</div>
+    <div style="font-size:12.5px;color:var(--t2);margin-top:2px">Complete AI Coaching &amp; Hypertrophy Tracking Suite</div>
 
-    <div class="pricing-feats">
-      <div>✓ Full 1,324+ animated exercise video demos</div>
-      <div>✓ Guided in-session player with live rest timers</div>
-      <div>✓ Anatomical muscle heatmaps &amp; 1RM tracking</div>
-      <div>✓ AI Macro &amp; Nutrition engine with custom meal plans</div>
-      <div>✓ Greyskull LP &amp; linear progressive overload</div>
-      <div>✓ Cancel anytime — zero lock-in contracts</div>
+    <div class="pricing-val">
+      <span class="pricing-orig">₹999</span>
+      ₹299
+      <span class="pricing-period">/ month</span>
     </div>
 
-    <a href="/app" class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px">
-      ⚡ Get Started with Pro Pass (₹299/mo) →
+    <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:20px">
+      Save 70% · Just ₹9.9 / day · Renews monthly · Cancel anytime
+    </div>
+
+    <div class="pricing-feats">
+      <div class="feat-item"><span>✓</span> Full 1,324+ animated video exercise demos</div>
+      <div class="feat-item"><span>✓</span> 7-Day custom weekly split generation</div>
+      <div class="feat-item"><span>✓</span> In-gym set player with smart rest timers</div>
+      <div class="feat-item"><span>✓</span> Culture-specific Indian &amp; global AI nutrition</div>
+      <div class="feat-item"><span>✓</span> Automatic progressive overload algorithms</div>
+      <div class="feat-item"><span>✓</span> Weekend AI coach check-ins &amp; adaptations</div>
+      <div class="feat-item"><span>✓</span> 100% offline-ready PWA for iPhone &amp; Android</div>
+      <div class="feat-item"><span>✓</span> Direct Razorpay checkout (UPI, Cards, NetBanking)</div>
+    </div>
+
+    <a href="/app" class="btn-primary" style="width:100%;justify-content:center;padding:16px;font-size:16px">
+      ⚡ Unlock Fit Ninja Pro Now (₹299/mo) →
     </a>
   </div>
 </section>
 
-<!-- ── FAQ ── -->
+<!-- ── 8. FREQUENTLY ASKED QUESTIONS ── -->
 <section class="faq-sec" id="faq">
   <div style="text-align:center;margin-bottom:28px">
-    <div class="section-tag">Common Questions</div>
+    <div class="section-tag">Common Inquiries</div>
     <h2 class="section-h2">Frequently Asked Questions</h2>
   </div>
 
   <div class="faq-item open">
     <div class="faq-q" onclick="toggleFaq(this.parentElement)">
-      <span>What makes Fit Ninja different from other workout apps?</span>
-      <span class="faq-arrow" style="font-size:20px">+</span>
+      <span>What makes Fit Ninja different from other fitness apps?</span>
+      <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA.
+      Most fitness apps provide static Western meal plans (avocado toast &amp; salmon) and generic video templates that require high-speed internet. Fit Ninja generates personalized 7-day splits, includes 1,324+ animated video demos, supports real Indian vegetarian and global food cultures, operates 100% offline in gym basements, and updates your training volume automatically every weekend.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-q" onclick="toggleFaq(this.parentElement)">
-      <span>Does the app work without internet in the gym?</span>
-      <span class="faq-arrow" style="font-size:20px">+</span>
+      <span>Does the app work without an internet connection?</span>
+      <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      Yes! Fit Ninja is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you reconnect.
+      Yes! Fit Ninja is built with an offline-first Progressive Web App (PWA) architecture. Your entire routine, exercises, rest timers, and logs are saved locally on your device so you experience zero buffering inside basement gyms.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-q" onclick="toggleFaq(this.parentElement)">
-      <span>Can I choose Indian Vegetarian or Vegan diet plans?</span>
-      <span class="faq-arrow" style="font-size:20px">+</span>
+      <span>Can I choose Indian Vegetarian diets with Paneer and Soya?</span>
+      <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      Yes. You can select between High Protein Balanced, Indian Vegetarian (Paneer, Soya, Dal), Ketogenic Low-Carb, and Plant-Based Vegan with customized daily macro targets.
+      Absolutely. Fit Ninja features a dedicated Indian Vegetarian macro engine focused on Paneer, Soya Chunks, Dal, Sprouts, and Whey to guarantee you hit optimal protein targets without relying on meat.
     </div>
   </div>
 
   <div class="faq-item">
     <div class="faq-q" onclick="toggleFaq(this.parentElement)">
       <span>How do I cancel my subscription?</span>
-      <span class="faq-arrow" style="font-size:20px">+</span>
+      <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      You can cancel your subscription with 1-click at any time directly inside the app settings with zero cancellation fees or lock-in contracts.
+      You can cancel your subscription at any time with 1 tap directly from the Profile &amp; Settings page inside the app. There are no cancellation fees, lock-in contracts, or support phone calls required.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)">
+      <span>How do I install Fit Ninja on my phone?</span>
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-a">
+      Open fit.socialninjas.in/app on Safari (iOS) and tap "Share" → "Add to Home Screen", or open on Chrome (Android) and tap "Install App". It installs as a full-screen, native-feeling app without taking up gigabytes of phone storage.
     </div>
   </div>
 </section>
@@ -700,14 +1147,14 @@ footer a:hover { color: #fff; }
 <!-- ── FOOTER ── -->
 <footer>
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
-    <span style="font-weight:900;color:#fff;font-size:15px">Fit<span style="color:var(--blue-light)">Ninja</span> OS</span>
+    <span style="font-weight:900;color:#fff;font-size:15px">Fit<span style="color:var(--blue-accent)">Ninja</span> OS</span>
     <span>·</span>
-    <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style="color:var(--blue-light);font-weight:700">Social Ninja's AI Agency</a></span>
+    <span>Engineered by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style="color:var(--blue-accent);font-weight:700">Social Ninja's AI Agency</a></span>
   </div>
 
   <div style="margin-bottom:12px">
     <a href="/about.html">About Us</a> · 
-    <a href="/contact.html">Contact</a> · 
+    <a href="/contact.html">Contact Support</a> · 
     <a href="/privacy.html">Privacy Policy</a> · 
     <a href="/terms.html">Terms &amp; Conditions</a>
   </div>
@@ -715,88 +1162,114 @@ footer a:hover { color: #fff; }
   <div>© 2026 Social Ninja's · fit.socialninjas.in · All Rights Reserved</div>
 </footer>
 
+<!-- ── CLIENT LOGIC SCRIPT ── -->
 <script>
-// ── SHOWCASE TABS ──
-function switchShowcase(pane, btn) {
-  document.querySelectorAll('.sc-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.sc-pane').forEach(p => p.classList.remove('active'));
+// ── COCKPIT TABS ──
+function switchCockpit(tabId, btn) {
+  document.querySelectorAll('.cockpit-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cockpit-view').forEach(v => v.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('pane-' + pane).classList.add('active');
+  const target = document.getElementById('view-' + tabId);
+  if (target) target.classList.add('active');
 }
 
-// ── EXERCISE SUBTABS ──
-function filterEx(cat, btn) {
-  document.querySelectorAll('.ex-subtab').forEach(b => b.classList.remove('active'));
+// ── EXERCISE CATEGORY FILTER ──
+function filterCategory(cat, btn) {
+  document.querySelectorAll('.filter-pill').forEach(b => {
+    if (b.parentElement.classList.contains('filter-pills')) b.classList.remove('active');
+  });
   btn.classList.add('active');
-  document.querySelectorAll('.ex-item').forEach(item => {
-    if (cat === 'all' || item.getAttribute('data-cat') === cat) {
-      item.style.display = 'block';
+  document.querySelectorAll('.ex-card').forEach(card => {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+      card.style.display = 'block';
     } else {
-      item.style.display = 'none';
+      card.style.display = 'none';
     }
   });
 }
 
-// ── TIMER SIMULATOR ──
-let scInterval = null;
-function scTimer(sec, btn) {
-  document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+// ── REST TIMER DEMO ──
+let demoInterval = null;
+function setDemoTimer(seconds, btn) {
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  if (scInterval) clearInterval(scInterval);
-  let rem = sec;
-  const disp = document.getElementById('sc-timer-val');
+  if (demoInterval) clearInterval(demoInterval);
+  let rem = seconds;
+  const disp = document.getElementById('demo-timer-val');
   function fmt(s) {
     const m = Math.floor(s / 60);
     const r = s % 60;
     return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r;
   }
   disp.textContent = fmt(rem);
-  scInterval = setInterval(() => {
+  disp.style.color = '#fff';
+  demoInterval = setInterval(() => {
     rem--;
     if (rem <= 0) {
-      clearInterval(scInterval);
+      clearInterval(demoInterval);
       disp.textContent = "00:00 (Done!)";
-      disp.style.color = "var(--blue-light)";
-      setTimeout(() => { disp.style.color = "#fff"; disp.textContent = fmt(sec); }, 2000);
+      disp.style.color = "var(--blue-accent)";
+      setTimeout(() => {
+        disp.style.color = "#fff";
+        disp.textContent = fmt(seconds);
+      }, 2200);
     } else {
       disp.textContent = fmt(rem);
     }
   }, 1000);
 }
 
-// ── AI MACRO SIMULATOR ──
-let currentGoal = 'loss';
-function setScGoal(g, btn) {
-  currentGoal = g;
-  btn.parentElement.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+// ── DIET DEMO SWITCHER ──
+const DIET_DATA = {
+  veg: "• <strong>Breakfast:</strong> Sprouted Moong &amp; Paneer Bhurji (32g Protein)<br>• <strong>Lunch:</strong> Soya Chunks Curry + Brown Rice + Cucumber Salad (42g Protein)<br>• <strong>Snack:</strong> Roasted Chana + Whey Isolate / Greek Yogurt (28g Protein)<br>• <strong>Dinner:</strong> Dal Tadka with Low-Carb Roti + Stir-Fried Tofu (35g Protein)",
+  nonveg: "• <strong>Breakfast:</strong> 4 Egg White &amp; 1 Whole Egg Omelette + Oats Bowl (36g Protein)<br>• <strong>Lunch:</strong> Grilled Tandoori Chicken Breast + Basmati Rice + Greens (48g Protein)<br>• <strong>Snack:</strong> Whey Isolate with Almond Milk &amp; Banana (27g Protein)<br>• <strong>Dinner:</strong> Pan-Seared Fish / Chicken Stir-fry with Veggies (40g Protein)",
+  vegan: "• <strong>Breakfast:</strong> Tofu Scramble with Nutritional Yeast + Whole Grain Toast (30g Protein)<br>• <strong>Lunch:</strong> Black Bean &amp; Chickpea Quinoa Bowl with Tahini (38g Protein)<br>• <strong>Snack:</strong> Plant Pea Protein Shake + Roasted Pumpkin Seeds (28g Protein)<br>• <strong>Dinner:</strong> Tempeh &amp; Edamame Stir-Fry with Broccoli (36g Protein)"
+};
+function switchDietDemo(type, btn) {
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  calcScMacro();
+  const target = document.getElementById('diet-sample-text');
+  if (target && DIET_DATA[type]) {
+    target.innerHTML = DIET_DATA[type];
+  }
 }
 
-function calcScMacro() {
-  const bw = parseFloat(document.getElementById('sc-bw-range').value) || 75;
-  document.getElementById('sc-bw-txt').textContent = bw + ' kg';
-  let cals = (10 * bw + 625 + 5 * 175 - 5 * 26 + 5) * 1.375;
-  if (currentGoal === 'loss') cals -= 500;
-  else if (currentGoal === 'bulk') cals += 300;
+// ── MACRO CALCULATOR ENGINE ──
+let activeGoal = 'loss';
+function setGoal(goal, btn) {
+  activeGoal = goal;
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  runMacroCalc();
+}
+
+function runMacroCalc() {
+  const bw = parseFloat(document.getElementById('calc-bw-range').value) || 75;
+  document.getElementById('calc-bw-val').textContent = bw + ' kg';
+  
+  // Base BMR estimate: 10 * weight + 6.25 * height - 5 * age + 5
+  let cals = (10 * bw + 6.25 * 175 - 5 * 26 + 5) * 1.375;
+  if (activeGoal === 'loss') cals -= 500;
+  else if (activeGoal === 'bulk') cals += 300;
   cals = Math.round(cals);
+
   const prot = Math.round(bw * 2.0);
   const fats = Math.round((cals * 0.25) / 9);
   const carbs = Math.max(50, Math.round((cals - prot * 4 - fats * 9) / 4));
 
-  document.getElementById('sc-res-cals').innerHTML = cals.toLocaleString() + ' <span style="font-size:14px;color:var(--blue-light)">kcal</span>';
-  document.getElementById('sc-res-prot').textContent = prot + 'g';
-  document.getElementById('sc-res-carbs').textContent = carbs + 'g';
-  document.getElementById('sc-res-fats').textContent = fats + 'g';
+  document.getElementById('res-cals').innerHTML = cals.toLocaleString() + ' <span style="font-size:14px;color:var(--blue-accent)">kcal</span>';
+  document.getElementById('res-prot').textContent = prot + 'g';
+  document.getElementById('res-carbs').textContent = carbs + 'g';
+  document.getElementById('res-fats').textContent = fats + 'g';
 }
-calcScMacro();
+runMacroCalc();
 
 // ── FAQ TOGGLE ──
 function toggleFaq(el) {
   el.classList.toggle('open');
 }
 
-// ── SPOTLIGHT MOUSEMOVE ──
+// ── SPOTLIGHT HOVER INTERACTION ──
 document.querySelectorAll('.spotlight-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
