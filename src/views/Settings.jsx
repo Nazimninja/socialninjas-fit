@@ -76,7 +76,15 @@ export default function Settings() {
     <Section title={t('Account')}>
       {user ? (
         <>
-          <Row icon="person" iconTint="var(--blue)" title={user.name || user.email} subtitle={user.email} accessory="chevron" onClick={athleteProfileSheet} />
+          <Row
+            avatar={S.profilePhoto || user.avatar}
+            icon={(!S.profilePhoto && !user.avatar) ? "person" : null}
+            iconTint="var(--blue)"
+            title={user.name || user.email}
+            subtitle={user.email}
+            accessory="chevron"
+            onClick={athleteProfileSheet}
+          />
           {user.admin && <Row icon="wrench" iconTint="var(--indigo)" title={t('Admin dashboard')} accessory="chevron" onClick={() => nav('/admin')} />}
           <Row
             icon="upload"

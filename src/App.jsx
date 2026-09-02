@@ -37,19 +37,20 @@ function applyPrefs(theme, accent) {
   if (meta) meta.content = de.dataset.theme === 'light' ? '#f2f2f7' : '#070a12'
 }
 
-// Try to decode a Supabase JWT and return { email, name } or null
+// Try to decode a Supabase JWT and return { email, name, picture } or null
 function decodeJWT(token) {
   try {
     const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))
     const email = (payload.email || payload.user_metadata?.email || '').toLowerCase().trim()
     const name = payload.user_metadata?.full_name || payload.user_metadata?.name || email.split('@')[0] || 'Athlete'
-    return email ? { email, name, payload } : null
+    const picture = payload.user_metadata?.avatar_url || payload.user_metadata?.picture || null
+    return email ? { email, name, picture, payload } : null
   } catch (e) {
     return null
   }
 }
 
-async function handleAuthUser(email, name, navigate) {
+async function handleAuthUser(email, name, navigate, avatarUrl = null) {
   if (!email) return
   const cleanEmail = email.toLowerCase().trim()
 
@@ -93,9 +94,11 @@ async function handleAuthUser(email, name, navigate) {
   }
 
   // Set user state in store
+  const existingUser = useStore.getState().user
   const userObj = {
     name: name || cleanEmail.split('@')[0] || 'Athlete',
     email: cleanEmail,
+    avatar: avatarUrl || existingUser?.avatar || null,
     paid: isPaid,
     admin: isAdmin
   }
@@ -145,7 +148,7 @@ function Shell() {
       if (token) {
         const decoded = decodeJWT(token)
         if (decoded) {
-          handleAuthUser(decoded.email, decoded.name, navigate).finally(() => setOAuthLoading(false))
+          handleAuthUser(decoded.email, decoded.name, navigate, decoded.picture).finally(() => setOAuthLoading(false))
           return
         }
       }
@@ -156,7 +159,8 @@ function Shell() {
       if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        handleAuthUser(email, name, navigate).finally(() => setOAuthLoading(false))
+        const avatar = session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || null
+        handleAuthUser(email, name, navigate, avatar).finally(() => setOAuthLoading(false))
       }
     })
 
@@ -165,7 +169,8 @@ function Shell() {
       if (session?.user?.email) {
         const email = session.user.email.toLowerCase().trim()
         const name = session.user.user_metadata?.full_name || session.user.user_metadata?.name || email.split('@')[0]
-        handleAuthUser(email, name, navigate).finally(() => setOAuthLoading(false))
+        const avatar = session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture || null
+        handleAuthUser(email, name, navigate, avatar).finally(() => setOAuthLoading(false))
       } else {
         setOAuthLoading(false)
       }

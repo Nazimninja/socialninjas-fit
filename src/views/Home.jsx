@@ -120,16 +120,37 @@ export default function Home() {
     <div className="narrow" style={{ paddingBottom: '148px' }}>
 
       {/* ─── 1. HEADER ───────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', paddingTop: '4px' }}>
-        <div onClick={() => athleteProfileSheet()} style={{ cursor: 'pointer' }}>
-          <div style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.38)', marginBottom: '3px', letterSpacing: '0.02em' }}>
-            {today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px', paddingTop: '4px' }}>
+        <div onClick={() => athleteProfileSheet()} style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+          <div style={{ position: 'relative' }}>
+            {S.profilePhoto || user?.avatar ? (
+              <img
+                src={S.profilePhoto || user.avatar}
+                alt="Profile"
+                style={{ width: 48, height: 48, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.18)', display: 'block' }}
+              />
+            ) : (
+              <div style={{
+                width: 48, height: 48, borderRadius: '50%',
+                background: 'linear-gradient(145deg,#38bdf8 0%,#818cf8 100%)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 20, fontWeight: 900, color: '#000', border: '2px solid rgba(255,255,255,0.18)'
+              }}>
+                {firstName.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div style={{ position: 'absolute', bottom: -1, right: -1, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #000' }} />
           </div>
-          <div style={{ fontSize: '23px', fontWeight: '900', letterSpacing: '-0.7px', color: '#fff', lineHeight: 1.15 }}>
-            {greet}, {firstName} 👋
+          <div>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.38)', marginBottom: '2px', letterSpacing: '0.02em' }}>
+              {today.toLocaleDateString(dateLocale(), { weekday: 'short', day: 'numeric', month: 'short' })}
+            </div>
+            <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.6px', color: '#fff', lineHeight: 1.15 }}>
+              {greet}, {firstName} 👋
+            </div>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', borderTop: '1px solid rgba(255,255,255,0.20)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: '#fff', cursor: 'pointer', letterSpacing: '-0.2px' }}>
             🔥 <span>{streakWeeks(S)}w</span>
           </div>
@@ -184,6 +205,22 @@ export default function Home() {
       <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', marginBottom: '16px', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
         {[
           { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Schedule', color: '#60a5fa', bg: 'rgba(96,165,250,0.11)', bdr: 'rgba(96,165,250,0.22)', action: onToday },
+          {
+            icon: '⚡',
+            label: S.creatineLogs?.[todayISO()] ? 'Creatine ✓' : 'Creatine (5g)',
+            color: S.creatineLogs?.[todayISO()] ? '#34d399' : '#f59e0b',
+            bg: S.creatineLogs?.[todayISO()] ? 'rgba(52,211,153,0.12)' : 'rgba(245,158,11,0.12)',
+            bdr: S.creatineLogs?.[todayISO()] ? 'rgba(52,211,153,0.25)' : 'rgba(245,158,11,0.25)',
+            action: () => {
+              const d = todayISO()
+              const wasTaken = !!(S.creatineLogs && S.creatineLogs[d])
+              update(s => {
+                if (!s.creatineLogs) s.creatineLogs = {}
+                s.creatineLogs[d] = !wasTaken
+              })
+              useUI.getState().toast(!wasTaken ? '⚡ 5g Creatine logged! Drink plenty of water.' : 'Creatine unlogged')
+            }
+          },
           { icon: '🥗', label: 'Log Meal', color: '#34d399', bg: 'rgba(52,211,153,0.09)', bdr: 'rgba(52,211,153,0.20)', action: () => nav('/nutrition') },
           { icon: '⚖️', label: 'Weigh In', color: '#fbbf24', bg: 'rgba(251,191,36,0.09)', bdr: 'rgba(251,191,36,0.20)', action: () => bwSheet() },
           { icon: '📊', label: 'Progress', color: '#a78bfa', bg: 'rgba(167,139,250,0.09)', bdr: 'rgba(167,139,250,0.20)', action: () => nav('/stats') },
@@ -335,6 +372,7 @@ export default function Home() {
         {[
           { label: 'Calories', value: `${targetKcal} kcal`, color: '#f59e0b', pct: 70 },
           { label: 'Protein', value: `${targetProtein}g`, color: '#60a5fa', pct: 62 },
+          { label: 'Creatine Monohydrate', value: S.creatineLogs?.[todayISO()] ? '5g Taken ✓' : '5g Pending', color: S.creatineLogs?.[todayISO()] ? '#34d399' : '#f59e0b', pct: S.creatineLogs?.[todayISO()] ? 100 : 0 },
           { label: 'Carbs', value: `${targetCarbs}g`, color: '#34d399', pct: 54 },
           { label: 'Fats', value: `${targetFat}g`, color: '#a78bfa', pct: 48 },
         ].map(({ label, value, color, pct }) => (

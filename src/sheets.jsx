@@ -1631,7 +1631,9 @@ function AthleteProfileModal({ close }) {
   const st = useStore(s => s.S)
   const user = useStore(s => s.user)
   const saved = st.aiAnswers || {}
-  
+  const fileInputRef = useRef(null)
+
+  const [photo, setPhoto] = useState(st.profilePhoto || user?.avatar || null)
   const [name, setName] = useState(saved.pname || user?.name || user?.email?.split('@')[0] || 'Athlete')
   const [age, setAge] = useState(String(saved.age || '25'))
   const [weight, setWeight] = useState(String(saved.weight || lastBW(st)?.w || '72'))
@@ -1642,6 +1644,18 @@ function AthleteProfileModal({ close }) {
   const [location, setLocation] = useState(saved.location || 'gym')
   const [diet, setDiet] = useState(saved.diet || 'nonveg')
   const [targetWeight, setTargetWeight] = useState(String(st.targetW || saved.weight || '72'))
+
+  const handlePhotoChange = async (e) => {
+    const file = e.target.files && e.target.files[0]
+    if (!file) return
+    try {
+      const compressed = await compressImageFile(file, 400, 0.85)
+      setPhoto(compressed)
+      toast('✓ Photo uploaded! Tap Save to apply.')
+    } catch (err) {
+      toast('Could not load image')
+    }
+  }
 
   const numAge = Number(age) || 25
   const numWeight = Number(weight) || 72
@@ -1664,11 +1678,12 @@ function AthleteProfileModal({ close }) {
 
   const handleSaveProfile = () => {
     // Update user store
-    if (name && user) {
-      useStore.getState().setUser({ ...user, name })
+    if (user) {
+      useStore.getState().setUser({ ...user, name, avatar: photo })
     }
 
     update(s => {
+      s.profilePhoto = photo
       s.body = gender
       s.targetCalories = targetKcal
       s.targetProtein = targetProtein
@@ -1702,19 +1717,55 @@ function AthleteProfileModal({ close }) {
 
   return (
     <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 20px' }}>
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={handlePhotoChange}
+      />
+
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ position: 'relative' }}>
-            <img
-              src="/ninja-logo.png?v=3"
-              alt="Avatar"
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          {/* Avatar with tap-to-upload */}
+          <div
+            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+            style={{ position: 'relative', cursor: 'pointer' }}
+            title="Tap to change profile picture"
+          >
+            {photo ? (
+              <img
+                src={photo}
+                alt="Avatar"
+                style={{
+                  width: 52, height: 52, borderRadius: '50%', background: 'var(--surface-2)',
+                  border: '2px solid rgba(255,255,255,0.22)', objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 52, height: 52, borderRadius: '50%',
+                  background: 'linear-gradient(145deg,#38bdf8 0%,#818cf8 100%)',
+                  border: '2px solid rgba(255,255,255,0.22)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 22, fontWeight: 900, color: '#000'
+                }}
+              >
+                {name.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div
               style={{
-                width: 48, height: 48, borderRadius: '50%', background: 'var(--surface-2)',
-                border: '1.5px solid var(--card-border)', objectFit: 'contain', padding: 2
+                position: 'absolute', bottom: -2, right: -2, width: 20, height: 20, borderRadius: '50%',
+                background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', border: '2px solid var(--bg)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: '#000',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.4)'
               }}
-            />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 12, height: 12, borderRadius: '50%', background: 'var(--acc)', border: '2px solid var(--bg)' }} />
+            >
+              📷
+            </div>
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -1723,8 +1774,14 @@ function AthleteProfileModal({ close }) {
                 PRO PASS
               </span>
             </div>
-            <div style={{ fontSize: 11.5, color: 'var(--label-2)', marginTop: 2 }}>
+            <div style={{ fontSize: '11.5px', color: 'var(--label-2)', marginTop: 3 }}>
               {user?.email || 'Fit Ninja Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Protocol</span>
+            </div>
+            <div
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
+              style={{ fontSize: '10.5px', color: '#38bdf8', fontWeight: 700, cursor: 'pointer', marginTop: 3 }}
+            >
+              📷 Tap to change photo
             </div>
           </div>
         </div>
@@ -1870,24 +1927,28 @@ function AthleteProfileModal({ close }) {
       {/* Calculated Metabolic Telemetry */}
       <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px', marginBottom: 16, boxShadow: 'var(--card-shadow)' }}>
         <div style={{ fontSize: 10.5, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Icon name="sparkles" /> Active Metabolic Blueprint
+          <Icon name="sparkles" /> Active Metabolic &amp; Ergogenic Blueprint
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, textAlign: 'center' }}>
-          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{targetKcal}</div>
-            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>KCAL/DAY</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 5, textAlign: 'center' }}>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--label)' }}>{targetKcal}</div>
+            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>KCAL/DAY</div>
           </div>
-          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{targetProtein}g</div>
-            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>PROTEIN</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: '#60a5fa' }}>{targetProtein}g</div>
+            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>PROTEIN</div>
           </div>
-          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{bmr}</div>
-            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: '#f59e0b' }}>5g</div>
+            <div style={{ fontSize: 8.5, color: '#f59e0b', fontWeight: 700, marginTop: 2 }}>CREATINE</div>
           </div>
-          <div style={{ background: 'var(--surface-2)', padding: '10px 4px', borderRadius: 10, border: '1px solid var(--sep)' }}>
-            <div style={{ fontSize: 16, fontWeight: 900, color: 'var(--label)' }}>{bmi}</div>
-            <div style={{ fontSize: 9, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMI</div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--label)' }}>{bmr}</div>
+            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
+          </div>
+          <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
+            <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--label)' }}>{bmi}</div>
+            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMI</div>
           </div>
         </div>
       </div>

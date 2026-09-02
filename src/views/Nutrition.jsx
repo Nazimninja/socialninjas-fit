@@ -512,6 +512,84 @@ export default function Nutrition() {
         </div>
       </div>
 
+      {/* ── CREATINE MONOHYDRATE DAILY TRACKER ───────────────────── */}
+      {(() => {
+        const isCreatineTaken = !!(S.creatineLogs && S.creatineLogs[today])
+        const toggleCreatine = () => {
+          update(s => {
+            if (!s.creatineLogs) s.creatineLogs = {}
+            s.creatineLogs[today] = !s.creatineLogs[today]
+          })
+          toast(!isCreatineTaken ? '⚡ 5g Creatine Monohydrate logged! Cell saturation active.' : 'Creatine unlogged')
+        }
+
+        return (
+          <div style={{
+            background: isCreatineTaken
+              ? 'linear-gradient(150deg,rgba(16,185,129,0.12) 0%,#09131a 100%)'
+              : 'linear-gradient(150deg,#121827 0%,#0a0f1c 100%)',
+            border: isCreatineTaken ? '1px solid rgba(52,211,153,0.35)' : '1px solid rgba(255,255,255,0.08)',
+            borderTop: isCreatineTaken ? '1px solid rgba(52,211,153,0.55)' : '1px solid rgba(245,158,11,0.3)',
+            borderRadius: '24px', padding: '18px 20px', marginBottom: '18px',
+            boxShadow: isCreatineTaken ? '0 8px 30px rgba(16,185,129,0.15)' : 'var(--card-shadow)',
+            transition: 'all 0.25s ease'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '10px',
+                  background: isCreatineTaken ? 'rgba(52,211,153,0.18)' : 'rgba(245,158,11,0.15)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px'
+                }}>
+                  ⚡
+                </div>
+                <div>
+                  <div style={{ fontSize: '10px', fontWeight: '800', color: isCreatineTaken ? '#34d399' : '#f59e0b', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+                    Ergogenic Saturation
+                  </div>
+                  <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', letterSpacing: '-0.3px' }}>
+                    Creatine Monohydrate (5g)
+                  </div>
+                </div>
+              </div>
+              <span style={{
+                fontSize: '11px', fontWeight: '800',
+                color: isCreatineTaken ? '#34d399' : 'rgba(255,255,255,0.4)',
+                background: isCreatineTaken ? 'rgba(52,211,153,0.12)' : 'rgba(255,255,255,0.06)',
+                border: isCreatineTaken ? '1px solid rgba(52,211,153,0.25)' : '1px solid rgba(255,255,255,0.10)',
+                padding: '4px 10px', borderRadius: '99px'
+              }}>
+                {isCreatineTaken ? '✓ Saturation Active' : 'Daily Dose Pending'}
+              </span>
+            </div>
+
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.45, marginBottom: '14px' }}>
+              {isCreatineTaken
+                ? 'ATP phosphocreatine stores replenished for peak muscular output. Drink 3.5L+ water today for cellular hydration.'
+                : 'Clinically proven gold standard for maximum strength, explosive power, and lean muscle fullness. 5g daily.'}
+            </div>
+
+            <button
+              onClick={toggleCreatine}
+              style={{
+                width: '100%',
+                background: isCreatineTaken
+                  ? 'rgba(52,211,153,0.14)'
+                  : 'linear-gradient(145deg,#f59e0b 0%,#d97706 100%)',
+                border: isCreatineTaken ? '1px solid rgba(52,211,153,0.3)' : 'none',
+                color: isCreatineTaken ? '#34d399' : '#000',
+                borderRadius: '14px', padding: '12px',
+                fontSize: '13.5px', fontWeight: '900', cursor: 'pointer',
+                boxShadow: isCreatineTaken ? 'none' : '0 4px 20px rgba(245,158,11,0.35)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+              }}
+            >
+              <span>{isCreatineTaken ? '✓ 5g Taken Today (Tap to Undo)' : '⚡ Log 5g Creatine Taken'}</span>
+            </button>
+          </div>
+        )
+      })()}
+
       {/* ── MEAL BLUEPRINT SECTION ─────────────────────────────── */}
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
