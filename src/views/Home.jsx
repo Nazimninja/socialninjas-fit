@@ -5,7 +5,7 @@ import { effectiveRoutine, effectiveRoutineId, streakWeeks, lastBW, setsDoneActi
 import { fmtNum, fmtDate, fmtVol, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
 import { EXIDX } from '../lib/exercises.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -74,6 +74,12 @@ export default function Home() {
   const user = useStore(s => s.user)
   const update = useStore(s => s.update)
   const [weekOffset, setWeekOffset] = useState(0)
+  const [selectedDateISO, setSelectedDateISO] = useState(todayISO())
+
+  const isSelectedToday = selectedDateISO === todayISO()
+  const selectedRoutine = effectiveRoutine(S, selectedDateISO)
+  const selectedDayWorkouts = S.workouts.filter(w => w.d === selectedDateISO)
+  const isSelectedDone = selectedDayWorkouts.length > 0
 
   const today = new Date()
   const routine = effectiveRoutine(S, todayISO())
@@ -251,13 +257,27 @@ export default function Home() {
             const iso = isoOf(d)
             const isDone = S.workouts.some(w => w.d === iso)
             const isToday = iso === todayISO()
+            const isSelected = iso === selectedDateISO
             return (
-              <div key={i} onClick={() => dayOverrideSheet(iso)} style={{ flex: 1, textAlign: 'center', cursor: 'pointer', padding: '4px 2px', borderRadius: '12px', background: isToday ? 'rgba(96,165,250,0.08)' : 'transparent' }}>
-                <div style={{ fontSize: '9px', fontWeight: '700', color: isToday ? '#60a5fa' : 'rgba(255,255,255,0.32)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '5px' }}>
+              <div
+                key={i}
+                onClick={() => setSelectedDateISO(iso)}
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  padding: '6px 2px',
+                  borderRadius: '14px',
+                  background: isSelected ? 'rgba(255,255,255,0.12)' : isToday ? 'rgba(96,165,250,0.06)' : 'transparent',
+                  border: isSelected ? '1px solid rgba(255,255,255,0.22)' : '1px solid transparent',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <div style={{ fontSize: '9px', fontWeight: '700', color: isSelected ? '#fff' : isToday ? '#60a5fa' : 'rgba(255,255,255,0.32)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '5px' }}>
                   {t(DAYS[d.getDay()]).slice(0, 1)}
                 </div>
                 <MiniRing done={isDone} today={isToday && !isDone} size={30} />
-                <div style={{ fontSize: '12px', fontWeight: isToday ? '900' : '600', color: isToday ? '#60a5fa' : isDone ? '#34d399' : 'rgba(255,255,255,0.42)', marginTop: '5px', lineHeight: 1 }}>
+                <div style={{ fontSize: '12px', fontWeight: isSelected || isToday ? '900' : '600', color: isSelected ? '#fff' : isToday ? '#60a5fa' : isDone ? '#34d399' : 'rgba(255,255,255,0.42)', marginTop: '5px', lineHeight: 1 }}>
                   {d.getDate()}
                 </div>
               </div>
@@ -266,50 +286,83 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ─── 5. TODAY'S TRAINING CARD ────────────────────────────────── */}
+      {/* ─── 5. WORKOUT PROTOCOL CARD (DYNAMICALLY SHOWS SELECTED DAY) ─── */}
       <div style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.15)', borderRadius: '24px', padding: '20px', marginBottom: '14px', boxShadow: '0 8px 36px rgba(0,0,0,0.48)', position: 'relative', overflow: 'hidden' }}>
-        {S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(245,158,11,0.22) 0%,transparent 70%)', pointerEvents: 'none' }} />}
-        {routine && !S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(52,211,153,0.12) 0%,transparent 70%)', pointerEvents: 'none' }} />}
+        {isSelectedToday && S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(245,158,11,0.22) 0%,transparent 70%)', pointerEvents: 'none' }} />}
+        {selectedRoutine && !S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(52,211,153,0.12) 0%,transparent 70%)', pointerEvents: 'none' }} />}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', display: 'inline-block', background: S.active ? '#f59e0b' : routine ? '#34d399' : 'rgba(255,255,255,0.22)', boxShadow: S.active ? '0 0 8px #f59e0b' : routine ? '0 0 7px #34d399' : 'none' }} />
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', display: 'inline-block', background: (isSelectedToday && S.active) ? '#f59e0b' : isSelectedDone ? '#34d399' : selectedRoutine ? '#38bdf8' : 'rgba(255,255,255,0.22)' }} />
             <span style={{ fontSize: '10.5px', fontWeight: '900', letterSpacing: '0.8px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.62)' }}>
-              {S.active ? '⚡ Session In Progress' : routine ? "Today's Protocol" : 'Active Recovery'}
+              {isSelectedToday
+                ? (S.active ? '⚡ Session In Progress' : selectedRoutine ? "Today's Protocol" : 'Active Recovery')
+                : `${fmtDate(selectedDateISO, true)} · ${isSelectedDone ? 'Completed ✓' : selectedRoutine ? 'Scheduled' : 'Rest Day'}`}
             </span>
           </div>
-          {routine && !S.active && (
-            <div style={{ display: 'flex', gap: '6px' }}>
-              <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 9px', borderRadius: '99px', color: 'rgba(255,255,255,0.48)' }}>~45 min</span>
-              <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(52,211,153,0.11)', border: '1px solid rgba(52,211,153,0.22)', padding: '3px 9px', borderRadius: '99px', color: '#34d399' }}>{routine.ex.length} exercises</span>
-            </div>
-          )}
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            {selectedRoutine && !S.active && (
+              <>
+                <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 9px', borderRadius: '99px', color: 'rgba(255,255,255,0.48)' }}>~45 min</span>
+                <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 9px', borderRadius: '99px', color: 'rgba(255,255,255,0.7)' }}>{selectedRoutine.ex.length} exercises</span>
+              </>
+            )}
+            <button
+              onClick={() => dayOverrideSheet(selectedDateISO)}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)', fontSize: '10.5px', fontWeight: '700', borderRadius: '99px', padding: '3px 9px', cursor: 'pointer' }}
+              title="Reschedule or switch workout"
+            >
+              Change
+            </button>
+          </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
           <div style={{ width: '56px', height: '56px', borderRadius: '18px', flexShrink: 0, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.09)', borderTop: '1px solid rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
-            <Icon name={S.active ? 'timer' : routine ? glyphOf(routine.emoji) : 'moon'} />
+            <Icon name={(isSelectedToday && S.active) ? 'timer' : isSelectedDone ? 'trophy' : selectedRoutine ? glyphOf(selectedRoutine.emoji) : 'moon'} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', letterSpacing: '-0.5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '4px' }}>
-              {S.active ? S.active.name : routine ? routine.name : 'Rest & Recovery'}
+              {(isSelectedToday && S.active) ? S.active.name : isSelectedDone ? selectedDayWorkouts[0].name : selectedRoutine ? selectedRoutine.name : 'Rest & Recovery'}
             </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.3 }}>
-              {S.active
+              {(isSelectedToday && S.active)
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed`
-                : routine ? 'AI-calibrated progressive overload' : 'Hydrate · hit protein · sleep 8h'}
+                : isSelectedDone
+                ? `${selectedDayWorkouts[0].entries?.length || 0} exercises completed · ${fmtVol(selectedDayWorkouts[0].vol, S.unit)} logged`
+                : selectedRoutine ? 'AI-calibrated progressive overload' : 'Hydrate · hit protein · sleep 8h'}
             </div>
           </div>
         </div>
 
-        {routine && routine.ex && routine.ex.length > 0 && !S.active && (
+        {/* Exercise Lineup for Completed Workout */}
+        {isSelectedDone ? (
+          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Completed Sets</div>
+            {selectedDayWorkouts[0].entries?.slice(0, 4).map((e, idx) => {
+              const exObj = EXIDX[e.id] || { n: e.id }
+              const doneSets = e.sets?.filter(s => s.done) || []
+              return (
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: idx < Math.min(selectedDayWorkouts[0].entries.length, 4) - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
+                    <span style={{ fontSize: '10px', fontWeight: '900', color: '#34d399', width: '14px', textAlign: 'right', flexShrink: 0 }}>✓</span>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
+                  </div>
+                  <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'rgba(255,255,255,0.45)', flexShrink: 0 }}>{doneSets.length} sets</span>
+                </div>
+              )
+            })}
+            {selectedDayWorkouts[0].entries?.length > 4 && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.26)', fontWeight: '600', paddingTop: '5px' }}>+{selectedDayWorkouts[0].entries.length - 4} more exercises</div>}
+          </div>
+        ) : selectedRoutine && selectedRoutine.ex && selectedRoutine.ex.length > 0 && !S.active ? (
           <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
             <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Exercise Lineup</div>
-            {routine.ex.slice(0, 4).map((e, idx) => {
+            {selectedRoutine.ex.slice(0, 4).map((e, idx) => {
               const exObj = EXIDX[e.id] || { n: e.id }
               return (
-                <div key={idx} onClick={() => exConfigSheet(e, true, () => {}, () => {}, routine)}
-                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', cursor: 'pointer', borderBottom: idx < Math.min(routine.ex.length, 4) - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                <div key={idx} onClick={() => exConfigSheet(e, true, () => {}, () => {}, selectedRoutine)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', cursor: 'pointer', borderBottom: idx < Math.min(selectedRoutine.ex.length, 4) - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
                     <span style={{ fontSize: '10px', fontWeight: '900', color: 'rgba(255,255,255,0.20)', width: '14px', textAlign: 'right', flexShrink: 0 }}>{idx + 1}</span>
                     <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
@@ -318,20 +371,64 @@ export default function Home() {
                 </div>
               )
             })}
-            {routine.ex.length > 4 && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.26)', fontWeight: '600', paddingTop: '5px' }}>+{routine.ex.length - 4} more exercises</div>}
+            {selectedRoutine.ex.length > 4 && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.26)', fontWeight: '600', paddingTop: '5px' }}>+{selectedRoutine.ex.length - 4} more exercises</div>}
           </div>
-        )}
+        ) : null}
 
-        <button onClick={onToday} style={{
-          width: '100%',
-          background: S.active ? 'linear-gradient(145deg,#f59e0b 0%,#d97706 100%)' : routine ? 'linear-gradient(145deg,#ffffff 0%,#e2e8f0 100%)' : 'rgba(255,255,255,0.07)',
-          color: (S.active || routine) ? '#000' : 'rgba(255,255,255,0.48)',
-          border: 'none', borderRadius: '14px', padding: '15px',
-          fontSize: '15px', fontWeight: '900', cursor: 'pointer', letterSpacing: '-0.2px',
-          boxShadow: S.active ? '0 6px 24px rgba(245,158,11,0.4)' : routine ? '0 6px 24px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.6)' : 'none'
-        }}>
-          {S.active ? '⚡ Resume Active Workout' : routine ? `▶  Start ${routine.name}` : '📅 Schedule or Log Workout'}
-        </button>
+        {/* Action Button */}
+        {isSelectedToday && S.active ? (
+          <button onClick={() => nav('/workout')} style={{
+            width: '100%',
+            background: '#ffffff',
+            color: '#000',
+            border: 'none', borderRadius: '14px', padding: '15px',
+            fontSize: '15px', fontWeight: '900', cursor: 'pointer', letterSpacing: '-0.2px'
+          }}>
+            ⚡ Resume Active Workout
+          </button>
+        ) : isSelectedDone ? (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={() => workoutDetailSheet(selectedDayWorkouts[0])} style={{
+              flex: 1,
+              background: '#ffffff',
+              color: '#000',
+              border: 'none', borderRadius: '14px', padding: '14px',
+              fontSize: '13.5px', fontWeight: '800', cursor: 'pointer', letterSpacing: '-0.2px'
+            }}>
+              View Workout Summary
+            </button>
+            <button onClick={() => startFlow(selectedRoutine?.id)} style={{
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              color: '#fff',
+              borderRadius: '14px', padding: '14px 16px',
+              fontSize: '13.5px', fontWeight: '800', cursor: 'pointer'
+            }}>
+              Train Again
+            </button>
+          </div>
+        ) : selectedRoutine ? (
+          <button onClick={() => startFlow(selectedRoutine.id)} style={{
+            width: '100%',
+            background: '#ffffff',
+            color: '#000',
+            border: 'none', borderRadius: '14px', padding: '15px',
+            fontSize: '15px', fontWeight: '900', cursor: 'pointer', letterSpacing: '-0.2px'
+          }}>
+            {`▶  Start ${selectedRoutine.name}`}
+          </button>
+        ) : (
+          <button onClick={() => dayOverrideSheet(selectedDateISO)} style={{
+            width: '100%',
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            color: 'rgba(255,255,255,0.7)',
+            borderRadius: '14px', padding: '14px',
+            fontSize: '14px', fontWeight: '800', cursor: 'pointer'
+          }}>
+            + Schedule Workout for this Day
+          </button>
+        )}
       </div>
 
       {/* ─── 6. WEEKEND CHECK-IN ─────────────────────────────────────── */}
