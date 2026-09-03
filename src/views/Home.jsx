@@ -201,50 +201,36 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ─── 3. QUICK ACTION PILLS (APPLE FITNESS STYLE) ───────────── */}
-      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', marginBottom: '16px', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+      {/* ─── 3. ESSENTIAL DAILY ACTIONS (100% WIDTH, NO SCROLLING) ─── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px' }}>
         {[
-          { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Schedule', isPrimary: true, action: onToday },
-          {
-            icon: '⚡',
-            label: S.creatineLogs?.[todayISO()] ? 'Creatine Taken' : 'Creatine (5g)',
-            isDone: !!S.creatineLogs?.[todayISO()],
-            action: () => {
-              const d = todayISO()
-              const wasTaken = !!(S.creatineLogs && S.creatineLogs[d])
-              update(s => {
-                if (!s.creatineLogs) s.creatineLogs = {}
-                s.creatineLogs[d] = !wasTaken
-              })
-              useUI.getState().toast(!wasTaken ? 'Creatine logged (5g). Stay hydrated.' : 'Creatine unlogged')
-            }
-          },
-          { icon: '🥗', label: 'Log Meal', action: () => nav('/nutrition') },
-          { icon: '⚖️', label: 'Weigh In', action: () => bwSheet() },
-          { icon: '📊', label: 'Progress', action: () => nav('/stats') },
-          { icon: '📖', label: 'Library', action: () => nav('/library') },
-        ].map(({ icon, label, isPrimary, isDone, action }) => (
+          { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Workout', isPrimary: true, action: onToday },
+          { icon: null, label: 'Log Meal', isPrimary: false, action: () => nav('/nutrition') },
+          { icon: null, label: 'Weigh In', isPrimary: false, action: () => bwSheet() },
+        ].map(({ icon, label, isPrimary, action }) => (
           <button
             key={label}
             onClick={action}
             style={{
-              flexShrink: 0,
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '6px',
-              background: isPrimary ? '#ffffff' : isDone ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)',
-              border: isPrimary ? 'none' : isDone ? '1px solid rgba(255,255,255,0.18)' : '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '99px',
-              padding: '8px 15px',
-              fontSize: '12px',
-              fontWeight: isPrimary ? '800' : '700',
-              color: isPrimary ? '#000000' : isDone ? '#ffffff' : 'rgba(255,255,255,0.78)',
+              background: isPrimary ? '#ffffff' : 'rgba(255,255,255,0.06)',
+              border: isPrimary ? 'none' : '1px solid rgba(255,255,255,0.09)',
+              borderRadius: '14px',
+              padding: '11px 6px',
+              fontSize: '12.5px',
+              fontWeight: '800',
+              color: isPrimary ? '#000000' : 'rgba(255,255,255,0.85)',
               cursor: 'pointer',
-              letterSpacing: '-0.1px',
-              transition: 'all 0.15s ease'
+              letterSpacing: '-0.2px',
+              transition: 'all 0.15s ease',
+              width: '100%',
+              textAlign: 'center'
             }}
           >
-            <span style={{ fontSize: '12px' }}>{icon}</span>
+            {icon && <span style={{ fontSize: '10px' }}>{icon}</span>}
             <span>{label}</span>
           </button>
         ))}
@@ -390,7 +376,6 @@ export default function Home() {
         {[
           { label: 'Calories', value: `${targetKcal} kcal`, pct: 70 },
           { label: 'Protein', value: `${targetProtein}g`, pct: 62 },
-          { label: 'Creatine Monohydrate', value: S.creatineLogs?.[todayISO()] ? '5g Taken' : '5g Pending', pct: S.creatineLogs?.[todayISO()] ? 100 : 0 },
           { label: 'Carbs', value: `${targetCarbs}g`, pct: 54 },
           { label: 'Fats', value: `${targetFat}g`, pct: 48 },
         ].map(({ label, value, pct }) => (
