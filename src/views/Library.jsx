@@ -58,8 +58,8 @@ export default function Library() {
         return <div key={e.id} className="item" onClick={() => exerciseDetailSheet(e)}>
           <Thumb ex={e} />
           <div className="grow"><div className="tt capitalize">{e.n}</div><div className="ss capitalize">{t(e.tg || e.bp)} · {t(e.eq)}</div></div>
-          {best > 0 && <span className="tag acc">{fmtNum(best)}</span>}
-          <Button size="sm" variant="tinted" icon="plus" onClick={ev => { ev.stopPropagation(); addToRoutineSheet(e) }}>{t('Plan')}</Button>
+          {best > 0 && <span style={{ fontSize: '11px', fontWeight: '800', color: '#fbbf24', background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)', padding: '3px 8px', borderRadius: '99px' }}>PR: {fmtNum(best)} {S.unit}</span>}
+          <button style={{ background: 'rgba(56,189,248,0.12)', border: '1px solid rgba(56,189,248,0.25)', color: '#38bdf8', borderRadius: '10px', padding: '6px 12px', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }} onClick={ev => { ev.stopPropagation(); addToRoutineSheet(e) }}>+ Plan</button>
         </div>
       })}
       {f.length === 0 && <div className="empty"><div className="ico"><Icon name="magnifier" /></div>{t('No match')}</div>}

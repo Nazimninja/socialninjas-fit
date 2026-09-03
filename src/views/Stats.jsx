@@ -63,30 +63,32 @@ export default function Stats() {
           </div>
         </div>
         <button onClick={weeklyCheckinSheet} style={{ display: 'flex', alignItems: 'center', gap: '7px', background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', border: 'none', borderRadius: '99px', padding: '9px 16px', fontSize: '12.5px', fontWeight: '900', color: '#000', cursor: 'pointer', boxShadow: '0 4px 16px rgba(52,211,153,0.35)' }}>
-          <span>📸</span><span>Check-in</span>
+          <Icon name="camera" style={{ fontSize: '14px' }} /><span>Check-in</span>
         </button>
       </div>
 
       {/* KPI TILES */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '16px' }}>
         {[
-          { icon: '🏋️', label: 'Total Workouts', value: S.workouts.length, color: '#60a5fa', sub: 'all time' },
-          { icon: '📅', label: 'This Month', value: monthW, color: '#34d399', sub: 'sessions' },
-          { icon: '🔥', label: 'Week Streak', value: streak + 'w', color: '#f59e0b', sub: 'consecutive weeks' },
+          { icon: 'dumbbell', label: 'Total Workouts', value: S.workouts.length, color: '#38bdf8', sub: 'all time' },
+          { icon: 'calendar', label: 'This Month', value: monthW, color: '#34d399', sub: 'sessions' },
+          { icon: 'flame', label: 'Week Streak', value: streak + 'w', color: '#fbbf24', sub: 'consecutive weeks' },
           {
-            icon: '⚖️', label: 'Weight 30d',
-            color: bwDelta30 === null ? 'rgba(255,255,255,0.5)' : bwDeltaColor(bwDelta30, (bwLatest || {}).w || 0),
+            icon: 'scale', label: 'Weight 30d',
+            color: bwDelta30 === null ? '#818cf8' : bwDeltaColor(bwDelta30, (bwLatest || {}).w || 0),
             value: bwDelta30 === null ? '—' : (bwDelta30 > 0 ? '+' : '') + fmtNum(bwDelta30) + ' ' + S.unit,
             sub: bwLatest ? 'now ' + fmtNum(bwLatest.w) + ' ' + S.unit : 'log weight', tap: () => bwSheet()
           },
         ].map(({ icon, label, value, color, sub, tap }) => (
-          <div key={label} onClick={tap} style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.14)', borderRadius: '20px', padding: '16px', cursor: tap ? 'pointer' : 'default', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}>
+          <div key={label} onClick={tap} style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: `2px solid ${color}`, borderRadius: '20px', padding: '16px', cursor: tap ? 'pointer' : 'default', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: color + '15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px' }}>{icon}</div>
-              <div style={{ fontSize: '10px', fontWeight: '700', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
+              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: color + '18', border: `1px solid ${color}35`, color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px' }}>
+                <Icon name={icon} />
+              </div>
+              <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
             </div>
             <div style={{ fontSize: '28px', fontWeight: '900', color, letterSpacing: '-0.8px', lineHeight: 1 }}>{value}</div>
-            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.28)', fontWeight: '600', marginTop: '4px' }}>{sub}</div>
+            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.32)', fontWeight: '600', marginTop: '4px' }}>{sub}</div>
           </div>
         ))}
       </div>
@@ -96,9 +98,9 @@ export default function Stats() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div>
             <div style={sectionLabel}>Visual transformation</div>
-            <div style={{ ...sectionTitle, marginBottom: 0 }}>📸 Physique Timeline</div>
+            <div style={{ ...sectionTitle, marginBottom: 0 }}>Physique Timeline</div>
           </div>
-          <button onClick={weeklyCheckinSheet} style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '99px', padding: '8px 14px', fontSize: '12px', fontWeight: '800', color: 'rgba(255,255,255,0.75)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <button onClick={weeklyCheckinSheet} style={{ background: 'rgba(56,189,248,0.12)', border: '1px solid rgba(56,189,248,0.25)', borderRadius: '99px', padding: '8px 14px', fontSize: '12px', fontWeight: '800', color: '#38bdf8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}>
             <span>+</span><span>Add Photo</span>
           </button>
         </div>
@@ -107,7 +109,7 @@ export default function Stats() {
           <>
             {allPhotos.length >= 2 && (
               <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '14px', marginBottom: '14px' }}>
-                <div style={{ fontSize: '10px', fontWeight: '800', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '10px' }}>⚡ Transformation Comparison</div>
+                <div style={{ fontSize: '10px', fontWeight: '800', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '10px' }}>Transformation Comparison</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   {[
                     { photo: allPhotos[0], label: 'Start', lc: 'rgba(255,255,255,0.5)' },
