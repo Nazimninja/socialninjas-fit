@@ -463,46 +463,49 @@ export default function Nutrition() {
 
       {/* ── CALORIE COCKPIT HERO CARD ───────────────────────────── */}
       <div style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.15)', borderRadius: '28px', padding: '22px 20px 20px', marginBottom: '14px', boxShadow: '0 10px 50px rgba(0,0,0,0.55)', position: 'relative', overflow: 'hidden' }}>
+        {/* Ambient subtle glow matching Home hero */}
+        <div style={{ position: 'absolute', top: -30, right: -30, width: 140, height: 140, background: 'radial-gradient(circle,rgba(56,189,248,0.15) 0%,transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -30, left: -30, width: 140, height: 140, background: 'radial-gradient(circle,rgba(52,211,153,0.10) 0%,transparent 70%)', pointerEvents: 'none' }} />
 
         {/* Calorie numbers */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', position: 'relative', zIndex: 1 }}>
           <div>
-            <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'rgba(255,255,255,0.38)', marginBottom: '4px' }}>Daily Fuel Target</div>
+            <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#38bdf8', marginBottom: '4px' }}>Daily Fuel Target</div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
               <span style={{ fontSize: '38px', fontWeight: '900', color: '#fff', letterSpacing: '-1.5px', lineHeight: 1 }}>{consumedKcal}</span>
               <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>/ {targetKcal} kcal</span>
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Remaining</div>
-            <div style={{ fontSize: '22px', fontWeight: '900', color: remainingKcal > 0 ? '#ffffff' : '#f87171', letterSpacing: '-0.8px' }}>
-              {Math.max(0, remainingKcal)} <span style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.4)' }}>kcal</span>
+            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>Remaining</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: remainingKcal > 0 ? '#34d399' : '#f87171', letterSpacing: '-0.8px' }}>
+              {Math.max(0, remainingKcal)} <span style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.45)' }}>kcal</span>
             </div>
           </div>
         </div>
 
-        {/* Calorie progress bar */}
-        <div style={{ width: '100%', height: '5px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden', marginBottom: '18px' }}>
-          <div style={{ width: `${Math.min(kcalPercent, 100)}%`, height: '100%', background: 'linear-gradient(90deg,rgba(255,255,255,0.45),#ffffff)', borderRadius: '99px', transition: 'width 0.4s ease' }} />
+        {/* Calorie progress bar with Home Screen signature gradient */}
+        <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden', marginBottom: '18px', position: 'relative', zIndex: 1 }}>
+          <div style={{ width: `${Math.min(kcalPercent, 100)}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8 0%, #818cf8 50%, #34d399 100%)', borderRadius: '99px', transition: 'width 0.4s ease', boxShadow: '0 0 10px rgba(56,189,248,0.4)' }} />
         </div>
 
-        {/* 3 Macro Cards - Calm, elegant monochrome palette */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+        {/* 3 Macro Cards with Home Screen Colors */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', position: 'relative', zIndex: 1 }}>
           {[
-            { label: 'Protein', consumed: consumedProtein, target: targetProtein, tone: 'rgba(255,255,255,0.9)' },
-            { label: 'Carbs', consumed: consumedCarbs, target: targetCarbs, tone: 'rgba(255,255,255,0.75)' },
-            { label: 'Fats', consumed: consumedFat, target: targetFat, tone: 'rgba(255,255,255,0.65)' },
-          ].map(({ label, consumed, target, tone }) => {
+            { label: 'Protein', consumed: consumedProtein, target: targetProtein, color: '#38bdf8', bg: 'rgba(56,189,248,0.06)', border: 'rgba(56,189,248,0.22)' },
+            { label: 'Carbs', consumed: consumedCarbs, target: targetCarbs, color: '#34d399', bg: 'rgba(52,211,153,0.06)', border: 'rgba(52,211,153,0.22)' },
+            { label: 'Fats', consumed: consumedFat, target: targetFat, color: '#818cf8', bg: 'rgba(129,140,248,0.06)', border: 'rgba(129,140,248,0.22)' },
+          ].map(({ label, consumed, target, color, bg, border }) => {
             const pct = Math.min(100, Math.round((consumed / target) * 100)) || 0
             return (
-              <div key={label} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.14)', borderRadius: '16px', padding: '12px 10px', textAlign: 'center' }}>
-                <div style={{ fontSize: '9px', fontWeight: '800', color: tone, textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '6px' }}>{label}</div>
+              <div key={label} style={{ background: bg, border: `1px solid ${border}`, borderTop: `2px solid ${color}`, borderRadius: '16px', padding: '12px 10px', textAlign: 'center', transition: 'all 0.2s ease' }}>
+                <div style={{ fontSize: '9.5px', fontWeight: '800', color, textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '6px' }}>{label}</div>
                 <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-0.5px', lineHeight: 1, marginBottom: '2px' }}>
-                  {consumed}<span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', fontWeight: '600' }}>g</span>
+                  {consumed}<span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>g</span>
                 </div>
-                <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.32)', marginBottom: '8px', fontWeight: '600' }}>/ {target}g</div>
-                <div style={{ height: '3px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden' }}>
-                  <div style={{ width: `${pct}%`, height: '100%', background: 'rgba(255,255,255,0.75)', borderRadius: '99px' }} />
+                <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', marginBottom: '8px', fontWeight: '600' }}>/ {target}g</div>
+                <div style={{ height: '3.5px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden' }}>
+                  <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: '99px' }} />
                 </div>
               </div>
             )
@@ -510,7 +513,7 @@ export default function Nutrition() {
         </div>
       </div>
 
-      {/* ── CREATINE MONOHYDRATE DAILY TRACKER (CLEAN APPLE HEALTH STYLE) ── */}
+      {/* ── CREATINE MONOHYDRATE DAILY TRACKER (CLEAN HOME SCREEN PALETTE) ── */}
       {(() => {
         const isCreatineTaken = !!(S.creatineLogs && S.creatineLogs[today])
         const toggleCreatine = () => {
@@ -524,29 +527,39 @@ export default function Nutrition() {
         return (
           <div style={{
             background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)',
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderTop: '1px solid rgba(255,255,255,0.14)',
+            border: isCreatineTaken ? '1px solid rgba(52,211,153,0.2)' : '1px solid rgba(255,255,255,0.07)',
+            borderTop: isCreatineTaken ? '2px solid #34d399' : '2px solid #38bdf8',
             borderRadius: '22px', padding: '18px 20px', marginBottom: '18px',
             boxShadow: 'var(--card-shadow)',
             transition: 'all 0.25s ease'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-              <div>
-                <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '2px' }}>
-                  Daily Protocol
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '34px', height: '34px', borderRadius: '10px',
+                  background: isCreatineTaken ? 'rgba(52,211,153,0.12)' : 'rgba(56,189,248,0.12)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '16px', color: isCreatineTaken ? '#34d399' : '#38bdf8'
+                }}>
+                  <Icon name="sparkles" />
                 </div>
-                <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', letterSpacing: '-0.3px' }}>
-                  Creatine Monohydrate (5g)
+                <div>
+                  <div style={{ fontSize: '10px', fontWeight: '800', color: isCreatineTaken ? '#34d399' : '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '2px' }}>
+                    Daily Protocol
+                  </div>
+                  <div style={{ fontSize: '16px', fontWeight: '900', color: '#fff', letterSpacing: '-0.3px' }}>
+                    Creatine Monohydrate (5g)
+                  </div>
                 </div>
               </div>
               <span style={{
-                fontSize: '11px', fontWeight: '700',
-                color: isCreatineTaken ? '#ffffff' : 'rgba(255,255,255,0.45)',
-                background: isCreatineTaken ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
+                fontSize: '11px', fontWeight: '800',
+                color: isCreatineTaken ? '#34d399' : '#fbbf24',
+                background: isCreatineTaken ? 'rgba(52,211,153,0.10)' : 'rgba(251,191,36,0.10)',
+                border: isCreatineTaken ? '1px solid rgba(52,211,153,0.25)' : '1px solid rgba(251,191,36,0.25)',
                 padding: '4px 10px', borderRadius: '99px'
               }}>
-                {isCreatineTaken ? 'Taken Today' : 'Pending'}
+                {isCreatineTaken ? 'Taken Today ✓' : 'Pending'}
               </span>
             </div>
 
@@ -560,15 +573,16 @@ export default function Nutrition() {
               onClick={toggleCreatine}
               style={{
                 width: '100%',
-                background: isCreatineTaken ? 'rgba(255,255,255,0.07)' : '#ffffff',
-                border: isCreatineTaken ? '1px solid rgba(255,255,255,0.12)' : 'none',
-                color: isCreatineTaken ? 'rgba(255,255,255,0.8)' : '#000000',
-                borderRadius: '12px', padding: '11px',
-                fontSize: '13px', fontWeight: '800', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                background: isCreatineTaken ? 'rgba(52,211,153,0.12)' : 'linear-gradient(135deg, rgba(56,189,248,0.18) 0%, rgba(129,140,248,0.18) 100%)',
+                border: isCreatineTaken ? '1px solid rgba(52,211,153,0.35)' : '1px solid rgba(56,189,248,0.35)',
+                color: isCreatineTaken ? '#34d399' : '#ffffff',
+                borderRadius: '12px', padding: '12px',
+                fontSize: '13.5px', fontWeight: '800', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                boxShadow: isCreatineTaken ? 'none' : '0 4px 16px rgba(56,189,248,0.15)'
               }}
             >
-              <span>{isCreatineTaken ? 'Logged (Tap to Undo)' : 'Log 5g Creatine'}</span>
+              <span>{isCreatineTaken ? '✓ Logged (Tap to Undo)' : '⚡ Log 5g Creatine'}</span>
             </button>
           </div>
         )
@@ -632,14 +646,22 @@ export default function Nutrition() {
                     {meal.note || meal.d}
                   </div>
                   <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                    {[
-                      `${mealKcal} kcal`,
-                      `${mealProtein}g Protein`,
-                      mealCarbs > 0 && `${mealCarbs}g Carbs`,
-                      mealFat > 0 && `${mealFat}g Fat`,
-                    ].filter(Boolean).map(text => (
-                      <span key={text} style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.72)', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', padding: '3px 8px', borderRadius: '99px' }}>{text}</span>
-                    ))}
+                    <span style={{ fontSize: '11px', fontWeight: '700', color: '#fbbf24', background: 'rgba(251,191,36,0.10)', border: '1px solid rgba(251,191,36,0.22)', padding: '3px 8px', borderRadius: '99px' }}>
+                      {mealKcal} kcal
+                    </span>
+                    <span style={{ fontSize: '11px', fontWeight: '700', color: '#38bdf8', background: 'rgba(56,189,248,0.10)', border: '1px solid rgba(56,189,248,0.22)', padding: '3px 8px', borderRadius: '99px' }}>
+                      {mealProtein}g Protein
+                    </span>
+                    {mealCarbs > 0 && (
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#34d399', background: 'rgba(52,211,153,0.10)', border: '1px solid rgba(52,211,153,0.22)', padding: '3px 8px', borderRadius: '99px' }}>
+                        {mealCarbs}g Carbs
+                      </span>
+                    )}
+                    {mealFat > 0 && (
+                      <span style={{ fontSize: '11px', fontWeight: '700', color: '#818cf8', background: 'rgba(129,140,248,0.10)', border: '1px solid rgba(129,140,248,0.22)', padding: '3px 8px', borderRadius: '99px' }}>
+                        {mealFat}g Fat
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -830,24 +852,20 @@ export default function Nutrition() {
                   </div>
                 </div>
 
-                {/* Macro summary row - Clean, calm, non-poppy */}
+                {/* Macro summary row - Home Screen Palette */}
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '6px' }}>
-                  {[
-                    `${recipe.kcal} kcal`,
-                    `${recipe.protein}g Protein`,
-                    `${recipe.carbs}g Carbs`,
-                    `${recipe.fat}g Fat`,
-                  ].map(stat => (
-                    <span key={stat} style={{
-                      fontSize: '11px', fontWeight: '700',
-                      color: 'rgba(255,255,255,0.72)',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      padding: '3px 9px', borderRadius: '99px'
-                    }}>
-                      {stat}
-                    </span>
-                  ))}
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#fbbf24', background: 'rgba(251,191,36,0.10)', border: '1px solid rgba(251,191,36,0.22)', padding: '3px 9px', borderRadius: '99px' }}>
+                    {recipe.kcal} kcal
+                  </span>
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#38bdf8', background: 'rgba(56,189,248,0.10)', border: '1px solid rgba(56,189,248,0.22)', padding: '3px 9px', borderRadius: '99px' }}>
+                    {recipe.protein}g Protein
+                  </span>
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#34d399', background: 'rgba(52,211,153,0.10)', border: '1px solid rgba(52,211,153,0.22)', padding: '3px 9px', borderRadius: '99px' }}>
+                    {recipe.carbs}g Carbs
+                  </span>
+                  <span style={{ fontSize: '11px', fontWeight: '700', color: '#818cf8', background: 'rgba(129,140,248,0.10)', border: '1px solid rgba(129,140,248,0.22)', padding: '3px 9px', borderRadius: '99px' }}>
+                    {recipe.fat}g Fat
+                  </span>
                 </div>
 
                 {/* Expanded ingredients & preparation steps */}

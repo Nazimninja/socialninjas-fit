@@ -66,41 +66,41 @@ export default function Plan() {
       {/* ── WEEKLY SUMMARY COCKPIT ───────────────────────────────── */}
       <div
         style={{
-          background: 'var(--card-bg)',
-          border: '1px solid var(--card-border)',
-          borderTop: '1px solid var(--card-border-top)',
-          borderRadius: '20px',
-          padding: '16px 18px',
+          background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderTop: '1px solid rgba(255,255,255,0.15)',
+          borderRadius: '24px',
+          padding: '18px 20px',
           marginBottom: '20px',
-          boxShadow: 'var(--card-shadow)'
+          boxShadow: '0 8px 36px rgba(0,0,0,0.48)'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <div style={{ fontSize: '11px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-2)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+          <div style={{ fontSize: '10.5px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'rgba(255,255,255,0.45)' }}>
             Active Training Split Protocol
           </div>
-          <span style={{ fontSize: '10px', fontWeight: '800', background: 'var(--surface-2)', color: 'var(--acc)', padding: '2px 8px', borderRadius: '99px' }}>
+          <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(251,191,36,0.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.25)', padding: '3px 10px', borderRadius: '99px' }}>
             {S.aiAnswers?.goal ? S.aiAnswers.goal.toUpperCase().replace('_', ' ') : 'HYPERTROPHY'}
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', textAlign: 'center' }}>
-          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px 4px' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)' }}>TRAINING DAYS</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>
-              {trainingDaysCount} <span style={{ fontSize: '11px', color: 'var(--label-2)' }}>/ 7</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', textAlign: 'center' }}>
+          <div style={{ background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.18)', borderTop: '2px solid #38bdf8', borderRadius: '14px', padding: '10px 6px' }}>
+            <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#38bdf8', letterSpacing: '0.4px' }}>TRAINING</div>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
+              {trainingDaysCount} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>/ 7d</span>
             </div>
           </div>
-          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px 4px' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)' }}>REST DAYS</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', marginTop: '2px' }}>
-              {restDaysCount} <span style={{ fontSize: '11px', color: 'var(--label-2)' }}>Days</span>
+          <div style={{ background: 'rgba(129,140,248,0.06)', border: '1px solid rgba(129,140,248,0.18)', borderTop: '2px solid #818cf8', borderRadius: '14px', padding: '10px 6px' }}>
+            <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#818cf8', letterSpacing: '0.4px' }}>REST</div>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
+              {restDaysCount} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>Days</span>
             </div>
           </div>
-          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px 4px' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)' }}>WEEKLY VOLUME</div>
-            <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--acc)', marginTop: '2px' }}>
-              {totalWeeklySets} <span style={{ fontSize: '11px', color: 'var(--label-2)' }}>Sets</span>
+          <div style={{ background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.18)', borderTop: '2px solid #34d399', borderRadius: '14px', padding: '10px 6px' }}>
+            <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#34d399', letterSpacing: '0.4px' }}>VOLUME</div>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
+              {totalWeeklySets} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>Sets</span>
             </div>
           </div>
         </div>
