@@ -201,16 +201,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ─── 3. QUICK ACTION PILLS ───────────────────────────────────── */}
+      {/* ─── 3. QUICK ACTION PILLS (APPLE FITNESS STYLE) ───────────── */}
       <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px', marginBottom: '16px', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
         {[
-          { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Schedule', color: '#60a5fa', bg: 'rgba(96,165,250,0.11)', bdr: 'rgba(96,165,250,0.22)', action: onToday },
+          { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Schedule', isPrimary: true, action: onToday },
           {
             icon: '⚡',
-            label: S.creatineLogs?.[todayISO()] ? 'Creatine ✓' : 'Creatine (5g)',
-            color: S.creatineLogs?.[todayISO()] ? '#34d399' : '#f59e0b',
-            bg: S.creatineLogs?.[todayISO()] ? 'rgba(52,211,153,0.12)' : 'rgba(245,158,11,0.12)',
-            bdr: S.creatineLogs?.[todayISO()] ? 'rgba(52,211,153,0.25)' : 'rgba(245,158,11,0.25)',
+            label: S.creatineLogs?.[todayISO()] ? 'Creatine Taken' : 'Creatine (5g)',
+            isDone: !!S.creatineLogs?.[todayISO()],
             action: () => {
               const d = todayISO()
               const wasTaken = !!(S.creatineLogs && S.creatineLogs[d])
@@ -218,16 +216,36 @@ export default function Home() {
                 if (!s.creatineLogs) s.creatineLogs = {}
                 s.creatineLogs[d] = !wasTaken
               })
-              useUI.getState().toast(!wasTaken ? '⚡ 5g Creatine logged! Drink plenty of water.' : 'Creatine unlogged')
+              useUI.getState().toast(!wasTaken ? 'Creatine logged (5g). Stay hydrated.' : 'Creatine unlogged')
             }
           },
-          { icon: '🥗', label: 'Log Meal', color: '#34d399', bg: 'rgba(52,211,153,0.09)', bdr: 'rgba(52,211,153,0.20)', action: () => nav('/nutrition') },
-          { icon: '⚖️', label: 'Weigh In', color: '#fbbf24', bg: 'rgba(251,191,36,0.09)', bdr: 'rgba(251,191,36,0.20)', action: () => bwSheet() },
-          { icon: '📊', label: 'Progress', color: '#a78bfa', bg: 'rgba(167,139,250,0.09)', bdr: 'rgba(167,139,250,0.20)', action: () => nav('/stats') },
-          { icon: '📖', label: 'Library', color: 'rgba(255,255,255,0.52)', bg: 'rgba(255,255,255,0.06)', bdr: 'rgba(255,255,255,0.11)', action: () => nav('/library') },
-        ].map(({ icon, label, color, bg, bdr, action }) => (
-          <button key={label} onClick={action} style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: '7px', background: bg, border: `1px solid ${bdr}`, borderRadius: '99px', padding: '9px 16px', fontSize: '12.5px', fontWeight: '800', color, cursor: 'pointer', letterSpacing: '-0.1px' }}>
-            <span style={{ fontSize: '14px' }}>{icon}</span><span>{label}</span>
+          { icon: '🥗', label: 'Log Meal', action: () => nav('/nutrition') },
+          { icon: '⚖️', label: 'Weigh In', action: () => bwSheet() },
+          { icon: '📊', label: 'Progress', action: () => nav('/stats') },
+          { icon: '📖', label: 'Library', action: () => nav('/library') },
+        ].map(({ icon, label, isPrimary, isDone, action }) => (
+          <button
+            key={label}
+            onClick={action}
+            style={{
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: isPrimary ? '#ffffff' : isDone ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)',
+              border: isPrimary ? 'none' : isDone ? '1px solid rgba(255,255,255,0.18)' : '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '99px',
+              padding: '8px 15px',
+              fontSize: '12px',
+              fontWeight: isPrimary ? '800' : '700',
+              color: isPrimary ? '#000000' : isDone ? '#ffffff' : 'rgba(255,255,255,0.78)',
+              cursor: 'pointer',
+              letterSpacing: '-0.1px',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <span style={{ fontSize: '12px' }}>{icon}</span>
+            <span>{label}</span>
           </button>
         ))}
       </div>
@@ -370,19 +388,19 @@ export default function Home() {
           </button>
         </div>
         {[
-          { label: 'Calories', value: `${targetKcal} kcal`, color: '#f59e0b', pct: 70 },
-          { label: 'Protein', value: `${targetProtein}g`, color: '#60a5fa', pct: 62 },
-          { label: 'Creatine Monohydrate', value: S.creatineLogs?.[todayISO()] ? '5g Taken ✓' : '5g Pending', color: S.creatineLogs?.[todayISO()] ? '#34d399' : '#f59e0b', pct: S.creatineLogs?.[todayISO()] ? 100 : 0 },
-          { label: 'Carbs', value: `${targetCarbs}g`, color: '#34d399', pct: 54 },
-          { label: 'Fats', value: `${targetFat}g`, color: '#a78bfa', pct: 48 },
-        ].map(({ label, value, color, pct }) => (
+          { label: 'Calories', value: `${targetKcal} kcal`, pct: 70 },
+          { label: 'Protein', value: `${targetProtein}g`, pct: 62 },
+          { label: 'Creatine Monohydrate', value: S.creatineLogs?.[todayISO()] ? '5g Taken' : '5g Pending', pct: S.creatineLogs?.[todayISO()] ? 100 : 0 },
+          { label: 'Carbs', value: `${targetCarbs}g`, pct: 54 },
+          { label: 'Fats', value: `${targetFat}g`, pct: 48 },
+        ].map(({ label, value, pct }) => (
           <div key={label} style={{ marginBottom: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-              <span style={{ fontSize: '12px', fontWeight: '700', color: 'rgba(255,255,255,0.52)' }}>{label}</span>
-              <span style={{ fontSize: '12px', fontWeight: '900', color: '#fff' }}>{value}</span>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: 'rgba(255,255,255,0.5)' }}>{label}</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff' }}>{value}</span>
             </div>
-            <div style={{ height: '5px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden' }}>
-              <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: '99px', opacity: 0.72 }} />
+            <div style={{ height: '4px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden' }}>
+              <div style={{ width: `${pct}%`, height: '100%', background: 'rgba(255,255,255,0.75)', borderRadius: '99px' }} />
             </div>
           </div>
         ))}
