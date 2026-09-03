@@ -12,22 +12,22 @@ import { Button } from '../components/ui.jsx'
 import { glyphOf } from '../lib/glyphs.js'
 
 /* ── Apple-style SVG mini activity ring ───────────────────────────── */
-function MiniRing({ done = false, today = false, size = 30 }) {
-  const r = (size - 6) / 2
+function MiniRing({ done = false, today = false, size = 32 }) {
+  const strokeWidth = 3.5
+  const r = (size - strokeWidth) / 2
   const circ = 2 * Math.PI * r
   const ringColor = done ? '#34d399' : today ? '#60a5fa' : 'transparent'
   const trackColor = done ? 'rgba(52,211,153,0.18)' : today ? 'rgba(96,165,250,0.15)' : 'rgba(255,255,255,0.08)'
   return (
-    <svg width={size} height={size} style={{ display: 'block', margin: '0 auto' }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={4.5} />
+    <svg width={size} height={size} style={{ display: 'block', margin: '0 auto', overflow: 'visible' }}>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={strokeWidth} />
       {(done || today) && (
         <circle
           cx={size / 2} cy={size / 2} r={r} fill="none"
-          stroke={ringColor} strokeWidth={4.5}
-          strokeDasharray={done ? `${circ} 0` : `${circ * 0.18} ${circ}`}
+          stroke={ringColor} strokeWidth={strokeWidth}
+          strokeDasharray={done ? `${circ} 0` : `${circ * 0.25} ${circ}`}
           strokeLinecap="round"
           transform={`rotate(-90,${size / 2},${size / 2})`}
-          style={{ filter: done ? 'drop-shadow(0 0 4px rgba(52,211,153,0.8))' : 'drop-shadow(0 0 4px rgba(96,165,250,0.8))' }}
         />
       )}
     </svg>
@@ -57,7 +57,6 @@ function HeroRing({ pct = 0, size = 130, children }) {
             strokeDasharray={`${fill} ${circ}`}
             strokeLinecap="round"
             transform={`rotate(-90,${size / 2},${size / 2})`}
-            style={{ filter: 'drop-shadow(0 0 8px rgba(99,102,241,0.6))' }}
           />
         )}
       </svg>
@@ -251,7 +250,7 @@ export default function Home() {
             <button className="iconbtn" style={{ width: 28, height: 28, fontSize: 12, borderRadius: '8px' }} onClick={() => setWeekOffset(w => w + 1)}><Icon name="chevronRight" /></button>
           </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '2px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
           {Array.from({ length: 7 }, (_, i) => {
             const d = new Date(monday); d.setDate(monday.getDate() + i)
             const iso = isoOf(d)
@@ -264,21 +263,48 @@ export default function Home() {
                 onClick={() => setSelectedDateISO(iso)}
                 style={{
                   flex: 1,
-                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                   cursor: 'pointer',
-                  padding: '6px 2px',
-                  borderRadius: '14px',
-                  background: isSelected ? 'rgba(255,255,255,0.12)' : isToday ? 'rgba(96,165,250,0.06)' : 'transparent',
-                  border: isSelected ? '1px solid rgba(255,255,255,0.22)' : '1px solid transparent',
-                  transition: 'all 0.15s ease'
+                  padding: '8px 2px',
+                  borderRadius: '16px',
+                  background: isSelected ? 'rgba(255,255,255,0.08)' : 'transparent',
+                  transition: 'background 0.15s ease'
                 }}
               >
-                <div style={{ fontSize: '9px', fontWeight: '700', color: isSelected ? '#fff' : isToday ? '#60a5fa' : 'rgba(255,255,255,0.32)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '5px' }}>
+                <div style={{
+                  fontSize: '10px',
+                  fontWeight: '700',
+                  color: isSelected ? '#ffffff' : isToday ? '#60a5fa' : 'rgba(255,255,255,0.35)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  marginBottom: '6px'
+                }}>
                   {t(DAYS[d.getDay()]).slice(0, 1)}
                 </div>
-                <MiniRing done={isDone} today={isToday && !isDone} size={30} />
-                <div style={{ fontSize: '12px', fontWeight: isSelected || isToday ? '900' : '600', color: isSelected ? '#fff' : isToday ? '#60a5fa' : isDone ? '#34d399' : 'rgba(255,255,255,0.42)', marginTop: '5px', lineHeight: 1 }}>
+
+                <MiniRing done={isDone} today={isToday && !isDone} size={32} />
+
+                <div style={{
+                  fontSize: '12px',
+                  fontWeight: isSelected || isToday ? '800' : '600',
+                  color: isSelected ? '#ffffff' : isToday ? '#60a5fa' : isDone ? '#34d399' : 'rgba(255,255,255,0.45)',
+                  marginTop: '6px',
+                  lineHeight: 1
+                }}>
                   {d.getDate()}
+                </div>
+
+                <div style={{ height: '5px', marginTop: '4px' }}>
+                  {isSelected && (
+                    <div style={{
+                      width: '4px',
+                      height: '4px',
+                      borderRadius: '50%',
+                      background: '#ffffff'
+                    }} />
+                  )}
                 </div>
               </div>
             )
