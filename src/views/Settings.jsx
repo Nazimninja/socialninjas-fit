@@ -131,7 +131,14 @@ export default function Settings() {
     <Section title={t('During a workout')} footer={wakeOK ? t('The screen stays on while a workout is running, so you don’t have to unlock your phone between sets.') : null}>
       <SelectRow icon="timer" iconTint="var(--orange)" title={t('Rest timer')}
         value={S.restSec} onChange={v => update(s => { s.restSec = v })}
-        options={[60, 90, 120, 150, 180].map(v => ({ value: v, label: v + 's' }))} />
+        options={[
+          { value: 0, label: t('Off (Manual)') },
+          { value: 60, label: '60s' },
+          { value: 90, label: '90s' },
+          { value: 120, label: '120s' },
+          { value: 150, label: '150s' },
+          { value: 180, label: '180s' },
+        ]} />
       {(wakeOK || !MOBILE) && (
         <Row icon="sun" iconTint="var(--yellow)" title={t('Keep screen awake')}
           subtitle={wakeOK ? null : t('Not supported in this browser.')}>

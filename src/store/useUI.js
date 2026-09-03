@@ -69,6 +69,19 @@ export const useUI = create((set, get) => ({
     set({ timer: { ...tm, left, total: tm.total + sec, endsAt: tm.endsAt + sec * 1000 } })
     pushRestTimer(left)
   },
+  togglePauseRest() {
+    const tm = get().timer
+    if (!tm) return
+    if (tm.paused) {
+      const endsAt = Date.now() + tm.left * 1000
+      set({ timer: { ...tm, paused: false, endsAt } })
+      if (!timerInt && timerTick) timerInt = setInterval(timerTick, 1000)
+    } else {
+      if (timerInt) clearInterval(timerInt); timerInt = null
+      const left = Math.max(0, Math.round((tm.endsAt - Date.now()) / 1000))
+      set({ timer: { ...tm, paused: true, left } })
+    }
+  },
   stopRest() {
     if (timerInt) clearInterval(timerInt); timerInt = null
     if (timerTick) document.removeEventListener('visibilitychange', timerTick); timerTick = null
