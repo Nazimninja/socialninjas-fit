@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fit Ninja — Autonomous AI Athlete OS, 1,324+ HD Exercises & Precision Nutrition</title>
-<meta name="description" content="Fit Ninja by Social Ninja's — The elite AI body transformation OS. 1,324+ animated exercise demos, guided gym set player, smart rest timers, Indian & global AI nutrition, and weekend coach check-ins.">
-<meta name="keywords" content="fit ninja, social ninjas fit, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, diet planner">
+<meta name="description" content="Fit Ninja — The elite autonomous AI athlete OS. 1,324+ animated exercise demos, guided gym set player, smart rest timers, universal AI nutrition, and progressive overload engine.">
+<meta name="keywords" content="fit ninja, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, hypertrophy app">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
 <link rel="canonical" href="https://fit.socialninjas.in/">
@@ -13,18 +13,18 @@
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fit.socialninjas.in/">
-<meta property="og:title" content="Fit Ninja — AI Workout OS & Precision Nutrition">
-<meta property="og:description" content="1,324+ animated exercise demos, guided set player with smart rest timers, muscle heatmaps, and AI macro nutrition tracking.">
+<meta property="og:title" content="Fit Ninja — Autonomous AI Athlete OS & Precision Nutrition">
+<meta property="og:description" content="1,324+ animated exercise demos, guided set player with smart rest timers, anatomical muscle heatmaps, and adaptive AI macro nutrition tracking.">
 <meta property="og:image" content="https://fit.socialninjas.in/ninja-logo.png">
-<meta property="og:site_name" content="Fit Ninja by Social Ninja's">
-<meta property="og:locale" content="en_IN">
+<meta property="og:site_name" content="Fit Ninja">
+<meta property="og:locale" content="en_US">
 
 <meta name="theme-color" content="#070a12">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=4">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=4">
-<link rel="shortcut icon" href="/favicon.ico?v=4">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=4">
-<link rel="manifest" href="/manifest.json?v=4">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=5">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=5">
+<link rel="shortcut icon" href="/favicon.ico?v=5">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5">
+<link rel="manifest" href="/manifest.json?v=5">
 
 <!-- Google Fonts: Plus Jakarta Sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,11 +35,11 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Fit Ninja by Social Ninja's",
+  "name": "Fit Ninja",
   "url": "https://fit.socialninjas.in/",
-  "description": "Fit Ninja delivers 1,324+ animated exercises, guided workout execution, muscle heatmaps, and AI macro nutrition planning.",
+  "description": "Fit Ninja delivers 1,324+ animated exercises, guided workout execution, anatomical muscle heatmaps, and adaptive AI macro nutrition planning.",
   "applicationCategory": "HealthApplication, SportsApplication",
-  "operatingSystem": "All (iOS, Android, Windows, macOS)",
+  "operatingSystem": "All (iOS, Android, Web)",
   "offers": {
     "@type": "Offer",
     "price": "299",
@@ -56,17 +56,14 @@
   --bg-card-elevated: #111827;
   --bg-card-hover: #162035;
   
-  --blue-primary: #2563EB;
-  --blue-accent: #38BDF8;
-  --blue-glow: rgba(56, 189, 248, 0.25);
-  --blue-glow-deep: rgba(37, 99, 235, 0.28);
+  --blue-primary: #2563eb;
+  --blue-accent: #38bdf8;
+  --blue-glow: rgba(56, 189, 248, 0.22);
   
-  --acc-gradient: linear-gradient(135deg, #38BDF8 0%, #2563EB 100%);
+  --acc-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
   --acc-gradient-btn: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
   
   --green: #34d399;
-  --green-glow: rgba(52, 211, 153, 0.25);
-  
   --t1: #ffffff;
   --t2: #94a3b8;
   --t3: #64748b;
@@ -74,7 +71,7 @@
   --border: rgba(255, 255, 255, 0.08);
   --border-acc: rgba(56, 189, 248, 0.35);
   --border-card: rgba(255, 255, 255, 0.08);
-  --border-card-top: rgba(255, 255, 255, 0.18);
+  --border-card-top: rgba(255, 255, 255, 0.16);
   
   --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
   --r: 20px;
@@ -86,26 +83,19 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 88px;
 }
+
+/* 60FPS Hardware-Accelerated Background (No heavy blur divs) */
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at 50% -100px, rgba(37, 99, 235, 0.2) 0%, transparent 600px),
+    radial-gradient(circle at 90% 300px, rgba(56, 189, 248, 0.1) 0%, transparent 450px);
+  background-repeat: no-repeat;
   color: var(--t1);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-
-/* Ambient Radial Glows */
-.glow-spot {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(140px);
-  pointer-events: none;
-  opacity: 0.16;
-  z-index: 0;
-}
-.glow-1 { width: 600px; height: 600px; background: #2563eb; top: 0%; left: 50%; transform: translateX(-50%); }
-.glow-2 { width: 550px; height: 550px; background: #38bdf8; top: 22%; right: -10%; }
-.glow-3 { width: 500px; height: 500px; background: #1e40af; top: 55%; left: -10%; }
 
 /* Spotlight Card Base */
 .spotlight-card {
@@ -116,20 +106,21 @@ body {
   border-top: 1px solid var(--border-card-top);
   border-radius: var(--r);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
 }
 .spotlight-card:hover {
   border-color: var(--border-acc);
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.65), 0 0 24px var(--blue-glow);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.65), 0 0 20px var(--blue-glow);
 }
 
 /* ── NAVBAR ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(7, 10, 18, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(7, 10, 18, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
 }
 .nav-container {
@@ -143,7 +134,7 @@ nav {
 .nav-logo {
   width: 44px; height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 10px rgba(56, 189, 248, 0.5));
+  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45));
 }
 .nav-brand-title {
   font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
@@ -159,7 +150,7 @@ nav {
 }
 .nav-links {
   position: absolute; left: 50%; transform: translateX(-50%);
-  display: flex; align-items: center; gap: 26px;
+  display: flex; align-items: center; gap: 28px;
 }
 .nav-links a {
   font-size: 13.5px; font-weight: 600; color: var(--t2); text-decoration: none;
@@ -178,10 +169,10 @@ nav {
 .nav-btn-primary {
   padding: 9px 18px; background: var(--acc-gradient-btn); color: #fff;
   border-radius: 12px; font-size: 13px; font-weight: 800; text-decoration: none;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45); transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 6px;
 }
-.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6); }
+.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5); }
 
 @media(max-width: 900px) {
   .nav-links { display: none; }
@@ -197,56 +188,56 @@ nav {
 /* ── HERO SECTION ── */
 .hero {
   position: relative; z-index: 1;
-  padding: 120px 20px 60px;
+  padding: 115px 20px 50px;
   max-width: 1140px; margin: 0 auto; text-align: center;
 }
 .hero-emblem-wrap {
-  position: relative; width: 88px; height: 88px; margin: 0 auto 18px;
+  position: relative; width: 84px; height: 84px; margin: 0 auto 16px;
 }
 .hero-emblem-glow {
-  position: absolute; inset: -14px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(37, 99, 235, 0) 70%);
-  filter: blur(20px); border-radius: 50%; pointer-events: none;
+  position: absolute; inset: -10px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(37, 99, 235, 0) 70%);
+  filter: blur(14px); border-radius: 50%; pointer-events: none;
 }
 .hero-emblem {
-  width: 92px; height: 92px;
+  width: 88px; height: 88px;
   position: relative; z-index: 1; object-fit: contain;
-  filter: drop-shadow(0 10px 24px rgba(56, 189, 248, 0.5));
+  filter: drop-shadow(0 8px 20px rgba(56, 189, 248, 0.45));
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 99px; padding: 6px 16px; font-size: 11px; font-weight: 800;
-  color: var(--blue-accent); margin-bottom: 22px; letter-spacing: 0.8px; text-transform: uppercase;
+  color: var(--blue-accent); margin-bottom: 20px; letter-spacing: 0.8px; text-transform: uppercase;
 }
 .hero-h1 {
-  font-size: clamp(32px, 5.8vw, 64px); font-weight: 900;
-  line-height: 1.08; letter-spacing: -1.6px; margin-bottom: 20px; color: #fff;
+  font-size: clamp(32px, 5.6vw, 62px); font-weight: 900;
+  line-height: 1.08; letter-spacing: -1.6px; margin-bottom: 18px; color: #fff;
 }
 .hero-h1 .highlight {
   background: linear-gradient(135deg, #ffffff 15%, #93c5fd 50%, #38bdf8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-sub {
-  font-size: clamp(15px, 1.9vw, 17.5px); color: var(--t2); line-height: 1.65;
-  max-width: 780px; margin: 0 auto 32px; font-weight: 500;
+  font-size: clamp(15px, 1.8vw, 17.5px); color: var(--t2); line-height: 1.65;
+  max-width: 760px; margin: 0 auto 30px; font-weight: 500;
 }
 .hero-actions {
-  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 44px;
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 40px;
 }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 30px; background: var(--acc-gradient-btn);
+  padding: 14px 28px; background: var(--acc-gradient-btn);
   color: #fff; font-size: 15px; font-weight: 800; border-radius: 14px;
-  text-decoration: none; box-shadow: 0 8px 26px rgba(37, 99, 235, 0.45);
+  text-decoration: none; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
   transition: all 0.2s; border: none; cursor: pointer;
 }
 .btn-primary:hover {
-  transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56, 189, 248, 0.6);
+  transform: translateY(-2px); box-shadow: 0 12px 28px rgba(56, 189, 248, 0.55);
 }
 .btn-secondary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 26px; background: var(--bg-card); border: 1px solid var(--border-card);
+  padding: 14px 24px; background: var(--bg-card); border: 1px solid var(--border-card);
   color: #fff; font-size: 15px; font-weight: 700; border-radius: 14px;
   text-decoration: none; transition: all 0.2s;
 }
@@ -257,47 +248,43 @@ nav {
 /* Metric Strip */
 .metrics-strip {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-  max-width: 880px; margin: 0 auto 48px;
-  background: rgba(12, 17, 29, 0.7); border: 1px solid var(--border);
-  border-radius: 18px; padding: 18px 24px; backdrop-filter: blur(12px);
+  max-width: 880px; margin: 0 auto 44px;
+  background: rgba(12, 17, 29, 0.85); border: 1px solid var(--border);
+  border-radius: 18px; padding: 18px 24px;
 }
 .metric-num { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; }
 .metric-lbl { font-size: 11px; color: var(--t2); font-weight: 600; text-transform: uppercase; margin-top: 3px; letter-spacing: 0.5px; }
 
 @media(max-width: 700px) {
-  .metrics-strip { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 16px; }
+  .metrics-strip { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; }
 }
 
 /* ── PHONE MOCKUP HERO SHOWCASE ── */
 .phone-mockup-wrapper {
-  max-width: 420px;
-  margin: 0 auto 60px;
-  perspective: 1000px;
+  max-width: 410px;
+  margin: 0 auto 50px;
 }
 .phone-mockup {
-  background: #000;
-  border-radius: 46px;
-  padding: 12px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 4px #1f293d, 0 0 40px rgba(56, 189, 248, 0.25);
-  position: relative;
-  overflow: hidden;
+  background: #090e18;
+  border-radius: 42px;
+  padding: 10px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 0 3px #1e293b, 0 0 30px rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .phone-screen {
   background: #070a12;
-  border-radius: 36px;
-  padding: 16px 14px 20px;
+  border-radius: 34px;
+  padding: 16px 14px 18px;
   color: #fff;
   text-align: left;
-  position: relative;
-  overflow: hidden;
   border: 1px solid rgba(255,255,255,0.06);
 }
 .phone-island {
-  width: 110px; height: 26px; background: #000; border-radius: 16px; margin: 0 auto 14px;
+  width: 100px; height: 24px; background: #000; border-radius: 14px; margin: 0 auto 12px;
 }
 .phone-hud-pill {
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 12px;
   padding: 8px 12px;
   display: flex;
@@ -308,7 +295,7 @@ nav {
 
 /* ── 2. LIVE INTERACTIVE APP COCKPIT ── */
 .cockpit-wrap {
-  padding: 40px 20px 80px;
+  padding: 30px 20px 70px;
   max-width: 1080px; margin: 0 auto;
 }
 .section-tag {
@@ -325,15 +312,15 @@ nav {
 }
 
 .cockpit-frame {
-  margin-top: 32px;
+  margin-top: 28px;
   background: #090e1a;
   border: 1px solid var(--border-card);
   border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  box-shadow: 0 16px 45px rgba(0,0,0,0.6);
   overflow: hidden;
 }
 .cockpit-topbar {
-  background: rgba(13, 19, 34, 0.9);
+  background: rgba(13, 19, 34, 0.95);
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -347,11 +334,11 @@ nav {
 }
 .cockpit-pulse {
   width: 8px; height: 8px; border-radius: 50%; background: #34d399;
-  box-shadow: 0 0 10px #34d399;
+  box-shadow: 0 0 8px #34d399;
 }
 .cockpit-tabs {
   display: flex;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.4);
   padding: 4px;
   border-radius: 12px;
   gap: 4px;
@@ -370,13 +357,12 @@ nav {
   background: rgba(56, 189, 248, 0.18);
   border: 1px solid rgba(56, 189, 248, 0.4);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .cockpit-content { padding: 24px; }
-.cockpit-view { display: none; animation: fadeIn 0.25s ease; }
+.cockpit-view { display: none; animation: fadeIn 0.2s ease; }
 .cockpit-view.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Stepper Row */
 .stepper-row {
@@ -408,27 +394,17 @@ nav {
   font-size: 11px;
   text-align: center;
 }
-.set-badge-active {
-  background: rgba(56, 189, 248, 0.2);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.5);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-weight: 800;
-  font-size: 11px;
-  text-align: center;
-}
 
 /* ── 3. 1,324+ EXERCISE LIBRARY SHOWCASE ── */
 .exercises-sec {
-  padding: 50px 20px 70px;
+  padding: 40px 20px 60px;
   max-width: 1140px; margin: 0 auto;
 }
 .filter-pills {
-  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 24px 0 32px;
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 20px 0 28px;
 }
 .filter-pill {
-  padding: 8px 18px; border-radius: 99px; font-size: 12.5px; font-weight: 700;
+  padding: 8px 16px; border-radius: 99px; font-size: 12.5px; font-weight: 700;
   background: var(--bg-card); border: 1px solid var(--border);
   color: var(--t2); cursor: pointer; transition: all 0.2s;
 }
@@ -441,7 +417,7 @@ nav {
 .ex-card { padding: 18px; }
 
 /* ── 4. MACRO ENGINE ── */
-.calc-sec { padding: 40px 20px 80px; max-width: 900px; margin: 0 auto; }
+.calc-sec { padding: 40px 20px 70px; max-width: 900px; margin: 0 auto; }
 .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
 @media(max-width: 750px) { .calc-grid { grid-template-columns: 1fr; } }
 
@@ -458,18 +434,18 @@ nav {
 .comp-table td.brand-col { background: rgba(56, 189, 248, 0.05); font-weight: 800; color: #38bdf8; }
 
 /* ── 6. PRICING ── */
-.pricing-sec { padding: 50px 20px 80px; max-width: 680px; margin: 0 auto; }
+.pricing-sec { padding: 40px 20px 70px; max-width: 680px; margin: 0 auto; }
 .pricing-card {
   background: linear-gradient(150deg, #0f172a 0%, #090e1c 100%);
   border: 1.5px solid rgba(56, 189, 248, 0.4);
   border-radius: 28px;
-  padding: 38px 30px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 35px rgba(56, 189, 248, 0.2);
+  padding: 36px 28px;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.7), 0 0 25px rgba(56, 189, 248, 0.18);
   text-align: center;
 }
 
 /* ── FAQ ── */
-.faq-sec { padding: 40px 20px 80px; max-width: 760px; margin: 0 auto; }
+.faq-sec { padding: 30px 20px 70px; max-width: 760px; margin: 0 auto; }
 .faq-item {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
   margin-bottom: 10px; overflow: hidden;
@@ -496,11 +472,6 @@ footer a:hover { color: #fff; }
 </head>
 
 <body>
-
-<!-- AMBIENT GLOWS -->
-<div class="glow-spot glow-1"></div>
-<div class="glow-spot glow-2"></div>
-<div class="glow-spot glow-3"></div>
 
 <!-- ── NAVBAR ── -->
 <nav>
@@ -541,7 +512,7 @@ footer a:hover { color: #fff; }
   <div class="hero-badge">
     <span>⚡ AUTONOMOUS AI ATHLETE OS</span>
     <span>·</span>
-    <span style="color:rgba(255,255,255,0.75)">1,324+ HD Video Demos · Custom Indian &amp; Global Diets</span>
+    <span style="color:rgba(255,255,255,0.75)">1,324+ HD Demos · Universal AI Macros</span>
   </div>
 
   <h1 class="hero-h1">
@@ -550,7 +521,7 @@ footer a:hover { color: #fff; }
   </h1>
 
   <p class="hero-sub">
-    Eliminate guesswork, plateaus, and generic meal plans. Fit Ninja guides every set with real-time rest timers, 1,324+ animated loop demos, automated progressive overload, anatomical muscle heatmaps, and adaptive AI nutrition.
+    Eliminate guesswork, plateaus, and generic meal plans. Fit Ninja guides every set with real-time rest timers, 1,324+ animated loop demos, automated progressive overload, anatomical muscle heatmaps, and universal AI nutrition.
   </p>
 
   <div class="hero-actions">
@@ -565,12 +536,12 @@ footer a:hover { color: #fff; }
       <div class="metric-lbl">HD Video Demos</div>
     </div>
     <div>
-      <div class="metric-num" style="color:#60A5FA">Auto</div>
+      <div class="metric-num" style="color:#60a5fa">Auto</div>
       <div class="metric-lbl">Progressive Overload</div>
     </div>
     <div>
-      <div class="metric-num" style="color:#34d399">Indian Veg</div>
-      <div class="metric-lbl">&amp; Global Macros</div>
+      <div class="metric-num" style="color:#34d399">Universal</div>
+      <div class="metric-lbl">AI Macro Engine</div>
     </div>
     <div>
       <div class="metric-num" style="color:var(--blue-accent)">₹9.9/day</div>
@@ -787,22 +758,22 @@ footer a:hover { color: #fff; }
       <div class="cockpit-view" id="view-diet">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center" class="calc-grid">
           <div>
-            <h3 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">Custom Indian &amp; Global Diets</h3>
+            <h3 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">Universal Performance Nutrition</h3>
             <p style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:14px">
-              No boring chicken-and-rice mandates. Fit Ninja balances macros specifically for Indian Vegetarian staples (Paneer, Soya Chunks, Dal, Besan) as well as Global Keto and Vegan diets.
+              Scientifically calibrated macronutrient architecture designed for muscle protein synthesis, clean energy, and rapid post-workout recovery.
             </p>
 
             <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-              <button class="filter-pill active" onclick="switchDietDemo('veg', this)">Indian High-Protein Veg</button>
-              <button class="filter-pill" onclick="switchDietDemo('nonveg', this)">High Protein Balanced</button>
-              <button class="filter-pill" onclick="switchDietDemo('vegan', this)">Plant-Based Vegan</button>
+              <button class="filter-pill active" onclick="switchDietDemo('highprot', this)">High-Protein Clean</button>
+              <button class="filter-pill" onclick="switchDietDemo('plant', this)">Plant-Based Vegan</button>
+              <button class="filter-pill" onclick="switchDietDemo('keto', this)">Keto Metabolic</button>
             </div>
 
             <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px;font-size:12.5px;color:var(--t2);line-height:1.7" id="diet-sample-text">
-              • <strong>Breakfast:</strong> Sprouted Moong &amp; Paneer Bhurji (32g Protein)<br>
-              • <strong>Lunch:</strong> Soya Chunks Curry + Brown Rice + Cucumber Salad (42g Protein)<br>
-              • <strong>Snack:</strong> Roasted Chana + Greek Yogurt / Whey Isolate (28g Protein)<br>
-              • <strong>Dinner:</strong> Dal Tadka with Low-Carb Roti + Stir-Fried Tofu (35g Protein)
+              • <strong>Breakfast:</strong> 4 Free-Range Eggs + Oatmeal with Blueberries &amp; Almond Butter (38g Protein)<br>
+              • <strong>Lunch:</strong> Grilled Wild Salmon + Quinoa + Roasted Asparagus (46g Protein)<br>
+              • <strong>Snack:</strong> Whey Protein Isolate + Greek Yogurt &amp; Honey (34g Protein)<br>
+              • <strong>Dinner:</strong> Grass-Fed Sirloin / Chicken Breast + Sweet Potato &amp; Broccoli (48g Protein)
             </div>
           </div>
 
@@ -813,7 +784,7 @@ footer a:hover { color: #fff; }
             <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-top:16px">
               <div style="background:var(--bg-card);padding:10px 6px;border-radius:10px">
                 <div style="font-size:10px;color:var(--blue-accent);font-weight:800">PROTEIN</div>
-                <div style="font-size:17px;font-weight:900;color:#fff">160g</div>
+                <div style="font-size:17px;font-weight:900;color:#fff">165g</div>
               </div>
               <div style="background:var(--bg-card);padding:10px 6px;border-radius:10px">
                 <div style="font-size:10px;color:#93c5fd;font-weight:800">CARBS</div>
@@ -1005,10 +976,10 @@ footer a:hover { color: #fff; }
           <td>✓ Subjective</td>
         </tr>
         <tr>
-          <td><strong>Indian &amp; Global AI Nutrition</strong></td>
-          <td class="brand-col">✓ Veg, Paneer, Soya, Keto</td>
-          <td>✗ US/EU western bias only</td>
-          <td>✗ Generic PDF meal sheets</td>
+          <td><strong>Universal AI Macro Architecture</strong></td>
+          <td class="brand-col">✓ High-Protein, Plant, Keto</td>
+          <td>✗ Generic single-diet bias</td>
+          <td>✗ Static PDF meal sheets</td>
         </tr>
         <tr>
           <td><strong>100% Offline-First (No Lag in Gym)</strong></td>
@@ -1018,9 +989,9 @@ footer a:hover { color: #fff; }
         </tr>
         <tr>
           <td><strong>Monthly Cost</strong></td>
-          <td class="brand-col"><strong>₹299 / month</strong></td>
-          <td>₹800 - ₹1,200 / mo</td>
-          <td>₹1,500 - ₹3,000 / mo</td>
+          <td class="brand-col"><strong>₹299 / month (~$3.60)</strong></td>
+          <td>$12.99 - $19.99 / mo</td>
+          <td>$150 - $300 / mo</td>
         </tr>
       </tbody>
     </table>
@@ -1031,7 +1002,7 @@ footer a:hover { color: #fff; }
 <section class="pricing-sec" id="pricing">
   <div style="text-align:center;margin-bottom:24px">
     <div class="section-tag">All-Access Membership</div>
-    <h2 class="section-h2">Simple, Fair Pricing.</h2>
+    <h2 class="section-h2">Simple, Transparent Access.</h2>
     <p class="section-sub">Zero lock-in. Cancel anytime with a single click in Settings.</p>
   </div>
 
@@ -1044,14 +1015,14 @@ footer a:hover { color: #fff; }
       ₹299 <span style="font-size:15px;color:var(--t2);font-weight:600">/ month</span>
     </div>
     <div style="font-size:13px;color:#34d399;font-weight:800;margin-bottom:24px">
-      ⚡ Just ₹9.9 / day · Cancel Anytime
+      ⚡ Just ₹9.9 / day (~$3.60/mo) · Cancel Anytime
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:28px">
       <div style="font-size:13px;color:#fff">✓ 1,324+ Animated Demos</div>
       <div style="font-size:13px;color:#fff">✓ Live Gym Player &amp; HUD</div>
       <div style="font-size:13px;color:#fff">✓ Progressive Overload</div>
-      <div style="font-size:13px;color:#fff">✓ Indian &amp; Global Diets</div>
+      <div style="font-size:13px;color:#fff">✓ Universal Macro Engine</div>
       <div style="font-size:13px;color:#fff">✓ Muscle Heatmap Analytics</div>
       <div style="font-size:13px;color:#fff">✓ Offline PWA + Cloud Sync</div>
     </div>
@@ -1075,7 +1046,7 @@ footer a:hover { color: #fff; }
       <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Double Progression), real-time anatomical muscle heatmaps, and a full AI macro nutrition engine customized for Indian Vegetarian and Global diets into an offline-first PWA.
+      Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Double Progression), real-time anatomical muscle heatmaps, and a full universal AI macro nutrition engine into a single offline-first PWA.
     </div>
   </div>
 
@@ -1105,7 +1076,7 @@ footer a:hover { color: #fff; }
       <span class="faq-arrow">+</span>
     </div>
     <div class="faq-a">
-      You can use the core workout tracker, exercise library, and guest mode for free. Full access to the AI Macro engine, unlimited custom workouts, and cloud sync is available for just ₹299/month (cancel anytime).
+      You can use the core workout tracker, exercise library, and guest mode for free. Full access to the AI Macro engine, unlimited custom workouts, and cloud sync is available for just ₹299/month (~$3.60 USD) with cancel anytime flexibility.
     </div>
   </div>
 </section>
@@ -1117,7 +1088,7 @@ footer a:hover { color: #fff; }
     <span style="font-size:15px;font-weight:900;color:#fff">Fit<span style="color:var(--blue-accent)">Ninja</span></span>
   </div>
   <p style="margin-bottom:12px;color:var(--t2)">
-    The AI Body Transformation OS · Built by <a href="https://socialninjas.in" target="_blank">Social Ninja's AI Agency</a>
+    The Autonomous AI Athlete OS · Fit Ninja Global
   </p>
   <p style="margin-bottom:16px">
     <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/app">Launch App</a>
@@ -1177,9 +1148,9 @@ function startRestDemo(seconds) {
 
 // ── DIET DEMO SWITCHER ──
 const DIET_DATA = {
-  veg: '• <strong>Breakfast:</strong> Sprouted Moong &amp; Paneer Bhurji (32g Protein)<br>• <strong>Lunch:</strong> Soya Chunks Curry + Brown Rice + Cucumber Salad (42g Protein)<br>• <strong>Snack:</strong> Roasted Chana + Greek Yogurt / Whey Isolate (28g Protein)<br>• <strong>Dinner:</strong> Dal Tadka with Low-Carb Roti + Stir-Fried Tofu (35g Protein)',
-  nonveg: '• <strong>Breakfast:</strong> 4 Egg White &amp; 1 Whole Egg Omelette + Oats Bowl (36g Protein)<br>• <strong>Lunch:</strong> Grilled Tandoori Chicken Breast + Basmati Rice + Greens (48g Protein)<br>• <strong>Snack:</strong> Whey Isolate with Almond Milk &amp; Banana (27g Protein)<br>• <strong>Dinner:</strong> Pan-Seared Fish / Chicken Stir-fry with Veggies (40g Protein)',
-  vegan: '• <strong>Breakfast:</strong> Tofu Scramble with Nutritional Yeast + Whole Grain Toast (30g Protein)<br>• <strong>Lunch:</strong> Black Bean &amp; Chickpea Quinoa Bowl with Tahini (38g Protein)<br>• <strong>Snack:</strong> Plant Pea Protein Shake + Roasted Pumpkin Seeds (28g Protein)<br>• <strong>Dinner:</strong> Tempeh &amp; Edamame Stir-Fry with Broccoli (36g Protein)'
+  highprot: '• <strong>Breakfast:</strong> 4 Free-Range Eggs + Oatmeal with Blueberries &amp; Almond Butter (38g Protein)<br>• <strong>Lunch:</strong> Grilled Wild Salmon + Quinoa + Roasted Asparagus (46g Protein)<br>• <strong>Snack:</strong> Whey Protein Isolate + Greek Yogurt &amp; Honey (34g Protein)<br>• <strong>Dinner:</strong> Grass-Fed Sirloin / Chicken Breast + Sweet Potato &amp; Broccoli (48g Protein)',
+  plant: '• <strong>Breakfast:</strong> Organic Tofu Scramble with Nutritional Yeast + Whole Grain Sourdough (32g Protein)<br>• <strong>Lunch:</strong> Black Bean &amp; Chickpea Quinoa Bowl with Creamy Tahini (40g Protein)<br>• <strong>Snack:</strong> Pea Protein Isolate Shake + Roasted Pumpkin Seeds (30g Protein)<br>• <strong>Dinner:</strong> Marinated Tempeh &amp; Edamame Stir-Fry with Bok Choy (38g Protein)',
+  keto: '• <strong>Breakfast:</strong> 3 Pastured Eggs Fried in Ghee with Avocado &amp; Baby Spinach (28g Protein, 2g Net Carbs)<br>• <strong>Lunch:</strong> Pan-Seared Ribeye Steak with Herb Butter &amp; Zucchini Ribbons (44g Protein, 3g Net Carbs)<br>• <strong>Snack:</strong> Macadamia Nuts &amp; Smoked Salmon Bites (22g Protein, 1g Net Carbs)<br>• <strong>Dinner:</strong> Baked Atlantic Salmon with Creamed Cauliflower (42g Protein, 4g Net Carbs)'
 };
 function switchDietDemo(type, btn) {
   btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
@@ -1207,15 +1178,6 @@ function filterEx(cat, btn) {
 function toggleFaq(el) {
   el.classList.toggle('open');
 }
-
-// ── SPOTLIGHT HOVER ──
-document.querySelectorAll('.spotlight-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-    card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-  });
-});
 </script>
 
 </body>

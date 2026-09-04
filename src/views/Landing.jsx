@@ -25,7 +25,7 @@ export default function Landing() {
     },
     {
       q: "Can I customize my diet preferences for the AI Nutrition engine?",
-      a: "Absolutely. You can select between High Protein Balanced, Indian Vegetarian (Paneer, Soya, Dal), Ketogenic Low-Carb, and Plant-Based Vegan with customized daily macro targets."
+      a: "Absolutely. You can select between High-Protein Clean Hypertrophy, Plant-Based Athletic Vegan, Ketogenic Metabolic, and Balanced Nutrition with customized daily macro targets."
     },
     {
       q: "How much does Fit Ninja cost?",
@@ -238,7 +238,7 @@ export default function Landing() {
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>🥗</div>
               <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>AI Nutrition & Macros</h3>
               <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
-                Personalized BMR & TDEE calorie calculator with macro targets (Protein, Carbs, Fats) and customized meal plans for High Protein, Indian Veg, Keto, and Vegan diets.
+                Personalized BMR & TDEE calorie calculator with macro targets (Protein, Carbs, Fats) and customized meal plans for High-Protein, Plant-Based Vegan, Keto, and Balanced diets.
               </p>
             </div>
             <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#c084fc', cursor: 'pointer' }} onClick={() => nav('/nutrition')}>
