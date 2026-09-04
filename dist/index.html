@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Fit Ninja — Autonomous AI Athlete OS, 1,324+ HD Exercises & Precision Nutrition</title>
-<meta name="description" content="Fit Ninja — The elite autonomous AI athlete OS. 1,324+ animated exercise demos, guided gym set player, smart rest timers, universal AI nutrition, and progressive overload engine.">
+<meta name="description" content="Fit Ninja — The elite autonomous AI athlete OS. 1,324+ animated exercise demos, guided gym set player, smart rest timers, universal AI nutrition, and automated progressive overload.">
 <meta name="keywords" content="fit ninja, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, hypertrophy app">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
@@ -20,11 +20,11 @@
 <meta property="og:locale" content="en_US">
 
 <meta name="theme-color" content="#070a12">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=5">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=5">
-<link rel="shortcut icon" href="/favicon.ico?v=5">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=5">
-<link rel="manifest" href="/manifest.json?v=5">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=6">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=6">
+<link rel="shortcut icon" href="/favicon.ico?v=6">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=6">
+<link rel="manifest" href="/manifest.json?v=6">
 
 <!-- Google Fonts: Plus Jakarta Sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,19 +49,21 @@
 </script>
 
 <style>
-/* ── BRAND TOKENS (FIT NINJA OFFICIAL IDENTITY) ── */
+/* ── BRAND TOKENS (FIT NINJA OFFICIAL LUXURY IDENTITY) ── */
 :root {
-  --bg: #070a12;
-  --bg-card: #0c111d;
-  --bg-card-elevated: #111827;
-  --bg-card-hover: #162035;
+  --bg: #060911;
+  --bg-card: #0c121e;
+  --bg-card-elevated: #111a2c;
+  --bg-card-hover: #16223b;
   
   --blue-primary: #2563eb;
   --blue-accent: #38bdf8;
-  --blue-glow: rgba(56, 189, 248, 0.22);
+  --blue-glow: rgba(56, 189, 248, 0.28);
+  --cyan-neon: #00f0ff;
   
   --acc-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  --acc-gradient-btn: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+  --acc-gradient-btn: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%);
+  --acc-gradient-fire: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
   
   --green: #34d399;
   --t1: #ffffff;
@@ -69,13 +71,13 @@
   --t3: #64748b;
   
   --border: rgba(255, 255, 255, 0.08);
-  --border-acc: rgba(56, 189, 248, 0.35);
-  --border-card: rgba(255, 255, 255, 0.08);
-  --border-card-top: rgba(255, 255, 255, 0.16);
+  --border-acc: rgba(56, 189, 248, 0.4);
+  --border-card: rgba(255, 255, 255, 0.09);
+  --border-card-top: rgba(255, 255, 255, 0.2);
   
   --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
-  --r: 20px;
-  --r-sm: 12px;
+  --r: 22px;
+  --r-sm: 14px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,20 +86,21 @@ html {
   scroll-padding-top: 88px;
 }
 
-/* 60FPS Hardware-Accelerated Background (No heavy blur divs) */
+/* 60FPS Hardware-Accelerated Obsidian Background */
 body {
   font-family: var(--font);
   background-color: var(--bg);
   background-image: 
-    radial-gradient(circle at 50% -100px, rgba(37, 99, 235, 0.2) 0%, transparent 600px),
-    radial-gradient(circle at 90% 300px, rgba(56, 189, 248, 0.1) 0%, transparent 450px);
+    radial-gradient(circle at 50% -80px, rgba(37, 99, 235, 0.24) 0%, transparent 650px),
+    radial-gradient(circle at 88% 280px, rgba(56, 189, 248, 0.14) 0%, transparent 500px),
+    radial-gradient(circle at 12% 600px, rgba(30, 64, 175, 0.12) 0%, transparent 450px);
   background-repeat: no-repeat;
   color: var(--t1);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Spotlight Card Base */
+/* Card Base */
 .spotlight-card {
   position: relative;
   overflow: hidden;
@@ -105,22 +108,22 @@ body {
   border: 1px solid var(--border-card);
   border-top: 1px solid var(--border-card-top);
   border-radius: var(--r);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.55);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   will-change: transform;
 }
 .spotlight-card:hover {
   border-color: var(--border-acc);
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.65), 0 0 20px var(--blue-glow);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.7), 0 0 24px var(--blue-glow);
 }
 
 /* ── NAVBAR ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(7, 10, 18, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(6, 9, 17, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
 .nav-container {
@@ -134,7 +137,7 @@ nav {
 .nav-logo {
   width: 44px; height: 44px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45));
+  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.5));
 }
 .nav-brand-title {
   font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
@@ -169,10 +172,10 @@ nav {
 .nav-btn-primary {
   padding: 9px 18px; background: var(--acc-gradient-btn); color: #fff;
   border-radius: 12px; font-size: 13px; font-weight: 800; text-decoration: none;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45); transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 6px;
 }
-.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5); }
+.nav-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6); }
 
 @media(max-width: 900px) {
   .nav-links { display: none; }
@@ -188,56 +191,57 @@ nav {
 /* ── HERO SECTION ── */
 .hero {
   position: relative; z-index: 1;
-  padding: 115px 20px 50px;
-  max-width: 1140px; margin: 0 auto; text-align: center;
+  padding: 110px 20px 40px;
+  max-width: 1240px; margin: 0 auto; text-align: center;
 }
 .hero-emblem-wrap {
   position: relative; width: 84px; height: 84px; margin: 0 auto 16px;
 }
 .hero-emblem-glow {
-  position: absolute; inset: -10px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(37, 99, 235, 0) 70%);
-  filter: blur(14px); border-radius: 50%; pointer-events: none;
+  position: absolute; inset: -12px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(37, 99, 235, 0) 70%);
+  filter: blur(16px); border-radius: 50%; pointer-events: none;
 }
 .hero-emblem {
   width: 88px; height: 88px;
   position: relative; z-index: 1; object-fit: contain;
-  filter: drop-shadow(0 8px 20px rgba(56, 189, 248, 0.45));
+  filter: drop-shadow(0 8px 24px rgba(56, 189, 248, 0.55));
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 99px; padding: 6px 16px; font-size: 11px; font-weight: 800;
-  color: var(--blue-accent); margin-bottom: 20px; letter-spacing: 0.8px; text-transform: uppercase;
+  border-radius: 99px; padding: 6px 18px; font-size: 11px; font-weight: 800;
+  color: var(--blue-accent); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;
 }
 .hero-h1 {
-  font-size: clamp(32px, 5.6vw, 62px); font-weight: 900;
-  line-height: 1.08; letter-spacing: -1.6px; margin-bottom: 18px; color: #fff;
+  font-size: clamp(34px, 6.2vw, 68px); font-weight: 900;
+  line-height: 1.05; letter-spacing: -1.8px; margin-bottom: 18px; color: #fff;
+  text-transform: uppercase;
 }
 .hero-h1 .highlight {
   background: linear-gradient(135deg, #ffffff 15%, #93c5fd 50%, #38bdf8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .hero-sub {
-  font-size: clamp(15px, 1.8vw, 17.5px); color: var(--t2); line-height: 1.65;
-  max-width: 760px; margin: 0 auto 30px; font-weight: 500;
+  font-size: clamp(15px, 1.8vw, 18px); color: var(--t2); line-height: 1.6;
+  max-width: 740px; margin: 0 auto 28px; font-weight: 500;
 }
 .hero-actions {
-  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 40px;
+  display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 36px;
 }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px; background: var(--acc-gradient-btn);
+  padding: 15px 30px; background: var(--acc-gradient-btn);
   color: #fff; font-size: 15px; font-weight: 800; border-radius: 14px;
-  text-decoration: none; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+  text-decoration: none; box-shadow: 0 8px 26px rgba(37, 99, 235, 0.45);
   transition: all 0.2s; border: none; cursor: pointer;
 }
 .btn-primary:hover {
-  transform: translateY(-2px); box-shadow: 0 12px 28px rgba(56, 189, 248, 0.55);
+  transform: translateY(-2px); box-shadow: 0 12px 32px rgba(56, 189, 248, 0.6);
 }
 .btn-secondary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 24px; background: var(--bg-card); border: 1px solid var(--border-card);
+  padding: 15px 26px; background: var(--bg-card); border: 1px solid var(--border-card);
   color: #fff; font-size: 15px; font-weight: 700; border-radius: 14px;
   text-decoration: none; transition: all 0.2s;
 }
@@ -245,10 +249,78 @@ nav {
   background: var(--bg-card-elevated); border-color: rgba(255,255,255,0.2); transform: translateY(-1px);
 }
 
+.social-proof-strip {
+  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 40px; font-size: 12.5px; color: var(--t2);
+}
+.stars { color: #f59e0b; letter-spacing: 2px; }
+
+/* ── CINEMATIC FLOATING APP COMMAND CENTER (HERO SHOWCASE) ── */
+.hero-command-center {
+  display: grid;
+  grid-template-columns: 310px 1fr 310px;
+  gap: 20px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+  text-align: left;
+}
+@media(max-width: 1040px) {
+  .hero-command-center {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+  .side-card { display: none; }
+}
+
+/* Center Player Card */
+.player-card-center {
+  background: linear-gradient(160deg, #0f1627 0%, #080c16 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.35);
+  border-radius: 26px;
+  padding: 24px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 35px rgba(56, 189, 248, 0.2);
+  position: relative;
+}
+.hud-timer-badge {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.timer-pulse-circle {
+  width: 10px; height: 10px; border-radius: 50%; background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8; animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0% { opacity: 0.5; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } 100% { opacity: 0.5; transform: scale(0.9); } }
+
+/* Side Cards */
+.side-card {
+  background: rgba(12, 18, 30, 0.8);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+}
+
+/* Overload Notification Pill */
+.overload-pill {
+  max-width: 640px; margin: 0 auto 40px;
+  background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 99px; padding: 10px 20px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 13px; color: #34d399; font-weight: 700;
+}
+
 /* Metric Strip */
 .metrics-strip {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-  max-width: 880px; margin: 0 auto 44px;
+  max-width: 920px; margin: 0 auto 50px;
   background: rgba(12, 17, 29, 0.85); border: 1px solid var(--border);
   border-radius: 18px; padding: 18px 24px;
 }
@@ -259,44 +331,10 @@ nav {
   .metrics-strip { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 16px; }
 }
 
-/* ── PHONE MOCKUP HERO SHOWCASE ── */
-.phone-mockup-wrapper {
-  max-width: 410px;
-  margin: 0 auto 50px;
-}
-.phone-mockup {
-  background: #090e18;
-  border-radius: 42px;
-  padding: 10px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 0 3px #1e293b, 0 0 30px rgba(56, 189, 248, 0.2);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.phone-screen {
-  background: #070a12;
-  border-radius: 34px;
-  padding: 16px 14px 18px;
-  color: #fff;
-  text-align: left;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.phone-island {
-  width: 100px; height: 24px; background: #000; border-radius: 14px; margin: 0 auto 12px;
-}
-.phone-hud-pill {
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-radius: 12px;
-  padding: 8px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
 /* ── 2. LIVE INTERACTIVE APP COCKPIT ── */
 .cockpit-wrap {
   padding: 30px 20px 70px;
-  max-width: 1080px; margin: 0 auto;
+  max-width: 1120px; margin: 0 auto;
 }
 .section-tag {
   display: inline-block; font-size: 11px; font-weight: 800;
@@ -416,12 +454,7 @@ nav {
 }
 .ex-card { padding: 18px; }
 
-/* ── 4. MACRO ENGINE ── */
-.calc-sec { padding: 40px 20px 70px; max-width: 900px; margin: 0 auto; }
-.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
-@media(max-width: 750px) { .calc-grid { grid-template-columns: 1fr; } }
-
-/* ── 5. COMPARISON MATRIX ── */
+/* ── 4. COMPARISON MATRIX ── */
 .comp-table {
   width: 100%; border-collapse: separate; border-spacing: 0;
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
@@ -433,7 +466,7 @@ nav {
 .comp-table th { background: rgba(0,0,0,0.3); font-weight: 800; color: #fff; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.5px; }
 .comp-table td.brand-col { background: rgba(56, 189, 248, 0.05); font-weight: 800; color: #38bdf8; }
 
-/* ── 6. PRICING ── */
+/* ── 5. PRICING ── */
 .pricing-sec { padding: 40px 20px 70px; max-width: 680px; margin: 0 auto; }
 .pricing-card {
   background: linear-gradient(150deg, #0f172a 0%, #090e1c 100%);
@@ -510,23 +543,189 @@ footer a:hover { color: #fff; }
   </div>
 
   <div class="hero-badge">
-    <span>⚡ AUTONOMOUS AI ATHLETE OS</span>
-    <span>·</span>
-    <span style="color:rgba(255,255,255,0.75)">1,324+ HD Demos · Universal AI Macros</span>
+    <span>⚡ FIT NINJA OS · AUTONOMOUS HYPERTROPHY ENGINE</span>
   </div>
 
   <h1 class="hero-h1">
-    Your Personal AI Coach<br>
-    <span class="highlight">&amp; In-Gym Workout OS.</span>
+    BUILT FOR ATHLETES WHO<br>
+    <span class="highlight">DEMAND REAL RESULTS.</span>
   </h1>
 
   <p class="hero-sub">
-    Eliminate guesswork, plateaus, and generic meal plans. Fit Ninja guides every set with real-time rest timers, 1,324+ animated loop demos, automated progressive overload, anatomical muscle heatmaps, and universal AI nutrition.
+    1,324+ animated loop demos, tactile in-gym set stepper with smart rest timers, automatic progressive overload algorithms, anatomical muscle heatmaps, and adaptive AI macro nutrition.
   </p>
 
   <div class="hero-actions">
-    <a href="/app" class="btn-primary">⚡ Start Free / Open App →</a>
-    <a href="#cockpit" class="btn-secondary">📱 Explore App Cockpit ↓</a>
+    <a href="/app" class="btn-primary">⚡ Launch App / Start Training →</a>
+    <a href="#cockpit" class="btn-secondary">👁️ Explore App Cockpit ↓</a>
+  </div>
+
+  <div class="social-proof-strip">
+    <span class="stars">★★★★★</span>
+    <span style="color:#fff;font-weight:800">4.9 / 5 Rating</span>
+    <span>·</span>
+    <span>Built for Serious Lifters Worldwide</span>
+    <span>·</span>
+    <span style="color:#34d399;font-weight:700">● 100% Offline PWA</span>
+  </div>
+
+  <!-- ── CINEMATIC FLOATING APP COMMAND CENTER ── -->
+  <div class="hero-command-center">
+    
+    <!-- LEFT CARD: ANATOMICAL MUSCLE HEATMAP -->
+    <div class="side-card">
+      <div style="font-size:10px;font-weight:800;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">
+        HYPERTROPHY LOAD
+      </div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:14px">
+        Muscle Volume Heatmap
+      </div>
+
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:4px">
+          <span style="color:#fff">Chest (Pectorals)</span>
+          <span style="color:#34d399">16 Sets · 100%</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:100%;height:100%;background:#34d399"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:4px">
+          <span style="color:#fff">Back (Lats &amp; Traps)</span>
+          <span style="color:#34d399">18 Sets · 100%</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:100%;height:100%;background:#34d399"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:4px">
+          <span style="color:#fff">Quads &amp; Glutes</span>
+          <span style="color:#fbbf24">14 Sets · 85%</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:85%;height:100%;background:#fbbf24"></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin-bottom:4px">
+          <span style="color:#fff">Shoulders (Deltoids)</span>
+          <span style="color:#38bdf8">12 Sets · 80%</span>
+        </div>
+        <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:80%;height:100%;background:#38bdf8"></div>
+        </div>
+      </div>
+
+      <div style="font-size:10.5px;color:var(--t2);border-top:1px solid var(--border);padding-top:10px">
+        ● Weekly Optimal Stimulus Reached
+      </div>
+    </div>
+
+    <!-- CENTER CARD: TACTILE WORKOUT PLAYER HUD -->
+    <div class="player-card-center">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:10px;font-weight:800;color:var(--blue-accent);letter-spacing:1px;text-transform:uppercase">
+          LIVE WORKOUT HUD
+        </div>
+        <span style="font-size:10px;font-weight:800;background:rgba(52,211,153,0.15);color:#34d399;padding:2px 8px;border-radius:6px;border:1px solid rgba(52,211,153,0.3)">
+          Set 2 of 4
+        </span>
+      </div>
+
+      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">
+        Incline Dumbbell Bench Press
+      </div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:16px">
+        Target: Pectoralis Major &amp; Anterior Delts
+      </div>
+
+      <!-- Live Pulsing Rest Timer -->
+      <div class="hud-timer-badge">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="timer-pulse-circle"></div>
+          <div>
+            <div style="font-size:9.5px;font-weight:800;color:var(--blue-accent);letter-spacing:0.8px">SMART REST INTERVAL</div>
+            <div style="font-size:18px;font-weight:900;color:#fff" id="hero-live-timer">01:45 <span style="font-size:12px;color:var(--t2)">/ 02:00</span></div>
+          </div>
+        </div>
+        <button onclick="addHeroTimer(30)" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer">+30s</button>
+      </div>
+
+      <!-- Set Stepper Rows -->
+      <div style="margin-bottom:14px">
+        <div class="stepper-row">
+          <span style="color:var(--t2);font-weight:700">1</span>
+          <span style="color:#fff;font-weight:700">Warm-up</span>
+          <span style="color:var(--t2)">20.0 kg</span>
+          <span style="color:var(--t2)">12 reps</span>
+          <span class="set-badge-done">✓ Done</span>
+        </div>
+        <div class="stepper-row" style="background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.35)">
+          <span style="color:var(--blue-accent);font-weight:800">2</span>
+          <span style="color:#fff;font-weight:800">Work Set</span>
+          <span style="color:var(--blue-accent);font-weight:900">32.5 kg</span>
+          <span style="color:#fff;font-weight:900">10 reps</span>
+          <span class="set-badge-done">✓ Logged</span>
+        </div>
+        <div class="stepper-row">
+          <span style="color:var(--t3);font-weight:700">3</span>
+          <span style="color:var(--t2);font-weight:700">Work Set</span>
+          <span style="color:var(--t2)">32.5 kg</span>
+          <span style="color:var(--t2)">8-10</span>
+          <button onclick="logHeroSet(this)" style="background:var(--acc-gradient);color:#fff;border:none;padding:5px 10px;border-radius:6px;font-weight:800;font-size:11px;cursor:pointer">Log Set ✓</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--t2);border-top:1px solid var(--border);padding-top:10px">
+        <span>● Screen Wake Lock Active</span>
+        <span>Auto Audio Chime Enabled</span>
+      </div>
+    </div>
+
+    <!-- RIGHT CARD: UNIVERSAL MACRO ARCHITECTURE -->
+    <div class="side-card">
+      <div style="font-size:10px;font-weight:800;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px">
+        PRECISION METABOLICS
+      </div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">
+        Adaptive AI Macros
+      </div>
+
+      <div style="text-align:center;padding:12px 0 16px">
+        <div style="font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase">DAILY TARGET</div>
+        <div style="font-size:36px;font-weight:900;color:#fff;line-height:1.1;margin:4px 0">
+          2,400 <span style="font-size:14px;color:var(--blue-accent)">kcal</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div style="background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:10px;border:1px solid var(--border)">
+          <div style="font-size:9.5px;color:var(--blue-accent);font-weight:800">PROTEIN (30%)</div>
+          <div style="font-size:16px;font-weight:900;color:#fff">175g</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:10px;border:1px solid var(--border)">
+          <div style="font-size:9.5px;color:#93c5fd;font-weight:800">CARBS (45%)</div>
+          <div style="font-size:16px;font-weight:900;color:#fff">240g</div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.3);border-radius:10px;padding:8px 12px;font-size:11px">
+        <span style="color:#fff;font-weight:700">Creatine Monohydrate</span>
+        <span style="color:#34d399;font-weight:800">5g / Saturation</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Overload Pill -->
+  <div class="overload-pill">
+    <span>⚡</span>
+    <span>Greyskull LP Overload: Target met on AMRAP set → +2.5 kg auto-applied for next workout!</span>
   </div>
 
   <!-- Metric Strip -->
@@ -546,63 +745,6 @@ footer a:hover { color: #fff; }
     <div>
       <div class="metric-num" style="color:var(--blue-accent)">₹9.9/day</div>
       <div class="metric-lbl">Cancel Anytime</div>
-    </div>
-  </div>
-
-  <!-- ── PHOTOREALISTIC IPHONE APP SHOWCASE ── -->
-  <div class="phone-mockup-wrapper">
-    <div class="phone-mockup">
-      <div class="phone-screen">
-        <div class="phone-island"></div>
-        
-        <!-- App Header Inside Phone -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div>
-            <div style="font-size:10px;font-weight:800;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase">MONDAY PUSH PROTOCOL</div>
-            <div style="font-size:17px;font-weight:900;color:#fff">Incline DB Press</div>
-          </div>
-          <span style="font-size:10px;font-weight:800;background:rgba(52,211,153,0.15);color:#34d399;padding:3px 8px;border-radius:6px;border:1px solid rgba(52,211,153,0.3)">
-            Set 2 of 4
-          </span>
-        </div>
-
-        <!-- Live Rest HUD Pill -->
-        <div class="phone-hud-pill">
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-size:14px">⏱️</span>
-            <div>
-              <div style="font-size:9.5px;color:var(--blue-accent);font-weight:800;letter-spacing:0.5px">REST TIMER ACTIVE</div>
-              <div style="font-size:15px;font-weight:900;color:#fff">01:45 <span style="font-size:11px;color:var(--t2)">/ 02:00</span></div>
-            </div>
-          </div>
-          <button style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;cursor:pointer">+30s</button>
-        </div>
-
-        <!-- Sets Stepper -->
-        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:8px;margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:11.5px;border-bottom:1px solid rgba(255,255,255,0.05)">
-            <span style="color:var(--t2);font-weight:700">Set 1</span>
-            <span style="color:#fff;font-weight:800">30.0 kg × 10 reps</span>
-            <span style="color:#34d399;font-weight:800">✓ Done</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:11.5px;background:rgba(56,189,248,0.08);border-radius:6px">
-            <span style="color:var(--blue-accent);font-weight:800">Set 2</span>
-            <span style="color:#fff;font-weight:900">32.5 kg × 10 reps</span>
-            <span style="color:var(--blue-accent);font-weight:800">✓ Logged</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;font-size:11.5px">
-            <span style="color:var(--t3);font-weight:700">Set 3</span>
-            <span style="color:var(--t2);font-weight:700">32.5 kg × 8-10</span>
-            <span style="color:#64748b;font-weight:700">Up Next</span>
-          </div>
-        </div>
-
-        <!-- Heatmap Tag -->
-        <div style="display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--t2);padding:0 4px">
-          <span>Target: Pectoralis Major &amp; Delts</span>
-          <span style="color:#34d399;font-weight:700">● Muscle Optimal</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -756,7 +898,7 @@ footer a:hover { color: #fff; }
 
       <!-- TAB 3: PRECISION AI NUTRITION -->
       <div class="cockpit-view" id="view-diet">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center" class="calc-grid">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center">
           <div>
             <h3 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">Universal Performance Nutrition</h3>
             <p style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:14px">
@@ -801,7 +943,7 @@ footer a:hover { color: #fff; }
 
       <!-- TAB 4: PROGRESSIVE OVERLOAD -->
       <div class="cockpit-view" id="view-overload">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center" class="calc-grid">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center">
           <div>
             <h3 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:8px">Greyskull LP &amp; Micro-Loading Engine</h3>
             <p style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:14px">
@@ -1115,6 +1257,33 @@ function logDemoSet(btn) {
   btn.style.background = '#34d399';
   startRestDemo(90);
 }
+
+// ── HERO SET LOGGER ──
+function logHeroSet(btn) {
+  btn.innerText = '✓ Done';
+  btn.style.background = '#34d399';
+  addHeroTimer(45);
+}
+
+// ── HERO TIMER ──
+let heroTimerVal = 105;
+function addHeroTimer(secs) {
+  heroTimerVal += secs;
+  updateHeroTimerDisplay();
+}
+function updateHeroTimerDisplay() {
+  const el = document.getElementById('hero-live-timer');
+  if (!el) return;
+  const m = Math.floor(heroTimerVal / 60);
+  const s = heroTimerVal % 60;
+  el.innerHTML = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + ' <span style="font-size:12px;color:var(--t2)">/ 02:00</span>';
+}
+setInterval(() => {
+  if (heroTimerVal > 0) {
+    heroTimerVal--;
+    updateHeroTimerDisplay();
+  }
+}, 1000);
 
 // ── REST TIMER DEMO ──
 let demoInterval = null;
