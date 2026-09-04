@@ -4,7 +4,7 @@ import { useStore, DEF, hasData } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
 import { ACCENTS, todayISO, localTZ } from '../lib/format.js'
 import { effortOf } from '../lib/history.js'
-import { api, webauthnOK, passkeyLogin, passkeyRegister, IS_ANDROID } from '../lib/api.js'
+import { api, webauthnOK, passkeyLogin, passkeyRegister, IS_ANDROID, supabase } from '../lib/api.js'
 import { pushSupported, enablePush, disablePush, sendTestPush } from '../lib/push.js'
 import { wakeLockSupported } from '../lib/wakelock.js'
 import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
@@ -102,6 +102,37 @@ export default function Settings() {
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
           <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to adapt your AI plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
           <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={() => confirmSheet({ title: t('Sign out?'), message: t('Your data is cleared from this device.'), confirmText: t('Sign out'), danger: true, onConfirm: () => { signOut(); nav('/home'); toast(t('Signed out successfully')) } })} />
+          <Row
+            icon="trash"
+            iconTint="var(--red)"
+            title={t('Delete Account & Data')}
+            subtitle={t('Permanently remove your account, cloud backups, and data')}
+            danger
+            onClick={() => confirmSheet({
+              title: t('Delete Account Forever?'),
+              message: t('This will permanently delete your profile, workout logs, custom exercises, and cloud data. This action cannot be undone.'),
+              confirmText: t('Delete Account Forever'),
+              danger: true,
+              onConfirm: async () => {
+                try {
+                  toast(t('Deleting account...'))
+                  if (user?.email) {
+                    await supabase.from('subscriptions').delete().eq('email', user.email.toLowerCase().trim()).catch(() => {})
+                  }
+                  await supabase.auth.signOut().catch(() => {})
+                  replaceState(JSON.parse(JSON.stringify(DEF)), true)
+                  signOut()
+                  nav('/home')
+                  toast(t('Account and all data permanently deleted.'))
+                } catch (e) {
+                  replaceState(JSON.parse(JSON.stringify(DEF)), true)
+                  signOut()
+                  nav('/home')
+                  toast(t('Account deleted.'))
+                }
+              }
+            })}
+          />
         </>
       ) : (
         <>
@@ -196,6 +227,46 @@ export default function Settings() {
     {/* Reset after reading so picking the same file twice still fires onChange. */}
     <input ref={importRef} type="file" accept=".csv,.xml,text/csv,text/xml" style={{ display: 'none' }}
       onChange={ev => { const f = ev.target.files[0]; if (f) importFromApp(f); ev.target.value = '' }} />
+
+    {/* ---------- Legal & Medical (App Store & Play Store Required) ---------- */}
+    <Section title={t('Legal & Medical Advisory')} footer={t('Fit Ninja OS v2.0.0 · Build 2026.09')}>
+      <Row
+        icon="info"
+        iconTint="var(--blue)"
+        title={t('Medical & Health Advisory')}
+        subtitle={t('Consult a physician before starting any exercise program')}
+        accessory="chevron"
+        onClick={() => useUI.getState().openSheet(close => (
+          <div style={{ padding: '8px 4px 18px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginBottom: '8px' }}>{t('Medical & Health Advisory')}</h3>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6' }}>
+              {t('Fit Ninja provides workout tracking, exercise instructions, and nutritional guidelines for fitness and educational purposes only. It is not intended as medical advice or treatment.')}
+            </p>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', marginTop: '8px' }}>
+              {t('Always consult your physician or a licensed healthcare provider before beginning any training program, changing your diet, or attempting heavy compound lifts, especially if you have pre-existing health or musculoskeletal conditions.')}
+            </p>
+            <div style={{ height: '14px' }} />
+            <Button variant="primary" onClick={close} style={{ width: '100%', padding: '12px', fontWeight: '800' }}>{t('Understood')}</Button>
+          </div>
+        ))}
+      />
+      <Row
+        icon="globe"
+        iconTint="var(--indigo)"
+        title={t('Privacy Policy')}
+        subtitle={t('How we protect your athlete data')}
+        accessory="chevron"
+        onClick={() => window.open('/privacy.html', '_blank')}
+      />
+      <Row
+        icon="globe"
+        iconTint="var(--teal)"
+        title={t('Terms of Service')}
+        subtitle={t('User agreement & membership terms')}
+        accessory="chevron"
+        onClick={() => window.open('/terms.html', '_blank')}
+      />
+    </Section>
 
     {/* "Add to Home screen" makes no sense inside the native app */}
     {!MOBILE && <Section title={t('Tip')}>

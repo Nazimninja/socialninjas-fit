@@ -41,6 +41,20 @@ export async function signInWithGoogle() {
   }
 }
 
+export async function signInWithApple() {
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'apple',
+      options: {
+        redirectTo: window.location.origin + '/app'
+      }
+    })
+    return { data, error }
+  } catch (err) {
+    return { error: err }
+  }
+}
+
 export async function verifyMemberEmail(email) {
   const clean = (email || '').trim().toLowerCase()
   if (!clean) return { verified: false, error: 'Email address is required' }
