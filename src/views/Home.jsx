@@ -147,20 +147,22 @@ export default function Home() {
             <div style={{ position: 'absolute', bottom: -1, right: -1, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid var(--bg)' }} />
           </div>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--label-3)', marginBottom: '2px' }}>
-              {isWeekend ? 'Weekend Recovery' : 'Training Day'}
+            <div style={{ fontSize: '12px', fontWeight: '600', color: 'var(--label-3)', marginBottom: '2px', letterSpacing: '0.02em' }}>
+              {today.toLocaleDateString(dateLocale(), { weekday: 'short', day: 'numeric', month: 'short' })}
             </div>
             <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.6px', color: 'var(--label)', lineHeight: 1.15 }}>
-              {greet}, {firstName}
+              {greet}, {firstName} 👋
             </div>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '6px 12px', fontSize: '12px', fontWeight: '700', color: 'var(--label)', cursor: 'pointer' }}>
-            <Icon name="calendar" style={{ fontSize: '13px' }} />
-            <span>{todayLabel.split(',')[0]}</span>
+          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: 'var(--label)', cursor: 'pointer', letterSpacing: '-0.2px' }}>
+            🔥 <span>{streakWeeks(S)}w</span>
           </div>
+          <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%' }}>
+            <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
+          </button>
           <button className="iconbtn" onClick={() => nav('/settings')} style={{ width: 36, height: 36, borderRadius: '50%' }}>
             <Icon name="gear" />
           </button>
