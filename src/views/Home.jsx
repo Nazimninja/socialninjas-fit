@@ -137,31 +137,30 @@ export default function Home() {
             ) : (
               <div style={{
                 width: 48, height: 48, borderRadius: '50%',
-                background: 'linear-gradient(145deg,#38bdf8 0%,#818cf8 100%)',
+                background: 'var(--accent)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 20, fontWeight: 900, color: '#000', border: '2px solid rgba(255,255,255,0.18)'
+                fontSize: 20, fontWeight: 900, color: '#000', border: '2px solid var(--card-border)'
               }}>
                 {firstName.charAt(0).toUpperCase()}
               </div>
             )}
-            <div style={{ position: 'absolute', bottom: -1, right: -1, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #000' }} />
+            <div style={{ position: 'absolute', bottom: -1, right: -1, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid var(--bg)' }} />
           </div>
           <div>
-            <div style={{ fontSize: '12px', fontWeight: '600', color: 'rgba(255,255,255,0.38)', marginBottom: '2px', letterSpacing: '0.02em' }}>
-              {today.toLocaleDateString(dateLocale(), { weekday: 'short', day: 'numeric', month: 'short' })}
+            <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.6px', color: 'var(--label-3)', marginBottom: '2px' }}>
+              {isWeekend ? 'Weekend Recovery' : 'Training Day'}
             </div>
-            <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.6px', color: '#fff', lineHeight: 1.15 }}>
-              {greet}, {firstName} 👋
+            <div style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.6px', color: 'var(--label)', lineHeight: 1.15 }}>
+              {greet}, {firstName}
             </div>
           </div>
         </div>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', borderTop: '1px solid rgba(255,255,255,0.20)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: '#fff', cursor: 'pointer', letterSpacing: '-0.2px' }}>
-            🔥 <span>{streakWeeks(S)}w</span>
+          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '6px 12px', fontSize: '12px', fontWeight: '700', color: 'var(--label)', cursor: 'pointer' }}>
+            <Icon name="calendar" style={{ fontSize: '13px' }} />
+            <span>{todayLabel.split(',')[0]}</span>
           </div>
-          <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%' }}>
-            <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
-          </button>
           <button className="iconbtn" onClick={() => nav('/settings')} style={{ width: 36, height: 36, borderRadius: '50%' }}>
             <Icon name="gear" />
           </button>
@@ -169,14 +168,14 @@ export default function Home() {
       </div>
 
       {/* ─── 2. HERO RING CARD ───────────────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(150deg,#0d1627 0%,#080e1a 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.16)', borderRadius: '28px', padding: '22px 20px 18px', marginBottom: '14px', boxShadow: '0 10px 50px rgba(0,0,0,0.55)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'var(--card-gradient, var(--card-bg))', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '28px', padding: '22px 20px 18px', marginBottom: '14px', boxShadow: 'var(--card-shadow)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -40, left: '40%', width: 200, height: 160, background: 'radial-gradient(ellipse,rgba(99,102,241,0.16) 0%,transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <HeroRing pct={weeklyCompletionPct} size={128}>
-            <div style={{ fontSize: '28px', fontWeight: '900', color: '#fff', letterSpacing: '-1.2px', lineHeight: 1 }}>
-              {weeklyCompletionPct}<span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', fontWeight: '700' }}>%</span>
+            <div style={{ fontSize: '28px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-1.2px', lineHeight: 1 }}>
+              {weeklyCompletionPct}<span style={{ fontSize: '13px', color: 'var(--label-3)', fontWeight: '700' }}>%</span>
             </div>
-            <div style={{ fontSize: '9px', fontWeight: '700', color: 'rgba(255,255,255,0.38)', textTransform: 'uppercase', letterSpacing: '0.7px', marginTop: '3px' }}>weekly</div>
+            <div style={{ fontSize: '9px', fontWeight: '700', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginTop: '3px' }}>weekly</div>
           </HeroRing>
 
           <div style={{ flex: 1, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '11px' }}>
@@ -189,8 +188,8 @@ export default function Home() {
               <div key={label} onClick={tap} style={{ display: 'flex', alignItems: 'center', gap: '9px', cursor: tap ? 'pointer' : 'default' }}>
                 <div style={{ width: '30px', height: '30px', borderRadius: '9px', background: `${color}16`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '14px' }}>{icon}</div>
                 <div>
-                  <div style={{ fontSize: '9px', fontWeight: '700', color: 'rgba(255,255,255,0.36)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
-                  <div style={{ fontSize: '15px', fontWeight: '900', color: label === 'Readiness' ? color : '#fff', letterSpacing: '-0.4px', lineHeight: 1.1 }}>{value}</div>
+                  <div style={{ fontSize: '9px', fontWeight: '700', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
+                  <div style={{ fontSize: '15px', fontWeight: '900', color: label === 'Readiness' ? color : 'var(--label)', letterSpacing: '-0.4px', lineHeight: 1.1 }}>{value}</div>
                 </div>
               </div>
             ))}
@@ -313,14 +312,14 @@ export default function Home() {
       </div>
 
       {/* ─── 5. WORKOUT PROTOCOL CARD (DYNAMICALLY SHOWS SELECTED DAY) ─── */}
-      <div style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.15)', borderRadius: '24px', padding: '20px', marginBottom: '14px', boxShadow: '0 8px 36px rgba(0,0,0,0.48)', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'var(--card-gradient, var(--card-bg))', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '24px', padding: '20px', marginBottom: '14px', boxShadow: 'var(--card-shadow)', position: 'relative', overflow: 'hidden' }}>
         {isSelectedToday && S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(245,158,11,0.22) 0%,transparent 70%)', pointerEvents: 'none' }} />}
         {selectedRoutine && !S.active && <div style={{ position: 'absolute', top: -24, right: -24, width: 120, height: 120, background: 'radial-gradient(circle,rgba(52,211,153,0.12) 0%,transparent 70%)', pointerEvents: 'none' }} />}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', display: 'inline-block', background: (isSelectedToday && S.active) ? '#f59e0b' : isSelectedDone ? '#34d399' : selectedRoutine ? '#38bdf8' : 'rgba(255,255,255,0.22)' }} />
-            <span style={{ fontSize: '10.5px', fontWeight: '900', letterSpacing: '0.8px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.62)' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', display: 'inline-block', background: (isSelectedToday && S.active) ? '#f59e0b' : isSelectedDone ? '#34d399' : selectedRoutine ? '#38bdf8' : 'var(--label-4)' }} />
+            <span style={{ fontSize: '10.5px', fontWeight: '900', letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--label-2)' }}>
               {isSelectedToday
                 ? (S.active ? '⚡ Session In Progress' : selectedRoutine ? "Today's Protocol" : 'Active Recovery')
                 : `${fmtDate(selectedDateISO, true)} · ${isSelectedDone ? 'Completed ✓' : selectedRoutine ? 'Scheduled' : 'Rest Day'}`}
@@ -330,13 +329,13 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {selectedRoutine && !S.active && (
               <>
-                <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 9px', borderRadius: '99px', color: 'rgba(255,255,255,0.48)' }}>~45 min</span>
-                <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 9px', borderRadius: '99px', color: 'rgba(255,255,255,0.7)' }}>{selectedRoutine.ex.length} exercises</span>
+                <span style={{ fontSize: '10px', fontWeight: '800', background: 'var(--surface-2)', border: '1px solid var(--card-border)', padding: '3px 9px', borderRadius: '99px', color: 'var(--label-2)' }}>~45 min</span>
+                <span style={{ fontSize: '10px', fontWeight: '800', background: 'var(--surface-2)', border: '1px solid var(--card-border)', padding: '3px 9px', borderRadius: '99px', color: 'var(--label)' }}>{selectedRoutine.ex.length} exercises</span>
               </>
             )}
             <button
               onClick={() => dayOverrideSheet(selectedDateISO)}
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.5)', fontSize: '10.5px', fontWeight: '700', borderRadius: '99px', padding: '3px 9px', cursor: 'pointer' }}
+              style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label-2)', fontSize: '10.5px', fontWeight: '700', borderRadius: '99px', padding: '3px 9px', cursor: 'pointer' }}
               title="Reschedule or switch workout"
             >
               Change
@@ -345,14 +344,14 @@ export default function Home() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '18px', flexShrink: 0, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.09)', borderTop: '1px solid rgba(255,255,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
+          <div style={{ width: '56px', height: '56px', borderRadius: '18px', flexShrink: 0, background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)', color: 'var(--label)' }}>
             <Icon name={(isSelectedToday && S.active) ? 'timer' : isSelectedDone ? 'trophy' : selectedRoutine ? glyphOf(selectedRoutine.emoji) : 'moon'} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', letterSpacing: '-0.5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '4px' }}>
+            <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '4px' }}>
               {(isSelectedToday && S.active) ? S.active.name : isSelectedDone ? selectedDayWorkouts[0].name : selectedRoutine ? selectedRoutine.name : 'Rest & Recovery'}
             </div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.3 }}>
+            <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.3 }}>
               {(isSelectedToday && S.active)
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed`
                 : isSelectedDone
@@ -364,40 +363,40 @@ export default function Home() {
 
         {/* Exercise Lineup for Completed Workout */}
         {isSelectedDone ? (
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Completed Sets</div>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Completed Sets</div>
             {selectedDayWorkouts[0].entries?.slice(0, 4).map((e, idx) => {
               const exObj = EXIDX[e.id] || { n: e.id }
               const doneSets = e.sets?.filter(s => s.done) || []
               return (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: idx < Math.min(selectedDayWorkouts[0].entries.length, 4) - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: idx < Math.min(selectedDayWorkouts[0].entries.length, 4) - 1 ? '1px solid var(--card-border)' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
                     <span style={{ fontSize: '10px', fontWeight: '900', color: '#34d399', width: '14px', textAlign: 'right', flexShrink: 0 }}>✓</span>
-                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--label)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
                   </div>
-                  <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'rgba(255,255,255,0.45)', flexShrink: 0 }}>{doneSets.length} sets</span>
+                  <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', flexShrink: 0 }}>{doneSets.length} sets</span>
                 </div>
               )
             })}
-            {selectedDayWorkouts[0].entries?.length > 4 && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.26)', fontWeight: '600', paddingTop: '5px' }}>+{selectedDayWorkouts[0].entries.length - 4} more exercises</div>}
+            {selectedDayWorkouts[0].entries?.length > 4 && <div style={{ fontSize: '11px', color: 'var(--label-3)', fontWeight: '600', paddingTop: '5px' }}>+{selectedDayWorkouts[0].entries.length - 4} more exercises</div>}
           </div>
         ) : selectedRoutine && selectedRoutine.ex && selectedRoutine.ex.length > 0 && !S.active ? (
-          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Exercise Lineup</div>
+          <div style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '14px', padding: '12px', marginBottom: '14px' }}>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>Exercise Lineup</div>
             {selectedRoutine.ex.slice(0, 4).map((e, idx) => {
               const exObj = EXIDX[e.id] || { n: e.id }
               return (
                 <div key={idx} onClick={() => exConfigSheet(e, true, () => {}, () => {}, selectedRoutine)}
-                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', cursor: 'pointer', borderBottom: idx < Math.min(selectedRoutine.ex.length, 4) - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', cursor: 'pointer', borderBottom: idx < Math.min(selectedRoutine.ex.length, 4) - 1 ? '1px solid var(--card-border)' : 'none' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
-                    <span style={{ fontSize: '10px', fontWeight: '900', color: 'rgba(255,255,255,0.20)', width: '14px', textAlign: 'right', flexShrink: 0 }}>{idx + 1}</span>
-                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
+                    <span style={{ fontSize: '10px', fontWeight: '900', color: 'var(--label-3)', width: '14px', textAlign: 'right', flexShrink: 0 }}>{idx + 1}</span>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--label)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exObj.n}</span>
                   </div>
-                  <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'rgba(255,255,255,0.36)', flexShrink: 0 }}>{e.sets || 3} × {e.reps || 10}</span>
+                  <span style={{ fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', flexShrink: 0 }}>{e.sets || 3} × {e.reps || 10}</span>
                 </div>
               )
             })}
-            {selectedRoutine.ex.length > 4 && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.26)', fontWeight: '600', paddingTop: '5px' }}>+{selectedRoutine.ex.length - 4} more exercises</div>}
+            {selectedRoutine.ex.length > 4 && <div style={{ fontSize: '11px', color: 'var(--label-3)', fontWeight: '600', paddingTop: '5px' }}>+{selectedRoutine.ex.length - 4} more exercises</div>}
           </div>
         ) : null}
 
@@ -405,8 +404,9 @@ export default function Home() {
         {isSelectedToday && S.active ? (
           <button onClick={() => nav('/workout')} style={{
             width: '100%',
-            background: '#ffffff',
-            color: '#000',
+            background: 'var(--btn-pri-bg)',
+            color: 'var(--btn-pri-color)',
+            boxShadow: 'var(--btn-pri-shadow)',
             border: 'none', borderRadius: '14px', padding: '15px',
             fontSize: '15px', fontWeight: '900', cursor: 'pointer', letterSpacing: '-0.2px'
           }}>
@@ -416,17 +416,18 @@ export default function Home() {
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={() => workoutDetailSheet(selectedDayWorkouts[0])} style={{
               flex: 1,
-              background: '#ffffff',
-              color: '#000',
+              background: 'var(--btn-pri-bg)',
+              color: 'var(--btn-pri-color)',
+              boxShadow: 'var(--btn-pri-shadow)',
               border: 'none', borderRadius: '14px', padding: '14px',
               fontSize: '13.5px', fontWeight: '800', cursor: 'pointer', letterSpacing: '-0.2px'
             }}>
               View Workout Summary
             </button>
             <button onClick={() => startFlow(selectedRoutine?.id)} style={{
-              background: 'rgba(255,255,255,0.07)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              color: '#fff',
+              background: 'var(--surface-2)',
+              border: '1px solid var(--card-border)',
+              color: 'var(--label)',
               borderRadius: '14px', padding: '14px 16px',
               fontSize: '13.5px', fontWeight: '800', cursor: 'pointer'
             }}>
@@ -436,8 +437,9 @@ export default function Home() {
         ) : selectedRoutine ? (
           <button onClick={() => startFlow(selectedRoutine.id)} style={{
             width: '100%',
-            background: '#ffffff',
-            color: '#000',
+            background: 'var(--btn-pri-bg)',
+            color: 'var(--btn-pri-color)',
+            boxShadow: 'var(--btn-pri-shadow)',
             border: 'none', borderRadius: '14px', padding: '15px',
             fontSize: '15px', fontWeight: '900', cursor: 'pointer', letterSpacing: '-0.2px'
           }}>
@@ -446,9 +448,9 @@ export default function Home() {
         ) : (
           <button onClick={() => dayOverrideSheet(selectedDateISO)} style={{
             width: '100%',
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: 'rgba(255,255,255,0.7)',
+            background: 'var(--surface-2)',
+            border: '1px solid var(--card-border)',
+            color: 'var(--label-2)',
             borderRadius: '14px', padding: '14px',
             fontSize: '14px', fontWeight: '800', cursor: 'pointer'
           }}>
@@ -459,16 +461,16 @@ export default function Home() {
 
       {/* ─── 6. WEEKEND CHECK-IN ─────────────────────────────────────── */}
       {isWeekend && (
-        <div style={{ background: checkedInThisWeekend ? 'var(--card-bg)' : 'linear-gradient(145deg,rgba(52,211,153,0.09) 0%,rgba(10,16,30,0.98) 100%)', border: `1px solid ${checkedInThisWeekend ? 'rgba(255,255,255,0.07)' : 'rgba(52,211,153,0.22)'}`, borderTop: '1px solid rgba(255,255,255,0.13)', borderRadius: '22px', padding: '18px 20px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
+        <div style={{ background: checkedInThisWeekend ? 'var(--card-gradient, var(--card-bg))' : 'linear-gradient(145deg,rgba(52,211,153,0.09) 0%,var(--surface) 100%)', border: `1px solid ${checkedInThisWeekend ? 'var(--card-border)' : 'rgba(52,211,153,0.25)'}`, borderTop: '1px solid var(--card-border-top)', borderRadius: '22px', padding: '18px 20px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
           <div style={{ marginBottom: '9px' }}>
-            <span style={{ fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.7px', color: checkedInThisWeekend ? 'rgba(255,255,255,0.38)' : '#34d399', background: checkedInThisWeekend ? 'rgba(255,255,255,0.06)' : 'rgba(52,211,153,0.12)', padding: '4px 10px', borderRadius: '99px' }}>
+            <span style={{ fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.7px', color: checkedInThisWeekend ? 'var(--label-3)' : '#34d399', background: checkedInThisWeekend ? 'var(--surface-2)' : 'rgba(52,211,153,0.12)', padding: '4px 10px', borderRadius: '99px' }}>
               {checkedInThisWeekend ? '✓ Check-in Done' : '🌟 Weekend Audit Due'}
             </span>
           </div>
-          <div style={{ fontSize: '17px', fontWeight: '900', color: '#fff', letterSpacing: '-0.3px', marginBottom: '6px' }}>
+          <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px', marginBottom: '6px' }}>
             {checkedInThisWeekend ? 'Protocol calibrated for next week' : 'Weekend Progress Check-in'}
           </div>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.42)', marginBottom: '14px', lineHeight: 1.45 }}>
+          <div style={{ fontSize: '12px', color: 'var(--label-2)', marginBottom: '14px', lineHeight: 1.45 }}>
             {checkedInThisWeekend
               ? (S.aiCoachCard?.weeklyInsight || `Targets (${targetKcal} kcal · ${targetProtein}g protein) locked in. Rest up!`)
               : `${wThisWeek} workouts logged! Check in to adapt next week's progressive overload.`}
@@ -478,7 +480,7 @@ export default function Home() {
               📸 Complete Check-in &amp; Adapt Plan →
             </button>
           ) : (
-            <button onClick={weeklyCheckinSheet} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.42)', fontSize: '12px', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>
+            <button onClick={weeklyCheckinSheet} style={{ background: 'none', border: 'none', color: 'var(--label-3)', fontSize: '12px', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>
               Review check-in →
             </button>
           )}
@@ -486,13 +488,13 @@ export default function Home() {
       )}
 
       {/* ─── 7. NUTRITION SNAPSHOT ───────────────────────────────────── */}
-      <div style={{ background: 'var(--card-bg)', border: '1px solid rgba(255,255,255,0.07)', borderTop: '1px solid rgba(255,255,255,0.13)', borderRadius: '22px', padding: '18px 20px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
+      <div style={{ background: 'var(--card-gradient, var(--card-bg))', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '22px', padding: '18px 20px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div>
-            <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.30)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '2px' }}>Daily Target</div>
+            <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '2px' }}>Daily Target</div>
             <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>Nutrition Plan</div>
           </div>
-          <button onClick={() => nav('/nutrition')} style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '99px', padding: '7px 13px', fontSize: '11.5px', fontWeight: '800', color: 'rgba(255,255,255,0.62)', cursor: 'pointer' }}>
+          <button onClick={() => nav('/nutrition')} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '7px 13px', fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', cursor: 'pointer' }}>
             Log Meal →
           </button>
         </div>
@@ -504,11 +506,11 @@ export default function Home() {
         ].map(({ label, value, pct }) => (
           <div key={label} style={{ marginBottom: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-              <span style={{ fontSize: '12px', fontWeight: '700', color: 'rgba(255,255,255,0.5)' }}>{label}</span>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff' }}>{value}</span>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--label-2)' }}>{label}</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: 'var(--label)' }}>{value}</span>
             </div>
-            <div style={{ height: '4px', background: 'rgba(255,255,255,0.07)', borderRadius: '99px', overflow: 'hidden' }}>
-              <div style={{ width: `${pct}%`, height: '100%', background: 'rgba(255,255,255,0.75)', borderRadius: '99px' }} />
+            <div style={{ height: '4px', background: 'var(--surface-2)', borderRadius: '99px', overflow: 'hidden' }}>
+              <div style={{ width: `${pct}%`, height: '100%', background: 'var(--acc)', borderRadius: '99px' }} />
             </div>
           </div>
         ))}

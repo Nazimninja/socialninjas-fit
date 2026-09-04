@@ -66,17 +66,17 @@ export default function Plan() {
       {/* ── WEEKLY SUMMARY COCKPIT ───────────────────────────────── */}
       <div
         style={{
-          background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)',
-          border: '1px solid rgba(255,255,255,0.07)',
-          borderTop: '1px solid rgba(255,255,255,0.15)',
+          background: 'var(--card-gradient, var(--card-bg))',
+          border: '1px solid var(--card-border)',
+          borderTop: '1px solid var(--card-border-top)',
           borderRadius: '24px',
           padding: '18px 20px',
           marginBottom: '20px',
-          boxShadow: '0 8px 36px rgba(0,0,0,0.48)'
+          boxShadow: 'var(--card-shadow)'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-          <div style={{ fontSize: '10.5px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'rgba(255,255,255,0.45)' }}>
+          <div style={{ fontSize: '10.5px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-3)' }}>
             Active Training Split Protocol
           </div>
           <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(251,191,36,0.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.25)', padding: '3px 10px', borderRadius: '99px' }}>
@@ -85,22 +85,22 @@ export default function Plan() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', textAlign: 'center' }}>
-          <div style={{ background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.18)', borderTop: '2px solid #38bdf8', borderRadius: '14px', padding: '10px 6px' }}>
+          <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.22)', borderTop: '2px solid #38bdf8', borderRadius: '14px', padding: '10px 6px' }}>
             <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#38bdf8', letterSpacing: '0.4px' }}>TRAINING</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
-              {trainingDaysCount} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>/ 7d</span>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '3px', lineHeight: 1 }}>
+              {trainingDaysCount} <span style={{ fontSize: '11px', color: 'var(--label-3)' }}>/ 7d</span>
             </div>
           </div>
-          <div style={{ background: 'rgba(129,140,248,0.06)', border: '1px solid rgba(129,140,248,0.18)', borderTop: '2px solid #818cf8', borderRadius: '14px', padding: '10px 6px' }}>
+          <div style={{ background: 'rgba(129,140,248,0.08)', border: '1px solid rgba(129,140,248,0.22)', borderTop: '2px solid #818cf8', borderRadius: '14px', padding: '10px 6px' }}>
             <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#818cf8', letterSpacing: '0.4px' }}>REST</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
-              {restDaysCount} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>Days</span>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '3px', lineHeight: 1 }}>
+              {restDaysCount} <span style={{ fontSize: '11px', color: 'var(--label-3)' }}>Days</span>
             </div>
           </div>
-          <div style={{ background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.18)', borderTop: '2px solid #34d399', borderRadius: '14px', padding: '10px 6px' }}>
+          <div style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.22)', borderTop: '2px solid #34d399', borderRadius: '14px', padding: '10px 6px' }}>
             <div style={{ fontSize: '9.5px', fontWeight: '800', color: '#34d399', letterSpacing: '0.4px' }}>VOLUME</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', marginTop: '3px', lineHeight: 1 }}>
-              {totalWeeklySets} <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>Sets</span>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', marginTop: '3px', lineHeight: 1 }}>
+              {totalWeeklySets} <span style={{ fontSize: '11px', color: 'var(--label-3)' }}>Sets</span>
             </div>
           </div>
         </div>

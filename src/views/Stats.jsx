@@ -37,16 +37,16 @@ export default function Stats() {
   const streak = streakWeeks(S)
 
   const card = {
-    background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)',
-    border: '1px solid rgba(255,255,255,0.07)',
-    borderTop: '1px solid rgba(255,255,255,0.14)',
+    background: 'var(--card-gradient, var(--card-bg))',
+    border: '1px solid var(--card-border)',
+    borderTop: '1px solid var(--card-border-top)',
     borderRadius: '24px', padding: '20px',
     marginBottom: '14px',
-    boxShadow: '0 6px 30px rgba(0,0,0,0.45)'
+    boxShadow: 'var(--card-shadow)'
   }
 
-  const sectionLabel = { fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.32)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '3px' }
-  const sectionTitle = { fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-0.4px', marginBottom: '16px' }
+  const sectionLabel = { fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '3px' }
+  const sectionTitle = { fontSize: '18px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.4px', marginBottom: '16px' }
 
   return (
     <div className="narrow" style={{ paddingBottom: '148px' }}>
@@ -54,12 +54,12 @@ export default function Stats() {
       {/* HEADER */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px', paddingTop: '4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <button onClick={() => nav('/home')} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}>
+          <button onClick={() => nav('/home')} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--label)' }}>
             <Icon name="chevronLeft" />
           </button>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: 'rgba(255,255,255,0.38)', letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '1px' }}>Your journey</div>
-            <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: '#fff', letterSpacing: '-0.6px' }}>Progress & Stats</h1>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-3)', letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '1px' }}>Your journey</div>
+            <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: 'var(--label)', letterSpacing: '-0.6px' }}>Progress & Stats</h1>
           </div>
         </div>
         <button onClick={weeklyCheckinSheet} style={{ display: 'flex', alignItems: 'center', gap: '7px', background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', border: 'none', borderRadius: '99px', padding: '9px 16px', fontSize: '12.5px', fontWeight: '900', color: '#000', cursor: 'pointer', boxShadow: '0 4px 16px rgba(52,211,153,0.35)' }}>
@@ -80,15 +80,15 @@ export default function Stats() {
             sub: bwLatest ? 'now ' + fmtNum(bwLatest.w) + ' ' + S.unit : 'log weight', tap: () => bwSheet()
           },
         ].map(({ icon, label, value, color, sub, tap }) => (
-          <div key={label} onClick={tap} style={{ background: 'linear-gradient(150deg,#0d1627 0%,#090e1c 100%)', border: '1px solid rgba(255,255,255,0.07)', borderTop: `2px solid ${color}`, borderRadius: '20px', padding: '16px', cursor: tap ? 'pointer' : 'default', boxShadow: '0 4px 20px rgba(0,0,0,0.4)' }}>
+          <div key={label} onClick={tap} style={{ background: 'var(--card-gradient, var(--card-bg))', border: '1px solid var(--card-border)', borderTop: `2px solid ${color}`, borderRadius: '20px', padding: '16px', cursor: tap ? 'pointer' : 'default', boxShadow: 'var(--card-shadow)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
               <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: color + '18', border: `1px solid ${color}35`, color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px' }}>
                 <Icon name={icon} />
               </div>
-              <div style={{ fontSize: '10px', fontWeight: '800', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
+              <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</div>
             </div>
             <div style={{ fontSize: '28px', fontWeight: '900', color, letterSpacing: '-0.8px', lineHeight: 1 }}>{value}</div>
-            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.32)', fontWeight: '600', marginTop: '4px' }}>{sub}</div>
+            <div style={{ fontSize: '10px', color: 'var(--label-3)', fontWeight: '600', marginTop: '4px' }}>{sub}</div>
           </div>
         ))}
       </div>
@@ -108,16 +108,16 @@ export default function Stats() {
         {allPhotos.length > 0 ? (
           <>
             {allPhotos.length >= 2 && (
-              <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px', padding: '14px', marginBottom: '14px' }}>
+              <div style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '14px', marginBottom: '14px' }}>
                 <div style={{ fontSize: '10px', fontWeight: '800', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '10px' }}>Transformation Comparison</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   {[
-                    { photo: allPhotos[0], label: 'Start', lc: 'rgba(255,255,255,0.5)' },
+                    { photo: allPhotos[0], label: 'Start', lc: 'var(--label-3)' },
                     { photo: allPhotos[allPhotos.length - 1], label: 'Latest', lc: '#34d399' }
                   ].map(({ photo, label, lc }) => (
                     <div key={label}>
                       <div style={{ fontSize: '10px', fontWeight: '700', color: lc, marginBottom: '6px' }}>{label} · {fmtDate(photo.date, true)} · {photo.weight} {S.unit}</div>
-                      <div style={{ borderRadius: '12px', overflow: 'hidden', height: 150, background: '#000', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.08)' }} onClick={() => setSelectedPhoto(photo.photoUrl)}>
+                      <div style={{ borderRadius: '12px', overflow: 'hidden', height: 150, background: '#000', cursor: 'pointer', border: '1px solid var(--card-border)' }} onClick={() => setSelectedPhoto(photo.photoUrl)}>
                         <img src={photo.photoUrl} alt={label} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       </div>
                     </div>
@@ -127,7 +127,7 @@ export default function Stats() {
             )}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
               {[...allPhotos].reverse().map((p, idx) => (
-                <div key={p.id || idx} onClick={() => setSelectedPhoto(p.photoUrl)} style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden', height: 110, background: '#000', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.07)' }}>
+                <div key={p.id || idx} onClick={() => setSelectedPhoto(p.photoUrl)} style={{ position: 'relative', borderRadius: '12px', overflow: 'hidden', height: 110, background: '#000', cursor: 'pointer', border: '1px solid var(--card-border)' }}>
                   <img src={p.photoUrl} alt="Progress" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(to top,rgba(0,0,0,0.9),transparent)', padding: '14px 7px 5px', fontSize: '9.5px', fontWeight: '700', color: '#fff' }}>
                     <div>{fmtDate(p.date, true)}</div>
@@ -138,10 +138,10 @@ export default function Stats() {
             </div>
           </>
         ) : (
-          <div style={{ textAlign: 'center', padding: '28px 16px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px dashed rgba(255,255,255,0.10)' }}>
+          <div style={{ textAlign: 'center', padding: '28px 16px', background: 'var(--surface-2)', borderRadius: '16px', border: '1px dashed var(--sep)' }}>
             <div style={{ fontSize: '38px', marginBottom: '10px' }}>📸</div>
-            <div style={{ fontSize: '15px', fontWeight: '800', color: '#fff', marginBottom: '6px' }}>No Photos Yet</div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.38)', marginBottom: '18px', lineHeight: 1.55 }}>Upload weekly check-in photos to<br />build your visual transformation timeline</div>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: 'var(--label)', marginBottom: '6px' }}>No Photos Yet</div>
+            <div style={{ fontSize: '12px', color: 'var(--label-3)', marginBottom: '18px', lineHeight: 1.55 }}>Upload weekly check-in photos to<br />build your visual transformation timeline</div>
             <button onClick={weeklyCheckinSheet} style={{ background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', color: '#000', border: 'none', borderRadius: '12px', padding: '12px 22px', fontSize: '13px', fontWeight: '900', cursor: 'pointer', boxShadow: '0 4px 16px rgba(52,211,153,0.35)' }}>
               + Upload First Progress Photo
             </button>
@@ -166,9 +166,9 @@ export default function Stats() {
           <div style={sectionTitle}>📋 Check-in Log</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {[...checkins].reverse().map((c, idx) => (
-              <div key={c.id || idx} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '14px', padding: '12px 14px' }}>
+              <div key={c.id || idx} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '14px', padding: '12px 14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#fff' }}>Check-in · {fmtDate(c.date, true)}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: 'var(--label)' }}>Check-in · {fmtDate(c.date, true)}</div>
                   <span style={{ fontSize: '11px', fontWeight: '900', color: '#34d399', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.22)', padding: '3px 9px', borderRadius: '99px' }}>{c.weight} {S.unit}</span>
                 </div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -177,13 +177,13 @@ export default function Stats() {
                     c.soreness === 'sore' ? '😣 High Fatigue' : c.soreness === 'fresh' ? '😌 Fresh' : '😐 Mild Soreness',
                     c.dietRating === 'on_track' ? '🥗 Diet 100%' : '🥪 Diet 80%',
                   ].map(tag => (
-                    <span key={tag} style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.10)', padding: '3px 8px', borderRadius: '99px', color: 'rgba(255,255,255,0.65)' }}>{tag}</span>
+                    <span key={tag} style={{ fontSize: '10px', fontWeight: '700', background: 'var(--surface-3)', border: '1px solid var(--card-border)', padding: '3px 8px', borderRadius: '99px', color: 'var(--label-2)' }}>{tag}</span>
                   ))}
                   {c.photos && c.photos.length > 0 && (
                     <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(96,165,250,0.12)', border: '1px solid rgba(96,165,250,0.22)', padding: '3px 8px', borderRadius: '99px', color: '#60a5fa' }}>📸 {c.photos.length} photo{c.photos.length > 1 ? 's' : ''}</span>
                   )}
                 </div>
-                {c.notes && <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.38)', marginTop: '8px', fontStyle: 'italic', lineHeight: 1.4 }}>"{c.notes}"</div>}
+                {c.notes && <div style={{ fontSize: '11px', color: 'var(--label-3)', marginTop: '8px', fontStyle: 'italic', lineHeight: 1.4 }}>"{c.notes}"</div>}
               </div>
             ))}
           </div>
@@ -194,7 +194,7 @@ export default function Stats() {
       <div style={{ ...card }}>
         <div style={sectionLabel}>Activity</div>
         <div style={sectionTitle}>
-          Training Calendar <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', fontWeight: '600' }}>· last 12 months</span>
+          Training Calendar <span style={{ fontSize: '13px', color: 'var(--label-3)', fontWeight: '600' }}>· last 12 months</span>
         </div>
         <Heatmap S={S} onDay={iso => { const ws = S.workouts.filter(w => w.d === iso); if (ws.length === 1) workoutDetailSheet(ws[0]); else if (ws.length) calendarSheet(iso) }} />
       </div>
@@ -204,7 +204,7 @@ export default function Stats() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div>
             <div style={sectionLabel}>Body composition</div>
-            <div style={{ fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-0.4px' }}>Weight Trend</div>
+            <div style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.4px' }}>Weight Trend</div>
           </div>
           <div style={{ display: 'flex', gap: '6px' }}>
             <Button size="sm" icon="target" onClick={goalSheet}>{S.targetW ? fmtNum(S.targetW) : t('Goal')}</Button>
@@ -216,7 +216,7 @@ export default function Stats() {
         {bwPts.length ? (
           <div style={{ marginTop: '12px' }}><LineChart points={bwPts} h={160} unit={S.unit} goal={S.targetW} /></div>
         ) : (
-          <div style={{ textAlign: 'center', padding: '24px', color: 'rgba(255,255,255,0.35)', fontSize: '13px' }}>
+          <div style={{ textAlign: 'center', padding: '24px', color: 'var(--label-3)', fontSize: '13px' }}>
             {t('Log your weight to see your progress curve.')}
           </div>
         )}
