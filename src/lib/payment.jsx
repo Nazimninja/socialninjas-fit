@@ -29,7 +29,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       const options = {
         key: razorpayKey,
         name: 'Fit Ninja',
-        description: 'Pro Pass Membership — ₹299/mo',
+        description: 'Fit Ninja Pro — ₹299/mo',
         image: 'https://fit.socialninjas.in/ninja-logo.png',
         prefill: {
           name: name || '',

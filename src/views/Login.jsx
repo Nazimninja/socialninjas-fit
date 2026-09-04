@@ -266,7 +266,7 @@ export default function Login() {
               {user.email}
             </div>
             <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
-              ⚠️ Pro Pass required to unlock app
+              ⚠️ Fit Ninja Pro required to unlock app
             </div>
           </div>
           <button
@@ -323,7 +323,7 @@ export default function Login() {
               borderRadius: '99px'
             }}
           >
-            ⚡ ALL-ACCESS MEMBERSHIP
+            ⚡ FIT NINJA PRO
           </span>
           <div style={{ textAlign: 'right' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
@@ -350,7 +350,7 @@ export default function Login() {
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🧠</div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Autonomous AI Coach &amp; Check-ins</div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Adaptive AI Coach &amp; Check-ins</div>
               <div style={{ fontSize: '11px', color: '#94a3b8' }}>Adapts weight targets, reps &amp; calories based on weekly check-ins.</div>
             </div>
           </div>

@@ -158,7 +158,7 @@ export default function Home() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
               <span style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#38bdf8', background: 'rgba(56,189,248,0.12)', padding: '2px 7px', borderRadius: '99px', border: '1px solid rgba(56,189,248,0.25)' }}>
-                FIT NINJA OS
+                FIT NINJA
               </span>
               <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--label-3)' }}>
                 {today.toLocaleDateString(dateLocale(), { weekday: 'short', month: 'short', day: 'numeric' })}
@@ -234,7 +234,7 @@ export default function Home() {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
           <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', letterSpacing: '0.04em' }}>
-            ⚡ AUTONOMOUS PROGRESSION ACTIVE
+            ⚡ ADAPTIVE OVERLOAD ACTIVE
           </div>
           <div style={{ fontSize: '10px', color: 'var(--label-3)', fontWeight: '600' }}>
             {wThisWeek} of {plannedPerWeek} sessions logged

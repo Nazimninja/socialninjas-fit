@@ -158,7 +158,7 @@ export default function Landing() {
           </div>
           <div>
             <div style={{ fontSize: '24px', fontWeight: '900', color: '#c084fc' }}>₹299/mo</div>
-            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Pro Pass</div>
+            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Fit Ninja Pro</div>
           </div>
         </div>
 
@@ -337,7 +337,7 @@ export default function Landing() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
           <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
-          <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja OS</span>
+          <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja</span>
           <span>·</span>
           <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's AI Agency</a></span>
         </div>

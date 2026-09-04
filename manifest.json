@@ -1,7 +1,7 @@
 {
-  "name": "Fit Ninja | Elite Fitness & Workouts",
+  "name": "Fit Ninja",
   "short_name": "Fit Ninja",
-  "description": "Elite Gym Workout, 1,324+ Animated Exercises & AI Nutrition Engine by Social Ninja's",
+  "description": "Fit Ninja — AI Workout & Nutrition Coach with 1,324+ animated exercises, guided workout player, and adaptive macro planning.",
   "start_url": "/app",
   "scope": "/",
   "display": "standalone",

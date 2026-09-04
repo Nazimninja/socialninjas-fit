@@ -220,7 +220,7 @@ export default function Settings() {
       onChange={ev => { const f = ev.target.files[0]; if (f) importFromApp(f); ev.target.value = '' }} />
 
     {/* ---------- Legal & Medical (App Store & Play Store Required) ---------- */}
-    <Section title={t('Legal & Medical Advisory')} footer={t('Fit Ninja OS v2.0.0 · Build 2026.09')}>
+    <Section title={t('Legal & Medical Advisory')} footer={t('Fit Ninja v2.0.0 · Build 2026.09')}>
       <Row
         icon="info"
         iconTint="var(--blue)"
@@ -267,7 +267,7 @@ export default function Settings() {
     </Section>}
 
     <div className="dim small" style={{ textAlign: 'center', marginTop: 4, lineHeight: 1.6 }}>
-      Fit Ninja OS · All-Access Pro Pass<br />
+      Fit Ninja · Fit Ninja Pro<br />
       Built by <a href="https://socialninjas.in" target="_blank" rel="noopener">Social Ninja's AI Agency</a> · fit.socialninjas.in
     </div>
   </div>
