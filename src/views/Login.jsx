@@ -207,14 +207,13 @@ export default function Login() {
           alt="Fit Ninja Official Emblem"
           style={{
             position: 'relative',
-            width: '92px',
-            height: '92px',
-            borderRadius: '26px',
-            boxShadow: '0 16px 36px rgba(0,0,0,0.5), 0 0 0 2px rgba(56,189,248,0.35)',
+            width: '96px',
+            height: '96px',
+            filter: 'drop-shadow(0 12px 28px rgba(56,189,248,0.45))',
             zIndex: 1,
             display: 'block',
             margin: '0 auto',
-            objectFit: 'cover'
+            objectFit: 'contain'
           }}
         />
       </div>

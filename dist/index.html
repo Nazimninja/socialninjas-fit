@@ -136,10 +136,9 @@ nav {
   display: flex; align-items: center; gap: 12px; text-decoration: none; z-index: 2;
 }
 .nav-logo {
-  width: 40px; height: 40px; border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
-  border: 1.5px solid rgba(56, 189, 248, 0.45);
-  object-fit: cover;
+  width: 42px; height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45));
 }
 .nav-brand-title {
   font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: #fff; line-height: 1;
@@ -196,9 +195,9 @@ nav {
   filter: blur(18px); border-radius: 50%; pointer-events: none;
 }
 .hero-emblem {
-  width: 88px; height: 88px; border-radius: 24px;
-  box-shadow: 0 16px 36px rgba(0,0,0,0.6), 0 0 0 2px rgba(56, 189, 248, 0.4);
-  position: relative; z-index: 1; object-fit: cover;
+  width: 96px; height: 96px;
+  position: relative; z-index: 1; object-fit: contain;
+  filter: drop-shadow(0 12px 24px rgba(56, 189, 248, 0.45));
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;

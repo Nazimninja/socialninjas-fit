@@ -45,7 +45,7 @@ export default function Landing() {
         maxWidth: '1200px', margin: '0 auto'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => nav('/')}>
-          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
+          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain', filter: 'drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45))' }} />
           <div>
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
               Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
