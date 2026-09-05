@@ -681,14 +681,39 @@ a { color: inherit; text-decoration: none; }
 .ex-preview-box {
   width: 100%;
   height: 140px;
-  background: #090a0f;
+  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.06) 0%, #080a10 85%);
   border-radius: 14px;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.ex-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 130px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ex-card:hover .ex-svg {
+  transform: scale(1.05);
+}
+.ex-telemetry {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--t3);
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 .ex-play-badge {
   font-size: 9px;
@@ -701,6 +726,7 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   top: 8px;
   right: 8px;
+  z-index: 2;
 }
 .ex-title {
   font-size: 14.5px;
@@ -1095,7 +1121,7 @@ footer {
         </div>
 
         <div class="screen-session-title">
-          Upper Chest &amp; Delts
+          Upper Chest &amp; Shoulders
         </div>
         <div style="font-size:11px;color:var(--t3);margin-bottom:12px">
           Hypertrophy Volume · Greyskull LP
@@ -1136,7 +1162,7 @@ footer {
         <!-- Muscle Volume Target -->
         <div class="phone-muscle-hud">
           <div class="phone-muscle-label">Targeted Stimulus</div>
-          <div class="phone-muscle-val">Clavicular Pectoralis &amp; Deltoid</div>
+          <div class="phone-muscle-val">Upper Chest &amp; Shoulders</div>
         </div>
       </div>
     </div>
@@ -1228,9 +1254,9 @@ footer {
           2,400 <span style="font-size:12px;color:var(--t2)">kcal</span>
         </div>
         <div style="display:flex;gap:6px">
-          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🥩 Omnivore</span>
-          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🌱 Vegan</span>
-          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🥑 Keto</span>
+          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Omnivore</span>
+          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Plant-Based</span>
+          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Keto</span>
         </div>
       </div>
       <div>
@@ -1258,40 +1284,107 @@ footer {
     <div class="ex-card">
       <div class="ex-preview-box">
         <span class="ex-play-badge">▶ 60FPS</span>
-        <div style="font-size:36px">🏋️</div>
+        <span class="ex-telemetry">ANGLE 30°</span>
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="ex-svg">
+          <line x1="20" y1="105" x2="180" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <line x1="45" y1="105" x2="135" y2="48" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+          <line x1="60" y1="105" x2="60" y2="95" stroke="#1e293b" stroke-width="4"/>
+          <line x1="115" y1="105" x2="115" y2="60" stroke="#1e293b" stroke-width="4"/>
+          <line x1="38" y1="105" x2="60" y2="92" stroke="#475569" stroke-width="5" stroke-linecap="round"/>
+          <line x1="55" y1="96" x2="120" y2="55" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="129" cy="48" r="8" fill="#cbd5e1"/>
+          <path d="M55 96 L45 105" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+          <ellipse cx="104" cy="64" rx="9" ry="6" fill="rgba(56,189,248,0.25)" stroke="#38bdf8" stroke-width="1.5"/>
+          <path d="M102 62 L110 36 L116 26" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M108 67 L92 44 L86 32" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <g transform="translate(116, 24)">
+            <rect x="-7" y="-3" width="14" height="6" rx="2" fill="#38bdf8"/>
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#fff" stroke-width="2"/>
+            <rect x="-12" y="-5" width="3.5" height="10" rx="1" fill="#f8fafc"/>
+            <rect x="8.5" y="-5" width="3.5" height="10" rx="1" fill="#f8fafc"/>
+          </g>
+          <g transform="translate(84, 30)">
+            <rect x="-7" y="-3" width="14" height="6" rx="2" fill="#38bdf8"/>
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#fff" stroke-width="2"/>
+            <rect x="-12" y="-5" width="3.5" height="10" rx="1" fill="#f8fafc"/>
+            <rect x="8.5" y="-5" width="3.5" height="10" rx="1" fill="#f8fafc"/>
+          </g>
+          <path d="M120 45 C124 36 122 30 117 26" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <path d="M90 48 C88 41 87 35 85 31" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="2 2"/>
+        </svg>
       </div>
       <div class="ex-title">Incline Dumbbell Press</div>
-      <div class="ex-muscles">Clavicular Pectoralis · Delts</div>
+      <div class="ex-muscles">Upper Chest &amp; Shoulders</div>
       <div class="ex-reps">3-4 sets × 8-12 reps</div>
     </div>
 
     <div class="ex-card">
       <div class="ex-preview-box">
         <span class="ex-play-badge">▶ 60FPS</span>
-        <div style="font-size:36px">🚣</div>
+        <span class="ex-telemetry">HINGE 45°</span>
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="ex-svg">
+          <line x1="20" y1="105" x2="180" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <path d="M85 105 L88 78 L108 58" stroke="#64748b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="108" y1="58" x2="68" y2="40" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="56" cy="35" r="8" fill="#cbd5e1"/>
+          <path d="M80 46 Q94 52 104 56" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M72 44 L86 64 L96 56" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="78" y1="56" x2="118" y2="56" stroke="#ffffff" stroke-width="3"/>
+          <rect x="74" y="44" width="4" height="24" rx="2" fill="#38bdf8"/>
+          <rect x="118" y="44" width="4" height="24" rx="2" fill="#38bdf8"/>
+          <path d="M96 74 L96 60" stroke="#34d399" stroke-width="2" stroke-dasharray="3 2"/>
+          <polygon points="96,56 93,62 99,62" fill="#34d399"/>
+        </svg>
       </div>
       <div class="ex-title">Barbell Bent-Over Row</div>
-      <div class="ex-muscles">Latissimus Dorsi · Rhomboids</div>
+      <div class="ex-muscles">Upper Back &amp; Lats</div>
       <div class="ex-reps">3-4 sets × 6-10 reps</div>
     </div>
 
     <div class="ex-card">
       <div class="ex-preview-box">
         <span class="ex-play-badge">▶ 60FPS</span>
-        <div style="font-size:36px">🦵</div>
+        <span class="ex-telemetry">DEPTH 90°</span>
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="ex-svg">
+          <line x1="20" y1="105" x2="180" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <line x1="88" y1="105" x2="114" y2="105" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+          <path d="M102 105 L118 78 L88 78 L80 48" stroke="#64748b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="88" y1="78" x2="106" y2="40" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="112" cy="28" r="8" fill="#cbd5e1"/>
+          <line x1="80" y1="42" x2="132" y2="42" stroke="#ffffff" stroke-width="3"/>
+          <rect x="76" y="28" width="5" height="28" rx="2" fill="#38bdf8"/>
+          <rect x="131" y="28" width="5" height="28" rx="2" fill="#38bdf8"/>
+          <path d="M116 78 L90 78" stroke="#00f0ff" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="86" cy="76" r="6" fill="rgba(52,211,153,0.3)" stroke="#34d399" stroke-width="1.5"/>
+          <line x1="72" y1="78" x2="134" y2="78" stroke="rgba(255,255,255,0.18)" stroke-width="1" stroke-dasharray="2 2"/>
+        </svg>
       </div>
       <div class="ex-title">Barbell High-Bar Squat</div>
-      <div class="ex-muscles">Quadriceps · Gluteus Maximus</div>
+      <div class="ex-muscles">Quads &amp; Glutes</div>
       <div class="ex-reps">3-5 sets × 5-8 reps</div>
     </div>
 
     <div class="ex-card">
       <div class="ex-preview-box">
         <span class="ex-play-badge">▶ 60FPS</span>
-        <div style="font-size:36px">💪</div>
+        <span class="ex-telemetry">LOCKOUT 180°</span>
+        <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="ex-svg">
+          <line x1="20" y1="105" x2="180" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <line x1="100" y1="105" x2="100" y2="72" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
+          <line x1="100" y1="72" x2="100" y2="45" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="98" cy="40" r="7.5" fill="#cbd5e1"/>
+          <circle cx="100" cy="46" r="6" fill="rgba(0,240,255,0.3)" stroke="#00f0ff" stroke-width="1.5"/>
+          <path d="M100 46 L95 28 L98 16" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M100 46 L105 28 L102 16" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="75" y1="15" x2="125" y2="15" stroke="#ffffff" stroke-width="3"/>
+          <rect x="71" y="4" width="4" height="22" rx="2" fill="#38bdf8"/>
+          <rect x="125" y="4" width="4" height="22" rx="2" fill="#38bdf8"/>
+          <path d="M100 34 L100 19" stroke="#34d399" stroke-width="1.5" stroke-dasharray="2 2"/>
+          <polygon points="100,15 98,20 102,20" fill="#34d399"/>
+        </svg>
       </div>
       <div class="ex-title">Standing Overhead Press</div>
-      <div class="ex-muscles">Anterior &amp; Lateral Deltoids</div>
+      <div class="ex-muscles">Shoulders &amp; Triceps</div>
       <div class="ex-reps">3-4 sets × 5-8 reps</div>
     </div>
   </div>
