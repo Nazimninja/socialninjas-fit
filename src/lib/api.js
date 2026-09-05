@@ -46,10 +46,34 @@ export async function signInWithApple() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'apple',
       options: {
-        redirectTo: window.location.origin + '/app'
+        redirectTo: window.location.origin + '/app',
+        skipBrowserRedirect: true
       }
     })
-    return { data, error }
+    if (error) return { error }
+    if (!data?.url) return { error: { message: 'Could not initialize Apple Sign In' } }
+
+    // Check if the Apple OAuth provider is enabled in Supabase backend
+    try {
+      const checkRes = await fetch(data.url, { method: 'GET' })
+      if (checkRes.status === 400) {
+        const body = await checkRes.json().catch(() => ({}))
+        if (body?.msg?.includes('Unsupported provider') || body?.error_code === 'validation_failed') {
+          return {
+            error: {
+              message: 'Apple Sign-In is being provisioned. Please continue with Google or your Email/Phone below.',
+              isProviderDisabled: true
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // If network check fails, continue
+    }
+
+    // Provider is enabled - redirect athlete
+    window.location.assign(data.url)
+    return { data }
   } catch (err) {
     return { error: err }
   }

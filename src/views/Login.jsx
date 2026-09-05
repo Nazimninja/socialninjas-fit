@@ -74,20 +74,45 @@ export default function Login() {
   const [nameOrEmail, setNameOrEmail] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
 
+  // Instantly unlock and reset verification state whenever user switches mode
+  useEffect(() => {
+    setIsVerifying(false)
+  }, [authMode])
+
+  // Safety watchdog: never allow isVerifying to stay stuck for > 6 seconds
+  useEffect(() => {
+    if (isVerifying) {
+      const watchdog = setTimeout(() => {
+        setIsVerifying(false)
+      }, 6000)
+      return () => clearTimeout(watchdog)
+    }
+  }, [isVerifying])
+
   const handleGoogleSignIn = async () => {
     setIsVerifying(true)
-    const { error } = await signInWithGoogle()
-    if (error) {
-      useUI.getState().toast('Google Sign In: ' + (error.message || 'Could not connect to Google'))
+    try {
+      const { error } = await signInWithGoogle()
+      if (error) {
+        useUI.getState().toast('Google Sign In: ' + (error.message || 'Could not connect to Google'))
+        setIsVerifying(false)
+      }
+    } catch (e) {
+      useUI.getState().toast('Google Sign In could not be started.')
       setIsVerifying(false)
     }
   }
 
   const handleAppleSignIn = async () => {
     setIsVerifying(true)
-    const { error } = await signInWithApple()
-    if (error) {
-      useUI.getState().toast('Apple Sign In: ' + (error.message || 'Apple Sign-In is configuring for production.'))
+    try {
+      const { error } = await signInWithApple()
+      if (error) {
+        useUI.getState().toast(error.message || 'Apple Sign-In is being provisioned. Please continue with Google or Email.')
+      }
+    } catch (e) {
+      useUI.getState().toast('Apple Sign-In is currently unavailable. Please continue with Google or Email.')
+    } finally {
       setIsVerifying(false)
     }
   }
@@ -101,42 +126,53 @@ export default function Login() {
         useUI.getState().toast('Please enter your name/email and phone number')
         return
       }
+      setIsVerifying(true)
       const isEmail = rawVal.includes('@')
       const activeEmail = isEmail ? rawVal.toLowerCase() : ''
       const activeName = isEmail ? rawVal.split('@')[0] : (rawVal || 'Fit Ninja Athlete')
 
-      openRazorpayCheckout({
-        name: activeName,
-        email: activeEmail,
-        phone: cleanPhone,
-        onSuccess: async (response) => {
-          if (activeEmail) {
-            try {
-              await supabase.from('subscriptions').upsert({
-                email: activeEmail,
-                status: 'active',
-                razorpay_payment_id: response.razorpay_payment_id || response.razorpay_subscription_id,
-                updated_at: new Date().toISOString()
-              })
-            } catch (e) {
-              console.warn('Supabase subscription record:', e)
+      try {
+        await openRazorpayCheckout({
+          name: activeName,
+          email: activeEmail,
+          phone: cleanPhone,
+          onSuccess: async (response) => {
+            setIsVerifying(false)
+            if (activeEmail) {
+              try {
+                await supabase.from('subscriptions').upsert({
+                  email: activeEmail,
+                  status: 'active',
+                  razorpay_payment_id: response.razorpay_payment_id || response.razorpay_subscription_id,
+                  updated_at: new Date().toISOString()
+                })
+              } catch (e) {
+                console.warn('Supabase subscription record:', e)
+              }
             }
+            setUser({
+              name: activeName,
+              email: activeEmail || `${phone || 'athlete'}@fitninja.app`,
+              phone: cleanPhone,
+              paid: true,
+              admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
+            })
+            setPaid(true)
+            useUI.getState().toast('Payment verified! Welcome to Fit Ninja Pro.')
+            useUI.getState().openSheet(close => <RegisterSheet close={close} />)
+          },
+          onFailure: (msg) => {
+            setIsVerifying(false)
+            useUI.getState().toast(msg || 'Payment incomplete')
           }
-          setUser({
-            name: activeName,
-            email: activeEmail || `${phone || 'athlete'}@fitninja.app`,
-            phone: cleanPhone,
-            paid: true,
-            admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
-          })
-          setPaid(true)
-          useUI.getState().toast('Payment verified! Welcome to Fit Ninja Pro.')
-          useUI.getState().openSheet(close => <RegisterSheet close={close} />)
-        },
-        onFailure: (msg) => {
-          useUI.getState().toast(msg || 'Payment incomplete')
-        }
-      })
+        })
+      } catch (err) {
+        setIsVerifying(false)
+        useUI.getState().toast('Payment could not be launched. Please try again.')
+      } finally {
+        // Clear isVerifying once checkout modal is triggered
+        setTimeout(() => setIsVerifying(false), 2000)
+      }
     } else {
       // Login mode
       if (!rawVal && !phone) {
@@ -566,7 +602,10 @@ export default function Login() {
               Already have an account?{' '}
               <button
                 type="button"
-                onClick={() => setAuthMode('login')}
+                onClick={() => {
+                  setIsVerifying(false)
+                  setAuthMode('login')
+                }}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -585,7 +624,10 @@ export default function Login() {
               Don't have an account?{' '}
               <button
                 type="button"
-                onClick={() => setAuthMode('signup')}
+                onClick={() => {
+                  setIsVerifying(false)
+                  setAuthMode('signup')
+                }}
                 style={{
                   background: 'none',
                   border: 'none',
