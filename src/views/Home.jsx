@@ -19,7 +19,7 @@ function MiniRing({ done = false, today = false, size = 32 }) {
   const r = (size - strokeWidth) / 2
   const circ = 2 * Math.PI * r
   const ringColor = done ? '#34d399' : today ? '#38bdf8' : 'transparent'
-  const trackColor = done ? 'rgba(52,211,153,0.18)' : today ? 'rgba(56,189,248,0.16)' : 'rgba(255,255,255,0.08)'
+  const trackColor = done ? 'rgba(52,211,153,0.18)' : today ? 'rgba(56,189,248,0.16)' : 'var(--sep-op, rgba(128,128,128,0.15))'
   return (
     <svg width={size} height={size} style={{ display: 'block', margin: '0 auto', overflow: 'visible' }}>
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={strokeWidth} />
@@ -51,7 +51,7 @@ function HeroRing({ pct = 0, size = 132, children }) {
             <stop offset="100%" stopColor="#34d399" />
           </linearGradient>
         </defs>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={14} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--sep-op, rgba(128,128,128,0.15))" strokeWidth={14} />
         {pct > 0 && (
           <circle
             cx={size / 2} cy={size / 2} r={r} fill="none"
@@ -145,10 +145,10 @@ export default function Home() {
             ) : (
               <div style={{
                 width: 48, height: 48, borderRadius: '16px',
-                background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
+                background: S.theme === 'light' ? 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)' : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 18, fontWeight: 900, color: '#38bdf8', border: '1.5px solid rgba(56,189,248,0.35)',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.4)'
+                fontSize: 18, fontWeight: 900, color: S.theme === 'light' ? '#ffffff' : '#38bdf8', border: S.theme === 'light' ? '1.5px solid rgba(2,132,199,0.35)' : '1.5px solid rgba(56,189,248,0.35)',
+                boxShadow: S.theme === 'light' ? '0 4px 14px rgba(2,132,199,0.25)' : '0 4px 14px rgba(0,0,0,0.4)'
               }}>
                 {firstName.charAt(0).toUpperCase()}
               </div>
@@ -171,13 +171,13 @@ export default function Home() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: 'var(--label)', cursor: 'pointer', letterSpacing: '-0.2px' }}>
+          <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: 'var(--label)', cursor: 'pointer', letterSpacing: '-0.2px' }}>
             🔥 <span>{streakWeeks(S)}w</span>
           </div>
-          <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }}>
             <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
           </button>
-          <button className="iconbtn" onClick={() => nav('/settings')} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <button className="iconbtn" onClick={() => nav('/settings')} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }}>
             <Icon name="gear" />
           </button>
         </div>
@@ -185,18 +185,24 @@ export default function Home() {
 
       {/* ─── 2. AUTONOMOUS ATHLETE COMMAND CENTER (HERO HUD) ─────────────── */}
       <div style={{
-        background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 26, 0.95) 100%)',
-        border: '1px solid rgba(56, 189, 248, 0.22)',
-        borderTop: '1px solid rgba(56, 189, 248, 0.45)',
+        background: S.theme === 'light'
+          ? 'var(--card-gradient, #ffffff)'
+          : 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 26, 0.95) 100%)',
+        border: S.theme === 'light'
+          ? '1px solid var(--card-border)'
+          : '1px solid rgba(56, 189, 248, 0.22)',
+        borderTop: S.theme === 'light'
+          ? '1px solid var(--card-border-top)'
+          : '1px solid rgba(56, 189, 248, 0.45)',
         borderRadius: '26px',
         padding: '22px 20px 18px',
         marginBottom: '14px',
-        boxShadow: '0 16px 36px rgba(0, 0, 0, 0.45), 0 0 35px rgba(37, 99, 235, 0.08)',
+        boxShadow: 'var(--card-shadow)',
         position: 'relative',
         overflow: 'hidden'
       }}>
         {/* Subtle cyber watermark logo */}
-        <div style={{ position: 'absolute', top: -15, right: -15, width: 140, height: 140, opacity: 0.05, pointerEvents: 'none', backgroundImage: 'url(/ninja-logo.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }} />
+        <div style={{ position: 'absolute', top: -15, right: -15, width: 140, height: 140, opacity: S.theme === 'light' ? 0.03 : 0.05, pointerEvents: 'none', backgroundImage: 'url(/ninja-logo.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }} />
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <HeroRing pct={weeklyCompletionPct} size={130}>
@@ -229,7 +235,7 @@ export default function Home() {
         </div>
 
         {/* Progress rail */}
-        <div style={{ marginTop: '18px', width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden' }}>
+        <div style={{ marginTop: '18px', width: '100%', height: '4px', background: 'var(--surface-2)', borderRadius: '99px', overflow: 'hidden' }}>
           <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #2563eb, #34d399)', borderRadius: '99px', transition: 'width 0.8s ease' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
@@ -257,18 +263,18 @@ export default function Home() {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px',
-              background: isPrimary ? 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)' : 'rgba(255,255,255,0.06)',
-              border: isPrimary ? 'none' : '1px solid rgba(255,255,255,0.1)',
+              background: isPrimary ? 'var(--btn-pri-bg)' : 'var(--surface-2)',
+              border: isPrimary ? 'none' : '1px solid var(--card-border)',
               borderRadius: '14px',
               padding: '12px 6px',
               fontSize: '13px',
               fontWeight: '900',
-              color: isPrimary ? '#020617' : 'var(--label)',
+              color: isPrimary ? 'var(--btn-pri-color)' : 'var(--label)',
               cursor: 'pointer',
               letterSpacing: '-0.2px',
               transition: 'all 0.15s ease',
               width: '100%',
-              boxShadow: isPrimary ? '0 4px 16px rgba(255,255,255,0.2)' : 'none'
+              boxShadow: isPrimary ? 'var(--btn-pri-shadow)' : 'none'
             }}
           >
             {icon && <span style={{ fontSize: isPrimary ? '11px' : '14px' }}>{icon}</span>}
@@ -278,7 +284,7 @@ export default function Home() {
       </div>
 
       {/* ─── 4. 7-DAY PROTOCOL STRIP ─────────────────────────────────────── */}
-      <div style={{ background: 'var(--card-bg)', border: '1px solid rgba(255,255,255,0.08)', borderTop: '1px solid rgba(255,255,255,0.15)', borderRadius: '22px', padding: '16px 14px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
+      <div style={{ background: 'var(--card-gradient, var(--card-bg))', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: '22px', padding: '16px 14px', marginBottom: '14px', boxShadow: 'var(--card-shadow)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--label)', letterSpacing: '-0.3px' }}>{wkLabel}</div>
           <div style={{ display: 'flex', gap: '4px' }}>
@@ -326,7 +332,7 @@ export default function Home() {
                 <div style={{
                   fontSize: '12px',
                   fontWeight: isSelected || isToday ? '800' : '600',
-                  color: isSelected ? '#ffffff' : isToday ? '#38bdf8' : isDone ? '#34d399' : 'var(--label-2)',
+                  color: isSelected ? 'var(--label)' : isToday ? '#38bdf8' : isDone ? '#34d399' : 'var(--label-2)',
                   marginTop: '6px',
                   lineHeight: 1
                 }}>
@@ -581,7 +587,11 @@ export default function Home() {
       {/* ─── 7. WEEKEND AUDIT (IF APPLICABLE) ─────────────────────────────── */}
       {isWeekend && (
         <div style={{
-          background: checkedInThisWeekend ? 'var(--card-gradient, var(--card-bg))' : 'linear-gradient(145deg, rgba(52,211,153,0.1) 0%, rgba(15,23,42,0.95) 100%)',
+          background: checkedInThisWeekend
+            ? 'var(--card-gradient, var(--card-bg))'
+            : (S.theme === 'light'
+                ? 'linear-gradient(145deg, rgba(52,211,153,0.12) 0%, #ffffff 100%)'
+                : 'linear-gradient(145deg, rgba(52,211,153,0.1) 0%, rgba(15,23,42,0.95) 100%)'),
           border: `1px solid ${checkedInThisWeekend ? 'var(--card-border)' : 'rgba(52,211,153,0.3)'}`,
           borderTop: '1px solid var(--card-border-top)',
           borderRadius: '22px',
