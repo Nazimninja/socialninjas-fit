@@ -180,7 +180,7 @@ export default function Login() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
-        padding: '32px 16px 60px',
+        padding: 'max(36px, calc(env(safe-area-inset-top, 0px) + 24px)) 16px calc(60px + env(safe-area-inset-bottom, 0px))',
         maxWidth: '520px',
         margin: '0 auto',
         textAlign: 'center'

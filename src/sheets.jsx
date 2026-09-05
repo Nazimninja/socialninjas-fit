@@ -2213,7 +2213,19 @@ function WeeklyCheckinModal({ close }) {
   return (
     <div style={{ width: '100%', boxSizing: 'border-box', padding: '6px 2px 20px' }}>
       {/* ── LUXURY HEADER ───────────────────────────────────────── */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 18 }}>
+      <div style={{
+        position: 'sticky',
+        top: -14,
+        background: 'var(--bg-el)',
+        zIndex: 10,
+        paddingTop: 6,
+        paddingBottom: 12,
+        marginBottom: 16,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)'
+      }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--acc)' }}>
             <Icon name="camera" />
