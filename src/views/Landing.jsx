@@ -29,7 +29,7 @@ export default function Landing() {
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "You can use the core workout tracker, exercises, and guest mode for free. Full access to the AI Macro engine, unlimited custom workouts, and cloud sync is available for just ₹299/month."
+      a: "Fit Ninja Pro is available for ₹299/month (just ₹9.9/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated progressive overload, and adaptive macro nutrition."
     }
   ];
 
@@ -124,7 +124,7 @@ export default function Landing() {
               boxShadow: '0 8px 30px rgba(245, 158, 11, 0.35)', transition: 'transform 0.15s'
             }}
           >
-            ⚡ Start Workout (Free)
+            ⚡ Start Training Now →
           </button>
           <button
             onClick={() => nav('/library')}

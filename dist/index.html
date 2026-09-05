@@ -202,6 +202,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
+  white-space: nowrap;
   transition: all 0.15s ease;
 }
 .nav-btn-outline:hover {
@@ -217,6 +218,7 @@ a { color: inherit; text-decoration: none; }
   border: none;
   box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 .nav-btn-primary:hover {
@@ -961,13 +963,27 @@ footer {
   color: var(--t3);
 }
 
-/* ── RESPONSIVE ── */
+/* Hero Pricing Hint */
+.hero-pricing-hint {
+  font-size: 12px;
+  font-weight: 800;
+  color: #34d399;
+  letter-spacing: 0.2px;
+  margin-top: -8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── RESPONSIVE (MOBILE-FIRST OPTIMIZATIONS) ── */
 @media (max-width: 960px) {
   .hero-split {
     grid-template-columns: 1fr;
-    padding-top: 110px;
+    padding-top: 76px;
+    padding-bottom: 24px;
     text-align: center;
-    gap: 50px;
+    gap: 32px;
   }
   .hero-left {
     align-items: center;
@@ -979,6 +995,12 @@ footer {
   }
   .hero-actions {
     justify-content: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .hero-pricing-hint {
+    justify-content: center;
+    margin-bottom: 16px;
   }
   .hero-proof {
     justify-content: center;
@@ -988,26 +1010,235 @@ footer {
   }
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
+    gap: 16px;
   }
   .nav-links {
     display: none;
   }
+  .cockpit-content > div {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .cockpit-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .comp-table {
+    min-width: 540px;
+  }
 }
-@media (max-width: 480px) {
+
+@media (max-width: 600px) {
+  .nav-wrap {
+    top: 6px;
+    padding: 0 8px;
+  }
+  .nav-inner {
+    padding: 6px 12px;
+    border-radius: 99px;
+  }
+  .nav-logo-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+  .nav-logo-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .nav-brand-text {
+    font-size: 16px;
+    gap: 5px;
+  }
+  .nav-btn-outline {
+    display: none; /* Hide secondary sign-in to give primary button maximum breathing room */
+  }
+  .nav-btn-primary {
+    font-size: 12px;
+    padding: 7px 14px;
+    font-weight: 900;
+  }
+  .hero-split {
+    padding-top: 66px;
+    padding-left: 14px;
+    padding-right: 14px;
+    gap: 24px;
+  }
+  .hero-pill {
+    font-size: 10px;
+    padding: 3px 10px 3px 5px;
+    margin-bottom: 10px;
+    letter-spacing: 0.4px;
+  }
+  .hero-pill-emblem {
+    width: 22px;
+    height: 22px;
+  }
+  .hero-pill-img {
+    width: 15px;
+    height: 15px;
+  }
   .hero-h1 {
-    font-size: 34px;
+    font-size: clamp(28px, 8.2vw, 36px);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -0.04em;
+  }
+  .hero-sub {
+    font-size: 13.5px;
+    line-height: 1.45;
+    margin-bottom: 16px;
+    max-width: 95%;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    gap: 10px;
+    margin-bottom: 8px;
   }
   .btn-hero-primary, .btn-hero-secondary {
     width: 100%;
+    padding: 13px 20px;
+    font-size: 14px;
+  }
+  .hero-pricing-hint {
+    font-size: 11px;
+    margin-top: 2px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .hero-proof {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .proof-badge-strip {
+    border-left: none;
+    padding-left: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  .proof-chip {
+    font-size: 10.5px;
+    padding: 3px 8px;
+  }
+  /* iPhone 16 Pro Showcase on Mobile */
+  .hero-right {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0 20px;
   }
   .iphone-frame {
-    width: 295px;
-    height: 590px;
+    width: min(290px, 88vw);
+    height: 490px;
+    border-radius: 40px;
+    border-width: 3px;
+    padding: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.2);
+  }
+  .iphone-screen {
+    border-radius: 32px;
+    padding: 10px 10px;
+  }
+  .phone-ambient-glow {
+    width: 260px;
+    height: 380px;
+  }
+  .phone-ex-name {
+    font-size: 12.5px;
+  }
+  .phone-stepper-row {
+    padding: 6px 8px;
+    margin-bottom: 6px;
+  }
+  .phone-set-label {
+    font-size: 11px;
+  }
+  .phone-rest-card {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .phone-rest-time {
+    font-size: 18px;
+  }
+  .phone-muscle-hud {
+    padding: 8px 10px;
+  }
+  /* Metrics Ribbon on Mobile */
+  .metrics-sec {
+    padding: 28px 14px;
   }
   .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .metric-box {
+    padding: 14px 10px;
+    border-radius: 16px;
+  }
+  .metric-num {
+    font-size: 22px;
+  }
+  .metric-label {
+    font-size: 11px;
+  }
+  .metric-desc {
+    font-size: 10px;
+  }
+  /* Cockpit on Mobile */
+  .cockpit-content {
+    padding: 18px 14px;
+  }
+  .cockpit-tabs {
+    width: 100%;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Exercise Demos on Mobile */
+  .ex-filters {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .ex-filters::-webkit-scrollbar {
+    display: none;
+  }
+  .ex-grid {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 14px;
+  }
+  .ex-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+  .ex-preview-box {
+    height: 140px;
+  }
+  /* Comparison Table on Mobile */
+  .comp-table-wrap {
+    border-radius: 18px;
+  }
+  .comp-table th, .comp-table td {
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+  /* Pricing Card on Mobile */
+  .pricing-card {
+    padding: 26px 16px;
+    border-radius: 22px;
+    margin-top: 20px;
+  }
+  .pricing-card > div[style*="font-size:48px"] {
+    font-size: 38px !important;
+  }
+  .pricing-card > div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
   }
 }
 </style>
@@ -1063,11 +1294,15 @@ footer {
 
     <div class="hero-actions">
       <a href="/app" class="btn-hero-primary">
-        ⚡ Start Training Free →
+        ⚡ Start Training Now →
       </a>
       <a href="#exercises" class="btn-hero-secondary">
         ▶ Explore 1,324+ Demos
       </a>
+    </div>
+
+    <div class="hero-pricing-hint">
+      ⚡ Fit Ninja Pro · ₹299/month (Just ₹9.9/day) · Cancel anytime
     </div>
 
     <div class="hero-proof">
