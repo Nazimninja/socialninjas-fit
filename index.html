@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Fit Ninja">
 <meta property="og:locale" content="en_US">
 
-<meta name="theme-color" content="#060911">
+<meta name="theme-color" content="#000000">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=7">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=7">
 <link rel="shortcut icon" href="/favicon.ico?v=7">
@@ -49,32 +49,27 @@
 </script>
 
 <style>
-/* ── BRAND TOKENS (FIT NINJA LUXURY ATHLETIC TECH) ── */
+/* ── BRAND TOKENS (FIT NINJA OBSIDIAN DESIGN SYSTEM) ── */
 :root {
-  --bg: #060911;
-  --bg-card: #0c121e;
-  --bg-card-elevated: #111a2d;
-  --bg-card-hover: #16223b;
+  --bg: #000000;
+  --bg-card: #0d0f14;
+  --bg-card-elevated: #13161f;
+  --bg-card-hover: #181c26;
   
-  --blue-primary: #2563eb;
   --blue-accent: #38bdf8;
-  --blue-glow: rgba(56, 189, 248, 0.28);
+  --blue-glow: rgba(56, 189, 248, 0.20);
   --cyan-neon: #00f0ff;
   
-  --acc-gradient: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  --acc-gradient-btn: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%);
-  --acc-gradient-fire: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  
   --green: #34d399;
-  --green-glow: rgba(52, 211, 153, 0.3);
+  --green-glow: rgba(52, 211, 153, 0.20);
+  
   --t1: #ffffff;
-  --t2: #94a3b8;
-  --t3: #64748b;
+  --t2: rgba(255, 255, 255, 0.65);
+  --t3: rgba(255, 255, 255, 0.40);
   
   --border: rgba(255, 255, 255, 0.08);
-  --border-acc: rgba(56, 189, 248, 0.35);
-  --border-card: rgba(255, 255, 255, 0.09);
-  --border-card-top: rgba(255, 255, 255, 0.2);
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-card-top: rgba(255, 255, 255, 0.16);
   
   --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
   --r: 22px;
@@ -84,17 +79,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 84px;
 }
 
-/* 60FPS Hardware-Accelerated Obsidian Canvas */
 body {
   font-family: var(--font);
   background-color: var(--bg);
-  background-image: 
-    radial-gradient(circle at 75% 150px, rgba(37, 99, 235, 0.18) 0%, transparent 600px),
-    radial-gradient(circle at 15% 380px, rgba(56, 189, 248, 0.12) 0%, transparent 500px),
-    radial-gradient(circle at 50% 900px, rgba(30, 64, 175, 0.1) 0%, transparent 650px);
+  background-image: radial-gradient(circle at 50% 120px, rgba(56, 189, 248, 0.08) 0%, transparent 600px);
   background-repeat: no-repeat;
   color: var(--t1);
   overflow-x: hidden;
@@ -104,63 +95,62 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-/* ── NAVBAR (FLOATING GLASS PILL) ── */
+/* ── FLOATING GLASS NAVBAR ── */
 .nav-wrap {
   position: fixed;
-  top: 10px;
+  top: 14px;
   left: 0;
   right: 0;
   z-index: 999;
   display: flex;
   justify-content: center;
-  padding: 0 14px;
+  padding: 0 16px;
   pointer-events: none;
 }
 .nav-inner {
   pointer-events: auto;
   width: 100%;
-  max-width: 1180px;
-  background: rgba(10, 15, 28, 0.88);
+  max-width: 1120px;
+  background: rgba(13, 15, 20, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 99px;
-  padding: 7px 18px;
+  padding: 8px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.1);
-  transition: all 0.25s ease;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
 }
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
 }
 .nav-logo-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(37, 99, 235, 0.38) 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.65);
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.45), inset 0 0 8px rgba(56, 189, 248, 0.25);
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .nav-logo-icon {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
-  filter: drop-shadow(0 0 6px #00f0ff) brightness(1.3) contrast(1.15);
+  filter: drop-shadow(0 0 5px #00f0ff);
 }
 .nav-brand-text {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 900;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.5px;
   color: #fff;
   display: flex;
   align-items: center;
@@ -169,8 +159,9 @@ a { color: inherit; text-decoration: none; }
 .nav-brand-text .pro-badge {
   font-size: 10px;
   font-weight: 900;
-  background: var(--acc-gradient);
-  color: #fff;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
   padding: 2px 7px;
   border-radius: 6px;
   letter-spacing: 0.5px;
@@ -178,7 +169,7 @@ a { color: inherit; text-decoration: none; }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 26px;
 }
 .nav-links a {
   font-size: 13.5px;
@@ -189,56 +180,36 @@ a { color: inherit; text-decoration: none; }
 .nav-links a:hover {
   color: #fff;
 }
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.nav-btn-outline {
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
-  padding: 7px 15px;
-  border-radius: 99px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  white-space: nowrap;
-  transition: all 0.15s ease;
-}
-.nav-btn-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
 .nav-btn-primary {
   font-size: 13px;
   font-weight: 900;
-  color: #fff;
-  padding: 8px 18px;
+  color: #000000;
+  padding: 8px 20px;
   border-radius: 99px;
-  background: var(--acc-gradient-btn);
+  background: #ffffff;
   border: none;
-  box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 2px 14px rgba(255, 255, 255, 0.18);
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 .nav-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.5);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
 }
 
-/* ── SPLIT HERO SECTION (NO UNNECESSARY GAP) ── */
+/* ── HERO SECTION (SPACIOUS & LUXURIOUS) ── */
 .hero-split {
-  padding-top: 82px;
-  padding-bottom: 30px;
-  max-width: 1200px;
+  padding-top: 110px;
+  padding-bottom: 60px;
+  max-width: 1140px;
   margin: 0 auto;
   padding-left: 24px;
   padding-right: 24px;
   display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
+  grid-template-columns: 1.15fr 0.85fr;
   align-items: center;
-  gap: 36px;
-  min-height: auto;
+  gap: 50px;
 }
 .hero-left {
   display: flex;
@@ -250,107 +221,111 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.38);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 99px;
-  padding: 4px 12px 4px 6px;
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--blue-accent);
-  letter-spacing: 0.6px;
+  padding: 5px 14px 5px 8px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--t2);
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 .hero-pill-emblem {
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(37, 99, 235, 0.45) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.6);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
   flex-shrink: 0;
 }
 .hero-pill-img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   object-fit: contain;
-  filter: drop-shadow(0 0 4px #00f0ff);
+  filter: drop-shadow(0 0 3px #00f0ff);
 }
 .hero-h1 {
-  font-size: clamp(34px, 4.3vw, 54px);
+  font-size: clamp(38px, 4.5vw, 56px);
   font-weight: 900;
   letter-spacing: -0.04em;
-  line-height: 1.08;
-  margin-bottom: 12px;
+  line-height: 1.06;
+  margin-bottom: 18px;
   color: #ffffff;
 }
 .hero-h1 .grad-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 60%, #34d399 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #38bdf8;
 }
 .hero-sub {
-  font-size: clamp(14.5px, 1.5vw, 17px);
-  line-height: 1.5;
+  font-size: clamp(15px, 1.5vw, 17px);
+  line-height: 1.55;
   color: var(--t2);
-  max-width: 540px;
-  margin-bottom: 20px;
+  max-width: 480px;
+  margin-bottom: 28px;
   font-weight: 500;
 }
-
-/* Hero CTA Deck */
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
-.btn-hero-primary {
+.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--acc-gradient-btn);
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
   font-size: 15px;
   font-weight: 900;
-  padding: 13px 26px;
+  padding: 14px 28px;
   border-radius: 99px;
   border: none;
-  box-shadow: 0 8px 26px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.18);
   cursor: pointer;
   letter-spacing: -0.2px;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
-.btn-hero-primary:hover {
+.btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 34px rgba(56, 189, 248, 0.55);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.28);
 }
-.btn-hero-secondary {
+.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  color: #ffffff;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 13px 22px;
   border-radius: 99px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
-.btn-hero-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
 }
-
-/* Social Proof Bar */
+.hero-pricing-hint {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 .hero-proof {
   display: flex;
   align-items: center;
@@ -370,8 +345,8 @@ a { color: inherit; text-decoration: none; }
 .proof-badge-strip {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding-left: 10px;
+  gap: 8px;
+  padding-left: 12px;
   border-left: 1px solid rgba(255, 255, 255, 0.12);
 }
 .proof-chip {
@@ -381,48 +356,36 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 99px;
-  padding: 3px 9px;
+  padding: 3px 10px;
 }
 
-/* ── RIGHT COLUMN: COMPACT 3D IPHONE 16 PRO ── */
+/* ── 3D IPHONE SHOWCASE (PURE LUXURY ATHLETIC) ── */
 .hero-right {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.phone-ambient-glow {
-  position: absolute;
-  width: 320px;
-  height: 480px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(37, 99, 235, 0.15) 50%, transparent 75%);
-  filter: blur(40px);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* iPhone Chassis */
 .iphone-frame {
   position: relative;
   z-index: 2;
-  width: 304px;
-  height: 568px;
+  width: 300px;
+  height: 550px;
   background: #000000;
-  border-radius: 46px;
-  border: 3.5px solid #232d42;
+  border-radius: 44px;
+  border: 3px solid #1c202a;
   box-shadow: 
-    0 0 0 2px rgba(255, 255, 255, 0.12),
-    0 20px 50px rgba(0, 0, 0, 0.9),
-    0 0 45px rgba(56, 189, 248, 0.22);
-  padding: 10px;
+    0 0 0 1.5px rgba(255, 255, 255, 0.10),
+    0 24px 60px rgba(0, 0, 0, 0.9);
+  padding: 9px;
   overflow: hidden;
   box-sizing: border-box;
 }
 .iphone-screen {
   width: 100%;
   height: 100%;
-  background: #080d19;
-  border-radius: 36px;
+  background: #090a0f;
+  border-radius: 35px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -431,15 +394,13 @@ a { color: inherit; text-decoration: none; }
   box-sizing: border-box;
   color: #fff;
 }
-
-/* Dynamic Island */
 .dynamic-island {
   position: absolute;
-  top: 11px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100px;
-  height: 25px;
+  width: 95px;
+  height: 24px;
   background: #000;
   border-radius: 20px;
   z-index: 10;
@@ -449,65 +410,56 @@ a { color: inherit; text-decoration: none; }
   padding: 0 10px;
 }
 .island-pulse {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #34d399;
-  box-shadow: 0 0 6px #34d399;
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
 }
 .island-timer {
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 800;
   color: #38bdf8;
 }
-
-/* Phone In-App Screen Content */
 .screen-header {
-  margin-top: 26px;
-  margin-bottom: 12px;
+  margin-top: 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
 }
 .screen-tag {
   font-size: 9.5px;
   font-weight: 800;
   color: #38bdf8;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  background: rgba(56, 189, 248, 0.15);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.12);
   padding: 2px 7px;
-  border-radius: 99px;
+  border-radius: 6px;
 }
 .screen-session-title {
   font-size: 16px;
   font-weight: 900;
-  letter-spacing: -0.4px;
+  color: #ffffff;
+  letter-spacing: -0.3px;
   margin-bottom: 2px;
 }
-
-/* Phone Exercise Card */
 .phone-ex-card {
-  background: rgba(18, 26, 44, 0.95);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-top: 1px solid rgba(56, 189, 248, 0.5);
-  border-radius: 18px;
-  padding: 13px;
+  background: #11141c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 12px;
   margin-bottom: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
-.phone-ex-meta {
+.phone-ex-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .phone-ex-name {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 800;
   color: #ffffff;
-  letter-spacing: -0.2px;
 }
 .phone-ex-badge {
   font-size: 9px;
@@ -521,31 +473,29 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  padding: 8px 10px;
-  margin-bottom: 8px;
+  padding: 7px 10px;
+  margin-bottom: 6px;
 }
 .phone-set-label {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 800;
   color: #fff;
 }
 .phone-done-btn {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 900;
   color: #000;
   background: #34d399;
   border: none;
   border-radius: 6px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   cursor: pointer;
 }
-
-/* Phone Rest Timer HUD */
 .phone-rest-card {
-  background: linear-gradient(135deg, rgba(14, 30, 56, 0.9) 0%, rgba(9, 18, 36, 0.95) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: #11141c;
+  border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 16px;
   padding: 12px 14px;
   display: flex;
@@ -558,7 +508,6 @@ a { color: inherit; text-decoration: none; }
   font-weight: 900;
   color: #38bdf8;
   letter-spacing: -0.5px;
-  font-variant-numeric: tabular-nums;
 }
 .phone-rest-label {
   font-size: 9px;
@@ -568,21 +517,19 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.5px;
 }
 .phone-rest-progress {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 3px solid rgba(56, 189, 248, 0.25);
+  border: 2.5px solid rgba(56, 189, 248, 0.2);
   border-top-color: #38bdf8;
   animation: spinTimer 2s linear infinite;
 }
 @keyframes spinTimer {
   100% { transform: rotate(360deg); }
 }
-
-/* Phone Muscle Preview */
 .phone-muscle-hud {
-  background: rgba(15, 23, 40, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #11141c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
   padding: 10px 12px;
 }
@@ -591,286 +538,203 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   color: var(--t3);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .phone-muscle-val {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 800;
   color: #38bdf8;
 }
 
-/* Orbiting Glass Badges */
-.orbit-badge {
-  position: absolute;
-  z-index: 5;
-  background: rgba(14, 22, 40, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 16px;
-  padding: 10px 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  white-space: nowrap;
-}
-.orbit-badge-top {
-  top: 40px;
-  right: -25px;
-  animation: floatSlow 4s ease-in-out infinite alternate;
-}
-.orbit-badge-bottom-left {
-  bottom: 120px;
-  left: -35px;
-  animation: floatSlow 4.5s ease-in-out infinite alternate-reverse;
-}
-.orbit-badge-bottom-right {
-  bottom: 30px;
-  right: -20px;
-  animation: floatSlow 5s ease-in-out infinite alternate;
-}
-@keyframes floatSlow {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-10px); }
-}
-.orbit-icon {
-  font-size: 18px;
-}
-.orbit-title {
-  font-size: 12.5px;
-  font-weight: 800;
-  color: #ffffff;
-}
-.orbit-sub {
-  font-size: 10px;
-  color: #38bdf8;
-  font-weight: 700;
-}
-
-/* ── METRICS RIBBON ── */
+/* ── 2. METRICS STRIP (CLEAN & AIRY) ── */
 .metrics-sec {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background: rgba(10, 16, 30, 0.6);
-  padding: 36px 20px;
+  padding: 44px 24px;
+  max-width: 1140px;
+  margin: 0 auto 70px;
 }
 .metrics-grid {
-  max-width: 1140px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 .metric-box {
   text-align: center;
+  padding: 8px 12px;
 }
 .metric-num {
-  font-size: clamp(30px, 3.2vw, 42px);
+  font-size: clamp(30px, 3.2vw, 40px);
   font-weight: 900;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.04em;
+  color: #ffffff;
   margin-bottom: 4px;
 }
 .metric-label {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
-  color: var(--t1);
-  margin-bottom: 2px;
+  color: #fff;
+  margin-bottom: 3px;
 }
 .metric-desc {
-  font-size: 11.5px;
-  color: var(--t3);
-  font-weight: 600;
+  font-size: 12px;
+  color: var(--t2);
 }
 
-/* ── SECTION COMMON ── */
-section {
-  padding: 80px 24px;
-  max-width: 1180px;
-  margin: 0 auto;
+/* ── 3. VISUAL CAPABILITIES (SAY LESS, DO MORE) ── */
+.features-sec {
+  max-width: 1140px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
+}
+.features-header {
+  text-align: center;
+  margin-bottom: 50px;
 }
 .section-tag {
-  display: inline-block;
   font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: var(--blue-accent);
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  padding: 4px 12px;
-  border-radius: 99px;
-  margin-bottom: 14px;
+  color: #38bdf8;
+  margin-bottom: 10px;
 }
 .section-h2 {
-  font-size: clamp(28px, 3.8vw, 46px);
+  font-size: clamp(28px, 3.4vw, 42px);
   font-weight: 900;
   letter-spacing: -0.03em;
   color: #fff;
-  margin-bottom: 14px;
-  line-height: 1.15;
+  margin-bottom: 12px;
 }
 .section-sub {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--t2);
-  max-width: 600px;
-  line-height: 1.55;
+  max-width: 460px;
+  margin: 0 auto;
 }
 
-/* ── 2. INTERACTIVE COCKPIT ── */
-.cockpit-frame {
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.feature-card {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-top: 1px solid var(--border-card-top);
-  border-radius: 28px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  margin-top: 36px;
-}
-.cockpit-topbar {
+  border-radius: 24px;
+  padding: 28px 24px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
-  flex-wrap: wrap;
-  gap: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
-.cockpit-tag {
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.35);
+}
+.feature-ui-box {
+  background: #07080c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+  min-height: 140px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11.5px;
+  flex-direction: column;
+  justify-content: center;
+}
+.feature-title {
+  font-size: 18px;
   font-weight: 900;
-  color: var(--blue-accent);
-  letter-spacing: 0.5px;
-}
-.cockpit-pulse {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--blue-accent);
-  box-shadow: 0 0 8px var(--blue-accent);
-}
-.cockpit-tabs {
-  display: flex;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 4px;
-  border-radius: 99px;
-  border: 1px solid var(--border);
-  overflow-x: auto;
-}
-.cockpit-tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--t2);
-  font-size: 12.5px;
-  font-weight: 800;
-  padding: 7px 16px;
-  border-radius: 99px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-.cockpit-tab-btn.active {
-  background: var(--blue-primary);
   color: #fff;
-  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
 }
-.cockpit-content {
-  padding: 32px 28px;
+.feature-text {
+  font-size: 13.5px;
+  color: var(--t2);
+  line-height: 1.5;
 }
 
-/* ── 3. EXERCISE DEMOS SHOWCASE ── */
-.ex-filters {
+/* ── 4. 1,324+ HD EXERCISE LIBRARY ── */
+.exercises-sec {
+  max-width: 1140px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
+}
+.ex-topbar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 28px;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
   flex-wrap: wrap;
-}
-.filter-pill {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--t2);
-  font-size: 12.5px;
-  font-weight: 800;
-  padding: 8px 18px;
-  border-radius: 99px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.filter-pill.active, .filter-pill:hover {
-  background: var(--blue-primary);
-  color: #fff;
-  border-color: var(--blue-primary);
+  gap: 16px;
 }
 .ex-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 .ex-card {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: 20px;
-  padding: 18px;
+  padding: 16px;
   transition: all 0.2s ease;
 }
 .ex-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-acc);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.3);
 }
 .ex-preview-box {
   width: 100%;
-  height: 160px;
-  background: #0f182a;
+  height: 140px;
+  background: #090a0f;
   border-radius: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .ex-play-badge {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 900;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   color: #34d399;
   border: 1px solid rgba(52, 211, 153, 0.3);
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: 6px;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
 }
 .ex-title {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 800;
   color: #fff;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .ex-muscles {
-  font-size: 12px;
-  color: var(--blue-accent);
+  font-size: 11.5px;
+  color: #38bdf8;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .ex-reps {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--t3);
   font-weight: 600;
 }
 
-/* ── 4. COMPARISON TABLE ── */
+/* ── 5. FAIR COMPARISON TABLE ── */
+.comp-sec {
+  max-width: 1140px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
+}
 .comp-table-wrap {
   overflow-x: auto;
   margin-top: 36px;
@@ -882,44 +746,97 @@ section {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  min-width: 620px;
+  min-width: 600px;
 }
 .comp-table th, .comp-table td {
-  padding: 16px 20px;
+  padding: 16px 22px;
   border-bottom: 1px solid var(--border);
 }
 .comp-table th {
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 900;
   color: var(--t2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 .comp-table .brand-col {
-  background: rgba(56, 189, 248, 0.08);
-  color: var(--blue-accent);
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
   font-weight: 900;
 }
 
-/* ── 5. PRICING SECTION ── */
+/* ── 6. PRICING ── */
 .pricing-sec {
+  max-width: 1140px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
   text-align: center;
 }
 .pricing-card {
-  max-width: 480px;
+  max-width: 460px;
   margin: 36px auto 0;
-  background: linear-gradient(165deg, rgba(17, 26, 46, 0.95) 0%, rgba(10, 15, 28, 0.98) 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.35);
-  border-top: 1.5px solid rgba(56, 189, 248, 0.65);
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-top: 1px solid var(--border-card-top);
   border-radius: 28px;
-  padding: 36px 30px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 50px rgba(56, 189, 248, 0.15);
-  position: relative;
+  padding: 40px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+.pricing-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 900;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 16px;
+}
+.pricing-amt {
+  font-size: 52px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+}
+.pricing-cycle {
+  font-size: 15px;
+  color: var(--t2);
+  font-weight: 600;
+}
+.pricing-sub {
+  font-size: 13px;
+  color: var(--green);
+  font-weight: 800;
+  margin-bottom: 28px;
+}
+.pricing-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+.pricing-feat-item {
+  font-size: 13px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* ── 6. FAQ ── */
+/* ── 7. FAQ ── */
 .faq-sec {
-  max-width: 820px;
+  max-width: 760px;
+  margin: 0 auto 90px;
+  padding: 0 24px;
 }
 .faq-item {
   background: var(--bg-card);
@@ -931,7 +848,7 @@ section {
   transition: all 0.2s ease;
 }
 .faq-item.open {
-  border-color: var(--border-acc);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 .faq-q {
   font-size: 15px;
@@ -946,8 +863,8 @@ section {
   font-size: 13.5px;
   color: var(--t2);
   line-height: 1.55;
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 .faq-item.open .faq-a {
@@ -963,27 +880,13 @@ footer {
   color: var(--t3);
 }
 
-/* Hero Pricing Hint */
-.hero-pricing-hint {
-  font-size: 12px;
-  font-weight: 800;
-  color: #34d399;
-  letter-spacing: 0.2px;
-  margin-top: -8px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* ── RESPONSIVE (MOBILE-FIRST OPTIMIZATIONS) ── */
+/* ── RESPONSIVE (MOBILE-FIRST BREATHING ROOM) ── */
 @media (max-width: 960px) {
   .hero-split {
     grid-template-columns: 1fr;
-    padding-top: 76px;
-    padding-bottom: 24px;
+    padding-top: 90px;
     text-align: center;
-    gap: 32px;
+    gap: 40px;
   }
   .hero-left {
     align-items: center;
@@ -995,250 +898,122 @@ footer {
   }
   .hero-actions {
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 12px;
   }
   .hero-pricing-hint {
     justify-content: center;
-    margin-bottom: 16px;
   }
   .hero-proof {
     justify-content: center;
   }
-  .orbit-badge {
-    display: none; /* Hide floating badges on smaller screens to prevent overflow */
-  }
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 20px;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ex-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   .nav-links {
     display: none;
-  }
-  .cockpit-content > div {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
-  .cockpit-topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .comp-table {
-    min-width: 540px;
   }
 }
 
 @media (max-width: 600px) {
   .nav-wrap {
-    top: 6px;
-    padding: 0 8px;
+    top: 8px;
+    padding: 0 10px;
   }
   .nav-inner {
-    padding: 6px 12px;
-    border-radius: 99px;
+    padding: 6px 14px;
   }
   .nav-logo-badge {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 32px;
+    height: 32px;
   }
   .nav-logo-icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
   .nav-brand-text {
     font-size: 16px;
-    gap: 5px;
-  }
-  .nav-btn-outline {
-    display: none; /* Hide secondary sign-in to give primary button maximum breathing room */
   }
   .nav-btn-primary {
     font-size: 12px;
     padding: 7px 14px;
-    font-weight: 900;
   }
   .hero-split {
-    padding-top: 66px;
-    padding-left: 14px;
-    padding-right: 14px;
-    gap: 24px;
+    padding-top: 76px;
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 30px;
   }
   .hero-pill {
     font-size: 10px;
-    padding: 3px 10px 3px 5px;
-    margin-bottom: 10px;
-    letter-spacing: 0.4px;
-  }
-  .hero-pill-emblem {
-    width: 22px;
-    height: 22px;
-  }
-  .hero-pill-img {
-    width: 15px;
-    height: 15px;
+    padding: 4px 10px 4px 6px;
+    margin-bottom: 14px;
   }
   .hero-h1 {
-    font-size: clamp(28px, 8.2vw, 36px);
-    line-height: 1.1;
-    margin-bottom: 10px;
-    letter-spacing: -0.04em;
+    font-size: clamp(30px, 8.5vw, 38px);
+    margin-bottom: 12px;
   }
   .hero-sub {
-    font-size: 13.5px;
-    line-height: 1.45;
-    margin-bottom: 16px;
-    max-width: 95%;
+    font-size: 14px;
+    margin-bottom: 20px;
   }
   .hero-actions {
     flex-direction: column;
     width: 100%;
     max-width: 320px;
-    gap: 10px;
-    margin-bottom: 8px;
   }
-  .btn-hero-primary, .btn-hero-secondary {
+  .btn-primary, .btn-secondary {
     width: 100%;
     padding: 13px 20px;
-    font-size: 14px;
   }
   .hero-pricing-hint {
-    font-size: 11px;
-    margin-top: 2px;
-    margin-bottom: 16px;
-    text-align: center;
+    font-size: 11.5px;
+    margin-bottom: 18px;
   }
   .hero-proof {
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 4px;
   }
   .proof-badge-strip {
     border-left: none;
     padding-left: 0;
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 6px;
-  }
-  .proof-chip {
-    font-size: 10.5px;
-    padding: 3px 8px;
-  }
-  /* iPhone 16 Pro Showcase on Mobile */
-  .hero-right {
-    width: 100%;
-    overflow: hidden;
-    padding: 10px 0 20px;
   }
   .iphone-frame {
     width: min(290px, 88vw);
     height: 490px;
-    border-radius: 40px;
-    border-width: 3px;
-    padding: 8px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.2);
   }
-  .iphone-screen {
-    border-radius: 32px;
-    padding: 10px 10px;
-  }
-  .phone-ambient-glow {
-    width: 260px;
-    height: 380px;
-  }
-  .phone-ex-name {
-    font-size: 12.5px;
-  }
-  .phone-stepper-row {
-    padding: 6px 8px;
-    margin-bottom: 6px;
-  }
-  .phone-set-label {
-    font-size: 11px;
-  }
-  .phone-rest-card {
-    padding: 10px 12px;
-    margin-bottom: 8px;
-  }
-  .phone-rest-time {
-    font-size: 18px;
-  }
-  .phone-muscle-hud {
-    padding: 8px 10px;
-  }
-  /* Metrics Ribbon on Mobile */
   .metrics-sec {
-    padding: 28px 14px;
+    padding: 30px 16px;
+    margin-bottom: 50px;
   }
   .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .metric-box {
-    padding: 14px 10px;
-    border-radius: 16px;
+    gap: 12px;
   }
   .metric-num {
-    font-size: 22px;
+    font-size: 26px;
   }
-  .metric-label {
-    font-size: 11px;
-  }
-  .metric-desc {
-    font-size: 10px;
-  }
-  /* Cockpit on Mobile */
-  .cockpit-content {
-    padding: 18px 14px;
-  }
-  .cockpit-tabs {
-    width: 100%;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-  }
-  /* Exercise Demos on Mobile */
-  .ex-filters {
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 6px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .ex-filters::-webkit-scrollbar {
-    display: none;
+  .features-sec, .exercises-sec, .comp-sec, .pricing-sec, .faq-sec {
+    margin-bottom: 60px;
+    padding: 0 16px;
   }
   .ex-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
   }
-  .ex-card {
-    padding: 14px;
-    border-radius: 16px;
+  .pricing-features {
+    grid-template-columns: 1fr;
   }
-  .ex-preview-box {
-    height: 140px;
-  }
-  /* Comparison Table on Mobile */
-  .comp-table-wrap {
-    border-radius: 18px;
-  }
-  .comp-table th, .comp-table td {
-    padding: 12px 14px;
-    font-size: 12px;
-  }
-  /* Pricing Card on Mobile */
   .pricing-card {
-    padding: 26px 16px;
-    border-radius: 22px;
-    margin-top: 20px;
+    padding: 30px 20px;
   }
-  .pricing-card > div[style*="font-size:48px"] {
-    font-size: 38px !important;
-  }
-  .pricing-card > div[style*="grid-template-columns:1fr 1fr"] {
-    grid-template-columns: 1fr !important;
-    gap: 10px !important;
+  .pricing-amt {
+    font-size: 42px;
   }
 }
 </style>
@@ -1258,29 +1033,27 @@ footer {
     </a>
 
     <div class="nav-links">
-      <a href="#cockpit">App Cockpit</a>
-      <a href="#exercises">1,324+ HD Lifts</a>
-      <a href="#nutrition">AI Nutrition</a>
-      <a href="#pricing">Fit Ninja Pro</a>
+      <a href="#features">Capabilities</a>
+      <a href="#exercises">1,324+ Lifts</a>
+      <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </div>
 
-    <div class="nav-right">
-      <a href="/app" class="nav-btn-outline">Sign In</a>
-      <a href="/app" class="nav-btn-primary">Launch App ⚡</a>
-    </div>
+    <a href="/app" class="nav-btn-primary">
+      Launch App ⚡
+    </a>
   </nav>
 </div>
 
-<!-- ── 1. LUXURY ATHLETIC TECH SPLIT HERO ── -->
+<!-- ── 1. LUXURY ATHLETIC TECH HERO ── -->
 <section class="hero-split">
-  <!-- Left: Punchy Typography & High-Converting CTAs -->
+  <!-- Left Column -->
   <div class="hero-left">
     <div class="hero-pill">
       <div class="hero-pill-emblem">
         <img src="/ninja-logo.png" alt="Fit Ninja" class="hero-pill-img">
       </div>
-      <span>The AI Personal Trainer In Your Pocket</span>
+      <span>Fit Ninja Pro · Athlete OS</span>
     </div>
 
     <h1 class="hero-h1">
@@ -1289,20 +1062,20 @@ footer {
     </h1>
 
     <p class="hero-sub">
-      1,324+ animated HD exercise guides, guided gym set player with smart rest timers, automated progressive overload, and adaptive precision macro nutrition.
+      1,324+ animated HD exercises, guided gym set player, smart rest timers, automated progressive overload, and adaptive macro nutrition.
     </p>
 
     <div class="hero-actions">
-      <a href="/app" class="btn-hero-primary">
-        ⚡ Start Training Now →
+      <a href="/app" class="btn-primary">
+        Get Fit Ninja Pro →
       </a>
-      <a href="#exercises" class="btn-hero-secondary">
-        ▶ Explore 1,324+ Demos
+      <a href="#exercises" class="btn-secondary">
+        Explore 1,324+ Demos
       </a>
     </div>
 
     <div class="hero-pricing-hint">
-      ⚡ Fit Ninja Pro · ₹299/month (Just ₹9.9/day) · Cancel anytime
+      ⚡ ₹299 / month (Just ₹9.9/day) · Cancel anytime
     </div>
 
     <div class="hero-proof">
@@ -1311,41 +1084,13 @@ footer {
       <div class="proof-badge-strip">
         <span class="proof-chip">100% Offline-First</span>
         <span class="proof-chip">Zero Gym Lag</span>
-        <span class="proof-chip">Science-Backed</span>
+        <span class="proof-chip">Scientific Overload</span>
       </div>
     </div>
   </div>
 
-  <!-- Right: Photorealistic Glowing 3D iPhone 16 Pro Showcase -->
+  <!-- Right Column: 3D iPhone Showcase -->
   <div class="hero-right">
-    <div class="phone-ambient-glow"></div>
-
-    <!-- Orbiting Glass Badges -->
-    <div class="orbit-badge orbit-badge-top">
-      <div class="orbit-icon">🎬</div>
-      <div>
-        <div class="orbit-title">1,324+ HD Videos</div>
-        <div class="orbit-sub">Clean 60fps Form Loops</div>
-      </div>
-    </div>
-
-    <div class="orbit-badge orbit-badge-bottom-left">
-      <div class="orbit-icon">📈</div>
-      <div>
-        <div class="orbit-title">Progressive Overload</div>
-        <div class="orbit-sub">+2.5 kg Auto Target</div>
-      </div>
-    </div>
-
-    <div class="orbit-badge orbit-badge-bottom-right">
-      <div class="orbit-icon">🥗</div>
-      <div>
-        <div class="orbit-title">Adaptive Nutrition</div>
-        <div class="orbit-sub">2,400 kcal (165g Protein)</div>
-      </div>
-    </div>
-
-    <!-- iPhone 16 Pro Chassis -->
     <div class="iphone-frame">
       <div class="iphone-screen">
         <!-- Dynamic Island -->
@@ -1368,22 +1113,22 @@ footer {
 
         <!-- Exercise Card -->
         <div class="phone-ex-card">
-          <div class="phone-ex-meta">
+          <div class="phone-ex-row">
             <span class="phone-ex-name">Incline Barbell Bench</span>
-            <span class="phone-ex-badge">Active Lift</span>
+            <span class="phone-ex-badge">Target: 8 reps</span>
           </div>
 
           <div class="phone-stepper-row">
             <span class="phone-set-label">Set 1: 80.0 kg × 8</span>
-            <span style="color:#34d399;font-weight:900;font-size:11px">✓ Logged</span>
+            <span style="font-size:10px;color:#34d399;font-weight:800">✓ Logged</span>
           </div>
 
-          <div class="phone-stepper-row" style="border: 1px solid rgba(56,189,248,0.4); background: rgba(56,189,248,0.08)">
+          <div class="phone-stepper-row" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3)">
             <span class="phone-set-label" style="color:#38bdf8">Set 2: 82.5 kg × 8</span>
             <button class="phone-done-btn" onclick="triggerSetDone(this)">Done ✓</button>
           </div>
 
-          <div class="phone-stepper-row" style="opacity:0.5">
+          <div class="phone-stepper-row" style="opacity:0.4">
             <span class="phone-set-label">Set 3: 82.5 kg × 8</span>
             <span style="font-size:10px;color:var(--t3)">Pending</span>
           </div>
@@ -1401,20 +1146,20 @@ footer {
         <!-- Muscle Volume Target -->
         <div class="phone-muscle-hud">
           <div class="phone-muscle-label">Targeted Stimulus</div>
-          <div class="phone-muscle-val">Clavicular Pectoralis &amp; Anterior Deltoid</div>
+          <div class="phone-muscle-val">Clavicular Pectoralis &amp; Deltoid</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── 2. METRICS RIBBON (INSTANT PROOF) ── -->
+<!-- ── 2. METRICS STRIP (CLEAN & AIRY) ── -->
 <div class="metrics-sec">
   <div class="metrics-grid">
     <div class="metric-box">
       <div class="metric-num">1,324+</div>
-      <div class="metric-label">Animated HD Demos</div>
-      <div class="metric-desc">Zero guess work in the gym</div>
+      <div class="metric-label">HD Video Demos</div>
+      <div class="metric-desc">Clean 60fps looping guides</div>
     </div>
     <div class="metric-box">
       <div class="metric-num">+2.5 kg</div>
@@ -1434,229 +1179,126 @@ footer {
   </div>
 </div>
 
-<!-- ── 3. INTERACTIVE COCKPIT ── -->
-<section id="cockpit">
-  <div style="text-align:center">
-    <div class="section-tag">Interactive App Cockpit</div>
-    <h2 class="section-h2">Experience The Full System.</h2>
-    <p class="section-sub" style="margin: 0 auto">
-      See how Fit Ninja combines live in-gym execution, algorithmic overload, anatomical fatigue mapping, and adaptive nutrition into one unified engine.
-    </p>
+<!-- ── 3. VISUAL CAPABILITIES (SAY LESS, DO MORE) ── -->
+<section class="features-sec" id="features">
+  <div class="features-header">
+    <div class="section-tag">Core Capabilities</div>
+    <h2 class="section-h2">Say Less. Do More.</h2>
+    <p class="section-sub">Engineered for athletes who demand results over complexity.</p>
   </div>
 
-  <div class="cockpit-frame">
-    <div class="cockpit-topbar">
-      <div class="cockpit-tag">
-        <div class="cockpit-pulse"></div>
-        <span>FIT NINJA · LIVE ATHLETE COCKPIT</span>
+  <div class="features-grid">
+    <!-- Card 1 -->
+    <div class="feature-card">
+      <div class="feature-ui-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font-size:12px;font-weight:800;color:#fff">Incline Barbell Bench</span>
+          <span style="font-size:11px;color:#34d399;font-weight:800">✓ Set 1 Done</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;margin-bottom:8px">
+          <span style="font-size:13px;font-weight:900;color:#38bdf8">Set 2 · 82.5 kg × 8 reps</span>
+          <span style="font-size:11px;font-weight:700;color:var(--t2)">⏱️ Rest 01:45</span>
+        </div>
+        <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:65%;height:100%;background:#38bdf8"></div>
+        </div>
       </div>
-      <div class="cockpit-tabs">
-        <button class="cockpit-tab-btn active" onclick="switchCockpit('player', this)">⚡ Live Gym Player</button>
-        <button class="cockpit-tab-btn" onclick="switchCockpit('split', this)">📅 7-Day Split</button>
-        <button class="cockpit-tab-btn" onclick="switchCockpit('diet', this)">🥗 Precision AI Nutrition</button>
-        <button class="cockpit-tab-btn" onclick="switchCockpit('overload', this)">📈 Auto Progressive Overload</button>
+      <div>
+        <h3 class="feature-title">Guided Set Stepper</h3>
+        <p class="feature-text">Locks your screen awake and automatically fires smart rest timers after every logged set.</p>
       </div>
     </div>
 
-    <div class="cockpit-content" id="cockpit-dynamic">
-      <!-- 1. Live Gym Player -->
-      <div id="view-player" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
-        <div>
-          <span style="font-size:11px;font-weight:900;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase">TACTICAL WORKOUT HUD</span>
-          <h3 style="font-size:26px;font-weight:900;color:#fff;margin:8px 0 12px;letter-spacing:-0.5px">Distraction-Free Set Stepper</h3>
-          <p style="font-size:14.5px;color:var(--t2);line-height:1.55;margin-bottom:20px">
-            Never forget your weight, reps, or rest time. Fit Ninja automatically locks your device screen awake, tracks warmup weights, and automatically fires smart rest timers after every set.
-          </p>
-          <div style="display:flex;gap:16px;margin-bottom:24px">
-            <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:12px 16px">
-              <div style="font-size:11px;color:var(--t3);font-weight:700">CURRENT EXERCISE</div>
-              <div style="font-size:15px;color:#fff;font-weight:800">Barbell Bench Press</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;padding:12px 16px">
-              <div style="font-size:11px;color:var(--t3);font-weight:700">REST ACTIVE</div>
-              <div style="font-size:15px;color:#38bdf8;font-weight:900" id="cockpit-timer">01:45</div>
-            </div>
-          </div>
-          <button class="btn-hero-primary" style="padding:12px 24px;font-size:14px" onclick="startCockpitTimer(90)">
-            ⏱️ Trigger 90s Rest Demo
-          </button>
+    <!-- Card 2 -->
+    <div class="feature-card">
+      <div class="feature-ui-box">
+        <div style="font-size:11px;color:#38bdf8;font-weight:800;margin-bottom:4px">ALGORITHMIC PROGRESSION</div>
+        <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:4px">
+          82.5 kg <span style="font-size:14px;color:#34d399;font-weight:800">→ 85.0 kg</span>
         </div>
-        <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:20px;padding:20px">
-          <div style="display:flex;justify-content:space-between;margin-bottom:12px">
-            <span style="font-size:13px;font-weight:800;color:#fff">Set Stepper Progression</span>
-            <span style="font-size:12px;font-weight:700;color:#34d399">Live Preview</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px">
-              <span style="font-size:13px;font-weight:800">Set 1 · 80.0 kg × 8 reps</span>
-              <span style="color:#34d399;font-weight:900;font-size:12px">✓ Done (RPE 7.5)</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);padding:10px 14px;border-radius:10px">
-              <span style="font-size:13px;font-weight:800;color:#38bdf8">Set 2 · 82.5 kg × 8 reps</span>
-              <span style="color:#38bdf8;font-weight:800;font-size:11px">Current Set</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);padding:10px 14px;border-radius:10px;opacity:0.6">
-              <span style="font-size:13px;font-weight:600">Set 3 · 82.5 kg × AMRAP</span>
-              <span style="font-size:11px;color:var(--t3)">Pending</span>
-            </div>
-          </div>
+        <div style="font-size:11.5px;color:var(--t2);margin-bottom:12px">Target hit: +2.5 kg micro-load calculated</div>
+        <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
+          <div style="width:85%;height:100%;background:#34d399"></div>
         </div>
       </div>
+      <div>
+        <h3 class="feature-title">Auto Progressive Overload</h3>
+        <p class="feature-text">Automatically calculates working weights so you consistently gain strength without plateaus.</p>
+      </div>
+    </div>
 
-      <!-- 2. 7-Day Split -->
-      <div id="view-split" style="display:none;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
-        <div>
-          <span style="font-size:11px;font-weight:900;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase">HYPERTROPHY ARCHITECTURE</span>
-          <h3 style="font-size:26px;font-weight:900;color:#fff;margin:8px 0 12px;letter-spacing:-0.5px">Scientifically Periodized Splits</h3>
-          <p style="font-size:14.5px;color:var(--t2);line-height:1.55;margin-bottom:20px">
-            Choose from Upper/Lower 4-day, Push/Pull/Legs 6-day, or Arnold Hypertrophy Splits. Every single muscle group is stimulated at the optimal 48-72h recovery frequency.
-          </p>
-          <a href="/app" class="btn-hero-primary" style="padding:12px 24px;font-size:14px">
-            Explore All 12 Splits In App →
-          </a>
+    <!-- Card 3 -->
+    <div class="feature-card">
+      <div class="feature-ui-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:11px;color:var(--t3);font-weight:700">DAILY FUEL</span>
+          <span style="font-size:11px;color:#34d399;font-weight:800">165g PROTEIN</span>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:14px">
-            <div style="font-size:11px;color:#38bdf8;font-weight:800">MON · DAY 1</div>
-            <div style="font-size:14px;font-weight:900;color:#fff;margin:4px 0">Upper Body Power</div>
-            <div style="font-size:11.5px;color:var(--t3)">6 exercises · ~48 min</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:14px">
-            <div style="font-size:11px;color:#34d399;font-weight:800">TUE · DAY 2</div>
-            <div style="font-size:14px;font-weight:900;color:#fff;margin:4px 0">Lower Body Hypertrophy</div>
-            <div style="font-size:11.5px;color:var(--t3)">5 exercises · ~45 min</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:14px;opacity:0.7">
-            <div style="font-size:11px;color:#94a3b8;font-weight:800">WED · DAY 3</div>
-            <div style="font-size:14px;font-weight:900;color:#fff;margin:4px 0">Active Muscle Recovery</div>
-            <div style="font-size:11.5px;color:var(--t3)">Mobility · Hydration</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:14px;padding:14px">
-            <div style="font-size:11px;color:#818cf8;font-weight:800">THU · DAY 4</div>
-            <div style="font-size:14px;font-weight:900;color:#fff;margin:4px 0">Push Hypertrophy</div>
-            <div style="font-size:11.5px;color:var(--t3)">6 exercises · ~50 min</div>
-          </div>
+        <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:8px">
+          2,400 <span style="font-size:12px;color:var(--t2)">kcal</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🥩 Omnivore</span>
+          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🌱 Vegan</span>
+          <span style="font-size:10.5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:var(--t2)">🥑 Keto</span>
         </div>
       </div>
-
-      <!-- 3. AI Nutrition -->
-      <div id="view-diet" style="display:none;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
-        <div>
-          <span style="font-size:11px;font-weight:900;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase">SPORTS NUTRITION ENGINE</span>
-          <h3 style="font-size:26px;font-weight:900;color:#fff;margin:8px 0 12px;letter-spacing:-0.5px">Adaptive Precision Macros</h3>
-          <p style="font-size:14.5px;color:var(--t2);line-height:1.55;margin-bottom:20px">
-            Whether you eat High-Protein Omnivore, 100% Plant-Based Athletic Vegan, or Metabolic Ketogenic, Fit Ninja calculates your exact TDEE and micro-adjusts calories and protein as you progress.
-          </p>
-          <div style="display:flex;gap:8px;margin-bottom:20px">
-            <button class="filter-pill active" onclick="switchDietDemo('highprot', this)">🥩 High Protein</button>
-            <button class="filter-pill" onclick="switchDietDemo('plant', this)">🌱 Plant-Based</button>
-            <button class="filter-pill" onclick="switchDietDemo('keto', this)">🥑 Ketogenic</button>
-          </div>
-        </div>
-        <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:20px;padding:22px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-            <div>
-              <div style="font-size:11px;color:var(--t3);font-weight:700">DAILY ENERGY TARGET</div>
-              <div style="font-size:24px;font-weight:900;color:#fff">2,400 <span style="font-size:13px;color:var(--t2)">kcal</span></div>
-            </div>
-            <div style="text-align:right">
-              <div style="font-size:11px;color:#34d399;font-weight:800">165g PROTEIN</div>
-              <div style="font-size:11px;color:var(--t3)">Hypertrophy Threshold</div>
-            </div>
-          </div>
-          <div id="diet-sample-text" style="font-size:12.5px;color:var(--t2);line-height:1.7;background:rgba(255,255,255,0.03);padding:14px;border-radius:12px">
-            • <strong>Breakfast:</strong> 4 Free-Range Eggs + Oatmeal with Blueberries &amp; Almond Butter (38g Protein)<br>
-            • <strong>Lunch:</strong> Grilled Wild Salmon + Quinoa + Roasted Asparagus (46g Protein)<br>
-            • <strong>Snack:</strong> Whey Isolate + Greek Yogurt &amp; Honey (34g Protein)<br>
-            • <strong>Dinner:</strong> Lean Sirloin / Chicken Breast + Sweet Potato &amp; Broccoli (48g Protein)
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Auto Progressive Overload -->
-      <div id="view-overload" style="display:none;grid-template-columns:1fr 1fr;gap:24px;align-items:center">
-        <div>
-          <span style="font-size:11px;font-weight:900;color:var(--blue-accent);letter-spacing:0.8px;text-transform:uppercase">GREYSKULL LP ALGORITHM</span>
-          <h3 style="font-size:26px;font-weight:900;color:#fff;margin:8px 0 12px;letter-spacing:-0.5px">Never Hit Another Plateau</h3>
-          <p style="font-size:14.5px;color:var(--t2);line-height:1.55;margin-bottom:20px">
-            Fit Ninja uses algorithmic progressive overload. When you hit your target reps, the app automatically bumps your next workout by +2.5 kg. If you miss reps twice, it automatically deloads 10% to reset neuromuscular adaptation.
-          </p>
-          <a href="/app" class="btn-hero-primary" style="padding:12px 24px;font-size:14px">
-            Try Overload Engine In App →
-          </a>
-        </div>
-        <div style="background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:20px;padding:22px">
-          <div style="font-size:12px;font-weight:800;color:#38bdf8;margin-bottom:8px">PROGRESSION STATUS · BENCH PRESS</div>
-          <div style="font-size:32px;font-weight:900;color:#fff;margin-bottom:4px">
-            82.5 kg <span style="font-size:16px;color:#34d399;font-weight:800">→ 85.0 kg NEXT SESSION</span>
-          </div>
-          <div style="font-size:12px;color:var(--t2);margin-bottom:18px">Hit 8 reps on final AMRAP set (+2.5 kg micro-load triggered)</div>
-          <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden">
-            <div style="width:85%;height:100%;background:linear-gradient(90deg,#38bdf8,#34d399)"></div>
-          </div>
-        </div>
+      <div>
+        <h3 class="feature-title">Precision Macro Engine</h3>
+        <p class="feature-text">Dynamic calorie and protein targets calibrated to your metabolic rate and body composition.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── 4. 1,324+ HD EXERCISES SHOWCASE ── -->
-<section id="exercises">
-  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;flex-wrap:wrap;gap:16px">
+<!-- ── 4. 1,324+ HD EXERCISE LIBRARY ── -->
+<section class="exercises-sec" id="exercises">
+  <div class="ex-topbar">
     <div>
-      <div class="section-tag">Form Demonstration Library</div>
-      <h2 class="section-h2" style="margin-bottom:6px">1,324+ HD Video Exercises</h2>
-      <p class="section-sub">Animated looping form guides for every barbell, dumbbell, cable, and machine lift.</p>
+      <div class="section-tag">Library</div>
+      <h2 class="section-h2" style="margin-bottom:4px">1,324+ HD Video Exercises</h2>
+      <p class="section-sub" style="margin:0">Clean 60fps looping form guides for every movement.</p>
     </div>
-    <a href="/app" class="btn-hero-secondary" style="padding:10px 20px;font-size:13px">
+    <a href="/app" class="btn-secondary" style="padding:10px 20px;font-size:13px">
       Open Full Gym Library →
     </a>
   </div>
 
-  <div class="ex-filters">
-    <button class="filter-pill active" onclick="filterEx('all', this)">All Lifts (1,324)</button>
-    <button class="filter-pill" onclick="filterEx('chest', this)">Chest</button>
-    <button class="filter-pill" onclick="filterEx('back', this)">Back</button>
-    <button class="filter-pill" onclick="filterEx('legs', this)">Legs &amp; Quads</button>
-    <button class="filter-pill" onclick="filterEx('shoulders', this)">Shoulders</button>
-    <button class="filter-pill" onclick="filterEx('arms', this)">Arms &amp; Triceps</button>
-  </div>
-
   <div class="ex-grid">
-    <div class="ex-card" data-cat="chest">
+    <div class="ex-card">
       <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS LOOP</span>
-        <div style="font-size:40px">🏋️</div>
+        <span class="ex-play-badge">▶ 60FPS</span>
+        <div style="font-size:36px">🏋️</div>
       </div>
       <div class="ex-title">Incline Dumbbell Press</div>
       <div class="ex-muscles">Clavicular Pectoralis · Delts</div>
       <div class="ex-reps">3-4 sets × 8-12 reps</div>
     </div>
 
-    <div class="ex-card" data-cat="back">
+    <div class="ex-card">
       <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS LOOP</span>
-        <div style="font-size:40px">🚣</div>
+        <span class="ex-play-badge">▶ 60FPS</span>
+        <div style="font-size:36px">🚣</div>
       </div>
       <div class="ex-title">Barbell Bent-Over Row</div>
       <div class="ex-muscles">Latissimus Dorsi · Rhomboids</div>
       <div class="ex-reps">3-4 sets × 6-10 reps</div>
     </div>
 
-    <div class="ex-card" data-cat="legs">
+    <div class="ex-card">
       <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS LOOP</span>
-        <div style="font-size:40px">🦵</div>
+        <span class="ex-play-badge">▶ 60FPS</span>
+        <div style="font-size:36px">🦵</div>
       </div>
       <div class="ex-title">Barbell High-Bar Squat</div>
       <div class="ex-muscles">Quadriceps · Gluteus Maximus</div>
       <div class="ex-reps">3-5 sets × 5-8 reps</div>
     </div>
 
-    <div class="ex-card" data-cat="shoulders">
+    <div class="ex-card">
       <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS LOOP</span>
-        <div style="font-size:40px">💪</div>
+        <span class="ex-play-badge">▶ 60FPS</span>
+        <div style="font-size:36px">💪</div>
       </div>
       <div class="ex-title">Standing Overhead Press</div>
       <div class="ex-muscles">Anterior &amp; Lateral Deltoids</div>
@@ -1665,21 +1307,21 @@ footer {
   </div>
 </section>
 
-<!-- ── 5. TRANSPARENT COMPARISON MATRIX ── -->
-<section>
+<!-- ── 5. FAIR COMPARISON TABLE ── -->
+<section class="comp-sec">
   <div style="text-align:center">
-    <div class="section-tag">Fair Comparison</div>
-    <h2 class="section-h2">Why Serious Athletes Choose Fit Ninja</h2>
-    <p class="section-sub" style="margin:0 auto">Compare how Fit Ninja stacks against generic logging apps and expensive personal trainers.</p>
+    <div class="section-tag">Comparison</div>
+    <h2 class="section-h2">Why Athletes Choose Fit Ninja</h2>
+    <p class="section-sub" style="margin:0 auto">Clear comparison against generic loggers and personal trainers.</p>
   </div>
 
   <div class="comp-table-wrap">
     <table class="comp-table">
       <thead>
         <tr>
-          <th>Feature / Capability</th>
+          <th>Capability</th>
           <th class="brand-col">Fit Ninja Pro</th>
-          <th>Generic Workout Apps</th>
+          <th>Generic Loggers</th>
           <th>Personal Trainer</th>
         </tr>
       </thead>
@@ -1687,25 +1329,25 @@ footer {
         <tr>
           <td><strong>1,324+ Animated Video Demos</strong></td>
           <td class="brand-col">✓ Included (100% HD)</td>
-          <td>✗ Missing or static text</td>
+          <td>✗ Static text / Missing</td>
           <td>✓ In-person only</td>
         </tr>
         <tr>
           <td><strong>Auto Progressive Overload</strong></td>
           <td class="brand-col">✓ Algorithmic (+2.5 kg)</td>
-          <td>✗ Manual spreadsheet math</td>
-          <td>✓ Subjective / variable</td>
+          <td>✗ Manual math</td>
+          <td>✓ Variable</td>
         </tr>
         <tr>
           <td><strong>Universal AI Nutrition Engine</strong></td>
           <td class="brand-col">✓ Omnivore, Vegan, Keto</td>
-          <td>✗ Generic single-diet bias</td>
-          <td>✗ Static PDF diet sheets</td>
+          <td>✗ Generic single-diet</td>
+          <td>✗ Static PDF sheets</td>
         </tr>
         <tr>
-          <td><strong>100% Offline-First (No Gym Lag)</strong></td>
+          <td><strong>100% Offline-First (Zero Lag)</strong></td>
           <td class="brand-col">✓ Instant PWA caching</td>
-          <td>✗ Freezes in basement gyms</td>
+          <td>✗ Freezes in gym basements</td>
           <td>N/A</td>
         </tr>
         <tr>
@@ -1721,42 +1363,42 @@ footer {
 
 <!-- ── 6. FIT NINJA PRO PRICING ── -->
 <section class="pricing-sec" id="pricing">
-  <div class="section-tag">Fit Ninja Pro Membership</div>
+  <div class="section-tag">Membership</div>
   <h2 class="section-h2">Simple, Transparent Access.</h2>
-  <p class="section-sub" style="margin:0 auto">Zero lock-in. Cancel anytime with a single click in Settings.</p>
+  <p class="section-sub" style="margin:0 auto">Zero lock-in. Cancel anytime with a single tap in Settings.</p>
 
   <div class="pricing-card">
-    <div style="display:inline-block;font-size:11px;font-weight:900;background:rgba(56,189,248,0.15);color:#38bdf8;padding:4px 12px;border-radius:99px;border:1px solid rgba(56,189,248,0.35);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">
+    <div class="pricing-badge">
       FIT NINJA PRO
     </div>
 
-    <div style="font-size:48px;font-weight:900;color:#fff;letter-spacing:-1.2px;margin:8px 0;display:flex;align-items:baseline;justify-content:center;gap:6px">
-      ₹299 <span style="font-size:15px;color:var(--t2);font-weight:600">/ month</span>
+    <div class="pricing-amt">
+      ₹299 <span class="pricing-cycle">/ month</span>
     </div>
-    <div style="font-size:13px;color:#34d399;font-weight:800;margin-bottom:24px">
+    <div class="pricing-sub">
       ⚡ Just ₹9.9 / day (~$3.60/mo) · Cancel Anytime
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:28px">
-      <div style="font-size:13px;color:#fff">✓ 1,324+ Animated Demos</div>
-      <div style="font-size:13px;color:#fff">✓ Live Gym Player &amp; HUD</div>
-      <div style="font-size:13px;color:#fff">✓ Progressive Overload</div>
-      <div style="font-size:13px;color:#fff">✓ Universal Macro Engine</div>
-      <div style="font-size:13px;color:#fff">✓ Muscle Heatmap Analytics</div>
-      <div style="font-size:13px;color:#fff">✓ Offline PWA + Cloud Sync</div>
+    <div class="pricing-features">
+      <div class="pricing-feat-item">✓ 1,324+ Animated Demos</div>
+      <div class="pricing-feat-item">✓ Live Gym Player &amp; HUD</div>
+      <div class="pricing-feat-item">✓ Progressive Overload</div>
+      <div class="pricing-feat-item">✓ Universal Macro Engine</div>
+      <div class="pricing-feat-item">✓ Muscle Heatmap Analytics</div>
+      <div class="pricing-feat-item">✓ Offline PWA + Cloud Sync</div>
     </div>
 
-    <a href="/app" class="btn-hero-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px">
-      ⚡ Upgrade to Fit Ninja Pro →
+    <a href="/app" class="btn-primary" style="width:100%;font-size:16px;padding:16px">
+      Upgrade to Fit Ninja Pro →
     </a>
   </div>
 </section>
 
-<!-- ── 7. FAQ & LEGAL COMPLIANCE ── -->
+<!-- ── 7. FAQ ── -->
 <section class="faq-sec" id="faq">
   <div style="text-align:center;margin-bottom:32px">
-    <div class="section-tag">Frequently Asked Questions</div>
-    <h2 class="section-h2">Got Questions? We Have Answers.</h2>
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-h2">Frequently Asked Questions</h2>
   </div>
 
   <div class="faq-item" onclick="toggleFaq(this)">
@@ -1765,7 +1407,7 @@ footer {
       <span>▾</span>
     </div>
     <div class="faq-a">
-      Fit Ninja is not just a passive notebook. It features 1,324+ animated looping video demos, tactile set steppers with smart rest timers, automated progressive overload calculation (+2.5 kg auto bump), anatomical fatigue heatmaps, and adaptive macro nutrition.
+      Fit Ninja is not a passive notebook. It features 1,324+ animated looping video demos, tactile set steppers with smart rest timers, automated progressive overload (+2.5 kg auto bump), anatomical fatigue heatmaps, and adaptive macro nutrition.
     </div>
   </div>
 
@@ -1775,17 +1417,17 @@ footer {
       <span>▾</span>
     </div>
     <div class="faq-a">
-      Yes! Fit Ninja is built with offline-first Progressive Web App (PWA) architecture. Your workouts, rest timers, and exercise guides work seamlessly without any cell reception or Wi-Fi in basement gyms.
+      Yes. Fit Ninja is built with offline-first Progressive Web App (PWA) architecture. Your workouts, rest timers, and exercise guides work seamlessly without any cell reception or Wi-Fi in basement gyms.
     </div>
   </div>
 
   <div class="faq-item" onclick="toggleFaq(this)">
     <div class="faq-q">
-      <span>Can I cancel my Fit Ninja Pro subscription anytime?</span>
+      <span>Can I cancel my subscription anytime?</span>
       <span>▾</span>
     </div>
     <div class="faq-a">
-      Yes, absolutely. You can cancel your subscription with a single tap in Settings at any time. There are no lock-in contracts or hidden fees.
+      Yes. You can cancel your subscription with a single tap in Settings at any time. There are no lock-in contracts or hidden cancellation fees.
     </div>
   </div>
 </section>
@@ -1793,7 +1435,7 @@ footer {
 <!-- ── FOOTER ── -->
 <footer>
   <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
-    <img src="/ninja-logo.png" alt="Fit Ninja" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.4))">
+    <img src="/ninja-logo.png" alt="Fit Ninja" style="width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.4))">
     <span style="font-size:15px;font-weight:900;color:#fff">Fit <span style="color:var(--blue-accent)">Ninja</span></span>
   </div>
   <p style="margin-bottom:12px;color:var(--t2)">
@@ -1802,24 +1444,12 @@ footer {
   <p style="margin-bottom:16px">
     <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/app">Launch App</a>
   </p>
-  <div style="font-size:11px;color:var(--t3);max-width:600px;margin:0 auto;line-height:1.5">
-    Legal Advisory: Fit Ninja provides workout tracking, exercise instructions, and nutritional guidelines for educational and personal fitness purposes only. It is not intended as medical advice or treatment. Always consult a physician before beginning any rigorous training program.
+  <div style="font-size:11px;color:var(--t3);max-width:560px;margin:0 auto;line-height:1.5">
+    Legal Advisory: Fit Ninja provides workout tracking and nutritional guidelines for educational and fitness purposes only. It is not medical advice. Always consult a physician before beginning any rigorous training program.
   </div>
 </footer>
 
-<!-- ── SCRIPTS ── -->
 <script>
-// Cockpit Switcher
-function switchCockpit(tabId, btn) {
-  document.querySelectorAll('.cockpit-tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const views = ['player', 'split', 'diet', 'overload'];
-  views.forEach(v => {
-    const el = document.getElementById('view-' + v);
-    if (el) el.style.display = (v === tabId) ? 'grid' : 'none';
-  });
-}
-
 // Interactive Rest Timer Demo
 let heroRestTimer = 105;
 setInterval(() => {
@@ -1838,58 +1468,6 @@ function triggerSetDone(btn) {
   btn.style.background = '#38bdf8';
   btn.style.color = '#fff';
   heroRestTimer = 105;
-}
-
-// Cockpit Timer Demo
-let cockpitInterval = null;
-function startCockpitTimer(seconds) {
-  clearInterval(cockpitInterval);
-  let rem = seconds;
-  const disp = document.getElementById('cockpit-timer');
-  if (!disp) return;
-  function fmt(s) {
-    const m = Math.floor(s / 60);
-    const r = s % 60;
-    return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r;
-  }
-  disp.textContent = fmt(rem);
-  cockpitInterval = setInterval(() => {
-    rem--;
-    if (rem <= 0) {
-      clearInterval(cockpitInterval);
-      disp.textContent = '00:00';
-    } else {
-      disp.textContent = fmt(rem);
-    }
-  }, 1000);
-}
-
-// Diet Demo Switcher
-const DIET_DATA = {
-  highprot: '• <strong>Breakfast:</strong> 4 Free-Range Eggs + Oatmeal with Blueberries &amp; Almond Butter (38g Protein)<br>• <strong>Lunch:</strong> Grilled Wild Salmon + Quinoa + Roasted Asparagus (46g Protein)<br>• <strong>Snack:</strong> Whey Isolate + Greek Yogurt &amp; Honey (34g Protein)<br>• <strong>Dinner:</strong> Lean Sirloin / Chicken Breast + Sweet Potato &amp; Broccoli (48g Protein)',
-  plant: '• <strong>Breakfast:</strong> Organic Tofu Scramble with Nutritional Yeast + Whole Grain Sourdough (32g Protein)<br>• <strong>Lunch:</strong> Black Bean &amp; Chickpea Quinoa Bowl with Creamy Tahini (40g Protein)<br>• <strong>Snack:</strong> Pea Protein Shake + Roasted Pumpkin Seeds (30g Protein)<br>• <strong>Dinner:</strong> Marinated Tempeh &amp; Edamame Stir-Fry with Bok Choy (38g Protein)',
-  keto: '• <strong>Breakfast:</strong> 3 Pastured Eggs in Ghee with Avocado &amp; Baby Spinach (28g Protein, 2g Net Carbs)<br>• <strong>Lunch:</strong> Pan-Seared Ribeye Steak with Herb Butter &amp; Zucchini Ribbons (44g Protein, 3g Net Carbs)<br>• <strong>Snack:</strong> Macadamia Nuts &amp; Smoked Salmon Bites (22g Protein, 1g Net Carbs)<br>• <strong>Dinner:</strong> Baked Atlantic Salmon with Creamed Cauliflower (42g Protein, 4g Net Carbs)'
-};
-function switchDietDemo(type, btn) {
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const target = document.getElementById('diet-sample-text');
-  if (target && DIET_DATA[type]) {
-    target.innerHTML = DIET_DATA[type];
-  }
-}
-
-// Exercise Filter
-function filterEx(cat, btn) {
-  btn.parentElement.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.ex-card').forEach(card => {
-    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
 }
 
 // FAQ Accordion
