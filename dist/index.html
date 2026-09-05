@@ -23,10 +23,25 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=7">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=7">
 <link rel="shortcut icon" href="/favicon.ico?v=7">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=7">
-<link rel="manifest" href="/manifest.json?v=7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Fit Ninja Pro">
+<meta name="application-name" content="Fit Ninja Pro">
+<link rel="manifest" href="/manifest.json?v=8">
 
-<!-- Google Fonts: Plus Jakarta Sans -->
+<script>
+  (function() {
+    try {
+      var isStandalone = window.navigator.standalone === true || 
+                         window.matchMedia('(display-mode: standalone)').matches;
+      var isPaid = localStorage.getItem('gym_paid') === '1' ||
+                   localStorage.getItem('gym_user') !== null ||
+                   Object.keys(localStorage).some(function(k) { return k.indexOf('-auth-token') !== -1; });
+      if (isStandalone || isPaid) {
+        window.location.replace('/app');
+      }
+    } catch (e) {}
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
