@@ -1,4 +1,6 @@
-import { useUI } from '../store/useUI.js'
+export const RAZORPAY_PLAN_ID = 'plan_TZ9fEut1yueEFq';
+export const RAZORPAY_DEFAULT_SUB_ID = 'sub_TZDVSratDqYewT';
+export const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/srwxxFCr';
 
 // Fit Ninja Razorpay Official Payment Gateway Engine
 export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
@@ -54,7 +56,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         options.subscription_id = subId;
       } else {
         // Recurring monthly subscription (Plan: plan_TZ9fEut1yueEFq, ₹499/mo)
-        options.subscription_id = 'sub_TZ9jRc8mqa8bnd';
+        options.subscription_id = RAZORPAY_DEFAULT_SUB_ID;
       }
 
       try {
@@ -62,19 +64,19 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         rzp.open();
         return;
       } catch (err) {
-        // Direct checkout fallback if subscription link expires
-        delete options.subscription_id;
-        options.amount = 49900;
-        options.currency = 'INR';
-        const fallbackRzp = new window.Razorpay(options);
-        fallbackRzp.open();
+        console.warn('Direct modal error, falling back to direct Razorpay link:', err);
+        window.open(RAZORPAY_PAYMENT_LINK, '_blank');
         return;
       }
     }
 
-    if (onFailure) onFailure('Razorpay SDK loading. Please refresh and try again.');
+    if (onFailure) {
+      onFailure('Opening Razorpay payment...');
+      window.open(RAZORPAY_PAYMENT_LINK, '_blank');
+    }
   } catch (err) {
     console.error('Payment launch error:', err);
+    window.open(RAZORPAY_PAYMENT_LINK, '_blank');
     if (onFailure) onFailure(err.message || 'Payment initiation failed');
   }
 }

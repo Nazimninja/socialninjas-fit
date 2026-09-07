@@ -659,6 +659,28 @@ export default function Login() {
           {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue to Unlock Pro — ₹499' : 'Continue')}
         </button>
 
+        {authMode === 'signup' && (
+          <div style={{ textAlign: 'center', marginTop: '-8px', marginBottom: '14px' }}>
+            <a
+              href="https://rzp.io/rzp/srwxxFCr"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(255,255,255,0.45)',
+                fontSize: '11.5px',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = '#38bdf8'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.45)'}
+            >
+              Or pay directly via Razorpay link ↗
+            </a>
+          </div>
+        )}
+
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 14px', color: 'rgba(255,255,255,0.35)', fontSize: '12px', fontWeight: '600' }}>
           <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
