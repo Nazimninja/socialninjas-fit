@@ -223,7 +223,7 @@ export default function Login() {
       }}
     >
       {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
-      <div style={{ position: 'relative', marginBottom: '18px' }}>
+      <div style={{ position: 'relative', marginBottom: '14px' }}>
         <div
           style={{
             position: 'absolute',
@@ -232,20 +232,20 @@ export default function Login() {
             transform: 'translate(-50%, -50%)',
             width: '120px',
             height: '120px',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(37,99,235,0) 70%)',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.22) 0%, rgba(37,99,235,0) 70%)',
             filter: 'blur(20px)',
             pointerEvents: 'none',
             zIndex: 0
           }}
         />
         <img
-          src="/ninja-logo.png"
+          src="/ninja-emblem.png"
           alt="Fit Ninja Official Emblem"
           style={{
             position: 'relative',
-            width: '96px',
-            height: '96px',
-            filter: 'drop-shadow(0 12px 28px rgba(56,189,248,0.45))',
+            width: '84px',
+            height: '84px',
+            filter: 'drop-shadow(0 10px 24px rgba(56,189,248,0.45))',
             zIndex: 1,
             display: 'block',
             margin: '0 auto',
@@ -254,8 +254,8 @@ export default function Login() {
         />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '4px' }}>
-        <h1 style={{ fontSize: '34px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
+        <h1 style={{ fontSize: '32px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
           Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
         </h1>
         <span
@@ -274,7 +274,7 @@ export default function Login() {
         </span>
       </div>
 
-      <div style={{ fontSize: '11px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.8px', color: '#94a3b8', marginBottom: '24px' }}>
+      <div style={{ fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.8px', color: '#94a3b8', marginBottom: '18px' }}>
         BY SOCIAL NINJA'S · AI ATHLETE SYSTEM
       </div>
 
@@ -329,110 +329,99 @@ export default function Login() {
         </div>
       )}
 
-      {/* ── 2. PRO PASS VALUE COCKPIT CARD ───────────────────────── */}
+      {/* ── 2. PRO PASS VALUE CARD (Compact, High-Converting) ── */}
       <div
         style={{
           width: '100%',
           background: 'linear-gradient(165deg, rgba(15,23,42,0.95) 0%, rgba(10,15,30,0.98) 100%)',
           border: '1px solid rgba(56,189,248,0.35)',
-          borderRadius: '24px',
-          padding: '24px 20px',
-          marginBottom: '20px',
+          borderRadius: '22px',
+          padding: '16px 18px',
+          marginBottom: '16px',
           textAlign: 'left',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1)',
-          position: 'relative',
-          overflow: 'hidden'
+          boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
+          position: 'relative'
         }}
       >
-        {/* Top Offer Pill */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-          <span
-            style={{
-              background: 'rgba(56,189,248,0.15)',
-              border: '1px solid rgba(56,189,248,0.4)',
-              color: '#38bdf8',
-              fontSize: '10.5px',
-              fontWeight: '900',
-              textTransform: 'uppercase',
-              letterSpacing: '0.8px',
-              padding: '4px 10px',
-              borderRadius: '99px'
-            }}
-          >
-            ⚡ FIT NINJA PRO
-          </span>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
-              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
-            </div>
-            <div style={{ fontSize: '10px', color: '#22c55e', fontWeight: '800', marginTop: '1px' }}>
+        {/* Pricing Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+          <div>
+            <span
+              style={{
+                background: 'rgba(56,189,248,0.15)',
+                border: '1px solid rgba(56,189,248,0.4)',
+                color: '#38bdf8',
+                fontSize: '10px',
+                fontWeight: '900',
+                textTransform: 'uppercase',
+                letterSpacing: '0.8px',
+                padding: '3px 9px',
+                borderRadius: '99px',
+                display: 'inline-block',
+                marginBottom: '4px'
+              }}
+            >
+              ⚡ PRO PASS
+            </span>
+            <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
               Save 70% · Just ₹9.9 / day
             </div>
           </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', justifyContent: 'flex-end' }}>
+              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
+              <span style={{ fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
+              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+            </div>
+            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime</div>
+          </div>
         </div>
 
-        {/* Feature Stack with High-Contrast Icons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '22px' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🎬</div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>1,324+ HD Video Exercise Guides</div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Anatomical cues, technique videos, &amp; setup walkthroughs.</div>
-            </div>
+        {/* 4 Clean High-Impact Benefits (Say Less, Do More) */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '8px 12px',
+            paddingTop: '12px',
+            borderTop: '1px solid rgba(255,255,255,0.08)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
+            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
+            <span>1,300+ HD Guides</span>
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🧠</div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Adaptive AI Coach &amp; Check-ins</div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Adapts weight targets, reps &amp; calories based on weekly check-ins.</div>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
+            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
+            <span>AI Workout &amp; Diet</span>
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>🥗</div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Custom Diet Engine (Veg &amp; Non-Veg)</div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>5-meal daily custom nutrition protocols with 25+ verified foods.</div>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
+            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
+            <span>Muscle Volume 3D</span>
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>📊</div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Anatomical Muscle Volume Heatmaps</div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>3D fatigue tracking &amp; Greyskull LP progressive overload curves.</div>
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '14px', lineHeight: 1 }}>⏱️</div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#f8fafc' }}>Distraction-Free Active Workout Player</div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>Live session HUD, tactile set steppers, &amp; adaptive rest timers.</div>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
+            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
+            <span>Smart Rest Timers</span>
           </div>
         </div>
       </div>
 
-      {/* ── 3. CREATE ACCOUNT / SIGN IN SECTION (Matching User UI) ── */}
+      {/* ── 3. CREATE ACCOUNT / SIGN IN SECTION ── */}
       <div
         style={{
           width: '100%',
           background: 'linear-gradient(165deg, #131b2e 0%, #0c1222 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderTop: '1px solid rgba(56,189,248,0.3)',
-          borderRadius: '28px',
-          padding: '28px 20px',
+          borderRadius: '24px',
+          padding: '22px 18px',
           boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
           textAlign: 'center',
           marginBottom: '20px'
         }}
       >
-        <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px', margin: '0 0 22px' }}>
-          {authMode === 'signup' ? 'Create Your Fit Ninja Account' : 'Log In to Fit Ninja'}
+        <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.4px', margin: '0 0 16px' }}>
+          {authMode === 'signup' ? 'Create Your Account' : 'Log In to Fit Ninja'}
         </h2>
 
         {/* Inputs */}
@@ -525,7 +514,7 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : 'Continue'}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue to Unlock Pro — ₹299' : 'Continue')}
         </button>
 
         {/* Divider */}
