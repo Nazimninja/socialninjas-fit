@@ -113,6 +113,17 @@ export default function Login() {
   const [nameOrEmail, setNameOrEmail] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
 
+  // Auto-fill from URL parameters if provided (e.g. ?name=Asiya%20Sayed&phone=8892587979)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search)
+      const p = params.get('phone')
+      const n = params.get('name')
+      if (p) setPhone(p)
+      if (n) setNameOrEmail(n)
+    } catch (e) {}
+  }, [])
+
   // Instantly unlock and reset verification state whenever user switches mode
   useEffect(() => {
     setIsVerifying(false)
