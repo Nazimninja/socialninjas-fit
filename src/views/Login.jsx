@@ -208,8 +208,7 @@ export default function Login() {
               admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
             })
             setPaid(true)
-            useUI.getState().toast('Payment verified! Welcome to Fit Ninja Pro.')
-            useUI.getState().openSheet(close => <RegisterSheet close={close} />)
+            onboardingWizardSheet()
           },
           onFailure: (msg) => {
             setIsVerifying(false)
