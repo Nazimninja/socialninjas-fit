@@ -38,6 +38,7 @@
       var isStandalone = window.navigator.standalone === true || 
                          window.matchMedia('(display-mode: standalone)').matches;
       var isPaid = localStorage.getItem('gym_paid') === '1' ||
+                   localStorage.getItem('gym_paid_email') !== null ||
                    localStorage.getItem('gym_user') !== null ||
                    Object.keys(localStorage).some(function(k) { return k.indexOf('-auth-token') !== -1; });
       if (isStandalone || isPaid) {
@@ -1078,6 +1079,7 @@ footer {
       <a href="#exercises">1,324+ Lifts</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
+      <a href="/app" style="color: #38bdf8; font-weight: 800;">Member Login</a>
     </div>
 
     <a href="/app" class="nav-btn-primary">

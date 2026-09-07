@@ -11,6 +11,7 @@ import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
 import { DEMO, REPO } from '../lib/demo.js'
 import { MOBILE, shareExport, syncReminder } from '../lib/mobile.js'
 import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet, athleteProfileSheet, weeklyCheckinSheet } from '../sheets.jsx'
+import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
 import Icon from '../components/Icon.jsx'
 import { Section, Row, SelectRow, Switch, Segmented, Button, TextField } from '../components/ui.jsx'
 
@@ -101,6 +102,14 @@ export default function Settings() {
           />
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
           <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to adapt your AI plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
+          <Row
+            icon="download"
+            iconTint="var(--green)"
+            title={t('Install Fit Ninja to Home Screen')}
+            subtitle={t('Run as a full-screen app with offline support')}
+            accessory="chevron"
+            onClick={openInstallSheet}
+          />
           <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={() => confirmSheet({ title: t('Sign out?'), message: t('Your data is cleared from this device.'), confirmText: t('Sign out'), danger: true, onConfirm: () => { signOut(); nav('/home'); toast(t('Signed out successfully')) } })} />
           <Row
             icon="trash"

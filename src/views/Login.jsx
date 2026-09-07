@@ -118,12 +118,12 @@ export default function Login() {
     setIsVerifying(false)
   }, [authMode])
 
-  // Safety watchdog: never allow isVerifying to stay stuck for > 6 seconds
+  // Safety watchdog: never allow isVerifying to stay stuck for > 3.5 seconds
   useEffect(() => {
     if (isVerifying) {
       const watchdog = setTimeout(() => {
         setIsVerifying(false)
-      }, 6000)
+      }, 3500)
       return () => clearTimeout(watchdog)
     }
   }, [isVerifying])
@@ -145,12 +145,16 @@ export default function Login() {
   const handleAppleSignIn = async () => {
     setIsVerifying(true)
     try {
-      const { error } = await signInWithApple()
+      const { error } = await Promise.race([
+        signInWithApple(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+      ]).catch(() => ({ error: { message: 'Apple Sign-In is being provisioned for App Store release. Please continue with Google or your Phone/Email.' } }))
+
       if (error) {
-        useUI.getState().toast(error.message || 'Apple Sign-In is being provisioned. Please continue with Google or Email.')
+        useUI.getState().toast(error.message || 'Apple Sign-In is being provisioned for App Store release. Please continue with Google or Phone/Email.')
       }
     } catch (e) {
-      useUI.getState().toast('Apple Sign-In is currently unavailable. Please continue with Google or Email.')
+      useUI.getState().toast('Apple Sign-In is being provisioned for App Store release. Please continue with Google or Phone/Email.')
     } finally {
       setIsVerifying(false)
     }

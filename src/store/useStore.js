@@ -107,9 +107,9 @@ export const useStore = create((set, get) => {
     paid: (() => {
       try {
         const u = JSON.parse(localStorage.getItem('gym_user') || 'null')
-        return !!(u && u.paid)
+        return localStorage.getItem('gym_paid') === '1' || !!(u && u.paid)
       } catch {
-        return false
+        return localStorage.getItem('gym_paid') === '1'
       }
     })(),
     ready: false,
@@ -321,10 +321,15 @@ export const useStore = create((set, get) => {
       // Restore local Google OAuth / paid-email session immediately
       const paidEmail = localStorage.getItem('gym_paid_email')
       const storedUser = JSON.parse(localStorage.getItem('gym_user') || 'null')
+      const isPaidFlag = localStorage.getItem('gym_paid') === '1'
       if (storedUser) {
+        if (isPaidFlag && !storedUser.paid) storedUser.paid = true
         get().setUser(storedUser)
+        if (isPaidFlag || storedUser.paid) get().setPaid(true)
       } else if (paidEmail) {
         get().setUser({ name: paidEmail.split('@')[0], email: paidEmail, paid: true })
+        get().setPaid(true)
+      } else if (isPaidFlag) {
         get().setPaid(true)
       }
 

@@ -8,18 +8,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode><App /></StrictMode>
 )
 
-// Force unregister stale legacy service workers and clear browser caches
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(regs => {
-    for (let reg of regs) {
-      reg.unregister()
-    }
-  })
-}
-if ('caches' in window) {
-  caches.keys().then(keys => {
-    for (let key of keys) {
-      if (!key.startsWith('fitninja-v3')) caches.delete(key)
-    }
+// Register modern Fit Ninja service worker in production for PWA installability and instant loading
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(err => {
+      console.warn('SW registration:', err)
+    })
   })
 }
