@@ -427,13 +427,13 @@ export default function Login() {
               ⚡ PRO PASS
             </span>
             <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
-              Save 70% · Just ₹9.9 / day
+              Save 50% · Just ₹16 / day
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
               <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
+              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹499</span>
               <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
             </div>
             <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime · 1-click</div>
@@ -656,7 +656,7 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue to Unlock Pro — ₹299' : 'Continue')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue to Unlock Pro — ₹499' : 'Continue')}
         </button>
 
         {/* Divider */}

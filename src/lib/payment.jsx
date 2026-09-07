@@ -29,7 +29,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       const options = {
         key: razorpayKey,
         name: 'Fit Ninja',
-        description: 'Fit Ninja Pro — ₹299/mo',
+        description: 'Fit Ninja Pro — ₹499/mo',
         image: 'https://fit.socialninjas.in/ninja-logo.png',
         prefill: {
           name: name || '',
@@ -54,7 +54,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         options.subscription_id = subId;
       } else {
         // Direct One-Click Live Checkout (UPI QR, GPay, PhonePe, Cards, NetBanking)
-        options.amount = 29900; // ₹299.00 in paise
+        options.amount = 49900; // ₹499.00 in paise
         options.currency = 'INR';
       }
 

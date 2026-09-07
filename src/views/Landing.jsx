@@ -29,7 +29,7 @@ export default function Landing() {
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "Fit Ninja Pro is available for ₹299/month (just ₹9.9/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated progressive overload, and adaptive macro nutrition."
+      a: "Fit Ninja Pro is available for ₹499/month (just ₹16/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated progressive overload, and adaptive macro nutrition."
     }
   ];
 
@@ -157,7 +157,7 @@ export default function Landing() {
             <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>User Rating</div>
           </div>
           <div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#c084fc' }}>₹299/mo</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#c084fc' }}>₹499/mo</div>
             <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Fit Ninja Pro</div>
           </div>
         </div>
@@ -274,7 +274,7 @@ export default function Landing() {
 
           <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja All-Access Pro</h3>
           <div style={{ fontSize: '42px', fontWeight: '900', color: '#fff', margin: '14px 0' }}>
-            ₹299 <span style={{ fontSize: '16px', color: '#888', fontWeight: '500' }}>/ month</span>
+            ₹499 <span style={{ fontSize: '16px', color: '#888', fontWeight: '500' }}>/ month</span>
           </div>
 
           <ul style={{ listStyle: 'none', padding: 0, margin: '24px 0', textAlign: 'left', display: 'grid', gap: '10px', fontSize: '13.5px', color: 'rgba(255,255,255,0.85)' }}>

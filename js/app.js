@@ -172,7 +172,7 @@ async function doPayment() {
       },
       modal: {
         ondismiss: function() {
-          btn.textContent = 'Pay ₹299 & Start Assessment →';
+          btn.textContent = 'Pay ₹499 & Start Assessment →';
           btn.disabled = false;
         }
       }
@@ -181,7 +181,7 @@ async function doPayment() {
     if (hasGenuineSub) {
       options.subscription_id = sub.id;
     } else {
-      options.amount = 29900;
+      options.amount = 49900;
       options.currency = 'INR';
     }
 
@@ -197,7 +197,7 @@ async function doPayment() {
     console.warn('Using fallback checkout:', e.message);
     var options = {
         key: 'rzp_live_SQHi9o325buXiH',
-        amount: 29900,
+        amount: 49900,
         currency: 'INR',
         name: 'Fit Ninja',
         description: 'Premium Fitness Coaching Plan (One-time fallback)',

@@ -67,7 +67,7 @@ Replace the `doPayment()` function in `js/app.js` with:
 function doPayment() {
   var options = {
     key: 'YOUR_RAZORPAY_KEY_ID',
-    amount: 29900, // ₹299 in paise
+    amount: 49900, // ₹499 in paise
     currency: 'INR',
     name: 'SocialNinjas Fit',
     description: 'Premium Membership — 1 Month',
