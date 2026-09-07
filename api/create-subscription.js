@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const razorpay = new Razorpay({ key_id, key_secret });
 
     const options = {
-      plan_id: process.env.RAZORPAY_PLAN_ID || 'plan_Ss1oHjJInUYYiV',
+      plan_id: process.env.RAZORPAY_PLAN_ID || 'plan_TZ9fEut1yueEFq',
       customer_notify: 1,
       total_count: 120,
     };

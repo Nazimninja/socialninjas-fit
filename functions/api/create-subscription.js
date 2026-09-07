@@ -28,7 +28,7 @@ export async function onRequest(context) {
     }
 
     const auth = btoa(`${key_id}:${key_secret}`);
-    const plan_id = env.RAZORPAY_PLAN_ID || 'plan_Ss1oHjJInUYYiV';
+    const plan_id = env.RAZORPAY_PLAN_ID || 'plan_TZ9fEut1yueEFq';
 
     const rzpResponse = await fetch('https://api.razorpay.com/v1/subscriptions', {
       method: 'POST',

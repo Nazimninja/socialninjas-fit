@@ -50,17 +50,26 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       };
 
       if (subId) {
-        // Genuine Razorpay Subscription ID: amount and currency MUST be omitted
+        // Genuine dynamic Razorpay Subscription ID
         options.subscription_id = subId;
       } else {
-        // Direct One-Click Live Checkout (UPI QR, GPay, PhonePe, Cards, NetBanking)
-        options.amount = 49900; // ₹499.00 in paise
-        options.currency = 'INR';
+        // Recurring monthly subscription (Plan: plan_TZ9fEut1yueEFq, ₹499/mo)
+        options.subscription_id = 'sub_TZ9jRc8mqa8bnd';
       }
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-      return;
+      try {
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+        return;
+      } catch (err) {
+        // Direct checkout fallback if subscription link expires
+        delete options.subscription_id;
+        options.amount = 49900;
+        options.currency = 'INR';
+        const fallbackRzp = new window.Razorpay(options);
+        fallbackRzp.open();
+        return;
+      }
     }
 
     if (onFailure) onFailure('Razorpay SDK loading. Please refresh and try again.');
