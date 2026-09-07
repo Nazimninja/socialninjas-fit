@@ -253,29 +253,27 @@ export default function Login() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
         width: '100%',
         boxSizing: 'border-box',
         overflowX: 'hidden',
-        padding: 'max(36px, calc(env(safe-area-inset-top, 0px) + 24px)) 16px calc(60px + env(safe-area-inset-bottom, 0px))',
-        maxWidth: '520px',
+        padding: 'calc(env(safe-area-inset-top, 0px) + 14px) 16px calc(env(safe-area-inset-bottom, 0px) + 20px)',
+        maxWidth: '500px',
         margin: '0 auto',
         textAlign: 'center'
       }}
     >
       {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
-      <div style={{ position: 'relative', marginBottom: '16px' }}>
+      <div style={{ position: 'relative', marginBottom: '12px' }}>
         <div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '140px',
-            height: '140px',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.35) 0%, rgba(37,99,235,0.05) 70%)',
-            filter: 'blur(24px)',
+            width: '110px',
+            height: '110px',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(37,99,235,0.05) 70%)',
+            filter: 'blur(20px)',
             pointerEvents: 'none',
             zIndex: 0
           }}
@@ -285,9 +283,9 @@ export default function Login() {
           alt="Fit Ninja Official Emblem"
           style={{
             position: 'relative',
-            width: '96px',
-            height: '96px',
-            filter: 'drop-shadow(0 14px 30px rgba(56,189,248,0.5))',
+            width: '76px',
+            height: '76px',
+            filter: 'drop-shadow(0 10px 24px rgba(56,189,248,0.45))',
             zIndex: 1,
             display: 'block',
             margin: '0 auto',
@@ -297,16 +295,16 @@ export default function Login() {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
-        <h1 style={{ fontSize: '33px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
           Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
         </h1>
         <span
           style={{
             background: 'linear-gradient(135deg, #38bdf8, #2563eb)',
             color: '#ffffff',
-            fontSize: '10px',
+            fontSize: '9.5px',
             fontWeight: '900',
-            padding: '3px 8px',
+            padding: '2.5px 7px',
             borderRadius: '6px',
             letterSpacing: '0.6px',
             textTransform: 'uppercase'
@@ -316,7 +314,7 @@ export default function Login() {
         </span>
       </div>
 
-      <div style={{ fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.8px', color: '#94a3b8', marginBottom: '18px' }}>
+      <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.6px', color: '#94a3b8', marginBottom: '14px' }}>
         BY SOCIAL NINJA'S · AI ATHLETE SYSTEM
       </div>
 
@@ -379,105 +377,105 @@ export default function Login() {
           boxSizing: 'border-box',
           background: 'linear-gradient(165deg, rgba(15,23,42,0.96) 0%, rgba(10,15,30,0.98) 100%)',
           border: '1px solid rgba(56,189,248,0.35)',
-          borderRadius: '24px',
-          padding: '20px 18px',
-          marginBottom: '18px',
+          borderRadius: '20px',
+          padding: '16px 14px',
+          marginBottom: '14px',
           textAlign: 'left',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1)',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
           position: 'relative'
         }}
       >
         {/* Pricing Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '14px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingBottom: '10px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div>
             <span
               style={{
                 background: 'rgba(56,189,248,0.15)',
                 border: '1px solid rgba(56,189,248,0.4)',
                 color: '#38bdf8',
-                fontSize: '10px',
+                fontSize: '9.5px',
                 fontWeight: '900',
                 textTransform: 'uppercase',
                 letterSpacing: '0.8px',
-                padding: '3px 10px',
+                padding: '2.5px 8px',
                 borderRadius: '99px',
                 display: 'inline-block',
-                marginBottom: '4px'
+                marginBottom: '3px'
               }}
             >
               ⚡ PRO PASS
             </span>
-            <div style={{ fontSize: '11.5px', color: '#22c55e', fontWeight: '800' }}>
+            <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
               Save 70% · Just ₹9.9 / day
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', justifyContent: 'flex-end' }}>
-              <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-              <span style={{ fontSize: '28px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
-              <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
+              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
+              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
+              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
             </div>
-            <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime · 1-click</div>
+            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime · 1-click</div>
           </div>
         </div>
 
         {/* 4 Compelling Value Pillars */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '12px' }}>
           {/* Feature 1 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
               🏋️
             </div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
                 Personalized Workout Splits
               </div>
-              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
                 Push/Pull/Legs, Upper/Lower, or Full Body routines built specifically for your goals &amp; schedule.
               </div>
             </div>
           </div>
 
           {/* Feature 2 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
               🎬
             </div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
                 1,300+ HD Exercise Video Guides
               </div>
-              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
                 Setup guides, form cues, and target muscle highlights so you lift safely with zero guesswork.
               </div>
             </div>
           </div>
 
           {/* Feature 3 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
               🥗
             </div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
                 Adaptive Diet &amp; Macro Protocols
               </div>
-              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
                 Custom daily calorie and protein targets with full 5-meal daily plans (Veg &amp; Non-Veg).
               </div>
             </div>
           </div>
 
           {/* Feature 4 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
               📈
             </div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
                 Smart Workout HUD &amp; Progression
               </div>
-              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
                 Tactile set logger, automatic rest timers, and progressive overload recommendations.
               </div>
             </div>
@@ -485,7 +483,7 @@ export default function Login() {
         </div>
 
         {/* Value Trust Highlights */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '11px', color: '#38bdf8', fontWeight: '700' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '10.5px', color: '#38bdf8', fontWeight: '700' }}>
           <span>✓ Instant Access</span>
           <span>✓ Cancel Anytime</span>
           <span>✓ 100% Risk-Free</span>
@@ -500,19 +498,19 @@ export default function Login() {
           background: 'linear-gradient(165deg, #131b2e 0%, #0c1222 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderTop: '1px solid rgba(56,189,248,0.3)',
-          borderRadius: '24px',
-          padding: '22px 18px',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+          borderRadius: '20px',
+          padding: '18px 16px',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
           textAlign: 'center',
-          marginBottom: '20px'
+          marginBottom: '14px'
         }}
       >
-        <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.4px', margin: '0 0 16px' }}>
+        <h2 style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.3px', margin: '0 0 14px' }}>
           {authMode === 'signup' ? 'Create Your Account' : 'Log In to Fit Ninja'}
         </h2>
 
         {/* Inputs */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px', width: '100%', boxSizing: 'border-box' }}>
           {/* Phone Row */}
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
             {/* Country Code Pill (Interactive Native Picker) */}
@@ -522,13 +520,13 @@ export default function Login() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '6px',
+                gap: '5px',
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
-                borderRadius: '14px',
-                padding: '13px 12px',
+                borderRadius: '12px',
+                padding: '12px 10px',
                 color: '#ffffff',
-                fontSize: '14px',
+                fontSize: '13.5px',
                 fontWeight: '700',
                 flexShrink: 0,
                 boxSizing: 'border-box',
@@ -536,9 +534,9 @@ export default function Login() {
                 cursor: 'pointer'
               }}
             >
-              <span style={{ fontSize: '18px', lineHeight: 1 }}>{selectedCountry.flag}</span>
+              <span style={{ fontSize: '17px', lineHeight: 1 }}>{selectedCountry.flag}</span>
               <span style={{ fontWeight: '800', letterSpacing: '0.2px' }}>{selectedCountry.code}</span>
-              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', marginLeft: '1px' }}>▾</span>
+              <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.6)', marginLeft: '1px' }}>▾</span>
 
               {/* Native invisible selector for iOS sheet / Android picker / Desktop dropdown */}
               <select
@@ -582,10 +580,10 @@ export default function Login() {
                 width: '100%',
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
-                borderRadius: '14px',
-                padding: '13px 14px',
+                borderRadius: '12px',
+                padding: '12px 14px',
                 color: '#ffffff',
-                fontSize: '15px',
+                fontSize: '14.5px',
                 fontWeight: '600',
                 outline: 'none',
                 letterSpacing: '0.5px',
@@ -605,10 +603,10 @@ export default function Login() {
               width: '100%',
               background: 'rgba(255,255,255,0.06)',
               border: '1px solid rgba(255,255,255,0.14)',
-              borderRadius: '14px',
-              padding: '14px 16px',
+              borderRadius: '12px',
+              padding: '12px 14px',
               color: '#ffffff',
-              fontSize: '15px',
+              fontSize: '14.5px',
               fontWeight: '600',
               outline: 'none',
               boxSizing: 'border-box'
@@ -625,14 +623,14 @@ export default function Login() {
             width: '100%',
             background: 'linear-gradient(135deg, #00e5a0 0%, #00c988 100%)',
             border: 'none',
-            borderRadius: '14px',
-            padding: '15px 20px',
+            borderRadius: '12px',
+            padding: '13px 18px',
             color: '#05101a',
-            fontSize: '15.5px',
+            fontSize: '15px',
             fontWeight: '900',
             cursor: 'pointer',
             boxShadow: '0 4px 20px rgba(0,229,160,0.3)',
-            marginBottom: '22px',
+            marginBottom: '16px',
             letterSpacing: '-0.2px',
             transition: 'transform 0.15s ease'
           }}
@@ -641,14 +639,14 @@ export default function Login() {
         </button>
 
         {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 20px', color: 'rgba(255,255,255,0.35)', fontSize: '12.5px', fontWeight: '600' }}>
+        <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 14px', color: 'rgba(255,255,255,0.35)', fontSize: '12px', fontWeight: '600' }}>
           <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
-          <span style={{ padding: '0 12px' }}>{authMode === 'signup' ? 'or sign up with' : 'or log in with'}</span>
+          <span style={{ padding: '0 10px' }}>{authMode === 'signup' ? 'or sign up with' : 'or log in with'}</span>
           <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
         </div>
 
         {/* Social Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '22px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
           {/* Google Button */}
           <button
             type="button"
@@ -658,19 +656,19 @@ export default function Login() {
               width: '100%',
               background: 'rgba(255,255,255,0.06)',
               border: '1px solid rgba(255,255,255,0.16)',
-              borderRadius: '14px',
-              padding: '13px 18px',
+              borderRadius: '12px',
+              padding: '12px 16px',
               color: '#ffffff',
-              fontSize: '14.5px',
+              fontSize: '14px',
               fontWeight: '800',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '10px'
+              gap: '9px'
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24">
+            <svg width="17" height="17" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
@@ -688,10 +686,10 @@ export default function Login() {
               width: '100%',
               background: '#ffffff',
               border: 'none',
-              borderRadius: '14px',
-              padding: '13px 18px',
+              borderRadius: '12px',
+              padding: '12px 16px',
               color: '#000000',
-              fontSize: '14.5px',
+              fontSize: '14px',
               fontWeight: '800',
               cursor: 'pointer',
               display: 'flex',
@@ -700,7 +698,7 @@ export default function Login() {
               gap: '8px'
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 170 170" fill="#000000">
+            <svg width="17" height="17" viewBox="0 0 170 170" fill="#000000">
               <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12.01-14.42-7.25-11.22-12.87-23.77-16.85-37.66-3.99-13.88-5.98-26.68-5.98-38.4 0-16.71 4.13-30.73 12.39-42.06 8.26-11.33 18.73-17.11 31.42-17.34 4.8 0 10.02 1.25 15.66 3.75 5.64 2.5 9.4 3.79 11.29 3.87 1.66 0 5.65-1.37 11.96-4.1 6.31-2.73 11.83-4.04 16.56-3.93 12.31.62 22.38 5.25 30.21 13.88-10.74 6.53-16.01 15.53-15.8 27.01.21 9.07 3.65 16.75 10.33 23.03 6.68 6.28 14.65 9.77 23.9 10.47-2.2 6.64-4.85 13.14-7.94 19.5zM119.22 31.81c0-7.39 2.67-14.32 8.01-20.78 5.34-6.46 12.02-10.33 20.04-11.62.21 1.04.31 1.98.31 2.82 0 7.39-2.83 14.48-8.5 21.27-5.67 6.79-12.51 10.78-20.52 11.96-.21-1.25-.32-2.29-.32-3.13z"/>
             </svg>
             <span>{authMode === 'signup' ? 'Sign up with Apple' : 'Sign in with Apple'}</span>
@@ -708,7 +706,7 @@ export default function Login() {
         </div>
 
         {/* Switcher */}
-        <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.7)', fontWeight: '600' }}>
+        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', fontWeight: '600' }}>
           {authMode === 'signup' ? (
             <>
               Already have an account?{' '}
@@ -724,7 +722,7 @@ export default function Login() {
                   color: '#c084fc',
                   fontWeight: '800',
                   cursor: 'pointer',
-                  fontSize: '13.5px',
+                  fontSize: '13px',
                   padding: 0
                 }}
               >
@@ -746,7 +744,7 @@ export default function Login() {
                   color: '#00e5a0',
                   fontWeight: '800',
                   cursor: 'pointer',
-                  fontSize: '13.5px',
+                  fontSize: '13px',
                   padding: 0
                 }}
               >
@@ -758,19 +756,19 @@ export default function Login() {
       </div>
 
       {/* ── 4. TRUST BADGES & LEGAL COMPLIANCE LINKS ──────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginTop: '16px', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', marginTop: '12px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
           🔒 256-Bit SSL
         </span>
-        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
           💳 Verified Payment
         </span>
-        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+        <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
           ⭐ 4.9/5 Rating
         </span>
       </div>
 
-      <div style={{ marginTop: '16px', display: 'flex', gap: '14px', justifyContent: 'center', fontSize: '11.5px', color: '#64748b' }}>
+      <div style={{ marginTop: '10px', display: 'flex', gap: '12px', justifyContent: 'center', fontSize: '11px', color: '#64748b' }}>
         <a href="/privacy.html" target="_blank" rel="noopener" style={{ color: '#94a3b8', textDecoration: 'none' }}>Privacy Policy</a>
         <span>·</span>
         <a href="/terms.html" target="_blank" rel="noopener" style={{ color: '#94a3b8', textDecoration: 'none' }}>Terms of Service</a>
@@ -778,7 +776,7 @@ export default function Login() {
         <a href="https://fit.socialninjas.in" target="_blank" rel="noopener" style={{ color: '#94a3b8', textDecoration: 'none' }}>Social Ninja's</a>
       </div>
 
-      <div style={{ marginTop: '10px', fontSize: '10.5px', color: '#64748b', lineHeight: 1.4, textAlign: 'center' }}>
+      <div style={{ marginTop: '8px', fontSize: '10px', color: '#64748b', lineHeight: 1.35, textAlign: 'center' }}>
         Fit Ninja provides fitness tracking &amp; educational routines. Consult a physician before starting any training program.
       </div>
     </div>

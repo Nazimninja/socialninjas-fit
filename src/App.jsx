@@ -195,7 +195,7 @@ function Shell() {
 
   return (
     <>
-      <div id="app" className="vfade" key={loc.pathname}>
+      <div id="app" className={`vfade ${!authed ? 'auth-shell' : ''}`} key={loc.pathname}>
         <ErrorBoundary>
           {!authed ? <Login /> : (
             <Routes>

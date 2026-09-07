@@ -248,6 +248,10 @@ button,.chip,.tile,.item,.wday,.cal-d,.swatch,.hm-c,.lrow,.seg button,.stp butto
   padding:calc(max(var(--sat), 16px) + 12px) var(--pad) calc(148px + var(--sab));
   max-width:560px;margin:0 auto;
 }
+#app.auth-shell{
+  padding:0;
+  max-width:100%;
+}
 .narrow{max-width:560px;margin:0 auto}
 .hdr{display:flex;align-items:center;margin-bottom:18px}
 .hdr h1{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--label)}
