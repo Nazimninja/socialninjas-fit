@@ -162,7 +162,14 @@ export default function Login() {
 
   const handleContinue = async () => {
     const rawVal = nameOrEmail.trim()
-    const cleanPhone = phone.trim() ? (selectedCountry.code + phone.trim().replace(/^(\+?\d{1,4}|0)/, '')) : ''
+    let digits = phone.trim().replace(/\D/g, '')
+    const cCode = selectedCountry.code.replace('+', '')
+    if (digits.startsWith(cCode) && digits.length > 10) {
+      digits = digits.slice(cCode.length)
+    } else if (digits.startsWith('0')) {
+      digits = digits.replace(/^0+/, '')
+    }
+    const cleanPhone = digits ? `${selectedCountry.code}${digits}` : ''
 
     if (authMode === 'signup') {
       if (!rawVal && !phone) {
