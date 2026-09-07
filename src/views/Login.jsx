@@ -255,6 +255,9 @@ export default function Login() {
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
+        width: '100%',
+        boxSizing: 'border-box',
+        overflowX: 'hidden',
         padding: 'max(36px, calc(env(safe-area-inset-top, 0px) + 24px)) 16px calc(60px + env(safe-area-inset-bottom, 0px))',
         maxWidth: '520px',
         margin: '0 auto',
@@ -322,6 +325,7 @@ export default function Login() {
         <div
           style={{
             width: '100%',
+            boxSizing: 'border-box',
             background: 'rgba(56, 189, 248, 0.08)',
             border: '1px solid rgba(56, 189, 248, 0.3)',
             borderRadius: '16px',
@@ -372,6 +376,7 @@ export default function Login() {
       <div
         style={{
           width: '100%',
+          boxSizing: 'border-box',
           background: 'linear-gradient(165deg, rgba(15,23,42,0.96) 0%, rgba(10,15,30,0.98) 100%)',
           border: '1px solid rgba(56,189,248,0.35)',
           borderRadius: '24px',
@@ -491,6 +496,7 @@ export default function Login() {
       <div
         style={{
           width: '100%',
+          boxSizing: 'border-box',
           background: 'linear-gradient(165deg, #131b2e 0%, #0c1222 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderTop: '1px solid rgba(56,189,248,0.3)',
@@ -506,9 +512,9 @@ export default function Login() {
         </h2>
 
         {/* Inputs */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px', width: '100%', boxSizing: 'border-box' }}>
           {/* Phone Row */}
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
             {/* Country Code Pill (Interactive Native Picker) */}
             <div
               style={{
@@ -520,11 +526,13 @@ export default function Login() {
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
                 borderRadius: '14px',
-                padding: '13px 14px',
+                padding: '13px 12px',
                 color: '#ffffff',
                 fontSize: '14px',
                 fontWeight: '700',
                 flexShrink: 0,
+                boxSizing: 'border-box',
+                whiteSpace: 'nowrap',
                 cursor: 'pointer'
               }}
             >
@@ -569,11 +577,13 @@ export default function Login() {
               onChange={e => setPhone(e.target.value.replace(/\D/g, ''))}
               maxLength={15}
               style={{
-                flex: 1,
+                flex: '1 1 0%',
+                minWidth: 0,
+                width: '100%',
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
                 borderRadius: '14px',
-                padding: '13px 16px',
+                padding: '13px 14px',
                 color: '#ffffff',
                 fontSize: '15px',
                 fontWeight: '600',
