@@ -17,6 +17,45 @@ const ADMIN_LIST = [
   'fit@socialninjas.in'
 ]
 
+const COUNTRY_CODES = [
+  { name: 'India', code: '+91', flag: '🇮🇳' },
+  { name: 'United States', code: '+1', flag: '🇺🇸' },
+  { name: 'United Kingdom', code: '+44', flag: '🇬🇧' },
+  { name: 'United Arab Emirates', code: '+971', flag: '🇦🇪' },
+  { name: 'Canada', code: '+1', flag: '🇨🇦' },
+  { name: 'Australia', code: '+61', flag: '🇦🇺' },
+  { name: 'Saudi Arabia', code: '+966', flag: '🇸🇦' },
+  { name: 'Singapore', code: '+65', flag: '🇸🇬' },
+  { name: 'Germany', code: '+49', flag: '🇩🇪' },
+  { name: 'France', code: '+33', flag: '🇫🇷' },
+  { name: 'Qatar', code: '+974', flag: '🇶🇦' },
+  { name: 'Kuwait', code: '+965', flag: '🇰🇼' },
+  { name: 'Oman', code: '+968', flag: '🇴🇲' },
+  { name: 'Bahrain', code: '+973', flag: '🇧🇭' },
+  { name: 'Malaysia', code: '+60', flag: '🇲🇾' },
+  { name: 'Indonesia', code: '+62', flag: '🇮🇩' },
+  { name: 'New Zealand', code: '+64', flag: '🇳🇿' },
+  { name: 'South Africa', code: '+27', flag: '🇿🇦' },
+  { name: 'Ireland', code: '+353', flag: '🇮🇪' },
+  { name: 'Spain', code: '+34', flag: '🇪🇸' },
+  { name: 'Italy', code: '+39', flag: '🇮🇹' },
+  { name: 'Netherlands', code: '+31', flag: '🇳🇱' },
+  { name: 'Switzerland', code: '+41', flag: '🇨🇭' },
+  { name: 'Sweden', code: '+46', flag: '🇸🇪' },
+  { name: 'Norway', code: '+47', flag: '🇳🇴' },
+  { name: 'Japan', code: '+81', flag: '🇯🇵' },
+  { name: 'South Korea', code: '+82', flag: '🇰🇷' },
+  { name: 'Philippines', code: '+63', flag: '🇵🇭' },
+  { name: 'Thailand', code: '+66', flag: '🇹🇭' },
+  { name: 'Vietnam', code: '+84', flag: '🇻🇳' },
+  { name: 'Brazil', code: '+55', flag: '🇧🇷' },
+  { name: 'Mexico', code: '+52', flag: '🇲🇽' },
+  { name: 'Pakistan', code: '+92', flag: '🇵🇰' },
+  { name: 'Bangladesh', code: '+880', flag: '🇧🇩' },
+  { name: 'Sri Lanka', code: '+94', flag: '🇱🇰' },
+  { name: 'Nepal', code: '+977', flag: '🇳🇵' }
+]
+
 export function RegisterSheet({ close }) {
   const { setUser, setPaid } = useStore()
   const [name, setName] = useState('')
@@ -70,7 +109,7 @@ export default function Login() {
   const { user, setUser, setPaid } = useStore()
   const [authMode, setAuthMode] = useState('signup') // 'signup' | 'login'
   const [phone, setPhone] = useState('')
-  const [countryCode, setCountryCode] = useState('+91')
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0])
   const [nameOrEmail, setNameOrEmail] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
 
@@ -119,7 +158,7 @@ export default function Login() {
 
   const handleContinue = async () => {
     const rawVal = nameOrEmail.trim()
-    const cleanPhone = phone.trim() ? (countryCode + phone.trim().replace(/^(\+91|0)/, '')) : ''
+    const cleanPhone = phone.trim() ? (selectedCountry.code + phone.trim().replace(/^(\+?\d{1,4}|0)/, '')) : ''
 
     if (authMode === 'signup') {
       if (!rawVal && !phone) {
@@ -469,26 +508,57 @@ export default function Login() {
         {/* Inputs */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}>
           {/* Phone Row */}
-          <div style={{ display: 'flex', gap: '10px' }}>
-            {/* Country Code Pill */}
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            {/* Country Code Pill (Interactive Native Picker) */}
             <div
               style={{
+                position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '6px',
                 background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.14)',
+                border: '1px solid rgba(255,255,255,0.16)',
                 borderRadius: '14px',
-                padding: '12px 14px',
+                padding: '13px 14px',
                 color: '#ffffff',
                 fontSize: '14px',
                 fontWeight: '700',
-                flexShrink: 0
+                flexShrink: 0,
+                cursor: 'pointer'
               }}
             >
-              <span>🇮🇳</span>
-              <span>{countryCode}</span>
-              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)' }}>▾</span>
+              <span style={{ fontSize: '18px', lineHeight: 1 }}>{selectedCountry.flag}</span>
+              <span style={{ fontWeight: '800', letterSpacing: '0.2px' }}>{selectedCountry.code}</span>
+              <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', marginLeft: '1px' }}>▾</span>
+
+              {/* Native invisible selector for iOS sheet / Android picker / Desktop dropdown */}
+              <select
+                aria-label="Select Country Code"
+                value={selectedCountry.code}
+                onChange={e => {
+                  const c = COUNTRY_CODES.find(item => item.code === e.target.value) || COUNTRY_CODES[0]
+                  setSelectedCountry(c)
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  opacity: 0,
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  zIndex: 10
+                }}
+              >
+                {COUNTRY_CODES.map((c, i) => (
+                  <option key={`${c.code}-${i}`} value={c.code} style={{ background: '#0d1527', color: '#ffffff' }}>
+                    {c.flag} {c.name} ({c.code})
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Phone Number Input */}
@@ -497,18 +567,19 @@ export default function Login() {
               placeholder="Phone number"
               value={phone}
               onChange={e => setPhone(e.target.value.replace(/\D/g, ''))}
-              maxLength={10}
+              maxLength={15}
               style={{
                 flex: 1,
                 background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.14)',
+                border: '1px solid rgba(255,255,255,0.16)',
                 borderRadius: '14px',
-                padding: '12px 16px',
+                padding: '13px 16px',
                 color: '#ffffff',
                 fontSize: '15px',
                 fontWeight: '600',
                 outline: 'none',
-                letterSpacing: '0.5px'
+                letterSpacing: '0.5px',
+                boxSizing: 'border-box'
               }}
             />
           </div>
