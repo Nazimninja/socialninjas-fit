@@ -223,17 +223,17 @@ export default function Login() {
       }}
     >
       {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
-      <div style={{ position: 'relative', marginBottom: '14px' }}>
+      <div style={{ position: 'relative', marginBottom: '16px' }}>
         <div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '120px',
-            height: '120px',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.22) 0%, rgba(37,99,235,0) 70%)',
-            filter: 'blur(20px)',
+            width: '140px',
+            height: '140px',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.35) 0%, rgba(37,99,235,0.05) 70%)',
+            filter: 'blur(24px)',
             pointerEvents: 'none',
             zIndex: 0
           }}
@@ -243,9 +243,9 @@ export default function Login() {
           alt="Fit Ninja Official Emblem"
           style={{
             position: 'relative',
-            width: '84px',
-            height: '84px',
-            filter: 'drop-shadow(0 10px 24px rgba(56,189,248,0.45))',
+            width: '96px',
+            height: '96px',
+            filter: 'drop-shadow(0 14px 30px rgba(56,189,248,0.5))',
             zIndex: 1,
             display: 'block',
             margin: '0 auto',
@@ -255,7 +255,7 @@ export default function Login() {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
-        <h1 style={{ fontSize: '32px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
+        <h1 style={{ fontSize: '33px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
           Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
         </h1>
         <span
@@ -329,22 +329,22 @@ export default function Login() {
         </div>
       )}
 
-      {/* ── 2. PRO PASS VALUE CARD (Compact, High-Converting) ── */}
+      {/* ── 2. PRO PASS VALUE COCKPIT CARD (Compelling, High-Converting) ── */}
       <div
         style={{
           width: '100%',
-          background: 'linear-gradient(165deg, rgba(15,23,42,0.95) 0%, rgba(10,15,30,0.98) 100%)',
+          background: 'linear-gradient(165deg, rgba(15,23,42,0.96) 0%, rgba(10,15,30,0.98) 100%)',
           border: '1px solid rgba(56,189,248,0.35)',
-          borderRadius: '22px',
-          padding: '16px 18px',
-          marginBottom: '16px',
+          borderRadius: '24px',
+          padding: '20px 18px',
+          marginBottom: '18px',
           textAlign: 'left',
-          boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.1)',
           position: 'relative'
         }}
       >
         {/* Pricing Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '14px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div>
             <span
               style={{
@@ -355,7 +355,7 @@ export default function Login() {
                 fontWeight: '900',
                 textTransform: 'uppercase',
                 letterSpacing: '0.8px',
-                padding: '3px 9px',
+                padding: '3px 10px',
                 borderRadius: '99px',
                 display: 'inline-block',
                 marginBottom: '4px'
@@ -363,46 +363,88 @@ export default function Login() {
             >
               ⚡ PRO PASS
             </span>
-            <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
+            <div style={{ fontSize: '11.5px', color: '#22c55e', fontWeight: '800' }}>
               Save 70% · Just ₹9.9 / day
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px', justifyContent: 'flex-end' }}>
-              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-              <span style={{ fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
-              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+              <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
+              <span style={{ fontSize: '28px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹299</span>
+              <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
             </div>
-            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime</div>
+            <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime · 1-click</div>
           </div>
         </div>
 
-        {/* 4 Clean High-Impact Benefits (Say Less, Do More) */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '8px 12px',
-            paddingTop: '12px',
-            borderTop: '1px solid rgba(255,255,255,0.08)'
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
-            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
-            <span>1,300+ HD Guides</span>
+        {/* 4 Compelling Value Pillars */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '14px' }}>
+          {/* Feature 1 */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+              🏋️
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+                Personalized Workout Splits
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+                Push/Pull/Legs, Upper/Lower, or Full Body routines built specifically for your goals &amp; schedule.
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
-            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
-            <span>AI Workout &amp; Diet</span>
+
+          {/* Feature 2 */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+              🎬
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+                1,300+ HD Exercise Video Guides
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+                Setup guides, form cues, and target muscle highlights so you lift safely with zero guesswork.
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
-            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
-            <span>Muscle Volume 3D</span>
+
+          {/* Feature 3 */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+              🥗
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+                Adaptive Diet &amp; Macro Protocols
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+                Custom daily calorie and protein targets with full 5-meal daily plans (Veg &amp; Non-Veg).
+              </div>
+            </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12.5px', fontWeight: '700', color: '#f1f5f9' }}>
-            <span style={{ color: '#38bdf8', fontSize: '13px' }}>✓</span>
-            <span>Smart Rest Timers</span>
+
+          {/* Feature 4 */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '10px', padding: '7px', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}>
+              📈
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', marginBottom: '2px' }}>
+                Smart Workout HUD &amp; Progression
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.35 }}>
+                Tactile set logger, automatic rest timers, and progressive overload recommendations.
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* Value Trust Highlights */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '11px', color: '#38bdf8', fontWeight: '700' }}>
+          <span>✓ Instant Access</span>
+          <span>✓ Cancel Anytime</span>
+          <span>✓ 100% Risk-Free</span>
         </div>
       </div>
 
