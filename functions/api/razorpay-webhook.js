@@ -77,6 +77,7 @@ export async function onRequest(context) {
   const isActivatedEvent = [
     'subscription.activated',
     'subscription.charged',
+    'subscription.authenticated',
     'payment.captured',
     'order.paid'
   ].includes(eventName);
