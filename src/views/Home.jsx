@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
 import { fmtNum, fmtDate, fmtVol, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
 import { EXIDX } from '../lib/exercises.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet, onboardingWizardSheet, appGuideSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -121,6 +121,16 @@ export default function Home() {
   const { worked: workedMuscles } = rankOf(thisWeekLoad)
   const maxMuscleSets = Math.max(1, ...Object.values(thisWeekLoad))
 
+  // Auto-launch Onboarding assessment if new paid user has no routines and hasn't onboarded yet
+  useEffect(() => {
+    if (!S.onboarded && (!S.routines || S.routines.length === 0)) {
+      const timer = setTimeout(() => {
+        onboardingWizardSheet()
+      }, 700)
+      return () => clearTimeout(timer)
+    }
+  }, [S.onboarded, S.routines])
+
   const onToday = () => {
     if (S.active) nav('/workout')
     else if (routine) startFlow(routine.id)
@@ -174,6 +184,9 @@ export default function Home() {
           <div onClick={() => calendarSheet()} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '7px 13px', fontSize: '12px', fontWeight: '800', color: 'var(--label)', cursor: 'pointer', letterSpacing: '-0.2px' }}>
             🔥 <span>{streakWeeks(S)}w</span>
           </div>
+          <button className="iconbtn" onClick={appGuideSheet} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }} title="Quick Start & App Guide">
+            <Icon name="info" />
+          </button>
           <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }}>
             <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
           </button>
@@ -399,19 +412,19 @@ export default function Home() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-          <div style={{ width: '56px', height: '56px', borderRadius: '18px', flexShrink: 0, background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)', color: 'var(--label)' }}>
-            <Icon name={(isSelectedToday && S.active) ? 'timer' : isSelectedDone ? 'trophy' : selectedRoutine ? glyphOf(selectedRoutine.emoji) : 'moon'} />
+          <div style={{ width: '56px', height: '56px', borderRadius: '18px', flexShrink: 0, background: (!selectedRoutine && (!S.routines || S.routines.length === 0)) ? 'rgba(56,189,248,0.14)' : 'var(--surface-2)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)', color: (!selectedRoutine && (!S.routines || S.routines.length === 0)) ? '#38bdf8' : 'var(--label)' }}>
+            <Icon name={(isSelectedToday && S.active) ? 'timer' : isSelectedDone ? 'trophy' : selectedRoutine ? glyphOf(selectedRoutine.emoji) : (!S.routines || S.routines.length === 0) ? 'rocket' : 'moon'} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: '20px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '4px' }}>
-              {(isSelectedToday && S.active) ? S.active.name : isSelectedDone ? selectedDayWorkouts[0].name : selectedRoutine ? selectedRoutine.name : 'Rest & Recovery'}
+              {(isSelectedToday && S.active) ? S.active.name : isSelectedDone ? selectedDayWorkouts[0].name : selectedRoutine ? selectedRoutine.name : (!S.routines || S.routines.length === 0) ? 'Welcome to Fit Ninja' : 'Rest & Recovery'}
             </div>
             <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.3 }}>
               {(isSelectedToday && S.active)
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed`
                 : isSelectedDone
                 ? `${selectedDayWorkouts[0].entries?.length || 0} exercises completed · ${fmtVol(selectedDayWorkouts[0].vol, S.unit)} logged`
-                : selectedRoutine ? 'AI-calibrated progressive overload' : 'Hydrate · hit protein · sleep 8h'}
+                : selectedRoutine ? 'AI-calibrated progressive overload' : (!S.routines || S.routines.length === 0) ? 'Launch setup to generate your custom split & macros' : 'Hydrate · hit protein · sleep 8h'}
             </div>
           </div>
         </div>
@@ -501,15 +514,16 @@ export default function Home() {
             {`▶  Start ${selectedRoutine.name}`}
           </button>
         ) : (
-          <button onClick={() => dayOverrideSheet(selectedDateISO)} style={{
+          <button onClick={() => (!S.routines || S.routines.length === 0) ? onboardingWizardSheet() : dayOverrideSheet(selectedDateISO)} style={{
             width: '100%',
-            background: 'var(--surface-2)',
-            border: '1px solid var(--card-border)',
-            color: 'var(--label-2)',
-            borderRadius: '14px', padding: '14px',
-            fontSize: '14px', fontWeight: '800', cursor: 'pointer'
+            background: (!S.routines || S.routines.length === 0) ? 'linear-gradient(135deg, #38bdf8 0%, #2563eb 100%)' : 'var(--surface-2)',
+            border: (!S.routines || S.routines.length === 0) ? 'none' : '1px solid var(--card-border)',
+            color: (!S.routines || S.routines.length === 0) ? '#ffffff' : 'var(--label-2)',
+            borderRadius: '14px', padding: '15px',
+            fontSize: '14.5px', fontWeight: '900', cursor: 'pointer',
+            boxShadow: (!S.routines || S.routines.length === 0) ? '0 4px 20px rgba(56,189,248,0.35)' : 'none'
           }}>
-            + Schedule Workout for this Day
+            {(!S.routines || S.routines.length === 0) ? '⚡ Complete 60s Fitness Setup' : '+ Schedule Workout for this Day'}
           </button>
         )}
       </div>

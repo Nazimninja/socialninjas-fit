@@ -48,10 +48,29 @@ function UserDetail({ id, onChanged, close }) {
       <div className="tile"><div className="l">Routines</div><div className="v" style={{ fontSize: '1.1rem' }}>{d.routines.length}</div></div>
       <div className="tile"><div className="l">Last sync</div><div className="v" style={{ fontSize: '.95rem' }}>{rel(d.lastSync)}</div></div>
     </div>
-    {!u.admin && <button className={'btn ' + (u.disabled ? 'primary' : 'danger')} style={{ margin: '12px 0 4px' }}
-      onClick={() => u.disabled ? setDisabled(false)
-        : confirmSheet({ title: 'Disable ' + u.name + '?', message: 'They are signed out everywhere and can no longer sync or log in until re-enabled.', confirmText: 'Disable', danger: true, onConfirm: () => setDisabled(true) })}>
-      {u.disabled ? 'Enable account' : 'Disable account'}</button>}
+    <div style={{ display: 'flex', gap: '8px', margin: '12px 0 6px' }}>
+      <button
+        type="button"
+        className="btn"
+        style={{ flex: 1, background: 'var(--surface-2)', border: '1px solid var(--card-border)', fontSize: '12.5px', fontWeight: '800' }}
+        onClick={() => {
+          const msg = `Hi ${u.name}! Welcome to Fit Ninja Pro 🥋\n\nYour membership is active. To get started:\n1. Open https://fit.socialninjas.in/app on Safari or Chrome\n2. Tap 'Add to Home Screen' for instant 1-tap full-screen access\n3. Complete your 60-second assessment to get your custom workout & macro split!\n\nLet's crush your goals!`
+          navigator.clipboard?.writeText(msg).then(() => toast('✓ Welcome message copied to clipboard!')).catch(() => toast('Copy failed'))
+        }}
+      >
+        📋 Copy Welcome & Setup Message
+      </button>
+      {!u.admin && (
+        <button
+          type="button"
+          className={'btn ' + (u.disabled ? 'primary' : 'danger')}
+          style={{ padding: '8px 14px', fontSize: '12.5px' }}
+          onClick={() => u.disabled ? setDisabled(false) : confirmSheet({ title: 'Disable ' + u.name + '?', message: 'They are signed out everywhere and can no longer sync or log in until re-enabled.', confirmText: 'Disable', danger: true, onConfirm: () => setDisabled(true) })}
+        >
+          {u.disabled ? 'Enable' : 'Disable'}
+        </button>
+      )}
+    </div>
     <h4 className="sec">Workout history</h4>
     {d.workouts.length ? <div className="list" style={{ gap: 0 }}>
       {d.workouts.slice(0, 60).map(w => <div key={w.id} className="row between" style={{ padding: '9px 2px', borderBottom: '1px solid var(--sep)' }}>

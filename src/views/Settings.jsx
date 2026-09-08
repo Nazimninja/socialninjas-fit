@@ -10,7 +10,7 @@ import { wakeLockSupported } from '../lib/wakelock.js'
 import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
 import { DEMO, REPO } from '../lib/demo.js'
 import { MOBILE, shareExport, syncReminder } from '../lib/mobile.js'
-import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet, athleteProfileSheet, weeklyCheckinSheet } from '../sheets.jsx'
+import { confirmSheet, onboardingWizardSheet, exploreProgramsSheet, athleteProfileSheet, weeklyCheckinSheet, appGuideSheet } from '../sheets.jsx'
 import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
 import Icon from '../components/Icon.jsx'
 import { Section, Row, SelectRow, Switch, Segmented, Button, TextField } from '../components/ui.jsx'
@@ -227,6 +227,26 @@ export default function Settings() {
     {/* Reset after reading so picking the same file twice still fires onChange. */}
     <input ref={importRef} type="file" accept=".csv,.xml,text/csv,text/xml" style={{ display: 'none' }}
       onChange={ev => { const f = ev.target.files[0]; if (f) importFromApp(f); ev.target.value = '' }} />
+
+    {/* ---------- Help & Setup Guide ---------- */}
+    <Section title={t('Help & Setup Guide')}>
+      <Row
+        icon="info"
+        iconTint="var(--acc)"
+        title={t('Quick Start & App Guide')}
+        subtitle={t('How to install, run workouts, log meals & track progress')}
+        accessory="chevron"
+        onClick={appGuideSheet}
+      />
+      <Row
+        icon="link"
+        iconTint="var(--blue)"
+        title={t('Support & Contact')}
+        subtitle="support@socialninjas.in"
+        accessory="chevron"
+        onClick={() => window.open('mailto:support@socialninjas.in?subject=Fit%20Ninja%20Support%20Request', '_blank')}
+      />
+    </Section>
 
     {/* ---------- Legal & Medical (App Store & Play Store Required) ---------- */}
     <Section title={t('Legal & Medical Advisory')} footer={t('Fit Ninja v2.0.0 · Build 2026.09')}>

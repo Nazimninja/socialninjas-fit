@@ -2617,3 +2617,90 @@ function WeeklyPlanUpdateModal({ plan, close }) {
 export function weeklyPlanUpdateSheet(plan) {
   ui().openSheet(close => <WeeklyPlanUpdateModal plan={plan} close={close} />, { kind: 'center' })
 }
+
+/* ============================ FIT NINJA QUICK START & APP GUIDE ============================ */
+function AppGuideModal({ close }) {
+  return (
+    <div style={{ padding: '8px 4px', maxWidth: '440px', margin: '0 auto', color: 'var(--label)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', boxShadow: '0 4px 14px rgba(2,132,199,0.3)' }}>
+          ⚡
+        </div>
+        <div>
+          <h3 style={{ fontSize: '18px', fontWeight: '900', margin: '0 0 4px', letterSpacing: '-0.3px', color: 'var(--label)' }}>
+            Fit Ninja Quick Start Guide
+          </h3>
+          <div style={{ fontSize: '12px', color: 'var(--label-2)' }}>
+            Everything you need to master your fitness protocol
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+        {[
+          {
+            step: '1',
+            icon: '📱',
+            title: 'Add to Home Screen',
+            desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen HUD, and offline tracking.',
+            tag: 'Recommended'
+          },
+          {
+            step: '2',
+            icon: '🏋️',
+            title: 'Daily Workout Protocol',
+            desc: 'Open Home to view today\'s scheduled routine. Watch 3D exercise video demos for exact biomechanics and tap ✓ as you complete each set.',
+            tag: 'Core'
+          },
+          {
+            step: '3',
+            icon: '🥗',
+            title: 'Target Calories & Macros',
+            desc: 'Your AI plan automatically calculates your target calories, protein, carbs, and fats based on your fitness goals. Log daily meals on the Nutrition tab.',
+            tag: 'Fuel'
+          },
+          {
+            step: '4',
+            icon: '⚖️',
+            title: 'Weekly Check-Ins & Progress',
+            desc: 'Log your morning weight and submit weekly physique check-ins under Stats to view your visual transformation timeline.',
+            tag: 'Results'
+          }
+        ].map(({ step, icon, title, desc, tag }) => (
+          <div key={step} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '14px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+            <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(56,189,248,0.14)', border: '1px solid rgba(56,189,248,0.25)', color: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '15px', flexShrink: 0 }}>
+              {icon}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <div style={{ fontSize: '13.5px', fontWeight: '800', color: 'var(--label)' }}>{title}</div>
+                <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(255,255,255,0.06)', padding: '2px 7px', borderRadius: '99px', color: 'var(--label-3)' }}>{tag}</span>
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.45 }}>{desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: '14px', padding: '12px 14px', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <span style={{ fontSize: '16px' }}>✉️</span>
+        <div style={{ fontSize: '11.5px', color: 'var(--label-2)', lineHeight: 1.4 }}>
+          Need technical or subscription support? Email us directly at <a href="mailto:support@socialninjas.in" style={{ color: '#38bdf8', fontWeight: '700', textDecoration: 'none' }}>support@socialninjas.in</a>.
+        </div>
+      </div>
+
+      <Button
+        variant="primary"
+        onClick={close}
+        style={{ width: '100%', padding: '13px', fontSize: '14px', fontWeight: '800', borderRadius: '12px' }}
+      >
+        Got it, Let's Train!
+      </Button>
+    </div>
+  )
+}
+
+export function appGuideSheet() {
+  ui().openSheet(close => <AppGuideModal close={close} />)
+}
+
