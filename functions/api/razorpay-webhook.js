@@ -86,6 +86,8 @@ export async function onRequest(context) {
     let userId = null;
     let email = null;
     let phone = null;
+    let name = null;
+    let amount = 499;
     let subscriptionId = null;
 
     if (isExpiredEvent) {
@@ -94,6 +96,8 @@ export async function onRequest(context) {
       subscriptionId = sub.id;
       userId = sub.notes?.user_id;
       email = sub.notes?.email || sub.notes?.brand_email || sub.customer_details?.email;
+      phone = sub.notes?.phone || sub.contact || sub.customer_details?.contact;
+      name = sub.notes?.name || sub.customer_details?.name || sub.notes?.full_name || 'Athlete';
     } else if (isActivatedEvent) {
       targetStatus = 'premium';
       const entity = event.payload?.subscription?.entity || event.payload?.payment?.entity || {};
@@ -101,6 +105,10 @@ export async function onRequest(context) {
       userId = entity.notes?.user_id;
       email = entity.notes?.email || entity.email || entity.customer_details?.email;
       phone = entity.notes?.phone || entity.contact || entity.customer_details?.contact;
+      name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
+      if (entity.amount) {
+        amount = Math.round(entity.amount / 100);
+      }
     }
 
     const cleanEmail = (email || '').toLowerCase().trim();
@@ -154,6 +162,30 @@ export async function onRequest(context) {
             updated_at: new Date().toISOString()
           })
         });
+      }
+
+      // Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
+      if (targetStatus === 'premium') {
+        try {
+          const n8nWebhookUrl = env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
+          await fetch(n8nWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'member.onboarded',
+              name: name || 'Athlete',
+              phone: phone || '',
+              email: cleanEmail,
+              amount,
+              subscriptionId: subscriptionId || 'sub_manual',
+              plan: 'Fit Ninja Pro',
+              timestamp: new Date().toISOString()
+            })
+          });
+          console.log(`[Fit Webhook] Dispatched welcome payload to n8n for ${cleanEmail}`);
+        } catch (n8nErr) {
+          console.warn('[Fit Webhook] Failed to forward to n8n:', n8nErr);
+        }
       }
 
       console.log(`[Fit Webhook] Processed ${eventName} for ${cleanEmail || userId}: ${targetStatus}`);

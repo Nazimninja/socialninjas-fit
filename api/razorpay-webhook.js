@@ -42,17 +42,30 @@ export default async function handler(req, res) {
     let targetStatus = null;
     let userId = null;
     let email = null;
+    let phone = null;
+    let name = null;
+    let amount = 499;
+    let subscriptionId = null;
 
     if (isExpiredEvent) {
       targetStatus = 'free';
-      const sub = event.payload.subscription.entity;
+      const sub = event.payload?.subscription?.entity || {};
+      subscriptionId = sub.id;
       userId = sub.notes?.user_id;
       email = sub.notes?.email || sub.notes?.brand_email;
+      phone = sub.notes?.phone || sub.contact || sub.customer_details?.contact;
+      name = sub.notes?.name || sub.customer_details?.name || sub.notes?.full_name || 'Athlete';
     } else if (isActivatedEvent) {
       targetStatus = 'premium';
-      const entity = event.payload.subscription ? event.payload.subscription.entity : event.payload.payment.entity;
+      const entity = event.payload?.subscription?.entity || event.payload?.payment?.entity || {};
+      subscriptionId = entity.id || event.payload?.subscription?.entity?.id;
       userId = entity.notes?.user_id;
-      email = entity.notes?.email || entity.email;
+      email = entity.notes?.email || entity.email || entity.customer_details?.email;
+      phone = entity.notes?.phone || entity.contact || entity.customer_details?.contact;
+      name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
+      if (entity.amount) {
+        amount = Math.round(entity.amount / 100);
+      }
     }
 
     if (targetStatus && (userId || email)) {
@@ -95,6 +108,31 @@ export default async function handler(req, res) {
 
       const updatedData = await response.json();
       console.log('[Fit Webhook] Profile updated successfully:', JSON.stringify(updatedData));
+
+      // Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
+      if (targetStatus === 'premium') {
+        try {
+          const n8nWebhookUrl = process.env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
+          await fetch(n8nWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'member.onboarded',
+              name: name || 'Athlete',
+              phone: phone || '',
+              email: (email || '').toLowerCase().trim(),
+              amount,
+              subscriptionId: subscriptionId || 'sub_manual',
+              plan: 'Fit Ninja Pro',
+              timestamp: new Date().toISOString()
+            })
+          });
+          console.log(`[Fit Webhook] Dispatched welcome payload to n8n for ${email}`);
+        } catch (n8nErr) {
+          console.warn('[Fit Webhook] Failed to forward to n8n:', n8nErr);
+        }
+      }
+
       return res.status(200).json({ success: true, updated: true, status: targetStatus });
     }
 
