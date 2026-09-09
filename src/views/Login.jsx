@@ -365,7 +365,7 @@ export default function Login() {
         />
         {/* Pure Floating Ninja Emblem - Crisp Steel Details & Cyan Visor */}
         <img
-          src="/ninja-emblem.png"
+          src="/ninja-emblem.png?v=20"
           alt="Fit Ninja"
           style={{
             position: 'relative',
