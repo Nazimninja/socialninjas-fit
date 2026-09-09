@@ -26,7 +26,7 @@ import Library from './views/Library.jsx'
 import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
-import { supabase, supabasePublic, ADMIN_EMAILS } from './lib/api.js'
+import { supabase, supabasePublic, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from './lib/api.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -59,9 +59,9 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
   let isPaid = false
   let isAdmin = false
 
-  if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')) {
+  if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(cleanEmail)) {
     isPaid = true
-    isAdmin = true
+    isAdmin = ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')
   } else {
     // 2. Query Supabase database for active membership or existing user state
     const candidates = [cleanEmail]

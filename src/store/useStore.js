@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api, supabase, ADMIN_EMAILS } from '../lib/api.js'
+import { api, supabase, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from '../lib/api.js'
 import { localTZ, todayISO } from '../lib/format.js'
 import { registerCustom, EXIDX, EXDB } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
@@ -501,12 +501,15 @@ export const useStore = create((set, get) => {
       const paidEmail = localStorage.getItem('gym_paid_email')
       const storedUser = JSON.parse(localStorage.getItem('gym_user') || 'null')
       const isPaidFlag = localStorage.getItem('gym_paid') === '1'
+      const targetEmail = (storedUser?.email || paidEmail || '').toLowerCase().trim()
+      const isWhitelisted = targetEmail && (VERIFIED_PAID_MEMBERS.includes(targetEmail) || ADMIN_EMAILS.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in'))
+
       if (storedUser) {
-        if (isPaidFlag && !storedUser.paid) storedUser.paid = true
+        if (isPaidFlag || isWhitelisted) storedUser.paid = true
         get().setUser(storedUser)
-        if (isPaidFlag || storedUser.paid) get().setPaid(true)
-      } else if (paidEmail) {
-        get().setUser({ name: paidEmail.split('@')[0], email: paidEmail, paid: true })
+        if (isPaidFlag || storedUser.paid || isWhitelisted) get().setPaid(true)
+      } else if (paidEmail || isWhitelisted) {
+        get().setUser({ name: (targetEmail || 'Athlete').split('@')[0], email: targetEmail, paid: true })
         get().setPaid(true)
       } else if (isPaidFlag) {
         get().setPaid(true)

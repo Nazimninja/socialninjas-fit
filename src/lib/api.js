@@ -36,6 +36,11 @@ export const ADMIN_EMAILS = [
   'fit@socialninjas.in'
 ]
 
+export const VERIFIED_PAID_MEMBERS = [
+  'saqlainsharief161@gmail.com',
+  'highonnfitness@gmail.com'
+]
+
 export async function signInWithGoogle() {
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -92,9 +97,9 @@ export async function verifyMemberEmail(email) {
   const clean = (email || '').trim().toLowerCase()
   if (!clean) return { verified: false, error: 'Email address is required' }
 
-  // 1. Admin / Owner Email Whitelist check (EXACT matches or company domain only)
-  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in')) {
-    return { verified: true, role: 'admin', email: clean }
+  // 1. Admin / Owner / Verified Members check
+  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(clean)) {
+    return { verified: true, role: (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in')) ? 'admin' : 'member', email: clean }
   }
 
   // 2. Query Supabase DB for active membership or saved state

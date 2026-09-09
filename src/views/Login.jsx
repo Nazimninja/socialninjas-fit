@@ -1,8 +1,9 @@
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signInWithApple, supabase, IS_APPLE } from '../lib/api.js'
+import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signInWithApple, supabase, IS_APPLE, VERIFIED_PAID_MEMBERS } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK } from '../lib/payment.jsx'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
@@ -105,6 +106,7 @@ export function RegisterSheet({ close }) {
 }
 
 export default function Login() {
+  const navigate = useNavigate()
   const { user, setUser, setPaid } = useStore()
   const getInitialAuthMode = () => {
     try {
@@ -155,11 +157,18 @@ export default function Login() {
     setIsVerifying(false)
   }, [authMode])
 
-  // Auto-verify if authenticated user has an active membership (e.g. after returning from Razorpay payment)
+  // Auto-verify if authenticated user has an active membership (e.g. after returning from Razorpay payment or Google OAuth)
   useEffect(() => {
     const checkStatus = async () => {
-      const target = user?.email || localStorage.getItem('gym_paid_email')
+      const target = (user?.email || localStorage.getItem('gym_paid_email') || '').toLowerCase().trim()
       if (target) {
+        if (VERIFIED_PAID_MEMBERS.includes(target) || ADMIN_LIST.includes(target) || target.endsWith('@socialninjas.in')) {
+          setUser({ ...(user || {}), name: user?.name || target.split('@')[0], email: target, paid: true, admin: ADMIN_LIST.includes(target) })
+          setPaid(true)
+          navigate('/home', { replace: true })
+          window.location.hash = '#/home'
+          return
+        }
         try {
           const res = await verifyMemberEmail(target).catch(() => ({ verified: false }))
           if (res && res.verified) {
@@ -167,6 +176,7 @@ export default function Login() {
             setPaid(true)
             sessionStorage.setItem('fn_just_paid', '1')
             useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            navigate('/home', { replace: true })
             window.location.hash = '#/home'
             onboardingWizardSheet()
           }
@@ -184,7 +194,7 @@ export default function Login() {
       window.removeEventListener('focus', checkStatus)
       document.removeEventListener('visibilitychange', onVis)
     }
-  }, [user?.email])
+  }, [user?.email, navigate])
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true)
@@ -252,6 +262,7 @@ export default function Login() {
             setPaid(true)
             useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
             setIsVerifying(false)
+            navigate('/home', { replace: true })
             window.location.hash = '#/home'
             return
           }
@@ -342,11 +353,13 @@ export default function Login() {
       }
       setIsVerifying(true)
 
-      if (ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in')) {
-        setUser({ name: lookup.split('@')[0] || 'Admin', email: lookup, paid: true, admin: true })
+      if (ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(lookup)) {
+        const isAdmin = ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in')
+        setUser({ name: lookup.split('@')[0] || 'Athlete', email: lookup, paid: true, admin: isAdmin })
         setPaid(true)
-        useUI.getState().toast('Admin verified! Welcome back.')
+        useUI.getState().toast(isAdmin ? 'Admin verified! Welcome back.' : '⚡ Membership verified! Welcome back.')
         setIsVerifying(false)
+        navigate('/home', { replace: true })
         window.location.hash = '#/home'
         return
       }
@@ -359,6 +372,7 @@ export default function Login() {
           setPaid(true)
           useUI.getState().toast('⚡ Membership verified! Welcome back.')
           setIsVerifying(false)
+          navigate('/home', { replace: true })
           window.location.hash = '#/home'
           return
         }
@@ -511,11 +525,22 @@ export default function Login() {
               onClick={async () => {
                 setIsBannerVerifying(true)
                 try {
-                  const res = await verifyMemberEmail(user.email)
+                  const targetEmail = (user?.email || '').toLowerCase().trim()
+                  if (VERIFIED_PAID_MEMBERS.includes(targetEmail) || ADMIN_LIST.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in')) {
+                    const isAdmin = ADMIN_LIST.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in')
+                    setUser({ ...user, paid: true, admin: isAdmin })
+                    setPaid(true)
+                    useUI.getState().toast('⚡ Access Verified! Welcome to Pro.')
+                    navigate('/home', { replace: true })
+                    window.location.hash = '#/home'
+                    return
+                  }
+                  const res = await verifyMemberEmail(targetEmail)
                   if (res && res.verified) {
                     setUser({ ...user, paid: true, admin: res.role === 'admin' })
                     setPaid(true)
                     useUI.getState().toast('⚡ Access Verified! Welcome to Pro.')
+                    navigate('/home', { replace: true })
                     window.location.hash = '#/home'
                     return
                   }
