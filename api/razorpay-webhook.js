@@ -106,8 +106,37 @@ export default async function handler(req, res) {
         return res.status(response.status).json({ error: 'Supabase update failed' });
       }
 
-      const updatedData = await response.json();
-      console.log('[Fit Webhook] Profile updated successfully:', JSON.stringify(updatedData));
+      const updatedData = await response.json().catch(() => null);
+      console.log('[Fit Webhook] Profile updated:', updatedData);
+
+      // Also record in scripts table (used by Fit Ninja client app for instant membership check)
+      if (targetStatus === 'premium' && email) {
+        try {
+          const scriptsPayload = {
+            name: 'fitninja_membership',
+            content: {
+              email: email.toLowerCase().trim(),
+              status: 'active',
+              plan: 'Founder Pass ₹399/mo',
+              subscriptionId: subscriptionId || 'sub_manual',
+              amount: amount,
+              activated_at: new Date().toISOString()
+            }
+          };
+          await fetch(`${supabaseUrl}/rest/v1/scripts`, {
+            method: 'POST',
+            headers: {
+              'apikey': serviceRoleKey,
+              'Authorization': `Bearer ${serviceRoleKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(scriptsPayload)
+          });
+          console.log(`[Fit Webhook] Saved fitninja_membership to scripts table for ${email}`);
+        } catch (sErr) {
+          console.warn('[Fit Webhook] Failed to write to scripts table:', sErr);
+        }
+      }
 
       // Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
       if (targetStatus === 'premium') {

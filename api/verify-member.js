@@ -65,6 +65,22 @@ export default async function handler(req, res) {
         if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
           return res.status(200).json({ verified: true, email: cleanEmail, subscription: sub });
         }
+
+        // Query scripts table for fitninja_membership
+        const { data: scriptRows } = await supabase
+          .from('scripts')
+          .select('*')
+          .eq('name', 'fitninja_membership');
+
+        if (scriptRows && scriptRows.length > 0) {
+          const match = scriptRows.find(r => {
+            const c = typeof r.content === 'string' ? JSON.parse(r.content || '{}') : (r.content || {});
+            return (c.email || '').toLowerCase().trim() === cleanEmail && (c.status === 'active' || c.status === 'paid');
+          });
+          if (match) {
+            return res.status(200).json({ verified: true, email: cleanEmail, membership: match.content });
+          }
+        }
       } catch (dbErr) {
         console.warn('Supabase lookup non-fatal error:', dbErr);
       }
