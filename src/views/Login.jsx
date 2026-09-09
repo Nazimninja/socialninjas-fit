@@ -346,34 +346,38 @@ export default function Login() {
         </div>
       </div>
 
-      {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
+      {/* ── 1. LOGO & BRAND HERO (Clean Floating Emblem, No Box Border) ── */}
       <div style={{ position: 'relative', marginBottom: '10px' }}>
+        {/* Soft Ambient Cyan Backlight Glow */}
         <div
           style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '16px',
-            background: 'radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.25) 0%, rgba(13, 21, 35, 0.98) 75%)',
-            border: '1px solid rgba(56, 189, 248, 0.5)',
-            boxShadow: '0 0 20px rgba(56, 189, 248, 0.25)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '90px',
+            height: '90px',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.25) 0%, rgba(2,132,199,0.05) 55%, transparent 75%)',
+            filter: 'blur(16px)',
+            pointerEvents: 'none',
+            zIndex: 0
+          }}
+        />
+        {/* Pure Floating Ninja Emblem - Crisp Steel Details & Cyan Visor */}
+        <img
+          src="/ninja-emblem.png"
+          alt="Fit Ninja"
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            width: '68px',
+            height: '68px',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 8px 18px rgba(56,189,248,0.4))',
+            display: 'block',
             margin: '0 auto'
           }}
-        >
-          <img
-            src="/ninja-emblem.png"
-            alt="Fit Ninja"
-            style={{
-              width: '38px',
-              height: '38px',
-              filter: 'drop-shadow(0 0 8px rgba(56,189,248,0.8)) brightness(1.15)',
-              objectFit: 'contain',
-              display: 'block'
-            }}
-          />
-        </div>
+        />
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '3px' }}>
