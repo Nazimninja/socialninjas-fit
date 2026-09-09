@@ -38,6 +38,7 @@ export const ADMIN_EMAILS = [
 
 export const VERIFIED_PAID_MEMBERS = [
   'saqlainsharief161@gmail.com',
+  'saqlainnisha0928@gmail.com',
   'highonnfitness@gmail.com'
 ]
 
