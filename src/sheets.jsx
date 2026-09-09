@@ -1085,7 +1085,7 @@ function OnboardingWizard({ close }) {
   const [weight, setWeight] = useState(String(saved.weight || lastBW(st)?.w || '72'))
   const [height, setHeight] = useState(String(saved.height || '175'))
   const [gender, setGender] = useState(saved.gender || st.body || 'male')
-  const [goal, setGoal] = useState(saved.goal || 'muscle') // 'fat_loss', 'muscle', 'strength', 'general'
+  const [goal, setGoal] = useState(saved.goal || 'fat_loss') // prioritized: 'fat_loss', 'muscle', 'strength', 'general'
   const [days, setDays] = useState(saved.days || 4)
   const [location, setLocation] = useState(saved.location || 'gym') // 'gym', 'home', 'calisthenics'
   const [experience, setExperience] = useState(saved.experience || 'intermediate') // 'beginner', 'intermediate', 'advanced'
@@ -1241,7 +1241,10 @@ function OnboardingWizard({ close }) {
             </h2>
           </div>
           <button
-            onClick={close}
+            onClick={() => {
+              sessionStorage.setItem('onboarding_dismissed', '1')
+              close()
+            }}
             aria-label="Close"
             style={{
               width: 36, height: 36, borderRadius: '50%',
@@ -1358,7 +1361,7 @@ function OnboardingWizard({ close }) {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'fat_loss', title: 'Cut & Definition', desc: 'Accelerate fat reduction while preserving lean muscle mass', icon: 'flame' },
+                { id: 'fat_loss', title: 'Cut & Fat Loss Shred', desc: 'Accelerate stubborn fat reduction with precision deficit while preserving lean muscle mass', icon: 'flame', tag: '🔥 RECOMMENDED' },
                 { id: 'muscle', title: 'Hypertrophy & Mass', desc: 'Progressive overload training for maximum muscle size & power', icon: 'dumbbell' },
                 { id: 'strength', title: 'Raw Strength & Power', desc: 'Heavy compound strength progression and central nervous recruitment', icon: 'bolt' },
                 { id: 'general', title: 'Athletic Conditioning', desc: 'Functional stamina, daily energy & overall body longevity', icon: 'sparkles' }
@@ -1380,8 +1383,15 @@ function OnboardingWizard({ close }) {
                       <Icon name={g.icon} />
                     </div>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--label)' }}>
-                        {g.title}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--label)' }}>
+                          {g.title}
+                        </span>
+                        {g.tag && (
+                          <span style={{ fontSize: 9.5, fontWeight: 900, background: 'rgba(249,115,22,0.15)', color: '#f97316', border: '1px solid rgba(249,115,22,0.3)', padding: '1px 6px', borderRadius: 99 }}>
+                            {g.tag}
+                          </span>
+                        )}
                       </div>
                       <div className="small muted" style={{ fontSize: 11, marginTop: 2, lineHeight: 1.3, color: 'var(--label-2)' }}>{g.desc}</div>
                     </div>

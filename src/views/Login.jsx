@@ -283,35 +283,33 @@ export default function Login() {
       }}
     >
       {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
-      <div style={{ position: 'relative', marginBottom: '12px' }}>
+      <div style={{ position: 'relative', marginBottom: '14px' }}>
         <div
           style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '110px',
-            height: '110px',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(37,99,235,0.05) 70%)',
-            filter: 'blur(20px)',
-            pointerEvents: 'none',
-            zIndex: 0
+            width: '74px',
+            height: '74px',
+            borderRadius: '22px',
+            background: 'radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.35) 0%, rgba(13, 21, 35, 0.98) 75%)',
+            border: '2px solid rgba(56, 189, 248, 0.85)',
+            boxShadow: '0 0 30px rgba(56, 189, 248, 0.45), inset 0 0 14px rgba(56, 189, 248, 0.25)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto'
           }}
-        />
-        <img
-          src="/ninja-emblem.png"
-          alt="Fit Ninja Official Emblem"
-          style={{
-            position: 'relative',
-            width: '76px',
-            height: '76px',
-            filter: 'drop-shadow(0 10px 24px rgba(56,189,248,0.45))',
-            zIndex: 1,
-            display: 'block',
-            margin: '0 auto',
-            objectFit: 'contain'
-          }}
-        />
+        >
+          <img
+            src="/ninja-emblem.png"
+            alt="Fit Ninja Official Emblem"
+            style={{
+              width: '54px',
+              height: '54px',
+              filter: 'drop-shadow(0 0 12px rgba(56,189,248,0.9)) brightness(1.2)',
+              objectFit: 'contain',
+              display: 'block'
+            }}
+          />
+        </div>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
@@ -335,7 +333,7 @@ export default function Login() {
       </div>
 
       <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.6px', color: '#94a3b8', marginBottom: '14px' }}>
-        BY SOCIAL NINJA'S · AI ATHLETE SYSTEM
+        AI FAT LOSS &amp; HYPERTROPHY PROTOCOL · BY SOCIAL NINJA'S
       </div>
 
       {/* Authenticated Unpaid User Banner */}
@@ -410,9 +408,9 @@ export default function Login() {
           <div>
             <span
               style={{
-                background: 'rgba(56,189,248,0.15)',
-                border: '1px solid rgba(56,189,248,0.4)',
-                color: '#38bdf8',
+                background: 'rgba(249,115,22,0.15)',
+                border: '1px solid rgba(249,115,22,0.4)',
+                color: '#f97316',
                 fontSize: '9.5px',
                 fontWeight: '900',
                 textTransform: 'uppercase',
@@ -423,10 +421,10 @@ export default function Login() {
                 marginBottom: '3px'
               }}
             >
-              ⚡ PRO PASS
+              🔥 FAT LOSS &amp; PRO PASS
             </span>
             <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
-              Save 50% · Just ₹16 / day
+              LevelUp75 Active · Just ₹16 / day
             </div>
           </div>
           <div style={{ textAlign: 'right' }}>
@@ -443,15 +441,15 @@ export default function Login() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '12px' }}>
           {/* Feature 1 */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🏋️
+            <div style={{ background: 'rgba(249,115,22,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
+              🔥
             </div>
             <div>
               <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Personalized Workout Splits
+                Targeted Fat Loss &amp; Deficit Engine
               </div>
               <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Push/Pull/Legs, Upper/Lower, or Full Body routines built specifically for your goals &amp; schedule.
+                Metabolic deficit calibration (-350 to -600 kcal) engineered to shed stubborn fat while keeping lean muscle.
               </div>
             </div>
           </div>
@@ -459,14 +457,14 @@ export default function Login() {
           {/* Feature 2 */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
             <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🎬
+              🥗
             </div>
             <div>
               <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                1,300+ HD Exercise Video Guides
+                Adaptive Deficit Macros &amp; Indian Meals
               </div>
               <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Setup guides, form cues, and target muscle highlights so you lift safely with zero guesswork.
+                High-protein targets (1.8–2.2g/kg) with complete daily meal guides for Vegetarian, Eggetarian &amp; Non-Veg diets.
               </div>
             </div>
           </div>
@@ -474,14 +472,14 @@ export default function Login() {
           {/* Feature 3 */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
             <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🥗
+              🏋️
             </div>
             <div>
               <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Adaptive Diet &amp; Macro Protocols
+                1,324+ Animated HD Guides &amp; Custom Splits
               </div>
               <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Custom daily calorie and protein targets with full 5-meal daily plans (Veg &amp; Non-Veg).
+                Gym, Home, or Calisthenics routines tailored to your fat loss schedule with 60fps looping video form.
               </div>
             </div>
           </div>
@@ -493,10 +491,10 @@ export default function Login() {
             </div>
             <div>
               <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Smart Workout HUD &amp; Progression
+                Smart Rest Timers &amp; Progressive Overload
               </div>
               <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Tactile set logger, automatic rest timers, and progressive overload recommendations.
+                Live guided set player with automated overload to keep workout heart rate and calorie expenditure high.
               </div>
             </div>
           </div>
@@ -504,7 +502,7 @@ export default function Login() {
 
         {/* Value Trust Highlights */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '10.5px', color: '#38bdf8', fontWeight: '700' }}>
-          <span>✓ Instant Access</span>
+          <span>✓ Rapid Fat Loss</span>
           <span>✓ Cancel Anytime</span>
           <span>✓ 100% Risk-Free</span>
         </div>
@@ -526,7 +524,7 @@ export default function Login() {
         }}
       >
         <h2 style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.3px', margin: '0 0 14px' }}>
-          {authMode === 'signup' ? 'Create Your Account' : 'Log In to Fit Ninja'}
+          {authMode === 'signup' ? 'Start Your Fat Loss & Muscle Transformation' : 'Log In to Fit Ninja'}
         </h2>
 
         {/* Inputs */}
@@ -663,7 +661,7 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue with LevelUp75 Offer' : 'Continue')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '🔥 Unlock Pro & Start Fat Loss Protocol' : 'Continue to App →')}
         </button>
 
         {authMode === 'signup' && (
