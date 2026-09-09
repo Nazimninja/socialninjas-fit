@@ -1,7 +1,6 @@
-export const RAZORPAY_PLAN_ID = 'plan_TZ9fEut1yueEFq';
-export const RAZORPAY_OFFER_ID = 'offer_TZsCZbv2nXVhQJ';
-export const RAZORPAY_DEFAULT_SUB_ID = 'sub_TZsEtY4WuCV7AO';
-export const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/IZMpJppl';
+export const RAZORPAY_PLAN_ID = 'plan_TZyXclmf593Ha2';
+export const RAZORPAY_DEFAULT_SUB_ID = 'sub_TZyYIXO4ynee3v';
+export const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/akMsjt2l';
 
 // Fit Ninja Razorpay Official Payment Gateway Engine
 export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
@@ -32,9 +31,8 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       const options = {
         key: razorpayKey,
         name: 'Fit Ninja',
-        description: 'Fit Ninja Pro — Special Offer Applied (LevelUp75)',
+        description: 'Fit Ninja Pro — ₹399/mo Founder Pass',
         image: 'https://fit.socialninjas.in/razorpay-logo.png?v=2',
-        offer_id: RAZORPAY_OFFER_ID,
         prefill: {
           name: name || '',
           email: email || '',
@@ -57,7 +55,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         // Genuine dynamic Razorpay Subscription ID
         options.subscription_id = subId;
       } else {
-        // Recurring monthly subscription with offer (sub_TZsEtY4WuCV7AO)
+        // Recurring monthly subscription (sub_TZyYIXO4ynee3v, ₹399/mo)
         options.subscription_id = RAZORPAY_DEFAULT_SUB_ID;
       }
 

@@ -548,7 +548,7 @@ export default function Login() {
                   FOUNDER PASS ACTIVE
                 </span>
                 <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '700' }}>
-                  ₹16 / day
+                  ₹13 / day
                 </span>
               </div>
               <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>
@@ -559,7 +559,7 @@ export default function Login() {
             <div style={{ textAlign: 'right' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
                 <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-                <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹499</span>
+                <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹399</span>
                 <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
               </div>
               <span
@@ -574,7 +574,7 @@ export default function Login() {
                   display: 'inline-block'
                 }}
               >
-                SAVE 50%
+                SAVE 60%
               </span>
             </div>
           </div>
@@ -768,20 +768,20 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Unlock Pro Pass · ₹499' : 'Continue to App →')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Unlock Pro Pass · ₹399' : 'Continue to App →')}
         </button>
 
         {authMode === 'signup' && (
           <div style={{ textAlign: 'center', marginTop: '-4px', marginBottom: '12px' }}>
             <a
-              href="https://rzp.io/rzp/IZMpJppl"
+              href="https://rzp.io/rzp/akMsjt2l"
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => {
                 try {
-                  window.open('https://rzp.io/rzp/IZMpJppl', '_blank');
+                  window.open('https://rzp.io/rzp/akMsjt2l', '_blank');
                 } catch (err) {
-                  window.location.href = 'https://rzp.io/rzp/IZMpJppl';
+                  window.location.href = 'https://rzp.io/rzp/akMsjt2l';
                 }
               }}
               style={{

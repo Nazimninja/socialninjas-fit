@@ -28,8 +28,8 @@ export async function onRequest(context) {
     }
 
     const auth = btoa(`${key_id}:${key_secret}`);
-    const plan_id = env.RAZORPAY_PLAN_ID || 'plan_TZ9fEut1yueEFq';
-    const offer_id = env.RAZORPAY_OFFER_ID || 'offer_TZsCZbv2nXVhQJ';
+    const plan_id = env.RAZORPAY_PLAN_ID || 'plan_TZyXclmf593Ha2';
+    const offer_id = env.RAZORPAY_OFFER_ID || null;
 
     const subPayload = {
       plan_id: plan_id,
@@ -51,7 +51,7 @@ export async function onRequest(context) {
 
     const data = await rzpResponse.json();
     if (!rzpResponse.ok) {
-      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZsEtY4WuCV7AO', short_url: 'https://rzp.io/rzp/IZMpJppl', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
+      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZyYIXO4ynee3v', short_url: 'https://rzp.io/rzp/akMsjt2l', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
     }
 
     return new Response(JSON.stringify({
