@@ -33,7 +33,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         key: razorpayKey,
         name: 'Fit Ninja',
         description: 'Fit Ninja Pro — Special Offer Applied (LevelUp75)',
-        image: 'https://fit.socialninjas.in/ninja-logo.png',
+        image: 'https://fit.socialninjas.in/razorpay-logo.png?v=2',
         offer_id: RAZORPAY_OFFER_ID,
         prefill: {
           name: name || '',
@@ -41,7 +41,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
           contact: phone || ''
         },
         theme: {
-          color: '#2563eb'
+          color: '#070a12'
         },
         handler: function(response) {
           if (onSuccess) onSuccess(response);
