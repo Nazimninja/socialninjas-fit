@@ -1,9 +1,10 @@
 import { create } from 'zustand'
-import { api, supabase } from '../lib/api.js'
-import { localTZ } from '../lib/format.js'
+import { api, supabase, ADMIN_EMAILS } from '../lib/api.js'
+import { localTZ, todayISO } from '../lib/format.js'
 import { registerCustom, EXIDX, EXDB } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
 import { MOBILE, nativeLoad, nativeSave, syncReminder } from '../lib/mobile.js'
+import { generateCustomPlan, convertPlanToStoreRoutines } from '../lib/planGenerator.js'
 
 const KEY = 'gym_state_v1'
 export const DEF = {
@@ -23,11 +24,76 @@ export const DEF = {
 }
 const clone = o => JSON.parse(JSON.stringify(o))
 
+export function createNazimDefaultState() {
+  const plan = generateCustomPlan({
+    pname: 'Nazim Pasha',
+    age: 30,
+    weight: 78,
+    height: 175,
+    gender: 'male',
+    goal: 'muscle',
+    days: 6,
+    location: 'gym',
+    experience: 'intermediate',
+    focus: 'balanced',
+    diet: 'nonveg'
+  })
+  const { routines, week } = convertPlanToStoreRoutines(plan.workout, 'gym')
+  const today = todayISO()
+  return Object.assign(clone(DEF), {
+    onboarded: true,
+    body: 'male',
+    targetCalories: 3375,
+    targetProtein: 156,
+    targetW: 82,
+    bodyweight: [{ d: today, w: 78, t: Date.now() }],
+    aiPlan: plan,
+    aiAnswers: {
+      pname: 'Nazim Pasha',
+      age: 30,
+      weight: 78,
+      height: 175,
+      gender: 'male',
+      goal: 'muscle',
+      days: 6,
+      location: 'gym',
+      experience: 'intermediate',
+      focus: 'balanced',
+      diet: 'nonveg'
+    },
+    routines,
+    week,
+    aiCoachCard: {
+      coachNote: plan.coachNote,
+      changes: [],
+      weeklyInsight: plan.weeklyInsight || 'Your personalized training & nutrition architecture is active.',
+      celebration: '',
+      seenAt: null
+    },
+    _ts: Date.now()
+  })
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(KEY)
-    if (raw) return Object.assign(clone(DEF), JSON.parse(raw))
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (parsed && (parsed.onboarded || (parsed.routines && parsed.routines.length > 0))) {
+        return Object.assign(clone(DEF), parsed)
+      }
+    }
   } catch (e) { /* ignore */ }
+
+  try {
+    const paidEmail = (localStorage.getItem('gym_paid_email') || '').toLowerCase().trim()
+    const u = JSON.parse(localStorage.getItem('gym_user') || 'null')
+    const email = (u?.email || paidEmail || '').toLowerCase().trim()
+    if (ADMIN_EMAILS.includes(email) || email.endsWith('@socialninjas.in')) {
+      return createNazimDefaultState()
+    }
+  } catch (e) {}
+
   return clone(DEF)
 }
 
@@ -160,40 +226,97 @@ export const useStore = create((set, get) => {
     async pushState() {
       const user = get().user
       const paidEmail = localStorage.getItem('gym_paid_email')
-      const email = user?.email || paidEmail
+      const rawEmail = user?.email || paidEmail || ''
+      const email = rawEmail.trim().toLowerCase()
       if (!email) return
       clearTimeout(pushTm)
+
+      const currentState = get().S
+      let pushSuccess = false
+
+      // 1. Push to /api/data (backed by Supabase scripts table + KV)
       try {
         await api('/api/data', {
           method: 'PUT',
           headers: { 'x-user-email': email },
-          body: JSON.stringify({ email, state: get().S })
+          body: JSON.stringify({ email, state: currentState })
         })
-        localStorage.removeItem('gym_dirty')
+        pushSuccess = true
       } catch (e) {
+        console.warn('api/data push error:', e)
+      }
+
+      // 2. Push to Supabase Auth user_metadata
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
+          await supabase.auth.updateUser({
+            data: {
+              gym_state: currentState,
+              gym_state_ts: currentState._ts || Date.now()
+            }
+          })
+          pushSuccess = true
+        }
+      } catch (supaErr) {
+        console.warn('Supabase auth updateUser error:', supaErr)
+      }
+
+      if (pushSuccess) {
+        localStorage.removeItem('gym_dirty')
+      } else {
         localStorage.setItem('gym_dirty', '1')
       }
     },
+
     async pullState() {
       try {
         const user = get().user
         const paidEmail = localStorage.getItem('gym_paid_email')
-        const email = user?.email || paidEmail
+        const rawEmail = user?.email || paidEmail || ''
+        const email = rawEmail.trim().toLowerCase()
         if (!email) return
 
-        const res = await api(`/api/data?email=${encodeURIComponent(email)}`, {
-          headers: { 'x-user-email': email }
-        })
-        const state = res.state
+        const isNazimOrAdmin = ADMIN_EMAILS.includes(email) || email.endsWith('@socialninjas.in')
+
+        let supaState = null
+        let supaTs = 0
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          if (session?.user?.user_metadata?.gym_state) {
+            supaState = session.user.user_metadata.gym_state
+            supaTs = session.user.user_metadata.gym_state_ts || supaState._ts || 0
+          }
+        } catch (e) {}
+
+        let apiState = null
+        let apiTs = 0
+        try {
+          const res = await api(`/api/data?email=${encodeURIComponent(email)}`, {
+            headers: { 'x-user-email': email }
+          })
+          if (res?.state) {
+            apiState = res.state
+            apiTs = res.state._ts || 0
+          }
+        } catch (e) {}
+
+        const cloudState = supaTs >= apiTs ? (supaState || apiState) : (apiState || supaState)
+        const cloudTs = Math.max(supaTs, apiTs)
         const S = get().S
         const dirty = localStorage.getItem('gym_dirty') === '1'
-        if (state && (!hasData(S) || ((state._ts || 0) >= (S._ts || 0) && !dirty))) {
+
+        if (cloudState && (!hasData(S) || (cloudTs >= (S._ts || 0) && !dirty))) {
           const active = S.active
-          const next = Object.assign(clone(DEF), state)
+          const next = Object.assign(clone(DEF), cloudState)
           if (active) next.active = active
           persist(next, false)
         } else if (hasData(S)) {
           await get().pushState()
+        } else if (isNazimOrAdmin) {
+          // If admin / Nazim has no profile yet on this device and no cloud state, seed Nazim's 6-day split (3375 kcal)
+          const defaultState = createNazimDefaultState()
+          persist(defaultState, true)
         }
       } catch (e) { /* offline — keep local */ }
     },

@@ -17,8 +17,8 @@ const DATE_LOCALES = {
   pl: 'pl-PL', tr: 'tr-TR', ru: 'ru-RU', zh: 'zh-CN', ko: 'ko-KR', hi: 'hi-IN'
 }
 
-const localePacks = import.meta.glob('../locales/*.js')
-const instrPacks = import.meta.glob('../instr/*.js')
+const localePacks = (typeof import.meta !== 'undefined' && import.meta.glob) ? import.meta.glob('../locales/*.js') : {}
+const instrPacks = (typeof import.meta !== 'undefined' && import.meta.glob) ? import.meta.glob('../instr/*.js') : {}
 
 let lang = 'en'
 let dict = {}

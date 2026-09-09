@@ -8,7 +8,7 @@ export const VAULT = IS_APPLE ? 'iCloud Keychain' : IS_ANDROID ? 'Google Passwor
 export const webauthnOK = () => !!(window.PublicKeyCredential && navigator.credentials)
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co'
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2OTk0ODUsImV4cCI6MjA2NjI3NTQ4NX0.d9Y10-s4v2-eJzZ4w6Jz118sE7qN8c8Y9o9o9o9o9o9'
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4OTMwMzAsImV4cCI6MjEwMDQ2OTAzMH0.qt4ty1tjGeXMthhSaDZZo80u_JdPK4klUg3QAIhN0nw'
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     flowType: 'implicit',

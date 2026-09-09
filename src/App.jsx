@@ -108,7 +108,7 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
   useStore.getState().setPaid(isPaid)
 
   if (isPaid) {
-    useStore.getState().pullState()
+    await useStore.getState().pullState()
     useUI.getState().toast(isAdmin ? 'Welcome, Admin ' + userObj.name : 'Welcome to Fit Ninja Pro, ' + userObj.name)
     if (window.location.hash.includes('access_token')) {
       window.history.replaceState(null, '', window.location.pathname + '#/home')

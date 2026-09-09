@@ -121,15 +121,6 @@ export default function Home() {
   const { worked: workedMuscles } = rankOf(thisWeekLoad)
   const maxMuscleSets = Math.max(1, ...Object.values(thisWeekLoad))
 
-  // Auto-launch Onboarding assessment if new paid user has no routines and hasn't onboarded yet
-  useEffect(() => {
-    if (!S.onboarded && (!S.routines || S.routines.length === 0)) {
-      const timer = setTimeout(() => {
-        onboardingWizardSheet()
-      }, 700)
-      return () => clearTimeout(timer)
-    }
-  }, [S.onboarded, S.routines])
 
   const onToday = () => {
     if (S.active) nav('/workout')
