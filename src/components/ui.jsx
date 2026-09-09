@@ -291,12 +291,21 @@ function require_ui() {
 
 /* ============================ buttons ============================ */
 
-export function Button({ variant = 'plain', size, icon, trailingIcon, children, className = '', ...rest }) {
+export function Button({ variant = 'plain', size, icon, trailingIcon, loading = false, children, className = '', disabled, ...rest }) {
   return (
-    <button className={`btn ${variant}${size ? ' ' + size : ''} ${className}`} {...rest}>
-      {icon && <Icon name={icon} />}
+    <button className={`btn ${variant}${size ? ' ' + size : ''} ${className}`} disabled={disabled || loading} {...rest}>
+      {loading ? (
+        <span className="fn-spin" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginRight: children ? 6 : 0 }}>
+          <svg style={{ width: '1.1em', height: '1.1em' }} viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3.5" strokeOpacity="0.25" />
+            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+        </span>
+      ) : (
+        icon && <Icon name={icon} />
+      )}
       {children && <span>{children}</span>}
-      {trailingIcon && <Icon name={trailingIcon} />}
+      {!loading && trailingIcon && <Icon name={trailingIcon} />}
     </button>
   )
 }

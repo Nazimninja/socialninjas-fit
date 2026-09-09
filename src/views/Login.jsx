@@ -106,24 +106,49 @@ export function RegisterSheet({ close }) {
 
 export default function Login() {
   const { user, setUser, setPaid } = useStore()
-  const [authMode, setAuthMode] = useState('signup') // 'signup' | 'login'
+  const getInitialAuthMode = () => {
+    try {
+      const searchParams = new URLSearchParams(window.location.search)
+      const hashParams = new URLSearchParams(window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '')
+      const m = (searchParams.get('mode') || hashParams.get('mode') || '').toLowerCase()
+      if (m === 'login') return 'login'
+      if (m === 'signup' || m === 'transform') return 'signup'
+    } catch (e) {}
+    return 'signup'
+  }
+
+  const [authMode, setAuthMode] = useState(getInitialAuthMode)
   const [phone, setPhone] = useState('')
   const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0])
   const [nameOrEmail, setNameOrEmail] = useState('')
   const [isVerifying, setIsVerifying] = useState(false)
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
+  const [isBannerVerifying, setIsBannerVerifying] = useState(false)
 
-  // Auto-fill from URL parameters if provided (e.g. ?name=Asiya%20Sayed&phone=8892587979)
+  // Auto-fill from URL parameters if provided (e.g. ?name=Asiya%20Sayed&phone=8892587979&mode=login)
   useEffect(() => {
     try {
-      const params = new URLSearchParams(window.location.search)
-      const p = params.get('phone')
-      const n = params.get('name')
-      const em = params.get('email')
+      const searchParams = new URLSearchParams(window.location.search)
+      const hashParams = new URLSearchParams(window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '')
+      const p = searchParams.get('phone') || hashParams.get('phone')
+      const n = searchParams.get('name') || hashParams.get('name')
+      const em = searchParams.get('email') || hashParams.get('email')
+      const m = (searchParams.get('mode') || hashParams.get('mode') || '').toLowerCase()
       if (p) setPhone(p)
       if (n) setNameOrEmail(n)
       if (em) setNameOrEmail(em)
+      if (m === 'login') {
+        setAuthMode('login')
+      } else if (m === 'signup' || m === 'transform') {
+        setAuthMode('signup')
+      } else if (m === 'app') {
+        const existingEmail = user?.email || localStorage.getItem('gym_paid_email')
+        if (existingEmail) {
+          window.location.hash = '#/home'
+        }
+      }
     } catch (e) {}
-  }, [])
+  }, [user?.email])
 
   // Instantly unlock and reset verification state whenever user switches mode
   useEffect(() => {
@@ -140,6 +165,7 @@ export default function Login() {
           if (res && res.verified) {
             setUser({ ...(user || {}), name: user?.name || target.split('@')[0], email: target, paid: true, admin: res.role === 'admin' })
             setPaid(true)
+            sessionStorage.setItem('fn_just_paid', '1')
             useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
             window.location.hash = '#/home'
             onboardingWizardSheet()
@@ -161,16 +187,19 @@ export default function Login() {
   }, [user?.email])
 
   const handleGoogleSignIn = async () => {
+    setIsGoogleLoading(true)
     setIsVerifying(true)
     try {
       const { error } = await signInWithGoogle()
       if (error) {
         useUI.getState().toast('Google Sign In: ' + (error.message || 'Could not connect to Google'))
         setIsVerifying(false)
+        setIsGoogleLoading(false)
       }
     } catch (e) {
       useUI.getState().toast('Google Sign In could not be started.')
       setIsVerifying(false)
+      setIsGoogleLoading(false)
     }
   }
 
@@ -288,6 +317,7 @@ export default function Login() {
               admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
             })
             setPaid(true)
+            sessionStorage.setItem('fn_just_paid', '1')
             window.location.hash = '#/home'
             onboardingWizardSheet()
           },
@@ -304,8 +334,8 @@ export default function Login() {
         setTimeout(() => setIsVerifying(false), 2000)
       }
     } else {
-      // Login mode
-      const lookup = (rawVal || phone || user?.email || '').toLowerCase().trim()
+      // Login mode - checks rawVal (email/text), cleanPhone (with country code), phone, or authenticated user email
+      const lookup = (rawVal || cleanPhone || phone || user?.email || '').toLowerCase().trim()
       if (!lookup) {
         useUI.getState().toast('Please enter your registered email address or phone')
         return
@@ -477,8 +507,9 @@ export default function Login() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button
               type="button"
+              disabled={isBannerVerifying}
               onClick={async () => {
-                setIsVerifying(true)
+                setIsBannerVerifying(true)
                 try {
                   const res = await verifyMemberEmail(user.email)
                   if (res && res.verified) {
@@ -492,7 +523,7 @@ export default function Login() {
                 } catch (e) {
                   useUI.getState().toast('Verification check error')
                 } finally {
-                  setIsVerifying(false)
+                  setIsBannerVerifying(false)
                 }
               }}
               style={{
@@ -503,11 +534,24 @@ export default function Login() {
                 padding: '6px 12px',
                 fontSize: '11px',
                 fontWeight: '800',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap'
+                cursor: isBannerVerifying ? 'wait' : 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px'
               }}
             >
-              Verify Access ↗
+              {isBannerVerifying ? (
+                <>
+                  <svg className="fn-spin" style={{ width: '12px', height: '12px' }} viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" strokeOpacity="0.3" />
+                    <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  <span>Checking...</span>
+                </>
+              ) : (
+                'Verify Access ↗'
+              )}
             </button>
             <button
               type="button"
@@ -832,21 +876,37 @@ export default function Login() {
           disabled={isVerifying}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+            background: isVerifying && !isGoogleLoading
+              ? 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)'
+              : 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
             border: 'none',
             borderRadius: '12px',
             padding: '13px 16px',
             color: '#031024',
             fontSize: '15px',
             fontWeight: '900',
-            cursor: 'pointer',
+            cursor: isVerifying ? 'wait' : 'pointer',
             boxShadow: '0 4px 20px rgba(56, 189, 248, 0.35)',
             marginBottom: '12px',
             letterSpacing: '-0.2px',
-            transition: 'transform 0.15s ease'
+            transition: 'all 0.15s ease',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Unlock Pro Pass · ₹399' : 'Continue to App →')}
+          {isVerifying && !isGoogleLoading ? (
+            <>
+              <svg className="fn-spin" style={{ width: '16px', height: '16px' }} viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#031024" strokeWidth="4" strokeOpacity="0.25" />
+                <path fill="#031024" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span>{authMode === 'signup' ? 'Securing Pass…' : 'Verifying Account…'}</span>
+            </>
+          ) : (
+            authMode === 'signup' ? '⚡ Unlock Pro Pass · ₹399' : 'Continue to App →'
+          )}
         </button>
 
         {authMode === 'signup' && (
@@ -903,20 +963,32 @@ export default function Login() {
               color: '#ffffff',
               fontSize: '13px',
               fontWeight: '800',
-              cursor: 'pointer',
+              cursor: isVerifying ? 'wait' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px'
             }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-            <span>{IS_APPLE ? 'Google' : 'Continue with Google'}</span>
+            {isGoogleLoading ? (
+              <>
+                <svg className="fn-spin" style={{ width: '16px', height: '16px' }} viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="#38bdf8" strokeWidth="4" strokeOpacity="0.25" />
+                  <path fill="#38bdf8" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
+                <span>Connecting to Google…</span>
+              </>
+            ) : (
+              <>
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>{IS_APPLE ? 'Google' : 'Continue with Google'}</span>
+              </>
+            )}
           </button>
 
           {/* Apple Button (Only rendered on Apple devices) */}

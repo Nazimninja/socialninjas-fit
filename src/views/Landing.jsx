@@ -66,7 +66,7 @@ export default function Landing() {
             1,324+ Exercises
           </button>
           <button
-            onClick={() => nav('/app')}
+            onClick={() => nav('/app?mode=app')}
             style={{
               background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
               color: '#031024',
@@ -117,7 +117,7 @@ export default function Landing() {
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '40px' }}>
           <button
-            onClick={() => nav('/app')}
+            onClick={() => nav('/app?mode=signup')}
             style={{
               background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
               color: '#031024', fontWeight: '900', fontSize: '15px', padding: '14px 28px',
@@ -295,7 +295,7 @@ export default function Landing() {
           </ul>
 
           <button
-            onClick={() => nav('/app')}
+            onClick={() => nav('/app?mode=signup')}
             style={{
               width: '100%', background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
               color: '#031024', fontWeight: '900', fontSize: '16px', padding: '15px',

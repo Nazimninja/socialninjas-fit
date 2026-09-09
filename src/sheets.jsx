@@ -1203,13 +1203,33 @@ function OnboardingWizard({ close }) {
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-        <div className="spin" style={{ fontSize: 44, color: 'var(--acc)', display: 'inline-block', marginBottom: 16 }}>
-          <Icon name="sparkles" />
+      <div style={{ textAlign: 'center', padding: '48px 20px' }}>
+        <div style={{ position: 'relative', width: 68, height: 68, margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg
+            className="fn-spin"
+            style={{ position: 'absolute', top: 0, left: 0, width: 68, height: 68 }}
+            viewBox="0 0 68 68"
+            fill="none"
+          >
+            <circle cx="34" cy="34" r="30" stroke="rgba(16, 185, 129, 0.15)" strokeWidth="4" />
+            <path
+              fill="none"
+              stroke="var(--acc)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              d="M34 4 A 30 30 0 0 1 64 34"
+            />
+          </svg>
+          <div style={{ fontSize: 28, color: 'var(--acc)' }}>
+            <Icon name="sparkles" />
+          </div>
         </div>
         <h3 style={{ margin: '0 0 8px', fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{t('Calibrating Your Personalized Protocol...')}</h3>
-        <div className="muted small" style={{ lineHeight: 1.5, maxWidth: 340, margin: '0 auto', color: 'var(--label-2)' }}>
+        <div className="muted small" style={{ lineHeight: 1.5, maxWidth: 360, margin: '0 auto', color: 'var(--label-2)' }}>
           {t('Generating 100% custom {0}-day routines calibrated for {1} with precision nutrition ({2} kcal · {3}g Protein).', numDays, location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics', targetKcalCalc, targetProteinCalc)}
+        </div>
+        <div style={{ marginTop: 14, fontSize: 12, fontWeight: 700, color: 'var(--acc)', opacity: 0.9 }}>
+          ⚡ Please wait 1–2 seconds while AI configures your program…
         </div>
       </div>
     )
@@ -2527,6 +2547,7 @@ function WeeklyCheckinModal({ close }) {
         variant="primary"
         onClick={handleSubmit}
         disabled={loading || compressing}
+        loading={loading}
         icon="sparkles"
         style={{
           width: '100%',

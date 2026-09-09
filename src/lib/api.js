@@ -18,6 +18,15 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
   }
 })
 
+// Unauthenticated public client (bypasses any user token header overrides from Google OAuth session)
+export const supabasePublic = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false
+  }
+})
+
 export const ADMIN_EMAILS = [
   'nazim.socialninja@gmail.com',
   'nazimpasha906@gmail.com',
@@ -90,12 +99,21 @@ export async function verifyMemberEmail(email) {
 
   // 2. Query Supabase DB for active membership or saved state
   try {
-    // Check fitninja_membership
-    const { data: memRows } = await supabase
+    const candidates = [clean]
+    const digits = clean.replace(/\D/g, '')
+    if (digits.length >= 10) {
+      if (!clean.startsWith('+')) candidates.push('+' + digits)
+      candidates.push(digits)
+      if (digits.length === 10) candidates.push('+91' + digits)
+      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2))
+    }
+
+    // Check fitninja_membership using public unauthenticated client (immune to OAuth session state)
+    const { data: memRows } = await supabasePublic
       .from('scripts')
       .select('*')
       .eq('profile', 'fitninja_membership')
-      .eq('topic', clean)
+      .in('topic', candidates)
       .limit(1)
 
     if (memRows && memRows.length > 0) {
@@ -103,22 +121,22 @@ export async function verifyMemberEmail(email) {
     }
 
     // Check existing synced user state (if user state exists, they are active)
-    const { data: stateRows } = await supabase
+    const { data: stateRows } = await supabasePublic
       .from('scripts')
       .select('*')
       .eq('profile', 'fitninja_user_state')
-      .eq('topic', clean)
+      .in('topic', candidates)
       .limit(1)
 
     if (stateRows && stateRows.length > 0) {
       return { verified: true, email: clean }
     }
 
-    // Check leads table
-    const { data: leadRows } = await supabase
+    // Check leads table by email or phone
+    const { data: leadRows } = await supabasePublic
       .from('leads')
       .select('*')
-      .eq('email', clean)
+      .or(`email.in.(${candidates.map(c => `"${c}"`).join(',')}),phone.in.(${candidates.map(c => `"${c}"`).join(',')})`)
       .limit(1)
 
     if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {

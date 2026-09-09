@@ -37,49 +37,55 @@ export default async function handler(req, res) {
     }
 
     // 2. Check Supabase DB for active subscription/user
-    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
+    const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4OTMwMzAsImV4cCI6MjEwMDQ2OTAzMH0.qt4ty1tjGeXMthhSaDZZo80u_JdPK4klUg3QAIhN0nw';
+
+    const candidates = [cleanEmail];
+    const digits = cleanEmail.replace(/\D/g, '');
+    if (digits.length >= 10) {
+      if (!cleanEmail.startsWith('+')) candidates.push('+' + digits);
+      candidates.push(digits);
+      if (digits.length === 10) candidates.push('+91' + digits);
+      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2));
+    }
 
     if (supabaseUrl && supabaseKey) {
       try {
         const supabase = createClient(supabaseUrl, supabaseKey);
         
-        // Query users table by email
-        const { data: user } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', cleanEmail)
-          .maybeSingle();
-
-        if (user && (user.paid || user.role === 'admin' || user.subscription_status === 'active')) {
-          return res.status(200).json({ verified: true, email: cleanEmail, user });
-        }
-
-        // Query subscriptions table by email
-        const { data: sub } = await supabase
-          .from('subscriptions')
-          .select('*')
-          .eq('email', cleanEmail)
-          .maybeSingle();
-
-        if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
-          return res.status(200).json({ verified: true, email: cleanEmail, subscription: sub });
-        }
-
-        // Query scripts table for fitninja_membership
-        const { data: scriptRows } = await supabase
+        // 2a. Query scripts table for fitninja_membership
+        const { data: memRows } = await supabase
           .from('scripts')
           .select('*')
-          .eq('name', 'fitninja_membership');
+          .eq('profile', 'fitninja_membership')
+          .in('topic', candidates)
+          .limit(1);
 
-        if (scriptRows && scriptRows.length > 0) {
-          const match = scriptRows.find(r => {
-            const c = typeof r.content === 'string' ? JSON.parse(r.content || '{}') : (r.content || {});
-            return (c.email || '').toLowerCase().trim() === cleanEmail && (c.status === 'active' || c.status === 'paid');
-          });
-          if (match) {
-            return res.status(200).json({ verified: true, email: cleanEmail, membership: match.content });
-          }
+        if (memRows && memRows.length > 0) {
+          return res.status(200).json({ verified: true, email: cleanEmail, source: 'fitninja_membership' });
+        }
+
+        // 2b. Query scripts table for existing synced user state
+        const { data: stateRows } = await supabase
+          .from('scripts')
+          .select('*')
+          .eq('profile', 'fitninja_user_state')
+          .in('topic', candidates)
+          .limit(1);
+
+        if (stateRows && stateRows.length > 0) {
+          return res.status(200).json({ verified: true, email: cleanEmail, source: 'fitninja_user_state' });
+        }
+
+        // 2c. Query leads table for CRM recorded payment
+        const { data: leadRows } = await supabase
+          .from('leads')
+          .select('*')
+          .or(`email.in.(${candidates.map(c => `"${c}"`).join(',')}),phone.in.(${candidates.map(c => `"${c}"`).join(',')})`)
+          .limit(1);
+
+        if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
+          return res.status(200).json({ verified: true, email: cleanEmail, source: 'leads' });
         }
       } catch (dbErr) {
         console.warn('Supabase lookup non-fatal error:', dbErr);
@@ -93,12 +99,16 @@ export default async function handler(req, res) {
     if (key_id && key_secret) {
       try {
         const razorpay = new Razorpay({ key_id, key_secret });
-        const customers = await razorpay.customers.all({ count: 10 }).catch(() => null);
+        const customers = await razorpay.customers.all({ count: 20 }).catch(() => null);
         
         if (customers && customers.items) {
-          const match = customers.items.find(c => (c.email || '').toLowerCase() === cleanEmail);
+          const match = customers.items.find(c => {
+            const em = (c.email || '').toLowerCase().trim();
+            const ph = (c.contact || '').replace(/\D/g, '');
+            return candidates.includes(em) || (ph && candidates.some(cand => cand.includes(ph)));
+          });
           if (match) {
-            return res.status(200).json({ verified: true, email: cleanEmail, customer: match });
+            return res.status(200).json({ verified: true, email: cleanEmail, customer: match, source: 'razorpay' });
           }
         }
       } catch (rzpErr) {

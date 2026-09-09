@@ -26,7 +26,7 @@ import Library from './views/Library.jsx'
 import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
-import { supabase, ADMIN_EMAILS } from './lib/api.js'
+import { supabase, supabasePublic, ADMIN_EMAILS } from './lib/api.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -64,12 +64,21 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
     isAdmin = true
   } else {
     // 2. Query Supabase database for active membership or existing user state
+    const candidates = [cleanEmail]
+    const digits = cleanEmail.replace(/\D/g, '')
+    if (digits.length >= 10) {
+      if (!cleanEmail.startsWith('+')) candidates.push('+' + digits)
+      candidates.push(digits)
+      if (digits.length === 10) candidates.push('+91' + digits)
+      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2))
+    }
+
     try {
-      const { data: memRows } = await supabase
+      const { data: memRows } = await supabasePublic
         .from('scripts')
         .select('*')
         .eq('profile', 'fitninja_membership')
-        .eq('topic', cleanEmail)
+        .in('topic', candidates)
         .limit(1)
 
       if (memRows && memRows.length > 0) {
@@ -81,11 +90,11 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
 
     if (!isPaid) {
       try {
-        const { data: stateRows } = await supabase
+        const { data: stateRows } = await supabasePublic
           .from('scripts')
           .select('*')
           .eq('profile', 'fitninja_user_state')
-          .eq('topic', cleanEmail)
+          .in('topic', candidates)
           .limit(1)
 
         if (stateRows && stateRows.length > 0) {
@@ -96,10 +105,10 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
 
     if (!isPaid) {
       try {
-        const { data: leadRows } = await supabase
+        const { data: leadRows } = await supabasePublic
           .from('leads')
           .select('*')
-          .eq('email', cleanEmail)
+          .or(`email.in.(${candidates.map(c => `"${c}"`).join(',')}),phone.in.(${candidates.map(c => `"${c}"`).join(',')})`)
           .limit(1)
 
         if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
@@ -210,7 +219,7 @@ function Shell() {
       const directEmail = urlParams.get('email') || localStorage.getItem('gym_paid_email')
       if (directEmail) {
         const cleanEmail = directEmail.toLowerCase().trim()
-        supabase
+        supabasePublic
           .from('scripts')
           .select('id')
           .eq('profile', 'fitninja_membership')
@@ -229,10 +238,37 @@ function Shell() {
 
   // Show loading spinner only during boot (before ready) or active OAuth processing
   if ((!ready && !authed) || oauthLoading) return (
-    <div id="app">
-      <div style={{ paddingTop: '44vh', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, color: 'var(--label-3)' }}>
-        <Icon name="dumbbell" style={{ fontSize: 34 }} />
-        {oauthLoading && <div style={{ fontSize: 13, color: '#94a3b8' }}>Signing you in with Google…</div>}
+    <div id="app" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#020617' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center', padding: '0 20px' }}>
+        <div style={{ position: 'relative', width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Animated Spinner Ring */}
+          <svg
+            className="fn-spin"
+            style={{ position: 'absolute', top: 0, left: 0, width: 64, height: 64 }}
+            viewBox="0 0 64 64"
+            fill="none"
+          >
+            <circle cx="32" cy="32" r="28" stroke="rgba(56, 189, 248, 0.15)" strokeWidth="4" />
+            <path
+              fill="none"
+              stroke="#38bdf8"
+              strokeWidth="4"
+              strokeLinecap="round"
+              d="M32 4 A 28 28 0 0 1 60 32"
+            />
+          </svg>
+          {/* Center Ninja / Dumbbell Icon */}
+          <Icon name="dumbbell" style={{ fontSize: 26, color: '#38bdf8', filter: 'drop-shadow(0 0 10px rgba(56,189,248,0.5))' }} />
+        </div>
+
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: '#ffffff', letterSpacing: '-0.2px' }}>
+            {oauthLoading ? 'Authenticating with Google…' : 'Loading Fit Ninja…'}
+          </div>
+          <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4 }}>
+            {oauthLoading ? 'Syncing your profile & pro credentials' : 'Preparing your personalized dashboard'}
+          </div>
+        </div>
       </div>
     </div>
   )

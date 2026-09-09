@@ -130,6 +130,19 @@ export default function Home() {
 
   const greet = today.getHours() < 12 ? 'Good morning' : today.getHours() < 17 ? 'Good afternoon' : 'Good evening'
 
+  // Auto-launch Onboarding Wizard for new members who have just paid or have no routines configured yet
+  useEffect(() => {
+    const isNew = (!S.routines || S.routines.length === 0) && !S.aiAnswers?.goal
+    const justPaid = sessionStorage.getItem('fn_just_paid') === '1'
+    if (isNew || justPaid) {
+      sessionStorage.removeItem('fn_just_paid')
+      const t = setTimeout(() => {
+        onboardingWizardSheet()
+      }, 400)
+      return () => clearTimeout(t)
+    }
+  }, [])
+
   return (
     <div className="narrow" style={{ paddingBottom: '148px' }}>
 
