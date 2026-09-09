@@ -118,8 +118,10 @@ export default function Login() {
       const params = new URLSearchParams(window.location.search)
       const p = params.get('phone')
       const n = params.get('name')
+      const em = params.get('email')
       if (p) setPhone(p)
       if (n) setNameOrEmail(n)
+      if (em) setNameOrEmail(em)
     } catch (e) {}
   }, [])
 

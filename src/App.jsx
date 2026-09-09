@@ -204,6 +204,26 @@ function Shell() {
       }
     })
 
+    // Step 4: Check if email is in URL query or paid storage for instant pass-through
+    try {
+      const urlParams = new URLSearchParams(window.location.search)
+      const directEmail = urlParams.get('email') || localStorage.getItem('gym_paid_email')
+      if (directEmail) {
+        const cleanEmail = directEmail.toLowerCase().trim()
+        supabase
+          .from('scripts')
+          .select('id')
+          .eq('profile', 'fitninja_membership')
+          .eq('topic', cleanEmail)
+          .limit(1)
+          .then(({ data }) => {
+            if (data && data.length > 0) {
+              handleAuthUser(cleanEmail, cleanEmail.split('@')[0], navigate)
+            }
+          }).catch(() => {})
+      }
+    } catch (e) {}
+
     return () => subscription?.unsubscribe()
   }, [navigate])
 
