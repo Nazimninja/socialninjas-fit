@@ -51,7 +51,7 @@ export async function onRequest(context) {
 
     const data = await rzpResponse.json();
     if (!rzpResponse.ok) {
-      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZsEtY4WuCV7AO', short_url: 'https://rzp.io/rzp/lZMpJppl', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
+      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZsEtY4WuCV7AO', short_url: 'https://rzp.io/rzp/IZMpJppl', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
     }
 
     return new Response(JSON.stringify({

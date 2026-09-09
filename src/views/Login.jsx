@@ -408,8 +408,8 @@ export default function Login() {
             flex: 1,
             padding: '8px 10px',
             borderRadius: '9px',
-            border: authMode === 'signup' ? '1px solid rgba(56,189,248,0.5)' : '1px solid transparent',
-            background: authMode === 'signup' ? 'linear-gradient(135deg, rgba(56,189,248,0.2), rgba(37,99,235,0.25))' : 'transparent',
+            border: authMode === 'signup' ? '1px solid rgba(56,189,248,0.45)' : '1px solid transparent',
+            background: authMode === 'signup' ? 'rgba(56,189,248,0.12)' : 'transparent',
             color: authMode === 'signup' ? '#ffffff' : '#94a3b8',
             fontSize: '12px',
             fontWeight: '800',
@@ -421,7 +421,7 @@ export default function Login() {
             gap: '5px'
           }}
         >
-          <span>🔥</span> Start Transformation
+          <span>⚡</span> Start Transformation
         </button>
         <button
           type="button"
@@ -430,8 +430,8 @@ export default function Login() {
             flex: 1,
             padding: '8px 10px',
             borderRadius: '9px',
-            border: authMode === 'login' ? '1px solid rgba(255,255,255,0.25)' : '1px solid transparent',
-            background: authMode === 'login' ? 'rgba(255,255,255,0.12)' : 'transparent',
+            border: authMode === 'login' ? '1px solid rgba(255,255,255,0.2)' : '1px solid transparent',
+            background: authMode === 'login' ? 'rgba(255,255,255,0.08)' : 'transparent',
             color: authMode === 'login' ? '#ffffff' : '#94a3b8',
             fontSize: '12px',
             fontWeight: '800',
@@ -446,29 +446,29 @@ export default function Login() {
       {/* ── 3. SIGNUP MODE: HIGHLIGHT FEATURES & OFFER ────────────── */}
       {authMode === 'signup' && (
         <>
-          {/* VIP Pricing & Offer Header */}
+          {/* Unified VIP Pricing & Offer Header */}
           <div
             style={{
               width: '100%',
               boxSizing: 'border-box',
-              background: 'linear-gradient(145deg, rgba(15,23,42,0.92) 0%, rgba(10,15,30,0.96) 100%)',
-              border: '1px solid rgba(56,189,248,0.32)',
+              background: 'linear-gradient(145deg, rgba(13,19,33,0.95) 0%, rgba(8,12,22,0.98) 100%)',
+              border: '1px solid rgba(56,189,248,0.25)',
               borderRadius: '16px',
               padding: '12px 14px',
               marginBottom: '10px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)'
+              boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
             }}
           >
             <div style={{ textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
                 <span
                   style={{
-                    background: 'rgba(249,115,22,0.18)',
-                    border: '1px solid rgba(249,115,22,0.45)',
-                    color: '#fb923c',
+                    background: 'rgba(56,189,248,0.1)',
+                    border: '1px solid rgba(56,189,248,0.3)',
+                    color: '#38bdf8',
                     fontSize: '9.5px',
                     fontWeight: '900',
                     letterSpacing: '0.6px',
@@ -479,11 +479,11 @@ export default function Login() {
                 >
                   LevelUp75 Active
                 </span>
-                <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
+                <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '700' }}>
                   ₹16 / day
                 </span>
               </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>
+              <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>
                 Cancel anytime · 100% Risk-Free
               </div>
             </div>
@@ -496,8 +496,9 @@ export default function Login() {
               </div>
               <span
                 style={{
-                  background: 'rgba(34,197,94,0.18)',
-                  color: '#4ade80',
+                  background: 'rgba(56,189,248,0.12)',
+                  border: '1px solid rgba(56,189,248,0.25)',
+                  color: '#38bdf8',
                   fontSize: '9px',
                   fontWeight: '800',
                   padding: '1.5px 6px',
@@ -510,7 +511,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* 4 Main Pillars in 2×2 Grid: Muscle, Fat Loss, Fitness Maintenance, Sports Nutrition */}
+          {/* 4 Main Pillars in 2×2 Grid (Unified, Clean, Zero Rainbow Clash) */}
           <div
             style={{
               display: 'grid',
@@ -524,21 +525,22 @@ export default function Login() {
             {/* Feature 1: Muscle Building */}
             <div
               style={{
-                background: 'rgba(15,23,42,0.7)',
-                border: '1px solid rgba(56,189,248,0.25)',
+                background: 'rgba(13,19,33,0.7)',
+                border: '1px solid rgba(255,255,255,0.07)',
                 borderRadius: '13px',
-                padding: '9px 10px',
+                padding: '10px',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '9px'
               }}
             >
               <div
                 style={{
-                  fontSize: '18px',
+                  fontSize: '17px',
                   flexShrink: 0,
-                  background: 'rgba(56,189,248,0.15)',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                   width: '32px',
                   height: '32px',
                   borderRadius: '8px',
@@ -550,10 +552,10 @@ export default function Login() {
                 💪
               </div>
               <div>
-                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  Build Lean Muscle
+                <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Build Muscle
                 </div>
-                <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', marginTop: '1px' }}>
+                <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600', marginTop: '1px' }}>
                   Hypertrophy &amp; Overload
                 </div>
               </div>
@@ -562,21 +564,22 @@ export default function Login() {
             {/* Feature 2: Fat Loss */}
             <div
               style={{
-                background: 'rgba(15,23,42,0.7)',
-                border: '1px solid rgba(249,115,22,0.25)',
+                background: 'rgba(13,19,33,0.7)',
+                border: '1px solid rgba(255,255,255,0.07)',
                 borderRadius: '13px',
-                padding: '9px 10px',
+                padding: '10px',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '9px'
               }}
             >
               <div
                 style={{
-                  fontSize: '18px',
+                  fontSize: '17px',
                   flexShrink: 0,
-                  background: 'rgba(249,115,22,0.15)',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                   width: '32px',
                   height: '32px',
                   borderRadius: '8px',
@@ -588,11 +591,11 @@ export default function Login() {
                 🔥
               </div>
               <div>
-                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  Targeted Fat Loss
+                <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Targeted Deficit
                 </div>
-                <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: '700', marginTop: '1px' }}>
-                  Calibrated Deficits
+                <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600', marginTop: '1px' }}>
+                  Calibrated Fat Loss
                 </div>
               </div>
             </div>
@@ -600,21 +603,22 @@ export default function Login() {
             {/* Feature 3: Maintain Fitness & Conditioning */}
             <div
               style={{
-                background: 'rgba(15,23,42,0.7)',
-                border: '1px solid rgba(168,85,247,0.25)',
+                background: 'rgba(13,19,33,0.7)',
+                border: '1px solid rgba(255,255,255,0.07)',
                 borderRadius: '13px',
-                padding: '9px 10px',
+                padding: '10px',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '9px'
               }}
             >
               <div
                 style={{
-                  fontSize: '18px',
+                  fontSize: '17px',
                   flexShrink: 0,
-                  background: 'rgba(168,85,247,0.15)',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                   width: '32px',
                   height: '32px',
                   borderRadius: '8px',
@@ -626,10 +630,10 @@ export default function Login() {
                 ⚡
               </div>
               <div>
-                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
                   Maintain Fitness
                 </div>
-                <div style={{ fontSize: '10px', color: '#c084fc', fontWeight: '700', marginTop: '1px' }}>
+                <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600', marginTop: '1px' }}>
                   Athletic Conditioning
                 </div>
               </div>
@@ -638,21 +642,22 @@ export default function Login() {
             {/* Feature 4: Sports Nutrition & 1,324+ Demos */}
             <div
               style={{
-                background: 'rgba(15,23,42,0.7)',
-                border: '1px solid rgba(34,197,94,0.25)',
+                background: 'rgba(13,19,33,0.7)',
+                border: '1px solid rgba(255,255,255,0.07)',
                 borderRadius: '13px',
-                padding: '9px 10px',
+                padding: '10px',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '9px'
               }}
             >
               <div
                 style={{
-                  fontSize: '18px',
+                  fontSize: '17px',
                   flexShrink: 0,
-                  background: 'rgba(34,197,94,0.15)',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                   width: '32px',
                   height: '32px',
                   borderRadius: '8px',
@@ -664,10 +669,10 @@ export default function Login() {
                 🥗
               </div>
               <div>
-                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
                   Sports Nutrition
                 </div>
-                <div style={{ fontSize: '10px', color: '#4ade80', fontWeight: '700', marginTop: '1px' }}>
+                <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '600', marginTop: '1px' }}>
                   Veg &amp; Non-Veg Macros
                 </div>
               </div>
@@ -681,7 +686,7 @@ export default function Login() {
         style={{
           width: '100%',
           boxSizing: 'border-box',
-          background: 'linear-gradient(165deg, rgba(19,27,46,0.92) 0%, rgba(12,18,34,0.96) 100%)',
+          background: 'linear-gradient(165deg, rgba(13,19,33,0.92) 0%, rgba(8,12,22,0.96) 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderTop: '1px solid rgba(56,189,248,0.3)',
           borderRadius: '18px',
@@ -707,8 +712,8 @@ export default function Login() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '5px',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.16)',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 borderRadius: '11px',
                 padding: '11px 10px',
                 color: '#ffffff',
@@ -763,8 +768,8 @@ export default function Login() {
                 flex: '1 1 0%',
                 minWidth: 0,
                 width: '100%',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.16)',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.12)',
                 borderRadius: '11px',
                 padding: '11px 12px',
                 color: '#ffffff',
@@ -786,8 +791,8 @@ export default function Login() {
             onKeyDown={e => { if (e.key === 'Enter') handleContinue() }}
             style={{
               width: '100%',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.14)',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.12)',
               borderRadius: '11px',
               padding: '11px 12px',
               color: '#ffffff',
@@ -799,22 +804,22 @@ export default function Login() {
           />
         </div>
 
-        {/* Primary Action Button */}
+        {/* Primary Action Button (Unified Electric Cyan) */}
         <button
           type="button"
           onClick={handleContinue}
           disabled={isVerifying}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #00e5a0 0%, #00c988 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
             border: 'none',
             borderRadius: '12px',
             padding: '13px 16px',
-            color: '#05101a',
+            color: '#031024',
             fontSize: '15px',
             fontWeight: '900',
             cursor: 'pointer',
-            boxShadow: '0 4px 20px rgba(0,229,160,0.35)',
+            boxShadow: '0 4px 20px rgba(56, 189, 248, 0.35)',
             marginBottom: '12px',
             letterSpacing: '-0.2px',
             transition: 'transform 0.15s ease'
@@ -826,18 +831,28 @@ export default function Login() {
         {authMode === 'signup' && (
           <div style={{ textAlign: 'center', marginTop: '-4px', marginBottom: '12px' }}>
             <a
-              href={RAZORPAY_PAYMENT_LINK}
+              href="https://rzp.io/rzp/IZMpJppl"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                try {
+                  window.open('https://rzp.io/rzp/IZMpJppl', '_blank');
+                } catch (err) {
+                  window.location.href = 'https://rzp.io/rzp/IZMpJppl';
+                }
+              }}
               style={{
-                color: '#38bdf8',
+                color: '#94a3b8',
                 fontSize: '11.5px',
-                fontWeight: '700',
+                fontWeight: '600',
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '4px',
+                cursor: 'pointer'
               }}
+              onMouseEnter={e => e.currentTarget.style.color = '#38bdf8'}
+              onMouseLeave={e => e.currentTarget.style.color = '#94a3b8'}
             >
               Or pay directly via Razorpay link ↗
             </a>
