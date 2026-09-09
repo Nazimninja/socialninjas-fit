@@ -774,14 +774,14 @@ export default function Login() {
         {authMode === 'signup' && (
           <div style={{ textAlign: 'center', marginTop: '-4px', marginBottom: '12px' }}>
             <a
-              href="https://rzp.io/rzp/akMsjt2l"
+              href="https://rzp.io/rzp/akMsjt2I"
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => {
                 try {
-                  window.open('https://rzp.io/rzp/akMsjt2l', '_blank');
+                  window.open('https://rzp.io/rzp/akMsjt2I', '_blank');
                 } catch (err) {
-                  window.location.href = 'https://rzp.io/rzp/akMsjt2l';
+                  window.location.href = 'https://rzp.io/rzp/akMsjt2I';
                 }
               }}
               style={{

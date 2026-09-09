@@ -1,6 +1,6 @@
 export const RAZORPAY_PLAN_ID = 'plan_TZyXclmf593Ha2';
-export const RAZORPAY_DEFAULT_SUB_ID = 'sub_TZyYIXO4ynee3v';
-export const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/akMsjt2l';
+export const RAZORPAY_DEFAULT_SUB_ID = 'sub_TZyYlXO4ynee3v';
+export const RAZORPAY_PAYMENT_LINK = 'https://rzp.io/rzp/akMsjt2I';
 
 // Fit Ninja Razorpay Official Payment Gateway Engine
 export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
