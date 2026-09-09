@@ -276,22 +276,22 @@ export default function Login() {
         width: '100%',
         boxSizing: 'border-box',
         overflowX: 'hidden',
-        padding: 'calc(env(safe-area-inset-top, 0px) + 14px) 16px calc(env(safe-area-inset-bottom, 0px) + 20px)',
-        maxWidth: '500px',
+        padding: 'calc(env(safe-area-inset-top, 0px) + 12px) 16px calc(env(safe-area-inset-bottom, 0px) + 18px)',
+        maxWidth: '460px',
         margin: '0 auto',
         textAlign: 'center'
       }}
     >
       {/* ── 1. LOGO & BRAND HERO ─────────────────────────────────── */}
-      <div style={{ position: 'relative', marginBottom: '14px' }}>
+      <div style={{ position: 'relative', marginBottom: '10px' }}>
         <div
           style={{
-            width: '74px',
-            height: '74px',
-            borderRadius: '22px',
+            width: '62px',
+            height: '62px',
+            borderRadius: '18px',
             background: 'radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.35) 0%, rgba(13, 21, 35, 0.98) 75%)',
             border: '2px solid rgba(56, 189, 248, 0.85)',
-            boxShadow: '0 0 30px rgba(56, 189, 248, 0.45), inset 0 0 14px rgba(56, 189, 248, 0.25)',
+            boxShadow: '0 0 24px rgba(56, 189, 248, 0.45), inset 0 0 12px rgba(56, 189, 248, 0.25)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -302,9 +302,9 @@ export default function Login() {
             src="/ninja-emblem.png"
             alt="Fit Ninja Official Emblem"
             style={{
-              width: '54px',
-              height: '54px',
-              filter: 'drop-shadow(0 0 12px rgba(56,189,248,0.9)) brightness(1.2)',
+              width: '44px',
+              height: '44px',
+              filter: 'drop-shadow(0 0 10px rgba(56,189,248,0.9)) brightness(1.2)',
               objectFit: 'contain',
               display: 'block'
             }}
@@ -313,17 +313,17 @@ export default function Login() {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '2px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
+        <h1 style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '-0.8px', margin: 0, color: '#ffffff' }}>
           Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
         </h1>
         <span
           style={{
             background: 'linear-gradient(135deg, #38bdf8, #2563eb)',
             color: '#ffffff',
-            fontSize: '9.5px',
+            fontSize: '9px',
             fontWeight: '900',
-            padding: '2.5px 7px',
-            borderRadius: '6px',
+            padding: '2px 6px',
+            borderRadius: '5px',
             letterSpacing: '0.6px',
             textTransform: 'uppercase'
           }}
@@ -332,8 +332,8 @@ export default function Login() {
         </span>
       </div>
 
-      <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.6px', color: '#94a3b8', marginBottom: '14px' }}>
-        SCIENCE-BACKED FAT LOSS &amp; ATHLETIC SYSTEM · BY SOCIAL NINJA'S
+      <div style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.4px', color: '#94a3b8', marginBottom: '14px' }}>
+        SCIENCE-BACKED FAT LOSS &amp; ATHLETIC SYSTEM
       </div>
 
       {/* Authenticated Unpaid User Banner */}
@@ -344,9 +344,9 @@ export default function Login() {
             boxSizing: 'border-box',
             background: 'rgba(56, 189, 248, 0.08)',
             border: '1px solid rgba(56, 189, 248, 0.3)',
-            borderRadius: '16px',
-            padding: '12px 16px',
-            marginBottom: '16px',
+            borderRadius: '14px',
+            padding: '10px 14px',
+            marginBottom: '14px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -354,14 +354,14 @@ export default function Login() {
           }}
         >
           <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
-              AUTHENTICATED WITH GOOGLE
+            <div style={{ fontSize: '10px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+              AUTHENTICATED
             </div>
-            <div style={{ fontSize: '13px', fontWeight: '800', color: '#ffffff', wordBreak: 'break-all' }}>
+            <div style={{ fontSize: '12.5px', fontWeight: '800', color: '#ffffff', wordBreak: 'break-all' }}>
               {user.email}
             </div>
-            <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
-              ⚠️ Fit Ninja Pro required to unlock app
+            <div style={{ fontSize: '10.5px', color: '#94a3b8', marginTop: '1px' }}>
+              ⚠️ Fit Ninja Pro pass required to unlock full access
             </div>
           </div>
           <button
@@ -388,150 +388,318 @@ export default function Login() {
         </div>
       )}
 
-      {/* ── 2. PRO PASS VALUE COCKPIT CARD (Compelling, High-Converting) ── */}
+      {/* ── 2. SEGMENTED MODE SWITCHER ────────────────────────────── */}
       <div
         style={{
+          display: 'flex',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '12px',
+          padding: '3px',
           width: '100%',
           boxSizing: 'border-box',
-          background: 'linear-gradient(165deg, rgba(15,23,42,0.96) 0%, rgba(10,15,30,0.98) 100%)',
-          border: '1px solid rgba(56,189,248,0.35)',
-          borderRadius: '20px',
-          padding: '16px 14px',
-          marginBottom: '14px',
-          textAlign: 'left',
-          boxShadow: '0 16px 40px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1)',
-          position: 'relative'
+          marginBottom: '12px'
         }}
       >
-        {/* Pricing Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', paddingBottom: '10px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-          <div>
-            <span
-              style={{
-                background: 'rgba(249,115,22,0.15)',
-                border: '1px solid rgba(249,115,22,0.4)',
-                color: '#f97316',
-                fontSize: '9.5px',
-                fontWeight: '900',
-                textTransform: 'uppercase',
-                letterSpacing: '0.8px',
-                padding: '2.5px 8px',
-                borderRadius: '99px',
-                display: 'inline-block',
-                marginBottom: '3px'
-              }}
-            >
-              🔥 FAT LOSS &amp; PRO PASS
-            </span>
-            <div style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
-              LevelUp75 Active · Just ₹16 / day
-            </div>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
-              <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
-              <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹499</span>
-              <span style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
-            </div>
-            <div style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>Cancel anytime · 1-click</div>
-          </div>
-        </div>
-
-        {/* 4 Compelling Value Pillars */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '12px' }}>
-          {/* Feature 1 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-            <div style={{ background: 'rgba(249,115,22,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🔥
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Targeted Fat Loss &amp; Deficit Engine
-              </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Metabolic deficit calibration (-350 to -600 kcal) engineered to shed stubborn fat while keeping lean muscle.
-              </div>
-            </div>
-          </div>
-
-          {/* Feature 2 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🥗
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Adaptive Deficit Macros &amp; Indian Meals
-              </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                High-protein targets (1.8–2.2g/kg) with complete daily meal guides for Vegetarian, Eggetarian &amp; Non-Veg diets.
-              </div>
-            </div>
-          </div>
-
-          {/* Feature 3 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              🏋️
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                1,324+ Animated HD Guides &amp; Custom Splits
-              </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Gym, Home, or Calisthenics routines tailored to your fat loss schedule with 60fps looping video form.
-              </div>
-            </div>
-          </div>
-
-          {/* Feature 4 */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
-            <div style={{ background: 'rgba(56,189,248,0.15)', borderRadius: '8px', padding: '5px', fontSize: '13.5px', lineHeight: 1, flexShrink: 0 }}>
-              📈
-            </div>
-            <div>
-              <div style={{ fontSize: '12px', fontWeight: '800', color: '#ffffff', marginBottom: '1px' }}>
-                Smart Rest Timers &amp; Progressive Overload
-              </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8', lineHeight: 1.3 }}>
-                Live guided set player with automated overload to keep workout heart rate and calorie expenditure high.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Value Trust Highlights */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.08)', fontSize: '10.5px', color: '#38bdf8', fontWeight: '700' }}>
-          <span>✓ Rapid Fat Loss</span>
-          <span>✓ Cancel Anytime</span>
-          <span>✓ 100% Risk-Free</span>
-        </div>
+        <button
+          type="button"
+          onClick={() => { setIsVerifying(false); setAuthMode('signup') }}
+          style={{
+            flex: 1,
+            padding: '8px 10px',
+            borderRadius: '9px',
+            border: authMode === 'signup' ? '1px solid rgba(56,189,248,0.5)' : '1px solid transparent',
+            background: authMode === 'signup' ? 'linear-gradient(135deg, rgba(56,189,248,0.2), rgba(37,99,235,0.25))' : 'transparent',
+            color: authMode === 'signup' ? '#ffffff' : '#94a3b8',
+            fontSize: '12px',
+            fontWeight: '800',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '5px'
+          }}
+        >
+          <span>🔥</span> Start Transformation
+        </button>
+        <button
+          type="button"
+          onClick={() => { setIsVerifying(false); setAuthMode('login') }}
+          style={{
+            flex: 1,
+            padding: '8px 10px',
+            borderRadius: '9px',
+            border: authMode === 'login' ? '1px solid rgba(255,255,255,0.25)' : '1px solid transparent',
+            background: authMode === 'login' ? 'rgba(255,255,255,0.12)' : 'transparent',
+            color: authMode === 'login' ? '#ffffff' : '#94a3b8',
+            fontSize: '12px',
+            fontWeight: '800',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          Member Login
+        </button>
       </div>
 
-      {/* ── 3. CREATE ACCOUNT / SIGN IN SECTION ── */}
+      {/* ── 3. SIGNUP MODE: HIGHLIGHT FEATURES & OFFER ────────────── */}
+      {authMode === 'signup' && (
+        <>
+          {/* VIP Pricing & Offer Header */}
+          <div
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              background: 'linear-gradient(145deg, rgba(15,23,42,0.92) 0%, rgba(10,15,30,0.96) 100%)',
+              border: '1px solid rgba(56,189,248,0.32)',
+              borderRadius: '16px',
+              padding: '12px 14px',
+              marginBottom: '10px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)'
+            }}
+          >
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                <span
+                  style={{
+                    background: 'rgba(249,115,22,0.18)',
+                    border: '1px solid rgba(249,115,22,0.45)',
+                    color: '#fb923c',
+                    fontSize: '9.5px',
+                    fontWeight: '900',
+                    letterSpacing: '0.6px',
+                    textTransform: 'uppercase',
+                    padding: '2px 7px',
+                    borderRadius: '6px'
+                  }}
+                >
+                  LevelUp75 Active
+                </span>
+                <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: '800' }}>
+                  ₹16 / day
+                </span>
+              </div>
+              <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>
+                Cancel anytime · 100% Risk-Free
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
+                <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹999</span>
+                <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹499</span>
+                <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+              </div>
+              <span
+                style={{
+                  background: 'rgba(34,197,94,0.18)',
+                  color: '#4ade80',
+                  fontSize: '9px',
+                  fontWeight: '800',
+                  padding: '1.5px 6px',
+                  borderRadius: '4px',
+                  display: 'inline-block'
+                }}
+              >
+                SAVE 50%
+              </span>
+            </div>
+          </div>
+
+          {/* 4 Main Features in 2×2 Grid (Zero dense text, high impact) */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '8px',
+              width: '100%',
+              marginBottom: '12px',
+              boxSizing: 'border-box'
+            }}
+          >
+            {/* Feature 1 */}
+            <div
+              style={{
+                background: 'rgba(15,23,42,0.7)',
+                border: '1px solid rgba(249,115,22,0.25)',
+                borderRadius: '13px',
+                padding: '9px 10px',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '18px',
+                  flexShrink: 0,
+                  background: 'rgba(249,115,22,0.15)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                🔥
+              </div>
+              <div>
+                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Targeted Deficit
+                </div>
+                <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: '700', marginTop: '1px' }}>
+                  -500 kcal Calibration
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 2 */}
+            <div
+              style={{
+                background: 'rgba(15,23,42,0.7)',
+                border: '1px solid rgba(56,189,248,0.25)',
+                borderRadius: '13px',
+                padding: '9px 10px',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '18px',
+                  flexShrink: 0,
+                  background: 'rgba(56,189,248,0.15)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                🥗
+              </div>
+              <div>
+                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Sports Nutrition
+                </div>
+                <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', marginTop: '1px' }}>
+                  Veg &amp; Non-Veg Macros
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 3 */}
+            <div
+              style={{
+                background: 'rgba(15,23,42,0.7)',
+                border: '1px solid rgba(168,85,247,0.25)',
+                borderRadius: '13px',
+                padding: '9px 10px',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '18px',
+                  flexShrink: 0,
+                  background: 'rgba(168,85,247,0.15)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                🎬
+              </div>
+              <div>
+                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  1,324+ HD Demos
+                </div>
+                <div style={{ fontSize: '10px', color: '#c084fc', fontWeight: '700', marginTop: '1px' }}>
+                  Gym &amp; Calisthenics
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 4 */}
+            <div
+              style={{
+                background: 'rgba(15,23,42,0.7)',
+                border: '1px solid rgba(34,197,94,0.25)',
+                borderRadius: '13px',
+                padding: '9px 10px',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '18px',
+                  flexShrink: 0,
+                  background: 'rgba(34,197,94,0.15)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                📈
+              </div>
+              <div>
+                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Smart Overload
+                </div>
+                <div style={{ fontSize: '10px', color: '#4ade80', fontWeight: '700', marginTop: '1px' }}>
+                  Sets &amp; Rest Timers
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── 4. CHECKOUT & ACCESS CARD ─────────────────────────────── */}
       <div
         style={{
           width: '100%',
           boxSizing: 'border-box',
-          background: 'linear-gradient(165deg, #131b2e 0%, #0c1222 100%)',
+          background: 'linear-gradient(165deg, rgba(19,27,46,0.92) 0%, rgba(12,18,34,0.96) 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderTop: '1px solid rgba(56,189,248,0.3)',
-          borderRadius: '20px',
-          padding: '18px 16px',
-          boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
+          borderRadius: '18px',
+          padding: '16px 14px',
+          boxShadow: '0 16px 36px rgba(0,0,0,0.5)',
           textAlign: 'center',
-          marginBottom: '14px'
+          marginBottom: '12px'
         }}
       >
-        <h2 style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.3px', margin: '0 0 14px' }}>
-          {authMode === 'signup' ? 'Start Your Fat Loss & Muscle Transformation' : 'Log In to Fit Ninja'}
-        </h2>
+        <div style={{ fontSize: '15px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.2px', marginBottom: '12px' }}>
+          {authMode === 'signup' ? '⚡ Enter Details to Unlock Pro Pass' : '👋 Welcome Back Athlete'}
+        </div>
 
         {/* Inputs */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px', width: '100%', boxSizing: 'border-box' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '12px', width: '100%', boxSizing: 'border-box' }}>
           {/* Phone Row */}
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
-            {/* Country Code Pill (Interactive Native Picker) */}
+            {/* Country Code Pill */}
             <div
               style={{
                 position: 'relative',
@@ -541,10 +709,10 @@ export default function Login() {
                 gap: '5px',
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
-                borderRadius: '12px',
-                padding: '12px 10px',
+                borderRadius: '11px',
+                padding: '11px 10px',
                 color: '#ffffff',
-                fontSize: '13.5px',
+                fontSize: '13px',
                 fontWeight: '700',
                 flexShrink: 0,
                 boxSizing: 'border-box',
@@ -552,11 +720,10 @@ export default function Login() {
                 cursor: 'pointer'
               }}
             >
-              <span style={{ fontSize: '17px', lineHeight: 1 }}>{selectedCountry.flag}</span>
+              <span style={{ fontSize: '16px', lineHeight: 1 }}>{selectedCountry.flag}</span>
               <span style={{ fontWeight: '800', letterSpacing: '0.2px' }}>{selectedCountry.code}</span>
               <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.6)', marginLeft: '1px' }}>▾</span>
 
-              {/* Native invisible selector for iOS sheet / Android picker / Desktop dropdown */}
               <select
                 aria-label="Select Country Code"
                 value={selectedCountry.code}
@@ -598,10 +765,10 @@ export default function Login() {
                 width: '100%',
                 background: 'rgba(255,255,255,0.06)',
                 border: '1px solid rgba(255,255,255,0.16)',
-                borderRadius: '12px',
-                padding: '12px 14px',
+                borderRadius: '11px',
+                padding: '11px 12px',
                 color: '#ffffff',
-                fontSize: '14.5px',
+                fontSize: '14px',
                 fontWeight: '600',
                 outline: 'none',
                 letterSpacing: '0.5px',
@@ -613,7 +780,7 @@ export default function Login() {
           {/* Name / Email Input */}
           <input
             type="text"
-            placeholder={authMode === 'signup' ? 'Full athlete name or email' : 'Registered email or name'}
+            placeholder={authMode === 'signup' ? 'Athlete Name or Email' : 'Registered Email or Phone'}
             value={nameOrEmail}
             onChange={e => setNameOrEmail(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') handleContinue() }}
@@ -621,10 +788,10 @@ export default function Login() {
               width: '100%',
               background: 'rgba(255,255,255,0.06)',
               border: '1px solid rgba(255,255,255,0.14)',
-              borderRadius: '12px',
-              padding: '12px 14px',
+              borderRadius: '11px',
+              padding: '11px 12px',
               color: '#ffffff',
-              fontSize: '14.5px',
+              fontSize: '14px',
               fontWeight: '600',
               outline: 'none',
               boxSizing: 'border-box'
@@ -632,15 +799,7 @@ export default function Login() {
           />
         </div>
 
-        {authMode === 'signup' && (
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: '99px', padding: '4px 12px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '11px', fontWeight: '900', color: '#34d399', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
-              🎁 Offer Applied: LevelUp75
-            </span>
-          </div>
-        )}
-
-        {/* Primary Continue Button */}
+        {/* Primary Action Button */}
         <button
           type="button"
           onClick={handleContinue}
@@ -650,36 +809,35 @@ export default function Login() {
             background: 'linear-gradient(135deg, #00e5a0 0%, #00c988 100%)',
             border: 'none',
             borderRadius: '12px',
-            padding: '13px 18px',
+            padding: '13px 16px',
             color: '#05101a',
             fontSize: '15px',
             fontWeight: '900',
             cursor: 'pointer',
-            boxShadow: '0 4px 20px rgba(0,229,160,0.3)',
-            marginBottom: '16px',
+            boxShadow: '0 4px 20px rgba(0,229,160,0.35)',
+            marginBottom: '12px',
             letterSpacing: '-0.2px',
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '🔥 Unlock Pro & Start Fat Loss Protocol' : 'Continue to App →')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '🔥 Unlock Pro & Start Fat Loss Protocol · ₹499' : 'Continue to App →')}
         </button>
 
         {authMode === 'signup' && (
-          <div style={{ textAlign: 'center', marginTop: '-8px', marginBottom: '14px' }}>
+          <div style={{ textAlign: 'center', marginTop: '-4px', marginBottom: '12px' }}>
             <a
               href={RAZORPAY_PAYMENT_LINK}
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'rgba(255,255,255,0.45)',
+                color: '#38bdf8',
                 fontSize: '11.5px',
+                fontWeight: '700',
                 textDecoration: 'none',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '4px'
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#38bdf8'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.45)'}
             >
               Or pay directly via Razorpay link ↗
             </a>
@@ -687,42 +845,42 @@ export default function Login() {
         )}
 
         {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 14px', color: 'rgba(255,255,255,0.35)', fontSize: '12px', fontWeight: '600' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+        <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 12px', color: 'rgba(255,255,255,0.3)', fontSize: '11.5px', fontWeight: '600' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
           <span style={{ padding: '0 10px' }}>{authMode === 'signup' ? 'or sign up with' : 'or log in with'}</span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.1)' }} />
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
         </div>
 
         {/* Social Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
           {/* Google Button */}
           <button
             type="button"
             onClick={handleGoogleSignIn}
             disabled={isVerifying}
             style={{
-              width: '100%',
+              flex: 1,
               background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.16)',
-              borderRadius: '12px',
-              padding: '12px 16px',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '11px',
+              padding: '10px 12px',
               color: '#ffffff',
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '9px'
+              gap: '7px'
             }}
           >
-            <svg width="17" height="17" viewBox="0 0 24 24">
+            <svg width="16" height="16" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
             </svg>
-            <span>Continue with Google</span>
+            <span>Google</span>
           </button>
 
           {/* Apple Button */}
@@ -731,30 +889,30 @@ export default function Login() {
             onClick={handleAppleSignIn}
             disabled={isVerifying}
             style={{
-              width: '100%',
+              flex: 1,
               background: '#ffffff',
               border: 'none',
-              borderRadius: '12px',
-              padding: '12px 16px',
+              borderRadius: '11px',
+              padding: '10px 12px',
               color: '#000000',
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: '800',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px'
+              gap: '6px'
             }}
           >
-            <svg width="17" height="17" viewBox="0 0 170 170" fill="#000000">
+            <svg width="15" height="15" viewBox="0 0 170 170" fill="#000000">
               <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.69-7.85-12.01-14.42-7.25-11.22-12.87-23.77-16.85-37.66-3.99-13.88-5.98-26.68-5.98-38.4 0-16.71 4.13-30.73 12.39-42.06 8.26-11.33 18.73-17.11 31.42-17.34 4.8 0 10.02 1.25 15.66 3.75 5.64 2.5 9.4 3.79 11.29 3.87 1.66 0 5.65-1.37 11.96-4.1 6.31-2.73 11.83-4.04 16.56-3.93 12.31.62 22.38 5.25 30.21 13.88-10.74 6.53-16.01 15.53-15.8 27.01.21 9.07 3.65 16.75 10.33 23.03 6.68 6.28 14.65 9.77 23.9 10.47-2.2 6.64-4.85 13.14-7.94 19.5zM119.22 31.81c0-7.39 2.67-14.32 8.01-20.78 5.34-6.46 12.02-10.33 20.04-11.62.21 1.04.31 1.98.31 2.82 0 7.39-2.83 14.48-8.5 21.27-5.67 6.79-12.51 10.78-20.52 11.96-.21-1.25-.32-2.29-.32-3.13z"/>
             </svg>
-            <span>{authMode === 'signup' ? 'Sign up with Apple' : 'Sign in with Apple'}</span>
+            <span>Apple</span>
           </button>
         </div>
 
         {/* Switcher */}
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', fontWeight: '600' }}>
+        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', fontWeight: '600' }}>
           {authMode === 'signup' ? (
             <>
               Already have an account?{' '}
@@ -767,19 +925,19 @@ export default function Login() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#c084fc',
+                  color: '#38bdf8',
                   fontWeight: '800',
                   cursor: 'pointer',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   padding: 0
                 }}
               >
-                Login
+                Log in here
               </button>
             </>
           ) : (
             <>
-              Don't have an account?{' '}
+              Need to start a new plan?{' '}
               <button
                 type="button"
                 onClick={() => {
@@ -792,11 +950,11 @@ export default function Login() {
                   color: '#00e5a0',
                   fontWeight: '800',
                   cursor: 'pointer',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   padding: 0
                 }}
               >
-                Sign Up
+                Sign up with LevelUp75 Offer
               </button>
             </>
           )}

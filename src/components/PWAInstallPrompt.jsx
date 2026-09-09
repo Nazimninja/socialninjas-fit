@@ -127,7 +127,9 @@ export default function PWAInstallPrompt() {
     let timer = null
     if (isApple) {
       timer = setTimeout(() => {
-        if (!isStandaloneMode() && !sessionStorage.getItem('fit_pwa_dismissed')) {
+        // Do not obstruct checkout/signup form if user is not yet logged in/paid
+        const isAuthScreen = window.location.pathname.includes('login') || window.location.hash.includes('login') || !useStore.getState().paid
+        if (!isStandaloneMode() && !sessionStorage.getItem('fit_pwa_dismissed') && !isAuthScreen) {
           setShowPrompt(true)
         }
       }, 3000)
