@@ -123,11 +123,9 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
   useStore.getState().setPaid(isPaid)
 
   if (isPaid) {
-    await useStore.getState().pullState()
-    useUI.getState().toast(isAdmin ? 'Welcome, Admin ' + userObj.name : 'Welcome to Fit Ninja Pro, ' + userObj.name)
-    if (window.location.hash.includes('access_token')) {
-      window.history.replaceState(null, '', window.location.pathname + '#/home')
-    }
+    useStore.getState().pullState().catch(() => {})
+    useUI.getState().toast(isAdmin ? 'Welcome, Admin ' + userObj.name : '⚡ Welcome to Fit Ninja Pro, ' + userObj.name)
+    window.location.hash = '#/home'
     navigate('/home', { replace: true })
   } else {
     // UNPAID USER: Stay strictly on the paywall screen!
@@ -145,6 +143,20 @@ function Shell() {
   const isGuest = useStore(s => s.isGuest())
   const langV = useLang()
   const [oauthLoading, setOAuthLoading] = useState(false)
+
+  const paid = useStore(s => s.paid)
+  const user = useStore(s => s.user)
+  const authed = (user || isGuest) && paid
+
+  // Guarantee immediate entry into /home whenever authed becomes true
+  useEffect(() => {
+    if (authed) {
+      if (!window.location.hash || window.location.hash === '#/' || window.location.hash === '#/app') {
+        window.location.hash = '#/home'
+        navigate('/home', { replace: true })
+      }
+    }
+  }, [authed, navigate])
 
   useEffect(() => { setNav(navigate) }, [navigate])
   useEffect(() => { applyPrefs(S.theme, S.accent) }, [S.theme, S.accent])
@@ -194,10 +206,6 @@ function Shell() {
 
     return () => subscription?.unsubscribe()
   }, [navigate])
-
-  const paid = useStore(s => s.paid)
-  const user = useStore(s => s.user)
-  const authed = (user || isGuest) && paid
 
   // Show loading spinner only during boot (before ready) or active OAuth processing
   if ((!ready && !authed) || oauthLoading) return (

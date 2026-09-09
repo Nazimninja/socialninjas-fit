@@ -1,5 +1,5 @@
-/* Fit Ninja Service Worker — cache purging engine v23 */
-const CACHE = 'fitninja-v23'
+/* Fit Ninja Service Worker — cache purging engine v24 */
+const CACHE = 'fitninja-v24'
 
 self.addEventListener('install', () => self.skipWaiting())
 self.addEventListener('activate', e => {

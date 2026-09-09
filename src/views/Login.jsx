@@ -131,13 +131,15 @@ export default function Login() {
   // Auto-verify if authenticated user has an active membership (e.g. after returning from Razorpay payment)
   useEffect(() => {
     const checkStatus = async () => {
-      if (user?.email) {
+      const target = user?.email || localStorage.getItem('gym_paid_email')
+      if (target) {
         try {
-          const res = await verifyMemberEmail(user.email).catch(() => ({ verified: false }))
+          const res = await verifyMemberEmail(target).catch(() => ({ verified: false }))
           if (res && res.verified) {
-            setUser({ ...user, paid: true, admin: res.role === 'admin' })
+            setUser({ ...(user || {}), name: user?.name || target.split('@')[0], email: target, paid: true, admin: res.role === 'admin' })
             setPaid(true)
             useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            window.location.hash = '#/home'
             onboardingWizardSheet()
           }
         } catch (e) {}
@@ -209,6 +211,22 @@ export default function Login() {
       const activeEmail = isEmail ? rawVal.toLowerCase() : ''
       const activeName = isEmail ? rawVal.split('@')[0] : (rawVal || 'Fit Ninja Athlete')
 
+      // Check if user is already a paid member before initiating checkout
+      const candidateEmail = activeEmail || (user?.email ? user.email.toLowerCase().trim() : '')
+      if (candidateEmail) {
+        try {
+          const existing = await verifyMemberEmail(candidateEmail).catch(() => ({ verified: false }))
+          if (existing && existing.verified) {
+            setUser({ ...(user || {}), name: activeName || candidateEmail.split('@')[0], email: candidateEmail, paid: true })
+            setPaid(true)
+            useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            setIsVerifying(false)
+            window.location.hash = '#/home'
+            return
+          }
+        } catch (e) {}
+      }
+
       try {
         await openRazorpayCheckout({
           name: activeName,
@@ -268,6 +286,7 @@ export default function Login() {
               admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
             })
             setPaid(true)
+            window.location.hash = '#/home'
             onboardingWizardSheet()
           },
           onFailure: (msg) => {
@@ -284,28 +303,31 @@ export default function Login() {
       }
     } else {
       // Login mode
-      if (!rawVal && !phone) {
+      const lookup = (rawVal || phone || user?.email || '').toLowerCase().trim()
+      if (!lookup) {
         useUI.getState().toast('Please enter your registered email address or phone')
         return
       }
       setIsVerifying(true)
-      const lookup = rawVal.toLowerCase()
 
       if (ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in')) {
         setUser({ name: lookup.split('@')[0] || 'Admin', email: lookup, paid: true, admin: true })
         setPaid(true)
         useUI.getState().toast('Admin verified! Welcome back.')
         setIsVerifying(false)
+        window.location.hash = '#/home'
         return
       }
 
       try {
         const res = await verifyMemberEmail(lookup).catch(() => ({ verified: false }))
         if (res && res.verified) {
-          setUser({ name: lookup.split('@')[0] || 'Athlete', email: lookup, paid: true, admin: res.role === 'admin' })
+          const finalEmail = res.email || lookup
+          setUser({ name: finalEmail.split('@')[0] || 'Athlete', email: finalEmail, paid: true, admin: res.role === 'admin' })
           setPaid(true)
-          useUI.getState().toast('Membership verified! Welcome back.')
+          useUI.getState().toast('⚡ Membership verified! Welcome back.')
           setIsVerifying(false)
+          window.location.hash = '#/home'
           return
         }
         useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this account. Please switch to Sign Up.'))
@@ -450,27 +472,63 @@ export default function Login() {
               ⚠️ Fit Ninja Pro pass required to unlock full access
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setUser(null)
-              setPaid(false)
-              try { supabase.auth.signOut() } catch (e) {}
-            }}
-            style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(255,255,255,0.18)',
-              color: '#ffffff',
-              borderRadius: '8px',
-              padding: '6px 12px',
-              fontSize: '11px',
-              fontWeight: '700',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap'
-            }}
-          >
-            Sign Out
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              type="button"
+              onClick={async () => {
+                setIsVerifying(true)
+                try {
+                  const res = await verifyMemberEmail(user.email)
+                  if (res && res.verified) {
+                    setUser({ ...user, paid: true, admin: res.role === 'admin' })
+                    setPaid(true)
+                    useUI.getState().toast('⚡ Access Verified! Welcome to Pro.')
+                    window.location.hash = '#/home'
+                    return
+                  }
+                  useUI.getState().toast('Subscription still pending. Please try again shortly.')
+                } catch (e) {
+                  useUI.getState().toast('Verification check error')
+                } finally {
+                  setIsVerifying(false)
+                }
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+                border: 'none',
+                color: '#031024',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                fontSize: '11px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Verify Access ↗
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setUser(null)
+                setPaid(false)
+                try { supabase.auth.signOut() } catch (e) {}
+              }}
+              style={{
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.18)',
+                color: '#ffffff',
+                borderRadius: '8px',
+                padding: '6px 10px',
+                fontSize: '11px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Sign Out
+            </button>
+          </div>
         </div>
       )}
 
