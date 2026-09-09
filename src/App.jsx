@@ -63,32 +63,47 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
     isPaid = true
     isAdmin = true
   } else {
-    // 2. Query Supabase database for active subscription
+    // 2. Query Supabase database for active membership or existing user state
     try {
-      const { data: sub } = await supabase
-        .from('subscriptions')
+      const { data: memRows } = await supabase
+        .from('scripts')
         .select('*')
-        .eq('email', cleanEmail)
-        .maybeSingle()
+        .eq('profile', 'fitninja_membership')
+        .eq('topic', cleanEmail)
+        .limit(1)
 
-      if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
+      if (memRows && memRows.length > 0) {
         isPaid = true
       }
     } catch (e) {
-      console.warn('Subscription check error:', e)
+      console.warn('Membership check error:', e)
     }
 
     if (!isPaid) {
       try {
-        const { data: u } = await supabase
-          .from('users')
+        const { data: stateRows } = await supabase
+          .from('scripts')
+          .select('*')
+          .eq('profile', 'fitninja_user_state')
+          .eq('topic', cleanEmail)
+          .limit(1)
+
+        if (stateRows && stateRows.length > 0) {
+          isPaid = true
+        }
+      } catch (e) {}
+    }
+
+    if (!isPaid) {
+      try {
+        const { data: leadRows } = await supabase
+          .from('leads')
           .select('*')
           .eq('email', cleanEmail)
-          .maybeSingle()
+          .limit(1)
 
-        if (u && (u.paid || u.role === 'admin' || u.subscription_status === 'active')) {
+        if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
           isPaid = true
-          if (u.role === 'admin') isAdmin = true
         }
       } catch (e) {}
     }

@@ -88,29 +88,44 @@ export async function verifyMemberEmail(email) {
     return { verified: true, role: 'admin', email: clean }
   }
 
-  // 2. Query Supabase DB for active subscription/user
+  // 2. Query Supabase DB for active membership or saved state
   try {
-    const { data: user } = await supabase
-      .from('users')
+    // Check fitninja_membership
+    const { data: memRows } = await supabase
+      .from('scripts')
       .select('*')
-      .eq('email', clean)
-      .maybeSingle()
+      .eq('profile', 'fitninja_membership')
+      .eq('topic', clean)
+      .limit(1)
 
-    if (user && (user.paid || user.role === 'admin' || user.subscription_status === 'active')) {
-      return { verified: true, email: clean, user }
+    if (memRows && memRows.length > 0) {
+      return { verified: true, email: clean }
     }
 
-    const { data: sub } = await supabase
-      .from('subscriptions')
+    // Check existing synced user state (if user state exists, they are active)
+    const { data: stateRows } = await supabase
+      .from('scripts')
+      .select('*')
+      .eq('profile', 'fitninja_user_state')
+      .eq('topic', clean)
+      .limit(1)
+
+    if (stateRows && stateRows.length > 0) {
+      return { verified: true, email: clean }
+    }
+
+    // Check leads table
+    const { data: leadRows } = await supabase
+      .from('leads')
       .select('*')
       .eq('email', clean)
-      .maybeSingle()
+      .limit(1)
 
-    if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
-      return { verified: true, email: clean, subscription: sub }
+    if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
+      return { verified: true, email: clean }
     }
   } catch (err) {
-    console.warn('Supabase lookup warning:', err)
+    console.warn('Supabase membership lookup warning:', err)
   }
 
   // 4. Serverless API verification check (if endpoint active)

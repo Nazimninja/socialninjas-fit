@@ -198,16 +198,48 @@ export default function Login() {
           phone: cleanPhone,
           onSuccess: async (response) => {
             setIsVerifying(false)
-            if (activeEmail) {
-              try {
-                await supabase.from('subscriptions').upsert({
+            if (activeEmail || cleanPhone) {
+              const memTopic = (activeEmail || cleanPhone).toLowerCase()
+              const paymentPayload = {
+                profile: 'fitninja_membership',
+                topic: memTopic,
+                section1: JSON.stringify({
                   email: activeEmail,
+                  name: activeName,
+                  phone: cleanPhone,
+                  paid: true,
                   status: 'active',
                   razorpay_payment_id: response.razorpay_payment_id || response.razorpay_subscription_id,
-                  updated_at: new Date().toISOString()
-                })
+                  created_at: new Date().toISOString()
+                }),
+                caption: 'active'
+              }
+
+              try {
+                // Upsert to Supabase scripts table
+                const { data: existingMem } = await supabase
+                  .from('scripts')
+                  .select('id')
+                  .eq('profile', 'fitninja_membership')
+                  .eq('topic', memTopic)
+                  .limit(1)
+
+                if (existingMem && existingMem.length > 0) {
+                  await supabase.from('scripts').update(paymentPayload).eq('id', existingMem[0].id)
+                } else {
+                  await supabase.from('scripts').insert([paymentPayload])
+                }
+
+                // Also record in agency CRM leads table
+                await supabase.from('leads').insert([{
+                  name: activeName,
+                  email: activeEmail || `${cleanPhone}@fitninja.app`,
+                  phone: cleanPhone,
+                  status: 'PAID PRO MEMBER',
+                  notes: 'Razorpay payment verified: ' + (response.razorpay_payment_id || 'success')
+                }]).catch(() => {})
               } catch (e) {
-                console.warn('Supabase subscription record:', e)
+                console.warn('Supabase membership recording error:', e)
               }
             }
             setUser({
