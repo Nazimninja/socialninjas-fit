@@ -333,7 +333,7 @@ export default function Login() {
       </div>
 
       <div style={{ fontSize: '9.5px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.4px', color: '#94a3b8', marginBottom: '14px' }}>
-        SCIENCE-BACKED FAT LOSS &amp; ATHLETIC SYSTEM
+        SCIENCE-BACKED MUSCLE BUILDING · FAT LOSS · ATHLETIC FITNESS
       </div>
 
       {/* Authenticated Unpaid User Banner */}
@@ -510,7 +510,7 @@ export default function Login() {
             </div>
           </div>
 
-          {/* 4 Main Features in 2×2 Grid (Zero dense text, high impact) */}
+          {/* 4 Main Pillars in 2×2 Grid: Muscle, Fat Loss, Fitness Maintenance, Sports Nutrition */}
           <div
             style={{
               display: 'grid',
@@ -521,7 +521,45 @@ export default function Login() {
               boxSizing: 'border-box'
             }}
           >
-            {/* Feature 1 */}
+            {/* Feature 1: Muscle Building */}
+            <div
+              style={{
+                background: 'rgba(15,23,42,0.7)',
+                border: '1px solid rgba(56,189,248,0.25)',
+                borderRadius: '13px',
+                padding: '9px 10px',
+                textAlign: 'left',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '18px',
+                  flexShrink: 0,
+                  background: 'rgba(56,189,248,0.15)',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                💪
+              </div>
+              <div>
+                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
+                  Build Lean Muscle
+                </div>
+                <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', marginTop: '1px' }}>
+                  Hypertrophy &amp; Overload
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 2: Fat Loss */}
             <div
               style={{
                 background: 'rgba(15,23,42,0.7)',
@@ -551,53 +589,15 @@ export default function Login() {
               </div>
               <div>
                 <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  Targeted Deficit
+                  Targeted Fat Loss
                 </div>
                 <div style={{ fontSize: '10px', color: '#fb923c', fontWeight: '700', marginTop: '1px' }}>
-                  -500 kcal Calibration
+                  Calibrated Deficits
                 </div>
               </div>
             </div>
 
-            {/* Feature 2 */}
-            <div
-              style={{
-                background: 'rgba(15,23,42,0.7)',
-                border: '1px solid rgba(56,189,248,0.25)',
-                borderRadius: '13px',
-                padding: '9px 10px',
-                textAlign: 'left',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '18px',
-                  flexShrink: 0,
-                  background: 'rgba(56,189,248,0.15)',
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                🥗
-              </div>
-              <div>
-                <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  Sports Nutrition
-                </div>
-                <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', marginTop: '1px' }}>
-                  Veg &amp; Non-Veg Macros
-                </div>
-              </div>
-            </div>
-
-            {/* Feature 3 */}
+            {/* Feature 3: Maintain Fitness & Conditioning */}
             <div
               style={{
                 background: 'rgba(15,23,42,0.7)',
@@ -623,19 +623,19 @@ export default function Login() {
                   justifyContent: 'center'
                 }}
               >
-                🎬
+                ⚡
               </div>
               <div>
                 <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  1,324+ HD Demos
+                  Maintain Fitness
                 </div>
                 <div style={{ fontSize: '10px', color: '#c084fc', fontWeight: '700', marginTop: '1px' }}>
-                  Gym &amp; Calisthenics
+                  Athletic Conditioning
                 </div>
               </div>
             </div>
 
-            {/* Feature 4 */}
+            {/* Feature 4: Sports Nutrition & 1,324+ Demos */}
             <div
               style={{
                 background: 'rgba(15,23,42,0.7)',
@@ -661,14 +661,14 @@ export default function Login() {
                   justifyContent: 'center'
                 }}
               >
-                📈
+                🥗
               </div>
               <div>
                 <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.2 }}>
-                  Smart Overload
+                  Sports Nutrition
                 </div>
                 <div style={{ fontSize: '10px', color: '#4ade80', fontWeight: '700', marginTop: '1px' }}>
-                  Sets &amp; Rest Timers
+                  Veg &amp; Non-Veg Macros
                 </div>
               </div>
             </div>
@@ -820,7 +820,7 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '🔥 Unlock Pro & Start Fat Loss Protocol · ₹499' : 'Continue to App →')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Unlock Pro Pass · ₹499' : 'Continue to App →')}
         </button>
 
         {authMode === 'signup' && (

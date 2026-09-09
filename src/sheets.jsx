@@ -1085,7 +1085,7 @@ function OnboardingWizard({ close }) {
   const [weight, setWeight] = useState(String(saved.weight || lastBW(st)?.w || '72'))
   const [height, setHeight] = useState(String(saved.height || '175'))
   const [gender, setGender] = useState(saved.gender || st.body || 'male')
-  const [goal, setGoal] = useState(saved.goal || 'fat_loss') // prioritized: 'fat_loss', 'muscle', 'strength', 'general'
+  const [goal, setGoal] = useState(saved.goal || 'muscle') // 'muscle', 'fat_loss', 'general', 'strength'
   const [days, setDays] = useState(saved.days || 4)
   const [location, setLocation] = useState(saved.location || 'gym') // 'gym', 'home', 'calisthenics'
   const [experience, setExperience] = useState(saved.experience || 'intermediate') // 'beginner', 'intermediate', 'advanced'
@@ -1361,10 +1361,10 @@ function OnboardingWizard({ close }) {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'fat_loss', title: 'Cut & Fat Loss Shred', desc: 'Accelerate stubborn fat reduction with precision deficit while preserving lean muscle mass', icon: 'flame', tag: '🔥 RECOMMENDED' },
-                { id: 'muscle', title: 'Hypertrophy & Mass', desc: 'Progressive overload training for maximum muscle size & power', icon: 'dumbbell' },
-                { id: 'strength', title: 'Raw Strength & Power', desc: 'Heavy compound strength progression and central nervous recruitment', icon: 'bolt' },
-                { id: 'general', title: 'Athletic Conditioning', desc: 'Functional stamina, daily energy & overall body longevity', icon: 'sparkles' }
+                { id: 'muscle', title: 'Build Muscle & Hypertrophy', desc: 'Progressive overload training for maximum muscle size, density & strength', icon: 'dumbbell', tag: '💪 MUSCLE' },
+                { id: 'fat_loss', title: 'Cut & Fat Loss Shred', desc: 'Accelerate stubborn fat reduction with precision deficit while preserving lean muscle mass', icon: 'flame', tag: '🔥 FAT LOSS' },
+                { id: 'general', title: 'Athletic Fitness & Maintenance', desc: 'Maintain peak health, functional stamina, daily energy & overall body longevity', icon: 'sparkles', tag: '⚡ FITNESS' },
+                { id: 'strength', title: 'Raw Strength & Power', desc: 'Heavy compound strength progression and central nervous recruitment', icon: 'bolt', tag: '⚡ POWER' }
               ].map(g => (
                 <div
                   key={g.id}
