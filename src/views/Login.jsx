@@ -128,15 +128,33 @@ export default function Login() {
     setIsVerifying(false)
   }, [authMode])
 
-  // Safety watchdog: never allow isVerifying to stay stuck for > 3.5 seconds
+  // Auto-verify if authenticated user has an active membership (e.g. after returning from Razorpay payment)
   useEffect(() => {
-    if (isVerifying) {
-      const watchdog = setTimeout(() => {
-        setIsVerifying(false)
-      }, 3500)
-      return () => clearTimeout(watchdog)
+    const checkStatus = async () => {
+      if (user?.email) {
+        try {
+          const res = await verifyMemberEmail(user.email).catch(() => ({ verified: false }))
+          if (res && res.verified) {
+            setUser({ ...user, paid: true, admin: res.role === 'admin' })
+            setPaid(true)
+            useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            onboardingWizardSheet()
+          }
+        } catch (e) {}
+      }
     }
-  }, [isVerifying])
+
+    checkStatus()
+    window.addEventListener('focus', checkStatus)
+    const onVis = () => {
+      if (document.visibilityState === 'visible') checkStatus()
+    }
+    document.addEventListener('visibilitychange', onVis)
+    return () => {
+      window.removeEventListener('focus', checkStatus)
+      document.removeEventListener('visibilitychange', onVis)
+    }
+  }, [user?.email])
 
   const handleGoogleSignIn = async () => {
     setIsVerifying(true)
