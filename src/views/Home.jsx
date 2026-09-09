@@ -424,7 +424,7 @@ export default function Home() {
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed`
                 : isSelectedDone
                 ? `${selectedDayWorkouts[0].entries?.length || 0} exercises completed · ${fmtVol(selectedDayWorkouts[0].vol, S.unit)} logged`
-                : selectedRoutine ? 'AI-calibrated progressive overload' : (!S.routines || S.routines.length === 0) ? 'Launch setup to generate your custom split & macros' : 'Hydrate · hit protein · sleep 8h'}
+                : selectedRoutine ? 'Science-backed progressive overload' : (!S.routines || S.routines.length === 0) ? 'Launch setup to generate your custom split & macros' : 'Hydrate · hit protein · sleep 8h'}
             </div>
           </div>
         </div>

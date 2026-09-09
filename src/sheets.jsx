@@ -1038,7 +1038,7 @@ function PostWorkoutCheckin({ w, prs, e1prs, close }) {
       </div>
       <h3 style={{ margin: '8px 0' }}>{t('Coach Check-in')}</h3>
       <div className="muted small" style={{ marginBottom: 18 }}>
-        {t('Tell your AI Coach how today’s session felt so it can adjust next week’s plan.')}
+        {t('Tell your Coach how today’s session felt so your plan calibrates to your recovery.')}
       </div>
 
       <div style={{ textAlign: 'left', marginBottom: 16 }}>
@@ -1207,7 +1207,7 @@ function OnboardingWizard({ close }) {
         <div className="spin" style={{ fontSize: 44, color: 'var(--acc)', display: 'inline-block', marginBottom: 16 }}>
           <Icon name="sparkles" />
         </div>
-        <h3 style={{ margin: '0 0 8px', fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{t('Engineering Bespoke Protocol...')}</h3>
+        <h3 style={{ margin: '0 0 8px', fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{t('Calibrating Your Personalized Protocol...')}</h3>
         <div className="muted small" style={{ lineHeight: 1.5, maxWidth: 340, margin: '0 auto', color: 'var(--label-2)' }}>
           {t('Generating 100% custom {0}-day routines calibrated for {1} with precision nutrition ({2} kcal · {3}g Protein).', numDays, location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics', targetKcalCalc, targetProteinCalc)}
         </div>
@@ -2247,7 +2247,7 @@ function WeeklyCheckinModal({ close }) {
               Weekly Progress Check-in
             </h3>
             <div className="small muted" style={{ fontSize: 11 }}>
-              Monday Weigh-in &amp; AI Protocol Adaptation
+              Monday Weigh-in &amp; Protocol Calibration
             </div>
           </div>
         </div>
@@ -2558,7 +2558,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
       </div>
 
       <h3 style={{ margin: '0 0 6px', fontSize: 20, fontWeight: 900, color: 'var(--label)', letterSpacing: '-0.5px' }}>
-        AI Plan Periodization Adapted!
+        Training &amp; Nutrition Calibrated!
       </h3>
       <p style={{ margin: '0 0 18px', fontSize: 12, color: 'var(--label-2)', lineHeight: 1.4 }}>
         Your weekly check-in, logged workouts, and macro adherence have been synthesized into your updated protocol.
@@ -2593,7 +2593,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
       {changes.length > 0 && (
         <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 16px', marginBottom: 18, textAlign: 'left' }}>
           <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-2)', marginBottom: 8 }}>
-            AI Coach Calibrations
+            Coach Protocol Calibrations
           </div>
           <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--label)', lineHeight: 1.5 }}>
             {changes.map((chg, i) => (
@@ -2668,7 +2668,7 @@ function AppGuideModal({ close }) {
             step: '3',
             icon: '🥗',
             title: 'Target Calories & Macros',
-            desc: 'Your AI plan automatically calculates your target calories, protein, carbs, and fats based on your fitness goals. Log daily meals on the Nutrition tab.',
+            desc: 'Your personalized plan automatically calculates your target calories, protein, carbs, and fats based on your fitness goals. Log daily meals on the Nutrition tab.',
             tag: 'Fuel'
           },
           {

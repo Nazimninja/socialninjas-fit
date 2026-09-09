@@ -13,7 +13,7 @@ export default function Landing() {
   const faqs = [
     {
       q: "What makes Fit Ninja different from other gym workout apps?",
-      a: "Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front & back muscle heatmaps, and a full AI macro nutrition engine into a single 100% offline-capable PWA."
+      a: "Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front & back muscle heatmaps, and a comprehensive sports nutrition engine into a single 100% offline-capable PWA."
     },
     {
       q: "Does the app work without an internet connection?",
@@ -24,7 +24,7 @@ export default function Landing() {
       a: "When you start a session, Fit Ninja keeps your phone screen awake (Screen Wake Lock API), pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio cues when your rest timer expires."
     },
     {
-      q: "Can I customize my diet preferences for the AI Nutrition engine?",
+      q: "Can I customize my diet preferences for the nutrition engine?",
       a: "Absolutely. You can select between High-Protein Clean Hypertrophy, Plant-Based Athletic Vegan, Ketogenic Metabolic, and Balanced Nutrition with customized daily macro targets."
     },
     {
@@ -97,21 +97,21 @@ export default function Landing() {
         }}>
           <span>🔥 FIT NINJA 2.0 IS LIVE</span>
           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#f59e0b' }}></span>
-          <span style={{ color: 'rgba(255,255,255,0.7)' }}>1,324+ Exercises & AI Macros</span>
+          <span style={{ color: 'rgba(255,255,255,0.7)' }}>1,324+ Exercises & Precision Macros</span>
         </div>
 
         <h1 style={{
           fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: '900', letterSpacing: '-1.5px',
           lineHeight: 1.1, margin: '0 0 18px', color: '#fff'
         }}>
-          The All-In-One Workout, Progression & AI Nutrition OS
+          The All-In-One Workout, Progression & Precision Nutrition OS
         </h1>
 
         <p style={{
           fontSize: 'clamp(15px, 2.5vw, 18px)', color: 'rgba(235, 235, 245, 0.65)', lineHeight: 1.6,
           maxWidth: '680px', margin: '0 auto 30px'
         }}>
-          Guided workout player with animated video demos, smart rest timers, Greyskull LP strength progression, real-time anatomical muscle heatmaps, and personalized AI nutrition.
+          Guided workout player with animated video demos, smart rest timers, Greyskull LP strength progression, real-time anatomical muscle heatmaps, and personalized sports nutrition.
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '40px' }}>
@@ -236,9 +236,9 @@ export default function Landing() {
           }}>
             <div>
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>🥗</div>
-              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>AI Nutrition & Macros</h3>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>Sports Nutrition &amp; Macros</h3>
               <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
-                Personalized BMR & TDEE calorie calculator with macro targets (Protein, Carbs, Fats) and customized meal plans for High-Protein, Plant-Based Vegan, Keto, and Balanced diets.
+                Personalized BMR &amp; TDEE calorie calculator with macro targets (Protein, Carbs, Fats) and customized meal plans for High-Protein, Plant-Based Vegan, Keto, and Balanced diets.
               </p>
             </div>
             <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#c084fc', cursor: 'pointer' }} onClick={() => nav('/nutrition')}>
@@ -278,11 +278,11 @@ export default function Landing() {
           </div>
 
           <ul style={{ listStyle: 'none', padding: 0, margin: '24px 0', textAlign: 'left', display: 'grid', gap: '10px', fontSize: '13.5px', color: 'rgba(255,255,255,0.85)' }}>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Full access to all 1,324+ animated exercises & video GIFs</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Unlimited custom weekly routines & superset plans</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Live guided workout player with rest timers & audio alerts</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Anatomical muscle heatmaps & 1RM strength tracking</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ AI Macro & Nutrition meal generator (Veg, Non-Veg, Keto)</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Full access to all 1,324+ animated exercises &amp; video GIFs</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Unlimited custom weekly routines &amp; superset plans</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Live guided workout player with rest timers &amp; audio alerts</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Anatomical muscle heatmaps &amp; 1RM strength tracking</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Precision Macro &amp; Nutrition meal planner (Veg, Non-Veg, Keto)</li>
             <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ 100% offline-ready PWA for iPhone and Android</li>
           </ul>
 
@@ -339,7 +339,7 @@ export default function Landing() {
           <img src="/ninja-emblem.png" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4))' }} />
           <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja</span>
           <span>·</span>
-          <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's AI Agency</a></span>
+          <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's</a></span>
         </div>
         <div>© 2026 Social Ninja's · fit.socialninjas.in · All Rights Reserved</div>
       </footer>

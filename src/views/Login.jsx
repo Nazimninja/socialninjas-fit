@@ -333,7 +333,7 @@ export default function Login() {
       </div>
 
       <div style={{ fontSize: '10px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1.6px', color: '#94a3b8', marginBottom: '14px' }}>
-        AI FAT LOSS &amp; HYPERTROPHY PROTOCOL · BY SOCIAL NINJA'S
+        SCIENCE-BACKED FAT LOSS &amp; ATHLETIC SYSTEM · BY SOCIAL NINJA'S
       </div>
 
       {/* Authenticated Unpaid User Banner */}

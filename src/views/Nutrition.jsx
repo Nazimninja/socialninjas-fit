@@ -393,7 +393,7 @@ export default function Nutrition() {
         s.aiPlan.meals = aiDefault;
       }
     });
-    toast('✓ Reset to AI Health Coach Recommendation');
+    toast('✓ Reset to Recommended Nutrition Protocol');
     setShowDietEditor(false);
   };
 
@@ -445,7 +445,7 @@ export default function Nutrition() {
           </button>
           <div>
             <div style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
-              {S.customDiet ? 'Custom Protocol' : 'AI Calibrated'}
+              {S.customDiet ? 'Custom Protocol' : 'Coach Calibrated'}
             </div>
             <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: 'var(--label)', letterSpacing: '-0.6px' }}>
               {t('Nutrition & Macros')}
@@ -1336,7 +1336,7 @@ export default function Nutrition() {
                     color: 'var(--label-2)', cursor: 'pointer'
                   }}
                 >
-                  ⚡ Reset to AI Coach
+                  ⚡ Reset to Recommended Plan
                 </button>
 
                 <button

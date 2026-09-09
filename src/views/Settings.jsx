@@ -101,7 +101,7 @@ export default function Settings() {
             }}
           />
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
-          <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to adapt your AI plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
+          <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to calibrate your coach-backed plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
           <Row
             icon="download"
             iconTint="var(--green)"
@@ -297,7 +297,7 @@ export default function Settings() {
 
     <div className="dim small" style={{ textAlign: 'center', marginTop: 4, lineHeight: 1.6 }}>
       Fit Ninja · Fit Ninja Pro<br />
-      Built by <a href="https://socialninjas.in" target="_blank" rel="noopener">Social Ninja's AI Agency</a> · fit.socialninjas.in
+      Built by <a href="https://socialninjas.in" target="_blank" rel="noopener">Social Ninja's</a> · fit.socialninjas.in
     </div>
   </div>
 }
