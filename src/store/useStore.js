@@ -234,16 +234,30 @@ export const useStore = create((set, get) => {
       const currentState = get().S
       let pushSuccess = false
 
-      // 1. Push to /api/data (backed by Supabase scripts table + KV)
+      // 1. Push directly to Supabase scripts table from browser
       try {
-        await api('/api/data', {
-          method: 'PUT',
-          headers: { 'x-user-email': email },
-          body: JSON.stringify({ email, state: currentState })
-        })
+        const { data: existing } = await supabase
+          .from('scripts')
+          .select('id')
+          .eq('profile', 'fitninja_user_state')
+          .eq('topic', email)
+          .limit(1)
+
+        const payload = {
+          profile: 'fitninja_user_state',
+          topic: email,
+          section1: JSON.stringify(currentState),
+          caption: new Date().toISOString()
+        }
+
+        if (existing && existing.length > 0) {
+          await supabase.from('scripts').update(payload).eq('id', existing[0].id)
+        } else {
+          await supabase.from('scripts').insert([payload])
+        }
         pushSuccess = true
-      } catch (e) {
-        console.warn('api/data push error:', e)
+      } catch (dbErr) {
+        console.warn('Direct Supabase scripts push error:', dbErr)
       }
 
       // 2. Push to Supabase Auth user_metadata
@@ -260,6 +274,18 @@ export const useStore = create((set, get) => {
         }
       } catch (supaErr) {
         console.warn('Supabase auth updateUser error:', supaErr)
+      }
+
+      // 3. Push to /api/data as fallback layer
+      try {
+        await api('/api/data', {
+          method: 'PUT',
+          headers: { 'x-user-email': email },
+          body: JSON.stringify({ email, state: currentState })
+        })
+        pushSuccess = true
+      } catch (e) {
+        console.warn('api/data push error:', e)
       }
 
       if (pushSuccess) {
@@ -289,6 +315,23 @@ export const useStore = create((set, get) => {
           }
         } catch (e) {}
 
+        // Direct query to Supabase scripts storage table
+        let dbState = null
+        let dbTs = 0
+        try {
+          const { data: rows } = await supabase
+            .from('scripts')
+            .select('section1')
+            .eq('profile', 'fitninja_user_state')
+            .eq('topic', email)
+            .limit(1)
+
+          if (rows && rows.length > 0 && rows[0].section1) {
+            dbState = JSON.parse(rows[0].section1)
+            dbTs = dbState._ts || 0
+          }
+        } catch (e) {}
+
         let apiState = null
         let apiTs = 0
         try {
@@ -301,8 +344,21 @@ export const useStore = create((set, get) => {
           }
         } catch (e) {}
 
-        const cloudState = supaTs >= apiTs ? (supaState || apiState) : (apiState || supaState)
-        const cloudTs = Math.max(supaTs, apiTs)
+        // Pick newest cloud state
+        let cloudState = null
+        let cloudTs = 0
+        const candidates = [
+          { state: supaState, ts: supaTs },
+          { state: dbState, ts: dbTs },
+          { state: apiState, ts: apiTs }
+        ]
+        for (const c of candidates) {
+          if (c.state && c.ts >= cloudTs) {
+            cloudState = c.state
+            cloudTs = c.ts
+          }
+        }
+
         const S = get().S
         const dirty = localStorage.getItem('gym_dirty') === '1'
 
