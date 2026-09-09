@@ -34,12 +34,13 @@ export default function Landing() {
   ];
 
   return (
-    <div style={{ background: '#06080e', color: '#fff', minHeight: '100vh', fontFamily: "-apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', Roboto, sans-serif" }}>
+    <div style={{ background: '#000000', color: '#fff', minHeight: '100vh', fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" }}>
       
       {/* ── TOP NAV ─────────────────────────────────────────────────── */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(6, 8, 14, 0.85)', backdropFilter: 'blur(16px)',
+        background: 'rgba(13, 15, 20, 0.85)', backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
         padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         maxWidth: '1200px', margin: '0 auto'
@@ -50,7 +51,7 @@ export default function Landing() {
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
               Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
             </div>
-            <div style={{ fontSize: '9px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: '#888' }}>
+            <div style={{ fontSize: '9px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '1px', color: '#94a3b8' }}>
               BY SOCIAL NINJA'S
             </div>
           </div>
@@ -59,23 +60,23 @@ export default function Landing() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
             onClick={() => nav('/library')}
-            style={{ background: 'none', border: 'none', color: '#ccc', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'none' }}
+            style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '13px', fontWeight: '700', cursor: 'pointer', display: 'none' }}
             className="hidden-sm"
           >
             1,324+ Exercises
           </button>
           <button
-            onClick={() => nav('/home')}
+            onClick={() => nav('/app')}
             style={{
-              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-              color: '#000',
-              fontWeight: '800',
+              background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+              color: '#031024',
+              fontWeight: '900',
               fontSize: '13px',
-              padding: '9px 18px',
-              borderRadius: '10px',
+              padding: '9px 20px',
+              borderRadius: '99px',
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 4px 16px rgba(245, 158, 11, 0.3)',
+              boxShadow: '0 4px 16px rgba(56, 189, 248, 0.35)',
               display: 'flex',
               alignItems: 'center',
               gap: '6px'
@@ -91,37 +92,37 @@ export default function Landing() {
         
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
-          background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)',
-          borderRadius: '50px', padding: '6px 16px', fontSize: '12px', fontWeight: '700', color: '#f59e0b',
+          background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: '50px', padding: '6px 16px', fontSize: '12px', fontWeight: '800', color: '#38bdf8',
           marginBottom: '20px'
         }}>
-          <span>🔥 FIT NINJA 2.0 IS LIVE</span>
-          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#f59e0b' }}></span>
-          <span style={{ color: 'rgba(255,255,255,0.7)' }}>1,324+ Exercises & Precision Macros</span>
+          <span>⚡ FIT NINJA PRO</span>
+          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 6px #38bdf8' }}></span>
+          <span style={{ color: '#94a3b8' }}>Muscle Building · Fat Loss · Fitness Maintenance</span>
         </div>
 
         <h1 style={{
           fontSize: 'clamp(32px, 6vw, 56px)', fontWeight: '900', letterSpacing: '-1.5px',
           lineHeight: 1.1, margin: '0 0 18px', color: '#fff'
         }}>
-          The All-In-One Workout, Progression & Precision Nutrition OS
+          The All-In-One Workout, Progression &amp; Precision Nutrition OS
         </h1>
 
         <p style={{
-          fontSize: 'clamp(15px, 2.5vw, 18px)', color: 'rgba(235, 235, 245, 0.65)', lineHeight: 1.6,
-          maxWidth: '680px', margin: '0 auto 30px'
+          fontSize: 'clamp(15px, 2.5vw, 18px)', color: '#94a3b8', lineHeight: 1.6,
+          maxWidth: '680px', margin: '0 auto 30px', fontWeight: '500'
         }}>
           Guided workout player with animated video demos, smart rest timers, Greyskull LP strength progression, real-time anatomical muscle heatmaps, and personalized sports nutrition.
         </p>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '40px' }}>
           <button
-            onClick={() => nav('/home')}
+            onClick={() => nav('/app')}
             style={{
-              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-              color: '#000', fontWeight: '800', fontSize: '15px', padding: '14px 28px',
-              borderRadius: '14px', border: 'none', cursor: 'pointer',
-              boxShadow: '0 8px 30px rgba(245, 158, 11, 0.35)', transition: 'transform 0.15s'
+              background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+              color: '#031024', fontWeight: '900', fontSize: '15px', padding: '14px 28px',
+              borderRadius: '99px', border: 'none', cursor: 'pointer',
+              boxShadow: '0 8px 30px rgba(56, 189, 248, 0.35)', transition: 'transform 0.15s'
             }}
           >
             ⚡ Start Training Now →
@@ -129,8 +130,8 @@ export default function Landing() {
           <button
             onClick={() => nav('/library')}
             style={{
-              background: 'rgba(255, 255, 255, 0.05)', color: '#fff', fontWeight: '700', fontSize: '15px',
-              padding: '14px 24px', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.12)',
+              background: 'rgba(255, 255, 255, 0.06)', color: '#fff', fontWeight: '700', fontSize: '15px',
+              padding: '14px 24px', borderRadius: '99px', border: '1px solid rgba(255, 255, 255, 0.12)',
               cursor: 'pointer'
             }}
           >
@@ -141,24 +142,24 @@ export default function Landing() {
         {/* Metric Badges */}
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '14px',
-          background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px',
+          background: 'rgba(13, 19, 33, 0.7)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '20px',
           padding: '18px 24px', maxWidth: '720px', margin: '0 auto'
         }}>
           <div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#f59e0b' }}>1,324+</div>
-            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Animated Demos</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff' }}>1,324+</div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Animated Demos</div>
           </div>
           <div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#38bdf8' }}>100%</div>
-            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Offline PWA</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff' }}>100%</div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline PWA</div>
           </div>
           <div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#34d399' }}>4.9 ★</div>
-            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>User Rating</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#38bdf8' }}>4.9 ★</div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>User Rating</div>
           </div>
           <div>
-            <div style={{ fontSize: '24px', fontWeight: '900', color: '#c084fc' }}>₹499/mo</div>
-            <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '700' }}>Fit Ninja Pro</div>
+            <div style={{ fontSize: '24px', fontWeight: '900', color: '#38bdf8' }}>₹499/mo</div>
+            <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Fit Ninja Pro</div>
           </div>
         </div>
 
@@ -180,68 +181,72 @@ export default function Landing() {
           
           {/* Feature 1 */}
           <div style={{
-            background: '#0d111a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px',
+            background: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderTop: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '20px',
             padding: '26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
           }}>
             <div>
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>🏋️</div>
               <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>1,324+ Animated Exercises</h3>
-              <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
-                Every barbell, dumbbell, cable, and bodyweight movement demonstrated with looping animated video GIFs. Search and filter by muscle group & equipment.
+              <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.6 }}>
+                Every barbell, dumbbell, cable, and bodyweight movement demonstrated with looping animated video GIFs. Search and filter by muscle group &amp; equipment.
               </p>
             </div>
-            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#f59e0b', cursor: 'pointer' }} onClick={() => nav('/library')}>
+            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '800', color: '#38bdf8', cursor: 'pointer' }} onClick={() => nav('/library')}>
               Explore Catalogue →
             </div>
           </div>
 
           {/* Feature 2 */}
           <div style={{
-            background: '#0d111a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px',
+            background: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderTop: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '20px',
             padding: '26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
           }}>
             <div>
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>⚡</div>
               <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>Guided In-Session Player</h3>
-              <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.6 }}>
                 Pre-filled weights from your previous sessions, automated rest countdowns with sound alerts, supersets, and screen wake lock so your phone stays on during sets.
               </p>
             </div>
-            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#38bdf8', cursor: 'pointer' }} onClick={() => nav('/workout')}>
+            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '800', color: '#38bdf8', cursor: 'pointer' }} onClick={() => nav('/workout')}>
               Start Live Workout →
             </div>
           </div>
 
           {/* Feature 3 */}
           <div style={{
-            background: '#0d111a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px',
+            background: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderTop: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '20px',
             padding: '26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
           }}>
             <div>
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>🧬</div>
-              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>Muscle Heatmap & Analytics</h3>
-              <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>Muscle Heatmap &amp; Analytics</h3>
+              <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.6 }}>
                 Front and back anatomical body visualizer highlighting muscle volume distribution. Never miss a muscle group with weekly training heatmaps.
               </p>
             </div>
-            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#34d399', cursor: 'pointer' }} onClick={() => nav('/stats')}>
+            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '800', color: '#38bdf8', cursor: 'pointer' }} onClick={() => nav('/stats')}>
               View Muscle Map →
             </div>
           </div>
 
           {/* Feature 4 */}
           <div style={{
-            background: '#0d111a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px',
+            background: 'rgba(13, 19, 33, 0.85)', border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderTop: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '20px',
             padding: '26px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
           }}>
             <div>
               <div style={{ fontSize: '32px', marginBottom: '14px' }}>🥗</div>
               <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', marginBottom: '8px' }}>Sports Nutrition &amp; Macros</h3>
-              <p style={{ fontSize: '13px', color: '#888', lineHeight: 1.6 }}>
-                Personalized BMR &amp; TDEE calorie calculator with macro targets (Protein, Carbs, Fats) and customized meal plans for High-Protein, Plant-Based Vegan, Keto, and Balanced diets.
+              <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.6 }}>
+                Personalized calorie calculation with macro targets (Protein, Carbs, Fats) calibrated for your goal: surplus for muscle, deficit for fat loss, or balance for fitness.
               </p>
             </div>
-            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '700', color: '#c084fc', cursor: 'pointer' }} onClick={() => nav('/nutrition')}>
+            <div style={{ marginTop: '20px', fontSize: '12px', fontWeight: '800', color: '#38bdf8', cursor: 'pointer' }} onClick={() => nav('/nutrition')}>
               Calculate Macros →
             </div>
           </div>
@@ -254,48 +259,51 @@ export default function Landing() {
         <h2 style={{ fontSize: '32px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>
           Transparent, Affordable Pricing
         </h2>
-        <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>
+        <p style={{ fontSize: '14px', color: '#94a3b8', marginBottom: '30px' }}>
           Get elite fitness tools at a fraction of a personal trainer's cost.
         </p>
 
         <div style={{
-          background: 'linear-gradient(135deg, #111522, #0d111a)',
-          border: '1px solid rgba(245, 158, 11, 0.4)', borderRadius: '24px',
-          padding: '36px 28px', boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
+          background: 'linear-gradient(145deg, rgba(13, 19, 33, 0.95) 0%, rgba(8, 12, 22, 0.98) 100%)',
+          border: '1px solid rgba(56, 189, 248, 0.3)',
+          borderTop: '1px solid rgba(56, 189, 248, 0.55)',
+          borderRadius: '24px',
+          padding: '36px 28px',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.5), 0 0 30px rgba(56, 189, 248, 0.08)',
           position: 'relative'
         }}>
           <div style={{
             position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)',
-            background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#000',
+            background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.35)', color: '#38bdf8',
             fontSize: '11px', fontWeight: '900', padding: '4px 16px', borderRadius: '20px', letterSpacing: '0.8px'
           }}>
-            MOST POPULAR
+            SPECIAL OFFER ACTIVE
           </div>
 
           <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja All-Access Pro</h3>
           <div style={{ fontSize: '42px', fontWeight: '900', color: '#fff', margin: '14px 0' }}>
-            ₹499 <span style={{ fontSize: '16px', color: '#888', fontWeight: '500' }}>/ month</span>
+            ₹499 <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '600' }}>/ month</span>
           </div>
 
-          <ul style={{ listStyle: 'none', padding: 0, margin: '24px 0', textAlign: 'left', display: 'grid', gap: '10px', fontSize: '13.5px', color: 'rgba(255,255,255,0.85)' }}>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Full access to all 1,324+ animated exercises &amp; video GIFs</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Unlimited custom weekly routines &amp; superset plans</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Live guided workout player with rest timers &amp; audio alerts</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Anatomical muscle heatmaps &amp; 1RM strength tracking</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ Precision Macro &amp; Nutrition meal planner (Veg, Non-Veg, Keto)</li>
-            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>✅ 100% offline-ready PWA for iPhone and Android</li>
+          <ul style={{ listStyle: 'none', padding: 0, margin: '24px 0', textAlign: 'left', display: 'grid', gap: '10px', fontSize: '13.5px', color: '#ffffff' }}>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Full access to all 1,324+ animated exercises &amp; video GIFs</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Unlimited custom weekly routines &amp; superset plans</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Live guided workout player with rest timers &amp; audio alerts</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Anatomical muscle heatmaps &amp; 1RM strength tracking</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Precision Macro &amp; Nutrition meal planner (Veg, Non-Veg, Keto)</li>
+            <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> 100% offline-ready PWA for iPhone and Android</li>
           </ul>
 
           <button
-            onClick={() => nav('/home')}
+            onClick={() => nav('/app')}
             style={{
-              width: '100%', background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-              color: '#000', fontWeight: '800', fontSize: '16px', padding: '14px',
-              borderRadius: '14px', border: 'none', cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(245, 158, 11, 0.3)'
+              width: '100%', background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+              color: '#031024', fontWeight: '900', fontSize: '16px', padding: '15px',
+              borderRadius: '99px', border: 'none', cursor: 'pointer',
+              boxShadow: '0 6px 20px rgba(56, 189, 248, 0.35)'
             }}
           >
-            ⚡ Get Started Now
+            ⚡ Claim Offer &amp; Start Transformation →
           </button>
         </div>
       </section>
@@ -312,16 +320,16 @@ export default function Landing() {
               key={idx}
               onClick={() => toggleFaq(idx)}
               style={{
-                background: '#0d111a', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '16px',
+                background: 'rgba(13, 19, 33, 0.7)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '16px',
                 padding: '18px 20px', cursor: 'pointer'
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '700', fontSize: '15px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '800', fontSize: '15px' }}>
                 <span>{f.q}</span>
-                <span style={{ color: '#f59e0b', fontSize: '18px' }}>{openFaq === idx ? '−' : '+'}</span>
+                <span style={{ color: '#38bdf8', fontSize: '18px' }}>{openFaq === idx ? '−' : '+'}</span>
               </div>
               {openFaq === idx && (
-                <p style={{ margin: '12px 0 0', fontSize: '13.5px', color: '#888', lineHeight: 1.6 }}>
+                <p style={{ margin: '12px 0 0', fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.6 }}>
                   {f.a}
                 </p>
               )}
