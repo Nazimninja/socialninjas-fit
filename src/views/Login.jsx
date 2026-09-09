@@ -3,8 +3,7 @@ import { useUI } from '../store/useUI.js'
 import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signInWithApple, supabase } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
-import { Button } from '../components/ui.jsx'
-import { openRazorpayCheckout } from '../lib/payment.jsx'
+import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK } from '../lib/payment.jsx'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
 
@@ -635,6 +634,14 @@ export default function Login() {
           />
         </div>
 
+        {authMode === 'signup' && (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.3)', borderRadius: '99px', padding: '4px 12px', marginBottom: '12px' }}>
+            <span style={{ fontSize: '11px', fontWeight: '900', color: '#34d399', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
+              🎁 Offer Applied: LevelUp75
+            </span>
+          </div>
+        )}
+
         {/* Primary Continue Button */}
         <button
           type="button"
@@ -656,13 +663,13 @@ export default function Login() {
             transition: 'transform 0.15s ease'
           }}
         >
-          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue to Unlock Pro — ₹499' : 'Continue')}
+          {isVerifying ? 'Verifying...' : (authMode === 'signup' ? '⚡ Continue with LevelUp75 Offer' : 'Continue')}
         </button>
 
         {authMode === 'signup' && (
           <div style={{ textAlign: 'center', marginTop: '-8px', marginBottom: '14px' }}>
             <a
-              href="https://rzp.io/rzp/srwxxFCr"
+              href={RAZORPAY_PAYMENT_LINK}
               target="_blank"
               rel="noopener noreferrer"
               style={{

@@ -45,7 +45,7 @@ export default function Landing() {
         maxWidth: '1200px', margin: '0 auto'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => nav('/')}>
-          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain', filter: 'drop-shadow(0 2px 8px rgba(56, 189, 248, 0.45))' }} />
+          <img src="/ninja-emblem.png" alt="Fit Ninja" style={{ width: '42px', height: '42px', objectFit: 'contain', filter: 'drop-shadow(0 2px 10px rgba(56, 189, 248, 0.55))' }} />
           <div>
             <div style={{ fontSize: '17px', fontWeight: '900', letterSpacing: '-0.5px', color: '#fff', lineHeight: 1 }}>
               Fit<span style={{ color: '#38bdf8' }}>Ninja</span>
@@ -336,7 +336,7 @@ export default function Landing() {
         textAlign: 'center', fontSize: '12px', color: '#666', marginTop: '60px'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
-          <img src="/ninja-logo.png?v=3" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain' }} />
+          <img src="/ninja-emblem.png" alt="Fit Ninja" style={{ width: '30px', height: '30px', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4))' }} />
           <span style={{ fontWeight: '700', color: '#fff' }}>Fit Ninja</span>
           <span>·</span>
           <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none' }}>Social Ninja's AI Agency</a></span>

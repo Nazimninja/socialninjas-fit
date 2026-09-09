@@ -5,7 +5,7 @@ import { effectiveRoutine, streakWeeks, lastBW, setsDoneActive } from '../lib/hi
 import { fmtNum, fmtDate, fmtVol, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
 import { EXIDX } from '../lib/exercises.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet, onboardingWizardSheet, appGuideSheet } from '../sheets.jsx'
+import { goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet, onboardingWizardSheet, appGuideSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -232,7 +232,7 @@ export default function Home() {
               { icon: '⚡', label: 'Sessions', value: `${wThisWeek} / ${plannedPerWeek} Done`, color: '#38bdf8' },
               { icon: '🎯', label: 'Readiness', value: `${readinessScore}% · Optimal`, color: readinessColor },
               { icon: '📈', label: 'Total Volume', value: totalWeeklyVol > 0 ? fmtVol(totalWeeklyVol, S.unit) : '0 ' + S.unit, color: '#34d399' },
-              { icon: '⚖️', label: 'Bodyweight', value: bw ? `${fmtNum(bw.w)} ${S.unit}` : 'Log Weight', color: '#fbbf24', tap: () => bwSheet() },
+              { icon: '⚖️', label: 'Bodyweight', value: bw ? `${fmtNum(bw.w)} ${S.unit}` : (S.aiAnswers?.weight ? `${S.aiAnswers.weight} ${S.unit}` : '—'), color: '#fbbf24' },
             ].map(({ icon, label, value, color, tap }) => (
               <div key={label} onClick={tap} style={{ display: 'flex', alignItems: 'center', gap: '9px', cursor: tap ? 'pointer' : 'default' }}>
                 <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: `${color}18`, border: `1px solid ${color}33`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>
@@ -266,7 +266,7 @@ export default function Home() {
         {[
           { icon: '▶', label: S.active ? 'Resume' : routine ? 'Start' : 'Workout', isPrimary: true, action: onToday },
           { icon: '🥗', label: 'Log Meal', isPrimary: false, action: () => nav('/nutrition') },
-          { icon: '⚖️', label: 'Weigh In', isPrimary: false, action: () => bwSheet() },
+          { icon: '📅', label: 'Schedule', isPrimary: false, action: () => calendarSheet() },
         ].map(({ icon, label, isPrimary, action }) => (
           <button
             key={label}
@@ -700,7 +700,6 @@ export default function Home() {
           </div>
           <div style={{ display: 'flex', gap: '6px' }}>
             <Button size="sm" icon="target" onClick={goalSheet}>{S.targetW ? `${fmtNum(S.targetW)} ${S.unit}` : t('Set Goal')}</Button>
-            <Button size="sm" icon="plus" onClick={() => bwSheet()}>{t('Log')}</Button>
           </div>
         </div>
         {bw ? (
@@ -720,8 +719,8 @@ export default function Home() {
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '18px 0', color: 'var(--label-3)' }}>
-            <div style={{ fontSize: '13px', marginBottom: '10px' }}>{t('No weight logged yet.')}</div>
-            <Button size="sm" onClick={() => bwSheet()}>{t('Log weight')}</Button>
+            <div style={{ fontSize: '13px', marginBottom: '10px' }}>{t('Tracked via Weekly Check-in.')}</div>
+            <Button size="sm" onClick={weeklyCheckinSheet}>{t('Weekly Check-in')}</Button>
           </div>
         )}
       </div>

@@ -29,6 +29,16 @@ export async function onRequest(context) {
 
     const auth = btoa(`${key_id}:${key_secret}`);
     const plan_id = env.RAZORPAY_PLAN_ID || 'plan_TZ9fEut1yueEFq';
+    const offer_id = env.RAZORPAY_OFFER_ID || 'offer_TZsCZbv2nXVhQJ';
+
+    const subPayload = {
+      plan_id: plan_id,
+      customer_notify: 1,
+      total_count: 120
+    };
+    if (offer_id) {
+      subPayload.offer_id = offer_id;
+    }
 
     const rzpResponse = await fetch('https://api.razorpay.com/v1/subscriptions', {
       method: 'POST',
@@ -36,16 +46,12 @@ export async function onRequest(context) {
         'Authorization': `Basic ${auth}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        plan_id: plan_id,
-        customer_notify: 1,
-        total_count: 120
-      })
+      body: JSON.stringify(subPayload)
     });
 
     const data = await rzpResponse.json();
     if (!rzpResponse.ok) {
-      return new Response(JSON.stringify({ ok: false, direct_checkout: true, error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
+      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZsEtY4WuCV7AO', short_url: 'https://rzp.io/rzp/lZMpJppl', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
     }
 
     return new Response(JSON.stringify({

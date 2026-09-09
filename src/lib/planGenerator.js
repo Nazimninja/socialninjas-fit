@@ -5,27 +5,198 @@
 import { uid } from './format.js'
 import { EXDB } from './exercises-data.js'
 
-// Helper to find best exercise ID by keywords/equipment
-export function findEx(nameOrKeywords, fallbackEq = 'barbell') {
-  if (!nameOrKeywords) return EXDB[0]?.id || '0025'
-  const norm = nameOrKeywords.toLowerCase().replace(/[^a-z0-9]/g, '')
-  
-  // 1. Exact alphanumeric match
-  const exact = EXDB.find(e => e.n.toLowerCase().replace(/[^a-z0-9]/g, '') === norm)
-  if (exact) return exact.id
+// Known aliases mapping common fitness terminology to exact EXDB entries
+export const EX_ALIASES = {
+  // Calisthenics & Bodyweight
+  'push-up': '0662',
+  'pushup': '0662',
+  'pushups': '0662',
+  'standard push-up': '0662',
+  'diamond push-up': '0283',
+  'diamond pushup': '0283',
+  'decline push-up': '0279',
+  'decline pushup': '0279',
+  'incline push-up': '0493',
+  'incline pushup': '0493',
+  'archer push up': '3294',
+  'archer push-up': '3294',
+  'close-grip push-up': '0259',
+  'pike pushup': '3662',
+  'pike push-up': '3662',
+  'pike-to-cobra push-up': '3662',
+  'handstand push-up': '0471',
+  'dips': '0251',
+  'chest dip': '0251',
+  'triceps dip': '0814',
+  'tricep dips': '0814',
+  'bench dip': '0129',
+  'bench dips': '0129',
+  'bench dip (knees bent)': '0129',
+  'pull-up': '0652',
+  'pullup': '0652',
+  'pull-ups': '0652',
+  'chin-up': '1326',
+  'chinup': '1326',
+  'chin-ups': '1326',
+  'wide grip pull-up': '1429',
+  'wide-grip pull-up': '1429',
+  'scapular pull-up': '0688',
+  'scapular pullup': '0688',
+  'inverted row': '0499',
+  'inverted row bent knees': '2300',
+  'australian pull-up': '0499',
+  'bodyweight squatting row': '3168',
+  'bodyweight squat': '3543',
+  'squat': '3543',
+  'air squat': '3543',
+  'jump squat': '0514',
+  'walking lunges': '1460',
+  'walking lunge': '1460',
+  'lunges': '1460',
+  'forward lunge': '3470',
+  'forward lunge (male)': '3470',
+  'split squats': '2368',
+  'bulgarian split squat': '2368',
+  'single leg squat': '1759',
+  'pistol squat': '1759',
+  'single leg squat (pistol) male': '1759',
+  'single leg calf raise': '1373',
+  'standing calf raise': '1373',
+  'bodyweight standing calf raise': '1373',
+  'calf raise': '1373',
+  'hanging leg raise': '0472',
+  'hanging leg raises': '0472',
+  'plank': '0464',
+  'front plank with twist': '0464',
+  'side plank': '3544',
+  'bodyweight incline side plank': '3544',
+  'crunches': '0274',
+  'crunch': '0274',
+  'crunch floor': '0274',
+  'cross body crunch': '0262',
+  'reverse crunch': '0872',
+  'glute bridge': '3013',
+  'low glute bridge on floor': '3013',
+  'glute bridge march': '3561',
+  'sissy squat': '1489',
+  // Gym & Dumbbells
+  'lat pulldown': '2330',
+  'cable lat pulldown': '2330',
+  'barbell bench press': '0025',
+  'bench press': '0025',
+  'barbell bent over row': '0027',
+  'barbell squat': '0043',
+  'barbell deadlift': '0032',
+  'standing dumbbell overhead press': '0426',
+  'dumbbell shoulder press': '0426',
+  'dumbbell incline bench press': '0314',
+  'incline dumbbell bench press': '0314',
+  'incline dumbbell press': '0314',
+  'dumbbell lateral raise': '0334',
+  'lateral raise': '0334',
+  'cable tricep pushdown': '0241',
+  'cable seated row': '0213',
+  'seated cable row': '0213',
+  'dumbbell alternate bicep curl': '0285',
+  'bicep curl': '0285',
+  'hammer curl': '0313',
+  'barbell curl': '0031',
+  'leg press': '0585',
+  'barbell romanian deadlift': '0085',
+  'dumbbell romanian deadlift': '0380',
+  'romanian deadlift': '0085',
+  'lying leg curls': '0586',
+  'leg extensions': '0585',
+  'goblet squat': '1760',
+  'dumbbell goblet squat': '1760',
+  'cable face pull': '3697',
+  'face pull': '3697',
+  'cable crossover': '1269',
+  'one arm dumbbell row': '0292',
+  'single arm dumbbell row': '0292',
+  'skull crusher': '0060',
+  'overhead tricep extension': '0426',
+  'dumbbell overhead tricep extension': '0426',
+  'dumbbell floor fly': '0308',
+  'dumbbell walking lunges': '0434',
+  'dumbbell rear lateral raise': '0380'
+}
 
-  // 2. Word matches
-  const words = nameOrKeywords.toLowerCase().split(/\s+/).filter(w => w.length > 2)
-  for (const e of EXDB) {
-    const en = e.n.toLowerCase()
-    if (words.every(w => en.includes(w))) return e.id
+const EXDB_MAP = new Map(EXDB.map(e => [e.id, e]))
+
+// Helper to find best exercise ID by keywords/equipment
+export function findEx(nameOrKeywords, fallbackEq = 'barbell', prefEq = null) {
+  if (!nameOrKeywords) return EXDB[0]?.id || '0025'
+  const rawLower = nameOrKeywords.toLowerCase().trim()
+  const norm = rawLower.replace(/[^a-z0-9]/g, '')
+  
+  // 0. Exact alias dictionary match (with equipment compatibility check)
+  const aliasId = EX_ALIASES[rawLower] || EX_ALIASES[norm]
+  if (aliasId) {
+    const aliased = EXDB_MAP.get(aliasId)
+    if (!prefEq) return aliasId
+    if (prefEq === 'body weight') {
+      if (aliased?.eq === 'body weight') return aliasId
+      // Non-bodyweight alias: do NOT return gym equipment for calisthenics! Fall through to bodyweight pool
+    } else if (prefEq === 'dumbbell') {
+      if (aliased?.eq === 'dumbbell' || aliased?.eq === 'body weight') return aliasId
+      // Non-dumbbell alias: do NOT return barbell/cable/machine! Fall through to dumbbell pool
+    } else if (aliased?.eq === prefEq) {
+      return aliasId
+    }
   }
 
-  // 3. Substring match
-  const match = EXDB.find(e => e.n.toLowerCase().includes(nameOrKeywords.toLowerCase()) || nameOrKeywords.toLowerCase().includes(e.n.toLowerCase()))
+  // If prefEq is specified, search pool with matching equipment first
+  const pool = prefEq ? EXDB.filter(e => e.eq === prefEq) : EXDB
+
+  // 1. Exact alphanumeric match in pool
+  const exact = pool.find(e => e.n.toLowerCase().replace(/[^a-z0-9]/g, '') === norm)
+  if (exact) return exact.id
+
+  // 2. Word matches in pool
+  const words = rawLower.split(/\s+/).filter(w => w.length > 2)
+  if (words.length > 0) {
+    const wordMatch = pool.find(e => {
+      const en = e.n.toLowerCase()
+      return words.every(w => en.includes(w))
+    })
+    if (wordMatch) return wordMatch.id
+  }
+
+  // 3. Substring match in pool
+  const match = pool.find(e => e.n.toLowerCase().includes(rawLower) || rawLower.includes(e.n.toLowerCase()))
   if (match) return match.id
 
-  // 4. Target/bodypart match fallback
+  // 4. Strict calisthenics safeguard: NEVER return gym equipment for calisthenics
+  if (prefEq === 'body weight') {
+    if (rawLower.includes('row')) return '0499' // inverted row
+    if (rawLower.includes('lat') || rawLower.includes('pulldown') || rawLower.includes('pull')) return '0652' // pull-up
+    if (rawLower.includes('chin') || rawLower.includes('curl') || rawLower.includes('bicep')) return '1326' // chin-up
+    if (rawLower.includes('push') || rawLower.includes('press') || rawLower.includes('chest') || rawLower.includes('fly')) return '0662' // push-up
+    if (rawLower.includes('dip')) return '0251' // chest dip
+    if (rawLower.includes('squat') || rawLower.includes('leg') || rawLower.includes('quad')) return '2368' // split squats
+    if (rawLower.includes('lunge')) return '1460' // walking lunge
+    if (rawLower.includes('calf') || rawLower.includes('calves')) return '1373' // bodyweight standing calf raise
+    if (rawLower.includes('tricep') || rawLower.includes('extension') || rawLower.includes('skull')) return '0283' // diamond push-up
+    if (rawLower.includes('deadlift') || rawLower.includes('hamstring') || rawLower.includes('glute')) return '3561' // glute bridge march
+    if (rawLower.includes('abs') || rawLower.includes('core') || rawLower.includes('plank')) return '0472' // hanging leg raise
+
+    // Find any bodyweight exercise matching bodypart/target
+    const bwTarget = EXDB.find(e => e.eq === 'body weight' && words.some(w => e.tg.includes(w) || e.bp.includes(w)))
+    if (bwTarget) return bwTarget.id
+    return '0662' // push-up safe default
+  }
+
+  // 5. Global matches across full DB
+  const globalExact = EXDB.find(e => e.n.toLowerCase().replace(/[^a-z0-9]/g, '') === norm)
+  if (globalExact) return globalExact.id
+
+  const globalWord = words.length > 0 ? EXDB.find(e => words.every(w => e.n.toLowerCase().includes(w))) : null
+  if (globalWord) return globalWord.id
+
+  const anyMatch = EXDB.find(e => e.n.toLowerCase().includes(rawLower) || rawLower.includes(e.n.toLowerCase()))
+  if (anyMatch) return anyMatch.id
+
   return EXDB[0]?.id || '0025'
 }
 
@@ -47,41 +218,43 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
   const accReps = goal === 'strength' ? 8 : goal === 'fat_loss' ? 12 : 10
   const isoReps = goal === 'fat_loss' ? 15 : 12
 
-  // ── 3 DAYS CUSTOM SPLIT ──
+  // ══════════════════════════════════════════════════════════════════════════
+  // 3 DAYS CUSTOM SPLIT
+  // ══════════════════════════════════════════════════════════════════════════
   if (numDays === 3) {
     if (isCalisthenics) {
       return [
         {
-          n: 'Day 1: Upper Body Push & Core Mechanics',
+          n: 'Day 1: Upper Push & Core Mechanics',
           t: 'Chest · Shoulders · Triceps · Abs',
           exercises: [
             { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
-            { name: 'dips', sets: String(mainSets), reps: '8-10', badge: 'push' },
-            { name: 'pike pushup', sets: String(accSets), reps: '10-12', badge: 'push' },
-            { name: 'diamond pushup', sets: String(accSets), reps: '12-15', badge: 'push' },
-            { name: 'plank', sets: '3', reps: '45s hold', badge: 'core' }
+            { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'decline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+            { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
           ]
         },
         {
           n: 'Day 2: Back Width & Pull Dynamics',
-          t: 'Lats · Upper Back · Biceps · Rear Delts',
+          t: 'Lats · Upper Back · Biceps',
           exercises: [
             { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
             { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
             { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
-            { name: 'scapular pullup', sets: String(accSets), reps: '12-15', badge: 'pull' },
+            { name: 'scapular pull-up', sets: String(accSets), reps: '12-15', badge: 'pull' },
             { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
           ]
         },
         {
-          n: 'Day 3: Lower Body Power & Calisthenics Conditioning',
+          n: 'Day 3: Lower Body Power & Conditioning',
           t: 'Quads · Hamstrings · Glutes · Calves',
           exercises: [
-            { name: 'bodyweight squat', sets: String(mainSets), reps: '15-20', badge: 'legs' },
-            { name: 'walking lunges', sets: String(mainSets), reps: '12 each', badge: 'legs' },
-            { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
-            { name: 'single leg calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
-            { name: 'jump squat', sets: '3', reps: '12-15', badge: 'legs' }
+            { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+            { name: 'walking lunge', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+            { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+            { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
+            { name: 'glute bridge march', sets: '3', reps: '15', badge: 'legs' }
           ]
         }
       ]
@@ -97,7 +270,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
             { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
             { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
             { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
-            { name: 'dumbbell overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+            { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
           ]
         },
         {
@@ -118,8 +291,8 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
             { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
             { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
             { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
-            { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
-            { name: 'plank', sets: '3', reps: '60s hold', badge: 'core' }
+            { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
           ]
         }
       ]
@@ -132,7 +305,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
         t: 'Chest · Shoulders · Triceps',
         exercises: [
           { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
-          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
           { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
           { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
           { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
@@ -163,8 +336,59 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
     ]
   }
 
-  // ── 4 DAYS CUSTOM SPLIT ──
+  // ══════════════════════════════════════════════════════════════════════════
+  // 4 DAYS CUSTOM SPLIT
+  // ══════════════════════════════════════════════════════════════════════════
   if (numDays === 4) {
+    if (isCalisthenics) {
+      return [
+        {
+          n: 'Day 1: Upper Push & Chest Architecture',
+          t: 'Chest · Shoulders · Triceps',
+          exercises: [
+            { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'incline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+            { name: 'close-grip push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+            { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 2: Lower Body Power & Quad Hypertrophy',
+          t: 'Quads · Glutes · Calves · Abs',
+          exercises: [
+            { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+            { name: 'walking lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+            { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+            { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
+            { name: 'cross body crunch', sets: '3', reps: '15', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 3: Upper Pull & Back Width Arc',
+          t: 'Lats · Upper Back · Biceps',
+          exercises: [
+            { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+            { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+            { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+            { name: 'scapular pull-up', sets: String(accSets), reps: '12-15', badge: 'pull' },
+            { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 4: Posterior Chain & Functional Conditioning',
+          t: 'Glutes · Hamstrings · Calisthenics Core',
+          exercises: [
+            { name: 'single leg squat (pistol) male', sets: String(mainSets), reps: '8-10 each', badge: 'legs' },
+            { name: 'glute bridge march', sets: String(mainSets), reps: '15', badge: 'legs' },
+            { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'bodyweight incline side plank', sets: '3', reps: '45s hold', badge: 'core' },
+            { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+          ]
+        }
+      ]
+    }
+
     if (isHome) {
       return [
         {
@@ -186,7 +410,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
             { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
             { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
             { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
-            { name: 'plank', sets: '3', reps: '60s hold', badge: 'core' }
+            { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
           ]
         },
         {
@@ -206,7 +430,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
           exercises: [
             { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
             { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
-            { name: 'dumbbell calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
             { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' },
             { name: 'push-up', sets: '3', reps: '15', badge: 'push' }
           ]
@@ -242,7 +466,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
         n: 'Day 3: Upper Hypertrophy & V-Taper Sculpt',
         t: 'Incline Chest · Lats · Lateral Delts · Arms',
         exercises: [
-          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
           { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
           { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
           { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
@@ -256,24 +480,147 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
           { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
           { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
           { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
-          { name: 'seated calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
           { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' }
         ]
       }
     ]
   }
 
-  // ── 5 DAYS CUSTOM SPLIT ──
+  // ══════════════════════════════════════════════════════════════════════════
+  // 5 DAYS CUSTOM SPLIT
+  // ══════════════════════════════════════════════════════════════════════════
   if (numDays === 5) {
+    if (isCalisthenics) {
+      return [
+        {
+          n: 'Day 1: Push Hypertrophy & Chest Specialization',
+          t: 'Chest · Triceps Focus',
+          exercises: [
+            { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'decline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+            { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'bench dip (knees bent)', sets: String(accSets), reps: '12-15', badge: 'push' }
+          ]
+        },
+        {
+          n: 'Day 2: Pull Hypertrophy & Lat Width Arc',
+          t: 'Lats · Upper Back · Biceps',
+          exercises: [
+            { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+            { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+            { name: 'wide grip pull-up', sets: String(accSets), reps: '6-8', badge: 'pull' },
+            { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+            { name: 'bodyweight squatting row', sets: String(accSets), reps: '12-15', badge: 'pull' }
+          ]
+        },
+        {
+          n: 'Day 3: Lower Body Power & Calves Conditioning',
+          t: 'Quads · Hamstrings · Glutes · Calves',
+          exercises: [
+            { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+            { name: 'walking lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+            { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+            { name: 'glute bridge march', sets: String(accSets), reps: '15', badge: 'legs' },
+            { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '20', badge: 'legs' }
+          ]
+        },
+        {
+          n: 'Day 4: Shoulders & Dynamic Push Mechanics',
+          t: 'Delts · Upper Chest · Core',
+          exercises: [
+            { name: 'pike-to-cobra push-up', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'archer push up', sets: String(mainSets), reps: '6 each', badge: 'push' },
+            { name: 'incline push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'hanging leg raise', sets: String(accSets), reps: '12-15', badge: 'core' },
+            { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 5: Full Body Functional Conditioning & Finisher',
+          t: 'Total Body Calisthenics Overload',
+          exercises: [
+            { name: 'pull-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+            { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+            { name: 'forward lunge (male)', sets: String(accSets), reps: '12 each', badge: 'legs' },
+            { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+          ]
+        }
+      ]
+    }
+
+    if (isHome) {
+      return [
+        {
+          n: 'Day 1: Dumbbell Chest & Triceps Hypertrophy',
+          t: 'Chest · Triceps Focus',
+          exercises: [
+            { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+            { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'dumbbell floor fly', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+            { name: 'push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+            { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+          ]
+        },
+        {
+          n: 'Day 2: Dumbbell Back Width & Biceps Arc',
+          t: 'Back · Biceps · Rear Delts',
+          exercises: [
+            { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+            { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+            { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+            { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+            { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+          ]
+        },
+        {
+          n: 'Day 3: Dumbbell Lower Body & Calves Power',
+          t: 'Quads · Hamstrings · Calves',
+          exercises: [
+            { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+            { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+            { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+            { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+            { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 4: Dumbbell Shoulders & Traps Isolation',
+          t: 'Delts · Traps · Upper Back',
+          exercises: [
+            { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+            { name: 'dumbbell lateral raise', sets: String(mainSets), reps: String(isoReps), badge: 'push' },
+            { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+            { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+            { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+          ]
+        },
+        {
+          n: 'Day 5: Posterior Chain & Arm Overload',
+          t: 'Hamstrings · Glutes · Arms',
+          exercises: [
+            { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+            { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+            { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+            { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+            { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+          ]
+        }
+      ]
+    }
+
+    // Gym 5 Days
     return [
       {
         n: 'Day 1: Chest & Triceps Hypertrophy',
         t: 'Chest · Triceps Overload',
         exercises: [
           { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
-          { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
           { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
-          { name: 'dips', sets: String(accSets), reps: '10', badge: 'push' },
+          { name: 'chest dip', sets: String(accSets), reps: '10', badge: 'push' },
           { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
         ]
       },
@@ -306,7 +653,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
           { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
           { name: 'dumbbell lateral raise', sets: String(mainSets), reps: String(isoReps), badge: 'push' },
           { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
-          { name: 'barbell shrug', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'one arm dumbbell row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
           { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
         ]
       },
@@ -324,14 +671,159 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
     ]
   }
 
-  // ── 6 DAYS CUSTOM SPLIT ──
+  // ══════════════════════════════════════════════════════════════════════════
+  // 6 DAYS CUSTOM SPLIT
+  // ══════════════════════════════════════════════════════════════════════════
+  if (isCalisthenics) {
+    return [
+      {
+        n: 'Day 1: Push A · Chest Compound & Bodyweight Power',
+        t: 'Chest · Shoulders · Triceps',
+        exercises: [
+          { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+          { name: 'decline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+          { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+          { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+        ]
+      },
+      {
+        n: 'Day 2: Pull A · Lat Width & Biceps Dynamics',
+        t: 'Lats · Biceps · Upper Back',
+        exercises: [
+          { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+          { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+          { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+          { name: 'scapular pull-up', sets: String(accSets), reps: '12-15', badge: 'pull' },
+          { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+        ]
+      },
+      {
+        n: 'Day 3: Legs A · Quad Overload & Calves',
+        t: 'Quads · Calves · Core',
+        exercises: [
+          { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+          { name: 'walking lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+          { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+          { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '20', badge: 'legs' },
+          { name: 'cross body crunch', sets: '3', reps: '15', badge: 'core' }
+        ]
+      },
+      {
+        n: 'Day 4: Push B · Delts & Triceps Focus',
+        t: 'Shoulders · Triceps · Upper Chest',
+        exercises: [
+          { name: 'pike-to-cobra push-up', sets: String(mainSets), reps: '8-10', badge: 'push' },
+          { name: 'archer push up', sets: String(mainSets), reps: '6 each', badge: 'push' },
+          { name: 'incline push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+          { name: 'bench dip (knees bent)', sets: String(accSets), reps: '12-15', badge: 'push' },
+          { name: 'close-grip push-up', sets: String(accSets), reps: '10-12', badge: 'push' }
+        ]
+      },
+      {
+        n: 'Day 5: Pull B · Back Thickness & Inverted Rows',
+        t: 'Upper Back · Lats · Core',
+        exercises: [
+          { name: 'pull-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+          { name: 'inverted row bent knees', sets: String(accSets), reps: '10-12', badge: 'pull' },
+          { name: 'bodyweight squatting row', sets: String(accSets), reps: '12-15', badge: 'pull' },
+          { name: 'chin-up', sets: String(accSets), reps: '6-8', badge: 'pull' },
+          { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+        ]
+      },
+      {
+        n: 'Day 6: Legs B · Posterior Chain & Glutes',
+        t: 'Hamstrings · Glutes · Calves',
+        exercises: [
+          { name: 'forward lunge (male)', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+          { name: 'glute bridge march', sets: String(mainSets), reps: '15', badge: 'legs' },
+          { name: 'single leg squat (pistol) male', sets: String(accSets), reps: '8 each', badge: 'legs' },
+          { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '20', badge: 'legs' },
+          { name: 'bodyweight incline side plank', sets: '3', reps: '45s hold', badge: 'core' }
+        ]
+      }
+    ]
+  }
+
+  if (isHome) {
+    return [
+      {
+        n: 'Day 1: Push A · Dumbbell Chest & Delts',
+        t: 'Chest · Shoulders · Triceps',
+        exercises: [
+          { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+          { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+        ]
+      },
+      {
+        n: 'Day 2: Pull A · Dumbbell Rows & Pull-ups',
+        t: 'Back · Biceps',
+        exercises: [
+          { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+          { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+          { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+          { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+          { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+        ]
+      },
+      {
+        n: 'Day 3: Legs A · Goblet Squat & Quad Focus',
+        t: 'Quads · Calves · Core',
+        exercises: [
+          { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+          { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+          { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'jump squat', sets: String(accSets), reps: '12', badge: 'legs' },
+          { name: 'hanging leg raise', sets: '3', reps: '12', badge: 'core' }
+        ]
+      },
+      {
+        n: 'Day 4: Push B · Incline Dumbbells & Arms',
+        t: 'Incline Chest · Delts · Triceps',
+        exercises: [
+          { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+          { name: 'push-up', sets: String(mainSets), reps: '15', badge: 'push' },
+          { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+          { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+          { name: 'chest dip', sets: String(accSets), reps: '10', badge: 'push' }
+        ]
+      },
+      {
+        n: 'Day 5: Pull B · Dumbbell Posterior Arc',
+        t: 'Back · Biceps',
+        exercises: [
+          { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+          { name: 'inverted row', sets: String(mainSets), reps: '10-12', badge: 'pull' },
+          { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+          { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+          { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+        ]
+      },
+      {
+        n: 'Day 6: Legs B · Dumbbell Romanian Deadlift & Glutes',
+        t: 'Hamstrings · Glutes · Calves',
+        exercises: [
+          { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+          { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+          { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+          { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+        ]
+      }
+    ]
+  }
+
+  // Gym 6 Days Default
   return [
     {
       n: 'Day 1: Push A · Chest Compound & Front Delts',
       t: 'Chest · Shoulders · Triceps',
       exercises: [
         { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
-        { name: 'dumbbell incline bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+        { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
         { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
         { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
         { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
@@ -364,7 +856,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
       t: 'Incline Chest · Delts · Triceps',
       exercises: [
         { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
-        { name: 'dips', sets: String(mainSets), reps: '10', badge: 'push' },
+        { name: 'chest dip', sets: String(mainSets), reps: '10', badge: 'push' },
         { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
         { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
         { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' }
@@ -377,7 +869,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
         { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
         { name: 'cable seated row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
         { name: 'one arm dumbbell row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
-        { name: 'reverse fly', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+        { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
         { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
       ]
     },
@@ -389,7 +881,7 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
         { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
         { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
         { name: 'dumbbell walking lunges', sets: String(accSets), reps: '12 each', badge: 'legs' },
-        { name: 'seated calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+        { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
       ]
     }
   ]
@@ -720,12 +1212,14 @@ export function buildCustomDietPlan(diet, totalKcal = 2400, totalP = 140) {
 }
 
 // Convert generated workout into Zustand store routines structure
-export function convertPlanToStoreRoutines(workoutList) {
+export function convertPlanToStoreRoutines(workoutList, location = null) {
   const routines = []
   const week = {}
 
   const activeWorkouts = workoutList.filter(w => !w.r)
   const count = activeWorkouts.length
+
+  const prefEq = location === 'calisthenics' ? 'body weight' : location === 'home' ? 'dumbbell' : null
 
   // Day distribution: 0 = Sun, 1 = Mon, 2 = Tue, 3 = Wed, 4 = Thu, 5 = Fri, 6 = Sat
   let daySlots = [1, 3, 5] // 3-day default: Mon, Wed, Fri
@@ -739,15 +1233,21 @@ export function convertPlanToStoreRoutines(workoutList) {
     const rName = w.n || w.name || `Day ${idx + 1}`
     const rNameLower = rName.toLowerCase()
     
+    let emoji = 'barbell'
+    if (rNameLower.includes('leg')) emoji = 'legs'
+    else if (rNameLower.includes('pull') || rNameLower.includes('back')) emoji = 'pullup'
+    else if (rNameLower.includes('push') || rNameLower.includes('chest')) emoji = location === 'calisthenics' ? 'figureStrength' : 'dumbbell'
+    else if (location === 'calisthenics') emoji = 'bolt'
+
     const routine = {
       id: routineId,
       name: rName,
-      emoji: rNameLower.includes('leg') ? 'legs' : rNameLower.includes('pull') || rNameLower.includes('back') ? 'pullup' : 'barbell',
+      emoji,
       ex: []
     }
 
     w.exercises.forEach(ex => {
-      const exId = findEx(ex.name)
+      const exId = findEx(ex.name, 'barbell', prefEq)
       routine.ex.push({
         id: exId,
         sets: parseInt(ex.sets) || 3,

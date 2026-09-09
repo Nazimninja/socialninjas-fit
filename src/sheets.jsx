@@ -849,7 +849,8 @@ export function WorkoutRow({ w, onClick }) {
 
 /* ============================ workout lifecycle ============================ */
 export function startFlow(routineId) {
-  bwSheet({ required: true, onDone: bw => beginWorkout(routineId, bw) })
+  const currentBw = lastBW(S())?.w || S().aiAnswers?.weight || null
+  beginWorkout(routineId, currentBw)
 }
 export function beginWorkout(routineId, bw) {
   const st = S()
@@ -1149,7 +1150,8 @@ function OnboardingWizard({ close }) {
       }
 
       // Convert custom workout plan to store routines
-      const { routines, week } = convertPlanToStoreRoutines(plan.workout)
+      const activeLocation = location || s.aiAnswers?.location || plan.location || 'gym'
+      const { routines, week } = convertPlanToStoreRoutines(plan.workout, activeLocation)
       s.routines = routines
       s.week = week
 

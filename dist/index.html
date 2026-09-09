@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Fit Ninja — AI Workout &amp; Nutrition Coach, 1,324+ HD Exercises</title>
-<meta name="description" content="Fit Ninja — The elite AI workout and nutrition coach. 1,324+ animated exercise demos, guided gym set player, smart rest timers, universal AI nutrition, and automated progressive overload.">
+<title>Fit Ninja — AI Fat Loss &amp; Workout Coach, 1,324+ HD Exercises</title>
+<meta name="description" content="Fit Ninja — The elite AI fitness coach engineered for rapid fat loss and muscle building. 1,324+ animated HD exercises, calibrated caloric deficit macros, smart rest timers, and progressive overload.">
 <meta name="keywords" content="fit ninja, ai fitness coach, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, hypertrophy app">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
@@ -150,22 +150,28 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
 }
 .nav-logo-badge {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #182235 0%, #0d1522 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.65);
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4), inset 0 0 8px rgba(56, 189, 248, 0.2);
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.35) 0%, rgba(13, 21, 35, 0.96) 80%);
+  border: 1.5px solid rgba(56, 189, 248, 0.85);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+.nav-brand:hover .nav-logo-badge {
+  border-color: #38bdf8;
+  box-shadow: 0 0 28px rgba(56, 189, 248, 0.75), inset 0 0 14px rgba(56, 189, 248, 0.45);
+  transform: scale(1.05);
 }
 .nav-logo-icon {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
-  filter: drop-shadow(0 0 6px #00f0ff);
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.9)) brightness(1.2);
 }
 .nav-brand-text {
   font-size: 18px;
@@ -269,7 +275,10 @@ a { color: inherit; text-decoration: none; }
   color: #ffffff;
 }
 .hero-h1 .grad-text {
-  color: #38bdf8;
+  background: linear-gradient(135deg, #38bdf8 15%, #60a5fa 55%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 .hero-sub {
   font-size: clamp(15px, 1.5vw, 17px);
@@ -284,7 +293,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .btn-primary {
   display: inline-flex;
@@ -329,13 +338,28 @@ a { color: inherit; text-decoration: none; }
   border-color: rgba(255, 255, 255, 0.22);
 }
 .hero-pricing-hint {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--green);
-  margin-bottom: 24px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #34d399;
+  margin-bottom: 24px;
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.1);
+}
+.hero-badge-tag {
+  background: #34d399;
+  color: #04150c;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 .hero-proof {
   display: flex;
@@ -1071,10 +1095,10 @@ footer {
   <nav class="nav-inner">
     <a href="/" class="nav-brand">
       <div class="nav-logo-badge">
-        <img src="/ninja-logo.png" alt="Fit Ninja" class="nav-logo-icon">
+        <img src="/ninja-emblem.png" alt="Fit Ninja" class="nav-logo-icon">
       </div>
       <div class="nav-brand-text">
-        Fit Ninja <span class="pro-badge">PRO</span>
+        Fit<span style="color: #38bdf8;">Ninja</span> <span class="pro-badge">PRO</span>
       </div>
     </a>
 
@@ -1097,22 +1121,22 @@ footer {
   <!-- Left Column -->
   <div class="hero-left">
     <div class="hero-pill">
-      <span class="hero-pill-dot"></span>
-      <span>Fit Ninja Pro · Athlete OS</span>
+      <span class="hero-pill-dot" style="background:#f97316;box-shadow:0 0 10px #f97316"></span>
+      <span>AI Fat Loss &amp; Hypertrophy OS</span>
     </div>
 
     <h1 class="hero-h1">
-      Precision Training.<br>
-      <span class="grad-text">Engineered By AI.</span>
+      Shred Stubborn Fat.<br>
+      <span class="grad-text">Build Lean Muscle.</span>
     </h1>
 
     <p class="hero-sub">
-      1,324+ animated HD exercises, guided gym set player, smart rest timers, automated progressive overload, and adaptive macro nutrition.
+      Your intelligent AI coach engineered for rapid fat loss and clean body recomposition. Adaptive deficit macros, custom gym &amp; calisthenics routines, 1,324+ animated HD guides, and automated progressive overload.
     </p>
 
     <div class="hero-actions">
       <a href="/app" class="btn-primary">
-        Get Fit Ninja Pro →
+        Start Your Transformation →
       </a>
       <a href="#exercises" class="btn-secondary">
         Explore 1,324+ Demos
@@ -1120,16 +1144,17 @@ footer {
     </div>
 
     <div class="hero-pricing-hint">
-      ⚡ ₹499 / month (Just ₹16/day) · Cancel anytime
+      <span class="hero-badge-tag">LIMITED OFFER</span>
+      <span>Special 1st Month Discount Active · ₹499/mo (₹16/day) · Cancel anytime</span>
     </div>
 
     <div class="hero-proof">
       <div class="proof-stars">★★★★★</div>
       <div class="proof-score">4.9 / 5.0 Rating</div>
       <div class="proof-badge-strip">
-        <span class="proof-chip">100% Offline-First</span>
-        <span class="proof-chip">Zero Gym Lag</span>
-        <span class="proof-chip">Scientific Overload</span>
+        <span class="proof-chip">🔥 Targeted Fat Loss</span>
+        <span class="proof-chip">🥗 Adaptive Deficit Macros</span>
+        <span class="proof-chip">⚡ 100% Offline-First</span>
       </div>
     </div>
   </div>
@@ -1145,36 +1170,36 @@ footer {
         </div>
 
         <div class="screen-header">
-          <span class="screen-tag">⚡ Live Protocol</span>
+          <span class="screen-tag" style="background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.3)">🔥 Fat Loss &amp; Shred</span>
           <span style="font-size:10px;font-weight:700;color:var(--t2)">Day 1 of 4</span>
         </div>
 
         <div class="screen-session-title">
-          Upper Chest &amp; Shoulders
+          Metabolic Push &amp; Core
         </div>
         <div style="font-size:11px;color:var(--t3);margin-bottom:12px">
-          Hypertrophy Volume · Greyskull LP
+          Calorie Deficit · Hypertrophy Volume
         </div>
 
         <!-- Exercise Card -->
         <div class="phone-ex-card">
           <div class="phone-ex-row">
-            <span class="phone-ex-name">Incline Barbell Bench</span>
-            <span class="phone-ex-badge">Target: 8 reps</span>
+            <span class="phone-ex-name">Incline Dumbbell Press</span>
+            <span class="phone-ex-badge">Target: 10 reps</span>
           </div>
 
           <div class="phone-stepper-row">
-            <span class="phone-set-label">Set 1: 80.0 kg × 8</span>
+            <span class="phone-set-label">Set 1: 24.0 kg × 10</span>
             <span style="font-size:10px;color:#34d399;font-weight:800">✓ Logged</span>
           </div>
 
           <div class="phone-stepper-row" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3)">
-            <span class="phone-set-label" style="color:#38bdf8">Set 2: 82.5 kg × 8</span>
+            <span class="phone-set-label" style="color:#38bdf8">Set 2: 26.0 kg × 10</span>
             <button class="phone-done-btn" onclick="triggerSetDone(this)">Done ✓</button>
           </div>
 
           <div class="phone-stepper-row" style="opacity:0.4">
-            <span class="phone-set-label">Set 3: 82.5 kg × 8</span>
+            <span class="phone-set-label">Set 3: 26.0 kg × 10</span>
             <span style="font-size:10px;color:var(--t3)">Pending</span>
           </div>
         </div>
@@ -1188,10 +1213,16 @@ footer {
           <div class="phone-rest-progress"></div>
         </div>
 
-        <!-- Muscle Volume Target -->
-        <div class="phone-muscle-hud">
-          <div class="phone-muscle-label">Targeted Stimulus</div>
-          <div class="phone-muscle-val">Upper Chest &amp; Shoulders</div>
+        <!-- Macro / Deficit HUD -->
+        <div class="phone-muscle-hud" style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="phone-muscle-label">DAILY CALORIC DEFICIT</div>
+            <div class="phone-muscle-val" style="color:#34d399;font-weight:800">-450 kcal (1,850 kcal)</div>
+          </div>
+          <div style="text-align:right">
+            <div class="phone-muscle-label">PROTEIN TARGET</div>
+            <div class="phone-muscle-val" style="color:#38bdf8;font-weight:800">165g / Day</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1207,19 +1238,19 @@ footer {
       <div class="metric-desc">Clean 60fps looping guides</div>
     </div>
     <div class="metric-box">
-      <div class="metric-num">+2.5 kg</div>
-      <div class="metric-label">Auto Overload Engine</div>
-      <div class="metric-desc">Algorithmic progressive overload</div>
+      <div class="metric-num">Targeted</div>
+      <div class="metric-label">Fat Loss Calibration</div>
+      <div class="metric-desc">Metabolic deficit &amp; high protein</div>
     </div>
     <div class="metric-box">
-      <div class="metric-num">100%</div>
-      <div class="metric-label">Offline-First PWA</div>
-      <div class="metric-desc">Zero latency in basement gyms</div>
+      <div class="metric-num">+2.5 kg</div>
+      <div class="metric-label">Auto Overload Engine</div>
+      <div class="metric-desc">Gym &amp; bodyweight progression</div>
     </div>
     <div class="metric-box">
       <div class="metric-num">₹499/mo</div>
-      <div class="metric-label">Fit Ninja Pro</div>
-      <div class="metric-desc">Just ₹16/day · Cancel anytime</div>
+      <div class="metric-label">Special Offer Active</div>
+      <div class="metric-desc">First month discount applied</div>
     </div>
   </div>
 </div>
@@ -1276,11 +1307,11 @@ footer {
     <div class="feature-card">
       <div class="feature-ui-box">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:11px;color:var(--t3);font-weight:700">DAILY FUEL</span>
+          <span style="font-size:11px;color:#f97316;font-weight:800">FAT LOSS DEFICIT (-450 kcal)</span>
           <span style="font-size:11px;color:#34d399;font-weight:800">165g PROTEIN</span>
         </div>
         <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:8px">
-          2,400 <span style="font-size:12px;color:var(--t2)">kcal</span>
+          1,850 <span style="font-size:12px;color:var(--t2)">kcal / day</span>
         </div>
         <div style="display:flex;gap:6px">
           <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Omnivore</span>
@@ -1289,8 +1320,8 @@ footer {
         </div>
       </div>
       <div>
-        <h3 class="feature-title">Precision Macro Engine</h3>
-        <p class="feature-text">Dynamic calorie and protein targets calibrated to your metabolic rate and body composition.</p>
+        <h3 class="feature-title">AI Fat Loss &amp; Macro Engine</h3>
+        <p class="feature-text">Dynamic calorie deficit targets calculated to burn stubborn fat while preserving lean muscle on vegetarian or non-veg diets.</p>
       </div>
     </div>
   </div>
@@ -1388,8 +1419,8 @@ footer {
           <td>✓ Variable</td>
         </tr>
         <tr>
-          <td><strong>Universal AI Nutrition Engine</strong></td>
-          <td class="brand-col">✓ Omnivore, Vegan, Keto</td>
+          <td><strong>AI Fat Loss &amp; Macro Engine</strong></td>
+          <td class="brand-col">✓ Adaptive Deficit &amp; High Protein</td>
           <td>✗ Generic single-diet</td>
           <td>✗ Static PDF sheets</td>
         </tr>
@@ -1401,7 +1432,7 @@ footer {
         </tr>
         <tr>
           <td><strong>Monthly Investment</strong></td>
-          <td class="brand-col"><strong>₹499 / mo (~$6.00)</strong></td>
+          <td class="brand-col"><strong>₹499 / mo (1st Mo Offer)</strong></td>
           <td>$12.99 – $19.99 / mo</td>
           <td>$150 – $300 / mo</td>
         </tr>
@@ -1418,27 +1449,27 @@ footer {
 
   <div class="pricing-card">
     <div class="pricing-badge">
-      FIT NINJA PRO
+      🔥 SPECIAL INTRO OFFER · 1ST MONTH DISCOUNT
     </div>
 
     <div class="pricing-amt">
       ₹499 <span class="pricing-cycle">/ month</span>
     </div>
     <div class="pricing-sub">
-      ⚡ Just ₹16 / day (~$6.00/mo) · Cancel Anytime
+      ⚡ First Month Discount Active · Just ₹16 / day · Cancel Anytime
     </div>
 
     <div class="pricing-features">
-      <div class="pricing-feat-item">✓ 1,324+ Animated Demos</div>
-      <div class="pricing-feat-item">✓ Live Gym Player &amp; HUD</div>
-      <div class="pricing-feat-item">✓ Progressive Overload</div>
-      <div class="pricing-feat-item">✓ Universal Macro Engine</div>
-      <div class="pricing-feat-item">✓ Muscle Heatmap Analytics</div>
-      <div class="pricing-feat-item">✓ Offline PWA + Cloud Sync</div>
+      <div class="pricing-feat-item">✓ AI Fat Loss &amp; Deficit Calibration</div>
+      <div class="pricing-feat-item">✓ 1,324+ Animated HD Demos</div>
+      <div class="pricing-feat-item">✓ Live Gym Player &amp; Smart Rest HUD</div>
+      <div class="pricing-feat-item">✓ Auto Progressive Overload</div>
+      <div class="pricing-feat-item">✓ Gym, Home &amp; Calisthenics Splits</div>
+      <div class="pricing-feat-item">✓ 100% Offline PWA + Cloud Sync</div>
     </div>
 
     <a href="/app" class="btn-primary" style="width:100%;font-size:16px;padding:16px">
-      Upgrade to Fit Ninja Pro →
+      Claim Offer &amp; Start Transformation →
     </a>
   </div>
 </section>
@@ -1456,7 +1487,7 @@ footer {
       <span>▾</span>
     </div>
     <div class="faq-a">
-      Fit Ninja is not a passive notebook. It features 1,324+ animated looping video demos, tactile set steppers with smart rest timers, automated progressive overload (+2.5 kg auto bump), anatomical fatigue heatmaps, and adaptive macro nutrition.
+      Fit Ninja is not a passive notebook. It features 1,324+ animated looping video demos, tactile set steppers with smart rest timers, automated progressive overload (+2.5 kg auto bump), anatomical fatigue heatmaps, and adaptive macro nutrition tailored for fat loss and lean muscle retention.
     </div>
   </div>
 
@@ -1483,12 +1514,14 @@ footer {
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
-    <img src="/ninja-logo.png" alt="Fit Ninja" style="width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.4))">
-    <span style="font-size:15px;font-weight:900;color:#fff">Fit <span style="color:var(--blue-accent)">Ninja</span></span>
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px">
+    <div class="nav-logo-badge" style="width:36px;height:36px;border-radius:10px">
+      <img src="/ninja-emblem.png" alt="Fit Ninja" style="width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.7)) brightness(1.2)">
+    </div>
+    <span style="font-size:16px;font-weight:900;color:#fff">Fit<span style="color:#38bdf8">Ninja</span> <span class="pro-badge" style="font-size:9px;padding:2px 6px;margin-left:4px">PRO</span></span>
   </div>
   <p style="margin-bottom:12px;color:var(--t2)">
-    Fit Ninja · AI Workout &amp; Nutrition Coach
+    Fit Ninja · AI Fat Loss &amp; Hypertrophy Coach
   </p>
   <p style="margin-bottom:16px">
     <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/app">Launch App</a>
