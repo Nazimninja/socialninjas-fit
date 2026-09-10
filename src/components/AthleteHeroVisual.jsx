@@ -25,7 +25,7 @@ export default function AthleteHeroVisual() {
         width: '380px',
         height: '380px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 70%)',
         filter: 'blur(40px)',
         zIndex: 0,
         pointerEvents: 'none'
@@ -48,7 +48,7 @@ export default function AthleteHeroVisual() {
         <defs>
           <linearGradient id="splineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#10b981" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.9" />
             <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.6" />
           </linearGradient>
           <filter id="splineGlow">
@@ -93,11 +93,11 @@ export default function AthleteHeroVisual() {
         />
 
         {/* Animated Anchor Points */}
-        <circle cx="270" cy="230" r="5" fill="#10b981" filter="url(#splineGlow)">
+        <circle cx="270" cy="230" r="5" fill="#38bdf8" filter="url(#splineGlow)">
           <animate attributeName="r" values="4;7;4" dur="2.5s" repeatCount="indefinite" />
         </circle>
         <circle cx="120" cy="120" r="4" fill="#38bdf8" />
-        <circle cx="420" cy="230" r="4" fill="#10b981" />
+        <circle cx="420" cy="230" r="4" fill="#38bdf8" />
         <circle cx="150" cy="360" r="4" fill="#38bdf8" />
       </svg>
 
@@ -109,7 +109,7 @@ export default function AthleteHeroVisual() {
         borderRadius: '50% 50% 45% 45%',
         overflow: 'hidden',
         border: '2px solid rgba(255, 255, 255, 0.12)',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.15)',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15)',
         zIndex: 1,
         background: '#0a0f1d'
       }}>
@@ -175,7 +175,7 @@ export default function AthleteHeroVisual() {
             width: '28px',
             height: '28px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #10b981 0%, #38bdf8 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #38bdf8 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -204,7 +204,7 @@ export default function AthleteHeroVisual() {
         zIndex: 10,
         background: 'rgba(7, 10, 18, 0.9)',
         backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(16, 185, 129, 0.4)',
+        border: '1px solid rgba(56, 189, 248, 0.4)',
         borderRadius: '99px',
         padding: '6px 14px',
         display: 'flex',
@@ -218,8 +218,8 @@ export default function AthleteHeroVisual() {
           width: '7px',
           height: '7px',
           borderRadius: '50%',
-          background: '#10b981',
-          boxShadow: '0 0 8px #10b981'
+          background: '#38bdf8',
+          boxShadow: '0 0 8px #38bdf8'
         }} />
         <span style={{ fontSize: '11px', fontWeight: '800', color: '#fff' }}>
           Live Workout Player
@@ -299,7 +299,7 @@ export default function AthleteHeroVisual() {
           minWidth: '175px'
         }}
       >
-        <div style={{ fontSize: '10px', fontWeight: '900', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
+        <div style={{ fontSize: '10px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
           PRO OS INCLUDED
         </div>
 
@@ -309,7 +309,7 @@ export default function AthleteHeroVisual() {
             <span>Auto Rest Timer</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={12} color="#10b981" />
+            <CheckCircle2 size={12} color="#38bdf8" />
             <span>Greyskull LP</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -317,7 +317,7 @@ export default function AthleteHeroVisual() {
             <span>Custom Macros</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={12} color="#10b981" />
+            <CheckCircle2 size={12} color="#38bdf8" />
             <span>100% Offline PWA</span>
           </div>
         </div>
@@ -326,7 +326,7 @@ export default function AthleteHeroVisual() {
           onClick={() => nav('/app?mode=signup')}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
             color: '#ffffff',
             fontWeight: '900',
             fontSize: '11.5px',
@@ -334,7 +334,7 @@ export default function AthleteHeroVisual() {
             borderRadius: '99px',
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(16, 185, 129, 0.35)',
+            boxShadow: '0 4px 14px rgba(56, 189, 248, 0.35)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

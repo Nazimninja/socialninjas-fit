@@ -45,7 +45,7 @@ export default function Landing() {
       path: "/workout"
     },
     {
-      icon: <Dumbbell size={24} color="#10b981" />,
+      icon: <Dumbbell size={24} color="#38bdf8" />,
       tag: "1,324+ Library",
       title: "1,324+ Animated Video Demos",
       desc: "Every barbell, dumbbell, cable, and machine movement demonstrated with looping 60fps HD video guides. Search and filter by muscle group & equipment.",
@@ -65,7 +65,7 @@ export default function Landing() {
   return (
     <div style={{
       background: '#040711',
-      backgroundImage: 'radial-gradient(1200px circle at 50% 8%, rgba(16, 185, 129, 0.12), rgba(56, 189, 248, 0.08) 30%, transparent 75%)',
+      backgroundImage: 'radial-gradient(1200px circle at 50% 8%, rgba(56, 189, 248, 0.12), rgba(56, 189, 248, 0.08) 30%, transparent 75%)',
       color: '#fff',
       minHeight: '100vh',
       fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif",
@@ -203,21 +203,21 @@ export default function Landing() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(16, 185, 129, 0.1)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
+            background: 'rgba(56, 189, 248, 0.1)',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
             borderRadius: '50px',
             padding: '6px 16px',
             fontSize: '12px',
             fontWeight: '800',
-            color: '#10b981',
+            color: '#38bdf8',
             marginBottom: '22px'
           }}>
             <span style={{
               width: '6px',
               height: '6px',
               borderRadius: '50%',
-              background: '#10b981',
-              boxShadow: '0 0 8px #10b981'
+              background: '#38bdf8',
+              boxShadow: '0 0 8px #38bdf8'
             }} />
             <span>FIT NINJA PRO OS</span>
             <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
@@ -235,7 +235,7 @@ export default function Landing() {
           }}>
             Train Different.<br />
             <span style={{
-              background: 'linear-gradient(135deg, #38bdf8 0%, #34d399 100%)',
+              background: 'linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
@@ -326,7 +326,7 @@ export default function Landing() {
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Athlete Rating</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#10b981' }}>₹13/day</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>₹13/day</div>
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Affordable Pro</div>
             </div>
           </div>
@@ -416,13 +416,13 @@ export default function Landing() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      background: 'rgba(16, 185, 129, 0.12)',
+                      background: 'rgba(56, 189, 248, 0.12)',
                       padding: '4px 10px',
                       borderRadius: '99px',
-                      border: '1px solid rgba(16, 185, 129, 0.25)'
+                      border: '1px solid rgba(56, 189, 248, 0.25)'
                     }}>
-                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px #10b981' }} />
-                      <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#10b981' }}>{c.tag}</span>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 6px #38bdf8' }} />
+                      <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#38bdf8' }}>{c.tag}</span>
                     </div>
                   </div>
 
@@ -472,13 +472,13 @@ export default function Landing() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.3)',
+              background: 'rgba(56, 189, 248, 0.1)',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
               borderRadius: '99px',
               padding: '4px 14px',
               fontSize: '11px',
               fontWeight: '900',
-              color: '#10b981',
+              color: '#38bdf8',
               letterSpacing: '0.8px',
               textTransform: 'uppercase',
               marginBottom: '12px'
@@ -519,14 +519,14 @@ export default function Landing() {
               top: '-13px',
               left: '50%',
               transform: 'translateX(-50%)',
-              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
               color: '#ffffff',
               fontSize: '11px',
               fontWeight: '900',
               padding: '5px 18px',
               borderRadius: '20px',
               letterSpacing: '0.8px',
-              boxShadow: '0 4px 12px rgba(16, 185, 129, 0.4)'
+              boxShadow: '0 4px 12px rgba(56, 189, 248, 0.4)'
             }}>
               SPECIAL PRO PASS ACTIVE
             </div>
@@ -563,27 +563,27 @@ export default function Landing() {
               color: '#f1f5f9'
             }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>Full access to 1,324+ animated exercises &amp; looping video GIFs</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>Unlimited custom routines, Greyskull LP &amp; superset progression</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>Guided in-gym player with wake-lock, smart timers &amp; audio chimes</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>Anatomical muscle heatmaps &amp; 1RM strength fatigue analytics</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>Precision macro meal planner (High-Protein, Vegan, Keto)</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#10b981" strokeWidth={3} />
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
                 <span>100% offline-ready PWA for iPhone, Android, and Desktop</span>
               </li>
             </ul>

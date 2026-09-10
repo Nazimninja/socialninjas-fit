@@ -140,10 +140,10 @@ export default function InteractiveWorkoutPreview() {
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            background: '#10b981',
-            boxShadow: '0 0 10px #10b981'
+            background: '#38bdf8',
+            boxShadow: '0 0 10px #38bdf8'
           }} />
-          <span style={{ fontSize: '12px', fontWeight: '900', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+          <span style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
             LIVE INTERACTIVE SANDBOX
           </span>
         </div>
@@ -192,7 +192,7 @@ export default function InteractiveWorkoutPreview() {
                 key={ex.id}
                 onClick={() => handleSelectExercise(ex)}
                 style={{
-                  background: selectedEx.id === ex.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(16, 185, 129, 0.15))' : 'rgba(255, 255, 255, 0.03)',
+                  background: selectedEx.id === ex.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.15))' : 'rgba(255, 255, 255, 0.03)',
                   border: selectedEx.id === ex.id ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.08)',
                   color: selectedEx.id === ex.id ? '#fff' : '#94a3b8',
                   borderRadius: '12px',
@@ -238,8 +238,8 @@ export default function InteractiveWorkoutPreview() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      background: s.done ? 'rgba(16, 185, 129, 0.12)' : 'rgba(255, 255, 255, 0.04)',
-                      border: s.done ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
+                      background: s.done ? 'rgba(56, 189, 248, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+                      border: s.done ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
                       borderRadius: '10px',
                       padding: '8px 12px',
                       cursor: 'pointer',
@@ -247,7 +247,7 @@ export default function InteractiveWorkoutPreview() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '800', color: s.done ? '#10b981' : '#94a3b8' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '800', color: s.done ? '#38bdf8' : '#94a3b8' }}>
                         Set {s.set}
                       </span>
                       <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>
@@ -259,7 +259,7 @@ export default function InteractiveWorkoutPreview() {
                       width: '24px',
                       height: '24px',
                       borderRadius: '50%',
-                      background: s.done ? '#10b981' : 'rgba(255, 255, 255, 0.1)',
+                      background: s.done ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -272,7 +272,7 @@ export default function InteractiveWorkoutPreview() {
               </div>
 
               {/* Progression Note */}
-              <div style={{ fontSize: '11.5px', color: '#10b981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ fontSize: '11.5px', color: '#38bdf8', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Sparkles size={14} />
                 <span>Auto Next: {selectedEx.progression}</span>
               </div>
@@ -431,7 +431,7 @@ export default function InteractiveWorkoutPreview() {
                 key={plan.id}
                 onClick={() => setDietGoal(plan.id)}
                 style={{
-                  background: dietGoal === plan.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(16, 185, 129, 0.2))' : 'rgba(255, 255, 255, 0.04)',
+                  background: dietGoal === plan.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.2))' : 'rgba(255, 255, 255, 0.04)',
                   border: dietGoal === plan.id ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.08)',
                   color: dietGoal === plan.id ? '#fff' : '#94a3b8',
                   borderRadius: '12px',
@@ -468,8 +468,8 @@ export default function InteractiveWorkoutPreview() {
                     <div style={{ fontSize: '20px', fontWeight: '900', color: '#38bdf8' }}>{currentPlan.p}</div>
                     <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Protein (g)</div>
                   </div>
-                  <div style={{ background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#10b981' }}>{currentPlan.c}</div>
+                  <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#38bdf8' }}>{currentPlan.c}</div>
                     <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Carbs (g)</div>
                   </div>
                   <div style={{ background: 'rgba(244, 63, 94, 0.1)', border: '1px solid rgba(244, 63, 94, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
