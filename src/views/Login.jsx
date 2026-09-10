@@ -1192,8 +1192,8 @@ export default function Login() {
         <a href="/" style={{ color: '#94a3b8', textDecoration: 'none' }}>Social Ninja's</a>
       </div>
 
-      <div style={{ marginTop: '8px', fontSize: '10px', color: '#64748b', lineHeight: 1.35, textAlign: 'center' }}>
-        Fit Ninja provides elite fitness tracking &amp; educational routines. Consult a physician before starting any training program.
+      <div style={{ marginTop: '12px', fontSize: '10.5px', color: '#64748b', lineHeight: 1.45, textAlign: 'center', maxWidth: '420px', margin: '12px auto 0' }}>
+        <strong style={{ color: '#94a3b8' }}>Legal Advisory:</strong> Fit Ninja provides workout tracking and nutritional guidelines for educational and fitness purposes only. It is not medical advice. Always consult a physician before beginning any rigorous training program.
       </div>
     </div>
   )
