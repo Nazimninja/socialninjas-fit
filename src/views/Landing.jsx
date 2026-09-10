@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dumbbell, Activity, Flame, Target, Sparkles, ShieldCheck, ChevronRight, Check, ArrowRight, Star, Play, Zap, HelpCircle, Timer } from 'lucide-react';
 import AthleteHeroVisual from '../components/AthleteHeroVisual.jsx';
@@ -7,6 +7,27 @@ import InteractiveWorkoutPreview from '../components/InteractiveWorkoutPreview.j
 export default function Landing() {
   const nav = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
+  const [activeCategoryDot, setActiveCategoryDot] = useState(0);
+  const [activeExerciseDot, setActiveExerciseDot] = useState(0);
+  const catTrackRef = useRef(null);
+  const exTrackRef = useRef(null);
+
+  const handleTrackScroll = (setter) => (e) => {
+    const track = e.currentTarget;
+    const card = track.firstElementChild;
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 14;
+    const idx = Math.min(2, Math.max(0, Math.round(track.scrollLeft / cardWidth)));
+    setter(idx);
+  };
+
+  const scrollToCard = (ref, idx) => {
+    if (!ref.current) return;
+    const card = ref.current.firstElementChild;
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 14;
+    ref.current.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+  };
 
   const toggleFaq = (idx) => {
     setOpenFaq(openFaq === idx ? null : idx);
@@ -377,15 +398,16 @@ export default function Landing() {
           </div>
 
           {/* Cards Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '22px'
-          }}>
+          <div
+            ref={catTrackRef}
+            onScroll={handleTrackScroll(setActiveCategoryDot)}
+            className="mobile-swipe-grid"
+            style={{ marginTop: '40px' }}
+          >
             {categories.map((c, idx) => (
               <div
                 key={idx}
-                className="landing-card-hover"
+                className="cat-card landing-card-hover"
                 style={{
                   background: 'rgba(13, 20, 36, 0.75)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -463,6 +485,19 @@ export default function Landing() {
               </div>
             ))}
           </div>
+
+          {/* Mobile Swipe Indicator Dots */}
+          <div className="mobile-swipe-hint">
+            {[0, 1, 2].map((idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Slide ${idx + 1}`}
+                className={`swipe-dot ${activeCategoryDot === idx ? 'active' : ''}`}
+                onClick={() => scrollToCard(catTrackRef, idx)}
+              />
+            ))}
+          </div>
         </section>
 
         {/* ── 1,324+ HD VIDEO EXERCISES SHOWCASE ──────────────────── */}
@@ -516,7 +551,11 @@ export default function Landing() {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px', maxWidth: '1120px', margin: '0 auto' }}>
+          <div
+            ref={exTrackRef}
+            onScroll={handleTrackScroll(setActiveExerciseDot)}
+            className="mobile-swipe-grid"
+          >
             {[
               {
                 id: '0314',
@@ -559,6 +598,19 @@ export default function Landing() {
                   <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>{ex.sets}</div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          {/* Mobile Swipe Indicator Dots */}
+          <div className="mobile-swipe-hint">
+            {[0, 1, 2].map((idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Slide ${idx + 1}`}
+                className={`swipe-dot ${activeExerciseDot === idx ? 'active' : ''}`}
+                onClick={() => scrollToCard(exTrackRef, idx)}
+              />
             ))}
           </div>
         </section>
