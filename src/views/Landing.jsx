@@ -465,6 +465,112 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* ── 1,324+ HD VIDEO EXERCISES SHOWCASE ──────────────────── */}
+        <section id="library" style={{ maxWidth: '1200px', margin: '0 auto 80px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
+            <div>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(56, 189, 248, 0.1)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '99px',
+                padding: '4px 14px',
+                fontSize: '11px',
+                fontWeight: '900',
+                color: '#38bdf8',
+                letterSpacing: '0.8px',
+                textTransform: 'uppercase',
+                marginBottom: '8px'
+              }}>
+                LIBRARY
+              </div>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 6px' }}>
+                1,324+ HD Video Exercises
+              </h2>
+              <p style={{ fontSize: '14.5px', color: '#94a3b8', margin: 0 }}>
+                Clean 60fps looping form guides for every movement.
+              </p>
+            </div>
+
+            <button
+              onClick={() => nav('/library')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                color: '#fff',
+                fontSize: '13px',
+                fontWeight: '800',
+                padding: '10px 20px',
+                borderRadius: '99px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>Open Full Gym Library</span>
+              <span>→</span>
+            </button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+            {[
+              {
+                id: '0314',
+                name: 'Incline Dumbbell Press',
+                target: 'Upper Chest & Shoulders',
+                sets: '3–4 sets × 8–12 reps',
+                angle: 'ANGLE 30°',
+                gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0314-ns0SIbU.gif'
+              },
+              {
+                id: '0027',
+                name: 'Barbell Bent-Over Row',
+                target: 'Upper Back & Lats',
+                sets: '3–4 sets × 6–10 reps',
+                angle: 'HINGE 45°',
+                gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0027-eZyBC3j.gif'
+              },
+              {
+                id: '1436',
+                name: 'Barbell High-Bar Squat',
+                target: 'Quads & Glutes',
+                sets: '3–5 sets × 5–8 reps',
+                angle: 'DEPTH 90°',
+                gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/1436-Gnfo4FM.gif'
+              },
+              {
+                id: '0426',
+                name: 'Standing Overhead Press',
+                target: 'Shoulders & Triceps',
+                sets: '3–4 sets × 5–8 reps',
+                angle: 'LOCKOUT 180°',
+                gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0426-A6wtbuL.gif'
+              }
+            ].map(ex => (
+              <div
+                key={ex.id}
+                onClick={() => nav('/library')}
+                className="ex-preview-card"
+              >
+                <div className="ex-img-frame">
+                  <img src={ex.gif} alt={ex.name} loading="lazy" />
+                  <span className="ex-fps-badge">▶ 60FPS</span>
+                  <span className="ex-angle-badge">{ex.angle}</span>
+                </div>
+                <div style={{ padding: '16px 4px 6px' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', margin: '0 0 4px' }}>{ex.name}</h3>
+                  <div style={{ fontSize: '12.5px', color: '#38bdf8', fontWeight: '700', marginBottom: '4px' }}>{ex.target}</div>
+                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>{ex.sets}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ── INTERACTIVE WORKOUT SANDBOX SECTION ───────────────────── */}
         <section id="sandbox" style={{ maxWidth: '1100px', margin: '0 auto 80px' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>

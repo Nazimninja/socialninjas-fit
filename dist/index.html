@@ -576,6 +576,67 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-1px);
 }
 
+/* ── EXERCISE SHOWCASE GRID ── */
+.ex-preview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 12px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.ex-preview-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-glow);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(56, 189, 248, 0.18);
+}
+.ex-img-frame {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.ex-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.ex-fps-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-size: 9.5px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+.ex-angle-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #94a3b8;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 /* ── INTERACTIVE WORKOUT SANDBOX ── */
 .sandbox-sec {
   max-width: 920px;
@@ -1018,6 +1079,79 @@ footer {
             <span>View Muscle Map</span>
             <span style="font-size:13px">↗</span>
           </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 1,324+ HD EXERCISE SHOWCASE ── -->
+  <section class="ex-showcase-sec" id="library" style="max-width: 1200px; margin: 0 auto 80px; padding: 0 4px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+      <div>
+        <div class="section-tag" style="margin-bottom: 8px;">LIBRARY</div>
+        <h2 class="section-h2" style="margin-bottom: 6px;">1,324+ HD Video Exercises</h2>
+        <p style="font-size: 14.5px; color: var(--t2); margin: 0;">Clean 60fps looping form guides for every movement.</p>
+      </div>
+      <a href="/app?mode=app#/library" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; font-size: 13px; font-weight: 800; padding: 10px 20px; border-radius: 99px; transition: all 0.2s ease;">
+        <span>Open Full Gym Library</span>
+        <span>→</span>
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+      <!-- Card 1: Incline Dumbbell Press -->
+      <div class="ex-preview-card" onclick="window.location.href='/app?mode=app#/library'">
+        <div class="ex-img-frame">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0314-ns0SIbU.gif" alt="Incline Dumbbell Press" loading="lazy" />
+          <span class="ex-fps-badge">▶ 60FPS</span>
+          <span class="ex-angle-badge">ANGLE 30°</span>
+        </div>
+        <div style="padding: 16px 4px 6px;">
+          <h3 style="font-size: 16px; font-weight: 800; color: #fff; margin: 0 0 4px;">Incline Dumbbell Press</h3>
+          <div style="font-size: 12.5px; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">Upper Chest &amp; Shoulders</div>
+          <div style="font-size: 11px; color: var(--t3); font-weight: 600;">3–4 sets × 8–12 reps</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Barbell Bent-Over Row -->
+      <div class="ex-preview-card" onclick="window.location.href='/app?mode=app#/library'">
+        <div class="ex-img-frame">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0027-eZyBC3j.gif" alt="Barbell Bent-Over Row" loading="lazy" />
+          <span class="ex-fps-badge">▶ 60FPS</span>
+          <span class="ex-angle-badge">HINGE 45°</span>
+        </div>
+        <div style="padding: 16px 4px 6px;">
+          <h3 style="font-size: 16px; font-weight: 800; color: #fff; margin: 0 0 4px;">Barbell Bent-Over Row</h3>
+          <div style="font-size: 12.5px; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">Upper Back &amp; Lats</div>
+          <div style="font-size: 11px; color: var(--t3); font-weight: 600;">3–4 sets × 6–10 reps</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Barbell High-Bar Squat -->
+      <div class="ex-preview-card" onclick="window.location.href='/app?mode=app#/library'">
+        <div class="ex-img-frame">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/1436-Gnfo4FM.gif" alt="Barbell High-Bar Squat" loading="lazy" />
+          <span class="ex-fps-badge">▶ 60FPS</span>
+          <span class="ex-angle-badge">DEPTH 90°</span>
+        </div>
+        <div style="padding: 16px 4px 6px;">
+          <h3 style="font-size: 16px; font-weight: 800; color: #fff; margin: 0 0 4px;">Barbell High-Bar Squat</h3>
+          <div style="font-size: 12.5px; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">Quads &amp; Glutes</div>
+          <div style="font-size: 11px; color: var(--t3); font-weight: 600;">3–5 sets × 5–8 reps</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Standing Overhead Press -->
+      <div class="ex-preview-card" onclick="window.location.href='/app?mode=app#/library'">
+        <div class="ex-img-frame">
+          <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0426-A6wtbuL.gif" alt="Standing Overhead Press" loading="lazy" />
+          <span class="ex-fps-badge">▶ 60FPS</span>
+          <span class="ex-angle-badge">LOCKOUT 180°</span>
+        </div>
+        <div style="padding: 16px 4px 6px;">
+          <h3 style="font-size: 16px; font-weight: 800; color: #fff; margin: 0 0 4px;">Standing Overhead Press</h3>
+          <div style="font-size: 12.5px; color: #38bdf8; font-weight: 700; margin-bottom: 4px;">Shoulders &amp; Triceps</div>
+          <div style="font-size: 11px; color: var(--t3); font-weight: 600;">3–4 sets × 5–8 reps</div>
         </div>
       </div>
     </div>
