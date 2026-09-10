@@ -738,27 +738,102 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Quick 3 Value Points (Clean Single Row) */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '6px',
-                marginBottom: '14px',
+            {/* Convincing Pro Feature Highlights (What You Unlock) */}
+            <div style={{ marginBottom: '14px', textAlign: 'left' }}>
+              <div style={{
                 fontSize: '10.5px',
-                color: '#cbd5e1',
-                fontWeight: '700'
-              }}
-            >
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 4px' }}>
-                ✓ 1,324+ Lifts
+                fontWeight: '900',
+                color: '#38bdf8',
+                letterSpacing: '0.8px',
+                textTransform: 'uppercase',
+                marginBottom: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <span>✨ EVERYTHING INCLUDED IN PRO</span>
+                <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '700' }}>100% Risk-Free</span>
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 4px' }}>
-                ✓ Smart Timers
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '6px'
+              }}>
+                <div style={{
+                  background: 'rgba(56, 189, 248, 0.05)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '10px',
+                  padding: '8px 10px'
+                }}>
+                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> 1,324+ HD Lifts
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
+                    Looping 60fps form videos
+                  </div>
+                </div>
+
+                <div style={{
+                  background: 'rgba(56, 189, 248, 0.05)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '10px',
+                  padding: '8px 10px'
+                }}>
+                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Smart Rest Timer
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
+                    Audio countdown beeps
+                  </div>
+                </div>
+
+                <div style={{
+                  background: 'rgba(56, 189, 248, 0.05)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '10px',
+                  padding: '8px 10px'
+                }}>
+                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Muscle Heatmaps
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
+                    Live front &amp; back fatigue
+                  </div>
+                </div>
+
+                <div style={{
+                  background: 'rgba(56, 189, 248, 0.05)',
+                  border: '1px solid rgba(56, 189, 248, 0.2)',
+                  borderRadius: '10px',
+                  padding: '8px 10px'
+                }}>
+                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Greyskull LP
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
+                    Auto progressive overload
+                  </div>
+                </div>
               </div>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '6px 4px' }}>
-                ✓ Heatmaps
-              </div>
+            </div>
+
+            {/* High-ROI Comparison Banner */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '10px',
+              padding: '7px 10px',
+              marginBottom: '14px',
+              fontSize: '11px',
+              color: '#94a3b8',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}>
+              <span>💡</span>
+              <span>Average Trainer: <strong style={{ color: '#cbd5e1' }}>₹5,000+/mo</strong> · Fit Ninja Pro: <strong style={{ color: '#38bdf8' }}>Just ₹13/day</strong></span>
             </div>
 
             {/* Clear, Unambiguous Input Fields */}
