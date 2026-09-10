@@ -849,9 +849,82 @@ export function WorkoutRow({ w, onClick }) {
 }
 
 /* ============================ workout lifecycle ============================ */
+/* ──────────────── GET READY countdown sheet ──────────────── */
+function GetReadySheet({ routineId, bw, close }) {
+  const st = S()
+  const r = routineId ? st.routines.find(x => x.id === routineId) : null
+  const [count, setCount] = useState(5)
+  const startedRef = useRef(false)
+
+  const go = () => {
+    if (startedRef.current) return
+    startedRef.current = true
+    close()
+    beginWorkout(routineId, bw)
+  }
+
+  useEffect(() => {
+    if (count <= 0) { go(); return }
+    const id = setTimeout(() => setCount(c => c - 1), 1000)
+    return () => clearTimeout(id)
+  }, [count])
+
+  // Circular progress ring
+  const R = 54
+  const circ = 2 * Math.PI * R
+  const progress = ((5 - count) / 5) * circ
+
+  return (
+    <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+      <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--acc)', textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 6 }}>
+        Get Ready
+      </div>
+      <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--t1)', marginBottom: 2 }}>
+        {r ? r.name : t('Freestyle Workout')}
+      </div>
+      {r && (
+        <div style={{ fontSize: 13, color: 'var(--t2)', marginBottom: 28 }}>
+          {exCount(r.ex.length)}
+        </div>
+      )}
+
+      {/* Countdown ring */}
+      <div style={{ position: 'relative', width: 128, height: 128, margin: '0 auto 28px' }}>
+        <svg width="128" height="128" viewBox="0 0 128 128" style={{ transform: 'rotate(-90deg)' }}>
+          <circle cx="64" cy="64" r={R} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="7" />
+          <circle
+            cx="64" cy="64" r={R}
+            fill="none"
+            stroke="var(--acc)"
+            strokeWidth="7"
+            strokeLinecap="round"
+            strokeDasharray={circ}
+            strokeDashoffset={circ - progress}
+            style={{ transition: 'stroke-dashoffset 0.9s linear', filter: 'drop-shadow(0 0 8px var(--acc))' }}
+          />
+        </svg>
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: count > 0 ? 52 : 36, fontWeight: 900,
+          color: count <= 1 ? 'var(--acc)' : 'var(--t1)',
+          letterSpacing: -2,
+          transition: 'color 0.3s'
+        }}>
+          {count > 0 ? count : '🏋️'}
+        </div>
+      </div>
+
+      <Button variant="primary" icon="play" onClick={go}>{t('Start Now')}</Button>
+      <div style={{ height: 8 }} />
+      <Button variant="ghost" className="dim" onClick={close}>{t('Cancel')}</Button>
+    </div>
+  )
+}
+
 export function startFlow(routineId) {
   const currentBw = lastBW(S())?.w || S().aiAnswers?.weight || null
-  beginWorkout(routineId, currentBw)
+  ui().openSheet(close => <GetReadySheet routineId={routineId} bw={currentBw} close={close} />, { kind: 'center' })
 }
 export function beginWorkout(routineId, bw) {
   const st = S()
