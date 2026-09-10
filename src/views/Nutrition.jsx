@@ -666,7 +666,7 @@ export default function Nutrition() {
                 </div>
 
                 <button
-                  onClick={() => handleLogBlueprintMeal(meal)}
+                  onClick={() => toggleSuggestedMeal(meal)}
                   style={{
                     background: isDone ? 'rgba(52,211,153,0.12)' : 'var(--surface-2)',
                     border: isDone ? '1px solid rgba(52,211,153,0.3)' : '1px solid var(--card-border)',
@@ -753,7 +753,7 @@ export default function Nutrition() {
                 </div>
 
                 <button
-                  onClick={() => handleDeleteLog(item.id)}
+                  onClick={() => removeLoggedItem(item.id)}
                   style={{
                     background: 'transparent',
                     border: 'none',

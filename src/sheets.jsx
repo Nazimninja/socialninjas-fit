@@ -21,6 +21,7 @@ import { estimate1RM, best1RM, is1RMRecord, REP_CAP } from './lib/onerm.js'
 import { nextPrescription, applyPrescription, policyFor, defaultIncrement, POLICIES_FOR, POLICY_NAME, POLICY_DESC, MAX_BW_SETS } from './lib/progression.js'
 import { MOBILE, shareExport } from './lib/mobile.js'
 import { generateCustomPlan, convertPlanToStoreRoutines, findEx } from './lib/planGenerator.js'
+import { api } from './lib/api.js'
 import { openInstallSheet, isStandaloneMode } from './components/PWAInstallPrompt.jsx'
 
 const S = () => useStore.getState().S
