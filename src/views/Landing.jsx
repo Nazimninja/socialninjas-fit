@@ -240,9 +240,9 @@ export default function Landing() {
               background: '#38bdf8',
               boxShadow: '0 0 8px #38bdf8'
             }} />
-            <span>FIT NINJA PRO OS</span>
-            <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span style={{ color: '#e2e8f0' }}>Progressive Overload Architecture</span>
+            <span>FIT NINJA</span>
+            <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
+            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Progressive Overload Architecture</span>
           </div>
 
           {/* Main Headline */}

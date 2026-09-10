@@ -300,7 +300,7 @@ export default function AthleteHeroVisual() {
         }}
       >
         <div style={{ fontSize: '10px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
-          PRO OS INCLUDED
+          PRO MEMBERSHIP INCLUDED
         </div>
 
         <div style={{ display: 'grid', gap: '6px', marginBottom: '12px', fontSize: '11px', color: '#e2e8f0', fontWeight: '600' }}>
