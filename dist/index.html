@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Fit Ninja — Muscle Building, Fat Loss &amp; Fitness System, 1,324+ HD Exercises</title>
-<meta name="description" content="Fit Ninja — Built by certified coaches and sports scientists for muscle building, fat loss, and peak athletic fitness. 1,324+ animated HD exercises, custom sports nutrition macros, smart rest timers, and progressive overload.">
-<meta name="keywords" content="fit ninja, muscle building, fat loss, fitness maintenance, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, hypertrophy app">
+<title>Fit Ninja — Train Different · Workout, Strength &amp; Precision Nutrition OS</title>
+<meta name="description" content="Fit Ninja — 1,324+ animated exercise demos, automated progressive overload algorithms (Greyskull LP), real-time muscle fatigue heatmaps, and precision sports nutrition.">
+<meta name="keywords" content="fit ninja, workout tracker, gym routines, 1324 exercises, macro calculator, animated workout videos, progressive overload, greyskull lp, hypertrophy app">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
 <link rel="canonical" href="https://fit.socialninjas.in/">
@@ -13,25 +13,24 @@
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fit.socialninjas.in/">
-<meta property="og:title" content="Fit Ninja — Science-Backed Workout &amp; Nutrition System">
-<meta property="og:description" content="1,324+ animated exercise demos, guided set player with smart rest timers, anatomical muscle heatmaps, and precision sports nutrition tracking.">
+<meta property="og:title" content="Fit Ninja — Train Different. Progress Every Rep.">
+<meta property="og:description" content="1,324+ animated exercise demos, guided set player with smart rest timers, anatomical muscle heatmaps, and precision sports nutrition.">
 <meta property="og:image" content="https://fit.socialninjas.in/ninja-logo.png">
 <meta property="og:site_name" content="Fit Ninja">
 <meta property="og:locale" content="en_US">
 
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#040711">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=10">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=10">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=10">
 <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png?v=10">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=10">
-<link rel="apple-touch-icon" sizes="167x167" href="/apple-touch-icon.png?v=10">
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png?v=10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Fit Ninja Pro">
 <meta name="application-name" content="Fit Ninja Pro">
 <link rel="manifest" href="/manifest.json?v=10">
 
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -54,31 +53,26 @@
 </script>
 
 <style>
-/* ── BRAND TOKENS (FIT NINJA OBSIDIAN DESIGN SYSTEM) ── */
+/* ── BRAND TOKENS (FIT NINJA LUXURY ATMOSPHERE) ── */
 :root {
-  --bg: #000000;
-  --bg-card: rgba(13, 19, 33, 0.85);
-  --bg-card-elevated: rgba(16, 24, 40, 0.95);
-  --bg-card-hover: rgba(22, 32, 54, 0.95);
+  --bg: #040711;
+  --bg-card: rgba(13, 20, 36, 0.75);
+  --bg-card-hover: rgba(20, 30, 54, 0.85);
   
-  --blue-accent: #38bdf8;
-  --blue-glow: rgba(56, 189, 248, 0.25);
-  --cyan-neon: #38bdf8;
-  
-  --green: #38bdf8;
-  --green-glow: rgba(56, 189, 248, 0.20);
+  --sky: #38bdf8;
+  --emerald: #10b981;
+  --rose: #f43f5e;
+  --amber: #fbbf24;
   
   --t1: #ffffff;
   --t2: #94a3b8;
   --t3: #64748b;
   
   --border: rgba(255, 255, 255, 0.08);
-  --border-card: rgba(255, 255, 255, 0.08);
-  --border-card-top: rgba(56, 189, 248, 0.25);
+  --border-glow: rgba(56, 189, 248, 0.3);
   
   --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
-  --r: 22px;
-  --r-sm: 14px;
+  --r-card: 24px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,97 +84,67 @@ html {
 body {
   font-family: var(--font);
   background-color: var(--bg);
-  background-image: radial-gradient(circle at 50% 120px, rgba(56, 189, 248, 0.08) 0%, transparent 600px);
+  background-image: 
+    radial-gradient(1200px circle at 50% 8%, rgba(16, 185, 129, 0.12) 0%, rgba(56, 189, 248, 0.08) 32%, transparent 75%),
+    radial-gradient(800px circle at 85% 35%, rgba(56, 189, 248, 0.06) 0%, transparent 60%);
   background-repeat: no-repeat;
   color: var(--t1);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a { color: inherit; text-decoration: none; }
 
 /* ── FLOATING GLASS NAVBAR ── */
 .nav-wrap {
-  position: fixed;
-  top: max(14px, calc(env(safe-area-inset-top, 0px) + 8px));
+  position: sticky;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 999;
-  display: flex;
-  justify-content: center;
-  padding: 0 16px;
-  pointer-events: none;
-}
-.nav-inner {
-  pointer-events: auto;
-  width: 100%;
-  max-width: 1120px;
-  background: rgba(13, 15, 20, 0.85);
+  background: rgba(7, 11, 20, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 99px;
-  padding: 8px 18px;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
 }
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
 }
-.nav-logo-badge {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
-  background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.35) 0%, rgba(13, 21, 35, 0.96) 80%);
-  border: 1.5px solid rgba(56, 189, 248, 0.85);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), inset 0 0 10px rgba(56, 189, 248, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.25s ease;
-}
-.nav-brand:hover .nav-logo-badge {
-  border-color: #38bdf8;
-  box-shadow: 0 0 28px rgba(56, 189, 248, 0.75), inset 0 0 14px rgba(56, 189, 248, 0.45);
-  transform: scale(1.05);
-}
-.nav-logo-icon {
-  width: 34px;
-  height: 34px;
+.nav-brand img {
+  width: 42px;
+  height: 42px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.5));
+  filter: drop-shadow(0 2px 10px rgba(56, 189, 248, 0.55));
 }
-.nav-brand-text {
+.nav-brand-title {
   font-size: 18px;
   font-weight: 900;
   letter-spacing: -0.5px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  line-height: 1;
 }
-.nav-brand-text .pro-badge {
-  font-size: 10px;
-  font-weight: 900;
-  background: rgba(56, 189, 248, 0.15);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  padding: 2px 7px;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
+.nav-brand-sub {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--t2);
+  margin-top: 3px;
 }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 24px;
 }
 .nav-links a {
   font-size: 13.5px;
@@ -195,82 +159,70 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px;
   font-weight: 900;
   color: #031024;
-  padding: 8px 20px;
+  padding: 9px 20px;
   border-radius: 99px;
   background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   border: none;
-  box-shadow: 0 2px 14px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .nav-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 22px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.55);
 }
 
-/* ── HERO SECTION (SPACIOUS & LUXURIOUS) ── */
+/* ── HERO SECTION ── */
 .hero-split {
-  padding-top: max(110px, calc(env(safe-area-inset-top, 0px) + 90px));
-  padding-bottom: 60px;
-  max-width: 1140px;
+  padding: 60px 24px 70px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.05fr 0.95fr;
   align-items: center;
-  gap: 50px;
-}
-.hero-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  gap: 40px;
 }
 .hero-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
   border-radius: 99px;
-  padding: 5px 14px 5px 8px;
-  font-size: 11.5px;
+  padding: 6px 16px;
+  font-size: 12px;
   font-weight: 800;
-  color: #38bdf8;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
+  color: #10b981;
+  margin-bottom: 22px;
 }
 .hero-pill-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
-  flex-shrink: 0;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
 }
 .hero-h1 {
-  font-size: clamp(38px, 4.5vw, 56px);
+  font-size: clamp(38px, 5.5vw, 64px);
   font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.06;
-  margin-bottom: 18px;
+  letter-spacing: -1.8px;
+  line-height: 1.08;
+  margin-bottom: 20px;
   color: #ffffff;
 }
 .hero-h1 .grad-text {
-  background: linear-gradient(135deg, #38bdf8 15%, #60a5fa 60%, #93c5fd 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
 .hero-sub {
-  font-size: clamp(15px, 1.5vw, 17px);
-  line-height: 1.55;
+  font-size: clamp(15px, 2vw, 18px);
   color: var(--t2);
-  max-width: 480px;
-  margin-bottom: 28px;
+  line-height: 1.65;
+  max-width: 560px;
+  margin-bottom: 32px;
   font-weight: 500;
 }
 .hero-actions {
@@ -278,12 +230,11 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 14px;
+  margin-bottom: 36px;
 }
-.btn-primary {
+.btn-glow {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: #031024;
@@ -292,656 +243,463 @@ a { color: inherit; text-decoration: none; }
   padding: 14px 28px;
   border-radius: 99px;
   border: none;
-  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
   cursor: pointer;
-  letter-spacing: -0.2px;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(56, 189, 248, 0.55);
+.btn-glow:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 36px rgba(56, 189, 248, 0.55);
 }
-.btn-secondary {
+.btn-ghost {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.hero-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 14px;
+  background: rgba(13, 20, 36, 0.65);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 20px;
+  max-width: 560px;
+}
+.hero-metric-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+}
+.hero-metric-lbl {
+  font-size: 10.5px;
+  color: var(--t2);
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+/* ── INTERACTIVE ATHLETE HERO CENTERPIECE ── */
+.athlete-hero-container {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 490px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 13px 22px;
-  border-radius: 99px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  user-select: none;
+}
+.athlete-glow {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 70%);
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+}
+.athlete-portal {
+  position: relative;
+  width: 320px;
+  height: 350px;
+  border-radius: 50% 50% 45% 45%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.15);
+  z-index: 1;
+  background: #0a0f1d;
+}
+.athlete-portal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: contrast(1.08) brightness(0.95);
+}
+.athlete-portal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(7, 10, 18, 0.85) 100%);
+  pointer-events: none;
+}
+
+/* Spline SVG */
+.spline-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* Floating Badges */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes floatMedium {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.float-badge-1 {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  z-index: 10;
+  background: rgba(13, 20, 36, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glow);
+  border-radius: 18px;
+  padding: 14px 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.12);
   cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  animation: floatSlow 4s ease-in-out infinite;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 155px;
 }
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.10);
-  border-color: rgba(255, 255, 255, 0.22);
+.float-badge-1:hover {
+  transform: scale(1.05) translateY(-2px);
 }
-.hero-pricing-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+
+.float-pill-top {
+  position: absolute;
+  top: 65px;
+  right: 35px;
+  z-index: 10;
+  background: rgba(7, 10, 18, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 99px;
   padding: 6px 14px;
-  border-radius: 99px;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #38bdf8;
-  margin-bottom: 24px;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  animation: floatMedium 5s ease-in-out infinite;
+  animation-delay: 1s;
 }
-.hero-badge-tag {
-  background: #38bdf8;
-  color: #031024;
-  font-size: 10px;
-  font-weight: 900;
-  padding: 2px 8px;
-  border-radius: 99px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-.hero-proof {
+
+.float-badge-2 {
+  position: absolute;
+  bottom: 25px;
+  left: 10px;
+  z-index: 10;
+  background: rgba(13, 20, 36, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  animation: floatSlow 4.5s ease-in-out infinite;
+  animation-delay: 2s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
 }
-.proof-stars {
-  color: #fbbf24;
-  font-size: 13px;
-  letter-spacing: 2px;
-}
-.proof-score {
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
-}
-.proof-badge-strip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-left: 12px;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-}
-.proof-chip {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--t2);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 99px;
-  padding: 3px 10px;
+.float-badge-2:hover {
+  transform: scale(1.05) translateY(-2px);
 }
 
-/* ── 3D IPHONE SHOWCASE (PURE LUXURY ATHLETIC) ── */
-.hero-right {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.iphone-frame {
-  position: relative;
-  z-index: 2;
-  width: 300px;
-  height: 550px;
-  background: #000000;
-  border-radius: 44px;
-  border: 3px solid #1c202a;
-  box-shadow: 
-    0 0 0 1.5px rgba(255, 255, 255, 0.10),
-    0 24px 60px rgba(0, 0, 0, 0.9);
-  padding: 9px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-.iphone-screen {
-  width: 100%;
-  height: 100%;
-  background: #090a0f;
-  border-radius: 35px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding: 12px 12px;
-  box-sizing: border-box;
-  color: #fff;
-}
-.dynamic-island {
+.float-card-right {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 95px;
-  height: 24px;
-  background: #000;
-  border-radius: 20px;
+  top: 150px;
+  right: -10px;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glow);
+  border-top: 1px solid rgba(56, 189, 248, 0.7);
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.1);
+  animation: floatMedium 4.8s ease-in-out infinite;
+  animation-delay: 0.5s;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 175px;
 }
-.island-pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 6px #38bdf8;
-}
-.island-timer {
-  font-size: 9px;
-  font-weight: 800;
-  color: #38bdf8;
-}
-.screen-header {
-  margin-top: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.screen-tag {
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.12);
-  padding: 2px 7px;
-  border-radius: 6px;
-}
-.screen-session-title {
-  font-size: 16px;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.3px;
-  margin-bottom: 2px;
-}
-.phone-ex-card {
-  background: #11141c;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 12px;
-  margin-bottom: 10px;
-}
-.phone-ex-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-.phone-ex-name {
-  font-size: 13px;
-  font-weight: 800;
-  color: #ffffff;
-}
-.phone-ex-badge {
-  font-size: 9px;
-  font-weight: 800;
-  color: #38bdf8;
-  background: rgba(56, 189, 248, 0.15);
-  padding: 2px 6px;
-  border-radius: 6px;
-}
-.phone-stepper-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-  padding: 7px 10px;
-  margin-bottom: 6px;
-}
-.phone-set-label {
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #fff;
-}
-.phone-done-btn {
-  font-size: 10.5px;
-  font-weight: 900;
-  color: #031024;
-  background: #38bdf8;
-  border: none;
-  border-radius: 6px;
-  padding: 3px 8px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
-}
-.phone-rest-card {
-  background: #11141c;
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 16px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-.phone-rest-time {
-  font-size: 20px;
-  font-weight: 900;
-  color: #38bdf8;
-  letter-spacing: -0.5px;
-}
-.phone-rest-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--t2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.phone-rest-progress {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 2.5px solid rgba(56, 189, 248, 0.2);
-  border-top-color: #38bdf8;
-  animation: spinTimer 2s linear infinite;
-}
-@keyframes spinTimer {
-  100% { transform: rotate(360deg); }
-}
-.phone-muscle-hud {
-  background: #11141c;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 10px 12px;
-}
-.phone-muscle-label {
-  font-size: 9px;
-  font-weight: 800;
-  color: var(--t3);
-  text-transform: uppercase;
-  margin-bottom: 3px;
-}
-.phone-muscle-val {
-  font-size: 11px;
-  font-weight: 800;
-  color: #38bdf8;
+.float-card-right:hover {
+  transform: scale(1.04) translateY(-3px);
 }
 
-/* ── 2. METRICS STRIP (CLEAN & AIRY) ── */
-.metrics-sec {
+/* ── ORGANIC CURVED TRANSITION SECTION ── */
+.curved-shell {
+  background: linear-gradient(180deg, #090e1c 0%, #040711 100%);
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 44px 24px;
-  max-width: 1140px;
-  margin: 0 auto 70px;
-}
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-.metric-box {
-  text-align: center;
-  padding: 8px 12px;
-}
-.metric-num {
-  font-size: clamp(30px, 3.2vw, 40px);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  margin-bottom: 4px;
-}
-.metric-label {
-  font-size: 13.5px;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 3px;
-}
-.metric-desc {
-  font-size: 12px;
-  color: var(--t2);
+  border-radius: 44px 44px 0 0;
+  padding: 70px 24px 40px;
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
 }
 
-/* ── 3. VISUAL CAPABILITIES (SAY LESS, DO MORE) ── */
-.features-sec {
-  max-width: 1140px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
-}
-.features-header {
-  text-align: center;
-  margin-bottom: 50px;
+/* ── CATEGORIES (OUR DISCIPLINES) ── */
+.categories-sec {
+  max-width: 1200px;
+  margin: 0 auto 80px;
 }
 .section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 99px;
+  padding: 4px 14px;
   font-size: 11px;
   font-weight: 900;
-  text-transform: uppercase;
+  color: var(--sky);
   letter-spacing: 0.8px;
-  color: #38bdf8;
-  margin-bottom: 10px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 .section-h2 {
-  font-size: clamp(28px, 3.4vw, 42px);
+  font-size: clamp(28px, 4.5vw, 42px);
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -1px;
   color: #fff;
   margin-bottom: 12px;
 }
 .section-sub {
   font-size: 15px;
   color: var(--t2);
-  max-width: 460px;
+  max-width: 580px;
   margin: 0 auto;
 }
-
-.features-grid {
+.cat-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+  margin-top: 48px;
 }
-.feature-card {
+.cat-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-top: 1px solid var(--border-card-top);
-  border-radius: 24px;
-  padding: 28px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
-.feature-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.35);
+.cat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--border-glow);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.15);
 }
-.feature-ui-box {
-  background: #07080c;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.cat-icon-box {
+  width: 48px;
+  height: 48px;
   border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 24px;
-  min-height: 140px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
-.feature-title {
-  font-size: 18px;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: -0.3px;
-  margin-bottom: 8px;
+.cat-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
-.feature-text {
+.cat-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 6px var(--emerald);
+}
+.cat-status-text {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--emerald);
+}
+.cat-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff;
+  margin: 18px 0 10px;
+}
+.cat-desc {
   font-size: 13.5px;
   color: var(--t2);
-  line-height: 1.5;
+  line-height: 1.65;
 }
-
-/* ── 4. 1,324+ HD EXERCISE LIBRARY ── */
-.exercises-sec {
-  max-width: 1140px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
-}
-.ex-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.ex-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-.ex-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: 20px;
-  padding: 16px;
-  transition: all 0.2s ease;
-}
-.ex-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.3);
-}
-.ex-preview-box {
-  width: 100%;
-  height: 160px;
-  background: #ffffff;
-  border-radius: 14px;
-  margin-bottom: 12px;
+.cat-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-}
-.ex-media-gif {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.ex-card:hover .ex-media-gif {
-  transform: scale(1.06);
-}
-.ex-telemetry {
-  font-size: 8.5px;
+  justify-content: space-between;
+  font-size: 12.5px;
   font-weight: 800;
-  letter-spacing: 0.6px;
-  color: #94a3b8;
-  background: rgba(0, 0, 0, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 2px 7px;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  z-index: 2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-.ex-play-badge {
-  font-size: 9px;
-  font-weight: 900;
-  background: rgba(0, 0, 0, 0.78);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  padding: 2px 7px;
-  border-radius: 6px;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-.ex-title {
-  font-size: 14.5px;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 3px;
-}
-.ex-muscles {
-  font-size: 11.5px;
-  color: #38bdf8;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.ex-reps {
-  font-size: 11px;
-  color: var(--t3);
-  font-weight: 600;
+  color: var(--sky);
+  cursor: pointer;
 }
 
-/* ── 5. FAIR COMPARISON TABLE ── */
-.comp-sec {
-  max-width: 1140px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
+/* ── INTERACTIVE WORKOUT SANDBOX ── */
+.sandbox-sec {
+  max-width: 920px;
+  margin: 0 auto 80px;
 }
-.comp-table-wrap {
-  overflow-x: auto;
-  margin-top: 36px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
+.sandbox-card {
+  background: rgba(10, 15, 26, 0.95);
+  border: 1px solid var(--border-glow);
   border-radius: 24px;
+  padding: 28px 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.06);
 }
-.comp-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  min-width: 600px;
+.tab-pills {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
 }
-.comp-table th, .comp-table td {
-  padding: 16px 22px;
-  border-bottom: 1px solid var(--border);
-}
-.comp-table th {
-  font-size: 12px;
-  font-weight: 900;
+.tab-btn {
+  background: transparent;
   color: var(--t2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
 }
-.comp-table .brand-col {
-  background: rgba(255, 255, 255, 0.03);
-  color: #ffffff;
-  font-weight: 900;
+.tab-btn.active {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--sky);
+  border-color: rgba(56, 189, 248, 0.4);
 }
 
-/* ── 6. PRICING ── */
+/* ── PRICING SECTION ── */
 .pricing-sec {
-  max-width: 1140px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
+  max-width: 840px;
+  margin: 0 auto 80px;
   text-align: center;
 }
-.pricing-card {
-  max-width: 460px;
-  margin: 36px auto 0;
-  background: linear-gradient(145deg, rgba(13, 19, 33, 0.95) 0%, rgba(8, 12, 22, 0.98) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  border-top: 1px solid rgba(56, 189, 248, 0.55);
+.pricing-box {
+  background: linear-gradient(145deg, rgba(13, 20, 36, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%);
+  border: 1px solid var(--border-glow);
+  border-top: 1px solid rgba(56, 189, 248, 0.7);
   border-radius: 28px;
-  padding: 40px 32px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.1);
+  padding: 42px 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(56, 189, 248, 0.1);
+  position: relative;
 }
-.pricing-badge {
-  display: inline-block;
+.pricing-ribbon {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
   font-size: 11px;
   font-weight: 900;
-  background: rgba(56, 189, 248, 0.12);
-  color: #38bdf8;
-  padding: 4px 12px;
-  border-radius: 99px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 20px;
   letter-spacing: 0.8px;
-  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 .pricing-amt {
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 900;
   color: #fff;
-  letter-spacing: -1.5px;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
+  margin: 16px 0;
 }
-.pricing-cycle {
-  font-size: 15px;
-  color: var(--t2);
-  font-weight: 600;
-}
-.pricing-sub {
-  font-size: 13px;
-  color: #38bdf8;
-  font-weight: 800;
-  margin-bottom: 28px;
-}
-.pricing-features {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.pricing-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 30px;
+  max-width: 540px;
   text-align: left;
-  margin-bottom: 32px;
+  display: grid;
+  gap: 12px;
+  font-size: 14px;
+  color: #f1f5f9;
 }
-.pricing-feat-item {
-  font-size: 13px;
-  color: #fff;
+.pricing-features-list li {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
-/* ── 7. FAQ ── */
+/* ── FAQ ── */
 .faq-sec {
-  max-width: 760px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
+  max-width: 800px;
+  margin: 0 auto 80px;
 }
-.faq-item {
+.faq-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
   padding: 18px 22px;
   margin-bottom: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-.faq-item.open {
-  border-color: rgba(255, 255, 255, 0.22);
+  transition: background 0.2s;
 }
 .faq-q {
-  font-size: 15px;
-  font-weight: 800;
-  color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 800;
+  font-size: 15px;
 }
 .faq-a {
   display: none;
-  font-size: 13.5px;
+  margin-top: 14px;
+  font-size: 14px;
   color: var(--t2);
-  line-height: 1.55;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
+  line-height: 1.65;
 }
-.faq-item.open .faq-a {
+.faq-card.open .faq-a {
   display: block;
 }
 
 /* ── FOOTER ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 50px 24px 70px;
+  padding: 40px 20px 20px;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--t3);
 }
 
-/* ── RESPONSIVE (MOBILE-FIRST BREATHING ROOM) ── */
+/* ── RESPONSIVE ── */
 @media (max-width: 960px) {
   .hero-split {
     grid-template-columns: 1fr;
-    padding-top: max(96px, calc(env(safe-area-inset-top, 0px) + 84px));
     text-align: center;
     gap: 40px;
-  }
-  .hero-left {
-    align-items: center;
-    text-align: center;
   }
   .hero-sub {
     margin-left: auto;
@@ -950,126 +708,37 @@ footer {
   .hero-actions {
     justify-content: center;
   }
-  .hero-pricing-hint {
-    justify-content: center;
-  }
-  .hero-proof {
-    justify-content: center;
-  }
-  .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .ex-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .hero-metrics-strip {
+    margin: 0 auto;
   }
   .nav-links {
     display: none;
   }
 }
-
 @media (max-width: 600px) {
-  .nav-wrap {
-    top: max(12px, calc(env(safe-area-inset-top, 0px) + 6px));
-    padding: 0 12px;
-  }
-  .nav-inner {
-    padding: 6px 14px;
-    background: rgba(10, 12, 16, 0.94);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .nav-logo-badge {
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
-  }
-  .nav-logo-icon {
-    width: 28px;
-    height: 28px;
-  }
-  .nav-brand-text {
-    font-size: 16px;
-  }
-  .nav-btn-primary {
-    font-size: 12px;
-    padding: 7px 14px;
-  }
   .hero-split {
-    padding-top: max(96px, calc(env(safe-area-inset-top, 0px) + 84px));
-    padding-left: 16px;
-    padding-right: 16px;
-    gap: 28px;
+    padding: 30px 16px 50px;
   }
-  .hero-pill {
-    font-size: 10px;
-    padding: 4px 10px 4px 6px;
-    margin-bottom: 14px;
+  .athlete-portal {
+    width: 270px;
+    height: 300px;
   }
-  .hero-h1 {
-    font-size: clamp(30px, 8.5vw, 38px);
-    margin-bottom: 12px;
+  .float-badge-1 {
+    top: 10px;
+    left: -5px;
+    max-width: 130px;
+    padding: 10px 12px;
   }
-  .hero-sub {
-    font-size: 14px;
-    margin-bottom: 20px;
+  .float-card-right {
+    top: auto;
+    bottom: -15px;
+    right: 0;
+    min-width: 150px;
+    padding: 12px;
   }
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-    max-width: 320px;
-  }
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    padding: 13px 20px;
-  }
-  .hero-pricing-hint {
-    font-size: 11.5px;
-    margin-bottom: 18px;
-  }
-  .hero-proof {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .proof-badge-strip {
-    border-left: none;
-    padding-left: 0;
-    gap: 6px;
-  }
-  .iphone-frame {
-    width: min(290px, 88vw);
-    height: 490px;
-  }
-  .metrics-sec {
-    padding: 30px 16px;
-    margin-bottom: 50px;
-  }
-  .metrics-grid {
-    gap: 12px;
-  }
-  .metric-num {
-    font-size: 26px;
-  }
-  .features-sec, .exercises-sec, .comp-sec, .pricing-sec, .faq-sec {
-    margin-bottom: 60px;
-    padding: 0 16px;
-  }
-  .ex-grid {
-    grid-template-columns: 1fr;
-  }
-  .pricing-features {
-    grid-template-columns: 1fr;
-  }
-  .pricing-card {
-    padding: 30px 20px;
-  }
-  .pricing-amt {
-    font-size: 42px;
+  .curved-shell {
+    border-radius: 28px 28px 0 0;
+    padding: 40px 16px 20px;
   }
 }
 </style>
@@ -1080,468 +749,669 @@ footer {
 <div class="nav-wrap">
   <nav class="nav-inner">
     <a href="/" class="nav-brand">
-      <div class="nav-logo-badge">
-        <img src="/ninja-emblem.png" alt="Fit Ninja" class="nav-logo-icon">
-      </div>
-      <div class="nav-brand-text">
-        Fit<span style="color: #38bdf8;">Ninja</span> <span class="pro-badge">PRO</span>
+      <img src="/ninja-emblem.png" alt="Fit Ninja">
+      <div>
+        <div class="nav-brand-title">Fit<span style="color: #38bdf8;">Ninja</span></div>
+        <div class="nav-brand-sub">BY SOCIAL NINJA'S</div>
       </div>
     </a>
 
     <div class="nav-links">
-      <a href="#features">Capabilities</a>
-      <a href="#exercises">1,324+ Lifts</a>
+      <a href="#categories">Disciplines</a>
+      <a href="#sandbox">Interactive Demo</a>
+      <a href="/app?mode=app#/library">1,324+ Demos</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
-      <a href="/app?mode=login" style="color: #38bdf8; font-weight: 800;">Member Login</a>
     </div>
 
-    <a href="/app?mode=app" class="nav-btn-primary">
-      Launch App ⚡
-    </a>
+    <div>
+      <a href="/app?mode=app" class="nav-btn-primary">
+        ⚡ Launch App
+      </a>
+    </div>
   </nav>
 </div>
 
-<!-- ── 1. LUXURY ATHLETIC TECH HERO ── -->
-<section class="hero-split">
-  <!-- Left Column -->
-  <div class="hero-left">
+<!-- ── 1. LUXURY EDITORIAL HERO SECTION ── -->
+<header class="hero-split">
+  <!-- Left: Typography & Actions -->
+  <div>
     <div class="hero-pill">
-      <span class="hero-pill-dot" style="background:#38bdf8;box-shadow:0 0 10px #38bdf8"></span>
-      <span>Crafted By Coaches · Muscle Building · Fat Loss · Fitness Maintenance</span>
+      <span class="hero-pill-dot"></span>
+      <span>FIT NINJA PRO OS</span>
+      <span style="color: rgba(255, 255, 255, 0.3)">•</span>
+      <span style="color: #e2e8f0">Progressive Overload Architecture</span>
     </div>
 
     <h1 class="hero-h1">
-      Build Lean Muscle.<br>
-      <span class="grad-text">Shred Fat &amp; Stay Fit.</span>
+      Train Different.<br>
+      <span class="grad-text">Progress Every Rep.</span>
     </h1>
 
     <p class="hero-sub">
-      Engineered by certified coaches and sports scientists for real athletic results — whether your goal is building lean muscle, shedding stubborn body fat, or maintaining peak daily fitness. Precision sports nutrition, custom gym &amp; calisthenics routines, 1,324+ HD animated guides, and progressive overload.
+      Seize the science of progressive overload. 1,324+ looping animated exercise demos, automated rest countdowns with sound alerts, real-time muscle fatigue heatmaps, and precision sports nutrition.
     </p>
 
     <div class="hero-actions">
-      <a href="/app?mode=signup" class="btn-primary">
-        Start Your Transformation →
+      <a href="/app?mode=signup" class="btn-glow">
+        <span>⚡ Start Transformation</span>
+        <span>→</span>
       </a>
-      <a href="#exercises" class="btn-secondary">
-        Explore 1,324+ Demos
+      <a href="#sandbox" class="btn-ghost">
+        <span style="color: #38bdf8;">▶</span>
+        <span>Test Interactive Demo</span>
       </a>
     </div>
 
-    <div class="hero-pricing-hint">
-      <span class="hero-badge-tag">LIMITED OFFER</span>
-      <span>Special 1st Month Discount Active · ₹399/mo (₹13/day) · Cancel anytime</span>
-    </div>
-
-    <div class="hero-proof">
-      <div class="proof-stars">★★★★★</div>
-      <div class="proof-score">4.9 / 5.0 Rating</div>
-      <div class="proof-badge-strip">
-        <span class="proof-chip">💪 Muscle &amp; Strength</span>
-        <span class="proof-chip">🔥 Fat Loss Deficits</span>
-        <span class="proof-chip">⚡ Maintain Fitness</span>
-        <span class="proof-chip">🥗 Precision Nutrition</span>
+    <div class="hero-metrics-strip">
+      <div>
+        <div class="hero-metric-val">1,324+</div>
+        <div class="hero-metric-lbl">Animated Demos</div>
+      </div>
+      <div>
+        <div class="hero-metric-val">100%</div>
+        <div class="hero-metric-lbl">Offline PWA</div>
+      </div>
+      <div>
+        <div class="hero-metric-val" style="color:#38bdf8">4.9 ★</div>
+        <div class="hero-metric-lbl">Athlete Rating</div>
+      </div>
+      <div>
+        <div class="hero-metric-val" style="color:#10b981">₹13/day</div>
+        <div class="hero-metric-lbl">Affordable Pro</div>
       </div>
     </div>
   </div>
 
-  <!-- Right Column: 3D iPhone Showcase -->
-  <div class="hero-right">
-    <div class="iphone-frame">
-      <div class="iphone-screen">
-        <!-- Dynamic Island -->
-        <div class="dynamic-island">
-          <div class="island-pulse"></div>
-          <div class="island-timer">⏱️ 01:45 REST</div>
+  <!-- Right: Athlete Hero Visual with Floating Connected Badges -->
+  <div>
+    <div class="athlete-hero-container">
+      <div class="athlete-glow"></div>
+
+      <!-- SVG Connecting Spline Curves -->
+      <svg class="spline-svg" viewBox="0 0 540 480">
+        <defs>
+          <linearGradient id="splineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
+            <stop offset="50%" stop-color="#10b981" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
+          </linearGradient>
+        </defs>
+        <path d="M 120 120 C 180 140, 210 210, 270 230" fill="none" stroke="url(#splineGrad)" stroke-width="2" stroke-dasharray="4 4" opacity="0.85" />
+        <path d="M 270 230 C 330 250, 360 210, 420 230" fill="none" stroke="url(#splineGrad)" stroke-width="2.5" opacity="0.95" />
+        <path d="M 150 360 C 200 340, 230 270, 270 230" fill="none" stroke="url(#splineGrad)" stroke-width="2" stroke-dasharray="3 3" opacity="0.75" />
+        <circle cx="270" cy="230" r="5" fill="#10b981" />
+        <circle cx="120" cy="120" r="4" fill="#38bdf8" />
+        <circle cx="420" cy="230" r="4" fill="#10b981" />
+        <circle cx="150" cy="360" r="4" fill="#38bdf8" />
+      </svg>
+
+      <!-- Center Athlete Portal -->
+      <div class="athlete-portal">
+        <img src="/assets/athlete-hero.jpg" alt="Athlete Calisthenics & Strength">
+      </div>
+
+      <!-- Floating Badge 1: Metric Gauge -->
+      <div class="float-badge-1" onclick="window.location.href='/app?mode=app#/library'">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+          <span style="font-size:12px">🏋️</span>
+          <span style="font-size:9.5px;font-weight:800;color:#38bdf8;text-transform:uppercase">Catalogue</span>
         </div>
+        <div style="font-size:20px;font-weight:900;color:#fff">1,324+</div>
+        <div style="font-size:10.5px;color:#94a3b8;font-weight:600">Animated Demos</div>
+      </div>
 
-        <div class="screen-header">
-          <span class="screen-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8;border:1px solid rgba(56,189,248,0.3)">⚡ Muscle, Fat Loss &amp; Fitness</span>
-          <span style="font-size:10px;font-weight:700;color:var(--t2)">Day 1 of 4</span>
+      <!-- Floating Pill: Top Center -->
+      <div class="float-pill-top">
+        <span style="width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981"></span>
+        <span style="font-size:11px;font-weight:800;color:#fff">Live Workout Player</span>
+      </div>
+
+      <!-- Floating Badge 2: Muscle Map -->
+      <div class="float-badge-2" onclick="window.location.href='/app?mode=app#/stats'">
+        <div style="width:32px;height:32px;border-radius:10px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38bdf8;font-size:15px">
+          🧬
         </div>
-
-        <div class="screen-session-title">
-          Metabolic Push &amp; Core
+        <div>
+          <div style="font-size:12.5px;font-weight:800;color:#fff">Muscle Heatmap</div>
+          <div style="font-size:10px;color:#94a3b8;font-weight:600">Front &amp; Back Fatigue</div>
         </div>
-        <div style="font-size:11px;color:var(--t3);margin-bottom:12px">
-          Calorie Deficit · Hypertrophy Volume
+      </div>
+
+      <!-- Floating Card 3: Feature Popover -->
+      <div class="float-card-right">
+        <div style="font-size:9.5px;font-weight:900;color:#10b981;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
+          PRO OS INCLUDED
         </div>
-
-        <!-- Exercise Card -->
-        <div class="phone-ex-card">
-          <div class="phone-ex-row">
-            <span class="phone-ex-name">Incline Dumbbell Press</span>
-            <span class="phone-ex-badge">Target: 10 reps</span>
-          </div>
-
-          <div class="phone-stepper-row">
-            <span class="phone-set-label">Set 1: 24.0 kg × 10</span>
-            <span style="font-size:10px;color:#38bdf8;font-weight:800">✓ Logged</span>
-          </div>
-
-          <div class="phone-stepper-row" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3)">
-            <span class="phone-set-label" style="color:#38bdf8">Set 2: 26.0 kg × 10</span>
-            <button class="phone-done-btn" onclick="triggerSetDone(this)">Done ✓</button>
-          </div>
-
-          <div class="phone-stepper-row" style="opacity:0.4">
-            <span class="phone-set-label">Set 3: 26.0 kg × 10</span>
-            <span style="font-size:10px;color:var(--t3)">Pending</span>
-          </div>
+        <div style="display:grid;gap:5px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
+          <div><span style="color:#38bdf8">⚡</span> Auto Rest Timer</div>
+          <div><span style="color:#10b981">🧬</span> Greyskull LP</div>
+          <div><span style="color:#38bdf8">🥗</span> Custom Macros</div>
+          <div><span style="color:#10b981">📱</span> 100% Offline PWA</div>
         </div>
+        <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px">
+          Join Now →
+        </a>
+      </div>
 
-        <!-- Rest Timer HUD -->
-        <div class="phone-rest-card">
-          <div>
-            <div class="phone-rest-label">Smart Rest Timer</div>
-            <div class="phone-rest-time" id="hero-rest-timer">01:45</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── 2. ORGANIC CURVED CONTAINER SECTION ── -->
+<div class="curved-shell">
+
+  <!-- ── OUR CATEGORIES / TRAINING DISCIPLINES ── -->
+  <section class="categories-sec" id="categories">
+    <div style="text-align:center">
+      <div class="section-tag">OUR DISCIPLINES</div>
+      <h2 class="section-h2">Engineered for Serious Transformation</h2>
+      <p class="section-sub">
+        Seize the opportunity. It's time to build elite physical capability with scientific structure and automated guidance.
+      </p>
+    </div>
+
+    <div class="cat-grid">
+      <!-- Card 1 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">🏋️</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Strength LP</span>
+            </div>
           </div>
-          <div class="phone-rest-progress"></div>
+          <div class="cat-title">Greyskull Strength &amp; LP</div>
+          <p class="cat-desc">
+            Automated weight increments, AMRAP failure detection, and deload protocols engineered for maximum compound lift strength.
+          </p>
         </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/library'">
+          <span>Explore Routine</span>
+          <span>→</span>
+        </div>
+      </div>
 
-        <!-- Macro / Deficit HUD -->
-        <div class="phone-muscle-hud" style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div class="phone-muscle-label">DAILY CALORIC DEFICIT</div>
-            <div class="phone-muscle-val" style="color:#38bdf8;font-weight:800">-450 kcal (1,850 kcal)</div>
+      <!-- Card 2 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">⚡</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Hypertrophy</span>
+            </div>
           </div>
-          <div style="text-align:right">
-            <div class="phone-muscle-label">PROTEIN TARGET</div>
-            <div class="phone-muscle-val" style="color:#38bdf8;font-weight:800">165g / Day</div>
+          <div class="cat-title">Hypertrophy &amp; Muscle Volume</div>
+          <p class="cat-desc">
+            Targeted exercise selection, isolated muscular tension, and full-range video GIFs covering barbell, dumbbell, cable, and machine work.
+          </p>
+        </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/library'">
+          <span>View 1,324+ Demos</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">🔥</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Conditioning</span>
+            </div>
           </div>
+          <div class="cat-title">Fat Shred &amp; High-Density HIIT</div>
+          <p class="cat-desc">
+            High metabolic burn routines, automated supersets, and interval audio cues designed to maximize caloric expenditure.
+          </p>
+        </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/workout'">
+          <span>Start Session</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">🥗</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Nutrition</span>
+            </div>
+          </div>
+          <div class="cat-title">Precision Sports Nutrition</div>
+          <p class="cat-desc">
+            Adaptive macro calculation (Protein, Carbs, Fats) calibrated for your specific bodyweight target: surplus, deficit, or maintenance.
+          </p>
+        </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/nutrition'">
+          <span>Calculate Macros</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">🧬</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Analytics</span>
+            </div>
+          </div>
+          <div class="cat-title">Anatomical Muscle Heatmaps</div>
+          <p class="cat-desc">
+            Front and back physiological visualizer tracking weekly set volume per muscle so you never leave a lagging body part behind.
+          </p>
+        </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/stats'">
+          <span>View Muscle Map</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="cat-card">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="cat-icon-box" style="font-size:22px">📱</div>
+            <div class="cat-status-pill">
+              <div class="cat-status-dot"></div>
+              <span class="cat-status-text">Offline First</span>
+            </div>
+          </div>
+          <div class="cat-title">100% Offline Gym PWA</div>
+          <p class="cat-desc">
+            Engineered to run seamlessly underground in gyms with zero signal. Keeps your phone awake during sets with zero battery drain.
+          </p>
+        </div>
+        <div class="cat-footer" onclick="window.location.href='/app?mode=app'">
+          <span>Launch PWA</span>
+          <span>→</span>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── 2. METRICS STRIP (CLEAN & AIRY) ── -->
-<div class="metrics-sec">
-  <div class="metrics-grid">
-    <div class="metric-box">
-      <div class="metric-num">1,324+</div>
-      <div class="metric-label">HD Video Demos</div>
-      <div class="metric-desc">Clean 60fps looping guides</div>
+  <!-- ── INTERACTIVE WORKOUT SANDBOX ── -->
+  <section class="sandbox-sec" id="sandbox">
+    <div style="text-align:center;margin-bottom:32px">
+      <div class="section-tag">INTERACTIVE DEMO</div>
+      <h2 class="section-h2">Experience The Live Workout Engine</h2>
+      <p class="section-sub">
+        Test drive the set logger, smart rest countdown timer, and macro calculator right now in your browser.
+      </p>
     </div>
-    <div class="metric-box">
-      <div class="metric-num">3 Core Goals</div>
-      <div class="metric-label">Muscle · Fat Loss · Fitness</div>
-      <div class="metric-desc">Personalized coach protocols</div>
+
+    <div class="sandbox-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981"></span>
+          <span style="font-size:12px;font-weight:900;color:#10b981;text-transform:uppercase;letter-spacing:0.8px">LIVE INTERACTIVE SANDBOX</span>
+        </div>
+
+        <div class="tab-pills">
+          <button class="tab-btn active" id="tab-btn-player" onclick="switchTab('player')">⚡ Guided Player</button>
+          <button class="tab-btn" id="tab-btn-macros" onclick="switchTab('macros')">🥗 Macro Engine</button>
+        </div>
+      </div>
+
+      <!-- Tab: Guided Player -->
+      <div id="sandbox-tab-player">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:20px;align-items:center">
+          
+          <!-- Exercise Box -->
+          <div style="background:rgba(15,23,42,0.75);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div>
+                <h4 style="font-size:16px;font-weight:800;color:#fff;margin:0">Barbell Bench Press</h4>
+                <span style="font-size:11px;color:#38bdf8;font-weight:600">Chest &amp; Triceps Hypertrophy</span>
+              </div>
+              <span style="font-size:11px;background:rgba(56,189,248,0.1);color:#38bdf8;padding:3px 8px;border-radius:6px;font-weight:800">Greyskull LP</span>
+            </div>
+
+            <!-- Set Rows -->
+            <div style="display:grid;gap:8px;margin-bottom:14px">
+              <div class="set-row" onclick="toggleSetRow(this)" style="display:flex;justify-content:space-between;align-items:center;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:8px 12px;cursor:pointer">
+                <div><span style="font-size:12px;font-weight:800;color:#10b981">Set 1:</span> <span style="font-size:13px;font-weight:700;color:#fff">82.5 kg × 5 reps</span></div>
+                <span class="set-check" style="color:#10b981;font-weight:900">✓ Logged</span>
+              </div>
+              <div class="set-row" onclick="toggleSetRow(this)" style="display:flex;justify-content:space-between;align-items:center;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:8px 12px;cursor:pointer">
+                <div><span style="font-size:12px;font-weight:800;color:#10b981">Set 2:</span> <span style="font-size:13px;font-weight:700;color:#fff">82.5 kg × 5 reps</span></div>
+                <span class="set-check" style="color:#10b981;font-weight:900">✓ Logged</span>
+              </div>
+              <div class="set-row" onclick="toggleSetRow(this)" style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:8px 12px;cursor:pointer">
+                <div><span style="font-size:12px;font-weight:800;color:#94a3b8">Set 3:</span> <span style="font-size:13px;font-weight:700;color:#fff">82.5 kg × 8+ (AMRAP)</span></div>
+                <span class="set-check" style="color:#64748b;font-weight:800">Tap to Complete</span>
+              </div>
+            </div>
+
+            <div style="font-size:11.5px;color:#10b981;font-weight:700;display:flex;align-items:center;gap:6px">
+              <span>✨</span>
+              <span>Auto Next: +2.5 kg next session (Greyskull LP)</span>
+            </div>
+          </div>
+
+          <!-- Rest Timer Box -->
+          <div style="background:rgba(15,23,42,0.75);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;text-align:center">
+            <div style="font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">
+              SMART REST TIMER
+            </div>
+
+            <!-- Timer Circle -->
+            <div style="position:relative;width:120px;height:120px;margin:8px auto">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8" />
+                <circle id="timer-ring" cx="60" cy="60" r="50" fill="none" stroke="#38bdf8" stroke-width="8" stroke-dasharray="314" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 0.3s ease" />
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                <span id="timer-count" style="font-size:26px;font-weight:900;color:#fff;line-height:1">15s</span>
+                <span id="timer-status" style="font-size:10px;color:#38bdf8;font-weight:700;margin-top:2px">RESTING</span>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+              <button id="timer-toggle-btn" onclick="toggleTimer()" style="background:#38bdf8;color:#031024;border:none;border-radius:99px;padding:7px 18px;font-size:12px;font-weight:900;cursor:pointer">
+                ▶ Start Timer
+              </button>
+              <button onclick="resetTimer()" style="background:rgba(255,255,255,0.08);color:#94a3b8;border:none;border-radius:99px;padding:7px 12px;font-size:12px;cursor:pointer">
+                ↺
+              </button>
+            </div>
+
+            <span style="font-size:10.5px;color:#64748b;display:block;margin-top:8px">
+              🔊 Audio chime upon completion &amp; Screen Wake Lock
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tab: Macro Engine -->
+      <div id="sandbox-tab-macros" style="display:none">
+        <div style="display:flex;justify-content:center;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+          <button class="macro-tab-btn" onclick="setMacro('hypertrophy')" style="background:linear-gradient(135deg,rgba(56,189,248,0.25),rgba(16,185,129,0.2));border:1px solid #38bdf8;color:#fff;border-radius:12px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer">
+            Hypertrophy (+10% Surplus)
+          </button>
+          <button class="macro-tab-btn" onclick="setMacro('fatloss')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#94a3b8;border-radius:12px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer">
+            Fat Shred (-20% Deficit)
+          </button>
+          <button class="macro-tab-btn" onclick="setMacro('strength')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#94a3b8;border-radius:12px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer">
+            Strength Maintenance
+          </button>
+        </div>
+
+        <div style="text-align:center">
+          <div id="macro-calories" style="font-size:36px;font-weight:900;color:#fff;margin-bottom:4px">2,650 kcal</div>
+          <p id="macro-desc" style="font-size:12px;color:#94a3b8;max-width:460px;margin:0 auto 20px">
+            Optimized protein synthesis with high carbohydrate availability for glycogen replenishment.
+          </p>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:480px;margin:0 auto">
+            <div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:14px;padding:14px 10px">
+              <div id="macro-protein" style="font-size:22px;font-weight:900;color:#38bdf8">165g</div>
+              <div style="font-size:10.5px;color:#94a3b8;text-transform:uppercase;font-weight:800">Protein</div>
+            </div>
+            <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:14px;padding:14px 10px">
+              <div id="macro-carbs" style="font-size:22px;font-weight:900;color:#10b981">310g</div>
+              <div style="font-size:10.5px;color:#94a3b8;text-transform:uppercase;font-weight:800">Carbs</div>
+            </div>
+            <div style="background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.3);border-radius:14px;padding:14px 10px">
+              <div id="macro-fats" style="font-size:22px;font-weight:900;color:#f43f5e">68g</div>
+              <div style="font-size:10.5px;color:#94a3b8;text-transform:uppercase;font-weight:800">Fats</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Jump Button -->
+      <div style="margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div style="font-size:12px;color:#94a3b8">Ready to log your real workouts with automated progression?</div>
+        <a href="/app?mode=signup" style="background:linear-gradient(135deg,#38bdf8 0%,#0284c7 100%);color:#031024;font-weight:900;font-size:12.5px;padding:8px 18px;border-radius:99px;box-shadow:0 4px 14px rgba(56,189,248,0.35)">
+          Unlock Full App (₹399/mo) →
+        </a>
+      </div>
     </div>
-    <div class="metric-box">
-      <div class="metric-num">+2.5 kg</div>
-      <div class="metric-label">Auto Overload Engine</div>
-      <div class="metric-desc">Gym &amp; bodyweight progression</div>
+  </section>
+
+  <!-- ── 3. TRANSPARENT PRICING ── -->
+  <section class="pricing-sec" id="pricing">
+    <h2 style="font-size:34px;font-weight:900;color:#fff;margin-bottom:10px">Transparent, High-ROI Access</h2>
+    <p style="font-size:15px;color:#94a3b8;margin-bottom:32px">
+      Get elite fitness technology at less than the cost of a single gym energy drink per week.
+    </p>
+
+    <div class="pricing-box">
+      <div class="pricing-ribbon">SPECIAL PRO PASS ACTIVE</div>
+      <h3 style="font-size:24px;font-weight:800;color:#fff;margin:8px 0 4px">Fit Ninja All-Access Pro</h3>
+      <div class="pricing-amt">
+        ₹399 <span style="font-size:16px;color:#94a3b8;font-weight:600">/ month</span>
+      </div>
+
+      <div style="display:inline-block;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:6px 16px;font-size:12px;color:#38bdf8;font-weight:700;margin-bottom:24px">
+        Average Gym Trainer: ₹3,000–₹8,000/mo · Fit Ninja Pro: Just ₹13/day
+      </div>
+
+      <ul class="pricing-features-list">
+        <li><span style="color:#10b981;font-weight:900">✓</span> Full access to 1,324+ animated exercises &amp; looping video GIFs</li>
+        <li><span style="color:#10b981;font-weight:900">✓</span> Unlimited custom routines, Greyskull LP &amp; superset progression</li>
+        <li><span style="color:#10b981;font-weight:900">✓</span> Guided in-gym player with wake-lock, smart timers &amp; audio chimes</li>
+        <li><span style="color:#10b981;font-weight:900">✓</span> Anatomical muscle heatmaps &amp; 1RM strength fatigue analytics</li>
+        <li><span style="color:#10b981;font-weight:900">✓</span> Precision macro meal planner (High-Protein, Vegan, Keto)</li>
+        <li><span style="color:#10b981;font-weight:900">✓</span> 100% offline-ready PWA for iPhone, Android, and Desktop</li>
+      </ul>
+
+      <a href="/app?mode=signup" class="btn-glow" style="width:100%;max-width:460px;justify-content:center;margin:0 auto;font-size:16px;padding:16px">
+        ⚡ Claim Pro Pass &amp; Start Transformation →
+      </a>
     </div>
-    <div class="metric-box">
-      <div class="metric-num">₹399/mo</div>
-      <div class="metric-label">Special Offer Active</div>
-      <div class="metric-desc">First month discount applied</div>
+  </section>
+
+  <!-- ── 4. FREQUENTLY ASKED QUESTIONS ── -->
+  <section class="faq-sec" id="faq">
+    <div style="text-align:center;margin-bottom:32px">
+      <h2 style="font-size:30px;font-weight:900;color:#fff;margin-bottom:8px">Frequently Asked Questions</h2>
+      <p style="font-size:14px;color:#94a3b8">Everything you need to know about Fit Ninja Pro before starting.</p>
     </div>
-  </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>What makes Fit Ninja different from other gym workout apps?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        Fit Ninja combines 1,324+ animated video exercise demos, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front &amp; back muscle heatmaps, and a comprehensive sports nutrition engine into a single 100% offline-capable PWA with zero subscription lock-in.
+      </div>
+    </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>Does the app work underground or without internet reception?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        Yes! Fit Ninja is built with an offline-first Progressive Web App (PWA) architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you're connected — perfect for basement gyms with zero signal.
+      </div>
+    </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>How do the guided workout player and rest timers work?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        When you start a session, Fit Ninja activates the Screen Wake Lock API to keep your phone screen awake, pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio chimes when your rest timer expires.
+      </div>
+    </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>Can I customize my diet preferences for the nutrition engine?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        Absolutely. You can choose between High-Protein Clean Hypertrophy, Plant-Based Athletic Vegan, Ketogenic Metabolic, and Balanced Nutrition with automated daily macro splits calibrated for your specific goal.
+      </div>
+    </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>How much does Fit Ninja cost?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        Fit Ninja Pro is available for ₹399/month (just ₹13/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated progressive overload, and adaptive macro nutrition.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. FOOTER ── -->
+  <footer>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px">
+      <img src="/ninja-emblem.png" alt="Fit Ninja" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.4))">
+      <span style="font-weight:800;color:#fff;font-size:14px">Fit Ninja Pro</span>
+      <span>·</span>
+      <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style="color:#38bdf8;font-weight:700">Social Ninja's</a></span>
+    </div>
+    <div>© 2026 Social Ninja's · fit.socialninjas.in · All Rights Reserved</div>
+  </footer>
+
 </div>
 
-<!-- ── 3. VISUAL CAPABILITIES (SAY LESS, DO MORE) ── -->
-<section class="features-sec" id="features">
-  <div class="features-header">
-    <div class="section-tag">Core Capabilities</div>
-    <h2 class="section-h2">Say Less. Do More.</h2>
-    <p class="section-sub">Engineered for athletes who demand results over complexity.</p>
-  </div>
-
-  <div class="features-grid">
-    <!-- Card 1 -->
-    <div class="feature-card">
-      <div class="feature-ui-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <span style="font-size:12px;font-weight:800;color:#fff">Incline Barbell Bench</span>
-          <span style="font-size:11px;color:#38bdf8;font-weight:800">✓ Set 1 Done</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);padding:10px 14px;border-radius:10px;margin-bottom:8px">
-          <span style="font-size:13px;font-weight:900;color:#38bdf8">Set 2 · 82.5 kg × 8 reps</span>
-          <span style="font-size:11px;font-weight:700;color:var(--t2)">⏱️ Rest 01:45</span>
-        </div>
-        <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
-          <div style="width:65%;height:100%;background:#38bdf8"></div>
-        </div>
-      </div>
-      <div>
-        <h3 class="feature-title">Guided Set Stepper</h3>
-        <p class="feature-text">Locks your screen awake and automatically fires smart rest timers after every logged set.</p>
-      </div>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="feature-card">
-      <div class="feature-ui-box">
-        <div style="font-size:11px;color:#38bdf8;font-weight:800;margin-bottom:4px">ALGORITHMIC PROGRESSION</div>
-        <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:4px">
-          82.5 kg <span style="font-size:14px;color:#38bdf8;font-weight:800">→ 85.0 kg</span>
-        </div>
-        <div style="font-size:11.5px;color:var(--t2);margin-bottom:12px">Target hit: +2.5 kg micro-load calculated</div>
-        <div style="height:4px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden">
-          <div style="width:85%;height:100%;background:#38bdf8"></div>
-        </div>
-      </div>
-      <div>
-        <h3 class="feature-title">Auto Progressive Overload</h3>
-        <p class="feature-text">Automatically calculates working weights so you consistently gain strength without plateaus.</p>
-      </div>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="feature-card">
-      <div class="feature-ui-box">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:11px;color:#38bdf8;font-weight:800">CALORIE TARGET (DEFICIT / SURPLUS)</span>
-          <span style="font-size:11px;color:#38bdf8;font-weight:800">165g PROTEIN</span>
-        </div>
-        <div style="font-size:24px;font-weight:900;color:#fff;margin-bottom:8px">
-          1,850 <span style="font-size:12px;color:var(--t2)">kcal / day</span>
-        </div>
-        <div style="display:flex;gap:6px">
-          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Omnivore</span>
-          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Plant-Based</span>
-          <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.06);color:var(--t2);border:1px solid rgba(255,255,255,0.08)">Keto</span>
-        </div>
-      </div>
-      <div>
-        <h3 class="feature-title">Precision Sports Nutrition &amp; Macros</h3>
-        <p class="feature-text">Science-backed calorie and macro targets calibrated for your goal — lean surplus for muscle, deficit for fat loss, or balance for maintenance on Veg &amp; Non-Veg diets.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── 4. 1,324+ HD EXERCISE LIBRARY ── -->
-<section class="exercises-sec" id="exercises">
-  <div class="ex-topbar">
-    <div>
-      <div class="section-tag">Library</div>
-      <h2 class="section-h2" style="margin-bottom:4px">1,324+ HD Video Exercises</h2>
-      <p class="section-sub" style="margin:0">Clean 60fps looping form guides for every movement.</p>
-    </div>
-    <a href="/app#/library" class="btn-secondary" style="padding:10px 20px;font-size:13px">
-      Open Full Gym Library →
-    </a>
-  </div>
-
-  <div class="ex-grid">
-    <div class="ex-card">
-      <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS</span>
-        <span class="ex-telemetry">ANGLE 30°</span>
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0314-ns0SIbU.gif" alt="Incline Dumbbell Press" class="ex-media-gif" loading="lazy" />
-      </div>
-      <div class="ex-title">Incline Dumbbell Press</div>
-      <div class="ex-muscles">Upper Chest &amp; Shoulders</div>
-      <div class="ex-reps">3-4 sets × 8-12 reps</div>
-    </div>
-
-    <div class="ex-card">
-      <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS</span>
-        <span class="ex-telemetry">HINGE 45°</span>
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0027-eZyBC3j.gif" alt="Barbell Bent-Over Row" class="ex-media-gif" loading="lazy" />
-      </div>
-      <div class="ex-title">Barbell Bent-Over Row</div>
-      <div class="ex-muscles">Upper Back &amp; Lats</div>
-      <div class="ex-reps">3-4 sets × 6-10 reps</div>
-    </div>
-
-    <div class="ex-card">
-      <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS</span>
-        <span class="ex-telemetry">DEPTH 90°</span>
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/1436-Gnfo4FM.gif" alt="Barbell High-Bar Squat" class="ex-media-gif" loading="lazy" />
-      </div>
-      <div class="ex-title">Barbell High-Bar Squat</div>
-      <div class="ex-muscles">Quads &amp; Glutes</div>
-      <div class="ex-reps">3-5 sets × 5-8 reps</div>
-    </div>
-
-    <div class="ex-card">
-      <div class="ex-preview-box">
-        <span class="ex-play-badge">▶ 60FPS</span>
-        <span class="ex-telemetry">LOCKOUT 180°</span>
-        <img src="https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0426-A6wtbuL.gif" alt="Standing Overhead Press" class="ex-media-gif" loading="lazy" />
-      </div>
-      <div class="ex-title">Standing Overhead Press</div>
-      <div class="ex-muscles">Shoulders &amp; Triceps</div>
-      <div class="ex-reps">3-4 sets × 5-8 reps</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── 5. FAIR COMPARISON TABLE ── -->
-<section class="comp-sec">
-  <div style="text-align:center">
-    <div class="section-tag">Comparison</div>
-    <h2 class="section-h2">Why Athletes Choose Fit Ninja</h2>
-    <p class="section-sub" style="margin:0 auto">Clear comparison against generic loggers and personal trainers.</p>
-  </div>
-
-  <div class="comp-table-wrap">
-    <table class="comp-table">
-      <thead>
-        <tr>
-          <th>Capability</th>
-          <th class="brand-col">Fit Ninja Pro</th>
-          <th>Generic Loggers</th>
-          <th>Personal Trainer</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>1,324+ Animated Video Demos</strong></td>
-          <td class="brand-col">✓ Included (100% HD)</td>
-          <td>✗ Static text / Missing</td>
-          <td>✓ In-person only</td>
-        </tr>
-        <tr>
-          <td><strong>Auto Progressive Overload</strong></td>
-          <td class="brand-col">✓ Algorithmic (+2.5 kg)</td>
-          <td>✗ Manual math</td>
-          <td>✓ Variable</td>
-        </tr>
-        <tr>
-          <td><strong>Precision Fat Loss &amp; Sports Nutrition</strong></td>
-          <td class="brand-col">✓ Adaptive Deficit &amp; High Protein</td>
-          <td>✗ Generic single-diet</td>
-          <td>✗ Static PDF sheets</td>
-        </tr>
-        <tr>
-          <td><strong>100% Offline-First (Zero Lag)</strong></td>
-          <td class="brand-col">✓ Instant PWA caching</td>
-          <td>✗ Freezes in gym basements</td>
-          <td>N/A</td>
-        </tr>
-        <tr>
-          <td><strong>Monthly Investment</strong></td>
-          <td class="brand-col"><strong>₹399 / mo (1st Mo Offer)</strong></td>
-          <td>$12.99 – $19.99 / mo</td>
-          <td>$150 – $300 / mo</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ── 6. FIT NINJA PRO PRICING ── -->
-<section class="pricing-sec" id="pricing">
-  <div class="section-tag">Membership</div>
-  <h2 class="section-h2">Simple, Transparent Access.</h2>
-  <p class="section-sub" style="margin:0 auto">Zero lock-in. Cancel anytime with a single tap in Settings.</p>
-
-  <div class="pricing-card">
-    <div class="pricing-badge">
-      🔥 SPECIAL INTRO OFFER · 1ST MONTH DISCOUNT
-    </div>
-
-    <div class="pricing-amt">
-      ₹399 <span class="pricing-cycle">/ month</span>
-    </div>
-    <div class="pricing-sub">
-      ⚡ First Month Discount Active · Just ₹13 / day · Cancel Anytime
-    </div>
-
-    <div class="pricing-features">
-      <div class="pricing-feat-item">✓ Muscle, Fat Loss &amp; Fitness Engines</div>
-      <div class="pricing-feat-item">✓ 1,324+ Animated HD Demos</div>
-      <div class="pricing-feat-item">✓ Live Gym Player &amp; Smart Rest HUD</div>
-      <div class="pricing-feat-item">✓ Auto Progressive Overload</div>
-      <div class="pricing-feat-item">✓ Gym, Home &amp; Calisthenics Splits</div>
-      <div class="pricing-feat-item">✓ 100% Offline PWA + Cloud Sync</div>
-    </div>
-
-    <a href="/app?mode=signup" class="btn-primary" style="width:100%;font-size:16px;padding:16px">
-      Claim Offer &amp; Start Transformation →
-    </a>
-  </div>
-</section>
-
-<!-- ── 7. FAQ ── -->
-<section class="faq-sec" id="faq">
-  <div style="text-align:center;margin-bottom:32px">
-    <div class="section-tag">FAQ</div>
-    <h2 class="section-h2">Frequently Asked Questions</h2>
-  </div>
-
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q">
-      <span>What makes Fit Ninja different from typical gym loggers?</span>
-      <span>▾</span>
-    </div>
-    <div class="faq-a">
-      Fit Ninja is not a passive notebook. It features 1,324+ animated looping video demos, tactile set steppers with smart rest timers, automated progressive overload (+2.5 kg auto bump), anatomical fatigue heatmaps, and adaptive macro nutrition tailored for fat loss and lean muscle retention.
-    </div>
-  </div>
-
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q">
-      <span>Does Fit Ninja work completely offline?</span>
-      <span>▾</span>
-    </div>
-    <div class="faq-a">
-      Yes. Fit Ninja is built with offline-first Progressive Web App (PWA) architecture. Your workouts, rest timers, and exercise guides work seamlessly without any cell reception or Wi-Fi in basement gyms.
-    </div>
-  </div>
-
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q">
-      <span>Can I cancel my subscription anytime?</span>
-      <span>▾</span>
-    </div>
-    <div class="faq-a">
-      Yes. You can cancel your subscription with a single tap in Settings at any time. There are no lock-in contracts or hidden cancellation fees.
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px">
-    <div class="nav-logo-badge" style="width:36px;height:36px;border-radius:10px">
-      <img src="/ninja-emblem.png" alt="Fit Ninja" style="width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.5))">
-    </div>
-    <span style="font-size:16px;font-weight:900;color:#fff">Fit<span style="color:#38bdf8">Ninja</span> <span class="pro-badge" style="font-size:9px;padding:2px 6px;margin-left:4px">PRO</span></span>
-  </div>
-  <p style="margin-bottom:12px;color:var(--t2)">
-    Fit Ninja · Elite Fat Loss &amp; Hypertrophy Training System
-  </p>
-  <p style="margin-bottom:16px">
-    <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a> · <a href="/app?mode=app">Launch App</a>
-  </p>
-  <div style="font-size:11px;color:var(--t3);max-width:560px;margin:0 auto;line-height:1.5">
-    Legal Advisory: Fit Ninja provides workout tracking and nutritional guidelines for educational and fitness purposes only. It is not medical advice. Always consult a physician before beginning any rigorous training program.
-  </div>
-</footer>
-
+<!-- ── INTERACTIVE JAVASCRIPT FOR SANDBOX ── -->
 <script>
-// Interactive Rest Timer Demo
-let heroRestTimer = 105;
-setInterval(() => {
-  if (heroRestTimer > 0) {
-    heroRestTimer--;
-    const m = Math.floor(heroRestTimer / 60);
-    const s = heroRestTimer % 60;
-    const str = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-    const el = document.getElementById('hero-rest-timer');
-    if (el) el.textContent = str;
-  }
-}, 1000);
-
-function triggerSetDone(btn) {
-  btn.textContent = '✓ Logged';
-  btn.style.background = '#38bdf8';
-  btn.style.color = '#031024';
-  heroRestTimer = 105;
+// Tab Switching
+function switchTab(tab) {
+  document.getElementById('sandbox-tab-player').style.display = tab === 'player' ? 'block' : 'none';
+  document.getElementById('sandbox-tab-macros').style.display = tab === 'macros' ? 'block' : 'none';
+  document.getElementById('tab-btn-player').className = 'tab-btn ' + (tab === 'player' ? 'active' : '');
+  document.getElementById('tab-btn-macros').className = 'tab-btn ' + (tab === 'macros' ? 'active' : '');
 }
 
-// FAQ Accordion
-function toggleFaq(el) {
-  el.classList.toggle('open');
+// Set Row Toggle
+function toggleSetRow(el) {
+  const check = el.querySelector('.set-check');
+  const isDone = check.textContent.includes('✓');
+  if (isDone) {
+    el.style.background = 'rgba(255,255,255,0.04)';
+    el.style.borderColor = 'rgba(255,255,255,0.06)';
+    check.textContent = 'Tap to Complete';
+    check.style.color = '#64748b';
+  } else {
+    el.style.background = 'rgba(16,185,129,0.12)';
+    el.style.borderColor = 'rgba(16,185,129,0.3)';
+    check.textContent = '✓ Logged';
+    check.style.color = '#10b981';
+    playBeep(660);
+  }
+}
+
+// Rest Timer Sandbox
+let timerVal = 15;
+const timerMax = 15;
+let timerRunning = false;
+let timerInterval = null;
+
+function playBeep(freq = 880) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.35);
+  } catch (e) {}
+}
+
+function updateTimerDisplay() {
+  document.getElementById('timer-count').textContent = timerVal + 's';
+  const ring = document.getElementById('timer-ring');
+  const circumference = 2 * Math.PI * 50; // ~314
+  const offset = circumference * (1 - (timerMax - timerVal) / timerMax);
+  ring.style.strokeDashoffset = offset;
+  if (timerVal === 0) {
+    document.getElementById('timer-status').textContent = 'READY!';
+    document.getElementById('timer-status').style.color = '#10b981';
+  } else {
+    document.getElementById('timer-status').textContent = 'RESTING';
+    document.getElementById('timer-status').style.color = '#38bdf8';
+  }
+}
+
+function toggleTimer() {
+  const btn = document.getElementById('timer-toggle-btn');
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btn.textContent = '▶ Resume';
+    btn.style.background = '#38bdf8';
+  } else {
+    if (timerVal <= 0) timerVal = timerMax;
+    timerRunning = true;
+    btn.textContent = '❚❚ Pause';
+    btn.style.background = '#f43f5e';
+    timerInterval = setInterval(() => {
+      if (timerVal > 1) {
+        timerVal--;
+        updateTimerDisplay();
+      } else {
+        timerVal = 0;
+        updateTimerDisplay();
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = '▶ Start Timer';
+        btn.style.background = '#38bdf8';
+        playBeep(880);
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerVal = timerMax;
+  document.getElementById('timer-toggle-btn').textContent = '▶ Start Timer';
+  document.getElementById('timer-toggle-btn').style.background = '#38bdf8';
+  updateTimerDisplay();
+}
+
+// Macro Plan Demo
+const MACRO_DATA = {
+  hypertrophy: { cal: '2,650 kcal', desc: 'Optimized protein synthesis with high carbohydrate availability for glycogen replenishment.', p: '165g', c: '310g', f: '68g' },
+  fatloss: { cal: '1,950 kcal', desc: 'High-protein thermogenic target preserving lean muscle tissue while accelerating fat oxidation.', p: '180g', c: '160g', f: '48g' },
+  strength: { cal: '2,400 kcal', desc: 'Stable energy balance supporting central nervous system recovery and linear progression.', p: '160g', c: '260g', f: '65g' }
+};
+
+function setMacro(type) {
+  const d = MACRO_DATA[type];
+  document.getElementById('macro-calories').textContent = d.cal;
+  document.getElementById('macro-desc').textContent = d.desc;
+  document.getElementById('macro-protein').textContent = d.p;
+  document.getElementById('macro-carbs').textContent = d.c;
+  document.getElementById('macro-fats').textContent = d.f;
+
+  const btns = document.querySelectorAll('.macro-tab-btn');
+  btns.forEach(b => {
+    b.style.background = 'rgba(255,255,255,0.04)';
+    b.style.borderColor = 'rgba(255,255,255,0.08)';
+    b.style.color = '#94a3b8';
+  });
+  event.target.style.background = 'linear-gradient(135deg,rgba(56,189,248,0.25),rgba(16,185,129,0.2))';
+  event.target.style.borderColor = '#38bdf8';
+  event.target.style.color = '#fff';
 }
 </script>
 
