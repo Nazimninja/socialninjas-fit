@@ -17,8 +17,15 @@ export async function onRequest(context) {
   }
 
   try {
-    const key_id = env.RAZORPAY_KEY_ID;
-    const key_secret = env.RAZORPAY_KEY_SECRET;
+    let body = {};
+    try {
+      body = await request.json();
+    } catch (e) {}
+
+    const key_id = env.RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
+    const key_secret = env.RAZORPAY_KEY_SECRET || 'Xhj2PoIJznFVUztdfqUJqWUV';
+    const plan_id = (env.RAZORPAY_PLAN_ID && env.RAZORPAY_PLAN_ID !== 'plan_Ss1oHjJInUYYiV') ? env.RAZORPAY_PLAN_ID : 'plan_TZyXclmf593Ha2';
+    const offer_id = env.RAZORPAY_OFFER_ID || null;
 
     if (!key_id || !key_secret) {
       return new Response(JSON.stringify({
@@ -28,13 +35,16 @@ export async function onRequest(context) {
     }
 
     const auth = btoa(`${key_id}:${key_secret}`);
-    const plan_id = env.RAZORPAY_PLAN_ID || 'plan_TZyXclmf593Ha2';
-    const offer_id = env.RAZORPAY_OFFER_ID || null;
 
     const subPayload = {
       plan_id: plan_id,
       customer_notify: 1,
-      total_count: 120
+      total_count: 120,
+      notes: {
+        name: body.name || '',
+        email: body.email || '',
+        phone: body.phone || ''
+      }
     };
     if (offer_id) {
       subPayload.offer_id = offer_id;
