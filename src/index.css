@@ -1326,3 +1326,18 @@ html {
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
   }
 }
+
+@media (max-width: 640px) {
+  .hero-pill .pill-divider,
+  .hero-pill .pill-sub {
+    display: none !important;
+  }
+  .athlete-hero-container {
+    max-width: 330px !important;
+    min-height: 350px !important;
+    overflow: hidden !important;
+  }
+  .spline-svg {
+    display: none !important;
+  }
+}
