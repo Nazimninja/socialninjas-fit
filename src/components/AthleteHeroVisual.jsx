@@ -305,16 +305,20 @@ export default function AthleteHeroVisual() {
 
         <div style={{ display: 'grid', gap: '6px', marginBottom: '12px', fontSize: '11px', color: '#e2e8f0', fontWeight: '600' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: '#38bdf8' }}>⚡</span> Auto Rest Timer
+            <Timer size={12} color="#38bdf8" />
+            <span>Auto Rest Timer</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: '#10b981' }}>🧬</span> Greyskull LP
+            <CheckCircle2 size={12} color="#10b981" />
+            <span>Greyskull LP</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: '#38bdf8' }}>🥗</span> Custom Macros
+            <Target size={12} color="#38bdf8" />
+            <span>Custom Macros</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: '#10b981' }}>📱</span> 100% Offline PWA
+            <CheckCircle2 size={12} color="#10b981" />
+            <span>100% Offline PWA</span>
           </div>
         </div>
 

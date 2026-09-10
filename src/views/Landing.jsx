@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dumbbell, Activity, Flame, Target, Sparkles, ShieldCheck, ChevronRight, Check, ArrowRight, Star, Play, Zap, HelpCircle } from 'lucide-react';
+import { Dumbbell, Activity, Flame, Target, Sparkles, ShieldCheck, ChevronRight, Check, ArrowRight, Star, Play, Zap, HelpCircle, Timer } from 'lucide-react';
 import AthleteHeroVisual from '../components/AthleteHeroVisual.jsx';
 import InteractiveWorkoutPreview from '../components/InteractiveWorkoutPreview.jsx';
 
@@ -37,52 +37,28 @@ export default function Landing() {
 
   const categories = [
     {
-      icon: <Dumbbell size={24} color="#38bdf8" />,
-      tag: "Strength LP",
-      title: "Greyskull Strength & LP",
-      desc: "Automated weight increments, AMRAP failure detection, and deload protocols engineered for maximum compound lift strength.",
-      action: "Explore Routine",
-      path: "/library"
-    },
-    {
-      icon: <Activity size={24} color="#10b981" />,
-      tag: "Hypertrophy",
-      title: "Hypertrophy & Muscle Volume",
-      desc: "Targeted exercise selection, isolated muscular tension, and full-range video GIFs covering barbell, dumbbell, cable, and machine work.",
-      action: "View 1,324+ Demos",
-      path: "/library"
-    },
-    {
-      icon: <Flame size={24} color="#f43f5e" />,
-      tag: "Conditioning",
-      title: "Fat Shred & High-Density HIIT",
-      desc: "High metabolic burn routines, automated supersets, and interval audio cues designed to maximize caloric expenditure.",
-      action: "Start Session",
+      icon: <Timer size={24} color="#38bdf8" />,
+      tag: "Guided Player",
+      title: "Guided Workout Execution",
+      desc: "Smart rest countdowns with audio chimes, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive in the gym.",
+      action: "Launch Player",
       path: "/workout"
     },
     {
-      icon: <Target size={24} color="#fbbf24" />,
-      tag: "Nutrition",
-      title: "Precision Sports Nutrition",
-      desc: "Adaptive macro calculation (Protein, Carbs, Fats) calibrated for your specific bodyweight target: surplus, deficit, or maintenance.",
-      action: "Calculate Macros",
-      path: "/nutrition"
+      icon: <Dumbbell size={24} color="#10b981" />,
+      tag: "1,324+ Library",
+      title: "1,324+ Animated Video Demos",
+      desc: "Every barbell, dumbbell, cable, and machine movement demonstrated with looping 60fps HD video guides. Search and filter by muscle group & equipment.",
+      action: "Explore Catalogue",
+      path: "/library"
     },
     {
-      icon: <Sparkles size={24} color="#a855f7" />,
-      tag: "Analytics",
-      title: "Anatomical Muscle Heatmaps",
-      desc: "Front and back physiological visualizer tracking weekly set volume per muscle so you never leave a lagging body part behind.",
+      icon: <Activity size={24} color="#a855f7" />,
+      tag: "Real-Time Analytics",
+      title: "Muscle Heatmaps & Overload",
+      desc: "Front and back anatomical visualizer tracking weekly set volume fatigue per muscle group combined with automated Greyskull LP weight progression algorithms.",
       action: "View Muscle Map",
       path: "/stats"
-    },
-    {
-      icon: <ShieldCheck size={24} color="#38bdf8" />,
-      tag: "Offline First",
-      title: "100% Offline Gym PWA",
-      desc: "Engineered to run seamlessly underground in gyms with zero signal. Keeps your phone awake during sets with zero battery drain.",
-      action: "Launch PWA",
-      path: "/app?mode=app"
     }
   ];
 
@@ -459,23 +435,30 @@ export default function Landing() {
                   </p>
                 </div>
 
-                <div
-                  onClick={() => nav(c.path)}
-                  style={{
-                    marginTop: '24px',
-                    paddingTop: '16px',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    fontSize: '12.5px',
-                    fontWeight: '800',
-                    color: '#38bdf8',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <span>{c.action}</span>
-                  <ChevronRight size={14} />
+                <div style={{ marginTop: '24px' }}>
+                  <button
+                    onClick={() => nav(c.path)}
+                    className="cat-btn"
+                    style={{
+                      width: '100%',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: '#ffffff',
+                      fontSize: '12.5px',
+                      fontWeight: '800',
+                      padding: '10px 18px',
+                      borderRadius: '99px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{c.action}</span>
+                    <span style={{ fontSize: '13px' }}>↗</span>
+                  </button>
                 </div>
               </div>
             ))}

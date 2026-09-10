@@ -552,17 +552,28 @@ a { color: inherit; text-decoration: none; }
   color: var(--t2);
   line-height: 1.65;
 }
-.cat-footer {
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  display: flex;
+.cat-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   font-size: 12.5px;
   font-weight: 800;
-  color: var(--sky);
+  padding: 10px 18px;
+  border-radius: 99px;
+  transition: all 0.2s ease;
+  width: 100%;
   cursor: pointer;
+  letter-spacing: 0.3px;
+}
+.cat-btn:hover, .cat-card:hover .cat-btn {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(16, 185, 129, 0.18) 100%);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+  transform: translateY(-1px);
 }
 
 /* ── INTERACTIVE WORKOUT SANDBOX ── */
@@ -854,7 +865,9 @@ footer {
       <!-- Floating Badge 1: Metric Gauge -->
       <div class="float-badge-1" onclick="window.location.href='/app?mode=app#/library'">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-          <span style="font-size:12px">🏋️</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
+          </svg>
           <span style="font-size:9.5px;font-weight:800;color:#38bdf8;text-transform:uppercase">Catalogue</span>
         </div>
         <div style="font-size:20px;font-weight:900;color:#fff">1,324+</div>
@@ -869,8 +882,10 @@ footer {
 
       <!-- Floating Badge 2: Muscle Map -->
       <div class="float-badge-2" onclick="window.location.href='/app?mode=app#/stats'">
-        <div style="width:32px;height:32px;border-radius:10px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38bdf8;font-size:15px">
-          🧬
+        <div style="width:32px;height:32px;border-radius:10px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38bdf8">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
         </div>
         <div>
           <div style="font-size:12.5px;font-weight:800;color:#fff">Muscle Heatmap</div>
@@ -883,11 +898,23 @@ footer {
         <div style="font-size:9.5px;font-weight:900;color:#10b981;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
           PRO OS INCLUDED
         </div>
-        <div style="display:grid;gap:5px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
-          <div><span style="color:#38bdf8">⚡</span> Auto Rest Timer</div>
-          <div><span style="color:#10b981">🧬</span> Greyskull LP</div>
-          <div><span style="color:#38bdf8">🥗</span> Custom Macros</div>
-          <div><span style="color:#10b981">📱</span> 100% Offline PWA</div>
+        <div style="display:grid;gap:6px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>Auto Rest Timer</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Greyskull LP</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Custom Macros</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>100% Offline PWA</span>
+          </div>
         </div>
         <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:#fff;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px">
           Join Now →
@@ -911,130 +938,86 @@ footer {
       </p>
     </div>
 
-    <div class="cat-grid">
-      <!-- Card 1 -->
+    <div class="cat-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 1120px; margin: 44px auto 0;">
+      <!-- Pillar 1: Guided Player -->
       <div class="cat-card">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">🏋️</div>
+            <div class="cat-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
             <div class="cat-status-pill">
               <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Strength LP</span>
+              <span class="cat-status-text">Guided Player</span>
             </div>
           </div>
-          <div class="cat-title">Greyskull Strength &amp; LP</div>
+          <div class="cat-title">Guided Workout Execution</div>
           <p class="cat-desc">
-            Automated weight increments, AMRAP failure detection, and deload protocols engineered for maximum compound lift strength.
+            Smart rest countdowns with audio chimes, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive in the gym.
           </p>
         </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/library'">
-          <span>Explore Routine</span>
-          <span>→</span>
+        <div style="margin-top: 24px;">
+          <button class="cat-btn" onclick="window.location.href='/app?mode=app#/workout'">
+            <span>Launch Player</span>
+            <span style="font-size:13px">↗</span>
+          </button>
         </div>
       </div>
 
-      <!-- Card 2 -->
+      <!-- Pillar 2: 1,324+ Video Demos -->
       <div class="cat-card">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">⚡</div>
+            <div class="cat-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
+              </svg>
+            </div>
             <div class="cat-status-pill">
               <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Hypertrophy</span>
+              <span class="cat-status-text">1,324+ Library</span>
             </div>
           </div>
-          <div class="cat-title">Hypertrophy &amp; Muscle Volume</div>
+          <div class="cat-title">1,324+ Animated Video Demos</div>
           <p class="cat-desc">
-            Targeted exercise selection, isolated muscular tension, and full-range video GIFs covering barbell, dumbbell, cable, and machine work.
+            Every barbell, dumbbell, cable, and machine movement demonstrated with looping 60fps HD video guides. Search and filter by muscle group &amp; equipment.
           </p>
         </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/library'">
-          <span>View 1,324+ Demos</span>
-          <span>→</span>
+        <div style="margin-top: 24px;">
+          <button class="cat-btn" onclick="window.location.href='/app?mode=app#/library'">
+            <span>Explore Catalogue</span>
+            <span style="font-size:13px">↗</span>
+          </button>
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Pillar 3: Muscle Heatmap & Overload -->
       <div class="cat-card">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">🔥</div>
+            <div class="cat-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
             <div class="cat-status-pill">
               <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Conditioning</span>
+              <span class="cat-status-text">Real-Time Analytics</span>
             </div>
           </div>
-          <div class="cat-title">Fat Shred &amp; High-Density HIIT</div>
+          <div class="cat-title">Muscle Heatmaps &amp; Overload</div>
           <p class="cat-desc">
-            High metabolic burn routines, automated supersets, and interval audio cues designed to maximize caloric expenditure.
+            Front and back anatomical visualizer tracking weekly set volume fatigue per muscle group combined with automated Greyskull LP weight progression algorithms.
           </p>
         </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/workout'">
-          <span>Start Session</span>
-          <span>→</span>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="cat-card">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">🥗</div>
-            <div class="cat-status-pill">
-              <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Nutrition</span>
-            </div>
-          </div>
-          <div class="cat-title">Precision Sports Nutrition</div>
-          <p class="cat-desc">
-            Adaptive macro calculation (Protein, Carbs, Fats) calibrated for your specific bodyweight target: surplus, deficit, or maintenance.
-          </p>
-        </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/nutrition'">
-          <span>Calculate Macros</span>
-          <span>→</span>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="cat-card">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">🧬</div>
-            <div class="cat-status-pill">
-              <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Analytics</span>
-            </div>
-          </div>
-          <div class="cat-title">Anatomical Muscle Heatmaps</div>
-          <p class="cat-desc">
-            Front and back physiological visualizer tracking weekly set volume per muscle so you never leave a lagging body part behind.
-          </p>
-        </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app#/stats'">
-          <span>View Muscle Map</span>
-          <span>→</span>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="cat-card">
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div class="cat-icon-box" style="font-size:22px">📱</div>
-            <div class="cat-status-pill">
-              <div class="cat-status-dot"></div>
-              <span class="cat-status-text">Offline First</span>
-            </div>
-          </div>
-          <div class="cat-title">100% Offline Gym PWA</div>
-          <p class="cat-desc">
-            Engineered to run seamlessly underground in gyms with zero signal. Keeps your phone awake during sets with zero battery drain.
-          </p>
-        </div>
-        <div class="cat-footer" onclick="window.location.href='/app?mode=app'">
-          <span>Launch PWA</span>
-          <span>→</span>
+        <div style="margin-top: 24px;">
+          <button class="cat-btn" onclick="window.location.href='/app?mode=app#/stats'">
+            <span>View Muscle Map</span>
+            <span style="font-size:13px">↗</span>
+          </button>
         </div>
       </div>
     </div>
