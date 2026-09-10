@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK, getPrefilledPaymentLink } from '../lib/payment.jsx'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
+import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
 
 const ADMIN_LIST = [
   'nazim.socialninja@gmail.com',
@@ -332,6 +333,32 @@ export default function Login() {
               } catch (e) {
                 console.warn('Supabase membership recording error:', e)
               }
+
+              // Instant dispatch to n8n webhook for automated WhatsApp Welcome & App Install Guide
+              try {
+                const n8nWebhookUrl = 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome'
+                fetch(n8nWebhookUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    event: 'member.onboarded',
+                    name: activeName || 'Athlete',
+                    phone: cleanPhone || '',
+                    contact: cleanPhone || '',
+                    phone_number: cleanPhone || '',
+                    whatsapp: cleanPhone || '',
+                    mobile: cleanPhone || '',
+                    digits_phone: (cleanPhone || '').replace(/\D/g, ''),
+                    email: activeEmail || '',
+                    amount: 399,
+                    subscriptionId: response.razorpay_payment_id || response.razorpay_subscription_id || 'sub_manual',
+                    razorpay_payment_id: response.razorpay_payment_id || '',
+                    plan: 'Fit Ninja Pro',
+                    source: 'client_razorpay_success',
+                    timestamp: new Date().toISOString()
+                  })
+                }).catch(n8nErr => console.warn('Failed to forward to n8n welcome webhook:', n8nErr))
+              } catch (nErr) {}
             }
             setUser({
               name: activeName,
@@ -1169,6 +1196,36 @@ export default function Login() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* ── 4. HOW TO INSTALL AS APP QUICK GUIDE ──────────────────── */}
+      <div style={{ marginTop: '6px', marginBottom: '14px', width: '100%', maxWidth: '380px' }}>
+        <button
+          type="button"
+          onClick={openInstallSheet}
+          style={{
+            width: '100%',
+            background: 'rgba(56, 189, 248, 0.07)',
+            border: '1px solid rgba(56, 189, 248, 0.25)',
+            borderRadius: '12px',
+            padding: '11px 16px',
+            color: '#38bdf8',
+            fontSize: '12.5px',
+            fontWeight: '800',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            transition: 'all 0.15s ease'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.14)'; e.currentTarget.style.borderColor = '#38bdf8' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.07)'; e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.25)' }}
+        >
+          <span>📲</span>
+          <span>How to Install Fit Ninja as an App</span>
+          <span style={{ fontSize: '11px', opacity: 0.8 }}>↗</span>
+        </button>
       </div>
 
       {/* ── 5. TRUST BADGES & LEGAL COMPLIANCE LINKS ──────────────── */}

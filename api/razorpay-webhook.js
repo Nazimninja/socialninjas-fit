@@ -142,17 +142,25 @@ export default async function handler(req, res) {
       if (targetStatus === 'premium') {
         try {
           const n8nWebhookUrl = process.env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
+          const cleanPhoneStr = String(phone || '').trim();
           await fetch(n8nWebhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               event: 'member.onboarded',
               name: name || 'Athlete',
-              phone: phone || '',
+              phone: cleanPhoneStr,
+              contact: cleanPhoneStr,
+              phone_number: cleanPhoneStr,
+              whatsapp: cleanPhoneStr,
+              mobile: cleanPhoneStr,
+              digits_phone: cleanPhoneStr.replace(/\D/g, ''),
               email: (email || '').toLowerCase().trim(),
               amount,
               subscriptionId: subscriptionId || 'sub_manual',
+              razorpay_payment_id: subscriptionId || '',
               plan: 'Fit Ninja Pro',
+              source: 'razorpay_server_webhook',
               timestamp: new Date().toISOString()
             })
           });

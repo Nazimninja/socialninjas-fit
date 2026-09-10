@@ -20,8 +20,8 @@ import { buildPlanBundle, parsePlan, mergePlan, printPlan } from './lib/plan-sha
 import { estimate1RM, best1RM, is1RMRecord, REP_CAP } from './lib/onerm.js'
 import { nextPrescription, applyPrescription, policyFor, defaultIncrement, POLICIES_FOR, POLICY_NAME, POLICY_DESC, MAX_BW_SETS } from './lib/progression.js'
 import { MOBILE, shareExport } from './lib/mobile.js'
-import { api } from './lib/api.js'
 import { generateCustomPlan, convertPlanToStoreRoutines, findEx } from './lib/planGenerator.js'
+import { openInstallSheet, isStandaloneMode } from './components/PWAInstallPrompt.jsx'
 
 const S = () => useStore.getState().S
 const update = (...a) => useStore.getState().update(...a)
@@ -1165,6 +1165,11 @@ function OnboardingWizard({ close }) {
     })
     close()
     toast(t('Profile & Custom Plan Saved · {0} kcal · {1}g Protein', plan.kcal, plan.protein))
+    if (!isStandaloneMode()) {
+      setTimeout(() => {
+        openInstallSheet()
+      }, 1000)
+    }
   }
 
   const handleGenerate = async () => {
@@ -2676,7 +2681,8 @@ function AppGuideModal({ close }) {
             icon: '📱',
             title: 'Add to Home Screen',
             desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen HUD, and offline tracking.',
-            tag: 'Recommended'
+            tag: 'Recommended',
+            isInstallAction: true
           },
           {
             step: '2',
@@ -2699,7 +2705,7 @@ function AppGuideModal({ close }) {
             desc: 'Log your morning weight and submit weekly physique check-ins under Stats to view your visual transformation timeline.',
             tag: 'Results'
           }
-        ].map(({ step, icon, title, desc, tag }) => (
+        ].map(({ step, icon, title, desc, tag, isInstallAction }) => (
           <div key={step} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '16px', padding: '14px', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
             <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(56,189,248,0.14)', border: '1px solid rgba(56,189,248,0.25)', color: '#38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '900', fontSize: '15px', flexShrink: 0 }}>
               {icon}
@@ -2710,6 +2716,29 @@ function AppGuideModal({ close }) {
                 <span style={{ fontSize: '10px', fontWeight: '700', background: 'rgba(255,255,255,0.06)', padding: '2px 7px', borderRadius: '99px', color: 'var(--label-3)' }}>{tag}</span>
               </div>
               <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.45 }}>{desc}</div>
+              {isInstallAction && (
+                <button
+                  type="button"
+                  onClick={() => { close(); openInstallSheet() }}
+                  style={{
+                    marginTop: '9px',
+                    background: 'linear-gradient(135deg, rgba(56,189,248,0.15) 0%, rgba(2,132,199,0.2) 100%)',
+                    border: '1px solid rgba(56,189,248,0.35)',
+                    borderRadius: '8px',
+                    padding: '6px 12px',
+                    color: '#38bdf8',
+                    fontSize: '11.5px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <span>📲 View iPhone / Android Steps</span>
+                  <span>→</span>
+                </button>
+              )}
             </div>
           </div>
         ))}

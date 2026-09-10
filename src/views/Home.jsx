@@ -4,8 +4,8 @@ import { useStore } from '../store/useStore.js'
 import { effectiveRoutine, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
 import { fmtNum, fmtDate, fmtVol, todayISO, isoOf, weekKey, DAYS } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
-import { EXIDX } from '../lib/exercises.js'
 import { goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, athleteProfileSheet, weeklyCheckinSheet, exConfigSheet, workoutDetailSheet, onboardingWizardSheet, appGuideSheet } from '../sheets.jsx'
+import { openInstallSheet, isStandaloneMode } from '../components/PWAInstallPrompt.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -199,6 +199,50 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      {/* ─── PWA INSTALL APP BANNER (BROWSER USERS) ─────────────── */}
+      {!isStandaloneMode() && (
+        <div
+          onClick={openInstallSheet}
+          style={{
+            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(2, 132, 199, 0.15) 100%)',
+            border: '1px solid rgba(56, 189, 248, 0.35)',
+            borderRadius: '16px',
+            padding: '10px 14px',
+            marginBottom: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '20px', lineHeight: 1 }}>📲</span>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '12.5px', fontWeight: '800', color: 'var(--label)' }}>
+                Install Fit Ninja App
+              </div>
+              <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+                Add to home screen for 1-tap full-screen workouts
+              </div>
+            </div>
+          </div>
+          <span style={{
+            background: '#38bdf8',
+            color: '#031024',
+            fontSize: '11px',
+            fontWeight: '900',
+            padding: '5px 11px',
+            borderRadius: '99px',
+            whiteSpace: 'nowrap',
+            boxShadow: '0 2px 8px rgba(56,189,248,0.3)'
+          }}>
+            Install ↗
+          </span>
+        </div>
+      )}
 
       {/* ─── 2. AUTONOMOUS ATHLETE COMMAND CENTER (HERO HUD) ─────────────── */}
       <div style={{

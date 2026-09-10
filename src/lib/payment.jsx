@@ -12,15 +12,18 @@ export function getPrefilledPaymentLink(name = '', email = '', phone = '') {
   if (cleanName && cleanName !== 'Fit Ninja Athlete') {
     params.set('name', cleanName);
     params.set('prefill[name]', cleanName);
+    params.set('notes[name]', cleanName);
   }
   if (cleanEmail) {
     params.set('email', cleanEmail);
     params.set('prefill[email]', cleanEmail);
+    params.set('notes[email]', cleanEmail);
   }
   if (cleanPhone) {
     params.set('contact', cleanPhone);
     params.set('phone', cleanPhone);
     params.set('prefill[contact]', cleanPhone);
+    params.set('notes[phone]', cleanPhone);
   }
 
   const qs = params.toString();
@@ -103,6 +106,11 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         image: 'https://fit.socialninjas.in/ninja-emblem.png?v=20',
         prefill: prefillObj,
         readonly: readonlyObj,
+        notes: {
+          name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone
+        },
         theme: {
           color: '#070a12'
         },
