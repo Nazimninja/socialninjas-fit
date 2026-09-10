@@ -678,10 +678,10 @@ export default function Landing() {
               letterSpacing: '0.8px',
               boxShadow: '0 4px 12px rgba(56, 189, 248, 0.4)'
             }}>
-              SPECIAL PRO PASS ACTIVE
+              PRO MEMBERSHIP
             </div>
 
-            <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja All-Access Pro</h3>
+            <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja Pro</h3>
             <div style={{ fontSize: '48px', fontWeight: '900', color: '#fff', margin: '16px 0' }}>
               ₹399 <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '600' }}>/ month</span>
             </div>
@@ -755,7 +755,7 @@ export default function Landing() {
                 boxShadow: '0 8px 24px rgba(56, 189, 248, 0.4)'
               }}
             >
-              ⚡ Claim Pro Pass &amp; Start Transformation →
+              ⚡ Get Fit Ninja Pro →
             </button>
           </div>
         </section>
@@ -766,8 +766,8 @@ export default function Landing() {
             <h2 style={{ fontSize: '30px', fontWeight: '900', color: '#fff', margin: '0 0 8px' }}>
               Frequently Asked Questions
             </h2>
-            <p style={{ fontSize: '14px', color: '#94a3b8' }}>
-              Everything you need to know about Fit Ninja Pro before starting.
+            <p style={{ fontSize: '14px', color: '#94a3b8', margin: 0 }}>
+              Everything you need to know about Fit Ninja before starting.
             </p>
           </div>
 
@@ -787,12 +787,14 @@ export default function Landing() {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: '800', fontSize: '15px' }}>
                   <span>{f.q}</span>
-                  <span style={{ color: '#38bdf8', fontSize: '20px', lineHeight: 1 }}>{openFaq === idx ? '−' : '+'}</span>
+                  <span style={{ color: '#38bdf8', fontSize: '18px', transform: openFaq === idx ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                    ▾
+                  </span>
                 </div>
                 {openFaq === idx && (
-                  <p style={{ margin: '14px 0 0', fontSize: '14px', color: '#94a3b8', lineHeight: 1.65 }}>
+                  <div style={{ marginTop: '14px', fontSize: '14px', color: '#94a3b8', lineHeight: 1.65 }}>
                     {f.a}
-                  </p>
+                  </div>
                 )}
               </div>
             ))}
@@ -813,7 +815,7 @@ export default function Landing() {
               alt="Fit Ninja"
               style={{ width: '32px', height: '32px', objectFit: 'contain', filter: 'drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4))' }}
             />
-            <span style={{ fontWeight: '800', color: '#fff', fontSize: '14px' }}>Fit Ninja Pro</span>
+            <span style={{ fontWeight: '800', color: '#fff', fontSize: '14px' }}>Fit Ninja</span>
             <span>·</span>
             <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: '700' }}>Social Ninja's</a></span>
           </div>
