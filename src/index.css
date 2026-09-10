@@ -1327,17 +1327,194 @@ html {
   }
 }
 
+@media (min-width: 641px) {
+  .mobile-athlete-highlights {
+    display: none !important;
+  }
+}
+
 @media (max-width: 640px) {
   .hero-pill .pill-divider,
   .hero-pill .pill-sub {
     display: none !important;
   }
+  .hero-visual-col {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
   .athlete-hero-container {
-    max-width: 330px !important;
-    min-height: 350px !important;
-    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 290px !important;
+    min-height: 270px !important;
+    height: 270px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .spline-svg {
     display: none !important;
+  }
+  .desktop-only-node {
+    display: none !important;
+  }
+  .athlete-portal {
+    width: 220px !important;
+    height: 230px !important;
+    border-radius: 40px !important;
+    border: 2px solid rgba(56, 189, 248, 0.35) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2) !important;
+  }
+  .athlete-glow {
+    width: 240px !important;
+    height: 240px !important;
+    filter: blur(35px) !important;
+  }
+  .float-pill-top {
+    top: -12px !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 6px 14px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.4px !important;
+    background: rgba(7, 11, 20, 0.95) !important;
+    border: 1px solid rgba(56, 189, 248, 0.6) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3) !important;
+    white-space: nowrap !important;
+  }
+  .mobile-athlete-highlights {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 16px auto 0 !important;
+    box-sizing: border-box !important;
+  }
+  .mobile-highlight-chip {
+    background: rgba(13, 20, 36, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 14px;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .mobile-highlight-chip:active {
+    transform: scale(0.96);
+    border-color: #38bdf8;
+  }
+  .chip-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(56, 189, 248, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chip-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .chip-val {
+    font-size: 13px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .chip-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+  }
+
+  /* ── SECTION HEADINGS & SUBTEXT FOR MOBILE ── */
+  .section-h2 {
+    font-size: clamp(24px, 6.8vw, 30px) !important;
+    letter-spacing: -0.8px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+  .section-sub {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+    padding: 0 4px !important;
+  }
+
+  /* ── WORKOUT SANDBOX FOR MOBILE ── */
+  .sandbox-sec {
+    margin-bottom: 50px !important;
+  }
+  .sandbox-card {
+    padding: 18px 14px !important;
+    border-radius: 20px !important;
+  }
+  .tab-pills {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: stretch !important;
+    margin-top: 8px !important;
+  }
+  .tab-btn {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 11.5px !important;
+    padding: 7px 10px !important;
+  }
+  .macro-tab-btn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+
+  /* ── PRICING CARD OPTIMIZATION ── */
+  .pricing-sec {
+    margin-bottom: 50px !important;
+  }
+  .pricing-box {
+    padding: 32px 18px 24px !important;
+    border-radius: 22px !important;
+  }
+  .pricing-features-list {
+    font-size: 13px !important;
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+  .pricing-features-list li {
+    gap: 8px !important;
+  }
+  .pricing-features-list li span:first-child {
+    flex-shrink: 0;
+  }
+
+  /* ── 1,324+ EXERCISE SHOWCASE ON MOBILE ── */
+  .ex-showcase-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+  .ex-showcase-btn {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }

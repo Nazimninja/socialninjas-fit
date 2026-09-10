@@ -502,7 +502,7 @@ export default function Landing() {
 
         {/* ── 1,324+ HD VIDEO EXERCISES SHOWCASE ──────────────────── */}
         <section id="library" style={{ maxWidth: '1200px', margin: '0 auto 80px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
+          <div className="ex-showcase-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
             <div>
               <div style={{
                 display: 'inline-flex',
@@ -521,16 +521,17 @@ export default function Landing() {
               }}>
                 LIBRARY
               </div>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 6px' }}>
+              <h2 className="section-h2" style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 6px' }}>
                 1,324+ HD Video Exercises
               </h2>
-              <p style={{ fontSize: '14.5px', color: '#94a3b8', margin: 0 }}>
+              <p className="section-sub" style={{ fontSize: '14.5px', color: '#94a3b8', margin: 0 }}>
                 Clean 60fps looping form guides for every movement.
               </p>
             </div>
 
             <button
               onClick={() => nav('/library')}
+              className="ex-showcase-btn"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -616,7 +617,7 @@ export default function Landing() {
         </section>
 
         {/* ── INTERACTIVE WORKOUT SANDBOX SECTION ───────────────────── */}
-        <section id="sandbox" style={{ maxWidth: '1100px', margin: '0 auto 80px' }}>
+        <section id="sandbox" className="sandbox-sec" style={{ maxWidth: '1100px', margin: '0 auto 80px' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <div style={{
               display: 'inline-flex',
@@ -635,10 +636,10 @@ export default function Landing() {
             }}>
               INTERACTIVE DEMO
             </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 10px' }}>
+            <h2 className="section-h2" style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 10px' }}>
               Experience The Live Workout Engine
             </h2>
-            <p style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '540px', margin: '0 auto' }}>
+            <p className="section-sub" style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '540px', margin: '0 auto' }}>
               Test drive the set logger, smart rest countdown timer, and muscle heatmap right now in your browser.
             </p>
           </div>
@@ -647,15 +648,15 @@ export default function Landing() {
         </section>
 
         {/* ── PRICING SECTION ───────────────────────────────────────── */}
-        <section id="pricing" style={{ maxWidth: '840px', margin: '0 auto 80px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '34px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>
+        <section id="pricing" className="pricing-sec" style={{ maxWidth: '840px', margin: '0 auto 80px', textAlign: 'center' }}>
+          <h2 className="section-h2" style={{ fontSize: '34px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>
             Transparent, High-ROI Access
           </h2>
-          <p style={{ fontSize: '15px', color: '#94a3b8', marginBottom: '32px' }}>
+          <p className="section-sub" style={{ fontSize: '15px', color: '#94a3b8', marginBottom: '32px' }}>
             Get elite fitness technology at less than the cost of a single gym energy drink per week.
           </p>
 
-          <div style={{
+          <div className="pricing-box" style={{
             background: 'linear-gradient(145deg, rgba(13, 20, 36, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%)',
             border: '1px solid rgba(56, 189, 248, 0.35)',
             borderTop: '1px solid rgba(56, 189, 248, 0.7)',
@@ -701,7 +702,7 @@ export default function Landing() {
               Average Gym Trainer: ₹3,000–₹8,000/mo · Fit Ninja Pro: Just ₹13/day
             </div>
 
-            <ul style={{
+            <ul className="pricing-features-list" style={{
               listStyle: 'none',
               padding: 0,
               margin: '0 auto 30px',

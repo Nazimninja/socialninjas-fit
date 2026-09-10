@@ -7,20 +7,21 @@ export default function AthleteHeroVisual() {
   const [activeNode, setActiveNode] = useState(null);
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100%',
-      maxWidth: '540px',
-      margin: '0 auto',
-      minHeight: '480px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      userSelect: 'none'
-    }}>
+    <div className="hero-visual-col" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="athlete-hero-container" style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '540px',
+        margin: '0 auto',
+        minHeight: '480px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        userSelect: 'none'
+      }}>
 
       {/* Atmospheric Ambient Glow behind hero */}
-      <div style={{
+      <div className="athlete-glow" style={{
         position: 'absolute',
         width: '380px',
         height: '380px',
@@ -33,6 +34,7 @@ export default function AthleteHeroVisual() {
 
       {/* SVG Connecting Spline Curves */}
       <svg
+        className="spline-svg"
         style={{
           position: 'absolute',
           top: 0,
@@ -102,7 +104,7 @@ export default function AthleteHeroVisual() {
       </svg>
 
       {/* Central Athlete Portal Container */}
-      <div style={{
+      <div className="athlete-portal" style={{
         position: 'relative',
         width: '320px',
         height: '340px',
@@ -147,6 +149,7 @@ export default function AthleteHeroVisual() {
 
       {/* ── FLOATING BADGE 1: METRIC GAUGE (Top Left) ─────────── */}
       <div
+        className="float-badge-1 desktop-only-node"
         onMouseEnter={() => setActiveNode('metric')}
         onMouseLeave={() => setActiveNode(null)}
         onClick={() => nav('/library')}
@@ -197,23 +200,26 @@ export default function AthleteHeroVisual() {
       </div>
 
       {/* ── FLOATING PILL TAG: ACTIVE MODE (Center Top) ──────── */}
-      <div style={{
-        position: 'absolute',
-        top: '65px',
-        right: '40px',
-        zIndex: 10,
-        background: 'rgba(7, 10, 18, 0.9)',
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(56, 189, 248, 0.4)',
-        borderRadius: '99px',
-        padding: '6px 14px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '7px',
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
-        animation: 'floatMedium 5s ease-in-out infinite',
-        animationDelay: '1s'
-      }}>
+      <div
+        className="float-pill-top"
+        style={{
+          position: 'absolute',
+          top: '65px',
+          right: '40px',
+          zIndex: 10,
+          background: 'rgba(7, 10, 18, 0.9)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(56, 189, 248, 0.4)',
+          borderRadius: '99px',
+          padding: '6px 14px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '7px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
+          animation: 'floatMedium 5s ease-in-out infinite',
+          animationDelay: '1s'
+        }}
+      >
         <span style={{
           width: '7px',
           height: '7px',
@@ -228,6 +234,7 @@ export default function AthleteHeroVisual() {
 
       {/* ── FLOATING BADGE 2: GOAL CARD (Bottom Left) ────────── */}
       <div
+        className="float-badge-2 desktop-only-node"
         onMouseEnter={() => setActiveNode('goal')}
         onMouseLeave={() => setActiveNode(null)}
         onClick={() => nav('/stats')}
@@ -277,6 +284,7 @@ export default function AthleteHeroVisual() {
 
       {/* ── FLOATING CARD 3: FEATURE POPOVER (Right Side) ─────── */}
       <div
+        className="float-card-right desktop-only-node"
         onMouseEnter={() => setActiveNode('feature')}
         onMouseLeave={() => setActiveNode(null)}
         style={{
@@ -347,5 +355,40 @@ export default function AthleteHeroVisual() {
       </div>
 
     </div>
+
+    {/* Mobile-Exclusive Clean Badges & Highlights Row (Below Athlete) */}
+    <div className="mobile-athlete-highlights">
+      <div className="mobile-highlight-chip" onClick={() => nav('/library')}>
+        <div className="chip-icon">
+          <Dumbbell size={14} color="#38bdf8" />
+        </div>
+        <div className="chip-content">
+          <span className="chip-val">1,324+</span>
+          <span className="chip-lbl">Exercises</span>
+        </div>
+      </div>
+
+      <div className="mobile-highlight-chip" onClick={() => nav('/stats')}>
+        <div className="chip-icon">
+          <Activity size={14} color="#38bdf8" />
+        </div>
+        <div className="chip-content">
+          <span className="chip-val">Heatmaps</span>
+          <span className="chip-lbl">Fatigue</span>
+        </div>
+      </div>
+
+      <div className="mobile-highlight-chip" onClick={() => nav('/app?mode=signup')}>
+        <div className="chip-icon">
+          <Timer size={14} color="#38bdf8" />
+        </div>
+        <div className="chip-content">
+          <span className="chip-val">₹13/day</span>
+          <span className="chip-lbl">Pro Access</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
   );
 }

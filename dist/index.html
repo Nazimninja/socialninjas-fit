@@ -838,7 +838,13 @@ footer {
   color: var(--t3);
 }
 
-/* ── RESPONSIVE ── */
+/* ── RESPONSIVE DESIGN (MOBILE-FIRST LUXURY POLISH) ── */
+@media (min-width: 641px) {
+  .mobile-athlete-highlights {
+    display: none !important;
+  }
+}
+
 @media (max-width: 960px) {
   .hero-split {
     grid-template-columns: 1fr;
@@ -863,34 +869,51 @@ footer {
 }
 
 @media (max-width: 640px) {
+  /* ── NAVBAR ── */
   .nav-wrap {
     padding: 10px 16px;
   }
+  .nav-brand img {
+    width: 36px;
+    height: 36px;
+  }
+  .nav-brand-title {
+    font-size: 17px;
+  }
+  .nav-brand-sub {
+    font-size: 8.5px;
+  }
+  .nav-btn-primary {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  /* ── HERO HEADER & TYPOGRAPHY ── */
   .hero-split {
-    padding: 24px 16px 40px;
-    gap: 28px;
+    padding: 20px 16px 36px;
+    gap: 24px;
     overflow: hidden;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    text-align: center;
   }
   
   .hero-pill {
-    font-size: 11px;
-    padding: 5px 12px;
-    margin-bottom: 16px;
-    max-width: 100%;
-    box-sizing: border-box;
+    font-size: 10.5px;
+    padding: 5px 14px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
   }
   .hero-pill .pill-divider,
   .hero-pill .pill-sub {
-    display: none;
+    display: none !important;
   }
   
   .hero-h1 {
-    font-size: clamp(28px, 7.8vw, 38px) !important;
-    letter-spacing: -1px !important;
-    line-height: 1.14 !important;
+    font-size: clamp(30px, 8.5vw, 40px) !important;
+    letter-spacing: -1.2px !important;
+    line-height: 1.12 !important;
     margin-bottom: 14px !important;
     word-break: break-word !important;
   }
@@ -900,8 +923,10 @@ footer {
     line-height: 1.55 !important;
     margin-bottom: 22px !important;
     padding: 0 4px !important;
+    color: var(--t2);
   }
   
+  /* ── HERO ACTION BUTTONS ── */
   .hero-actions {
     flex-direction: column !important;
     width: 100% !important;
@@ -912,87 +937,218 @@ footer {
     width: 100% !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-    padding: 13px 18px !important;
-    font-size: 14px !important;
+    padding: 14px 20px !important;
+    font-size: 14.5px !important;
     text-align: center !important;
+    border-radius: 99px !important;
   }
   
+  /* ── HERO METRIC STRIP (2×2 BALANCED GRID) ── */
   .hero-metrics-strip {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px 14px !important;
-    padding: 14px 16px !important;
+    padding: 16px 18px !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    text-align: left !important;
+    text-align: center !important;
+    background: rgba(13, 20, 36, 0.7) !important;
+    border-radius: 20px !important;
   }
   .hero-metric-val {
-    font-size: 20px !important;
+    font-size: 22px !important;
   }
   .hero-metric-lbl {
     font-size: 10px !important;
+    letter-spacing: 0.5px !important;
   }
   
+  /* ── HERO ATHLETE VISUAL CONTAINER (UNSMOTHERED & CLEAN) ── */
+  .hero-visual-col {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
   .athlete-hero-container {
     width: 100% !important;
-    max-width: 330px !important;
-    min-height: 350px !important;
+    max-width: 290px !important;
+    min-height: 270px !important;
+    height: 270px !important;
     margin: 0 auto !important;
     position: relative !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     box-sizing: border-box !important;
-    border-radius: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
   .spline-svg {
     display: none !important;
   }
+  .desktop-only-node {
+    display: none !important;
+  }
   .athlete-portal {
-    width: 210px !important;
-    height: 240px !important;
+    width: 220px !important;
+    height: 230px !important;
+    border-radius: 40px !important;
+    border: 2px solid rgba(56, 189, 248, 0.35) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2) !important;
   }
   .athlete-glow {
-    width: 230px !important;
-    height: 230px !important;
-  }
-  .float-badge-1 {
-    top: 6px !important;
-    left: 6px !important;
-    max-width: 115px !important;
-    padding: 8px 10px !important;
-    border-radius: 14px !important;
-  }
-  .float-badge-1 div:nth-child(2) {
-    font-size: 16px !important;
+    width: 240px !important;
+    height: 240px !important;
+    filter: blur(35px) !important;
   }
   .float-pill-top {
-    top: 10px !important;
-    right: 6px !important;
-    padding: 4px 8px !important;
-    font-size: 9.5px !important;
+    top: -12px !important;
+    right: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 6px 14px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.4px !important;
+    background: rgba(7, 11, 20, 0.95) !important;
+    border: 1px solid rgba(56, 189, 248, 0.6) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3) !important;
+    white-space: nowrap !important;
   }
-  .float-badge-2 {
-    bottom: 8px !important;
-    left: 6px !important;
-    padding: 8px 10px !important;
-    border-radius: 14px !important;
+
+  /* ── MOBILE ATHLETE HIGHLIGHTS (CLEAN 3-CHIP ROW BELOW ATHLETE) ── */
+  .mobile-athlete-highlights {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 8px !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 16px auto 0 !important;
+    box-sizing: border-box !important;
   }
-  .float-badge-2 div:nth-child(2) div:first-child {
-    font-size: 11px !important;
+  .mobile-highlight-chip {
+    background: rgba(13, 20, 36, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 14px;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 4px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s, border-color 0.15s;
   }
-  .float-card-right {
-    top: auto !important;
-    bottom: 8px !important;
-    right: 6px !important;
-    min-width: 120px !important;
-    padding: 8px 10px !important;
-    border-radius: 14px !important;
+  .mobile-highlight-chip:active {
+    transform: scale(0.96);
+    border-color: #38bdf8;
+  }
+  .chip-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(56, 189, 248, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chip-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .chip-val {
+    font-size: 13px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .chip-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 2px;
   }
   
+  /* ── SECTION SHELL & HEADERS ── */
   .curved-shell {
     border-radius: 28px 28px 0 0;
-    padding: 36px 16px 20px;
+    padding: 36px 16px 24px;
     overflow: hidden;
+  }
+  .section-h2 {
+    font-size: clamp(24px, 6.8vw, 30px) !important;
+    letter-spacing: -0.8px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+  .section-sub {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+    padding: 0 4px !important;
+  }
+
+  /* ── WORKOUT SANDBOX FOR MOBILE ── */
+  .sandbox-sec {
+    margin-bottom: 50px !important;
+  }
+  .sandbox-card {
+    padding: 18px 14px !important;
+    border-radius: 20px !important;
+  }
+  .tab-pills {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: stretch !important;
+    margin-top: 8px !important;
+  }
+  .tab-btn {
+    flex: 1 !important;
+    text-align: center !important;
+    font-size: 11.5px !important;
+    padding: 7px 10px !important;
+  }
+  .macro-tab-btn {
+    font-size: 11px !important;
+    padding: 6px 10px !important;
+  }
+
+  /* ── PRICING CARD OPTIMIZATION ── */
+  .pricing-sec {
+    margin-bottom: 50px !important;
+  }
+  .pricing-box {
+    padding: 32px 18px 24px !important;
+    border-radius: 22px !important;
+  }
+  .pricing-features-list {
+    font-size: 13px !important;
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+  .pricing-features-list li {
+    gap: 8px !important;
+  }
+  .pricing-features-list li span:first-child {
+    flex-shrink: 0;
+  }
+
+  /* ── 1,324+ EXERCISE SHOWCASE ON MOBILE ── */
+  .ex-showcase-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+  .ex-showcase-btn {
+    width: 100% !important;
+    justify-content: center !important;
   }
 }
 </style>
@@ -1077,12 +1233,12 @@ footer {
     </div>
   </div>
 
-  <!-- Right: Athlete Hero Visual with Floating Connected Badges -->
-  <div>
+  <!-- Right: Athlete Hero Visual with Floating Connected Badges (Desktop & Mobile Optimized) -->
+  <div class="hero-visual-col">
     <div class="athlete-hero-container">
       <div class="athlete-glow"></div>
 
-      <!-- SVG Connecting Spline Curves -->
+      <!-- SVG Connecting Spline Curves (Desktop Only) -->
       <svg class="spline-svg" viewBox="0 0 540 480">
         <defs>
           <linearGradient id="splineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1105,8 +1261,8 @@ footer {
         <img src="/assets/athlete-hero.jpg" alt="Athlete Calisthenics & Strength">
       </div>
 
-      <!-- Floating Badge 1: Metric Gauge -->
-      <div class="float-badge-1" onclick="window.location.href='/app?mode=app#/library'">
+      <!-- Floating Badge 1: Metric Gauge (Desktop) -->
+      <div class="float-badge-1 desktop-only-node" onclick="window.location.href='/app?mode=app#/library'">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
@@ -1123,8 +1279,8 @@ footer {
         <span style="font-size:11px;font-weight:800;color:#fff">Live Workout Player</span>
       </div>
 
-      <!-- Floating Badge 2: Muscle Map -->
-      <div class="float-badge-2" onclick="window.location.href='/app?mode=app#/stats'">
+      <!-- Floating Badge 2: Muscle Map (Desktop) -->
+      <div class="float-badge-2 desktop-only-node" onclick="window.location.href='/app?mode=app#/stats'">
         <div style="width:32px;height:32px;border-radius:10px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38bdf8">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
@@ -1136,8 +1292,8 @@ footer {
         </div>
       </div>
 
-      <!-- Floating Card 3: Feature Popover -->
-      <div class="float-card-right">
+      <!-- Floating Card 3: Feature Popover (Desktop) -->
+      <div class="float-card-right desktop-only-node">
         <div style="font-size:9.5px;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
           PRO MEMBERSHIP INCLUDED
         </div>
@@ -1163,7 +1319,46 @@ footer {
           Join Now →
         </a>
       </div>
+    </div>
 
+    <!-- Mobile-Exclusive Clean Badges & Highlights Row (Below Athlete) -->
+    <div class="mobile-athlete-highlights">
+      <div class="mobile-highlight-chip" onclick="window.location.href='/app?mode=app#/library'">
+        <div class="chip-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
+          </svg>
+        </div>
+        <div class="chip-content">
+          <span class="chip-val">1,324+</span>
+          <span class="chip-lbl">Exercises</span>
+        </div>
+      </div>
+
+      <div class="mobile-highlight-chip" onclick="window.location.href='/app?mode=app#/stats'">
+        <div class="chip-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <div class="chip-content">
+          <span class="chip-val">Heatmaps</span>
+          <span class="chip-lbl">Fatigue</span>
+        </div>
+      </div>
+
+      <div class="mobile-highlight-chip" onclick="window.location.href='/app?mode=signup'">
+        <div class="chip-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="chip-content">
+          <span class="chip-val">₹13/day</span>
+          <span class="chip-lbl">Pro Access</span>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -1275,13 +1470,13 @@ footer {
 
   <!-- ── 1,324+ HD EXERCISE SHOWCASE ── -->
   <section class="ex-showcase-sec" id="library" style="max-width: 1200px; margin: 0 auto 80px; padding: 0 4px;">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+    <div class="ex-showcase-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
       <div>
         <div class="section-tag" style="margin-bottom: 8px;">LIBRARY</div>
         <h2 class="section-h2" style="margin-bottom: 6px;">1,324+ HD Video Exercises</h2>
-        <p style="font-size: 14.5px; color: var(--t2); margin: 0;">Clean 60fps looping form guides for every movement.</p>
+        <p class="section-sub" style="font-size: 14.5px; color: var(--t2); margin: 0;">Clean 60fps looping form guides for every movement.</p>
       </div>
-      <a href="/app?mode=app#/library" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; font-size: 13px; font-weight: 800; padding: 10px 20px; border-radius: 99px; transition: all 0.2s ease;">
+      <a href="/app?mode=app#/library" class="ex-showcase-btn" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; font-size: 13px; font-weight: 800; padding: 10px 20px; border-radius: 99px; transition: all 0.2s ease;">
         <span>Open Full Gym Library</span>
         <span>→</span>
       </a>

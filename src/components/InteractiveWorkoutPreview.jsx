@@ -122,7 +122,7 @@ export default function InteractiveWorkoutPreview() {
   const timerProgress = ((timerDuration - timeLeft) / timerDuration) * 100;
 
   return (
-    <div style={{
+    <div className="sandbox-card" style={{
       background: 'rgba(10, 15, 26, 0.95)',
       border: '1px solid rgba(56, 189, 248, 0.2)',
       borderRadius: '24px',
@@ -149,7 +149,7 @@ export default function InteractiveWorkoutPreview() {
         </div>
 
         {/* View Switcher Tabs */}
-        <div style={{
+        <div className="tab-pills" style={{
           display: 'flex',
           background: 'rgba(255, 255, 255, 0.05)',
           padding: '4px',
@@ -163,6 +163,7 @@ export default function InteractiveWorkoutPreview() {
           ].map(tab => (
             <button
               key={tab.id}
+              className="tab-btn"
               onClick={() => setActiveTab(tab.id)}
               style={{
                 background: activeTab === tab.id ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
@@ -429,6 +430,7 @@ export default function InteractiveWorkoutPreview() {
             ].map(plan => (
               <button
                 key={plan.id}
+                className="macro-tab-btn"
                 onClick={() => setDietGoal(plan.id)}
                 style={{
                   background: dietGoal === plan.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.2))' : 'rgba(255, 255, 255, 0.04)',
