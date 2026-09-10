@@ -1170,3 +1170,35 @@ h4.sec{
 .fn-pulse {
   animation: fn-pulse-glow 1.8s ease-in-out infinite;
 }
+
+/* --------------------------------------------------- landing page animations & smooth scroll --- */
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes floatMedium {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.landing-card-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.landing-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+.landing-glow-button {
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.landing-glow-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.5) !important;
+}
