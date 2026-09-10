@@ -615,13 +615,15 @@ export default function Login() {
       <div
         style={{
           display: 'flex',
-          background: 'rgba(255,255,255,0.04)',
+          background: 'rgba(255,255,255,0.03)',
           border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '12px',
-          padding: '3px',
+          borderRadius: '999px',
+          padding: '4px',
           width: '100%',
+          maxWidth: '380px',
           boxSizing: 'border-box',
-          marginBottom: '14px'
+          marginBottom: '16px',
+          backdropFilter: 'blur(8px)'
         }}
       >
         <button
@@ -629,15 +631,15 @@ export default function Login() {
           onClick={() => { setIsVerifying(false); setAuthMode('signup') }}
           style={{
             flex: 1,
-            padding: '9px 12px',
-            borderRadius: '9px',
-            border: authMode === 'signup' ? '1px solid rgba(56,189,248,0.4)' : '1px solid transparent',
-            background: authMode === 'signup' ? 'rgba(56,189,248,0.14)' : 'transparent',
+            padding: '9px 16px',
+            borderRadius: '999px',
+            border: authMode === 'signup' ? '1px solid rgba(56,189,248,0.35)' : '1px solid transparent',
+            background: authMode === 'signup' ? 'linear-gradient(135deg, rgba(56,189,248,0.18) 0%, rgba(2,132,199,0.18) 100%)' : 'transparent',
             color: authMode === 'signup' ? '#ffffff' : '#94a3b8',
             fontSize: '12.5px',
             fontWeight: '800',
             cursor: 'pointer',
-            transition: 'all 0.15s ease',
+            transition: 'all 0.18s ease',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -651,15 +653,15 @@ export default function Login() {
           onClick={() => { setIsVerifying(false); setAuthMode('login') }}
           style={{
             flex: 1,
-            padding: '9px 12px',
-            borderRadius: '9px',
-            border: authMode === 'login' ? '1px solid rgba(255,255,255,0.18)' : '1px solid transparent',
+            padding: '9px 16px',
+            borderRadius: '999px',
+            border: authMode === 'login' ? '1px solid rgba(255,255,255,0.15)' : '1px solid transparent',
             background: authMode === 'login' ? 'rgba(255,255,255,0.08)' : 'transparent',
             color: authMode === 'login' ? '#ffffff' : '#94a3b8',
             fontSize: '12.5px',
             fontWeight: '800',
             cursor: 'pointer',
-            transition: 'all 0.15s ease'
+            transition: 'all 0.18s ease'
           }}
         >
           Member Login
@@ -671,12 +673,11 @@ export default function Login() {
         style={{
           width: '100%',
           boxSizing: 'border-box',
-          background: 'linear-gradient(165deg, rgba(13,20,36,0.94) 0%, rgba(7,11,20,0.98) 100%)',
-          border: '1px solid rgba(56,189,248,0.22)',
-          borderTop: '1px solid rgba(56,189,248,0.5)',
-          borderRadius: '20px',
-          padding: '18px 16px',
-          boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(56,189,248,0.06)',
+          background: 'radial-gradient(120% 120% at 50% 0%, rgba(15, 23, 42, 0.95) 0%, rgba(7, 10, 19, 0.98) 100%)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: 'inset 0 1px 0 rgba(56, 189, 248, 0.35), 0 20px 50px rgba(0,0,0,0.6)',
+          borderRadius: '24px',
+          padding: '22px 18px',
           textAlign: 'center',
           marginBottom: '14px'
         }}
@@ -689,14 +690,14 @@ export default function Login() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                paddingBottom: '14px',
-                marginBottom: '14px',
-                borderBottom: '1px solid rgba(255,255,255,0.08)',
+                paddingBottom: '16px',
+                marginBottom: '16px',
+                borderBottom: '1px solid rgba(255,255,255,0.07)',
                 textAlign: 'left'
               }}
             >
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
                   <span style={{
                     background: 'rgba(56,189,248,0.14)',
                     border: '1px solid rgba(56,189,248,0.3)',
@@ -704,140 +705,117 @@ export default function Login() {
                     fontSize: '9.5px',
                     fontWeight: '900',
                     letterSpacing: '0.6px',
-                    padding: '2px 7px',
-                    borderRadius: '5px'
+                    padding: '3px 8px',
+                    borderRadius: '6px'
                   }}>
-                    FIT NINJA PRO
-                  </span>
-                  <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '700' }}>
-                    Just ₹13/day
+                    ⚡ FIT NINJA PRO
                   </span>
                 </div>
-                <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>
-                  Cancel anytime · Full access
+                <div style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>
+                  Unlimited access · Cancel anytime
                 </div>
               </div>
 
               <div style={{ textAlign: 'right' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', justifyContent: 'flex-end' }}>
-                  <span style={{ fontSize: '12px', color: '#64748b', textDecoration: 'line-through' }}>₹999</span>
-                  <span style={{ fontSize: '24px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹399</span>
-                  <span style={{ fontSize: '11px', color: '#94a3b8' }}>/mo</span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
+                  <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through' }}>₹999</span>
+                  <span style={{ fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹399</span>
+                  <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
                 </div>
-                <span style={{
-                  background: 'rgba(56,189,248,0.12)',
-                  color: '#38bdf8',
-                  fontSize: '9px',
-                  fontWeight: '800',
-                  padding: '1px 6px',
-                  borderRadius: '4px',
-                  display: 'inline-block'
-                }}>
-                  SAVE 60%
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', marginTop: '2px' }}>
+                  <span style={{ fontSize: '10.5px', color: '#38bdf8', fontWeight: '700' }}>
+                    Just ₹13/day
+                  </span>
+                  <span style={{
+                    background: 'rgba(56,189,248,0.14)',
+                    color: '#38bdf8',
+                    fontSize: '9px',
+                    fontWeight: '800',
+                    padding: '1px 5px',
+                    borderRadius: '4px'
+                  }}>
+                    SAVE 60%
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Convincing Pro Feature Highlights (What You Unlock) */}
-            <div style={{ marginBottom: '14px', textAlign: 'left' }}>
+            {/* Convincing Pro Benefits List (No Clunky Boxes!) */}
+            <div style={{ marginBottom: '16px', textAlign: 'left' }}>
               <div style={{
-                fontSize: '10.5px',
+                fontSize: '10px',
                 fontWeight: '900',
                 color: '#38bdf8',
                 letterSpacing: '0.8px',
                 textTransform: 'uppercase',
-                marginBottom: '8px',
+                marginBottom: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between'
               }}>
-                <span>✨ EVERYTHING INCLUDED IN PRO</span>
+                <span>✨ WHAT YOU UNLOCK</span>
                 <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '700' }}>100% Risk-Free</span>
               </div>
 
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '6px'
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px'
               }}>
-                <div style={{
-                  background: 'rgba(56, 189, 248, 0.05)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  borderRadius: '10px',
-                  padding: '8px 10px'
-                }}>
-                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> 1,324+ HD Lifts
+                {[
+                  { title: '1,324+ HD Video Form Guides', desc: 'Looping 60fps cues for every single lift' },
+                  { title: 'Smart Rest Timers & Audio Cues', desc: 'Interval countdown beeps keep your tempo sharp' },
+                  { title: 'Muscle Recovery Heatmaps', desc: 'Real-time anatomical front & back fatigue tracking' },
+                  { title: 'Greyskull LP Overload Engine', desc: 'Auto-computes your target weights next session' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                    <div style={{
+                      width: '18px',
+                      height: '18px',
+                      borderRadius: '50%',
+                      background: 'rgba(56, 189, 248, 0.12)',
+                      border: '1px solid rgba(56, 189, 248, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      marginTop: '1px'
+                    }}>
+                      <span style={{ color: '#38bdf8', fontSize: '11px', fontWeight: '900', lineHeight: 1 }}>✓</span>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '12.5px', fontWeight: '800', color: '#ffffff', lineHeight: 1.25 }}>
+                        {item.title}
+                      </div>
+                      <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '1px', lineHeight: 1.3 }}>
+                        {item.desc}
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
-                    Looping 60fps form videos
-                  </div>
-                </div>
-
-                <div style={{
-                  background: 'rgba(56, 189, 248, 0.05)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  borderRadius: '10px',
-                  padding: '8px 10px'
-                }}>
-                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Smart Rest Timer
-                  </div>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
-                    Audio countdown beeps
-                  </div>
-                </div>
-
-                <div style={{
-                  background: 'rgba(56, 189, 248, 0.05)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  borderRadius: '10px',
-                  padding: '8px 10px'
-                }}>
-                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Muscle Heatmaps
-                  </div>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
-                    Live front &amp; back fatigue
-                  </div>
-                </div>
-
-                <div style={{
-                  background: 'rgba(56, 189, 248, 0.05)',
-                  border: '1px solid rgba(56, 189, 248, 0.2)',
-                  borderRadius: '10px',
-                  padding: '8px 10px'
-                }}>
-                  <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#ffffff', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span style={{ color: '#38bdf8', fontWeight: '900' }}>✓</span> Greyskull LP
-                  </div>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px', lineHeight: 1.3 }}>
-                    Auto progressive overload
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* High-ROI Comparison Banner */}
+            {/* High-ROI Comparison Pill */}
             <div style={{
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '10px',
-              padding: '7px 10px',
-              marginBottom: '14px',
-              fontSize: '11px',
+              background: 'rgba(56, 189, 248, 0.05)',
+              border: '1px solid rgba(56, 189, 248, 0.14)',
+              borderRadius: '11px',
+              padding: '8px 12px',
+              marginBottom: '16px',
+              fontSize: '11.5px',
               color: '#94a3b8',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '6px'
             }}>
-              <span>💡</span>
-              <span>Average Trainer: <strong style={{ color: '#cbd5e1' }}>₹5,000+/mo</strong> · Fit Ninja Pro: <strong style={{ color: '#38bdf8' }}>Just ₹13/day</strong></span>
+              <span style={{ color: '#38bdf8', fontSize: '12px' }}>⚡</span>
+              <span>Average Gym Trainer: <strong style={{ color: '#cbd5e1', textDecoration: 'line-through' }}>₹5,000/mo</strong> · Pro: <strong style={{ color: '#38bdf8' }}>₹13/day</strong></span>
             </div>
 
             {/* Clear, Unambiguous Input Fields */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
               <input
                 type="text"
                 placeholder="Full Name"
@@ -845,12 +823,12 @@ export default function Login() {
                 onChange={e => setName(e.target.value)}
                 style={{
                   width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '11px',
-                  padding: '11px 13px',
+                  background: 'rgba(255,255,255,0.035)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '12px 14px',
                   color: '#ffffff',
-                  fontSize: '13.5px',
+                  fontSize: '14px',
                   fontWeight: '600',
                   outline: 'none',
                   boxSizing: 'border-box'
@@ -864,12 +842,12 @@ export default function Login() {
                 onChange={e => setEmail(e.target.value)}
                 style={{
                   width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '11px',
-                  padding: '11px 13px',
+                  background: 'rgba(255,255,255,0.035)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '12px 14px',
                   color: '#ffffff',
-                  fontSize: '13.5px',
+                  fontSize: '14px',
                   fontWeight: '600',
                   outline: 'none',
                   boxSizing: 'border-box'
@@ -885,10 +863,10 @@ export default function Login() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '4px',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '11px',
-                    padding: '11px 10px',
+                    background: 'rgba(255,255,255,0.035)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    padding: '12px 10px',
                     color: '#ffffff',
                     fontSize: '13px',
                     fontWeight: '700',
@@ -940,12 +918,12 @@ export default function Login() {
                     flex: '1 1 0%',
                     minWidth: 0,
                     width: '100%',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    borderRadius: '11px',
-                    padding: '11px 13px',
+                    background: 'rgba(255,255,255,0.035)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
+                    padding: '12px 14px',
                     color: '#ffffff',
-                    fontSize: '13.5px',
+                    fontSize: '14px',
                     fontWeight: '600',
                     outline: 'none',
                     letterSpacing: '0.3px',
@@ -966,13 +944,14 @@ export default function Login() {
                   ? 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)'
                   : 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
                 border: 'none',
-                borderRadius: '12px',
-                padding: '13px 16px',
+                borderRadius: '14px',
+                padding: '14px 18px',
                 color: '#031024',
-                fontSize: '14.5px',
+                fontSize: '15px',
                 fontWeight: '900',
+                letterSpacing: '-0.2px',
                 cursor: isVerifying ? 'wait' : 'pointer',
-                boxShadow: '0 4px 18px rgba(56, 189, 248, 0.35)',
+                boxShadow: '0 4px 20px rgba(56, 189, 248, 0.4)',
                 marginBottom: '10px',
                 transition: 'all 0.15s ease',
                 display: 'flex',
@@ -990,7 +969,7 @@ export default function Login() {
                   <span>Opening Checkout…</span>
                 </>
               ) : (
-                '⚡ Unlock Fit Ninja Pro · ₹399'
+                '⚡ Start Transformation · ₹399'
               )}
             </button>
           </>
@@ -1006,7 +985,7 @@ export default function Login() {
               </div>
             </div>
 
-            <div style={{ marginBottom: '14px' }}>
+            <div style={{ marginBottom: '16px' }}>
               <input
                 type="text"
                 placeholder="Registered Email or Mobile Number"
@@ -1015,10 +994,10 @@ export default function Login() {
                 onKeyDown={e => { if (e.key === 'Enter') handleContinue() }}
                 style={{
                   width: '100%',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: '11px',
-                  padding: '12px 14px',
+                  background: 'rgba(255,255,255,0.035)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '12px',
+                  padding: '13px 14px',
                   color: '#ffffff',
                   fontSize: '14px',
                   fontWeight: '600',
@@ -1036,13 +1015,13 @@ export default function Login() {
                 width: '100%',
                 background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
                 border: 'none',
-                borderRadius: '12px',
-                padding: '13px 16px',
+                borderRadius: '14px',
+                padding: '14px 18px',
                 color: '#031024',
-                fontSize: '14.5px',
+                fontSize: '15px',
                 fontWeight: '900',
                 cursor: isVerifying ? 'wait' : 'pointer',
-                boxShadow: '0 4px 18px rgba(56, 189, 248, 0.35)',
+                boxShadow: '0 4px 20px rgba(56, 189, 248, 0.4)',
                 marginBottom: '10px',
                 display: 'flex',
                 alignItems: 'center',
