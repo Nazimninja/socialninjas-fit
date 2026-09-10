@@ -516,7 +516,7 @@ export default function Landing() {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '22px', maxWidth: '1120px', margin: '0 auto' }}>
             {[
               {
                 id: '0314',
@@ -541,14 +541,6 @@ export default function Landing() {
                 sets: '3–5 sets × 5–8 reps',
                 angle: 'DEPTH 90°',
                 gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/1436-Gnfo4FM.gif'
-              },
-              {
-                id: '0426',
-                name: 'Standing Overhead Press',
-                target: 'Shoulders & Triceps',
-                sets: '3–4 sets × 5–8 reps',
-                angle: 'LOCKOUT 180°',
-                gif: 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/0426-A6wtbuL.gif'
               }
             ].map(ex => (
               <div
