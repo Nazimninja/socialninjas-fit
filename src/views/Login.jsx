@@ -4,7 +4,7 @@ import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signI
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK } from '../lib/payment.jsx'
+import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK, getPrefilledPaymentLink } from '../lib/payment.jsx'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
 
@@ -1139,7 +1139,7 @@ export default function Login() {
               </button>
               <div style={{ marginTop: '8px' }}>
                 <a
-                  href="https://rzp.io/rzp/akMsjt2I"
+                  href={getPrefilledPaymentLink(name, email, phone ? `${selectedCountry.code}${phone.replace(/\D/g, '')}` : '')}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#64748b', fontSize: '11px', textDecoration: 'none' }}
