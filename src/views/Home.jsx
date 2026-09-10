@@ -131,11 +131,11 @@ export default function Home() {
 
   const greet = today.getHours() < 12 ? 'Good morning' : today.getHours() < 17 ? 'Good afternoon' : 'Good evening'
 
-  // Auto-launch Onboarding Wizard for new members who have just paid or have no routines configured yet
+  // Auto-launch Onboarding Wizard only for brand-new members (first signup, fn_just_paid flag set after payment)
+  // Never fire for returning users who have already completed onboarding
   useEffect(() => {
-    const isNew = (!S.routines || S.routines.length === 0) && !S.aiAnswers?.goal
     const justPaid = sessionStorage.getItem('fn_just_paid') === '1'
-    if (isNew || justPaid) {
+    if (justPaid) {
       sessionStorage.removeItem('fn_just_paid')
       const t = setTimeout(() => {
         onboardingWizardSheet()

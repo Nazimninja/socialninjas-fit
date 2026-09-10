@@ -187,7 +187,6 @@ export default function Login() {
             useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
             navigate('/home', { replace: true })
             window.location.hash = '#/home'
-            onboardingWizardSheet()
           }
         } catch (e) {}
       }
