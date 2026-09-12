@@ -1,38 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#040711;color-scheme:dark;">
+<html lang="en" style="background:#07090e;color-scheme:dark;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Fit Ninja | Workout &amp; Nutrition App</title>
-<meta name="description" content="Fit Ninja by Social Ninja's — 1,324+ animated exercises, guided workouts, supersets, Greyskull progression, muscle heatmaps, and AI macro nutrition tracking.">
-<meta name="theme-color" content="#070a12">
+<title>Fit Ninja v2 | Workout &amp; Nutrition App</title>
+<meta name="description" content="Fit Ninja v2 by Social Ninja's — 4,100+ exercises, animated HD GIFs, adaptive progressive overload, periodized splits, and clinical safety constraints.">
+<meta name="theme-color" content="#07090e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Fit Ninja">
-<meta name="application-name" content="Fit Ninja">
+<meta name="apple-mobile-web-app-title" content="Fit Ninja v2">
+<meta name="application-name" content="Fit Ninja v2">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20">
-<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=20">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=20">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png?v=20">
-<link rel="shortcut icon" href="/favicon.ico?v=20">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20">
-<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png?v=20">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20">
-<link rel="apple-touch-icon" sizes="167x167" href="/apple-touch-icon.png?v=20">
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png?v=20">
 <link rel="manifest" href="/manifest.json?v=10">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<!-- Razorpay Checkout Script -->
-<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
   /* ── SPLASH SCREEN ── */
@@ -40,7 +30,7 @@
     position: fixed;
     inset: 0;
     z-index: 99999;
-    background: #040711;
+    background: #07090e;
     background-image:
       radial-gradient(900px circle at 50% 30%, rgba(56,189,248,0.13) 0%, transparent 70%),
       radial-gradient(500px circle at 80% 70%, rgba(56,189,248,0.06) 0%, transparent 60%);
@@ -59,7 +49,6 @@
     pointer-events: none;
   }
 
-  /* Logo pulse */
   @keyframes fn-logo-pulse {
     0%, 100% { filter: drop-shadow(0 0 18px rgba(56,189,248,0.55)); transform: scale(1); }
     50%       { filter: drop-shadow(0 0 32px rgba(56,189,248,0.85)); transform: scale(1.04); }
@@ -73,7 +62,6 @@
     margin-bottom: 22px;
   }
 
-  /* Brand name */
   #fn-splash-brand {
     font-size: 28px;
     font-weight: 900;
@@ -96,7 +84,6 @@
     margin-bottom: 44px;
   }
 
-  /* Spinner ring */
   @keyframes fn-spin {
     to { transform: rotate(360deg); }
   }
@@ -111,7 +98,6 @@
     height: 40px;
   }
 
-  /* Bottom tagline */
   #fn-splash-tagline {
     position: absolute;
     bottom: 36px;
@@ -123,45 +109,40 @@
     letter-spacing: 0.3px;
   }
 </style>
-  <script type="module" crossorigin src="/assets/app-BtGBwaU2.js"></script>
+  <script type="module" crossorigin src="/assets/v2-Dcj7ljsq.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/preload-helper-JJgGCZDE.js">
-  <link rel="stylesheet" crossorigin href="/assets/app-Dcsw9Cas.css">
+  <link rel="stylesheet" crossorigin href="/assets/v2-xzS3ZCf6.css">
 </head>
-<body style="margin:0;background:#040711;">
+<body style="margin:0;background:#07090e;color:#fff;">
 
-<!-- ── INSTANT SPLASH SCREEN (pure HTML, zero JS required) ── -->
 <div id="fn-splash">
   <img id="fn-splash-logo" src="/favicon.svg" alt="Fit Ninja" onerror="this.src='/favicon.png'">
-  <div id="fn-splash-brand">Fit <span>Ninja</span></div>
-  <div id="fn-splash-sub">Train Different</div>
+  <div id="fn-splash-brand">Fit <span>Ninja v2</span></div>
+  <div id="fn-splash-sub">Next-Gen Intelligence &amp; 4,100+ Exercises</div>
   <div id="fn-splash-spinner">
     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="20" cy="20" r="16" stroke="rgba(56,189,248,0.15)" stroke-width="3"/>
       <path d="M20 4 A16 16 0 0 1 36 20" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" fill="none"/>
     </svg>
   </div>
-  <div id="fn-splash-tagline">by Social Ninja's · Powered by AI</div>
+  <div id="fn-splash-tagline">by Social Ninja's · Unified Master Brain</div>
 </div>
 
 <div id="root"></div>
 
 <script>
-  // Dismiss splash once React has rendered content into #root
   (function() {
     var splash = document.getElementById('fn-splash');
     if (!splash) return;
-    // Safety timeout — always dismiss after 4 seconds max
     var maxTimer = setTimeout(function() {
       splash.classList.add('fn-splash-out');
       setTimeout(function(){ splash.remove(); }, 400);
     }, 4000);
-    // Watch for React mounting into #root
     var obs = new MutationObserver(function() {
       var root = document.getElementById('root');
       if (root && root.children.length > 0) {
         obs.disconnect();
         clearTimeout(maxTimer);
-        // Small delay so first frame is painted before we fade out
         setTimeout(function() {
           splash.classList.add('fn-splash-out');
           setTimeout(function(){ splash.remove(); }, 380);
