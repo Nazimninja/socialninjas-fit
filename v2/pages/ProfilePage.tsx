@@ -6,6 +6,7 @@ import Icon from '../components/app/Icon';
 import { Section, Row, Switch, Segmented } from '../components/app/ui';
 import WeeklyCheckinModal from '../components/app/WeeklyCheckinModal';
 import CloudSyncModal from '../components/app/CloudSyncModal';
+import { getPrefilledPaymentLink, RAZORPAY_PAYMENT_LINK } from '../lib/payment';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -30,6 +31,23 @@ export default function ProfilePage() {
   const [showCheckin, setShowCheckin] = useState(false);
   const [showBadges, setShowBadges] = useState(false);
   const [showCloudSync, setShowCloudSync] = useState(false);
+
+  const cleanEmail = (userEmail || '').toLowerCase().trim();
+  const isPaidMember = Boolean(
+    (user as any).paid ||
+    cleanEmail.endsWith('@socialninjas.in') ||
+    [
+      'nazim.socialninja@gmail.com',
+      'nazimpasha906@gmail.com',
+      'nazim@socialninjas.in',
+      'admin@socialninjas.in',
+      'support@socialninjas.in',
+      'fit@socialninjas.in',
+      'saqlainsharief161@gmail.com',
+      'saqlainnisha0928@gmail.com',
+      'highonnfitness@gmail.com'
+    ].includes(cleanEmail)
+  );
 
   const unlockedCount = badges.filter(b => b.unlocked).length;
   const level = Math.floor(points / 500) + 1;
@@ -212,6 +230,22 @@ export default function ProfilePage() {
           subtitle="Calibrate weight, photos & progressive overload"
           accessory="chevron"
           onClick={() => setShowCheckin(true)}
+        />
+
+        <Row
+          icon="flame"
+          iconTint="var(--orange)"
+          title="Fit Ninja Pro Pass"
+          subtitle={isPaidMember ? "Unlimited Pro Access Active" : "Unlock Custom Coaching, Library & AI Protocols"}
+          value={isPaidMember ? "Active ✓" : "Unlock Pass"}
+          accessory="chevron"
+          onClick={() => {
+            if (isPaidMember) {
+              alert("⚡ Fit Ninja Pro Pass is Active for " + (cleanEmail || user.name) + "! All features are unlocked.");
+            } else {
+              window.open(getPrefilledPaymentLink(user.name, userEmail, ''), '_blank');
+            }
+          }}
         />
       </Section>
 
