@@ -1167,6 +1167,7 @@ function OnboardingWizard({ close }) {
   const [experience, setExperience] = useState(saved.experience || 'intermediate') // 'beginner', 'intermediate', 'advanced'
   const [focus, setFocus] = useState(saved.focus || 'balanced') // 'balanced', 'upper', 'vtaper', 'legs'
   const [diet, setDiet] = useState(saved.diet || 'nonveg') // 'nonveg', 'veg', 'egg', 'vegan'
+  const [foodAllergies, setFoodAllergies] = useState(saved.foodAllergies || '')
   const [loading, setLoading] = useState(false)
 
   const toggleCondition = (condId) => {
@@ -1237,6 +1238,7 @@ function OnboardingWizard({ close }) {
         experience,
         focus,
         diet,
+        foodAllergies,
         healthConditions,
         splitPreference
       }
@@ -1289,6 +1291,7 @@ function OnboardingWizard({ close }) {
       experience,
       focus,
       diet,
+      foodAllergies,
       healthConditions,
       splitPreference
     }
@@ -1609,6 +1612,27 @@ function OnboardingWizard({ close }) {
                 )
               })}
             </div>
+          </div>
+
+          {/* Food Allergies / Dislikes — passed to AI for custom meals */}
+          <div style={{ marginTop: 16 }}>
+            <label style={{ display: 'block', fontWeight: 800, fontSize: 12, letterSpacing: '0.08em', color: 'var(--label-2)', marginBottom: 8, textTransform: 'uppercase' }}>
+              🚫 Food Allergies & Dislikes (Optional)
+            </label>
+            <div className="small muted" style={{ fontSize: 11, marginBottom: 8, color: 'var(--label-2)' }}>
+              The AI will avoid these in your custom meal plan. E.g. "no fish, no broccoli, lactose intolerant"
+            </div>
+            <input
+              type="text"
+              value={foodAllergies}
+              onChange={e => setFoodAllergies(e.target.value)}
+              placeholder="e.g. no fish, lactose intolerant, hate bitter gourd..."
+              style={{
+                width: '100%', padding: '12px 14px', borderRadius: 12, fontSize: 14,
+                background: 'var(--surface-2)', border: '1.5px solid var(--sep)',
+                color: 'var(--label)', outline: 'none', boxSizing: 'border-box'
+              }}
+            />
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
