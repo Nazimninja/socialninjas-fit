@@ -633,7 +633,7 @@ export default function OnboardingPage() {
       <CloudSyncModal
         isOpen={showCloudModal}
         onClose={() => setShowCloudModal(false)}
-        onSuccess={() => navigate('/v2')}
+        onSuccess={() => navigate('/')}
       />
     </div>
   );

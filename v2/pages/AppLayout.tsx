@@ -18,7 +18,7 @@ function FloatingDockNav() {
   const { todaysPlan } = useFitNinja();
   const [showGetReady, setShowGetReady] = useState(false);
 
-  const pathClean = location.pathname.replace(/^\/v2/, '');
+  const pathClean = location.pathname.replace(/^\/(v2|app)(\.html)?/, '');
   const cur = pathClean.split('/')[1] || 'home';
   const on = (k: string) =>
     (k === 'home' && (!cur || cur === 'home')) ||

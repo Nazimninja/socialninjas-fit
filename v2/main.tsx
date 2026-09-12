@@ -6,8 +6,12 @@ import './v2.css';
 
 const rootEl = document.getElementById('root');
 if (rootEl) {
-  const isHtml = window.location.pathname.startsWith('/v2.html');
-  const basename = isHtml ? '/v2.html' : '/v2';
+  const pathname = window.location.pathname;
+  const basename = pathname.startsWith('/app.html') ? '/app.html'
+    : pathname.startsWith('/app') ? '/app'
+    : pathname.startsWith('/v2.html') ? '/v2.html'
+    : pathname.startsWith('/v2') ? '/v2'
+    : '';
 
   createRoot(rootEl).render(
     <React.StrictMode>
