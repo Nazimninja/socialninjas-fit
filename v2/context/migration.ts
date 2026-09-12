@@ -308,6 +308,9 @@ export function mirrorToOldGymState(state: FitNinjaState): void {
  */
 export function getActiveUserEmail(): string | null {
   try {
+    const fnEmail = localStorage.getItem('fitninja_user_email');
+    if (fnEmail && fnEmail.includes('@')) return fnEmail.trim().toLowerCase();
+
     const paidEmail = localStorage.getItem('gym_paid_email');
     if (paidEmail && paidEmail.includes('@')) return paidEmail.trim().toLowerCase();
 

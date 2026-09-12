@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useRef, useState, useCallback } from 'react';
 import {
   migrateOldGymState,
   mirrorToOldGymState,
@@ -38,6 +38,7 @@ export type HealthCondition =
 
 export interface UserProfile {
   name: string;
+  email?: string;
   gender: 'male' | 'female' | '';
   age: number;
   weightKg: number;
@@ -248,7 +249,7 @@ export function calculateNutrition(user: UserProfile): { calories: number; prote
 }
 
 const defaultUser: UserProfile = {
-  name: '', gender: '', age: 25, weightKg: 75, heightCm: 175,
+  name: '', email: '', gender: '', age: 25, weightKg: 75, heightCm: 175,
   unit: 'metric', fitnessLevel: 'Beginner', goal: 'general_fitness',
   daysPerWeek: 3, workoutSplit: 'coach_decides',
   healthConditions: [], availableEquipment: ['barbell', 'dumbbell', 'bodyweight'],
@@ -428,6 +429,12 @@ interface FitNinjaContextValue {
   dispatch: React.Dispatch<Action>;
   totalVolume: number;
   todaysPlan: PlannedDay | null;
+  userEmail: string;
+  isSyncing: boolean;
+  lastSynced: string | null;
+  restoreAccountByEmail: (email: string) => Promise<{ success: boolean; message: string; workoutsCount: number }>;
+  syncCloud: () => Promise<boolean>;
+  unlinkEmail: () => void;
 }
 
 const FitNinjaContext = createContext<FitNinjaContextValue | null>(null);
@@ -567,6 +574,94 @@ export function FitNinjaProvider({ children }: { children: React.ReactNode }) {
     if (state.checkins.length >= 1 && !state.badges.find(b => b.id === 'first_checkin')?.unlocked) dispatch({ type: 'UNLOCK_BADGE', payload: 'first_checkin' });
   }, [state.workouts.length, state.checkins.length]);
 
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [lastSynced, setLastSynced] = useState<string | null>(null);
+
+  const activeEmail = state.user.email || getActiveUserEmail() || '';
+
+  const restoreAccountByEmail = useCallback(async (emailToRestore: string) => {
+    const email = emailToRestore.trim().toLowerCase();
+    if (!email || !email.includes('@')) {
+      return { success: false, message: 'Please enter a valid email address.', workoutsCount: 0 };
+    }
+    setIsSyncing(true);
+    try {
+      localStorage.setItem('gym_paid_email', email);
+      localStorage.setItem('fitninja_user_email', email);
+
+      const cloud = await pullCloudState(email);
+      if (!cloud) {
+        // Link this email to current state & push initial backup
+        dispatch({ type: 'SET_USER', payload: { email } });
+        await pushCloudState(email, { ...state, user: { ...state.user, email } });
+        setLastSynced(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+        setIsSyncing(false);
+        return {
+          success: true,
+          message: `Linked to ${email}. Future workout logs and check-ins will automatically backup to your cloud account.`,
+          workoutsCount: state.workouts.length,
+        };
+      }
+
+      // Found cloud backup! Determine schema
+      let payloadToMerge: Partial<FitNinjaState>;
+      if (!cloud.activePlan && !cloud.badges) {
+        payloadToMerge = migrateOldGymState(cloud, state);
+      } else {
+        payloadToMerge = cloud;
+      }
+
+      payloadToMerge.user = {
+        ...state.user,
+        ...(payloadToMerge.user || {}),
+        email,
+        setupDone: true,
+      };
+
+      dispatch({ type: 'MERGE_STATE', payload: payloadToMerge });
+      setLastSynced(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setIsSyncing(false);
+
+      const count = payloadToMerge.workouts?.length || 0;
+      return {
+        success: true,
+        message: `Account restored! ${count} workout(s) and full training history loaded.`,
+        workoutsCount: count,
+      };
+    } catch (err) {
+      setIsSyncing(false);
+      return { success: false, message: 'Could not connect to cloud sync. Please check your internet connection.', workoutsCount: 0 };
+    }
+  }, [state, dispatch]);
+
+  const syncCloud = useCallback(async (): Promise<boolean> => {
+    const email = state.user.email || getActiveUserEmail();
+    if (!email) return false;
+    setIsSyncing(true);
+    try {
+      const cloud = await pullCloudState(email);
+      if (cloud) {
+        const payloadToMerge = (!cloud.activePlan && !cloud.badges)
+          ? migrateOldGymState(cloud, state)
+          : cloud;
+        dispatch({ type: 'MERGE_STATE', payload: payloadToMerge });
+      }
+      await pushCloudState(email, state);
+      setLastSynced(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setIsSyncing(false);
+      return true;
+    } catch (e) {
+      setIsSyncing(false);
+      return false;
+    }
+  }, [state, dispatch]);
+
+  const unlinkEmail = useCallback(() => {
+    localStorage.removeItem('gym_paid_email');
+    localStorage.removeItem('fitninja_user_email');
+    dispatch({ type: 'SET_USER', payload: { email: '' } });
+  }, [dispatch]);
+
   const totalVolume = state.workouts.reduce((s, w) => s + w.totalVolumeKg, 0);
 
   // Determine today's planned workout
@@ -579,7 +674,20 @@ export function FitNinjaProvider({ children }: { children: React.ReactNode }) {
   })();
 
   return (
-    <FitNinjaContext.Provider value={{ state, dispatch, totalVolume, todaysPlan }}>
+    <FitNinjaContext.Provider
+      value={{
+        state,
+        dispatch,
+        totalVolume,
+        todaysPlan,
+        userEmail: activeEmail,
+        isSyncing,
+        lastSynced,
+        restoreAccountByEmail,
+        syncCloud,
+        unlinkEmail,
+      }}
+    >
       {children}
     </FitNinjaContext.Provider>
   );

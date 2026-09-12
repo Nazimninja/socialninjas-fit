@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   useFitNinja,
@@ -8,6 +9,7 @@ import {
   calculateNutrition,
 } from '../context/FitNinjaContext';
 import { generateCustomPlan } from '../data/workoutPlanAI';
+import CloudSyncModal from '../components/app/CloudSyncModal';
 
 const steps = [
   'welcome',
@@ -49,8 +51,10 @@ const SPLIT_OPTIONS: { id: WorkoutSplit; label: string; icon: string; subtitle: 
 ];
 
 export default function OnboardingPage() {
+  const navigate = useNavigate();
   const { dispatch } = useFitNinja();
   const [step, setStep] = useState<Step>('welcome');
+  const [showCloudModal, setShowCloudModal] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -228,6 +232,17 @@ export default function OnboardingPage() {
                 <span>Start Personalizing</span>
                 <span>→</span>
               </button>
+
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setShowCloudModal(true)}
+                  className="w-full py-3 px-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-semibold text-[#38bdf8] flex items-center justify-center gap-2 transition-colors active:scale-95"
+                >
+                  <span>☁️</span>
+                  <span>Already an Athlete? Restore with Email</span>
+                </button>
+              </div>
             </motion.div>
           )}
 
@@ -613,6 +628,13 @@ export default function OnboardingPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Cross-Device Cloud Sync Modal */}
+      <CloudSyncModal
+        isOpen={showCloudModal}
+        onClose={() => setShowCloudModal(false)}
+        onSuccess={() => navigate('/v2')}
+      />
     </div>
   );
 }
