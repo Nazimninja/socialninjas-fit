@@ -24,9 +24,33 @@
 
 :root {
   --bg: #07090e;
-  --surface: #0d131f;
-  --surface-2: #172744;
-  --label-3: rgba(255, 255, 255, 0.45);
+  --surface: #0b1322;
+  --surface-2: #121c2e;
+  --surface-3: #1b2a42;
+  --card-bg: #0b1322;
+  --card-gradient: linear-gradient(150deg, #0d1627 0%, #090e1c 100%);
+  --card-border: #172744;
+  --card-border-top: #1e3256;
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --acc: #38bdf8;
+  --label: #ffffff;
+  --label-2: rgba(255, 255, 255, 0.72);
+  --label-3: rgba(255, 255, 255, 0.42);
+  --label-4: rgba(255, 255, 255, 0.2);
+  --sep: rgba(255, 255, 255, 0.08);
+  --hair: 1px;
+  --blue: #38bdf8;
+  --teal: #2dd4bf;
+  --green: #34d399;
+  --orange: #fb923c;
+  --yellow: #fbbf24;
+  --purple: #a855f7;
+  --indigo: #818cf8;
+  --pink: #f472b6;
+  --red: #f87171;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --med: 240ms;
+  --fast: 140ms;
 }
 
 .icn {
@@ -153,6 +177,12 @@
   font-size: 10px;
 }
 
+@media (min-width: 1024px) {
+  #tabbar {
+    display: none !important;
+  }
+}
+
 /* ── 12-Month Contribution Heatmap ─────────────────────────────────────── */
 .hm-wrap {
   overflow-x: auto;
@@ -230,3 +260,201 @@
   width: 10px;
   height: 10px;
 }
+
+/* ── Grouped Inset List & UI Controls ─────────────────────────────────── */
+.sect {
+  margin-bottom: 20px;
+}
+.sect-t {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--label-3);
+  letter-spacing: 0.05em;
+  padding: 0 4px 6px;
+  display: block;
+  text-transform: uppercase;
+}
+.sect-b {
+  background: var(--card-gradient, var(--card-bg));
+  border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+.sect-f {
+  font-size: 11.5px;
+  color: var(--label-3);
+  padding: 7px 6px 0;
+  line-height: 1.4;
+}
+
+.lrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 13px 16px;
+  min-height: 52px;
+  position: relative;
+  color: var(--label);
+  background: none;
+  border: none;
+  transition: background var(--fast);
+  box-sizing: border-box;
+}
+div.lrow {
+  cursor: default;
+}
+button.lrow, .lrow.tap {
+  cursor: pointer;
+}
+.lrow + .lrow::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 0;
+  top: 0;
+  height: var(--hair);
+  background: var(--sep);
+}
+.lrow:has(.lrow-i) + .lrow:has(.lrow-i)::before {
+  left: 60px;
+}
+.lrow.tap:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.lrow.tap:active {
+  background: rgba(255, 255, 255, 0.06);
+}
+.lrow-i {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: var(--tint, var(--label));
+}
+.lrow:has(.lrow-i[style*="--tint"]) .lrow-i,
+.lrow-i[style*="--tint"] {
+  background: color-mix(in srgb, var(--tint) 14%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--tint) 28%, transparent);
+  border-top-color: color-mix(in srgb, var(--tint) 45%, transparent);
+}
+.lrow.danger .lrow-i {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: #f87171;
+}
+.lrow-m {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.lrow-t {
+  font-size: 14.5px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--label);
+}
+.lrow-s {
+  font-size: 11.5px;
+  color: var(--label-2);
+  line-height: 1.3;
+}
+.lrow-v {
+  color: var(--label-2);
+  font-size: 14px;
+  letter-spacing: -0.012em;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+.lrow-c {
+  color: var(--label-3);
+  font-size: 14px;
+  flex: none;
+  --icon-stroke: 2.2;
+}
+.lrow-k {
+  color: var(--acc);
+  font-size: 16px;
+  flex: none;
+  --icon-stroke: 2.4;
+}
+.lrow.danger,
+.lrow.danger .lrow-t {
+  color: var(--red);
+}
+
+/* ── Switch ───────────────────────────────────────────────────────────── */
+.sw {
+  width: 46px;
+  height: 26px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  flex: none;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--sep);
+  transition: background var(--med) var(--ease);
+  cursor: pointer;
+}
+.sw .knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: transform var(--med) var(--ease);
+}
+.sw.on {
+  background: var(--acc);
+}
+.sw.on .knob {
+  transform: translateX(20px);
+}
+
+/* ── Segmented Control ────────────────────────────────────────────────── */
+.seg {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-2);
+  border: 1px solid var(--card-border);
+  border-radius: 11px;
+  padding: 2px;
+  gap: 2px;
+}
+.seg button {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--label-2);
+  border-radius: 9px;
+  background: none;
+  border: none;
+  transition: all var(--fast);
+  cursor: pointer;
+}
+.seg button.on {
+  background: #ffffff;
+  color: #07090e;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+

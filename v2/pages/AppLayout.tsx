@@ -31,7 +31,7 @@ function FloatingDockNav() {
 
   return (
     <>
-      <nav id="tabbar">
+      <nav id="tabbar" className="lg:hidden">
         <button className={on('home') ? 'on' : ''} onClick={() => navigate('/')}>
           <Icon name="house" />
           <span>Home</span>
@@ -131,7 +131,7 @@ function AppShell() {
 
       {/* Main content area */}
       <div className="lg:pl-56">
-        <div className="max-w-lg mx-auto px-4 pt-4 pb-28 lg:pb-8 min-h-screen">
+        <div className="max-w-xl lg:max-w-2xl mx-auto px-4 pt-4 pb-28 lg:pb-12 min-h-screen">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/workout" element={<WorkoutPage />} />
