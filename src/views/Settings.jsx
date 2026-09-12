@@ -101,6 +101,14 @@ export default function Settings() {
             }}
           />
           <Row icon="calendar" iconTint="var(--acc)" title={t('Manage Workout Plan')} accessory="chevron" onClick={() => nav('/plan')} />
+          <Row
+            icon="sparkles"
+            iconTint="var(--acc)"
+            title={t('Recalibrate AI Plan & Diet')}
+            subtitle={t('Regenerate workout routines & custom meals with Gemini')}
+            accessory="chevron"
+            onClick={onboardingWizardSheet}
+          />
           <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to calibrate your coach-backed plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
           <Row
             icon="download"

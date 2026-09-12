@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore.js'
 import { DAYN, uid, exCount, fmtNum } from '../lib/format.js'
 import { t } from '../lib/i18n.js'
 import { exOr } from '../lib/exercises.js'
-import { dayAssignSheet, loadStarterPlan, planToolsSheet, startFlow } from '../sheets.jsx'
+import { dayAssignSheet, loadStarterPlan, planToolsSheet, startFlow, onboardingWizardSheet } from '../sheets.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
 import { glyphOf, DEFAULT_GLYPH } from '../lib/glyphs.js'
@@ -52,15 +52,26 @@ export default function Plan() {
             </div>
           </div>
         </div>
-        <button
-          className="iconbtn"
-          onClick={planToolsSheet}
-          aria-label={t('Share your plan')}
-          title={t('Share your plan')}
-          style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'var(--surface-2)', border: '1px solid var(--sep)' }}
-        >
-          <Icon name="upload" />
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            className="iconbtn"
+            onClick={onboardingWizardSheet}
+            aria-label={t('Recalibrate Plan with AI')}
+            title={t('Recalibrate Plan with AI')}
+            style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--acc)' }}
+          >
+            <Icon name="sparkles" />
+          </button>
+          <button
+            className="iconbtn"
+            onClick={planToolsSheet}
+            aria-label={t('Share your plan')}
+            title={t('Share your plan')}
+            style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'var(--surface-2)', border: '1px solid var(--sep)' }}
+          >
+            <Icon name="upload" />
+          </button>
+        </div>
       </div>
 
       {/* ── WEEKLY SUMMARY COCKPIT ───────────────────────────────── */}

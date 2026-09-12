@@ -2264,6 +2264,19 @@ function AthleteProfileModal({ close }) {
         >
           💾 Save Profile &amp; Recalibrate Blueprint
         </Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            close()
+            onboardingWizardSheet()
+          }}
+          style={{
+            padding: '14px', fontSize: 13.5, fontWeight: 800, borderRadius: 12,
+            border: '1px solid var(--acc-line)', color: 'var(--acc)'
+          }}
+        >
+          ✨ Launch Full AI Protocol Wizard (Gemini)
+        </Button>
       </div>
     </div>
   )
