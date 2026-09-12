@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../store/useStore.js'
-import { EXDB, BODYPARTS, allExercises, equipmentOf } from '../lib/exercises.js'
+import { EXDB, BODYPARTS, allExercises, equipmentOf, onExercisesLoaded } from '../lib/exercises.js'
 import { bestWeightFor } from '../lib/history.js'
 import { fmtNum } from '../lib/format.js'
 import { t } from '../lib/i18n.js'
@@ -13,10 +13,18 @@ import { Button } from '../components/ui.jsx'
 export default function Library() {
   const nav = useNavigate()
   const S = useStore(s => s.S)
+  const [count, setCount] = useState(EXDB.length)
   const [q, setQ] = useState('')
   const [bp, setBp] = useState('')
   const [eq, setEq] = useState('')
   const [shown, setShown] = useState(40)
+
+  useEffect(() => {
+    return onExercisesLoaded(db => {
+      setCount(db.length)
+    })
+  }, [])
+
   const ql = q.toLowerCase().trim()
   const base = allExercises(S).filter(e => (!bp || e.bp === bp) && (!ql || e.n.toLowerCase().includes(ql) || e.tg.includes(ql) || e.eq.includes(ql) || (e.desc || '').toLowerCase().includes(ql)))
   const eqOpts = equipmentOf(base)
@@ -35,7 +43,7 @@ export default function Library() {
       </button>
       <div>
         <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{t('Exercises')}</h1>
-        <div className="sub" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{t('{0} exercises with animations', EXDB.length)}</div>
+        <div className="sub" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{t('{0} exercises with animations', count)}</div>
       </div>
     </div>
     <div className="search" style={{ marginBottom: 10 }}><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>

@@ -1160,12 +1160,29 @@ function OnboardingWizard({ close }) {
   const [height, setHeight] = useState(String(saved.height || '175'))
   const [gender, setGender] = useState(saved.gender || st.body || 'male')
   const [goal, setGoal] = useState(saved.goal || 'muscle') // 'muscle', 'fat_loss', 'general', 'strength'
+  const [healthConditions, setHealthConditions] = useState(saved.healthConditions || [])
+  const [splitPreference, setSplitPreference] = useState(saved.splitPreference || 'coach')
   const [days, setDays] = useState(saved.days || 4)
   const [location, setLocation] = useState(saved.location || 'gym') // 'gym', 'home', 'calisthenics'
   const [experience, setExperience] = useState(saved.experience || 'intermediate') // 'beginner', 'intermediate', 'advanced'
   const [focus, setFocus] = useState(saved.focus || 'balanced') // 'balanced', 'upper', 'vtaper', 'legs'
   const [diet, setDiet] = useState(saved.diet || 'nonveg') // 'nonveg', 'veg', 'egg', 'vegan'
   const [loading, setLoading] = useState(false)
+
+  const toggleCondition = (condId) => {
+    if (condId === 'none') {
+      setHealthConditions(['none'])
+      return
+    }
+    setHealthConditions(prev => {
+      const clean = prev.filter(c => c !== 'none')
+      if (clean.includes(condId)) {
+        return clean.filter(c => c !== condId)
+      } else {
+        return [...clean, condId]
+      }
+    })
+  }
 
   // Energy Calculation Preview
   const numAge = Number(age) || 25
@@ -1181,7 +1198,17 @@ function OnboardingWizard({ close }) {
   else if (goal === 'muscle') targetKcalCalc = Math.round(tdeeCalc + 350)
   else if (goal === 'strength') targetKcalCalc = Math.round(tdeeCalc + 200)
 
-  const targetProteinCalc = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0))
+  // Clinical health condition modifiers preview
+  let healthMult = 1.0
+  if (healthConditions.includes('thyroid')) healthMult *= 0.90
+  if (healthConditions.includes('diabetes')) healthMult *= 0.95
+  if (healthConditions.includes('pcos')) healthMult *= 0.92
+  if (healthConditions.includes('hypertension')) healthMult *= 0.97
+  targetKcalCalc = Math.round(targetKcalCalc * healthMult)
+  if (healthConditions.includes('pregnancy')) targetKcalCalc = Math.max(targetKcalCalc, 1850)
+
+  const isHighProtein = healthConditions.includes('pcos') || healthConditions.includes('diabetes')
+  const targetProteinCalc = Math.round(numWeight * (isHighProtein ? 2.2 : (goal === 'fat_loss' ? 2.2 : 2.0)))
 
   const applyPlanToStore = (plan) => {
     localStorage.setItem('fit_onboarded', '1')
@@ -1209,7 +1236,9 @@ function OnboardingWizard({ close }) {
         location,
         experience,
         focus,
-        diet
+        diet,
+        healthConditions,
+        splitPreference
       }
       s.targetCalories = plan.kcal
       s.targetProtein = plan.protein
@@ -1259,7 +1288,9 @@ function OnboardingWizard({ close }) {
       location,
       experience,
       focus,
-      diet
+      diet,
+      healthConditions,
+      splitPreference
     }
 
     try {
@@ -1319,7 +1350,7 @@ function OnboardingWizard({ close }) {
       {/* ── LUXURY PROGRESS HEADER ───────────────────────────────── */}
       <div style={{ marginBottom: 18 }}>
         <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3, 4].map(i => (
             <div
               key={i}
               style={{
@@ -1333,10 +1364,10 @@ function OnboardingWizard({ close }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--label-2)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>
-              Step {step} of 3
+              Step {step} of 4
             </div>
             <h2 style={{ margin: '2px 0 0', fontSize: 20, fontWeight: 800, letterSpacing: '-0.3px', color: 'var(--label)' }}>
-              {step === 1 ? 'Physical Profile' : step === 2 ? 'Training Architecture' : 'Nutrition Protocol'}
+              {step === 1 ? 'Physical Profile' : step === 2 ? 'Health & Clinical Safety' : step === 3 ? 'Training Architecture' : 'Nutrition Protocol'}
             </h2>
           </div>
           <button
@@ -1511,14 +1542,140 @@ function OnboardingWizard({ close }) {
           </div>
 
           <Button variant="primary" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
-            Next: Training Architecture →
+            Next: Health &amp; Clinical Safety →
           </Button>
         </div>
       )}
 
-      {/* ── STEP 2: BESPOKE TRAINING ARCHITECTURE (NO PRE-BUILT SPLITS) ── */}
+      {/* ── STEP 2: HEALTH CONDITIONS & CLINICAL SAFETY ───────────── */}
       {step === 2 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 4 }}>
+              Medical &amp; Physical Considerations
+            </label>
+            <div className="small muted" style={{ fontSize: 11, marginBottom: 12, color: 'var(--label-2)' }}>
+              Select any conditions that apply. AI automatically adjusts training volume, substitutes high-risk exercises, and recalibrates metabolic calories.
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { id: 'none', icon: '🛡️', title: 'None / Fully Healthy', desc: 'No restrictions or clinical considerations' },
+                { id: 'thyroid', icon: '🦋', title: 'Thyroid Condition', desc: 'Hypo/Hyperthyroid · Calorie metabolic pacing compensated (-10%)' },
+                { id: 'diabetes', icon: '🩸', title: 'Diabetes / Blood Sugar', desc: 'Glycemic control protocol · Protein/carb stabilization' },
+                { id: 'pregnancy', icon: '👶', title: 'Post-Pregnancy Recovery', desc: 'Pelvic floor safe · Core gentle progression (min 1,850 kcal)' },
+                { id: 'knee_injury', icon: '🦵', title: 'Knee Injury / Joint Pain', desc: 'Low knee shear · Deep squats & plyometrics safely substituted' },
+                { id: 'back_injury', icon: '🩹', title: 'Lower Back Pain', desc: 'Spine decompression · Axial spinal load safely substituted' },
+                { id: 'shoulder_injury', icon: '🦾', title: 'Shoulder Impingement', desc: 'Rotator cuff safe · Overhead pressing safely substituted' },
+                { id: 'hypertension', icon: '💓', title: 'Hypertension / High BP', desc: 'Controlled cardiovascular load · Steady breathing pacing' },
+                { id: 'pcos', icon: '🌸', title: 'PCOS / Hormonal Balance', desc: 'Insulin resistance modulation · Elevated protein pacing' }
+              ].map(item => {
+                const isSelected = healthConditions.includes(item.id) || (item.id === 'none' && healthConditions.length === 0)
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => toggleCondition(item.id)}
+                    style={{
+                      background: isSelected ? 'var(--card-bg)' : 'var(--surface-2)',
+                      border: '1.5px solid ' + (isSelected ? 'var(--acc)' : 'var(--sep)'),
+                      borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      boxShadow: isSelected ? 'var(--card-shadow)' : 'none',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <span style={{ fontSize: 22 }}>{item.icon}</span>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: 13.5, color: 'var(--label)' }}>
+                          {item.title}
+                        </div>
+                        <div style={{ fontSize: 10.5, color: 'var(--label-2)', marginTop: 2 }}>
+                          {item.desc}
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: 18, height: 18, borderRadius: 6, flexShrink: 0,
+                        border: '2px solid ' + (isSelected ? 'var(--acc)' : 'var(--sep)'),
+                        background: isSelected ? 'var(--acc)' : 'transparent',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      }}
+                    >
+                      {isSelected && <span style={{ color: 'var(--on-acc)', fontSize: 11, fontWeight: 900 }}>✓</span>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
+            <Button variant="ghost" onClick={() => setStep(1)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
+            <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
+              Next: Training Architecture →
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* ── STEP 3: BESPOKE TRAINING ARCHITECTURE & WORKOUT SPLIT ── */}
+      {step === 3 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Question 0: Workout Split Preference */}
+          <div>
+            <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
+              Workout Split Preference
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { id: 'coach', title: '🥷 Let Coach Decide', desc: 'Optimal scientific volume & frequency calibrated for your schedule', tag: 'RECOMMENDED' },
+                { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Compound chest/shoulders, back/biceps, and leg rotation' },
+                { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced upper body strength & lower body power blocks' },
+                { id: 'full_body', title: '🔄 Full Body Protocol', desc: 'High-frequency total body compound movements every session' },
+                { id: 'bro_split', title: '🎯 Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
+              ].map(s => (
+                <div
+                  key={s.id}
+                  onClick={() => setSplitPreference(s.id)}
+                  style={{
+                    background: splitPreference === s.id ? 'var(--card-bg)' : 'var(--surface-2)',
+                    border: '1.5px solid ' + (splitPreference === s.id ? 'var(--acc)' : 'var(--sep)'),
+                    borderRadius: 12, padding: '12px 14px', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    boxShadow: splitPreference === s.id ? 'var(--card-shadow)' : 'none',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontWeight: 800, fontSize: 13.5, color: 'var(--label)' }}>
+                        {s.title}
+                      </span>
+                      {s.tag && (
+                        <span style={{ fontSize: 9, fontWeight: 900, background: 'rgba(16,185,129,0.15)', color: 'var(--acc)', border: '1px solid rgba(16,185,129,0.3)', padding: '1px 6px', borderRadius: 99 }}>
+                          {s.tag}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ fontSize: 10.5, color: 'var(--label-2)', marginTop: 2 }}>{s.desc}</div>
+                  </div>
+                  <div
+                    style={{
+                      width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                      border: '2px solid ' + (splitPreference === s.id ? 'var(--acc)' : 'var(--sep)'),
+                      background: splitPreference === s.id ? 'var(--acc)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}
+                  >
+                    {splitPreference === s.id && <span style={{ color: 'var(--on-acc)', fontSize: 10, fontWeight: 900 }}>✓</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Question 1: Frequency */}
           <div>
             <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
@@ -1653,16 +1810,16 @@ function OnboardingWizard({ close }) {
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-            <Button variant="ghost" onClick={() => setStep(1)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
-            <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
+            <Button variant="ghost" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
+            <Button variant="primary" onClick={() => setStep(4)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
               Next: Nutrition Protocol →
             </Button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 3: NUTRITION ARCHITECTURE & GENERATE ────────────── */}
-      {step === 3 && (
+      {/* ── STEP 4: NUTRITION ARCHITECTURE & GENERATE ────────────── */}
+      {step === 4 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
             <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label)', display: 'block', marginBottom: 8 }}>
@@ -1697,8 +1854,15 @@ function OnboardingWizard({ close }) {
 
           {/* Metabolic Energy Target HUD */}
           <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px 14px', boxShadow: 'var(--card-shadow)' }}>
-            <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="sparkles" /> Calculated Metabolic Targets
+            <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="sparkles" /> Calculated Metabolic Targets
+              </span>
+              {healthConditions.length > 0 && !healthConditions.includes('none') && (
+                <span style={{ fontSize: 9.5, fontWeight: 900, color: '#f59e0b', background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', padding: '1px 6px', borderRadius: 99 }}>
+                  HEALTH GUARDRAILS ACTIVE
+                </span>
+              )}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, textAlign: 'center', marginBottom: 8 }}>
               <div style={{ background: 'var(--surface-2)', padding: '10px 6px', borderRadius: 10, border: '1px solid var(--sep)' }}>
@@ -1720,7 +1884,7 @@ function OnboardingWizard({ close }) {
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-            <Button variant="ghost" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
+            <Button variant="ghost" onClick={() => setStep(3)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
             <Button variant="primary" onClick={handleGenerate} icon="sparkles" style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12 }}>
               ⚡ Build My Custom Workout &amp; Nutrition Plan
             </Button>
@@ -2127,6 +2291,7 @@ function WeeklyCheckinModal({ close }) {
   const prevBwVal = (S_state.bodyweight && S_state.bodyweight.length > 1) ? S_state.bodyweight[S_state.bodyweight.length - 2].w : null
 
   const [weight, setWeight] = useState(lastBwVal)
+  const [selectedSplit, setSelectedSplit] = useState(S_state.aiAnswers?.splitPreference || 'coach')
   const [photos, setPhotos] = useState([]) // [{ id, url, slot: 'front' | 'side' | 'back' }]
   const [difficulty, setDifficulty] = useState('good') // 'easy', 'good', 'hard'
   const [soreness, setSoreness] = useState('mild') // 'fresh', 'mild', 'sore'
@@ -2296,14 +2461,27 @@ function WeeklyCheckinModal({ close }) {
         }
       }
 
+      // Recalibrate custom plan and routines with updated bodyweight and split
+      const finalSplit = selectedSplit || S_state.aiAnswers?.splitPreference || 'coach'
+      const updatedAnswers = {
+        ...answers,
+        weight: numericWeight,
+        splitPreference: finalSplit
+      }
+      const freshPlan = generateCustomPlan(updatedAnswers)
+      const { routines, week } = convertPlanToStoreRoutines(freshPlan.workout, updatedAnswers.location || 'gym')
+
       update(s => {
-        s.targetCalories = adapted.kcal
-        s.targetProtein = adapted.protein
-        s.aiPlan = { ...(s.aiPlan || {}), ...adapted }
+        s.targetCalories = adapted.kcal || freshPlan.kcal
+        s.targetProtein = adapted.protein || freshPlan.protein
+        s.aiAnswers = updatedAnswers
+        s.aiPlan = { ...(s.aiPlan || {}), ...freshPlan, ...adapted }
+        s.routines = routines
+        s.week = week
         s.aiCoachCard = {
-          coachNote: adapted.coachNote,
+          coachNote: adapted.coachNote || freshPlan.coachNote,
           changes: adapted.changes || [],
-          weeklyInsight: adapted.weeklyInsight,
+          weeklyInsight: adapted.weeklyInsight || freshPlan.weeklyInsight,
           celebration: adapted.celebration || '',
           seenAt: null
         }
@@ -2443,6 +2621,57 @@ function WeeklyCheckinModal({ close }) {
             >
               {d > 0 ? `+${d}` : d}
             </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── WORKOUT SPLIT RECALIBRATION ── */}
+      <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 16, padding: '16px 14px', marginBottom: 14, boxShadow: 'var(--card-shadow)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--acc)' }}>
+            Workout Split Architecture
+          </div>
+          <span style={{ fontSize: 9.5, fontWeight: 900, background: 'rgba(16,185,129,0.15)', color: 'var(--acc)', border: '1px solid rgba(16,185,129,0.3)', padding: '1px 6px', borderRadius: 99 }}>
+            CALIBRATE
+          </span>
+        </div>
+        <div className="small muted" style={{ fontSize: 11, marginBottom: 10, color: 'var(--label-2)' }}>
+          Switch training splits for the upcoming week? Selecting a split will regenerate your active workout schedule upon check-in.
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 6 }}>
+          {[
+            { id: 'coach', title: '🥷 Let Coach Decide', desc: 'Optimal scientific volume & frequency' },
+            { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Compound chest/delts, back/biceps, legs rotation' },
+            { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced 4-day upper & lower body power blocks' },
+            { id: 'full_body', title: '🔄 Full Body Protocol', desc: 'High-frequency total body compound movements' },
+            { id: 'bro_split', title: '🎯 Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
+          ].map(s => (
+            <div
+              key={s.id}
+              onClick={() => setSelectedSplit(s.id)}
+              style={{
+                background: selectedSplit === s.id ? 'var(--surface-3)' : 'var(--surface-2)',
+                border: '1.5px solid ' + (selectedSplit === s.id ? 'var(--acc)' : 'var(--sep)'),
+                borderRadius: 10, padding: '10px 12px', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                transition: 'all 0.15s'
+              }}
+            >
+              <div>
+                <div style={{ fontWeight: 800, fontSize: 13, color: 'var(--label)' }}>{s.title}</div>
+                <div style={{ fontSize: 10, color: 'var(--label-2)', marginTop: 2 }}>{s.desc}</div>
+              </div>
+              <div
+                style={{
+                  width: 16, height: 16, borderRadius: '50%', flexShrink: 0,
+                  border: '2px solid ' + (selectedSplit === s.id ? 'var(--acc)' : 'var(--sep)'),
+                  background: selectedSplit === s.id ? 'var(--acc)' : 'transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+              >
+                {selectedSplit === s.id && <span style={{ color: 'var(--on-acc)', fontSize: 9, fontWeight: 900 }}>✓</span>}
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -2839,4 +3068,10 @@ function AppGuideModal({ close }) {
 export function appGuideSheet() {
   ui().openSheet(close => <AppGuideModal close={close} />)
 }
+
+if (typeof window !== 'undefined') {
+  window.onboardingWizardSheet = onboardingWizardSheet
+  window.weeklyCheckinSheet = weeklyCheckinSheet
+}
+
 

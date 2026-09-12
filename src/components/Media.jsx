@@ -13,7 +13,8 @@ export default function Media({ ex, id, compact, minimizable }) {
   const [playing, setPlaying] = useState(true)
   const gifSize = useStore(s => s.S.gifSize)
   const update = useStore(s => s.update)
-  if (!ex.gif) return null
+  const mediaSrc = playing ? gifSrc(ex) : imgSrc(ex)
+  if (!mediaSrc && !ex.gif && !ex.gifUrl && !ex.img && !ex.thumbUrl) return null
   const mini = minimizable && gifSize === 'mini'
   const toggleSize = e => { e.stopPropagation(); update(s => { s.gifSize = mini ? 'full' : 'mini' }) }
   return (
@@ -39,8 +40,14 @@ export default function Media({ ex, id, compact, minimizable }) {
     >
       <img
         decoding="async"
-        src={playing ? gifSrc(ex) : imgSrc(ex)}
+        src={mediaSrc || imgSrc(ex)}
         alt={ex.n}
+        onError={e => {
+          // If GIF fails or is empty, try thumbnail
+          if (playing && imgSrc(ex) && e.currentTarget.src !== imgSrc(ex)) {
+            e.currentTarget.src = imgSrc(ex)
+          }
+        }}
         style={{
           maxWidth: '100%',
           height: mini ? '130px' : compact ? '150px' : '220px',
@@ -103,6 +110,7 @@ export default function Media({ ex, id, compact, minimizable }) {
 }
 
 export function Thumb({ ex }) {
-  if (!ex.img) return <div className="thumb thumb-x"><Icon name="dumbbell" /></div>
-  return <img className="thumb" loading="lazy" decoding="async" src={imgSrc(ex)} alt="" />
+  const src = imgSrc(ex)
+  if (!src) return <div className="thumb thumb-x"><Icon name="dumbbell" /></div>
+  return <img className="thumb" loading="lazy" decoding="async" src={src} alt="" onError={e => { e.currentTarget.style.display = 'none' }} />
 }

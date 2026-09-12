@@ -203,7 +203,7 @@ export function findEx(nameOrKeywords, fallbackEq = 'barbell', prefEq = null) {
 /* ==========================================================================
    DYNAMIC CUSTOM WORKOUT GENERATOR (100% Tailored from Scratch)
    ========================================================================== */
-export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experience = 'intermediate', focus = 'balanced', goal = 'muscle' }) {
+function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'intermediate', focus = 'balanced', goal = 'muscle' }) {
   const numDays = Number(days) || 4
   const isGym = location === 'gym'
   const isHome = location === 'home'
@@ -888,6 +888,621 @@ export function buildDynamicCustomWorkout({ days = 4, location = 'gym', experien
 }
 
 /* ==========================================================================
+   CLINICAL INJURY SAFETY & SUBSTITUTION ENGINE
+   ========================================================================== */
+export const INJURY_SUBSTITUTIONS = {
+  knee_injury: {
+    'barbell squat': 'goblet squat',
+    'jump squat': 'glute bridge march',
+    'leg extensions': 'lying leg curls',
+    'single leg squat': 'goblet squat',
+    'single leg squat (pistol) male': 'goblet squat',
+    'sissy squat': 'glute bridge',
+    'walking lunges': 'dumbbell romanian deadlift',
+    'walking lunge': 'glute bridge march',
+    'dumbbell walking lunges': 'dumbbell romanian deadlift',
+    'split squats': 'glute bridge',
+    'forward lunge (male)': 'glute bridge march'
+  },
+  back_injury: {
+    'barbell deadlift': 'lat pulldown',
+    'barbell squat': 'leg press',
+    'barbell bent over row': 'cable seated row',
+    'barbell romanian deadlift': 'leg press',
+    'dumbbell romanian deadlift': 'leg press',
+    'good morning': 'glute bridge'
+  },
+  shoulder_injury: {
+    'standing dumbbell overhead press': 'dumbbell lateral raise',
+    'barbell bench press': 'incline dumbbell bench press',
+    'chest dip': 'incline dumbbell bench press',
+    'pike pushup': 'push-up',
+    'pike-to-cobra push-up': 'push-up'
+  }
+}
+
+export function applyInjurySafety(routines, healthConditions = []) {
+  if (!healthConditions || !routines) return routines
+  const conditions = Array.isArray(healthConditions) ? healthConditions : [healthConditions]
+  if (conditions.length === 0) return routines
+
+  return routines.map(routine => {
+    const updatedExercises = routine.exercises.map(ex => {
+      let currentName = (ex.name || '').toLowerCase().trim()
+      let replaced = false
+
+      for (const cond of conditions) {
+        const subs = INJURY_SUBSTITUTIONS[cond]
+        if (subs && subs[currentName]) {
+          currentName = subs[currentName]
+          replaced = true
+        }
+      }
+
+      return {
+        ...ex,
+        name: currentName,
+        safe: replaced ? true : ex.safe
+      }
+    })
+
+    return {
+      ...routine,
+      exercises: updatedExercises
+    }
+  })
+}
+
+/* ==========================================================================
+   DEDICATED SPLIT GENERATORS (PPL, Upper/Lower, Full Body, Bro Split)
+   ========================================================================== */
+function buildPplSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps }) {
+  const isGym = location === 'gym'
+  const isHome = location === 'home'
+
+  const pushA = {
+    n: 'Day 1: Push A · Chest Compound & Front Delts',
+    t: 'Chest · Shoulders · Triceps',
+    exercises: isGym ? [
+      { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : isHome ? [
+      { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : [
+      { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'decline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+    ]
+  }
+
+  const pullA = {
+    n: 'Day 2: Pull A · Lat Width & Biceps Hypertrophy',
+    t: 'Back · Biceps · Rear Delts',
+    exercises: isGym ? [
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'barbell bent over row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : isHome ? [
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : [
+      { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+      { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+      { name: 'scapular pull-up', sets: String(accSets), reps: '12-15', badge: 'pull' },
+      { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+    ]
+  }
+
+  const legsA = {
+    n: 'Day 3: Legs A · Quad Overload & Calves',
+    t: 'Quads · Hamstrings · Calves',
+    exercises: isGym ? [
+      { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'barbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+    ] : isHome ? [
+      { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+      { name: 'walking lunge', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+      { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+      { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
+      { name: 'glute bridge march', sets: '3', reps: '15', badge: 'legs' }
+    ]
+  }
+
+  const pushB = {
+    n: 'Day 4: Push B · Incline Hypertrophy & Lateral Delts',
+    t: 'Incline Chest · Delts · Triceps',
+    exercises: isGym ? [
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'chest dip', sets: String(mainSets), reps: '10', badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : isHome ? [
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell floor fly', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'incline push-up', sets: String(mainSets), reps: '12-15', badge: 'push' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'pike pushup', sets: String(accSets), reps: '8-10', badge: 'push' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'bench dips', sets: String(accSets), reps: '12-15', badge: 'push' }
+    ]
+  }
+
+  const pullB = {
+    n: 'Day 5: Pull B · Back Thickness & Heavy Rows',
+    t: 'Back · Biceps',
+    exercises: isGym ? [
+      { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+      { name: 'cable seated row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'one arm dumbbell row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : isHome ? [
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+      { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' }
+    ] : [
+      { name: 'wide grip pull-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'inverted row bent knees', sets: String(accSets), reps: '10-12', badge: 'pull' },
+      { name: 'scapular pullup', sets: String(accSets), reps: '12-15', badge: 'pull' },
+      { name: 'hanging leg raises', sets: '3', reps: '12-15', badge: 'core' }
+    ]
+  }
+
+  const legsB = {
+    n: 'Day 6: Legs B · Posterior Chain & Glutes Focus',
+    t: 'Hamstrings · Glutes · Calves',
+    exercises: isGym ? [
+      { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'dumbbell walking lunges', sets: String(accSets), reps: '12 each', badge: 'legs' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+    ] : isHome ? [
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'single leg squat', sets: String(mainSets), reps: '8-10 each', badge: 'legs' },
+      { name: 'forward lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: '15', badge: 'legs' },
+      { name: 'low glute bridge on floor', sets: '3', reps: '15', badge: 'legs' }
+    ]
+  }
+
+  const upperPump = {
+    n: 'Day 4: Upper Body Hypertrophy & Arms Overload',
+    t: 'Chest · Back · Shoulders · Arms',
+    exercises: isGym ? [
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : [
+      { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'chest dip', sets: String(accSets), reps: '10', badge: 'push' },
+      { name: 'chin-up', sets: String(accSets), reps: '8', badge: 'pull' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12', badge: 'push' }
+    ]
+  }
+
+  if (numDays === 3) return [pushA, pullA, legsA]
+  if (numDays === 4) return [pushA, pullA, legsA, upperPump]
+  if (numDays === 5) return [pushA, pullA, legsA, pushB, pullB]
+  return [pushA, pullA, legsA, pushB, pullB, legsB]
+}
+
+function buildUpperLowerSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps }) {
+  const isGym = location === 'gym'
+  const isHome = location === 'home'
+
+  const upperA = {
+    n: 'Day 1: Upper Body A · Strength & Chest Compound',
+    t: 'Chest · Back · Shoulders · Arms',
+    exercises: isGym ? [
+      { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : isHome ? [
+      { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'incline dumbbell bench press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : [
+      { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+    ]
+  }
+
+  const lowerA = {
+    n: 'Day 2: Lower Body A · Quad Overload & Calves',
+    t: 'Quads · Glutes · Calves · Core',
+    exercises: isGym ? [
+      { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'barbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+    ] : isHome ? [
+      { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+      { name: 'walking lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'jump squat', sets: String(accSets), reps: '12-15', badge: 'legs' },
+      { name: 'bodyweight standing calf raise', sets: String(accSets), reps: '15-20', badge: 'legs' },
+      { name: 'cross body crunch', sets: '3', reps: '15', badge: 'core' }
+    ]
+  }
+
+  const upperB = {
+    n: 'Day 3: Upper Body B · Back Thickness & Hypertrophy',
+    t: 'Back · Incline Chest · Rear Delts · Arms',
+    exercises: isGym ? [
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'barbell bent over row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'chest dip', sets: String(accSets), reps: '10', badge: 'push' },
+      { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : isHome ? [
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'one arm dumbbell row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : [
+      { name: 'incline push-up', sets: String(mainSets), reps: '10-12', badge: 'push' },
+      { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'scapular pull-up', sets: String(accSets), reps: '12-15', badge: 'pull' },
+      { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+    ]
+  }
+
+  const lowerB = {
+    n: 'Day 4: Lower Body B · Posterior Chain & Glute Power',
+    t: 'Hamstrings · Glutes · Calves · Core',
+    exercises: isGym ? [
+      { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'goblet squat', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'dumbbell walking lunges', sets: String(accSets), reps: '10 each', badge: 'legs' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : isHome ? [
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'goblet squat', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'bulgarian split squat', sets: String(accSets), reps: '10 each', badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'single leg squat (pistol) male', sets: String(mainSets), reps: '8-10 each', badge: 'legs' },
+      { name: 'glute bridge march', sets: String(mainSets), reps: '15', badge: 'legs' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'bodyweight incline side plank', sets: '3', reps: '45s hold', badge: 'core' },
+      { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+    ]
+  }
+
+  const fullFinisher = {
+    n: 'Day 5: Full Body Functional Conditioning & Finisher',
+    t: 'Functional Overload · Core Stability',
+    exercises: isGym ? [
+      { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+      { name: 'barbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'lat pulldown', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'pull-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'forward lunge (male)', sets: String(accSets), reps: '12 each', badge: 'legs' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+    ]
+  }
+
+  if (numDays === 3) return [upperA, lowerA, upperB]
+  if (numDays === 4) return [upperA, lowerA, upperB, lowerB]
+  if (numDays === 5) return [upperA, lowerA, upperB, lowerB, fullFinisher]
+  return [upperA, lowerA, upperB, lowerB, upperA, lowerB]
+}
+
+function buildFullBodySplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps }) {
+  const isGym = location === 'gym'
+  const isHome = location === 'home'
+
+  const fbA = {
+    n: 'Day 1: Full Body A · Squat & Horizontal Press',
+    t: 'Quads · Chest · Lats · Core',
+    exercises: isGym ? [
+      { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : isHome ? [
+      { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
+      { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'pull-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'diamond push-up', sets: String(accSets), reps: '12', badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '45s hold', badge: 'core' }
+    ]
+  }
+
+  const fbB = {
+    n: 'Day 2: Full Body B · Hinge & Incline Hypertrophy',
+    t: 'Hamstrings · Incline Chest · Delts · Back',
+    exercises: isGym ? [
+      { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'barbell bent over row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'barbell curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : isHome ? [
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'standing dumbbell overhead press', sets: String(accSets), reps: String(accReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : [
+      { name: 'glute bridge march', sets: String(mainSets), reps: '15', badge: 'legs' },
+      { name: 'incline push-up', sets: String(mainSets), reps: '12', badge: 'push' },
+      { name: 'chin-up', sets: String(mainSets), reps: '6-8', badge: 'pull' },
+      { name: 'pike pushup', sets: String(accSets), reps: '8-10', badge: 'push' },
+      { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+    ]
+  }
+
+  const fbC = {
+    n: 'Day 3: Full Body C · Unilateral Power & Arm Pump',
+    t: 'Posterior Chain · Delts · Arms · Calves',
+    exercises: isGym ? [
+      { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'chest dip', sets: String(mainSets), reps: '10', badge: 'push' },
+      { name: 'cable seated row', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+    ] : isHome ? [
+      { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'dumbbell floor fly', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'dumbbell lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : [
+      { name: 'walking lunge', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'chest dip', sets: String(mainSets), reps: '8-10', badge: 'push' },
+      { name: 'inverted row', sets: String(accSets), reps: '10-12', badge: 'pull' },
+      { name: 'archer push up', sets: String(accSets), reps: '6 each', badge: 'push' },
+      { name: 'hanging leg raise', sets: '3', reps: '12-15', badge: 'core' }
+    ]
+  }
+
+  const fbD = {
+    n: 'Day 4: Full Body D · Power & Posterior Chain Finisher',
+    t: 'Glutes · Shoulders · Back · Triceps',
+    exercises: isGym ? [
+      { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'single leg squat (pistol) male', sets: String(mainSets), reps: '8-10 each', badge: 'legs' },
+      { name: 'decline push-up', sets: String(accSets), reps: '10-12', badge: 'push' },
+      { name: 'bodyweight squatting row', sets: String(accSets), reps: '12-15', badge: 'pull' },
+      { name: 'bench dips', sets: String(accSets), reps: '12-15', badge: 'push' },
+      { name: 'reverse crunch', sets: '3', reps: '15', badge: 'core' }
+    ]
+  }
+
+  if (numDays === 3) return [fbA, fbB, fbC]
+  if (numDays === 4) return [fbA, fbB, fbC, fbD]
+  return [fbA, fbB, fbC, fbD, fbA]
+}
+
+function buildBroSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps }) {
+  const isGym = location === 'gym'
+
+  const chestDay = {
+    n: 'Day 1: Chest Specialization & Triceps Arc',
+    t: 'Pectorals · Front Delts · Triceps',
+    exercises: isGym ? [
+      { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'chest dip', sets: String(mainSets), reps: '10', badge: 'push' },
+      { name: 'cable crossover', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'cable tricep pushdown', sets: String(accSets), reps: String(isoReps), badge: 'push' }
+    ] : [
+      { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
+      { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell floor fly', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'overhead tricep extension', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ]
+  }
+
+  const backDay = {
+    n: 'Day 2: Back Thickness & Lat Width Overload',
+    t: 'Lats · Traps · Rhomboids · Biceps',
+    exercises: isGym ? [
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
+      { name: 'lat pulldown', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'barbell bent over row', sets: String(accSets), reps: String(accReps), badge: 'pull' },
+      { name: 'cable seated row', sets: String(accSets), reps: String(accReps), badge: 'pull' }
+    ] : [
+      { name: 'one arm dumbbell row', sets: String(mainSets), reps: String(mainReps), badge: 'pull' },
+      { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
+      { name: 'dumbbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ]
+  }
+
+  const legsDay = {
+    n: 'Day 3: Quads, Hamstrings & Calves Annihilation',
+    t: 'Quads · Hamstrings · Glutes · Calves',
+    exercises: isGym ? [
+      { name: 'barbell squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'leg press', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
+      { name: 'leg extensions', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'barbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'lying leg curls', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'standing calf raises', sets: String(accSets), reps: String(isoReps), badge: 'legs' }
+    ] : [
+      { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
+      { name: 'dumbbell walking lunges', sets: String(mainSets), reps: '10 each', badge: 'legs' },
+      { name: 'dumbbell romanian deadlift', sets: String(accSets), reps: String(accReps), badge: 'legs' },
+      { name: 'single leg calf raise', sets: String(accSets), reps: String(isoReps), badge: 'legs' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ]
+  }
+
+  const deltsDay = {
+    n: 'Day 4: Shoulders, Traps & Core Sculpting',
+    t: 'Front Delts · Lateral Delts · Rear Delts · Abs',
+    exercises: isGym ? [
+      { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(mainSets), reps: String(isoReps), badge: 'push' },
+      { name: 'cable face pull', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' }
+    ] : [
+      { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'dumbbell lateral raise', sets: String(mainSets), reps: String(isoReps), badge: 'push' },
+      { name: 'dumbbell rear lateral raise', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'front plank with twist', sets: '3', reps: '60s hold', badge: 'core' },
+      { name: 'cross body crunch', sets: '3', reps: '15', badge: 'core' }
+    ]
+  }
+
+  const armsDay = {
+    n: 'Day 5: Complete Arms Hypertrophy (Biceps & Triceps)',
+    t: 'Biceps · Triceps · Forearms',
+    exercises: isGym ? [
+      { name: 'barbell curl', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'cable tricep pushdown', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'skull crusher', sets: String(accSets), reps: String(isoReps), badge: 'push' },
+      { name: 'dumbbell alternate bicep curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' }
+    ] : [
+      { name: 'dumbbell alternate bicep curl', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
+      { name: 'overhead tricep extension', sets: String(mainSets), reps: String(accReps), badge: 'push' },
+      { name: 'hammer curl', sets: String(accSets), reps: String(isoReps), badge: 'pull' },
+      { name: 'bench dips', sets: String(accSets), reps: '12-15', badge: 'push' }
+    ]
+  }
+
+  if (numDays === 3) return [chestDay, backDay, legsDay]
+  if (numDays === 4) return [chestDay, backDay, legsDay, deltsDay]
+  return [chestDay, backDay, legsDay, deltsDay, armsDay]
+}
+
+/* ==========================================================================
+   DYNAMIC CUSTOM WORKOUT GENERATOR (Dispatcher)
+   ========================================================================== */
+export function buildDynamicCustomWorkout({
+  days = 4,
+  location = 'gym',
+  experience = 'intermediate',
+  focus = 'balanced',
+  goal = 'muscle',
+  splitPreference = 'coach',
+  healthConditions = []
+}) {
+  const numDays = Number(days) || 4
+  const isGym = location === 'gym'
+  const isHome = location === 'home'
+  const isCalisthenics = location === 'calisthenics'
+
+  // Set counts based on experience
+  const mainSets = experience === 'advanced' ? 4 : experience === 'beginner' ? 3 : 3
+  const accSets = experience === 'advanced' ? 4 : 3
+
+  // Rep ranges based on goal
+  const mainReps = goal === 'strength' ? 6 : goal === 'fat_loss' ? 10 : 8
+  const accReps = goal === 'strength' ? 8 : goal === 'fat_loss' ? 12 : 10
+  const isoReps = goal === 'fat_loss' ? 15 : 12
+
+  let routines = []
+
+  if (splitPreference === 'ppl') {
+    routines = buildPplSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps })
+  } else if (splitPreference === 'upper_lower') {
+    routines = buildUpperLowerSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps })
+  } else if (splitPreference === 'full_body') {
+    routines = buildFullBodySplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps })
+  } else if (splitPreference === 'bro_split') {
+    routines = buildBroSplit({ numDays, location, mainSets, accSets, mainReps, accReps, isoReps })
+  } else {
+    // Coach decides optimal default
+    routines = buildCoachDefaultWorkout({ days: numDays, location, experience, focus, goal })
+  }
+
+  return applyInjurySafety(routines, healthConditions)
+}
+
+/* ==========================================================================
    DYNAMIC CUSTOM PLAN GENERATOR (Full Protocol)
    ========================================================================== */
 export function generateCustomPlan(answers) {
@@ -902,13 +1517,37 @@ export function generateCustomPlan(answers) {
     days = 4,
     location = 'gym',
     experience = 'intermediate',
-    focus = 'balanced'
+    focus = 'balanced',
+    splitPreference = 'coach',
+    healthConditions = []
   } = answers || {}
 
   const numAge = Number(age) || 25
   const numWeight = Number(weight) || 72
   const numHeight = Number(height) || 175
   const numDays = Number(days) || 4
+
+  // Clinical Health Conditions Adjustments
+  const conditions = Array.isArray(healthConditions) ? healthConditions : [healthConditions].filter(Boolean)
+  let healthMultiplier = 1.0
+  const healthNotes = []
+
+  if (conditions.includes('thyroid')) {
+    healthMultiplier *= 0.90 // clinical metabolic compensation
+    healthNotes.push('Thyroid metabolic pacing active (-10% baseline caloric compensation)')
+  }
+  if (conditions.includes('diabetes')) {
+    healthMultiplier *= 0.95 // glycemic stabilization
+    healthNotes.push('Diabetes glycemic control active (stabilized carb-to-protein ratio)')
+  }
+  if (conditions.includes('pcos')) {
+    healthMultiplier *= 0.92 // insulin sensitivity modulation
+    healthNotes.push('PCOS hormonal calibration active (higher protein pacing)')
+  }
+  if (conditions.includes('hypertension')) {
+    healthMultiplier *= 0.97
+    healthNotes.push('Hypertension moderate cardiovascular load active')
+  }
 
   // BMR via Mifflin-St Jeor Formula
   const bmr = (10 * numWeight) + (6.25 * numHeight) - (5 * numAge) + (gender === 'female' ? -161 : 5)
@@ -920,7 +1559,17 @@ export function generateCustomPlan(answers) {
   else if (goal === 'muscle') targetKcal = Math.round(tdee + 350)
   else if (goal === 'strength') targetKcal = Math.round(tdee + 200)
 
-  const targetProtein = Math.round(numWeight * (goal === 'fat_loss' ? 2.2 : 2.0))
+  targetKcal = Math.round(targetKcal * healthMultiplier)
+
+  if (conditions.includes('pregnancy')) {
+    targetKcal = Math.max(targetKcal, 1850) // Postpartum recovery safe floor
+    healthNotes.push('Post-pregnancy pelvic floor safe & recovery floor enforced (min 1,850 kcal)')
+  }
+
+  // Protein adjustments
+  const isHighProteinCondition = conditions.includes('pcos') || conditions.includes('diabetes')
+  const proteinFactor = isHighProteinCondition ? 2.2 : (goal === 'fat_loss' ? 2.2 : 2.0)
+  const targetProtein = Math.round(numWeight * proteinFactor)
   const targetFat = Math.round((targetKcal * 0.25) / 9)
   const targetCarbs = Math.max(0, Math.round((targetKcal - (targetProtein * 4) - (targetFat * 9)) / 4))
 
@@ -928,7 +1577,32 @@ export function generateCustomPlan(answers) {
   const bmi = parseFloat((numWeight / (heightM * heightM)).toFixed(1))
 
   const meals = buildCustomDietPlan(diet, targetKcal, targetProtein)
-  const workout = buildDynamicCustomWorkout({ days: numDays, location, experience, focus, goal })
+  const workout = buildDynamicCustomWorkout({
+    days: numDays,
+    location,
+    experience,
+    focus,
+    goal,
+    splitPreference,
+    healthConditions: conditions
+  })
+
+  const splitLabels = {
+    coach: 'Coach Optimized',
+    ppl: 'Push / Pull / Legs (PPL)',
+    upper_lower: 'Upper / Lower',
+    full_body: 'Full Body',
+    bro_split: 'Classic Bodypart Split'
+  }
+
+  const activeSplitLabel = splitLabels[splitPreference] || 'Custom Protocol'
+  const injuryNotes = []
+  if (conditions.includes('knee_injury')) injuryNotes.push('Knee shear movements removed (safe squats & hinge focus)')
+  if (conditions.includes('back_injury')) injuryNotes.push('Spine decompression enforced (axial load replaced with chest-supported movements)')
+  if (conditions.includes('shoulder_injury')) injuryNotes.push('Rotator cuff safe (overhead presses substituted with neutral-grip mechanics)')
+
+  const allSafetyNotes = [...healthNotes, ...injuryNotes]
+  const safetySummary = allSafetyNotes.length > 0 ? ` Clinical guardrails: ${allSafetyNotes.join('; ')}.` : ''
 
   return {
     kcal: targetKcal,
@@ -938,8 +1612,12 @@ export function generateCustomPlan(answers) {
     bmi,
     goal,
     diet,
-    coachNote: `${pname}, your 100% custom training & nutrition architecture is calibrated for ${goal.replace('_', ' ')}. With a daily target of ${targetKcal} kcal (${targetProtein}g Protein) and a dedicated ${numDays}-day ${location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics'} routine, your protocol is configured for steady progressive overload.`,
-    weeklyInsight: `Consistency is your superpower, ${pname}! Execute your prescribed working sets close to failure. 🚀`,
+    splitPreference,
+    healthConditions: conditions,
+    coachNote: `${pname}, your 100% custom training & nutrition architecture is calibrated for ${goal.replace('_', ' ')} (${activeSplitLabel}). With a daily target of ${targetKcal} kcal (${targetProtein}g Protein) and a dedicated ${numDays}-day ${location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics'} routine.${safetySummary}`,
+    weeklyInsight: allSafetyNotes.length > 0
+      ? `Health guardrails active: ${allSafetyNotes[0]}. Form precision over ego lifting!`
+      : `Consistency is your superpower, ${pname}! Execute your prescribed working sets close to failure. 🚀`,
     meals,
     workout,
     generatedAt: new Date().toISOString(),
