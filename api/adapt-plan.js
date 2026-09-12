@@ -1,125 +1,161 @@
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Credentials', true)
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT')
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  )
-  if (req.method === 'OPTIONS') {
-    res.status(200).end()
-    return
-  }
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  if (req.method === 'OPTIONS') { res.status(200).end(); return }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { answers, currentPlan, weeklyWeights, workoutSummary, checkin } = req.body;
-  if (!answers || !currentPlan) return res.status(400).json({ error: 'Missing data' });
+  const env = process.env;
+  const request = { json: async () => req.body };
+  const Response = class {
+    constructor(bodyStr, opts) {
+      const status = opts?.status || 200;
+      res.status(status).send(bodyStr);
+    }
+  };
 
-  const OPENAI_KEY = process.env.OPENAI_API_KEY;
-  if (!OPENAI_KEY) return res.status(500).json({ error: 'OpenAI API key not configured' });
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Content-Type': 'application/json'
+  };
 
-  const weights = weeklyWeights || [];
-  const startWeight = weights[0] || answers.weight;
-  const currentWeight = weights[weights.length - 1] || startWeight;
-  const weightChange = parseFloat((currentWeight - startWeight).toFixed(1));
-  const weeks = weights.length;
-
-  // Build workout performance summary text
-  let workoutText = '';
-  if (workoutSummary && workoutSummary.length > 0) {
-    const recent = workoutSummary.slice(-5);
-    workoutText = `
-RECENT WORKOUT PERFORMANCE (last ${recent.length} sessions):
-${recent.map(w => `- ${w.name || 'Workout'} on ${w.date}: ${w.setsCompleted}/${w.setsTotal} sets completed, top weights: ${(w.topWeights || []).slice(0,3).map(x => `${x.exercise} ${x.weight}kg`).join(', ')}`).join('\n')}
-Completion rate: ${workoutSummary.filter(w => w.completed).length}/${workoutSummary.length} workouts completed`;
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers, status: 200 });
   }
 
-  // Build check-in summary
-  let checkinText = '';
-  if (checkin) {
-    const difficultyMap = { easy: '😅 Too Easy', good: '💪 Just Right', hard: '😤 Too Hard' };
-    const sorenessMap = { fresh: '😌 No Soreness', mild: '😐 Mild Soreness', sore: '😣 Very Sore' };
-    checkinText = `
-POST-WORKOUT CHECK-IN (most recent):
-- Difficulty: ${difficultyMap[checkin.difficulty] || checkin.difficulty}
-- Soreness/Recovery: ${sorenessMap[checkin.soreness] || checkin.soreness}`;
-    if (checkin.difficulty === 'easy') checkinText += '\n→ Weights feel too light, ready for progression';
-    if (checkin.difficulty === 'hard') checkinText += '\n→ Client is struggling, may need deload or volume reduction';
-    if (checkin.soreness === 'sore') checkinText += '\n→ Recovery is slow, consider extra rest day or reduce volume';
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), { headers, status: 405 });
   }
 
-  const prompt = `You are an expert AI fitness coach doing a real-time plan review. A client just logged new data. Analyze their progress immediately and adapt their plan with specific actionable changes.
+  try {
+    const body = await request.json();
+    const { answers, currentPlan, weeklyWeights, workoutSummary, checkin } = body || {};
+    if (!answers || !currentPlan) {
+      return new Response(JSON.stringify({ error: 'Missing data' }), { headers, status: 400 });
+    }
+
+    const GEMINI_KEY = env.GEMINI_API_KEY || env.VITE_GEMINI_API_KEY;
+    const OPENAI_KEY = env.OPENAI_API_KEY;
+
+    const weights = weeklyWeights || [];
+    const startWeight = weights[0] || answers.weight;
+    const currentWeight = weights[weights.length - 1] || startWeight;
+    const weightChange = parseFloat((currentWeight - startWeight).toFixed(1));
+    const weeks = weights.length;
+
+    let workoutText = '';
+    if (workoutSummary && workoutSummary.length > 0) {
+      const recent = workoutSummary.slice(-5);
+      workoutText = `\nRECENT WORKOUT PERFORMANCE (last ${recent.length} sessions):\n${recent.map(w => `- ${w.name || 'Workout'} on ${w.date}: ${w.setsCompleted}/${w.setsTotal} sets completed`).join('\n')}`;
+    }
+
+    let checkinText = '';
+    if (checkin) {
+      const difficultyMap = { easy: '😅 Too Easy', good: '💪 Just Right', hard: '😤 Too Hard' };
+      const sorenessMap = { fresh: '😌 No Soreness', mild: '😐 Mild Soreness', sore: '😣 Very Sore' };
+      checkinText = `\nPOST-WORKOUT CHECK-IN:\n- Difficulty: ${difficultyMap[checkin.difficulty] || checkin.difficulty}\n- Soreness: ${sorenessMap[checkin.soreness] || checkin.soreness}`;
+    }
+
+    const prompt = `You are an elite AI fitness coach doing a weekly check-in review.
+Analyze client progress and adapt their nutrition & training plan.
 
 CLIENT: ${answers.pname}, ${answers.gender}, ${answers.age}y, Goal: ${answers.goal}, Diet: ${answers.diet}
-TRAINING: ${answers.location === 'gym' ? 'Gym (full equipment)' : 'Home (dumbbells & bodyweight)'}
 CURRENT PLAN: ${currentPlan.kcal} kcal/day, ${currentPlan.protein}g protein, ${currentPlan.carbs}g carbs, ${currentPlan.fat}g fat
-
-WEIGHT HISTORY (${weeks} data points): ${weights.join(' → ')} kg
-TOTAL CHANGE: ${weightChange > 0 ? '+' : ''}${weightChange} kg
+WEIGHT HISTORY (${weeks} points): ${weights.join(' → ')} kg (Total change: ${weightChange > 0 ? '+' : ''}${weightChange} kg)
 ${workoutText}
 ${checkinText}
 
-ADAPTATION RULES (apply strictly):
-- Fat Loss goal: target 0.4-0.6 kg/week loss. If stalled (<0.2 kg change over 2+ weeks): -100 kcal from carbs. If losing >0.8 kg/week: +100 kcal. Protect muscle: keep protein ≥ 2g/kg.
-- Muscle Gain goal: target 0.2-0.3 kg/week gain. If no gain in 2+ weeks: +150 kcal. If gaining >0.5 kg/week: -100 kcal (too much fat).
-- Recomp: keep same calories, adjust protein higher if soreness is persistent.
-- If difficulty check-in = "easy" for 2+ sessions: suggest progressive overload (add weight or reps).
-- If difficulty check-in = "hard": suggest deload this week (reduce weights by 10%, same reps).
-- If soreness = "sore": add 1 rest day recommendation.
-- Workout completion < 80%: simplify plan, reduce volume.
+ADAPTATION RULES:
+- Fat Loss: if stalled (<0.2kg change over 2 weeks), reduce -100 kcal from carbs. If losing >0.8kg/week, +100 kcal.
+- Muscle Gain: if no gain in 2 weeks, +150 kcal.
+- If difficulty = "easy": recommend adding weight/reps.
+- If difficulty = "hard": suggest 10% deload.
+- If soreness = "sore": recommend extra rest day.
 
-Be a warm, encouraging coach. Celebrate progress. Be specific about what changed and why.
-
-Return ONLY valid JSON (no markdown, no explanation):
+Return ONLY valid JSON matching this schema:
 {
-  "kcal": 2050,
-  "protein": 145,
-  "carbs": 210,
-  "fat": 63,
-  "coachNote": "Warm, personalized 2-3 sentence analysis of their specific progress with concrete observations",
-  "changes": ["Reduced carbs by 20g because weight has been stalling for 2 weeks", "Protein kept high to preserve your muscle gains"],
-  "weeklyInsight": "One energetic, personalized encouragement sentence with emoji",
-  "celebration": "One congratulatory sentence if they hit a milestone (PRs, streak, weight goal progress), or empty string",
+  "kcal": ${currentPlan.kcal},
+  "protein": ${currentPlan.protein},
+  "carbs": ${currentPlan.carbs},
+  "fat": ${currentPlan.fat},
+  "coachNote": "Warm, personalized 2-3 sentence analysis of their specific progress",
+  "changes": ["Specific change 1", "Specific change 2"],
+  "weeklyInsight": "One energetic, personalized encouragement sentence",
+  "celebration": "One congratulatory sentence if they progressed, or empty string",
   "meals": [
-    {"t": "7:00 AM", "n": "Breakfast", "d": "Detailed food with quantities tailored to their diet", "i": "🍳", "k": 420, "p": 35, "note": "Coach tip"},
-    {"t": "10:30 AM", "n": "Mid-Morning", "d": "...", "i": "🥗", "k": 250, "p": 18, "note": "..."},
-    {"t": "1:00 PM", "n": "Lunch", "d": "...", "i": "🍱", "k": 550, "p": 40, "note": "..."},
-    {"t": "4:00 PM", "n": "Pre-Workout", "d": "...", "i": "⚡", "k": 220, "p": 15, "note": "..."},
-    {"t": "7:30 PM", "n": "Dinner", "d": "...", "i": "🍛", "k": 480, "p": 32, "note": "..."},
-    {"t": "9:30 PM", "n": "Night Snack", "d": "...", "i": "🥛", "k": 150, "p": 12, "note": "..."}
+    {"id": "m1", "slot": "Breakfast", "time": "8:00 AM", "title": "...", "note": "...", "icon": "🍳", "kcal": ${Math.round(currentPlan.kcal * 0.28)}, "protein": ${Math.round(currentPlan.protein * 0.28)}, "carbs": ${Math.round(currentPlan.carbs * 0.28)}, "fat": ${Math.round(currentPlan.fat * 0.28)}}
   ]
 }`;
 
-  try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.6,
-        max_tokens: 2500
-      })
-    });
+    // Try Gemini
+    if (GEMINI_KEY) {
+      try {
+        const geminiRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 3000, responseMimeType: 'application/json' }
+          })
+        });
+        if (geminiRes.ok) {
+          const gData = await geminiRes.json();
+          const cleanJson = (gData?.candidates?.[0]?.content?.parts?.[0]?.text || '').replace(/```json\n?|\n?```/g, '').trim();
+          const updatedPlan = JSON.parse(cleanJson);
+          updatedPlan.lastUpdated = new Date().toISOString();
+          updatedPlan.monthNumber = (currentPlan.monthNumber || 1) + 1;
+          updatedPlan.goal = currentPlan.goal || answers.goal;
+          updatedPlan.diet = currentPlan.diet || answers.diet;
+          updatedPlan.aiGenerated = true;
+          updatedPlan.aiEngine = 'gemini-3.6-flash';
+          return new Response(JSON.stringify({ plan: updatedPlan }), { headers, status: 200 });
+        }
+      } catch (gErr) {
+        console.warn('Gemini adapt-plan warning:', gErr);
+      }
+    }
 
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error?.message || 'OpenAI API error');
+    // Try OpenAI
+    if (OPENAI_KEY) {
+      try {
+        const openAiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${OPENAI_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.6,
+            max_tokens: 2500,
+            response_format: { type: 'json_object' }
+          })
+        });
+        if (openAiRes.ok) {
+          const data = await openAiRes.json();
+          const cleanJson = data.choices[0].message.content.trim().replace(/```json\n?|\n?```/g, '').trim();
+          const updatedPlan = JSON.parse(cleanJson);
+          updatedPlan.lastUpdated = new Date().toISOString();
+          updatedPlan.monthNumber = (currentPlan.monthNumber || 1) + 1;
+          updatedPlan.goal = currentPlan.goal || answers.goal;
+          updatedPlan.diet = currentPlan.diet || answers.diet;
+          updatedPlan.aiGenerated = true;
+          updatedPlan.aiEngine = 'gpt-4o';
+          return new Response(JSON.stringify({ plan: updatedPlan }), { headers, status: 200 });
+        }
+      } catch (oErr) {
+        console.warn('OpenAI adapt-plan warning:', oErr);
+      }
+    }
 
-    const content = data.choices[0].message.content.trim();
-    const jsonStr = content.replace(/```json\n?|\n?```/g, '').trim();
-    const updatedPlan = JSON.parse(jsonStr);
-
+    // Static fallback
+    const updatedPlan = { ...currentPlan };
     updatedPlan.lastUpdated = new Date().toISOString();
-    updatedPlan.monthNumber = (currentPlan.monthNumber || 1) + 1;
-    updatedPlan.goal = currentPlan.goal || answers.goal;
-    updatedPlan.diet = currentPlan.diet || answers.diet;
+    updatedPlan.coachNote = `Keep up the consistent work, ${answers.pname || 'Athlete'}! Your body is adapting nicely.`;
+    return new Response(JSON.stringify({ plan: updatedPlan }), { headers, status: 200 });
 
-    res.status(200).json({ plan: updatedPlan });
   } catch (err) {
     console.error('adapt-plan error:', err);
-    res.status(500).json({ error: err.message });
+    return new Response(JSON.stringify({ error: err.message }), { headers, status: 500 });
   }
 }
