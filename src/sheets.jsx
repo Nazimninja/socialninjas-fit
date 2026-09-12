@@ -1226,6 +1226,7 @@ function OnboardingWizard({ close }) {
       s.onboarded = true
       s.body = gender
       s.aiPlan = plan
+      s.customDiet = { meals: plan.meals }
       s.aiAnswers = {
         pname: pname || 'Athlete',
         age: numAge,
