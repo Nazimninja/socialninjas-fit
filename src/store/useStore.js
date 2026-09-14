@@ -8,7 +8,7 @@ import { generateCustomPlan, convertPlanToStoreRoutines } from '../lib/planGener
 
 const KEY = 'gym_state_v1'
 export const DEF = {
-  unit: 'kg', restSec: 90, sound: true, keepAwake: true, lang: 'en',
+  unit: 'kg', restSec: 90, fullscreenRest: true, sound: true, keepAwake: true, lang: 'en',
   theme: 'dark', accent: 'sky', body: 'male', targetW: null,
   bodyweight: [], routines: [], week: {}, dayPlan: {},
   exWeights: {}, workouts: [], active: null, customEx: [], gifSize: 'full',
@@ -557,3 +557,7 @@ export const useStore = create((set, get) => {
 })
 
 export { hasData }
+
+if (typeof window !== 'undefined') {
+  window.useStore = useStore
+}

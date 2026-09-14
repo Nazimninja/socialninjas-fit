@@ -187,6 +187,10 @@ export default function Settings() {
           { value: 150, label: '150s' },
           { value: 180, label: '180s' },
         ]} />
+      <Row icon="eye" iconTint="var(--acc)" title={t('Full-screen rest shield')}
+        subtitle={t('Immersion countdown shield to prevent accidental screen touches')}>
+        <Switch checked={S.fullscreenRest !== false} onChange={v => update(s => { s.fullscreenRest = v })} />
+      </Row>
       {(wakeOK || !MOBILE) && (
         <Row icon="sun" iconTint="var(--yellow)" title={t('Keep screen awake')}
           subtitle={wakeOK ? null : t('Not supported in this browser.')}>

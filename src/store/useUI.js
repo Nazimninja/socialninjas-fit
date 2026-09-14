@@ -142,3 +142,7 @@ export const useUI = create((set, get) => ({
     set({ work: null })
   }
 }))
+
+if (typeof window !== 'undefined') {
+  window.useUI = useUI
+}
