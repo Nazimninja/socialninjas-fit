@@ -8,41 +8,76 @@ import { t } from '../lib/i18n.js';
 import { todayISO } from '../lib/format.js';
 import { buildCustomDietPlan } from '../lib/planGenerator.js';
 
-// Verified Quick Food Library for 1-Tap Detailed Logging
-const QUICK_FOODS_DB = [
-  // High Protein
-  { name: 'Chicken Breast (Cooked)', portion: '150g', kcal: 248, protein: 46, carbs: 0, fat: 5, category: 'Protein', icon: '🍗' },
-  { name: 'Whole Boiled Egg', portion: '1 large (50g)', kcal: 74, protein: 6.3, carbs: 0.4, fat: 5, category: 'Protein', icon: '🥚' },
-  { name: 'Egg Whites', portion: '4 large (130g)', kcal: 68, protein: 14.5, carbs: 0.9, fat: 0.2, category: 'Protein', icon: '🍳' },
-  { name: 'Low-Fat Paneer', portion: '100g', kcal: 180, protein: 20, carbs: 4, fat: 9, category: 'Protein', icon: '🧀' },
-  { name: 'Soya Chunks (Dry)', portion: '50g', kcal: 172, protein: 26, carbs: 16, fat: 0.5, category: 'Protein', icon: '🫘' },
-  { name: 'Whey Protein Isolate', portion: '1 scoop (30g)', kcal: 120, protein: 25, carbs: 2, fat: 1, category: 'Protein', icon: '🥤' },
-  { name: 'Greek Yogurt / Thick Curd', portion: '150g (1 cup)', kcal: 105, protein: 15, carbs: 6, fat: 2, category: 'Protein', icon: '🥣' },
-  { name: 'Fish Fillet (Tilapia/Basa)', portion: '150g', kcal: 190, protein: 39, carbs: 0, fat: 3.5, category: 'Protein', icon: '🐟' },
-  { name: 'Tofu (Firm)', portion: '150g', kcal: 125, protein: 14, carbs: 3, fat: 7, category: 'Protein', icon: '🥗' },
-  { name: 'Yellow Moong Dal (Cooked)', portion: '1 bowl (180g)', kcal: 180, protein: 12, carbs: 29, fat: 2, category: 'Protein', icon: '🍲' },
-  { name: 'Rajma / Kidney Beans', portion: '1 bowl (180g)', kcal: 220, protein: 14, carbs: 38, fat: 2.5, category: 'Protein', icon: '🫘' },
-  { name: 'Chole / Chickpeas', portion: '1 bowl (180g)', kcal: 240, protein: 13, carbs: 40, fat: 4, category: 'Protein', icon: '🫘' },
+// Comprehensive Food Catalog with Automatic Quantity-Based Macro Calculation
+const COMMON_FOODS = [
+  // 🥚 Eggs & Dairy
+  { id: 'roti_chapati', name: 'Roti / Chapati (Whole Wheat)', category: 'Grains & Carbs', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 2, perUnit: { piece: { kcal: 105, p: 3.5, c: 20, f: 1.5, weightG: 35 }, g: { kcal: 3.0, p: 0.10, c: 0.57, f: 0.043 } } },
+  { id: 'boiled_egg', name: 'Whole Boiled Egg', category: 'Eggs & Dairy', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 2, perUnit: { piece: { kcal: 74, p: 6.3, c: 0.4, f: 5, weightG: 50 }, g: { kcal: 1.48, p: 0.126, c: 0.008, f: 0.1 } } },
+  { id: 'egg_white', name: 'Egg White (Boiled)', category: 'Eggs & Dairy', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 4, perUnit: { piece: { kcal: 17, p: 3.6, c: 0.2, f: 0.1, weightG: 33 }, g: { kcal: 0.52, p: 0.11, c: 0.007, f: 0.002 } } },
+  { id: 'egg_omelette', name: 'Egg Omelette (1 Egg, minimal oil)', category: 'Eggs & Dairy', defaultUnit: 'piece', units: ['piece'], defaultQty: 2, perUnit: { piece: { kcal: 95, p: 6.5, c: 1, f: 7.2 } } },
+  { id: 'paneer_regular', name: 'Paneer (Standard / Dairy)', category: 'Eggs & Dairy', defaultUnit: 'g', units: ['g'], defaultQty: 100, perUnit: { g: { kcal: 2.65, p: 0.18, c: 0.04, f: 0.20 } } },
+  { id: 'paneer_lowfat', name: 'Low-Fat Paneer', category: 'Eggs & Dairy', defaultUnit: 'g', units: ['g'], defaultQty: 100, perUnit: { g: { kcal: 1.80, p: 0.20, c: 0.04, f: 0.09 } } },
+  { id: 'curd_dahi', name: 'Curd / Plain Dahi', category: 'Eggs & Dairy', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 98, p: 5.2, c: 7, f: 5, weightG: 150 }, g: { kcal: 0.65, p: 0.035, c: 0.046, f: 0.033 } } },
+  { id: 'greek_yogurt', name: 'Greek Yogurt / Thick Curd', category: 'Eggs & Dairy', defaultUnit: 'cup', units: ['cup', 'g'], defaultQty: 1, perUnit: { cup: { kcal: 105, p: 15, c: 6, f: 2, weightG: 150 }, g: { kcal: 0.70, p: 0.10, c: 0.04, f: 0.013 } } },
+  { id: 'milk_toned', name: 'Cow Milk (Toned / Low Fat)', category: 'Eggs & Dairy', defaultUnit: 'glass', units: ['glass', 'ml'], defaultQty: 1, perUnit: { glass: { kcal: 115, p: 7.5, c: 12, f: 3.5, weightG: 250 }, ml: { kcal: 0.46, p: 0.03, c: 0.048, f: 0.014 } } },
+  { id: 'milk_full', name: 'Cow Milk (Full Cream)', category: 'Eggs & Dairy', defaultUnit: 'glass', units: ['glass', 'ml'], defaultQty: 1, perUnit: { glass: { kcal: 160, p: 8, c: 12, f: 9, weightG: 250 }, ml: { kcal: 0.64, p: 0.032, c: 0.048, f: 0.036 } } },
 
-  // Carbs & Staples
-  { name: 'Cooked White Basmati Rice', portion: '1 bowl (150g)', kcal: 195, protein: 4, carbs: 43, fat: 0.5, category: 'Carbs', icon: '🍚' },
-  { name: 'Cooked Brown Rice / Quinoa', portion: '1 bowl (150g)', kcal: 165, protein: 3.5, carbs: 35, fat: 1.5, category: 'Carbs', icon: '🌾' },
-  { name: 'Whole Wheat Roti / Chapati', portion: '1 medium (35g)', kcal: 105, protein: 3.5, carbs: 20, fat: 1.5, category: 'Carbs', icon: '🫓' },
-  { name: 'Rolled Oats (Raw)', portion: '50g (1/2 cup)', kcal: 190, protein: 6.8, carbs: 34, fat: 3.5, category: 'Carbs', icon: '🥣' },
-  { name: 'Banana', portion: '1 medium (118g)', kcal: 105, protein: 1.3, carbs: 27, fat: 0.3, category: 'Carbs', icon: '🍌' },
-  { name: 'Sweet Potato (Boiled)', portion: '150g', kcal: 130, protein: 2.3, carbs: 30, fat: 0.2, category: 'Carbs', icon: '🍠' },
-  { name: 'Whole Wheat Bread', portion: '2 slices (60g)', kcal: 140, protein: 6, carbs: 26, fat: 1.8, category: 'Carbs', icon: '🍞' },
-  { name: 'Roasted Chana', portion: '40g (1 handful)', kcal: 150, protein: 8, carbs: 23, fat: 2.5, category: 'Carbs', icon: '🥗' },
-  { name: 'Roasted Makhana (Foxnuts)', portion: '30g (1 bowl)', kcal: 105, protein: 3, carbs: 20, fat: 0.3, category: 'Carbs', icon: '🍿' },
+  // 🍗 Meat & Fish
+  { id: 'chicken_breast', name: 'Chicken Breast (Cooked / Grilled)', category: 'Meat & Fish', defaultUnit: 'g', units: ['g'], defaultQty: 150, perUnit: { g: { kcal: 1.65, p: 0.31, c: 0, f: 0.036 } } },
+  { id: 'chicken_curry', name: 'Home Chicken Curry (Pieces)', category: 'Meat & Fish', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 280, p: 32, c: 6, f: 14, weightG: 200 }, g: { kcal: 1.4, p: 0.16, c: 0.03, f: 0.07 } } },
+  { id: 'fish_fillet', name: 'Fish Fillet (Tilapia / Basa / Cod)', category: 'Meat & Fish', defaultUnit: 'g', units: ['g'], defaultQty: 150, perUnit: { g: { kcal: 1.25, p: 0.26, c: 0, f: 0.025 } } },
 
-  // Fats & Dairy
-  { name: 'Natural Peanut Butter', portion: '1 tbsp (16g)', kcal: 95, protein: 4, carbs: 3.5, fat: 8, category: 'Fats', icon: '🥜' },
-  { name: 'Almonds', portion: '10 pieces (12g)', kcal: 70, protein: 2.5, carbs: 2.5, fat: 6, category: 'Fats', icon: '🥜' },
-  { name: 'Desi Ghee / Olive Oil', portion: '1 tsp (5g)', kcal: 45, protein: 0, carbs: 0, fat: 5, category: 'Fats', icon: '🧈' },
-  { name: 'Chia Seeds', portion: '1 tbsp (12g)', kcal: 60, protein: 2, carbs: 5, fat: 4, category: 'Fats', icon: '🌱' },
-  { name: 'Cow Milk (Full Cream)', portion: '1 glass (250ml)', kcal: 160, protein: 8, carbs: 12, fat: 9, category: 'Dairy', icon: '🥛' },
-  { name: 'Cow Milk (Toned/Low-Fat)', portion: '1 glass (250ml)', kcal: 115, protein: 7.5, carbs: 12, fat: 3.5, category: 'Dairy', icon: '🥛' }
+  // 🫘 Plant Protein & Supplements
+  { id: 'soya_chunks', name: 'Soya Chunks (Raw Dry Weight)', category: 'Plant Protein', defaultUnit: 'g', units: ['g'], defaultQty: 50, perUnit: { g: { kcal: 3.45, p: 0.52, c: 0.33, f: 0.01 } } },
+  { id: 'tofu_firm', name: 'Tofu (Firm / Soya Paneer)', category: 'Plant Protein', defaultUnit: 'g', units: ['g'], defaultQty: 150, perUnit: { g: { kcal: 0.83, p: 0.095, c: 0.02, f: 0.045 } } },
+  { id: 'whey_protein', name: 'Whey Protein Powder', category: 'Plant Protein', defaultUnit: 'scoop', units: ['scoop', 'g'], defaultQty: 1, perUnit: { scoop: { kcal: 120, p: 25, c: 2, f: 1, weightG: 30 }, g: { kcal: 4.0, p: 0.83, c: 0.067, f: 0.033 } } },
+  { id: 'yellow_dal', name: 'Yellow Moong / Toor Dal (Cooked)', category: 'Plant Protein', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 180, p: 12, c: 29, f: 2, weightG: 180 }, g: { kcal: 1.0, p: 0.067, c: 0.16, f: 0.011 } } },
+  { id: 'rajma', name: 'Rajma / Kidney Beans (Cooked)', category: 'Plant Protein', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 220, p: 14, c: 38, f: 2.5, weightG: 180 }, g: { kcal: 1.22, p: 0.078, c: 0.21, f: 0.014 } } },
+  { id: 'chole', name: 'Chole / Chickpeas (Cooked)', category: 'Plant Protein', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 240, p: 13, c: 40, f: 4, weightG: 180 }, g: { kcal: 1.33, p: 0.072, c: 0.22, f: 0.022 } } },
+
+  // 🍚 Grains & Staples
+  { id: 'cooked_white_rice', name: 'Cooked White Rice', category: 'Grains & Carbs', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 195, p: 4, c: 43, f: 0.5, weightG: 150 }, g: { kcal: 1.30, p: 0.027, c: 0.28, f: 0.003 } } },
+  { id: 'cooked_brown_rice', name: 'Cooked Brown Rice', category: 'Grains & Carbs', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 165, p: 3.5, c: 35, f: 1.5, weightG: 150 }, g: { kcal: 1.10, p: 0.023, c: 0.23, f: 0.01 } } },
+  { id: 'rolled_oats', name: 'Rolled Oats (Raw dry weight)', category: 'Grains & Carbs', defaultUnit: 'g', units: ['g', 'bowl'], defaultQty: 50, perUnit: { g: { kcal: 3.80, p: 0.136, c: 0.68, f: 0.07 }, bowl: { kcal: 190, p: 6.8, c: 34, f: 3.5, weightG: 50 } } },
+  { id: 'bread_slice', name: 'Bread Slice (Brown or White)', category: 'Grains & Carbs', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 2, perUnit: { piece: { kcal: 70, p: 3, c: 13, f: 0.9, weightG: 30 }, g: { kcal: 2.33, p: 0.10, c: 0.43, f: 0.03 } } },
+  { id: 'sweet_potato', name: 'Sweet Potato (Boiled)', category: 'Grains & Carbs', defaultUnit: 'g', units: ['g', 'piece'], defaultQty: 150, perUnit: { g: { kcal: 0.86, p: 0.016, c: 0.20, f: 0.001 }, piece: { kcal: 130, p: 2.3, c: 30, f: 0.2, weightG: 150 } } },
+  { id: 'potato_boiled', name: 'Potato (Aloo, Boiled)', category: 'Grains & Carbs', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 1, perUnit: { piece: { kcal: 130, p: 3, c: 30, f: 0.2, weightG: 150 }, g: { kcal: 0.87, p: 0.02, c: 0.20, f: 0.001 } } },
+
+  // 🍎 Fruits, Nuts & Healthy Fats
+  { id: 'banana', name: 'Banana (Fresh Medium)', category: 'Fruits & Fats', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 1, perUnit: { piece: { kcal: 105, p: 1.3, c: 27, f: 0.3, weightG: 118 }, g: { kcal: 0.89, p: 0.011, c: 0.23, f: 0.003 } } },
+  { id: 'apple', name: 'Apple (Medium)', category: 'Fruits & Fats', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 1, perUnit: { piece: { kcal: 95, p: 0.5, c: 25, f: 0.3, weightG: 180 }, g: { kcal: 0.52, p: 0.003, c: 0.14, f: 0.002 } } },
+  { id: 'peanut_butter', name: 'Peanut Butter', category: 'Fruits & Fats', defaultUnit: 'tbsp', units: ['tbsp', 'g'], defaultQty: 1, perUnit: { tbsp: { kcal: 95, p: 4, c: 3.5, f: 8, weightG: 16 }, g: { kcal: 5.9, p: 0.25, c: 0.22, f: 0.50 } } },
+  { id: 'almonds', name: 'Almonds (Badam)', category: 'Fruits & Fats', defaultUnit: 'piece', units: ['piece', 'g'], defaultQty: 10, perUnit: { piece: { kcal: 7, p: 0.25, c: 0.25, f: 0.6, weightG: 1.2 }, g: { kcal: 5.8, p: 0.21, c: 0.21, f: 0.50 } } },
+  { id: 'desi_ghee', name: 'Desi Ghee / Cooking Oil', category: 'Fruits & Fats', defaultUnit: 'tsp', units: ['tsp', 'tbsp', 'g'], defaultQty: 1, perUnit: { tsp: { kcal: 45, p: 0, c: 0, f: 5, weightG: 5 }, tbsp: { kcal: 135, p: 0, c: 0, f: 15, weightG: 15 }, g: { kcal: 9.0, p: 0, c: 0, f: 1.0 } } },
+  { id: 'makhana', name: 'Roasted Makhana (Foxnuts)', category: 'Fruits & Fats', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 105, p: 3, c: 20, f: 0.3, weightG: 30 }, g: { kcal: 3.5, p: 0.10, c: 0.67, f: 0.01 } } },
+  { id: 'roasted_chana', name: 'Roasted Chana (With Skin)', category: 'Fruits & Fats', defaultUnit: 'bowl', units: ['bowl', 'g'], defaultQty: 1, perUnit: { bowl: { kcal: 150, p: 8, c: 23, f: 2.5, weightG: 40 }, g: { kcal: 3.75, p: 0.20, c: 0.57, f: 0.06 } } }
 ];
+
+function calculateItemMacros(foodItem, qty, unit) {
+  const q = parseFloat(qty) || 0;
+  if (!foodItem || q <= 0) return null;
+  const unitData = foodItem.perUnit?.[unit] || foodItem.perUnit?.[foodItem.defaultUnit];
+  if (!unitData) return null;
+  return {
+    kcal: Math.round(unitData.kcal * q),
+    protein: Math.round(unitData.p * q * 10) / 10,
+    carbs: Math.round(unitData.c * q * 10) / 10,
+    fat: Math.round(unitData.f * q * 10) / 10
+  };
+}
+
+const UNIT_LABELS = {
+  piece: 'piece(s) / eggs / rotis',
+  g: 'grams (g) — weight scale',
+  bowl: 'bowl / katori (~150-180g)',
+  cup: 'cup (~150g)',
+  glass: 'glass (~250ml)',
+  ml: 'milliliters (ml)',
+  scoop: 'scoop (~30g)',
+  tbsp: 'tablespoon (tbsp)',
+  tsp: 'teaspoon (tsp)',
+  serving: 'serving'
+};
 
 // Curated High-Protein Recipes for Reference
 const RECIPES_DB = [
@@ -198,14 +233,14 @@ export default function Nutrition() {
   // Detailed Food Logging Modal state
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customMealType, setCustomMealType] = useState('Breakfast');
-  const [customTitle, setCustomTitle] = useState('');
-  const [customPortion, setCustomPortion] = useState('');
-  const [customKcal, setCustomKcal] = useState('');
-  const [customProtein, setCustomProtein] = useState('');
-  const [customCarbs, setCustomCarbs] = useState('');
-  const [customFat, setCustomFat] = useState('');
-  const [foodSearchQuery, setFoodSearchQuery] = useState('');
-  const [foodCategoryFilter, setFoodCategoryFilter] = useState('All');
+  const [selectedFoodId, setSelectedFoodId] = useState('roti_chapati');
+  const [customTitle, setCustomTitle] = useState('Roti / Chapati (Whole Wheat)');
+  const [customQty, setCustomQty] = useState(2);
+  const [customUnit, setCustomUnit] = useState('piece');
+  const [customKcal, setCustomKcal] = useState('210');
+  const [customProtein, setCustomProtein] = useState('7');
+  const [customCarbs, setCustomCarbs] = useState('40');
+  const [customFat, setCustomFat] = useState('3');
 
   // Custom Diet Builder Modal state
   const [showDietEditor, setShowDietEditor] = useState(false);
@@ -277,27 +312,111 @@ export default function Nutrition() {
     });
   };
 
+  // Open food logging modal initialized
+  const handleOpenFoodModal = () => {
+    setShowCustomModal(true);
+    if (!selectedFoodId || selectedFoodId === 'custom') {
+      handleSelectFood('roti_chapati');
+    }
+  };
+
+  const handleSelectFood = (foodId) => {
+    setSelectedFoodId(foodId);
+    if (foodId === 'custom') {
+      setCustomTitle('');
+      setCustomUnit('serving');
+      setCustomQty(1);
+      setCustomKcal('');
+      setCustomProtein('');
+      setCustomCarbs('');
+      setCustomFat('');
+      return;
+    }
+    const food = COMMON_FOODS.find(f => f.id === foodId);
+    if (!food) return;
+    setCustomTitle(food.name);
+    setCustomUnit(food.defaultUnit);
+    setCustomQty(food.defaultQty);
+    const m = calculateItemMacros(food, food.defaultQty, food.defaultUnit);
+    if (m) {
+      setCustomKcal(String(m.kcal));
+      setCustomProtein(String(m.protein));
+      setCustomCarbs(String(m.carbs));
+      setCustomFat(String(m.fat));
+    }
+  };
+
+  const handleQtyChange = (val) => {
+    setCustomQty(val);
+    if (selectedFoodId !== 'custom') {
+      const food = COMMON_FOODS.find(f => f.id === selectedFoodId);
+      const m = calculateItemMacros(food, val, customUnit);
+      if (m) {
+        setCustomKcal(String(m.kcal));
+        setCustomProtein(String(m.protein));
+        setCustomCarbs(String(m.carbs));
+        setCustomFat(String(m.fat));
+      }
+    }
+  };
+
+  const handleUnitChange = (newUnit) => {
+    setCustomUnit(newUnit);
+    if (selectedFoodId !== 'custom') {
+      const food = COMMON_FOODS.find(f => f.id === selectedFoodId);
+      let newQty = customQty;
+      const currentUnitData = food?.perUnit?.[customUnit];
+      if (newUnit === 'g' && currentUnitData?.weightG) {
+        newQty = Math.round(customQty * currentUnitData.weightG);
+        setCustomQty(newQty);
+      } else if (customUnit === 'g' && food?.perUnit?.[newUnit]?.weightG) {
+        newQty = Math.max(1, Math.round(customQty / food.perUnit[newUnit].weightG));
+        setCustomQty(newQty);
+      }
+      const m = calculateItemMacros(food, newQty, newUnit);
+      if (m) {
+        setCustomKcal(String(m.kcal));
+        setCustomProtein(String(m.protein));
+        setCustomCarbs(String(m.carbs));
+        setCustomFat(String(m.fat));
+      }
+    }
+  };
+
+  const handleStepQty = (delta) => {
+    const isWeight = customUnit === 'g' || customUnit === 'ml';
+    const step = isWeight ? 25 : 1;
+    const current = parseFloat(customQty) || 0;
+    const nextVal = Math.max(isWeight ? 10 : 0.5, isWeight ? Math.round((current + (delta * step)) / step) * step : current + (delta * step));
+    handleQtyChange(nextVal);
+  };
+
   // Add Detailed Custom Food / Meal
   const handleAddCustomMeal = () => {
     const k = parseInt(customKcal, 10) || 0;
-    const p = parseInt(customProtein, 10) || 0;
-    const c = parseInt(customCarbs, 10) || 0;
-    const f = parseInt(customFat, 10) || 0;
+    const p = parseFloat(customProtein) || 0;
+    const c = parseFloat(customCarbs) || 0;
+    const f = parseFloat(customFat) || 0;
 
-    if (!customTitle.trim()) { toast('Please enter a food or meal name'); return; }
-    if (k <= 0 && (p > 0 || c > 0 || f > 0)) {
-      const calcK = (p * 4) + (c * 4) + (f * 9);
-      if (calcK > 0) {
-        logItemWithKcal(calcK, p, c, f);
-        return;
-      }
+    let title = customTitle.trim();
+    if (!title && selectedFoodId !== 'custom') {
+      title = COMMON_FOODS.find(x => x.id === selectedFoodId)?.name || '';
     }
-    if (k <= 0) { toast('Please enter calories'); return; }
+    if (!title) { toast('Please enter a food or meal name'); return; }
 
-    logItemWithKcal(k, p, c, f);
+    const portionLabel = `${customQty} ${UNIT_LABELS[customUnit] || customUnit || ''}`;
+
+    if (k <= 0 && (p > 0 || c > 0 || f > 0)) {
+      const calcK = Math.round((p * 4) + (c * 4) + (f * 9));
+      logItemWithKcal(title, portionLabel, calcK, p, c, f);
+      return;
+    }
+    if (k <= 0) { toast('Please enter quantity or calories'); return; }
+
+    logItemWithKcal(title, portionLabel, k, p, c, f);
   };
 
-  const logItemWithKcal = (k, p, c, f) => {
+  const logItemWithKcal = (title, portion, k, p, c, f) => {
     update(s => {
       if (!s.loggedMeals) s.loggedMeals = {};
       if (!s.loggedMeals[today]) s.loggedMeals[today] = [];
@@ -305,8 +424,8 @@ export default function Nutrition() {
       s.loggedMeals[today].push({
         id: 'c_' + Date.now() + Math.random().toString(36).substring(2, 5),
         slot: customMealType,
-        title: customTitle.trim(),
-        portion: customPortion.trim(),
+        title: title,
+        portion: portion,
         kcal: k,
         protein: p,
         carbs: c,
@@ -316,13 +435,7 @@ export default function Nutrition() {
       });
     });
 
-    toast(`✓ Logged ${customTitle} (+${k} kcal, +${p}g protein)`);
-    setCustomTitle('');
-    setCustomPortion('');
-    setCustomKcal('');
-    setCustomProtein('');
-    setCustomCarbs('');
-    setCustomFat('');
+    toast(`✓ Logged ${title} (+${k} kcal, +${p}g protein)`);
     setShowCustomModal(false);
   };
 
@@ -334,16 +447,6 @@ export default function Nutrition() {
       }
     });
     toast('Item removed from log');
-  };
-
-  // 1-Tap Fill from Quick Food Library
-  const selectQuickFood = (food) => {
-    setCustomTitle(food.name);
-    setCustomPortion(food.portion);
-    setCustomKcal(String(food.kcal));
-    setCustomProtein(String(food.protein));
-    setCustomCarbs(String(food.carbs));
-    setCustomFat(String(food.fat));
   };
 
   // Open Diet Plan Builder
@@ -414,13 +517,6 @@ export default function Nutrition() {
     setEditingMeals([...editingMeals, newMeal]);
   };
 
-  // Filter Quick Foods
-  const filteredQuickFoods = QUICK_FOODS_DB.filter(f => {
-    const matchesCategory = foodCategoryFilter === 'All' || f.category === foodCategoryFilter;
-    const matchesSearch = !foodSearchQuery || f.name.toLowerCase().includes(foodSearchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
   // Filtered recipes
   const filteredRecipes = RECIPES_DB.filter(r => {
     if (recipeFilter === 'all') return true;
@@ -453,7 +549,7 @@ export default function Nutrition() {
           </div>
         </div>
         <button
-          onClick={() => setShowCustomModal(true)}
+          onClick={handleOpenFoodModal}
           style={{ display: 'flex', alignItems: 'center', gap: '7px', background: 'var(--btn-pri-bg)', border: 'none', borderRadius: '99px', padding: '9px 16px', color: 'var(--btn-pri-color)', fontSize: '12.5px', fontWeight: '900', cursor: 'pointer', boxShadow: 'var(--btn-pri-shadow)' }}
         >
           <span style={{ fontSize: '14px' }}>+</span>
@@ -902,101 +998,45 @@ export default function Nutrition() {
         </div>
       </div>
 
-      {/* ── DETAILED FOOD LOGGING MODAL (+ QUICK FOOD DATABASE) ── */}
+      {/* ── CLEAN FOOD LOGGING MODAL (AUTOMATIC QUANTITY MACRO CALCULATION) ── */}
       {showCustomModal && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)',
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '16px'
         }}>
           <div style={{
             background: 'var(--bg-el)', border: '1px solid var(--card-border)',
-            borderRadius: '20px', padding: '22px', width: '100%', maxWidth: '480px',
-            maxHeight: '90vh', overflowY: 'auto',
+            borderRadius: '24px', padding: '22px', width: '100%', maxWidth: '480px',
+            maxHeight: '92vh', overflowY: 'auto',
             boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+            {/* Modal Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: '17px', fontWeight: '800', color: 'var(--label)' }}>+ Log Food / Meal</h3>
-                <p style={{ margin: '2px 0 0', fontSize: '11px', color: 'var(--label-2)' }}>Detailed macro logging with 1-tap food library</p>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '900', color: 'var(--label)' }}>+ Log Food / Meal</h3>
+                <p style={{ margin: '3px 0 0', fontSize: '11.5px', color: 'var(--label-2)' }}>
+                  Add your food and quantity to calculate calories &amp; macros
+                </p>
               </div>
-              <button onClick={() => setShowCustomModal(false)} style={{ background: 'none', border: 'none', color: 'var(--label-2)', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+              <button
+                onClick={() => setShowCustomModal(false)}
+                style={{ background: 'var(--surface-2)', border: 'none', borderRadius: '50%', width: '28px', height: '28px', color: 'var(--label-2)', fontSize: '14px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                ✕
+              </button>
             </div>
 
-            {/* Quick Food Database Fast Selector */}
-            <div style={{ background: 'var(--surface-2)', borderRadius: '12px', padding: '12px', marginBottom: '14px', border: '1px solid var(--sep)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label)', textTransform: 'uppercase' }}>
-                  ⚡ Quick Pick from Library
-                </span>
-                <span style={{ fontSize: '10px', color: 'var(--label-3)' }}>Tap to fill macros</span>
-              </div>
-
-              {/* Search & Category Filter */}
-              <input
-                type="text"
-                placeholder="🔍 Search Chicken, Paneer, Rice, Eggs, Oats..."
-                value={foodSearchQuery}
-                onChange={e => setFoodSearchQuery(e.target.value)}
-                style={{ width: '100%', background: 'var(--bg)', border: '1px solid var(--sep)', borderRadius: '8px', padding: '7px 10px', color: 'var(--label)', fontSize: '12px', marginBottom: '8px' }}
-              />
-
-              <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '6px', marginBottom: '8px' }}>
-                {['All', 'Protein', 'Carbs', 'Fats', 'Dairy'].map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setFoodCategoryFilter(cat)}
-                    style={{
-                      background: foodCategoryFilter === cat ? 'var(--btn-pri-bg)' : 'var(--bg)',
-                      color: foodCategoryFilter === cat ? 'var(--btn-pri-color)' : 'var(--label-2)',
-                      border: '1px solid var(--sep)',
-                      borderRadius: '6px',
-                      padding: '3px 8px',
-                      fontSize: '10px',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap'
-                    }}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-
-              {/* Scrollable food pills */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', maxHeight: '140px', overflowY: 'auto' }}>
-                {filteredQuickFoods.map(item => (
-                  <div
-                    key={item.name}
-                    onClick={() => selectQuickFood(item)}
-                    style={{
-                      background: 'var(--card-bg)',
-                      border: '1px solid var(--sep)',
-                      borderRadius: '8px',
-                      padding: '6px 8px',
-                      cursor: 'pointer',
-                      fontSize: '11px',
-                      textAlign: 'left'
-                    }}
-                  >
-                    <div style={{ fontWeight: '700', color: 'var(--label)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {item.icon} {item.name}
-                    </div>
-                    <div style={{ fontSize: '10px', color: 'var(--label-2)', marginTop: '2px' }}>
-                      {item.portion} · <strong>{item.protein}g P</strong> · {item.kcal} kcal
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Custom Entry Form */}
-            <div style={{ display: 'grid', gap: '12px' }}>
+            {/* Entry Form */}
+            <div style={{ display: 'grid', gap: '14px' }}>
+              {/* Meal Slot */}
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Meal Slot</label>
+                <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Meal Slot
+                </label>
                 <select
                   value={customMealType}
                   onChange={e => setCustomMealType(e.target.value)}
-                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
+                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 12px', color: 'var(--label)', fontSize: '13.5px', fontWeight: '700' }}
                 >
                   <option value="Breakfast">🍳 Breakfast</option>
                   <option value="Mid-Morning Fuel">🥗 Mid-Morning Fuel</option>
@@ -1008,69 +1048,209 @@ export default function Nutrition() {
                 </select>
               </div>
 
+              {/* Food Item Selection */}
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Food / Meal Name</label>
-                <input
-                  type="text"
-                  placeholder="e.g. 3 Boiled Eggs + 2 Rotis"
-                  value={customTitle}
-                  onChange={e => setCustomTitle(e.target.value)}
-                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
-                />
+                <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Food Item
+                </label>
+                <select
+                  value={selectedFoodId}
+                  onChange={e => handleSelectFood(e.target.value)}
+                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 12px', color: 'var(--label)', fontSize: '13.5px', fontWeight: '700' }}
+                >
+                  <optgroup label="🥚 Eggs & Dairy">
+                    {COMMON_FOODS.filter(f => f.category === 'Eggs & Dairy').map(f => (
+                      <option key={f.id} value={f.id}>{f.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="🍗 Meat & Fish">
+                    {COMMON_FOODS.filter(f => f.category === 'Meat & Fish').map(f => (
+                      <option key={f.id} value={f.id}>{f.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="🫘 Plant Protein & Supplements">
+                    {COMMON_FOODS.filter(f => f.category === 'Plant Protein').map(f => (
+                      <option key={f.id} value={f.id}>{f.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="🍚 Grains, Rotis & Rice">
+                    {COMMON_FOODS.filter(f => f.category === 'Grains & Carbs').map(f => (
+                      <option key={f.id} value={f.id}>{f.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="🍎 Fruits, Nuts & Fats">
+                    {COMMON_FOODS.filter(f => f.category === 'Fruits & Fats').map(f => (
+                      <option key={f.id} value={f.id}>{f.name}</option>
+                    ))}
+                  </optgroup>
+                  <option value="custom">✏️ Other / Custom Food...</option>
+                </select>
               </div>
 
+              {/* Custom Food Name Input if custom selected */}
+              {selectedFoodId === 'custom' && (
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Custom Food Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 2 Dosa with Sambar / Paneer Roll"
+                    value={customTitle}
+                    onChange={e => setCustomTitle(e.target.value)}
+                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 12px', color: 'var(--label)', fontSize: '13px' }}
+                  />
+                </div>
+              )}
+
+              {/* Quantity & Serving Unit */}
               <div>
-                <label style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-2)', display: 'block', marginBottom: '4px' }}>Portion / Quantity (optional)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. 200g / 2 pieces / 1 bowl"
-                  value={customPortion}
-                  onChange={e => setCustomPortion(e.target.value)}
-                  style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px', color: 'var(--label)', fontSize: '13px' }}
-                />
+                <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '5px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Quantity &amp; Serving Size
+                </label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  {/* Stepper with input */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <button
+                      type="button"
+                      onClick={() => handleStepQty(-1)}
+                      style={{
+                        width: '38px', height: '38px', borderRadius: '10px',
+                        background: 'var(--surface-2)', border: '1px solid var(--sep)',
+                        color: 'var(--label)', fontSize: '18px', fontWeight: '800',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                      }}
+                      title="Decrease quantity"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="number"
+                      min="0.1"
+                      step="any"
+                      value={customQty}
+                      onChange={e => handleQtyChange(e.target.value)}
+                      style={{
+                        width: '74px', height: '38px', background: 'var(--surface-2)',
+                        border: '1px solid var(--sep)', borderRadius: '10px', padding: '0 6px',
+                        color: 'var(--label)', fontSize: '15px', fontWeight: '800', textAlign: 'center'
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleStepQty(1)}
+                      style={{
+                        width: '38px', height: '38px', borderRadius: '10px',
+                        background: 'var(--surface-2)', border: '1px solid var(--sep)',
+                        color: 'var(--label)', fontSize: '18px', fontWeight: '800',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                      }}
+                      title="Increase quantity"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Unit Selector */}
+                  <div style={{ flex: 1, minWidth: '160px' }}>
+                    <select
+                      value={customUnit}
+                      onChange={e => handleUnitChange(e.target.value)}
+                      style={{
+                        width: '100%', height: '38px', background: 'var(--surface-2)',
+                        border: '1px solid var(--sep)', borderRadius: '10px', padding: '0 10px',
+                        color: 'var(--label)', fontSize: '12.5px', fontWeight: '700'
+                      }}
+                    >
+                      {((COMMON_FOODS.find(f => f.id === selectedFoodId)?.units) || ['g', 'piece', 'bowl', 'serving']).map(u => (
+                        <option key={u} value={u}>
+                          {UNIT_LABELS[u] || u}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               </div>
 
-              {/* Macro Grid Inputs */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
-                <div>
-                  <label style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '4px', textTransform: 'uppercase' }}>Calories</label>
-                  <input
-                    type="number"
-                    placeholder="kcal"
-                    value={customKcal}
-                    onChange={e => setCustomKcal(e.target.value)}
-                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px 6px', color: 'var(--label)', fontSize: '13px', textAlign: 'center', fontWeight: '700' }}
-                  />
+              {/* 💡 Approximate Calculation & Weight Scale Advisory */}
+              <div style={{
+                background: 'rgba(56, 189, 248, 0.08)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '14px',
+                padding: '12px 14px',
+                fontSize: '12px',
+                lineHeight: 1.55
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ fontWeight: '800', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span>⚡</span> Approx: ~{customKcal || 0} kcal
+                  </span>
+                  <span style={{ fontSize: '10px', color: 'var(--label-3)', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '99px', fontWeight: '700' }}>
+                    Estimated
+                  </span>
                 </div>
-                <div>
-                  <label style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '4px', textTransform: 'uppercase' }}>Protein</label>
-                  <input
-                    type="number"
-                    placeholder="g"
-                    value={customProtein}
-                    onChange={e => setCustomProtein(e.target.value)}
-                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px 6px', color: 'var(--label)', fontSize: '13px', textAlign: 'center', fontWeight: '700' }}
-                  />
+                <div style={{ color: 'var(--label-2)', fontSize: '11.5px', marginTop: '4px' }}>
+                  💡 <strong>Portions are approximate:</strong> Sizes like bowls, rotis, or pieces give a good estimate. For exact calories (especially for paneer, chicken, rice, or cooking oils), use a <strong>kitchen weight scale</strong> to weigh in grams.
                 </div>
-                <div>
-                  <label style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '4px', textTransform: 'uppercase' }}>Carbs</label>
-                  <input
-                    type="number"
-                    placeholder="g"
-                    value={customCarbs}
-                    onChange={e => setCustomCarbs(e.target.value)}
-                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px 6px', color: 'var(--label)', fontSize: '13px', textAlign: 'center', fontWeight: '700' }}
-                  />
+              </div>
+
+              {/* Calculated / Editable Macro Grid Inputs */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <label style={{ fontSize: '11px', fontWeight: '800', color: 'var(--label-2)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Macro Breakdown
+                  </label>
+                  <span style={{ fontSize: '10.5px', color: 'var(--label-3)' }}>Editable</span>
                 </div>
-                <div>
-                  <label style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-2)', display: 'block', marginBottom: '4px', textTransform: 'uppercase' }}>Fats</label>
-                  <input
-                    type="number"
-                    placeholder="g"
-                    value={customFat}
-                    onChange={e => setCustomFat(e.target.value)}
-                    style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '10px', padding: '10px 6px', color: 'var(--label)', fontSize: '13px', textAlign: 'center', fontWeight: '700' }}
-                  />
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px', textAlign: 'center' }}>
+                    <label style={{ fontSize: '9.5px', fontWeight: '800', color: 'var(--label-3)', display: 'block', textTransform: 'uppercase', marginBottom: '2px' }}>Calories</label>
+                    <input
+                      type="number"
+                      placeholder="kcal"
+                      value={customKcal}
+                      onChange={e => setCustomKcal(e.target.value)}
+                      style={{ width: '100%', background: 'transparent', border: 'none', color: 'var(--label)', fontSize: '14px', textAlign: 'center', fontWeight: '800', padding: 0 }}
+                    />
+                    <span style={{ fontSize: '9.5px', color: 'var(--label-3)' }}>kcal</span>
+                  </div>
+
+                  <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px', textAlign: 'center' }}>
+                    <label style={{ fontSize: '9.5px', fontWeight: '800', color: '#38bdf8', display: 'block', textTransform: 'uppercase', marginBottom: '2px' }}>Protein</label>
+                    <input
+                      type="number"
+                      placeholder="g"
+                      value={customProtein}
+                      onChange={e => setCustomProtein(e.target.value)}
+                      style={{ width: '100%', background: 'transparent', border: 'none', color: '#38bdf8', fontSize: '14px', textAlign: 'center', fontWeight: '800', padding: 0 }}
+                    />
+                    <span style={{ fontSize: '9.5px', color: 'var(--label-3)' }}>grams</span>
+                  </div>
+
+                  <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px', textAlign: 'center' }}>
+                    <label style={{ fontSize: '9.5px', fontWeight: '800', color: '#fb923c', display: 'block', textTransform: 'uppercase', marginBottom: '2px' }}>Carbs</label>
+                    <input
+                      type="number"
+                      placeholder="g"
+                      value={customCarbs}
+                      onChange={e => setCustomCarbs(e.target.value)}
+                      style={{ width: '100%', background: 'transparent', border: 'none', color: '#fb923c', fontSize: '14px', textAlign: 'center', fontWeight: '800', padding: 0 }}
+                    />
+                    <span style={{ fontSize: '9.5px', color: 'var(--label-3)' }}>grams</span>
+                  </div>
+
+                  <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '8px', textAlign: 'center' }}>
+                    <label style={{ fontSize: '9.5px', fontWeight: '800', color: '#a78bfa', display: 'block', textTransform: 'uppercase', marginBottom: '2px' }}>Fats</label>
+                    <input
+                      type="number"
+                      placeholder="g"
+                      value={customFat}
+                      onChange={e => setCustomFat(e.target.value)}
+                      style={{ width: '100%', background: 'transparent', border: 'none', color: '#a78bfa', fontSize: '14px', textAlign: 'center', fontWeight: '800', padding: 0 }}
+                    />
+                    <span style={{ fontSize: '9.5px', color: 'var(--label-3)' }}>grams</span>
+                  </div>
                 </div>
               </div>
 
@@ -1079,32 +1259,34 @@ export default function Nutrition() {
                 <button
                   type="button"
                   onClick={() => {
-                    const p = Number(customProtein) || 0;
-                    const c = Number(customCarbs) || 0;
-                    const f = Number(customFat) || 0;
-                    const total = (p * 4) + (c * 4) + (f * 9);
+                    const p = parseFloat(customProtein) || 0;
+                    const c = parseFloat(customCarbs) || 0;
+                    const f = parseFloat(customFat) || 0;
+                    const total = Math.round((p * 4) + (c * 4) + (f * 9));
                     setCustomKcal(String(total));
                   }}
                   style={{
                     background: 'none',
                     border: '1px dashed var(--sep)',
-                    borderRadius: '8px',
-                    padding: '6px',
+                    borderRadius: '10px',
+                    padding: '8px',
                     fontSize: '11px',
                     color: 'var(--label-2)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontWeight: '600'
                   }}
                 >
-                  ⚡ Auto-calculate Kcal from macros (P*4 + C*4 + F*9)
+                  ⚡ Recalculate Calories from macros (P*4 + C*4 + F*9)
                 </button>
               )}
 
+              {/* Log Meal Button */}
               <button
                 onClick={handleAddCustomMeal}
                 style={{
                   background: 'var(--btn-pri-bg)', color: 'var(--btn-pri-color)', border: '1px solid var(--btn-pri-border)',
-                  borderRadius: '12px', padding: '13px', fontSize: '14px', fontWeight: '800',
-                  marginTop: '6px', cursor: 'pointer', boxShadow: 'var(--btn-pri-shadow)'
+                  borderRadius: '14px', padding: '14px', fontSize: '14px', fontWeight: '900',
+                  marginTop: '4px', cursor: 'pointer', boxShadow: 'var(--btn-pri-shadow)'
                 }}
               >
                 Log Meal to Today's Tracker
