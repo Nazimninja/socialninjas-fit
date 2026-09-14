@@ -36,7 +36,7 @@ export default function Landing() {
   const faqs = [
     {
       q: "What makes Fit Ninja different from typical workout apps?",
-      a: "Fit Ninja combines 1,324+ animated video exercise demonstrations, automated progressive overload algorithms (Greyskull LP, Linear Progression, Double Progression), real-time front & back muscle heatmaps, and a comprehensive sports nutrition engine into a single 100% offline-capable PWA with zero subscription lock-in."
+      a: "Fit Ninja gives you 1,324+ video exercise demos, smart weight recommendations that tell you exactly when to add weight, interactive front & back muscle maps, and a personalized meal plan — all working 100% offline with zero locked features."
     },
     {
       q: "Does the app work underground or without an internet connection?",
@@ -47,12 +47,12 @@ export default function Landing() {
       a: "When you start a session, Fit Ninja activates the Screen Wake Lock API to keep your phone screen awake, pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio chimes when your rest timer expires."
     },
     {
-      q: "Can I customize my diet preferences for the nutrition engine?",
-      a: "Absolutely. You can choose between High-Protein Clean Hypertrophy, Plant-Based Athletic Vegan, Ketogenic Metabolic, and Balanced Nutrition with automated daily macro splits calibrated for your specific goal."
+      q: "Can I customize my diet preferences?",
+      a: "Yes! Choose between High-Protein, Plant-Based Vegetarian/Vegan, Low-Carb Keto, or Balanced Healthy Eating. Your daily calories, protein, carbs, and fats are automatically tailored to your goal."
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "Fit Ninja Pro is available for ₹399/month (just ₹13/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated progressive overload, and adaptive macro nutrition."
+      a: "Fit Ninja Pro is available for ₹399/month (just ₹13/day), giving you complete, unrestricted access to 1,324+ animated exercises, full-screen rest timers, automatic weight progression, and tailored daily meal plans."
     }
   ];
 
@@ -76,8 +76,8 @@ export default function Landing() {
     {
       icon: <Activity size={24} color="#a855f7" />,
       tag: "Real-Time Analytics",
-      title: "Muscle Heatmaps & Overload",
-      desc: "Front and back anatomical visualizer tracking weekly set volume fatigue per muscle group combined with automated Greyskull LP weight progression algorithms.",
+      title: "Muscle Map & Progress Tracker",
+      desc: "Interactive front and back body map showing exactly which muscles you've worked this week, plus smart suggestions on how much weight to lift next.",
       action: "View Muscle Map",
       path: "/stats"
     }
@@ -242,7 +242,7 @@ export default function Landing() {
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Progressive Overload Architecture</span>
+            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Smart Strength & Muscle Coach</span>
           </div>
 
           {/* Main Headline */}
@@ -273,7 +273,7 @@ export default function Landing() {
             margin: '0 0 32px',
             fontWeight: '500'
           }}>
-            Seize the science of progressive overload. 1,324+ looping animated exercise demos, automated rest countdowns with sound alerts, real-time muscle fatigue heatmaps, and precision sports nutrition.
+            Never guess what to lift again. 1,324+ video exercise demos, full-screen rest timers, interactive muscle maps, and custom meal plans tailored to your body.
           </p>
 
           {/* CTA Buttons */}
@@ -390,10 +390,10 @@ export default function Landing() {
               OUR DISCIPLINES
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 12px' }}>
-              Engineered for Serious Transformation
+              Everything You Need To Get Stronger
             </h2>
             <p style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '580px', margin: '0 auto' }}>
-              Seize the opportunity. It's time to build elite physical capability with scientific structure and automated guidance.
+              Simple guidance, clear workouts, and real results without overcomplicating your fitness.
             </p>
           </div>
 
@@ -650,7 +650,7 @@ export default function Landing() {
         {/* ── PRICING SECTION ───────────────────────────────────────── */}
         <section id="pricing" className="pricing-sec" style={{ maxWidth: '840px', margin: '0 auto 80px', textAlign: 'center' }}>
           <h2 className="section-h2" style={{ fontSize: '34px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>
-            Transparent, High-ROI Access
+            Simple, Fair Pricing
           </h2>
           <p className="section-sub" style={{ fontSize: '15px', color: '#94a3b8', marginBottom: '32px' }}>
             Get elite fitness technology at less than the cost of a single gym energy drink per week.
@@ -719,19 +719,19 @@ export default function Landing() {
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Unlimited custom routines, Greyskull LP &amp; superset progression</span>
+                <span>Unlimited custom routines &amp; smart weight increase suggestions</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Guided in-gym player with wake-lock, smart timers &amp; audio chimes</span>
+                <span>Guided workout player with full-screen rest timer &amp; audio alerts</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Anatomical muscle heatmaps &amp; 1RM strength fatigue analytics</span>
+                <span>Interactive muscle map &amp; personal strength records</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Precision macro meal planner (High-Protein, Vegan, Keto)</span>
+                <span>Personalized daily meal plan (High-Protein, Vegetarian, Keto)</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />

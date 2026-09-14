@@ -83,11 +83,11 @@ export default async function handler(req, res) {
     const targetCarbs = Math.max(0, Math.round((targetKcal - (targetProtein * 4) - (targetFat * 9)) / 4));
     const bmi = parseFloat((numWeight / Math.pow(numHeight / 100, 2)).toFixed(1));
 
-    const goalMap = { muscle: 'Muscle Hypertrophy & Mass Gain', fat_loss: 'Fat Loss & Definition', strength: 'Raw Strength & Power', general: 'General Fitness & Conditioning' };
+    const goalMap = { muscle: 'Muscle Building & Toning', fat_loss: 'Fat Loss & Definition', strength: 'Raw Strength & Power', general: 'General Fitness & Health' };
     const dietMap = { nonveg: 'Non-vegetarian Indian (chicken, fish, eggs, paneer, dal, roti, rice)', egg: 'Eggetarian Indian (eggs, paneer, dal, soya, roti, rice — NO meat/fish)', veg: 'Vegetarian Indian (paneer, soya, dal, dahi, sprouts, roti, rice — NO meat/fish/eggs)', vegan: 'Vegan Indian (tofu, soya, dal, sprouts, oats, roti, rice — NO dairy/eggs/meat)' };
     const locMap = { gym: 'Full Commercial Gym (barbells, dumbbells, cables, machines)', home: 'Home Setup (dumbbells, adjustable bench, pull-up bar, bodyweight)', calisthenics: 'Zero Equipment Calisthenics (100% bodyweight only — absolutely NO weights/cables/machines)' };
     const focusMap = { balanced: 'Balanced full-body proportions', upper: 'Upper Body (chest, shoulders, arms)', vtaper: 'V-Taper (wide lats, capped delts, narrow waist)', legs: 'Lower Body (quads, glutes, hamstrings)' };
-    const splitMap = { coach: 'Coach decides optimal split', ppl: 'Push / Pull / Legs (PPL)', upper_lower: 'Upper / Lower split', full_body: 'Full Body protocol', bro_split: 'Classic bodypart split' };
+    const splitMap = { coach: 'Coach chooses best routine', ppl: 'Push / Pull / Legs (PPL)', upper_lower: 'Upper / Lower split', full_body: 'Full Body routine', bro_split: 'Classic muscle-group split' };
 
     const conditionDescriptions = {
       thyroid: 'Thyroid disorder — slow metabolism, calories reduced by 10%',
@@ -152,7 +152,7 @@ Return ONLY a valid JSON object with this EXACT schema (no markdown, no backtick
   "bmi": ${bmi},
   "goal": "${goal}",
   "diet": "${diet}",
-  "coachNote": "2-3 personalized sentences addressing ${pname}, explaining their custom calories, macros, and workout split.",
+  "coachNote": "2-3 friendly, motivating sentences addressing ${pname}, explaining their custom calories, macros, and workout routine in clear, encouraging human language without clinical jargon.",
   "weeklyInsight": "1 tactical, actionable coaching tip for their specific goal.",
   "meals": [
     {"id": "m1", "slot": "Breakfast", "time": "8:00 AM", "title": "...", "note": "...", "icon": "🍳", "kcal": ${Math.round(targetKcal * 0.28)}, "protein": ${Math.round(targetProtein * 0.28)}, "carbs": ${Math.round(targetCarbs * 0.28)}, "fat": ${Math.round(targetFat * 0.28)}},
@@ -256,7 +256,7 @@ Return ONLY a valid JSON object with this EXACT schema (no markdown, no backtick
       diet,
       aiGenerated: false,
       aiEngine: 'static',
-      coachNote: `${pname}, your 100% custom plan is engineered for ${goal.replace('_', ' ')}. With a daily target of ${targetKcal} kcal (${targetProtein}g Protein · ${targetCarbs}g Carbs · ${targetFat}g Fats) and a ${numDays}-day split, your protocol is calibrated for progressive overload.`,
+      coachNote: `${pname}, your custom plan is ready for ${goal.replace('_', ' ')}! With a daily target of ${targetKcal} kcal (${targetProtein}g Protein · ${targetCarbs}g Carbs · ${targetFat}g Fats) and a ${numDays}-day workout routine, you have everything you need to build muscle and get stronger.`,
       weeklyInsight: `Consistency is your superpower, ${pname}! Push your working sets with intensity. 🚀`,
       meals: staticMeals,
       workout: staticWorkout,

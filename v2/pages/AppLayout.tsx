@@ -26,7 +26,7 @@ function FloatingDockNav() {
     (k === 'stats' && cur === 'stats') ||
     (k === 'library' && cur === 'library');
 
-  const routineName = todaysPlan?.focus || "Today's Targeted Protocol";
+  const routineName = todaysPlan?.focus || "Today's Workout";
   const exerciseCount = todaysPlan?.exercises?.length || 5;
 
   return (

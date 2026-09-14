@@ -55,7 +55,7 @@ export default function GetReadyModal({
 
         {/* Title */}
         <h2 className="text-xl font-black text-white tracking-tight mb-1 leading-snug">
-          {routineTitle || "Today's Protocol"}
+          {routineTitle || "Today's Workout"}
         </h2>
         <p className="text-xs text-[#71829d] mb-6">{exerciseCount} exercises</p>
 

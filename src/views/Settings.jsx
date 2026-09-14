@@ -104,12 +104,12 @@ export default function Settings() {
           <Row
             icon="sparkles"
             iconTint="var(--acc)"
-            title={t('Recalibrate AI Plan & Diet')}
-            subtitle={t('Regenerate workout routines & custom meals with Gemini')}
+            title={t('Update AI Workout & Diet Plan')}
+            subtitle={t('Customize your workout routines & daily meals with AI')}
             accessory="chevron"
             onClick={onboardingWizardSheet}
           />
-          <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Log weekly check-in to calibrate your coach-backed plan')} accessory="chevron" onClick={weeklyCheckinSheet} />
+          <Row icon="camera" iconTint="var(--indigo)" title={t('Weekly Progress Check-in')} subtitle={t('Check in each week to keep your weights and diet updated')} accessory="chevron" onClick={weeklyCheckinSheet} />
           <Row
             icon="download"
             iconTint="var(--green)"

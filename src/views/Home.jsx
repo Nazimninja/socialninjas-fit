@@ -438,7 +438,7 @@ export default function Home() {
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', display: 'inline-block', background: (isSelectedToday && S.active) ? '#f59e0b' : isSelectedDone ? '#34d399' : selectedRoutine ? '#38bdf8' : 'var(--label-4)', boxShadow: (isSelectedToday && S.active) ? '0 0 8px #f59e0b' : selectedRoutine ? '0 0 8px #38bdf8' : 'none' }} />
             <span style={{ fontSize: '11px', fontWeight: '900', letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--label-2)' }}>
               {isSelectedToday
-                ? (S.active ? '⚡ Session In Progress' : selectedRoutine ? "Today's Protocol" : 'Active Recovery')
+                ? (S.active ? '⚡ Workout In Progress' : selectedRoutine ? "Today's Workout" : 'Rest Day')
                 : `${fmtDate(selectedDateISO, true)} · ${isSelectedDone ? 'Completed ✓' : selectedRoutine ? 'Scheduled' : 'Rest Day'}`}
             </span>
           </div>
@@ -473,7 +473,7 @@ export default function Home() {
                 ? `${setsDoneActive(S.active)} / ${S.active.entries.reduce((n, e) => n + e.sets.length, 0)} sets completed`
                 : isSelectedDone
                 ? `${selectedDayWorkouts[0].entries?.length || 0} exercises completed · ${fmtVol(selectedDayWorkouts[0].vol, S.unit)} logged`
-                : selectedRoutine ? 'Science-backed progressive overload' : (!S.routines || S.routines.length === 0) ? 'Launch setup to generate your custom split & macros' : 'Hydrate · hit protein · sleep 8h'}
+                : selectedRoutine ? 'Guided weights to keep you getting stronger' : (!S.routines || S.routines.length === 0) ? 'Create your custom workout & meal plan' : 'Rest day · Drink water & eat good protein'}
             </div>
           </div>
         </div>
@@ -590,10 +590,10 @@ export default function Home() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div>
             <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '2px' }}>
-              Weekly Stimulus
+              Muscles Worked
             </div>
             <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>
-              Targeted Muscle Recovery
+              Weekly Muscle Recovery
             </div>
           </div>
           <button
@@ -642,12 +642,12 @@ export default function Home() {
           </div>
         ) : (
           <div style={{ fontSize: '12.5px', color: 'var(--label-3)', textAlign: 'center', padding: '12px 0' }}>
-            No sets logged yet this week. Complete today's workout to activate hypertrophy heatmap.
+            No sets logged yet this week. Complete today's workout to see your muscles worked.
           </div>
         )}
       </div>
 
-      {/* ─── 7. WEEKEND AUDIT (IF APPLICABLE) ─────────────────────────────── */}
+      {/* ─── 7. WEEKEND CHECKIN (IF APPLICABLE) ─────────────────────────────── */}
       {isWeekend && (
         <div style={{
           background: checkedInThisWeekend
@@ -664,20 +664,20 @@ export default function Home() {
         }}>
           <div style={{ marginBottom: '9px' }}>
             <span style={{ fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.7px', color: checkedInThisWeekend ? 'var(--label-3)' : '#34d399', background: checkedInThisWeekend ? 'var(--surface-2)' : 'rgba(52,211,153,0.14)', padding: '4px 10px', borderRadius: '99px' }}>
-              {checkedInThisWeekend ? '✓ Check-in Done' : '🌟 Weekend Protocol Audit'}
+              {checkedInThisWeekend ? '✓ Check-in Done' : '🌟 Weekly Check-in'}
             </span>
           </div>
           <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px', marginBottom: '6px' }}>
-            {checkedInThisWeekend ? 'Protocol calibrated for next cycle' : 'Weekly Adaptation Check-in'}
+            {checkedInThisWeekend ? 'Plan updated for next week' : 'Weekly Progress Check-in'}
           </div>
           <div style={{ fontSize: '12px', color: 'var(--label-2)', marginBottom: '14px', lineHeight: 1.45 }}>
             {checkedInThisWeekend
               ? (S.aiCoachCard?.weeklyInsight || `Targets (${targetKcal} kcal · ${targetProtein}g protein) locked in. Rest up!`)
-              : `${wThisWeek} workouts logged! Complete check-in to calibrate progressive overload.`}
+              : `${wThisWeek} workouts logged! Complete your check-in to update your weights & meal targets.`}
           </div>
           {!checkedInThisWeekend ? (
             <button onClick={weeklyCheckinSheet} style={{ background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', color: '#000', border: 'none', borderRadius: '12px', padding: '12px 18px', fontSize: '13px', fontWeight: '900', cursor: 'pointer', width: '100%', boxShadow: '0 4px 20px rgba(52,211,153,0.35)' }}>
-              📸 Complete Audit &amp; Adapt Overload →
+              📸 Complete Check-in &amp; Update Plan →
             </button>
           ) : (
             <button onClick={weeklyCheckinSheet} style={{ background: 'none', border: 'none', color: 'var(--label-3)', fontSize: '12px', fontWeight: '700', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}>
@@ -700,7 +700,7 @@ export default function Home() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
           <div>
             <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '2px' }}>Daily Fuel Target</div>
-            <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>Adaptive Precision Nutrition</div>
+            <div style={{ fontSize: '17px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>Your Nutrition Targets</div>
           </div>
           <button onClick={() => nav('/nutrition')} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '99px', padding: '7px 13px', fontSize: '11.5px', fontWeight: '800', color: 'var(--label-2)', cursor: 'pointer' }}>
             Log Meal →
@@ -724,9 +724,9 @@ export default function Home() {
 
         {[
           { label: 'Energy Target', value: `${targetKcal} kcal`, pct: 70, color: '#38bdf8' },
-          { label: 'Hypertrophy Protein', value: `${targetProtein}g`, pct: 65, color: '#34d399' },
-          { label: 'Glycogen Fuel (Carbs)', value: `${targetCarbs}g`, pct: 55, color: '#818cf8' },
-          { label: 'Essential Lipids (Fats)', value: `${targetFat}g`, pct: 45, color: '#fbbf24' },
+          { label: 'Protein (Muscle repair)', value: `${targetProtein}g`, pct: 65, color: '#34d399' },
+          { label: 'Carbs (Workout energy)', value: `${targetCarbs}g`, pct: 55, color: '#818cf8' },
+          { label: 'Healthy Fats (Hormones & health)', value: `${targetFat}g`, pct: 45, color: '#fbbf24' },
         ].map(({ label, value, pct, color }) => (
           <div key={label} style={{ marginBottom: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>

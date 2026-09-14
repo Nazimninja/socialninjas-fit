@@ -7,44 +7,44 @@ const EXERCISES = [
   {
     id: 'bench',
     name: 'Barbell Bench Press',
-    category: 'Chest & Triceps Hypertrophy',
+    category: 'Chest & Triceps (Muscle Building)',
     muscleLoad: { chest: 18, triceps: 12, delts: 8 },
     weight: '82.5 kg',
-    reps: '5, 5, 8 (AMRAP)',
+    reps: '5, 5, 8 (as many as possible)',
     sets: [
       { set: 1, reps: 5, weight: '82.5 kg', done: true },
       { set: 2, reps: 5, weight: '82.5 kg', done: true },
-      { set: 3, reps: '8+ (AMRAP)', weight: '82.5 kg', done: false }
+      { set: 3, reps: '8+ reps', weight: '82.5 kg', done: false }
     ],
-    progression: '+2.5 kg next session (Greyskull LP)'
+    progression: '+2.5 kg next workout (Strength Up!)'
   },
   {
     id: 'squat',
     name: 'Barbell Back Squat',
-    category: 'Quad & Posterior Chain Power',
+    category: 'Quads & Leg Strength',
     muscleLoad: { quads: 20, glutes: 15, hamstrings: 12, calves: 6 },
     weight: '115 kg',
-    reps: '5, 5, 6 (AMRAP)',
+    reps: '5, 5, 6 reps',
     sets: [
       { set: 1, reps: 5, weight: '115 kg', done: true },
       { set: 2, reps: 5, weight: '115 kg', done: false },
-      { set: 3, reps: '5+ (AMRAP)', weight: '115 kg', done: false }
+      { set: 3, reps: '6+ reps', weight: '115 kg', done: false }
     ],
-    progression: '+5 kg next session (Double Progression)'
+    progression: '+5 kg next workout (Target Reached)'
   },
   {
     id: 'pullup',
     name: 'Weighted Pull-Up',
-    category: 'Lat Width & Biceps Growth',
+    category: 'Back & Biceps',
     muscleLoad: { lats: 18, biceps: 14, upperBack: 10, abs: 6 },
     weight: '+15 kg',
-    reps: '6, 6, 8 (AMRAP)',
+    reps: '6, 6, 8 reps',
     sets: [
       { set: 1, reps: 6, weight: '+15 kg', done: true },
       { set: 2, reps: 6, weight: '+15 kg', done: true },
-      { set: 3, reps: '8+ (AMRAP)', weight: '+15 kg', done: true }
+      { set: 3, reps: '8+ reps', weight: '+15 kg', done: true }
     ],
-    progression: '+1.25 kg next session (Target Reached)'
+    progression: '+1.25 kg next workout (Target Reached)'
   }
 ];
 

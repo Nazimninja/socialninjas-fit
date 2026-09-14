@@ -56,8 +56,8 @@ export default function Plan() {
           <button
             className="iconbtn"
             onClick={onboardingWizardSheet}
-            aria-label={t('Recalibrate Plan with AI')}
-            title={t('Recalibrate Plan with AI')}
+            aria-label={t('Update Plan with AI')}
+            title={t('Update Plan with AI')}
             style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--acc)' }}
           >
             <Icon name="sparkles" />
@@ -88,10 +88,10 @@ export default function Plan() {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
           <div style={{ fontSize: '10.5px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-3)' }}>
-            Active Training Split Protocol
+            Weekly Workout Schedule
           </div>
           <span style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(251,191,36,0.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,0.25)', padding: '3px 10px', borderRadius: '99px' }}>
-            {S.aiAnswers?.goal ? S.aiAnswers.goal.toUpperCase().replace('_', ' ') : 'HYPERTROPHY'}
+            {S.aiAnswers?.goal ? S.aiAnswers.goal.toUpperCase().replace('_', ' ') : 'BUILD MUSCLE'}
           </span>
         </div>
 
@@ -187,11 +187,11 @@ export default function Plan() {
                       </div>
                     </div>
 
-                    {/* Prescribed Exercises List */}
+                    {/* Exercises List */}
                     {r.ex && r.ex.length > 0 && (
                       <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '14px', padding: '10px 12px', marginBottom: '12px' }}>
                         <div style={{ fontSize: '10.5px', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-3)', marginBottom: '8px' }}>
-                          Prescribed Movement Protocol:
+                          Exercises for this workout:
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                           {r.ex.map((e, eIdx) => {
@@ -315,7 +315,7 @@ export default function Plan() {
               {t('All Workout Routines')}
             </h4>
             <div style={{ fontSize: '11px', color: 'var(--label-2)', marginTop: '2px' }}>
-              {S.routines.length} saved routine protocols
+              {S.routines.length} saved workout routines
             </div>
           </div>
           <Button size="sm" variant="tinted" icon="plus" onClick={addRoutine}>

@@ -209,7 +209,7 @@ export default function OnboardingPage() {
                 Personalized Fit Ninja
               </h1>
               <p className="text-sm text-[#9BA8B4] mb-6 leading-relaxed">
-                No random workouts. We build a customized training & nutrition program calibrated for your body, health status, and goals.
+                No random workouts. We build a customized workout & meal plan tailored for your body, health, and goals.
               </p>
 
               <div className="mb-6 text-left">
@@ -592,14 +592,14 @@ export default function OnboardingPage() {
                       <p className="text-xl font-black text-[#e8b86d] mt-0.5">
                         {generatedSummary.calories} <span className="text-xs font-normal text-white/50">kcal</span>
                       </p>
-                      <p className="text-[10px] text-[#9BA8B4] mt-1">Calibrated to goal & health</p>
+                      <p className="text-[10px] text-[#9BA8B4] mt-1">Tailored to your goal</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-xl p-3">
                       <p className="text-[10px] uppercase tracking-wider text-[#9BA8B4]">Daily Protein</p>
                       <p className="text-xl font-black text-[#7ba3e0] mt-0.5">
                         {generatedSummary.protein} <span className="text-xs font-normal text-white/50">g</span>
                       </p>
-                      <p className="text-[10px] text-[#9BA8B4] mt-1">Optimal muscle preservation</p>
+                      <p className="text-[10px] text-[#9BA8B4] mt-1">For muscle repair & strength</p>
                     </div>
                   </div>
 

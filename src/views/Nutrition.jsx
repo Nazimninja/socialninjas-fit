@@ -263,7 +263,7 @@ export default function Nutrition() {
         s.loggedMeals[today].push({
           id: meal.id || 'm_' + Date.now(),
           slot: meal.slot || 'Meal',
-          title: meal.title || meal.n || 'Prescribed Meal',
+          title: meal.title || meal.n || 'Recommended Meal',
           portion: meal.note || meal.d || '',
           kcal: Number(meal.kcal || meal.k || 0),
           protein: Number(meal.protein || meal.p || 0),
@@ -380,7 +380,7 @@ export default function Nutrition() {
         s.aiPlan.meals = editingMeals;
       }
     });
-    toast('✓ Custom Diet Protocol Saved & Active!');
+    toast('✓ Custom Meal Plan Saved & Active!');
     setShowDietEditor(false);
   };
 
@@ -393,7 +393,7 @@ export default function Nutrition() {
         s.aiPlan.meals = aiDefault;
       }
     });
-    toast('✓ Reset to Recommended Nutrition Protocol');
+    toast('✓ Reset to Recommended Meal Plan');
     setShowDietEditor(false);
   };
 
@@ -445,7 +445,7 @@ export default function Nutrition() {
           </button>
           <div>
             <div style={{ fontSize: '11px', fontWeight: '700', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px' }}>
-              {S.customDiet ? 'Custom Protocol' : 'Coach Calibrated'}
+              {S.customDiet ? 'Custom Diet' : 'Coach Tailored'}
             </div>
             <h1 style={{ fontSize: '22px', fontWeight: '900', margin: 0, color: 'var(--label)', letterSpacing: '-0.6px' }}>
               {t('Nutrition & Macros')}
@@ -545,7 +545,7 @@ export default function Nutrition() {
                 </div>
                 <div>
                   <div style={{ fontSize: '10px', fontWeight: '800', color: isCreatineTaken ? '#34d399' : 'var(--acc)', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '2px' }}>
-                    Daily Protocol
+                    Daily Supplement
                   </div>
                   <div style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px' }}>
                     Creatine Monohydrate (5g)
@@ -565,8 +565,8 @@ export default function Nutrition() {
 
             <div style={{ fontSize: '12px', color: 'var(--label-2)', lineHeight: 1.45, marginBottom: '14px' }}>
               {isCreatineTaken
-                ? 'ATP stores replenished for training output. Drink 3.5L+ water for optimal cellular hydration.'
-                : 'Standard 5g daily dose for strength, power, and cellular recovery. Best taken with water.'}
+                ? 'Muscles replenished with energy. Drink 3.5L+ water today to stay well hydrated.'
+                : 'Standard 5g daily dose for strength, power, and muscle recovery. Best taken with water.'}
             </div>
 
             <button
@@ -593,10 +593,10 @@ export default function Nutrition() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
           <div>
             <div style={{ fontSize: '10px', fontWeight: '800', color: 'var(--label-3)', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: '3px' }}>
-              {S.customDiet ? 'Custom Protocol' : 'Calibrated Protocol'}
+              {S.customDiet ? 'Custom Diet' : 'Coach Recommended'}
             </div>
             <h2 style={{ fontSize: '18px', fontWeight: '900', color: 'var(--label)', margin: 0, letterSpacing: '-0.4px' }}>
-              {S.customDiet ? 'My Diet Plan' : 'Meal Blueprint'}
+              {S.customDiet ? 'My Diet Plan' : "Today's Meal Plan"}
             </h2>
           </div>
           <button

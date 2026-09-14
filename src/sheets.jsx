@@ -1338,10 +1338,10 @@ function OnboardingWizard({ close }) {
             <Icon name="sparkles" />
           </div>
         </div>
-        <h3 style={{ margin: '0 0 8px', fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{t('Calibrating Your Personalized Protocol...')}</h3>
-        <div className="muted small" style={{ lineHeight: 1.5, maxWidth: 360, margin: '0 auto', color: 'var(--label-2)' }}>
-          {t('Generating 100% custom {0}-day routines calibrated for {1} with precision nutrition ({2} kcal · {3}g Protein).', numDays, location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics', targetKcalCalc, targetProteinCalc)}
-        </div>
+        <h3 style={{ margin: '0 0 8px', fontSize: 19, fontWeight: 900, color: 'var(--label)' }}>{t('Creating Your Custom Plan...')}</h3>
+        <p style={{ margin: 0, fontSize: 13, color: 'var(--label-2)', lineHeight: 1.4 }}>
+          {t('Generating 100% custom {0}-day routines designed for {1} with personalized nutrition ({2} kcal · {3}g Protein).', numDays, location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics', targetKcalCalc, targetProteinCalc)}
+        </p>
         <div style={{ marginTop: 14, fontSize: 12, fontWeight: 700, color: 'var(--acc)', opacity: 0.9 }}>
           ⚡ Please wait 1–2 seconds while AI configures your program…
         </div>
@@ -1371,7 +1371,7 @@ function OnboardingWizard({ close }) {
               Step {step} of 4
             </div>
             <h2 style={{ margin: '2px 0 0', fontSize: 20, fontWeight: 800, letterSpacing: '-0.3px', color: 'var(--label)' }}>
-              {step === 1 ? 'Physical Profile' : step === 2 ? 'Health & Clinical Safety' : step === 3 ? 'Training Architecture' : 'Nutrition Protocol'}
+              {step === 1 ? '1. Your Body & Stats' : step === 2 ? '2. Health & Injuries' : step === 3 ? '3. Workout Routine' : '4. Meal & Diet Plan'}
             </h2>
           </div>
           <button
@@ -1495,10 +1495,10 @@ function OnboardingWizard({ close }) {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'muscle', title: 'Build Muscle & Hypertrophy', desc: 'Progressive overload training for maximum muscle size, density & strength', icon: 'dumbbell', tag: '💪 MUSCLE' },
-                { id: 'fat_loss', title: 'Cut & Fat Loss Shred', desc: 'Accelerate stubborn fat reduction with precision deficit while preserving lean muscle mass', icon: 'flame', tag: '🔥 FAT LOSS' },
-                { id: 'general', title: 'Athletic Fitness & Maintenance', desc: 'Maintain peak health, functional stamina, daily energy & overall body longevity', icon: 'sparkles', tag: '⚡ FITNESS' },
-                { id: 'strength', title: 'Raw Strength & Power', desc: 'Heavy compound strength progression and central nervous recruitment', icon: 'bolt', tag: '⚡ POWER' }
+                { id: 'muscle', title: 'Build Muscle & Tone', desc: 'Get stronger and build lean muscle with structured lifting routines', icon: 'dumbbell', tag: '💪 MUSCLE' },
+                { id: 'fat_loss', title: 'Fat Loss & Definition', desc: 'Burn fat and lean down with a healthy calorie deficit while keeping muscle', icon: 'flame', tag: '🔥 FAT LOSS' },
+                { id: 'general', title: 'Stay Fit & Energized', desc: 'Improve stamina, daily energy, and overall health & mobility', icon: 'sparkles', tag: '⚡ FITNESS' },
+                { id: 'strength', title: 'Strength & Power', desc: 'Focus on getting stronger week after week on key compound lifts', icon: 'bolt', tag: '⚡ POWER' }
               ].map(g => (
                 <div
                   key={g.id}
@@ -1546,7 +1546,7 @@ function OnboardingWizard({ close }) {
           </div>
 
           <Button variant="primary" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
-            Next: Health &amp; Clinical Safety →
+            Next: Health &amp; Injuries →
           </Button>
         </div>
       )}
@@ -1559,20 +1559,20 @@ function OnboardingWizard({ close }) {
               Medical &amp; Physical Considerations
             </label>
             <div className="small muted" style={{ fontSize: 11, marginBottom: 12, color: 'var(--label-2)' }}>
-              Select any conditions that apply. AI automatically adjusts training volume, substitutes high-risk exercises, and recalibrates metabolic calories.
+              Select any conditions that apply. Fit Ninja automatically picks joint-safe exercises and adjusts your daily calorie targets.
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'none', icon: '🛡️', title: 'None / Fully Healthy', desc: 'No restrictions or clinical considerations' },
-                { id: 'thyroid', icon: '🦋', title: 'Thyroid Condition', desc: 'Hypo/Hyperthyroid · Calorie metabolic pacing compensated (-10%)' },
-                { id: 'diabetes', icon: '🩸', title: 'Diabetes / Blood Sugar', desc: 'Glycemic control protocol · Protein/carb stabilization' },
+                { id: 'none', icon: '🛡️', title: 'None / Fully Healthy', desc: 'No injuries, restrictions, or health conditions' },
+                { id: 'thyroid', icon: '🦋', title: 'Thyroid Condition', desc: 'Hypo/Hyperthyroid · Calories gently reduced (-10%) for steady fat loss' },
+                { id: 'diabetes', icon: '🩸', title: 'Diabetes / Blood Sugar', desc: 'Blood sugar friendly · Balanced carbs with high protein' },
                 { id: 'pregnancy', icon: '👶', title: 'Post-Pregnancy Recovery', desc: 'Pelvic floor safe · Core gentle progression (min 1,850 kcal)' },
-                { id: 'knee_injury', icon: '🦵', title: 'Knee Injury / Joint Pain', desc: 'Low knee shear · Deep squats & plyometrics safely substituted' },
-                { id: 'back_injury', icon: '🩹', title: 'Lower Back Pain', desc: 'Spine decompression · Axial spinal load safely substituted' },
-                { id: 'shoulder_injury', icon: '🦾', title: 'Shoulder Impingement', desc: 'Rotator cuff safe · Overhead pressing safely substituted' },
-                { id: 'hypertension', icon: '💓', title: 'Hypertension / High BP', desc: 'Controlled cardiovascular load · Steady breathing pacing' },
-                { id: 'pcos', icon: '🌸', title: 'PCOS / Hormonal Balance', desc: 'Insulin resistance modulation · Elevated protein pacing' }
+                { id: 'knee_injury', icon: '🦵', title: 'Knee Injury / Joint Pain', desc: 'Knee friendly · Replaces deep squats with joint-safe movements' },
+                { id: 'back_injury', icon: '🩹', title: 'Lower Back Pain', desc: 'Lower back safe · Replaces heavy spinal loading with chest-supported lifts' },
+                { id: 'shoulder_injury', icon: '🦾', title: 'Shoulder Impingement', desc: 'Shoulder safe · Replaces overhead pressing with shoulder-friendly angles' },
+                { id: 'hypertension', icon: '💓', title: 'Hypertension / High BP', desc: 'Cardio safe · Steady breathing pacing & moderate loading' },
+                { id: 'pcos', icon: '🌸', title: 'PCOS / Hormonal Balance', desc: 'PCOS friendly · Higher protein and steady energy carbs' }
               ].map(item => {
                 const isSelected = healthConditions.includes(item.id) || (item.id === 'none' && healthConditions.length === 0)
                 return (
@@ -1639,13 +1639,13 @@ function OnboardingWizard({ close }) {
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(1)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
             <Button variant="primary" onClick={() => setStep(3)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
-              Next: Training Architecture →
+              Next: Workout Routine →
             </Button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 3: BESPOKE TRAINING ARCHITECTURE & WORKOUT SPLIT ── */}
+      {/* ── STEP 3: WORKOUT SPLIT PREFERENCE ── */}
       {step === 3 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Question 0: Workout Split Preference */}
@@ -1655,10 +1655,10 @@ function OnboardingWizard({ close }) {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'coach', title: '🥷 Let Coach Decide', desc: 'Optimal scientific volume & frequency calibrated for your schedule', tag: 'RECOMMENDED' },
-                { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Compound chest/shoulders, back/biceps, and leg rotation' },
-                { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced upper body strength & lower body power blocks' },
-                { id: 'full_body', title: '🔄 Full Body Protocol', desc: 'High-frequency total body compound movements every session' },
+                { id: 'coach', title: '🥷 Let Coach Decide', desc: 'The best schedule tailored to your experience and goal', tag: 'RECOMMENDED' },
+                { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
+                { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced upper body strength & lower body days' },
+                { id: 'full_body', title: '🔄 Full Body Routine', desc: 'Work your whole body each session — perfect for 2-3 days a week' },
                 { id: 'bro_split', title: '🎯 Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
               ].map(s => (
                 <div
@@ -1837,13 +1837,13 @@ function OnboardingWizard({ close }) {
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(2)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
             <Button variant="primary" onClick={() => setStep(4)} style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 800, borderRadius: 12 }}>
-              Next: Nutrition Protocol →
+              Next: Meal &amp; Diet Plan →
             </Button>
           </div>
         </div>
       )}
 
-      {/* ── STEP 4: NUTRITION ARCHITECTURE & GENERATE ────────────── */}
+      {/* ── STEP 4: NUTRITION & MEAL PLAN ────────────── */}
       {step === 4 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
@@ -1877,15 +1877,15 @@ function OnboardingWizard({ close }) {
             </div>
           </div>
 
-          {/* Metabolic Energy Target HUD */}
+          {/* Daily Nutrition Target HUD */}
           <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px 14px', boxShadow: 'var(--card-shadow)' }}>
             <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icon name="sparkles" /> Calculated Metabolic Targets
+                <Icon name="sparkles" /> Your Daily Targets
               </span>
               {healthConditions.length > 0 && !healthConditions.includes('none') && (
                 <span style={{ fontSize: 9.5, fontWeight: 900, color: '#f59e0b', background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', padding: '1px 6px', borderRadius: 99 }}>
-                  HEALTH GUARDRAILS ACTIVE
+                  HEALTH SAFEGUARDS ACTIVE
                 </span>
               )}
             </div>
@@ -1900,11 +1900,11 @@ function OnboardingWizard({ close }) {
               </div>
               <div style={{ background: 'var(--surface-2)', padding: '10px 6px', borderRadius: 10, border: '1px solid var(--sep)' }}>
                 <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--label)' }}>{numDays} Days</div>
-                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: 'var(--label-2)' }}>SCHEDULE</div>
+                <div className="small muted" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.5px', color: 'var(--label-2)' }}>WORKOUTS / WK</div>
               </div>
             </div>
             <div className="small muted" style={{ fontSize: 11, lineHeight: 1.4, textAlign: 'center', color: 'var(--label-2)' }}>
-              Scientifically calibrated using the Mifflin-St Jeor formula and your training volume.
+              Personalized based on your body weight, height, age, and workout schedule.
             </div>
           </div>
 
@@ -2075,7 +2075,7 @@ function AthleteProfileModal({ close }) {
               </span>
             </div>
             <div style={{ fontSize: '11.5px', color: 'var(--label-2)', marginTop: 3 }}>
-              {user?.email || 'Fit Ninja Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Protocol</span>
+              {user?.email || 'Fit Ninja Member'} • <span style={{ color: 'var(--label)', fontWeight: 700 }}>Active Plan</span>
             </div>
             <div
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
@@ -2102,7 +2102,7 @@ function AthleteProfileModal({ close }) {
       {/* Physiological Inputs Card */}
       <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px', marginBottom: 14, boxShadow: 'var(--card-shadow)' }}>
         <div style={{ fontSize: 10.5, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 12 }}>
-          Physiological Identity
+          Your Body Profile
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -2202,10 +2202,10 @@ function AthleteProfileModal({ close }) {
                 onChange={e => setGoal(e.target.value)}
                 style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 10, padding: '10px 12px', fontSize: 13, color: 'var(--label)', fontWeight: 700 }}
               >
-                <option value="fat_loss">Cut &amp; Definition</option>
-                <option value="muscle">Hypertrophy &amp; Mass</option>
-                <option value="strength">Raw Strength &amp; Power</option>
-                <option value="general">Athletic Conditioning</option>
+                <option value="fat_loss">Fat Loss &amp; Definition</option>
+                <option value="muscle">Build Muscle &amp; Mass</option>
+                <option value="strength">Strength &amp; Power</option>
+                <option value="general">Stay Fit &amp; Energized</option>
               </select>
             </div>
             <div>
@@ -2224,10 +2224,10 @@ function AthleteProfileModal({ close }) {
         </div>
       </div>
 
-      {/* Calculated Metabolic Telemetry */}
+      {/* Calculated Daily Targets */}
       <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 18, padding: '16px', marginBottom: 16, boxShadow: 'var(--card-shadow)' }}>
         <div style={{ fontSize: 10.5, fontWeight: 900, color: 'var(--label)', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Icon name="sparkles" /> Active Metabolic &amp; Ergogenic Blueprint
+          <Icon name="sparkles" /> Your Daily Targets &amp; Stats
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 5, textAlign: 'center' }}>
           <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
@@ -2244,7 +2244,7 @@ function AthleteProfileModal({ close }) {
           </div>
           <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
             <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--label)' }}>{bmr}</div>
-            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BMR KCAL</div>
+            <div style={{ fontSize: 8.5, color: 'var(--label-2)', fontWeight: 700, marginTop: 2 }}>BASE BURN</div>
           </div>
           <div style={{ background: 'var(--surface-2)', padding: '10px 3px', borderRadius: 10, border: '1px solid var(--sep)' }}>
             <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--label)' }}>{bmi}</div>
@@ -2262,7 +2262,7 @@ function AthleteProfileModal({ close }) {
             padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12
           }}
         >
-          💾 Save Profile &amp; Recalibrate Blueprint
+          💾 Save Profile &amp; Update Targets
         </Button>
         <Button
           variant="secondary"
@@ -2275,7 +2275,7 @@ function AthleteProfileModal({ close }) {
             border: '1px solid var(--acc-line)', color: 'var(--acc)'
           }}
         >
-          ✨ Launch Full AI Protocol Wizard (Gemini)
+          ✨ Launch Full AI Plan Builder
         </Button>
       </div>
     </div>
@@ -2467,22 +2467,22 @@ function WeeklyCheckinModal({ close }) {
             changes.push('Adjusted daily target by -100 kcal to maintain fat loss velocity')
           } else {
             celebration = `Optimal progression (${Math.abs(deltaW).toFixed(1)} kg weight drop)!`
-            changes.push('Preserved current caloric deficit as rate of loss is dialed in')
+            changes.push('Maintained daily calories as your fat loss pace is on track')
           }
         } else if (answers.goal === 'muscle') {
           if (deltaW < 0.1) {
             newKcal = newKcal + 120
-            changes.push('Increased daily surplus (+120 kcal) for sustained hypertrophy')
+            changes.push('Added +120 daily calories to boost muscle growth')
           } else {
             celebration = `Positive growth trend (+${deltaW.toFixed(1)} kg)!`
-            changes.push('Preserved calorie surplus for steady muscle building')
+            changes.push('Maintained current calories for steady muscle gains')
           }
         }
 
         if (difficulty === 'easy') {
-          changes.push('Progressive overload: recommended working weights bumped by +2.5kg')
+          changes.push("You're getting stronger! Suggested weights bumped by +2.5 kg")
         } else if (difficulty === 'hard' || soreness === 'sore') {
-          changes.push('Recovery protocol active: prioritizing sleep & hydration')
+          changes.push('Recovery mode: prioritize 7-8 hours of sleep and good hydration')
         }
 
         const newProtein = Math.round(numericWeight * 2.0)
@@ -2491,9 +2491,9 @@ function WeeklyCheckinModal({ close }) {
           protein: newProtein,
           carbs: Math.round((newKcal * 0.45) / 4),
           fat: Math.round((newKcal * 0.25) / 9),
-          coachNote: `Weekly check-in logged at ${numericWeight} ${S_state.unit}. Energy targets updated to support progressive overload.`,
+          coachNote: `Weekly check-in logged at ${numericWeight} ${S_state.unit}. Weights and daily calories updated for next week.`,
           changes,
-          weeklyInsight: 'Keep pushing your working sets close to failure and hit your protein target!',
+          weeklyInsight: 'Keep challenging yourself on each set and hit your daily protein target!',
           celebration,
           meals: currentPlan.meals || []
         }
@@ -2562,7 +2562,7 @@ function WeeklyCheckinModal({ close }) {
               Weekly Progress Check-in
             </h3>
             <div className="small muted" style={{ fontSize: 11 }}>
-              Monday Weigh-in &amp; Protocol Calibration
+              Weekly Weigh-in &amp; Plan Update
             </div>
           </div>
         </div>
@@ -2667,22 +2667,22 @@ function WeeklyCheckinModal({ close }) {
       <div style={{ background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderTop: '1px solid var(--card-border-top)', borderRadius: 16, padding: '16px 14px', marginBottom: 14, boxShadow: 'var(--card-shadow)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
           <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--acc)' }}>
-            Workout Split Architecture
+            Workout Schedule &amp; Style
           </div>
           <span style={{ fontSize: 9.5, fontWeight: 900, background: 'rgba(16,185,129,0.15)', color: 'var(--acc)', border: '1px solid rgba(16,185,129,0.3)', padding: '1px 6px', borderRadius: 99 }}>
-            CALIBRATE
+            UPDATE
           </span>
         </div>
         <div className="small muted" style={{ fontSize: 11, marginBottom: 10, color: 'var(--label-2)' }}>
-          Switch training splits for the upcoming week? Selecting a split will regenerate your active workout schedule upon check-in.
+          Want to switch workout routines for next week? Pick a style below, or leave it as Coach Decides.
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 6 }}>
           {[
-            { id: 'coach', title: '🥷 Let Coach Decide', desc: 'Optimal scientific volume & frequency' },
-            { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Compound chest/delts, back/biceps, legs rotation' },
-            { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced 4-day upper & lower body power blocks' },
-            { id: 'full_body', title: '🔄 Full Body Protocol', desc: 'High-frequency total body compound movements' },
-            { id: 'bro_split', title: '🎯 Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
+            { id: 'coach', title: '🥷 Let Coach Decide', desc: 'The best schedule for your experience and goal' },
+            { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
+            { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Alternate between upper body and lower body days' },
+            { id: 'full_body', title: '🔄 Full Body Routine', desc: 'Work your whole body each workout — great for 3 days/week' },
+            { id: 'bro_split', title: '🎯 Bodypart Split (Bro Split)', desc: 'One muscle group per day: Chest, Back, Legs, Shoulders, Arms' }
           ].map(s => (
             <div
               key={s.id}
@@ -2782,13 +2782,13 @@ function WeeklyCheckinModal({ close }) {
         {/* Workout Difficulty */}
         <div style={{ marginBottom: 14 }}>
           <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
-            Training Load &amp; Intensity
+            How did the weights feel this week?
           </label>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
             {[
-              { id: 'easy', label: 'Under-loaded', desc: 'RPE < 6' },
-              { id: 'good', label: 'Optimal Load', desc: 'RPE 7-9' },
-              { id: 'hard', label: 'Overloaded', desc: 'Max Fatigue' }
+              { id: 'easy', label: 'Too Light', desc: 'Can lift heavier' },
+              { id: 'good', label: 'Just Right', desc: 'Challenging & good' },
+              { id: 'hard', label: 'Too Heavy', desc: 'Struggled to finish' }
             ].map(opt => (
               <button
                 key={opt.id}
@@ -2813,13 +2813,13 @@ function WeeklyCheckinModal({ close }) {
         {/* Muscle Recovery */}
         <div style={{ marginBottom: 14 }}>
           <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
-            Recovery &amp; Muscle Soreness:
+            How is your body feeling?
           </label>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
             {[
-              { id: 'fresh', label: 'Fully Rested', desc: 'No soreness' },
-              { id: 'mild', label: 'Normal DOMS', desc: 'Ready to train' },
-              { id: 'sore', label: 'High Fatigue', desc: 'Need recovery' }
+              { id: 'fresh', label: 'Great', desc: 'Energized & ready' },
+              { id: 'mild', label: 'Normal Ache', desc: 'Mild sore muscles' },
+              { id: 'sore', label: 'Exhausted', desc: 'Need extra rest' }
             ].map(opt => (
               <button
                 key={opt.id}
@@ -2843,13 +2843,13 @@ function WeeklyCheckinModal({ close }) {
         {/* Diet Adherence */}
         <div>
           <label style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--label-2)', display: 'block', marginBottom: 6 }}>
-            Nutrition Protocol Adherence:
+            How did you do with your meals?
           </label>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
             {[
-              { id: 'on_track', label: '100% On Track' },
-              { id: 'minor_slip', label: '80% Adherence' },
-              { id: 'cravings', label: 'Off Track' }
+              { id: 'on_track', label: '100% On Track', desc: 'Hit daily targets' },
+              { id: 'minor_slip', label: 'Mostly Good', desc: '1-2 cheat meals' },
+              { id: 'cravings', label: 'Off Track', desc: 'Struggled with diet' }
             ].map(opt => (
               <button
                 key={opt.id}
@@ -2864,7 +2864,8 @@ function WeeklyCheckinModal({ close }) {
                   transition: 'all 0.2s'
                 }}
               >
-                {opt.label}
+                <div style={{ fontWeight: 800, fontSize: 11 }}>{opt.label}</div>
+                <div style={{ fontSize: 9, opacity: 0.85, marginTop: 2 }}>{opt.desc}</div>
               </button>
             ))}
           </div>
@@ -2904,7 +2905,7 @@ function WeeklyCheckinModal({ close }) {
           boxShadow: '0 4px 20px rgba(16, 185, 129, 0.3)'
         }}
       >
-        {loading ? 'Analyzing & Adapting Protocol…' : 'Save Check-in & Adapt Plan'}
+        {loading ? 'Updating your plan…' : 'Save Check-in & Update Plan'}
       </Button>
     </div>
   )
@@ -2925,10 +2926,10 @@ function WeeklyPlanUpdateModal({ plan, close }) {
       </div>
 
       <h3 style={{ margin: '0 0 6px', fontSize: 20, fontWeight: 900, color: 'var(--label)', letterSpacing: '-0.5px' }}>
-        Training &amp; Nutrition Calibrated!
+        Your Plan Has Been Updated!
       </h3>
       <p style={{ margin: '0 0 18px', fontSize: 12, color: 'var(--label-2)', lineHeight: 1.4 }}>
-        Your weekly check-in, logged workouts, and macro adherence have been synthesized into your updated protocol.
+        Your weekly check-in, logged workouts, and meals have been used to update your personalized plan.
       </p>
 
       {/* New Macro Targets Preview */}
@@ -2960,7 +2961,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
       {changes.length > 0 && (
         <div style={{ background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: 16, padding: '14px 16px', marginBottom: 18, textAlign: 'left' }}>
           <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--label-2)', marginBottom: 8 }}>
-            Coach Protocol Calibrations
+            What Coach Adjusted This Week
           </div>
           <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--label)', lineHeight: 1.5 }}>
             {changes.map((chg, i) => (
@@ -2987,7 +2988,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
           borderRadius: 12
         }}
       >
-        🔥 Execute Updated Protocol
+        🔥 Start My Updated Routine
       </Button>
     </div>
   )
@@ -3010,7 +3011,7 @@ function AppGuideModal({ close }) {
             Fit Ninja Quick Start Guide
           </h3>
           <div style={{ fontSize: '12px', color: 'var(--label-2)' }}>
-            Everything you need to master your fitness protocol
+            Everything you need to get the best results
           </div>
         </div>
       </div>
@@ -3021,15 +3022,15 @@ function AppGuideModal({ close }) {
             step: '1',
             icon: '📱',
             title: 'Add to Home Screen',
-            desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen HUD, and offline tracking.',
+            desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen view, and offline tracking.',
             tag: 'Recommended',
             isInstallAction: true
           },
           {
             step: '2',
             icon: '🏋️',
-            title: 'Daily Workout Protocol',
-            desc: 'Open Home to view today\'s scheduled routine. Watch 3D exercise video demos for exact biomechanics and tap ✓ as you complete each set.',
+            title: 'Daily Workouts',
+            desc: 'Open Home to view today\'s workout. Watch exercise video demos for proper form and tap ✓ as you complete each set.',
             tag: 'Core'
           },
           {

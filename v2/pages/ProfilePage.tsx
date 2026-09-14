@@ -226,8 +226,8 @@ export default function ProfilePage() {
         <Row
           icon="camera"
           iconTint="var(--indigo)"
-          title="Weekly Progress Audit"
-          subtitle="Calibrate weight, photos & progressive overload"
+          title="Weekly Progress Check-in"
+          subtitle="Update weight, photos & workout plan"
           accessory="chevron"
           onClick={() => setShowCheckin(true)}
         />
@@ -236,7 +236,7 @@ export default function ProfilePage() {
           icon="flame"
           iconTint="var(--orange)"
           title="Fit Ninja Pro Pass"
-          subtitle={isPaidMember ? "Unlimited Pro Access Active" : "Unlock Custom Coaching, Library & AI Protocols"}
+          subtitle={isPaidMember ? "Unlimited Pro Access Active" : "Unlock Custom Coaching, Library & AI Workouts"}
           value={isPaidMember ? "Active ✓" : "Unlock Pass"}
           accessory="chevron"
           onClick={() => {
@@ -251,7 +251,7 @@ export default function ProfilePage() {
 
       {/* ── Section 2: AI Training Brain & Safety ── */}
       <Section
-        title="Coaching Brain & Protocol"
+        title="Coaching Brain & Plan"
         footer="Fit Ninja safeguards your workouts against injuries, thyroid, or pregnancy restrictions automatically."
       >
         <Row

@@ -301,7 +301,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
     // Gym 3 Days
     return [
       {
-        n: 'Day 1: Push Hypertrophy & Chest Arc',
+        n: 'Day 1: Push · Chest, Shoulders & Triceps',
         t: 'Chest · Shoulders · Triceps',
         exercises: [
           { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
@@ -354,7 +354,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
           ]
         },
         {
-          n: 'Day 2: Lower Body Power & Quad Hypertrophy',
+          n: 'Day 2: Legs · Quads & Calves',
           t: 'Quads · Glutes · Calves · Abs',
           exercises: [
             { name: 'split squats', sets: String(mainSets), reps: '12 each', badge: 'legs' },
@@ -403,7 +403,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
           ]
         },
         {
-          n: 'Day 2: Lower Body Power & Quad Hypertrophy',
+          n: 'Day 2: Legs · Quads & Calves',
           t: 'Quads · Hamstrings · Glutes · Calves',
           exercises: [
             { name: 'goblet squat', sets: String(mainSets), reps: String(mainReps), badge: 'legs' },
@@ -414,7 +414,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
           ]
         },
         {
-          n: 'Day 3: Upper Body Hypertrophy & Arms Overload',
+          n: 'Day 3: Upper Body · Chest, Back & Arms',
           t: 'Shoulders · Back · Triceps · Biceps',
           exercises: [
             { name: 'standing dumbbell overhead press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -463,7 +463,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
         ]
       },
       {
-        n: 'Day 3: Upper Hypertrophy & V-Taper Sculpt',
+        n: 'Day 3: Upper Body · Back & Shoulders',
         t: 'Incline Chest · Lats · Lateral Delts · Arms',
         exercises: [
           { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -474,7 +474,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
         ]
       },
       {
-        n: 'Day 4: Lower Hypertrophy & Posterior Chain',
+        n: 'Day 4: Legs · Glutes & Hamstrings',
         t: 'Hamstrings · Quads · Core',
         exercises: [
           { name: 'barbell deadlift', sets: String(mainSets), reps: '6', badge: 'pull' },
@@ -494,7 +494,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
     if (isCalisthenics) {
       return [
         {
-          n: 'Day 1: Push Hypertrophy & Chest Specialization',
+          n: 'Day 1: Push · Chest Focus',
           t: 'Chest · Triceps Focus',
           exercises: [
             { name: 'push-up', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -505,7 +505,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
           ]
         },
         {
-          n: 'Day 2: Pull Hypertrophy & Lat Width Arc',
+          n: 'Day 2: Pull · Back & Biceps',
           t: 'Lats · Upper Back · Biceps',
           exercises: [
             { name: 'pull-up', sets: String(mainSets), reps: '6-10', badge: 'pull' },
@@ -554,7 +554,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
     if (isHome) {
       return [
         {
-          n: 'Day 1: Dumbbell Chest & Triceps Hypertrophy',
+          n: 'Day 1: Dumbbell Chest & Triceps',
           t: 'Chest · Triceps Focus',
           exercises: [
             { name: 'dumbbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
@@ -614,7 +614,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
     // Gym 5 Days
     return [
       {
-        n: 'Day 1: Chest & Triceps Hypertrophy',
+        n: 'Day 1: Chest & Triceps',
         t: 'Chest · Triceps Overload',
         exercises: [
           { name: 'barbell bench press', sets: String(mainSets), reps: String(mainReps), badge: 'push' },
@@ -830,7 +830,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
       ]
     },
     {
-      n: 'Day 2: Pull A · Lat Width & Biceps Hypertrophy',
+      n: 'Day 2: Pull A · Back & Biceps',
       t: 'Back · Biceps · Rear Delts',
       exercises: [
         { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
@@ -852,7 +852,7 @@ function buildCoachDefaultWorkout({ days = 4, location = 'gym', experience = 'in
       ]
     },
     {
-      n: 'Day 4: Push B · Incline Hypertrophy & Lateral Delts',
+      n: 'Day 4: Push B · Incline Chest & Shoulders',
       t: 'Incline Chest · Delts · Triceps',
       exercises: [
         { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -985,7 +985,7 @@ function buildPplSplit({ numDays, location, mainSets, accSets, mainReps, accReps
   }
 
   const pullA = {
-    n: 'Day 2: Pull A · Lat Width & Biceps Hypertrophy',
+    n: 'Day 2: Pull A · Back & Biceps',
     t: 'Back · Biceps · Rear Delts',
     exercises: isGym ? [
       { name: 'pull-up', sets: String(mainSets), reps: '8', badge: 'pull' },
@@ -1033,7 +1033,7 @@ function buildPplSplit({ numDays, location, mainSets, accSets, mainReps, accReps
   }
 
   const pushB = {
-    n: 'Day 4: Push B · Incline Hypertrophy & Lateral Delts',
+    n: 'Day 4: Push B · Incline Chest & Shoulders',
     t: 'Incline Chest · Delts · Triceps',
     exercises: isGym ? [
       { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -1105,7 +1105,7 @@ function buildPplSplit({ numDays, location, mainSets, accSets, mainReps, accReps
   }
 
   const upperPump = {
-    n: 'Day 4: Upper Body Hypertrophy & Arms Overload',
+    n: 'Day 4: Upper Body · Arms & Shoulders',
     t: 'Chest · Back · Shoulders · Arms',
     exercises: isGym ? [
       { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -1185,7 +1185,7 @@ function buildUpperLowerSplit({ numDays, location, mainSets, accSets, mainReps, 
   }
 
   const upperB = {
-    n: 'Day 3: Upper Body B · Back Thickness & Hypertrophy',
+    n: 'Day 3: Upper Body B · Back & Shoulders',
     t: 'Back · Incline Chest · Rear Delts · Arms',
     exercises: isGym ? [
       { name: 'incline dumbbell bench press', sets: String(mainSets), reps: String(accReps), badge: 'push' },
@@ -1289,7 +1289,7 @@ function buildFullBodySplit({ numDays, location, mainSets, accSets, mainReps, ac
   }
 
   const fbB = {
-    n: 'Day 2: Full Body B · Hinge & Incline Hypertrophy',
+    n: 'Day 2: Full Body B · Legs & Chest',
     t: 'Hamstrings · Incline Chest · Delts · Back',
     exercises: isGym ? [
       { name: 'barbell romanian deadlift', sets: String(mainSets), reps: String(accReps), badge: 'legs' },
@@ -1437,7 +1437,7 @@ function buildBroSplit({ numDays, location, mainSets, accSets, mainReps, accReps
   }
 
   const armsDay = {
-    n: 'Day 5: Complete Arms Hypertrophy (Biceps & Triceps)',
+    n: 'Day 5: Complete Arms (Biceps & Triceps)',
     t: 'Biceps · Triceps · Forearms',
     exercises: isGym ? [
       { name: 'barbell curl', sets: String(mainSets), reps: String(accReps), badge: 'pull' },
@@ -1503,7 +1503,7 @@ export function buildDynamicCustomWorkout({
 }
 
 /* ==========================================================================
-   DYNAMIC CUSTOM PLAN GENERATOR (Full Protocol)
+   DYNAMIC CUSTOM PLAN GENERATOR (Full Routine)
    ========================================================================== */
 export function generateCustomPlan(answers) {
   const {
@@ -1595,14 +1595,14 @@ export function generateCustomPlan(answers) {
     bro_split: 'Classic Bodypart Split'
   }
 
-  const activeSplitLabel = splitLabels[splitPreference] || 'Custom Protocol'
+  const activeSplitLabel = splitLabels[splitPreference] || 'Custom Routine'
   const injuryNotes = []
-  if (conditions.includes('knee_injury')) injuryNotes.push('Knee shear movements removed (safe squats & hinge focus)')
-  if (conditions.includes('back_injury')) injuryNotes.push('Spine decompression enforced (axial load replaced with chest-supported movements)')
-  if (conditions.includes('shoulder_injury')) injuryNotes.push('Rotator cuff safe (overhead presses substituted with neutral-grip mechanics)')
+  if (conditions.includes('knee_injury')) injuryNotes.push('Knee-friendly exercises selected (safe squats & leg curls)')
+  if (conditions.includes('back_injury')) injuryNotes.push('Lower-back safe exercises selected (chest-supported rows & machines)')
+  if (conditions.includes('shoulder_injury')) injuryNotes.push('Shoulder-friendly exercises selected (neutral-grip dumbbell pressing)')
 
   const allSafetyNotes = [...healthNotes, ...injuryNotes]
-  const safetySummary = allSafetyNotes.length > 0 ? ` Clinical guardrails: ${allSafetyNotes.join('; ')}.` : ''
+  const safetySummary = allSafetyNotes.length > 0 ? ` Health notes: ${allSafetyNotes.join('; ')}.` : ''
 
   return {
     kcal: targetKcal,
@@ -1614,10 +1614,10 @@ export function generateCustomPlan(answers) {
     diet,
     splitPreference,
     healthConditions: conditions,
-    coachNote: `${pname}, your 100% custom training & nutrition architecture is calibrated for ${goal.replace('_', ' ')} (${activeSplitLabel}). With a daily target of ${targetKcal} kcal (${targetProtein}g Protein) and a dedicated ${numDays}-day ${location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics'} routine.${safetySummary}`,
+    coachNote: `${pname}, your custom workout and meal plan is ready for ${goal.replace('_', ' ')} (${activeSplitLabel}). Your daily target is ${targetKcal} kcal (${targetProtein}g Protein) across a ${numDays}-day ${location === 'gym' ? 'Gym' : location === 'home' ? 'Home Dumbbells' : 'Bodyweight'} schedule.${safetySummary}`,
     weeklyInsight: allSafetyNotes.length > 0
-      ? `Health guardrails active: ${allSafetyNotes[0]}. Form precision over ego lifting!`
-      : `Consistency is your superpower, ${pname}! Execute your prescribed working sets close to failure. 🚀`,
+      ? `Safety first: ${allSafetyNotes[0]}. Focus on good form over heavy weights!`
+      : `Consistency is your superpower, ${pname}! Bring good energy to every session. 🚀`,
     meals,
     workout,
     generatedAt: new Date().toISOString(),
