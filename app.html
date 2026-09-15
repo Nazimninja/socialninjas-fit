@@ -1,6 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#040711;color-scheme:dark;">
+<html lang="en">
 <head>
+<script>
+(function(){
+  try {
+    var s = JSON.parse(localStorage.getItem('gym_state_v1') || '{}');
+    var isLight = s.theme === 'light';
+    var de = document.documentElement;
+    de.dataset.theme = isLight ? 'light' : 'dark';
+    var bg = isLight ? '#f4f6fa' : '#000000';
+    de.style.backgroundColor = bg;
+    de.style.colorScheme = isLight ? 'light' : 'dark';
+  } catch(e) {}
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -123,7 +136,7 @@
   }
 </style>
 </head>
-<body style="margin:0;background:#040711;">
+<body>
 
 <!-- ── INSTANT SPLASH SCREEN (pure HTML, zero JS required) ── -->
 <div id="fn-splash">

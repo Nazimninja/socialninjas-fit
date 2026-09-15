@@ -172,7 +172,17 @@ export default function Home() {
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-              <span style={{ fontSize: '10px', fontWeight: '900', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#38bdf8', background: 'rgba(56,189,248,0.12)', padding: '2px 7px', borderRadius: '99px', border: '1px solid rgba(56,189,248,0.25)' }}>
+              <span style={{
+                fontSize: '10px',
+                fontWeight: '900',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: S.theme === 'light' ? '#0284c7' : '#38bdf8',
+                background: S.theme === 'light' ? 'rgba(2,132,199,0.12)' : 'rgba(56,189,248,0.12)',
+                padding: '2px 7px',
+                borderRadius: '99px',
+                border: S.theme === 'light' ? '1px solid rgba(2,132,199,0.25)' : '1px solid rgba(56,189,248,0.25)'
+              }}>
                 FIT NINJA
               </span>
               <span style={{ fontSize: '11px', fontWeight: '600', color: 'var(--label-3)' }}>
@@ -192,7 +202,7 @@ export default function Home() {
           <button className="iconbtn" onClick={appGuideSheet} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }} title="Quick Start & App Guide">
             <Icon name="info" />
           </button>
-          <button className="iconbtn" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }}>
+          <button className="iconbtn" data-action="toggle-theme" onClick={() => update(s => { s.theme = s.theme === 'light' ? 'dark' : 'light' })} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }} title={S.theme === 'light' ? 'Switch to Dark Theme' : 'Switch to Light Theme'}>
             <Icon name={S.theme === 'light' ? 'moon' : 'sun'} />
           </button>
           <button className="iconbtn" onClick={() => nav('/settings')} style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', color: 'var(--label)' }}>
@@ -206,8 +216,10 @@ export default function Home() {
         <div
           onClick={openInstallSheet}
           style={{
-            background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(2, 132, 199, 0.15) 100%)',
-            border: '1px solid rgba(56, 189, 248, 0.35)',
+            background: S.theme === 'light'
+              ? 'linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(2, 132, 199, 0.12) 100%)'
+              : 'linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(2, 132, 199, 0.15) 100%)',
+            border: S.theme === 'light' ? '1px solid rgba(2, 132, 199, 0.22)' : '1px solid rgba(56, 189, 248, 0.35)',
             borderRadius: '16px',
             padding: '10px 14px',
             marginBottom: '14px',
@@ -216,7 +228,7 @@ export default function Home() {
             justifyContent: 'space-between',
             gap: '10px',
             cursor: 'pointer',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+            boxShadow: S.theme === 'light' ? '0 2px 10px rgba(0,0,0,0.04)' : '0 4px 16px rgba(0,0,0,0.2)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -225,20 +237,20 @@ export default function Home() {
               <div style={{ fontSize: '12.5px', fontWeight: '800', color: 'var(--label)' }}>
                 Install Fit Ninja App
               </div>
-              <div style={{ fontSize: '11px', color: '#94a3b8' }}>
+              <div style={{ fontSize: '11px', color: S.theme === 'light' ? 'var(--label-2)' : '#94a3b8' }}>
                 Add to home screen for 1-tap full-screen workouts
               </div>
             </div>
           </div>
           <span style={{
-            background: '#38bdf8',
-            color: '#031024',
+            background: S.theme === 'light' ? '#0284c7' : '#38bdf8',
+            color: '#ffffff',
             fontSize: '11px',
             fontWeight: '900',
             padding: '5px 11px',
             borderRadius: '99px',
             whiteSpace: 'nowrap',
-            boxShadow: '0 2px 8px rgba(56,189,248,0.3)'
+            boxShadow: S.theme === 'light' ? '0 2px 8px rgba(2,132,199,0.3)' : '0 2px 8px rgba(56,189,248,0.3)'
           }}>
             Install ↗
           </span>
@@ -278,7 +290,7 @@ export default function Home() {
 
           <div style={{ flex: 1, paddingLeft: '22px', display: 'flex', flexDirection: 'column', gap: '11px' }}>
             {[
-              { icon: '⚡', label: 'Sessions', value: `${wThisWeek} / ${plannedPerWeek} Done`, color: '#38bdf8' },
+              { icon: '⚡', label: 'Sessions', value: `${wThisWeek} / ${plannedPerWeek} Done`, color: S.theme === 'light' ? '#0284c7' : '#38bdf8' },
               { icon: '🎯', label: 'Readiness', value: `${readinessScore}% · Optimal`, color: readinessColor },
               { icon: '📈', label: 'Total Volume', value: totalWeeklyVol > 0 ? fmtVol(totalWeeklyVol, S.unit) : '0 ' + S.unit, color: '#34d399' },
               { icon: '⚖️', label: 'Bodyweight', value: bw ? `${fmtNum(bw.w)} ${S.unit}` : (S.aiAnswers?.weight ? `${S.aiAnswers.weight} ${S.unit}` : '—'), color: '#fbbf24' },
@@ -301,7 +313,7 @@ export default function Home() {
           <div style={{ width: `${weeklyCompletionPct}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #2563eb, #34d399)', borderRadius: '99px', transition: 'width 0.8s ease' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
-          <div style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', letterSpacing: '0.04em' }}>
+          <div style={{ fontSize: '10px', color: S.theme === 'light' ? '#0284c7' : '#38bdf8', fontWeight: '700', letterSpacing: '0.04em' }}>
             ⚡ ADAPTIVE OVERLOAD ACTIVE
           </div>
           <div style={{ fontSize: '10px', color: 'var(--label-3)', fontWeight: '600' }}>
@@ -373,15 +385,15 @@ export default function Home() {
                   cursor: 'pointer',
                   padding: '8px 2px',
                   borderRadius: '16px',
-                  background: isSelected ? 'rgba(56,189,248,0.14)' : 'transparent',
-                  border: isSelected ? '1px solid rgba(56,189,248,0.3)' : '1px solid transparent',
+                  background: isSelected ? (S.theme === 'light' ? 'rgba(2,132,199,0.12)' : 'rgba(56,189,248,0.14)') : 'transparent',
+                  border: isSelected ? (S.theme === 'light' ? '1px solid rgba(2,132,199,0.3)' : '1px solid rgba(56,189,248,0.3)') : '1px solid transparent',
                   transition: 'background 0.15s ease'
                 }}
               >
                 <div style={{
                   fontSize: '10px',
                   fontWeight: '800',
-                  color: isSelected ? '#38bdf8' : isToday ? '#60a5fa' : 'var(--label-3)',
+                  color: isSelected ? (S.theme === 'light' ? '#0284c7' : '#38bdf8') : isToday ? (S.theme === 'light' ? '#0284c7' : '#60a5fa') : 'var(--label-3)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                   marginBottom: '6px'
@@ -394,7 +406,7 @@ export default function Home() {
                 <div style={{
                   fontSize: '12px',
                   fontWeight: isSelected || isToday ? '800' : '600',
-                  color: isSelected ? 'var(--label)' : isToday ? '#38bdf8' : isDone ? '#34d399' : 'var(--label-2)',
+                  color: isSelected ? 'var(--label)' : isToday ? (S.theme === 'light' ? '#0284c7' : '#38bdf8') : isDone ? '#34d399' : 'var(--label-2)',
                   marginTop: '6px',
                   lineHeight: 1
                 }}>
@@ -407,8 +419,8 @@ export default function Home() {
                       width: '4px',
                       height: '4px',
                       borderRadius: '50%',
-                      background: '#38bdf8',
-                      boxShadow: '0 0 6px #38bdf8'
+                      background: S.theme === 'light' ? '#0284c7' : '#38bdf8',
+                      boxShadow: S.theme === 'light' ? '0 0 6px rgba(2,132,199,0.5)' : '0 0 6px #38bdf8'
                     }} />
                   )}
                 </div>

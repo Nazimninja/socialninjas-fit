@@ -38,16 +38,16 @@ export default function Plan() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
             onClick={() => nav('/home')}
-            style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--label)' }}
             aria-label="Back"
           >
             <Icon name="chevronLeft" />
           </button>
           <div>
-            <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.6px', color: '#fff' }}>
+            <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.6px', color: 'var(--label)' }}>
               {t('Weekly Workout Plan')}
             </h1>
-            <div className="sub" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>
+            <div className="sub" style={{ fontSize: '12px', color: 'var(--label-3)', marginTop: '2px' }}>
               {t('Your 7-day periodized training split')}
             </div>
           </div>

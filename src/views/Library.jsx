@@ -36,14 +36,14 @@ export default function Library() {
     <div className="hdr" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
       <button
         onClick={() => nav('/home')}
-        style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff' }}
+        style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--surface-2)', border: '1px solid var(--card-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--label)' }}
         aria-label="Back"
       >
         <Icon name="chevronLeft" />
       </button>
       <div>
-        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{t('Exercises')}</h1>
-        <div className="sub" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{t('{0} exercises with animations', count)}</div>
+        <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px', color: 'var(--label)' }}>{t('Exercises')}</h1>
+        <div className="sub" style={{ fontSize: '12px', color: 'var(--label-3)', marginTop: '2px' }}>{t('{0} exercises with animations', count)}</div>
       </div>
     </div>
     <div className="search" style={{ marginBottom: 10 }}><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>

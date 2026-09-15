@@ -32,10 +32,19 @@ bindUI(useUI)   // lets the shared controls open sheets without importing the st
 
 function applyPrefs(theme, accent) {
   const de = document.documentElement
-  de.dataset.theme = theme === 'light' ? 'light' : 'dark'
+  const isLight = theme === 'light'
+  de.dataset.theme = isLight ? 'light' : 'dark'
   de.dataset.accent = ACCENTS[accent] ? accent : 'blue'
+  const bg = isLight ? '#f4f6fa' : '#000000'
+  const color = isLight ? '#0f172a' : '#ffffff'
+  de.style.backgroundColor = bg
+  de.style.colorScheme = isLight ? 'light' : 'dark'
+  if (document.body) {
+    document.body.style.backgroundColor = bg
+    document.body.style.color = color
+  }
   const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.content = de.dataset.theme === 'light' ? '#f2f2f7' : '#070a12'
+  if (meta) meta.content = isLight ? '#f4f6fa' : '#070a12'
 }
 
 // Try to decode a Supabase JWT and return { email, name, picture } or null
