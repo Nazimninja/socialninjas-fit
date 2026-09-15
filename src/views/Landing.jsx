@@ -36,23 +36,66 @@ export default function Landing() {
   const faqs = [
     {
       q: "What makes Fit Ninja different from typical workout apps?",
-      a: "Fit Ninja gives you 1,324+ video exercise demos, smart weight recommendations that tell you exactly when to add weight, interactive front & back muscle maps, and a personalized meal plan — all working 100% offline with zero locked features."
+      a: "Most fitness apps are either digital notebooks or complicated spreadsheets full of robotic jargon. Fit Ninja gives you 5,300+ looping animated video guides for every gym movement, automatic 'Lift Heavier' progression recommendations, distraction-free full-screen rest timers, muscle recovery maps, and customized meal plans — all running 100% offline."
     },
     {
       q: "Does the app work underground or without an internet connection?",
-      a: "Yes! Fit Ninja is built with an offline-first architecture. All your workouts, exercise logs, sets, and macro calculations are cached locally on your device and sync seamlessly whenever you're connected — perfect for basement gyms with zero signal."
+      a: "Yes! Fit Ninja was built offline-first. All your exercises, logs, sets, and meals are saved securely on your phone. It runs flawlessly in gym basements with zero mobile network, and syncs automatically with our cloud backup whenever you're connected."
     },
     {
-      q: "How do the guided workout player and rest timers work?",
-      a: "When you start a session, Fit Ninja activates the Screen Wake Lock API to keep your phone screen awake, pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio chimes when your rest timer expires."
+      q: "Why is the rest timer full-screen?",
+      a: "We designed the full-screen rest timer to keep you focused between heavy sets. It gives you a clean countdown with clear sound alerts, prevents accidental mis-touches when setting your phone down, and stops you from mindlessly scrolling social media between reps."
     },
     {
-      q: "Can I customize my diet preferences?",
-      a: "Yes! Choose between High-Protein, Plant-Based Vegetarian/Vegan, Low-Carb Keto, or Balanced Healthy Eating. Your daily calories, protein, carbs, and fats are automatically tailored to your goal."
+      q: "How does food and calorie logging work?",
+      a: "Food logging in Fit Ninja is fast and practical: search any food, enter your portion, and the app calculates your calories and protein immediately. These numbers give you a realistic daily approximation. If you want pinpoint accuracy for specific foods, using an inexpensive digital kitchen scale is always recommended!"
+    },
+    {
+      q: "Can I upgrade or customize my workout & diet plan later?",
+      a: "Yes! Whenever your schedule changes, you hit a plateau, or your goals shift (e.g. from fat loss to muscle gain), you can update your answers and generate a brand-new AI training split and diet plan in seconds. Your previous workout history remains safely stored."
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "Fit Ninja Pro is available for ₹399/month (just ₹13/day), giving you complete, unrestricted access to 1,324+ animated exercises, full-screen rest timers, automatic weight progression, and tailored daily meal plans."
+      a: "Fit Ninja Pro is just ₹399/month (less than ₹13/day). That gives you complete, unrestricted access to 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom AI meal plans, and cloud backup."
+    }
+  ];
+
+  const values = [
+    {
+      icon: "🎥",
+      title: "5,300+ HD Looping Form Guides",
+      desc: "Never feel lost or intimidated by gym machines or complex lifts. Watch crystal-clear 60fps video demonstrations for every barbell, dumbbell, cable, machine, and bodyweight exercise from optimal angles.",
+      badge: "Zero Form Guesswork"
+    },
+    {
+      icon: "🤖",
+      title: "Personalized AI Workout & Diet Plan",
+      desc: "Get a 7-day workout split matched to your schedule, plus a tailored meal plan with exact calorie and protein targets (Veg, Non-Veg, Vegan, or Keto). Easily refresh your plan whenever your routine changes.",
+      badge: "Tailored to Your Body"
+    },
+    {
+      icon: "⚡",
+      title: "Automatic 'Lift Heavier' Progression",
+      desc: "Building muscle requires lifting slightly heavier over time. Fit Ninja automatically remembers your previous weights and sets, telling you exactly when to add +1 kg to +2.5 kg so you never plateau.",
+      badge: "Steady Muscle Growth"
+    },
+    {
+      icon: "⏱️",
+      title: "Distraction-Free Full-Screen Rest Timer",
+      desc: "A clean, full-screen countdown between sets with audible chimes and vibration alerts. Built specifically to eliminate accidental mis-touches and stop you from doom-scrolling social media while resting.",
+      badge: "Gym Focus & Screen Wake Lock"
+    },
+    {
+      icon: "🥗",
+      title: "Practical Food Logging & Calorie Guidance",
+      desc: "Log what you eat in seconds. We give you realistic, approximate calorie and protein numbers for quick daily tracking, plus honest guidance on when to use a kitchen food scale for pinpoint accuracy.",
+      badge: "No Complicated Menus"
+    },
+    {
+      icon: "📶",
+      title: "100% Offline Gym Mode + Cloud Backup",
+      desc: "Underground gym basements with zero mobile reception? No problem. Fit Ninja stores everything locally on your device, and automatically backs up your workout history and custom routines to the cloud.",
+      badge: "Works Anywhere"
     }
   ];
 
@@ -61,14 +104,14 @@ export default function Landing() {
       icon: <Timer size={24} color="#38bdf8" />,
       tag: "Guided Player",
       title: "Guided Workout Execution",
-      desc: "Smart rest countdowns with audio chimes, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive in the gym.",
+      desc: "Full-screen rest countdowns with sound alerts, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive without touching your phone.",
       action: "Launch Player",
       path: "/workout"
     },
     {
       icon: <Dumbbell size={24} color="#38bdf8" />,
-      tag: "1,324+ Library",
-      title: "1,324+ Animated Video Demos",
+      tag: "5,300+ Library",
+      title: "5,300+ Animated Video Demos",
       desc: "Every barbell, dumbbell, cable, and machine movement demonstrated with looping 60fps HD video guides. Search and filter by muscle group & equipment.",
       action: "Explore Catalogue",
       path: "/library"
@@ -139,13 +182,21 @@ export default function Landing() {
           {/* Desktop Navigation Links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="hidden-sm">
             <a
-              href="#categories"
+              href="#values"
               style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '13.5px', fontWeight: '700', transition: 'color 0.2s' }}
               onMouseEnter={(e) => e.target.style.color = '#fff'}
               onMouseLeave={(e) => e.target.style.color = '#94a3b8'}
             >
-              Disciplines
+              Core Values
             </a>
+            <button
+              onClick={() => nav('/library')}
+              style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '13.5px', fontWeight: '700', cursor: 'pointer', padding: 0 }}
+              onMouseEnter={(e) => e.target.style.color = '#fff'}
+              onMouseLeave={(e) => e.target.style.color = '#94a3b8'}
+            >
+              5,300+ Library
+            </button>
             <a
               href="#sandbox"
               style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '13.5px', fontWeight: '700', transition: 'color 0.2s' }}
@@ -154,14 +205,6 @@ export default function Landing() {
             >
               Interactive Demo
             </a>
-            <button
-              onClick={() => nav('/library')}
-              style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '13.5px', fontWeight: '700', cursor: 'pointer', padding: 0 }}
-              onMouseEnter={(e) => e.target.style.color = '#fff'}
-              onMouseLeave={(e) => e.target.style.color = '#94a3b8'}
-            >
-              1,324+ Demos
-            </button>
             <a
               href="#pricing"
               style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '13.5px', fontWeight: '700', transition: 'color 0.2s' }}
@@ -242,7 +285,7 @@ export default function Landing() {
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Smart Strength & Muscle Coach</span>
+            <span className="pill-sub" style={{ color: '#e2e8f0' }}>AI Workout &amp; Nutrition Coach</span>
           </div>
 
           {/* Main Headline */}
@@ -254,13 +297,13 @@ export default function Landing() {
             margin: '0 0 20px',
             color: '#ffffff'
           }}>
-            Train Different.<br />
+            Train with Confidence.<br />
             <span style={{
               background: 'linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
-              Progress Every Rep.
+              Progress Every Single Session.
             </span>
           </h1>
 
@@ -273,7 +316,7 @@ export default function Landing() {
             margin: '0 0 32px',
             fontWeight: '500'
           }}>
-            Never guess what to lift again. 1,324+ video exercise demos, full-screen rest timers, interactive muscle maps, and custom meal plans tailored to your body.
+            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom AI workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in an app that runs 100% offline in underground gyms.
           </p>
 
           {/* CTA Buttons */}
@@ -296,7 +339,7 @@ export default function Landing() {
                 gap: '8px'
               }}
             >
-              <span>⚡ Start Transformation</span>
+              <span>⚡ Start Your Transformation</span>
               <ArrowRight size={16} />
             </button>
 
@@ -319,7 +362,7 @@ export default function Landing() {
               }}
             >
               <Play size={15} fill="#38bdf8" color="#38bdf8" />
-              <span>Test Interactive Demo</span>
+              <span>Try Interactive Demo</span>
             </a>
           </div>
 
@@ -335,12 +378,12 @@ export default function Landing() {
             maxWidth: '560px'
           }}>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff' }}>1,324+</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Animated Demos</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff' }}>5,300+</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Video Exercises</div>
             </div>
             <div>
               <div style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff' }}>100%</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline PWA</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline Gym Mode</div>
             </div>
             <div>
               <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>4.9 ★</div>
@@ -348,7 +391,7 @@ export default function Landing() {
             </div>
             <div>
               <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>₹13/day</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Affordable Pro</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Fit Ninja Pro</div>
             </div>
           </div>
         </div>
@@ -369,6 +412,94 @@ export default function Landing() {
         boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.5)'
       }}>
 
+        {/* ── CORE VALUE PILLARS (THE REAL VALUE WE PROVIDE) ──────── */}
+        <section id="values" style={{ maxWidth: '1200px', margin: '0 auto 80px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(56, 189, 248, 0.1)',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              borderRadius: '99px',
+              padding: '4px 14px',
+              fontSize: '11px',
+              fontWeight: '900',
+              color: '#38bdf8',
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase',
+              marginBottom: '12px'
+            }}>
+              THE VALUE WE PROVIDE
+            </div>
+            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 12px' }}>
+              Everything You Need to Progress.<br />Zero Complex Gym Fluff.
+            </h2>
+            <p style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '600px', margin: '0 auto' }}>
+              No confusing jargon, no passive PDF routines, and no guesswork. Here is exactly what Fit Ninja puts in your pocket every day:
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '20px'
+          }}>
+            {values.map((v, idx) => (
+              <div
+                key={idx}
+                className="landing-card-hover"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 14, 26, 0.95) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '24px',
+                  padding: '26px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  transition: 'transform 0.25s, border-color 0.25s, box-shadow 0.25s'
+                }}
+              >
+                <div style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '14px',
+                  background: 'rgba(56, 189, 248, 0.12)',
+                  border: '1px solid rgba(56, 189, 248, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '20px'
+                }}>
+                  {v.icon}
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#ffffff', letterSpacing: '-0.3px', margin: 0 }}>
+                  {v.title}
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+                  {v.desc}
+                </p>
+                <div style={{
+                  display: 'inline-block',
+                  alignSelf: 'flex-start',
+                  fontSize: '10px',
+                  fontWeight: '800',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  color: '#38bdf8',
+                  background: 'rgba(56, 189, 248, 0.1)',
+                  padding: '4px 10px',
+                  borderRadius: '99px',
+                  border: '1px solid rgba(56, 189, 248, 0.25)',
+                  marginTop: 'auto'
+                }}>
+                  {v.badge}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ── OUR CATEGORIES / TRAINING DISCIPLINES ─────────────────── */}
         <section id="categories" style={{ maxWidth: '1200px', margin: '0 auto 80px' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -387,13 +518,13 @@ export default function Landing() {
               textTransform: 'uppercase',
               marginBottom: '12px'
             }}>
-              OUR DISCIPLINES
+              BUILT FOR REAL RESULTS
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 12px' }}>
-              Everything You Need To Get Stronger
+              Guided Workout Tracking in Action
             </h2>
             <p style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '580px', margin: '0 auto' }}>
-              Simple guidance, clear workouts, and real results without overcomplicating your fitness.
+              Step into the gym with total confidence. Structured routines, video demonstrations, and automated set guidance designed for real progress.
             </p>
           </div>
 
@@ -500,7 +631,7 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ── 1,324+ HD VIDEO EXERCISES SHOWCASE ──────────────────── */}
+        {/* ── 5,300+ HD VIDEO EXERCISES SHOWCASE ──────────────────── */}
         <section id="library" style={{ maxWidth: '1200px', margin: '0 auto 80px' }}>
           <div className="ex-showcase-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
             <div>
@@ -522,10 +653,10 @@ export default function Landing() {
                 LIBRARY
               </div>
               <h2 className="section-h2" style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 6px' }}>
-                1,324+ HD Video Exercises
+                5,300+ HD Video Exercises
               </h2>
               <p className="section-sub" style={{ fontSize: '14.5px', color: '#94a3b8', margin: 0 }}>
-                Clean 60fps looping form guides for every movement.
+                Clean 60fps looping form guides for every barbell, dumbbell, cable, and machine movement.
               </p>
             </div>
 
@@ -679,7 +810,7 @@ export default function Landing() {
               letterSpacing: '0.8px',
               boxShadow: '0 4px 12px rgba(56, 189, 248, 0.4)'
             }}>
-              PRO MEMBERSHIP
+              ALL-INCLUSIVE PRO
             </div>
 
             <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja Pro</h3>
@@ -699,7 +830,7 @@ export default function Landing() {
               fontWeight: '700',
               marginBottom: '24px'
             }}>
-              Average Gym Trainer: ₹3,000–₹8,000/mo · Fit Ninja Pro: Just ₹13/day
+              Just ₹13/day · Cancel anytime with 1 tap · Zero hidden fees
             </div>
 
             <ul className="pricing-features-list" style={{
@@ -715,29 +846,66 @@ export default function Landing() {
             }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Full access to 1,324+ animated exercises &amp; looping video GIFs</span>
+                <span>Full access to 5,300+ animated exercises &amp; looping 60fps HD form guides</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Unlimited custom routines &amp; smart weight increase suggestions</span>
+                <span>Personalized AI workout &amp; diet plan (High-Protein, Veg, Non-Veg, Vegan, Keto)</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Guided workout player with full-screen rest timer &amp; audio alerts</span>
+                <span>Distraction-free full-screen rest timer with sound chimes, haptics &amp; screen lock</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Interactive muscle map &amp; personal strength records</span>
+                <span>Smart "Lift Heavier" suggestions to build strength steadily without plateaus</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Personalized daily meal plan (High-Protein, Vegetarian, Keto)</span>
+                <span>Visual muscle recovery heatmap (front and back body analysis)</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>100% offline-ready PWA for iPhone, Android, and Desktop</span>
+                <span>Practical food logging with realistic calorie estimates &amp; kitchen scale tips</span>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Check size={18} color="#38bdf8" strokeWidth={3} />
+                <span>100% offline gym basement mode + automatic cloud backup via email</span>
               </li>
             </ul>
+
+            {/* Value Comparison Box */}
+            <div style={{
+              margin: '0 auto 24px',
+              maxWidth: '540px',
+              background: 'rgba(15, 23, 42, 0.7)',
+              border: '1px solid rgba(56, 189, 248, 0.2)',
+              borderRadius: '18px',
+              padding: '16px 20px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: '14px',
+              textAlign: 'left'
+            }}>
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '6px' }}>Personal Gym Trainer</div>
+                <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: '1.5' }}>
+                  ❌ ₹3,000–₹8,000 / mo<br />
+                  ❌ Unavailable at off-hours<br />
+                  ❌ No video guides to check<br />
+                  ❌ Generic paper diet charts
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '6px' }}>Fit Ninja Pro</div>
+                <div style={{ fontSize: '11.5px', color: '#cbd5e1', lineHeight: '1.5' }}>
+                  ✅ Just ₹399 / mo (₹13/day)<br />
+                  ✅ 24/7 on your phone<br />
+                  ✅ 5,300+ animated videos<br />
+                  ✅ Custom AI meals updated anytime
+                </div>
+              </div>
+            </div>
 
             <button
               onClick={() => nav('/app?mode=signup')}
@@ -756,7 +924,7 @@ export default function Landing() {
                 boxShadow: '0 8px 24px rgba(56, 189, 248, 0.4)'
               }}
             >
-              ⚡ Get Fit Ninja Pro →
+              ⚡ Start Fit Ninja Pro →
             </button>
           </div>
         </section>

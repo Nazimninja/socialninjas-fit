@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Fit Ninja — Train Different · Workout Tracker, Strength &amp; Nutrition</title>
-<meta name="description" content="Fit Ninja — 1,324+ animated exercise videos, smart weight suggestions to build strength, interactive muscle tracker, and personalized meal plans.">
-<meta name="keywords" content="fit ninja, workout tracker, gym routines, 1324 exercises, meal plan, animated workout videos, build strength, build muscle">
+<title>Fit Ninja — Train with Confidence · 5,300+ Exercises, AI Workout &amp; Nutrition Coach</title>
+<meta name="description" content="Fit Ninja — 5,300+ looping animated video exercises, custom AI workout &amp; diet plans, full-screen rest timer, smart weight suggestions, and offline gym tracking.">
+<meta name="keywords" content="fit ninja, workout tracker, gym routines, 5300 exercises, meal plan, animated workout videos, build strength, build muscle, offline fitness app">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Social Ninja's">
 <link rel="canonical" href="https://fit.socialninjas.in/">
@@ -13,8 +13,8 @@
 <!-- Open Graph / Social -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://fit.socialninjas.in/">
-<meta property="og:title" content="Fit Ninja — Train Different. Progress Every Rep.">
-<meta property="og:description" content="1,324+ animated exercise videos, guided workout player with smart rest timers, interactive muscle tracker, and personalized meal planning.">
+<meta property="og:title" content="Fit Ninja — Train with Confidence. Progress Every Single Session.">
+<meta property="og:description" content="5,300+ animated exercise videos, custom AI workout &amp; diet plans, full-screen rest timer, smart weight suggestions, and 100% offline gym tracking.">
 <meta property="og:image" content="https://fit.socialninjas.in/ninja-logo.png">
 <meta property="og:site_name" content="Fit Ninja">
 <meta property="og:locale" content="en_US">
@@ -47,7 +47,7 @@
   "@type": "WebApplication",
   "name": "Fit Ninja",
   "url": "https://fit.socialninjas.in/",
-  "description": "Fit Ninja delivers 1,324+ animated exercises, guided workout player, interactive muscle tracker, and personalized meal planning.",
+  "description": "Fit Ninja delivers 5,300+ animated video exercises, custom AI workout & diet plans, full-screen rest timers, and offline gym tracking.",
   "applicationCategory": "HealthApplication, SportsApplication",
   "operatingSystem": "All (iOS, Android, Web)",
   "offers": {
@@ -465,6 +465,111 @@ a { color: inherit; text-decoration: none; }
   border-radius: 44px 44px 0 0;
   padding: 70px 24px 40px;
   box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ── VALUE PILLARS (THE VALUE FIT NINJA DELIVERS) ── */
+.values-sec {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+}
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+.value-card {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 14, 26, 0.95) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
+}
+.value-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glow);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(56, 189, 248, 0.15);
+}
+.value-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #38bdf8;
+  margin-bottom: 2px;
+}
+.value-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+.value-desc {
+  font-size: 13.5px;
+  color: var(--t2);
+  line-height: 1.6;
+  margin: 0;
+}
+.value-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 4px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  margin-top: auto;
+}
+
+/* ── TRAINER VS APP COMPARISON ── */
+.comparison-wrap {
+  margin: 24px auto 0;
+  max-width: 680px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 20px;
+  padding: 18px 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  text-align: left;
+}
+.comparison-col h4 {
+  font-size: 13px;
+  font-weight: 900;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.comparison-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--t2);
+}
+@media (max-width: 600px) {
+  .comparison-wrap {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
 }
 
 /* ── CATEGORIES (OUR DISCIPLINES) ── */
@@ -1173,9 +1278,9 @@ footer {
     </a>
 
     <div class="nav-links">
-      <a href="#categories">Disciplines</a>
+      <a href="#values">Core Values</a>
+      <a href="/app?mode=app#/library">5,300+ Library</a>
       <a href="#sandbox">Interactive Demo</a>
-      <a href="/app?mode=app#/library">1,324+ Demos</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </div>
@@ -1196,37 +1301,37 @@ footer {
       <span class="hero-pill-dot"></span>
       <span>FIT NINJA</span>
       <span class="pill-divider" style="color: rgba(255, 255, 255, 0.3)">•</span>
-      <span class="pill-sub" style="color: #e2e8f0">Smart Strength &amp; Muscle Coach</span>
+      <span class="pill-sub" style="color: #e2e8f0">AI Workout &amp; Nutrition Coach</span>
     </div>
 
     <h1 class="hero-h1">
-      Train Different.<br>
-      <span class="grad-text">Progress Every Rep.</span>
+      Train with Confidence.<br>
+      <span class="grad-text">Progress Every Single Session.</span>
     </h1>
 
     <p class="hero-sub">
-      Never guess what to lift again. 1,324+ looping animated exercise videos, smart weight suggestions to build strength every week, rest timers with sound alerts, interactive muscle tracking, and personalized daily meals.
+      Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom AI workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in an app that runs 100% offline in underground gyms.
     </p>
 
     <div class="hero-actions">
       <a href="/app?mode=signup" class="btn-glow">
-        <span>⚡ Start Transformation</span>
+        <span>⚡ Start Your Transformation</span>
         <span>→</span>
       </a>
       <a href="#sandbox" class="btn-ghost">
         <span style="color: #38bdf8;">▶</span>
-        <span>Test Interactive Demo</span>
+        <span>Try Interactive Demo</span>
       </a>
     </div>
 
     <div class="hero-metrics-strip">
       <div>
-        <div class="hero-metric-val">1,324+</div>
-        <div class="hero-metric-lbl">Animated Demos</div>
+        <div class="hero-metric-val">5,300+</div>
+        <div class="hero-metric-lbl">Video Exercises</div>
       </div>
       <div>
         <div class="hero-metric-val">100%</div>
-        <div class="hero-metric-lbl">Offline PWA</div>
+        <div class="hero-metric-lbl">Offline Gym Mode</div>
       </div>
       <div>
         <div class="hero-metric-val" style="color:#38bdf8">4.9 ★</div>
@@ -1234,7 +1339,7 @@ footer {
       </div>
       <div>
         <div class="hero-metric-val" style="color:#38bdf8">₹13/day</div>
-        <div class="hero-metric-lbl">Affordable Pro</div>
+        <div class="hero-metric-lbl">Fit Ninja Pro</div>
       </div>
     </div>
   </div>
@@ -1275,14 +1380,14 @@ footer {
           </svg>
           <span style="font-size:9.5px;font-weight:800;color:#38bdf8;text-transform:uppercase">Catalogue</span>
         </div>
-        <div style="font-size:20px;font-weight:900;color:#fff">1,324+</div>
-        <div style="font-size:10.5px;color:#94a3b8;font-weight:600">Animated Demos</div>
+        <div style="font-size:20px;font-weight:900;color:#fff">5,300+</div>
+        <div style="font-size:10.5px;color:#94a3b8;font-weight:600">Video Guides</div>
       </div>
 
       <!-- Floating Pill: Top Center -->
       <div class="float-pill-top">
         <span style="width:7px;height:7px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8"></span>
-        <span style="font-size:11px;font-weight:800;color:#fff">Live Workout Player</span>
+        <span style="font-size:11px;font-weight:800;color:#fff">Full-Screen Workout Player</span>
       </div>
 
       <!-- Floating Badge 2: Muscle Map (Desktop) -->
@@ -1294,31 +1399,31 @@ footer {
         </div>
         <div>
           <div style="font-size:12.5px;font-weight:800;color:#fff">Muscle Heatmap</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600">Front &amp; Back Muscles</div>
+          <div style="font-size:10px;color:#94a3b8;font-weight:600">Front &amp; Back Recovery</div>
         </div>
       </div>
 
       <!-- Floating Card 3: Feature Popover (Desktop) -->
       <div class="float-card-right desktop-only-node">
         <div style="font-size:9.5px;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
-          PRO MEMBERSHIP INCLUDED
+          ALL VALUES INCLUDED
         </div>
         <div style="display:grid;gap:6px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
           <div style="display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Auto Rest Timer</span>
+            <span>Full-Screen Rest Timer</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Strength Progression</span>
+            <span>Auto "Lift Heavier" Cues</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Custom Meal Plan</span>
+            <span>Custom AI Workout &amp; Diet</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>100% Offline PWA</span>
+            <span>100% Offline Basement Mode</span>
           </div>
         </div>
         <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(135deg,#38bdf8 0%,#0284c7 100%);color:#fff;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px">
@@ -1336,7 +1441,7 @@ footer {
           </svg>
         </div>
         <div class="chip-content">
-          <span class="chip-val">1,324+</span>
+          <span class="chip-val">5,300+</span>
           <span class="chip-lbl">Exercises</span>
         </div>
       </div>
@@ -1372,13 +1477,86 @@ footer {
 <!-- ── 2. ORGANIC CURVED CONTAINER SECTION ── -->
 <div class="curved-shell">
 
+  <!-- ── 2. CORE VALUE PILLARS (THE REAL VALUE WE PROVIDE) ── -->
+  <section class="values-sec" id="values">
+    <div style="text-align:center">
+      <div class="section-tag">THE VALUE WE PROVIDE</div>
+      <h2 class="section-h2">Everything You Need to Progress.<br>Zero Complex Gym Fluff.</h2>
+      <p class="section-sub">
+        No confusing jargon, no passive PDF routines, and no guesswork. Here is exactly what Fit Ninja puts in your pocket every day:
+      </p>
+    </div>
+
+    <div class="values-grid">
+      <!-- Value 1: 5,300+ Looping Form Guides -->
+      <div class="value-card">
+        <div class="value-icon-wrap">🎥</div>
+        <h3 class="value-title">5,300+ HD Looping Form Guides</h3>
+        <p class="value-desc">
+          Never feel lost or intimidated by gym machines or complex lifts again. Watch crystal-clear 60fps video demonstrations for every barbell, dumbbell, cable, machine, and bodyweight exercise from the best angles.
+        </p>
+        <span class="value-badge">Zero Form Guesswork</span>
+      </div>
+
+      <!-- Value 2: Custom AI Workout & Meal Plans -->
+      <div class="value-card">
+        <div class="value-icon-wrap">🤖</div>
+        <h3 class="value-title">Personalized AI Workout &amp; Diet Plan</h3>
+        <p class="value-desc">
+          Get a 7-day workout split matched to your schedule, plus a tailored meal plan with exact calorie and protein targets (Veg, Non-Veg, Vegan, or Keto). Easily refresh or upgrade your plan whenever your routine changes.
+        </p>
+        <span class="value-badge">Tailored to Your Body</span>
+      </div>
+
+      <!-- Value 3: Smart "Lift Heavier" Weight Progression -->
+      <div class="value-card">
+        <div class="value-icon-wrap">⚡</div>
+        <h3 class="value-title">Automatic "Lift Heavier" Progression</h3>
+        <p class="value-desc">
+          Building muscle requires lifting slightly heavier over time. Fit Ninja automatically remembers your previous weights and sets, telling you exactly when you're ready to add +1 kg to +2.5 kg so you never hit a plateau.
+        </p>
+        <span class="value-badge">Continuous Muscle Growth</span>
+      </div>
+
+      <!-- Value 4: Full-Screen Rest Timer & Screen Lock -->
+      <div class="value-card">
+        <div class="value-icon-wrap">⏱️</div>
+        <h3 class="value-title">Distraction-Free Full-Screen Rest Timer</h3>
+        <p class="value-desc">
+          A clean, full-screen countdown between sets with audible chimes and vibration alerts. Built specifically to eliminate accidental mis-touches and stop you from doom-scrolling social media while resting.
+        </p>
+        <span class="value-badge">Gym Focus &amp; Screen Wake Lock</span>
+      </div>
+
+      <!-- Value 5: Simple Food Logging with Kitchen Scale Guidance -->
+      <div class="value-card">
+        <div class="value-icon-wrap">🥗</div>
+        <h3 class="value-title">Practical Food Logging &amp; Calorie Guidance</h3>
+        <p class="value-desc">
+          Log what you eat in seconds. We give you realistic, approximate calorie and protein numbers for quick daily tracking, plus honest guidance on when to use a kitchen food scale for pinpoint accuracy.
+        </p>
+        <span class="value-badge">No Complicated Menus</span>
+      </div>
+
+      <!-- Value 6: 100% Offline Basement Mode + Cloud Backup -->
+      <div class="value-card">
+        <div class="value-icon-wrap">📶</div>
+        <h3 class="value-title">100% Offline Gym Mode + Cloud Backup</h3>
+        <p class="value-desc">
+          Underground gym basements with zero mobile reception? No problem. Fit Ninja stores everything locally on your device, and automatically backs up your workout history and custom routines to the cloud via your email.
+        </p>
+        <span class="value-badge">Works Anywhere</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ── OUR CATEGORIES / TRAINING DISCIPLINES ── -->
   <section class="categories-sec" id="categories">
     <div style="text-align:center">
-      <div class="section-tag">OUR DISCIPLINES</div>
-      <h2 class="section-h2">Engineered for Serious Transformation</h2>
+      <div class="section-tag">BUILT FOR REAL RESULTS</div>
+      <h2 class="section-h2">Guided Workout Tracking in Action</h2>
       <p class="section-sub">
-        Seize the opportunity. It's time to build elite physical capability with scientific structure and automated guidance.
+        Step into the gym with total confidence. Structured routines, video demonstrations, and automated set guidance designed for real progress.
       </p>
     </div>
 
@@ -1400,7 +1578,7 @@ footer {
           </div>
           <div class="cat-title">Guided Workout Execution</div>
           <p class="cat-desc">
-            Smart rest countdowns with audio chimes, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive in the gym.
+            Full-screen rest countdowns with sound alerts, pre-filled working weights from previous sessions, and Screen Wake Lock to keep your display alive without touching your phone.
           </p>
         </div>
         <div style="margin-top: 24px;">
@@ -1411,7 +1589,7 @@ footer {
         </div>
       </div>
 
-      <!-- Pillar 2: 1,324+ Video Demos -->
+      <!-- Pillar 2: 5,300+ Video Demos -->
       <div class="cat-card">
         <div>
           <div style="display:flex;justify-content:space-between;align-items:center">
@@ -1422,10 +1600,10 @@ footer {
             </div>
             <div class="cat-status-pill">
               <div class="cat-status-dot"></div>
-              <span class="cat-status-text">1,324+ Library</span>
+              <span class="cat-status-text">5,300+ Library</span>
             </div>
           </div>
-          <div class="cat-title">1,324+ Animated Video Demos</div>
+          <div class="cat-title">5,300+ Animated Video Demos</div>
           <p class="cat-desc">
             Every barbell, dumbbell, cable, and machine movement demonstrated with looping 60fps HD video guides. Search and filter by muscle group &amp; equipment.
           </p>
@@ -1474,13 +1652,13 @@ footer {
     </div>
   </section>
 
-  <!-- ── 1,324+ HD EXERCISE SHOWCASE ── -->
+  <!-- ── 5,300+ HD EXERCISE SHOWCASE ── -->
   <section class="ex-showcase-sec" id="library" style="max-width: 1200px; margin: 0 auto 80px; padding: 0 4px;">
     <div class="ex-showcase-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
       <div>
         <div class="section-tag" style="margin-bottom: 8px;">LIBRARY</div>
-        <h2 class="section-h2" style="margin-bottom: 6px;">1,324+ HD Video Exercises</h2>
-        <p class="section-sub" style="font-size: 14.5px; color: var(--t2); margin: 0;">Clean 60fps looping form guides for every movement.</p>
+        <h2 class="section-h2" style="margin-bottom: 6px;">5,300+ HD Video Exercises</h2>
+        <p class="section-sub" style="font-size: 14.5px; color: var(--t2); margin: 0;">Clean 60fps looping form guides for every barbell, dumbbell, cable, and machine movement.</p>
       </div>
       <a href="/app?mode=app#/library" class="ex-showcase-btn" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; font-size: 13px; font-weight: 800; padding: 10px 20px; border-radius: 99px; transition: all 0.2s ease;">
         <span>Open Full Gym Library</span>
@@ -1681,35 +1859,58 @@ footer {
     </div>
   </section>
 
-  <!-- ── 3. TRANSPARENT PRICING ── -->
+  <!-- ── 3. TRANSPARENT PRICING & VALUE COMPARISON ── -->
   <section class="pricing-sec" id="pricing">
-    <h2 style="font-size:34px;font-weight:900;color:#fff;margin-bottom:10px">Transparent, High-ROI Access</h2>
+    <h2 style="font-size:34px;font-weight:900;color:#fff;margin-bottom:10px">Fair, High-Value Access</h2>
     <p style="font-size:15px;color:#94a3b8;margin-bottom:32px">
-      Get elite fitness technology at less than the cost of a single gym energy drink per week.
+      Get coach-level workout guidance, 5,300+ video demos, and tailored nutrition at less than the price of a single protein shake per week.
     </p>
 
     <div class="pricing-box">
-      <div class="pricing-ribbon">PRO MEMBERSHIP</div>
+      <div class="pricing-ribbon">ALL-INCLUSIVE PRO</div>
       <h3 style="font-size:24px;font-weight:800;color:#fff;margin:8px 0 4px">Fit Ninja Pro</h3>
       <div class="pricing-amt">
         ₹399 <span style="font-size:16px;color:#94a3b8;font-weight:600">/ month</span>
       </div>
 
       <div style="display:inline-block;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:6px 16px;font-size:12px;color:#38bdf8;font-weight:700;margin-bottom:24px">
-        Average Gym Trainer: ₹3,000–₹8,000/mo · Fit Ninja Pro: Just ₹13/day
+        Just ₹13/day · Cancel anytime with 1 tap · Zero hidden fees
       </div>
 
       <ul class="pricing-features-list">
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> Full access to 1,324+ animated exercises &amp; looping video GIFs</li>
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> Unlimited custom workouts, strength builder &amp; supersets</li>
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> Guided in-gym player with wake-lock, smart timers &amp; audio chimes</li>
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> Visual muscle recovery map &amp; strength progress tracking</li>
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> Personalized meal &amp; diet planner (High-Protein, Veg, Vegan, Keto)</li>
-        <li><span style="color:#38bdf8;font-weight:900">✓</span> 100% offline-ready PWA for iPhone, Android, and Desktop</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Full access to 5,300+ animated exercises &amp; looping 60fps HD form guides</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Personalized AI workout &amp; diet plan (High-Protein, Veg, Non-Veg, Vegan, Keto)</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Distraction-free full-screen rest timer with sound chimes, haptics &amp; screen lock</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Smart "Lift Heavier" suggestions to build strength steadily without plateaus</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Visual muscle recovery heatmap (front and back body analysis)</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> Practical food logging with realistic calorie estimates &amp; kitchen scale tips</li>
+        <li><span style="color:#38bdf8;font-weight:900">✓</span> 100% offline gym basement mode + automatic cloud backup via email</li>
       </ul>
 
-      <a href="/app?mode=signup" class="btn-glow" style="width:100%;max-width:460px;justify-content:center;margin:0 auto;font-size:16px;padding:16px">
-        ⚡ Get Fit Ninja Pro →
+      <!-- Value Comparison Box -->
+      <div class="comparison-wrap">
+        <div class="comparison-col">
+          <h4 style="color:#f43f5e">Personal Gym Trainer</h4>
+          <ul>
+            <li>❌ ₹3,000 to ₹8,000 / month</li>
+            <li>❌ Unavailable during early/late hours</li>
+            <li>❌ No video form demos to check on your own</li>
+            <li>❌ Generic handwritten diet charts</li>
+          </ul>
+        </div>
+        <div class="comparison-col">
+          <h4 style="color:#38bdf8">Fit Ninja Pro</h4>
+          <ul>
+            <li>✅ Just ₹399 / month (₹13/day)</li>
+            <li>✅ Always with you 24/7 on your phone</li>
+            <li>✅ 5,300+ animated videos for every lift</li>
+            <li>✅ Custom AI meal &amp; macro plan updated anytime</li>
+          </ul>
+        </div>
+      </div>
+
+      <a href="/app?mode=signup" class="btn-glow" style="width:100%;max-width:460px;justify-content:center;margin:24px auto 0;font-size:16px;padding:16px">
+        ⚡ Start Fit Ninja Pro →
       </a>
     </div>
   </section>
@@ -1809,7 +2010,7 @@ footer {
         <span style="color:#38bdf8;font-size:18px">▾</span>
       </div>
       <div class="faq-a">
-        Fit Ninja combines 1,324+ animated video exercise demos, smart weight recommendations that tell you when to lift heavier, interactive front &amp; back muscle tracking, and personalized meal plans into a fast, offline-friendly app with zero pushy contracts.
+        Most fitness apps are either glorified digital notebooks or complicated spreadsheets full of robotic jargon. Fit Ninja gives you <strong>5,300+ looping animated video guides</strong> for every gym movement, automatic <strong>"Lift Heavier" recommendations</strong> based on your actual history, distraction-free full-screen rest timers, interactive front and back muscle recovery maps, and customized meal plans — all running 100% offline in gym basements.
       </div>
     </div>
 
@@ -1819,27 +2020,37 @@ footer {
         <span style="color:#38bdf8;font-size:18px">▾</span>
       </div>
       <div class="faq-a">
-        Yes! Fit Ninja works completely offline. All your workouts, exercise logs, sets, and meals are saved right on your phone and sync automatically whenever you're back online — perfect for basement gyms with poor reception.
+        Yes! Fit Ninja was built offline-first. All your exercises, logs, sets, and meals are saved securely on your phone. It runs flawlessly in gym basements with zero mobile network, and syncs automatically with our cloud backup whenever you're connected.
       </div>
     </div>
 
     <div class="faq-card" onclick="this.classList.toggle('open')">
       <div class="faq-q">
-        <span>How do the guided workout player and rest timers work?</span>
+        <span>Why is the rest timer full-screen?</span>
         <span style="color:#38bdf8;font-size:18px">▾</span>
       </div>
       <div class="faq-a">
-        When you start a session, Fit Ninja activates the Screen Wake Lock API to keep your phone screen awake, pre-fills your working weights from previous workouts, advances sets automatically, and sounds audio chimes when your rest timer expires.
+        We designed the full-screen rest timer to keep you focused between heavy sets. It gives you a clean countdown with clear sound alerts, prevents accidental mis-touches when setting your phone down, and stops you from mindlessly scrolling social media between reps.
       </div>
     </div>
 
     <div class="faq-card" onclick="this.classList.toggle('open')">
       <div class="faq-q">
-        <span>Can I customize my diet preferences for the nutrition engine?</span>
+        <span>How does food and calorie logging work?</span>
         <span style="color:#38bdf8;font-size:18px">▾</span>
       </div>
       <div class="faq-a">
-        Absolutely. You can choose from High-Protein Muscle Gain, Pure Vegetarian / Vegan, Keto, or Balanced Healthy Eating — with daily calories and protein calculated specifically for your body and goal.
+        Food logging in Fit Ninja is fast and practical: search any food, enter your portion, and the app calculates your calories and protein immediately. These numbers give you a realistic daily approximation. If you want pinpoint accuracy for specific foods, using an inexpensive digital kitchen scale is always recommended!
+      </div>
+    </div>
+
+    <div class="faq-card" onclick="this.classList.toggle('open')">
+      <div class="faq-q">
+        <span>Can I upgrade or customize my workout &amp; diet plan later?</span>
+        <span style="color:#38bdf8;font-size:18px">▾</span>
+      </div>
+      <div class="faq-a">
+        Yes! Whenever your schedule changes, you plateau, or your goals shift (e.g. from fat loss to muscle gain), you can update your answers and generate a brand-new AI training split and diet plan in seconds. Your previous workout history remains safely stored.
       </div>
     </div>
 
@@ -1849,7 +2060,7 @@ footer {
         <span style="color:#38bdf8;font-size:18px">▾</span>
       </div>
       <div class="faq-a">
-        Fit Ninja Pro is available for ₹399/month (just ₹13/day), giving you complete, unrestricted access to 1,324+ animated exercises, guided workout player, smart rest timers, automated weight recommendations, and personalized meal plans.
+        Fit Ninja Pro is just ₹399/month (less than ₹13/day). That gives you complete, unrestricted access to 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom AI meal plans, and cloud backup.
       </div>
     </div>
   </section>
