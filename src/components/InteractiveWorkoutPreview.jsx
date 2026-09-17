@@ -1,524 +1,519 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Play, Pause, RotateCcw, Check, Dumbbell, Flame, Activity, ShieldCheck, ChevronRight, Sparkles } from 'lucide-react';
-import BodyMap from './BodyMap.jsx';
-
-const EXERCISES = [
-  {
-    id: 'bench',
-    name: 'Barbell Bench Press',
-    category: 'Chest & Triceps (Muscle Building)',
-    muscleLoad: { chest: 18, triceps: 12, delts: 8 },
-    weight: '82.5 kg',
-    reps: '5, 5, 8 (as many as possible)',
-    sets: [
-      { set: 1, reps: 5, weight: '82.5 kg', done: true },
-      { set: 2, reps: 5, weight: '82.5 kg', done: true },
-      { set: 3, reps: '8+ reps', weight: '82.5 kg', done: false }
-    ],
-    progression: '+2.5 kg next workout (Strength Up!)'
-  },
-  {
-    id: 'squat',
-    name: 'Barbell Back Squat',
-    category: 'Quads & Leg Strength',
-    muscleLoad: { quads: 20, glutes: 15, hamstrings: 12, calves: 6 },
-    weight: '115 kg',
-    reps: '5, 5, 6 reps',
-    sets: [
-      { set: 1, reps: 5, weight: '115 kg', done: true },
-      { set: 2, reps: 5, weight: '115 kg', done: false },
-      { set: 3, reps: '6+ reps', weight: '115 kg', done: false }
-    ],
-    progression: '+5 kg next workout (Target Reached)'
-  },
-  {
-    id: 'pullup',
-    name: 'Weighted Pull-Up',
-    category: 'Back & Biceps',
-    muscleLoad: { lats: 18, biceps: 14, upperBack: 10, abs: 6 },
-    weight: '+15 kg',
-    reps: '6, 6, 8 reps',
-    sets: [
-      { set: 1, reps: 6, weight: '+15 kg', done: true },
-      { set: 2, reps: 6, weight: '+15 kg', done: true },
-      { set: 3, reps: '8+ reps', weight: '+15 kg', done: true }
-    ],
-    progression: '+1.25 kg next workout (Target Reached)'
-  }
-];
+import { Timer, Check, Dumbbell, TrendingUp, BookOpen, RotateCcw, Sparkles } from 'lucide-react';
 
 export default function InteractiveWorkoutPreview() {
   const nav = useNavigate();
-  const [selectedEx, setSelectedEx] = useState(EXERCISES[0]);
-  const [activeTab, setActiveTab] = useState('player'); // 'player' | 'heatmap' | 'macros'
-  const [setsState, setSetsState] = useState(EXERCISES[0].sets);
-
-  // Rest timer state (15s quick interactive demo)
-  const [timeLeft, setTimeLeft] = useState(15);
-  const [timerRunning, setTimerRunning] = useState(false);
-  const timerDuration = 15;
+  const [set3Done, setSet3Done] = useState(false);
+  const [restActive, setRestActive] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(90);
   const timerRef = useRef(null);
 
-  // Macro target demo state
-  const [dietGoal, setDietGoal] = useState('hypertrophy'); // 'hypertrophy' | 'fatloss' | 'strength'
-
-  // Update sets when exercise changes
-  const handleSelectExercise = (ex) => {
-    setSelectedEx(ex);
-    setSetsState(ex.sets);
-  };
-
-  const toggleSet = (idx) => {
-    setSetsState(prev => {
-      const next = [...prev];
-      next[idx] = { ...next[idx], done: !next[idx].done };
-      return next;
-    });
-  };
-
-  // Play audio beep when timer completes
+  // Play subtle web audio chime upon set completion
   const playChime = () => {
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
-      gain.gain.setValueAtTime(0.15, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+      osc.frequency.setValueAtTime(880, ctx.currentTime);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 0.4);
+      osc.stop(ctx.currentTime + 0.35);
     } catch (_) {}
   };
 
-  // Timer loop
+  const handleLogSet3 = () => {
+    playChime();
+    setSet3Done(true);
+    setRestActive(true);
+    setSecondsLeft(90);
+  };
+
+  const handleReset = () => {
+    setSet3Done(false);
+    setRestActive(false);
+    setSecondsLeft(90);
+    if (timerRef.current) clearInterval(timerRef.current);
+  };
+
   useEffect(() => {
-    if (timerRunning) {
+    if (restActive) {
       timerRef.current = setInterval(() => {
-        setTimeLeft(prev => {
+        setSecondsLeft(prev => {
           if (prev <= 1) {
             clearInterval(timerRef.current);
-            setTimerRunning(false);
-            playChime();
             return 0;
           }
           return prev - 1;
         });
       }, 1000);
     } else {
-      clearInterval(timerRef.current);
+      if (timerRef.current) clearInterval(timerRef.current);
     }
-    return () => clearInterval(timerRef.current);
-  }, [timerRunning]);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [restActive]);
 
-  const resetTimer = (sec = 15) => {
-    setTimerRunning(false);
-    setTimeLeft(sec);
-  };
-
-  const timerProgress = ((timerDuration - timeLeft) / timerDuration) * 100;
+  const mins = Math.floor(secondsLeft / 60);
+  const secs = secondsLeft % 60;
+  const timeFormatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  const timerPercent = (secondsLeft / 90) * 100;
 
   return (
-    <div className="sandbox-card" style={{
-      background: 'rgba(10, 15, 26, 0.95)',
-      border: '1px solid rgba(56, 189, 248, 0.2)',
-      borderRadius: '24px',
-      padding: '28px 24px',
-      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.06)',
-      maxWidth: '880px',
-      margin: '0 auto',
-      position: 'relative'
-    }}>
+    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      
+      {/* Ambient Glow */}
+      <div style={{
+        position: 'absolute',
+        top: '20%',
+        left: '50%',
+        transform: 'translate(-50%, -20%)',
+        width: '320px',
+        height: '450px',
+        background: 'radial-gradient(circle, rgba(56,189,248,0.18) 0%, rgba(31,75,153,0.12) 50%, transparent 70%)',
+        filter: 'blur(50px)',
+        pointerEvents: 'none',
+        zIndex: 0
+      }} />
 
-      {/* Top Header Badge */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {/* Smartphone Chassis Frame */}
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        width: '100%',
+        maxWidth: '390px',
+        background: '#07090e',
+        border: '9px solid #1a2333',
+        borderRadius: '48px',
+        boxShadow: '0 25px 65px -12px rgba(0,0,0,0.85), 0 0 40px rgba(56,189,248,0.18)',
+        overflow: 'hidden',
+        fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+      }}>
+
+        {/* Dynamic Island / Notch */}
+        <div style={{ background: '#07090e', paddingTop: '10px', paddingBottom: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{
-            width: '8px',
-            height: '8px',
-            borderRadius: '50%',
-            background: '#38bdf8',
-            boxShadow: '0 0 10px #38bdf8'
-          }} />
-          <span style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
-            LIVE INTERACTIVE SANDBOX
-          </span>
-        </div>
-
-        {/* View Switcher Tabs */}
-        <div className="tab-pills" style={{
-          display: 'flex',
-          background: 'rgba(255, 255, 255, 0.05)',
-          padding: '4px',
-          borderRadius: '12px',
-          border: '1px solid rgba(255, 255, 255, 0.08)'
-        }}>
-          {[
-            { id: 'player', label: '⚡ Guided Player' },
-            { id: 'heatmap', label: '🧬 Muscle Heatmap' },
-            { id: 'macros', label: '🥗 Macro Engine' }
-          ].map(tab => (
-            <button
-              key={tab.id}
-              className="tab-btn"
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                background: activeTab === tab.id ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
-                color: activeTab === tab.id ? '#38bdf8' : '#94a3b8',
-                border: activeTab === tab.id ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
-                borderRadius: '8px',
-                padding: '6px 12px',
-                fontSize: '12px',
-                fontWeight: '800',
-                cursor: 'pointer',
-                transition: 'all 0.15s'
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* ── TAB 1: WORKOUT PLAYER SANDBOX ─────────────────────── */}
-      {activeTab === 'player' && (
-        <div>
-          {/* Exercise Selector Pills */}
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '12px', marginBottom: '16px' }}>
-            {EXERCISES.map(ex => (
-              <button
-                key={ex.id}
-                onClick={() => handleSelectExercise(ex)}
-                style={{
-                  background: selectedEx.id === ex.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.15))' : 'rgba(255, 255, 255, 0.03)',
-                  border: selectedEx.id === ex.id ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.08)',
-                  color: selectedEx.id === ex.id ? '#fff' : '#94a3b8',
-                  borderRadius: '12px',
-                  padding: '8px 14px',
-                  fontSize: '12.5px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 0.15s'
-                }}
-              >
-                {ex.name}
-              </button>
-            ))}
+            width: '105px',
+            height: '24px',
+            background: '#000',
+            borderRadius: '99px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingRight: '10px',
+            boxShadow: 'inset 0 0 4px rgba(255,255,255,0.1)'
+          }}>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0f172a', border: '1px solid #334155' }} />
           </div>
+        </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', alignItems: 'center' }}>
-            
-            {/* Left: Sets & Weight Log */}
-            <div style={{
-              background: 'rgba(15, 23, 42, 0.75)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-              borderRadius: '16px',
-              padding: '18px'
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <div>
-                  <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#fff' }}>{selectedEx.name}</h4>
-                  <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: '600' }}>{selectedEx.category}</span>
-                </div>
-                <span style={{ fontSize: '11px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', padding: '3px 8px', borderRadius: '6px', fontWeight: '800' }}>
-                  Greyskull LP
+        {/* Phone Status Bar */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 22px 8px', fontSize: '11.5px', fontWeight: '800', color: '#fff', letterSpacing: '0.2px' }}>
+          <span>9:41</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <svg width="13" height="11" viewBox="0 0 16 12" fill="currentColor"><path d="M0 8.5h3v3H0v-3zm4.5-3h3v6h-3v-6zm4.5-3h3v9h-3v-9zm4.5-2.5h3v11.5h-3v-11.5z"/></svg>
+            <svg width="13" height="11" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.5C4.8 2.5 2 3.8.3 5.8l7.7 9.5 7.7-9.5C14 3.8 11.2 2.5 8 2.5z"/></svg>
+            <svg width="18" height="10" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="1" width="18" height="10" rx="3"/><path d="M22 4v4" strokeLinecap="round"/><rect x="3" y="3" width="10" height="6" fill="currentColor" rx="1.5"/></svg>
+          </div>
+        </div>
+
+        {/* App Screen Content */}
+        <div style={{ padding: '10px 14px 20px', background: '#07090e', color: '#fff' }}>
+          
+          {/* Top Workout Bar */}
+          <div style={{
+            background: 'rgba(31,75,153,0.18)',
+            border: '1px solid rgba(56,189,248,0.3)',
+            borderRadius: '16px',
+            padding: '10px 12px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '12px'
+          }}>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#fff', lineHeight: '1.2' }}>Push Day A · Chest &amp; Triceps</div>
+              <div style={{ fontSize: '10.5px', color: '#9BA8B4', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ color: '#38bdf8', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                  <Timer size={11} /> 14:35
+                </span>
+                <span>•</span>
+                <span style={{ color: '#e2e8f0', fontWeight: '700' }}>
+                  {set3Done ? '3 / 3 sets done' : '2 / 3 sets done'}
                 </span>
               </div>
-
-              {/* Set Rows */}
-              <div style={{ display: 'grid', gap: '8px', marginBottom: '14px' }}>
-                {setsState.map((s, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => toggleSet(idx)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      background: s.done ? 'rgba(56, 189, 248, 0.12)' : 'rgba(255, 255, 255, 0.04)',
-                      border: s.done ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
-                      borderRadius: '10px',
-                      padding: '8px 12px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '800', color: s.done ? '#38bdf8' : '#94a3b8' }}>
-                        Set {s.set}
-                      </span>
-                      <span style={{ fontSize: '13px', fontWeight: '700', color: '#fff' }}>
-                        {s.weight} × {s.reps}
-                      </span>
-                    </div>
-
-                    <div style={{
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      background: s.done ? '#38bdf8' : 'rgba(255, 255, 255, 0.1)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: s.done ? '#031024' : '#64748b'
-                    }}>
-                      <Check size={14} strokeWidth={3} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Progression Note */}
-              <div style={{ fontSize: '11.5px', color: '#38bdf8', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Sparkles size={14} />
-                <span>Auto Next: {selectedEx.progression}</span>
-              </div>
             </div>
-
-            {/* Right: Rest Timer Demonstration */}
-            <div style={{
-              background: 'rgba(15, 23, 42, 0.75)',
-              border: '1px solid rgba(255, 255, 255, 0.06)',
-              borderRadius: '16px',
-              padding: '20px',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
+            <button style={{
+              background: '#22c55e',
+              color: '#fff',
+              border: 'none',
+              fontSize: '11px',
+              fontWeight: '800',
+              padding: '5px 12px',
+              borderRadius: '8px',
+              display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              gap: '4px',
+              boxShadow: '0 2px 8px rgba(34,197,94,0.3)',
+              cursor: 'default'
             }}>
-              <div style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '8px' }}>
-                SMART REST TIMER
-              </div>
+              Finish ✓
+            </button>
+          </div>
 
-              {/* Circular Countdown Ring */}
-              <div style={{ position: 'relative', width: '120px', height: '120px', margin: '8px auto' }}>
-                <svg width="120" height="120" viewBox="0 0 120 120">
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    fill="none"
-                    stroke="rgba(255, 255, 255, 0.08)"
-                    strokeWidth="8"
-                  />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    fill="none"
-                    stroke="#38bdf8"
-                    strokeWidth="8"
-                    strokeDasharray={2 * Math.PI * 50}
-                    strokeDashoffset={2 * Math.PI * 50 * (1 - (timerDuration - timeLeft) / timerDuration)}
-                    strokeLinecap="round"
-                    transform="rotate(-90 60 60)"
-                    style={{ transition: 'stroke-dashoffset 0.3s ease' }}
-                  />
-                </svg>
-
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
+          {/* Exercise Card */}
+          <div style={{
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '18px',
+            padding: '12px',
+            marginBottom: '12px'
+          }}>
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '50%',
+                  background: 'rgba(56,189,248,0.15)',
+                  border: '1px solid rgba(56,189,248,0.4)',
+                  color: '#38bdf8',
+                  fontSize: '11px',
+                  fontWeight: '900',
                   display: 'flex',
-                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                  <span style={{ fontSize: '26px', fontWeight: '900', color: '#fff', lineHeight: 1 }}>
-                    {timeLeft}s
-                  </span>
-                  <span style={{ fontSize: '10px', color: '#38bdf8', fontWeight: '700', marginTop: '2px' }}>
-                    {timeLeft === 0 ? 'READY!' : 'RESTING'}
-                  </span>
+                  1
+                </span>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: '800', color: '#fff' }}>Barbell Bench Press</div>
+                  <div style={{ fontSize: '10px', color: '#9BA8B4' }}>Chest &amp; Front Delts · Barbell</div>
                 </div>
               </div>
-
-              {/* Timer Controls */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-                <button
-                  onClick={() => setTimerRunning(!timerRunning)}
-                  style={{
-                    background: timerRunning ? '#f43f5e' : '#38bdf8',
-                    color: '#031024',
-                    border: 'none',
-                    borderRadius: '99px',
-                    padding: '7px 16px',
-                    fontSize: '12px',
-                    fontWeight: '900',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
-                >
-                  {timerRunning ? <Pause size={13} /> : <Play size={13} />}
-                  <span>{timerRunning ? 'Pause' : 'Start Timer'}</span>
-                </button>
-
-                <button
-                  onClick={() => resetTimer(15)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    color: '#94a3b8',
-                    border: 'none',
-                    borderRadius: '99px',
-                    padding: '7px 12px',
-                    fontSize: '12px',
-                    cursor: 'pointer'
-                  }}
-                  title="Reset to 15s"
-                >
-                  <RotateCcw size={13} />
-                </button>
-              </div>
-
-              <span style={{ fontSize: '10.5px', color: '#64748b', marginTop: '8px' }}>
-                🔊 Plays audio chime on completion &amp; prevents screen sleep
+              <span style={{
+                fontSize: '9.5px',
+                background: 'rgba(56,189,248,0.1)',
+                color: '#38bdf8',
+                border: '1px solid rgba(56,189,248,0.25)',
+                padding: '2px 7px',
+                borderRadius: '6px',
+                fontWeight: '800'
+              }}>
+                PRIMARY LIFT
               </span>
             </div>
 
-          </div>
-        </div>
-      )}
-
-      {/* ── TAB 2: MUSCLE HEATMAP ────────────────────────────── */}
-      {activeTab === 'heatmap' && (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ fontSize: '13px', color: '#94a3b8', textAlign: 'center', marginBottom: '16px' }}>
-            Real-time visual tracking of muscle fatigue and weekly training volume across front &amp; back body views.
-          </div>
-
-          <div style={{ width: '100%', maxWidth: '320px', minHeight: '260px' }}>
-            <BodyMap load={selectedEx.muscleLoad} body="male" />
-          </div>
-
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '16px' }}>
-            {Object.entries(selectedEx.muscleLoad).map(([muscle, vol]) => (
-              <span
-                key={muscle}
-                style={{
-                  background: 'rgba(56, 189, 248, 0.1)',
-                  border: '1px solid rgba(56, 189, 248, 0.3)',
-                  color: '#38bdf8',
-                  fontSize: '11px',
-                  fontWeight: '800',
-                  padding: '4px 10px',
-                  borderRadius: '99px',
-                  textTransform: 'capitalize'
-                }}
-              >
-                {muscle}: {vol} Sets
+            {/* Real Looping Exercise Video Demo */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              height: '140px',
+              background: '#ffffff',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '12px'
+            }}>
+              <img
+                src="https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@main/pectorals/barbell-bench-press.gif"
+                alt="Barbell Bench Press"
+                loading="lazy"
+                style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }}
+              />
+              <span style={{
+                position: 'absolute',
+                top: '6px',
+                right: '6px',
+                background: 'rgba(15,23,42,0.85)',
+                color: '#38bdf8',
+                border: '1px solid rgba(56,189,248,0.3)',
+                fontSize: '8.5px',
+                fontWeight: '900',
+                padding: '2px 6px',
+                borderRadius: '5px'
+              }}>
+                ▶ 60FPS
               </span>
-            ))}
+              <span style={{
+                position: 'absolute',
+                bottom: '6px',
+                left: '6px',
+                background: 'rgba(15,23,42,0.85)',
+                color: '#94a3b8',
+                fontSize: '8.5px',
+                fontWeight: '800',
+                padding: '2px 6px',
+                borderRadius: '5px'
+              }}>
+                BARBELL GRIP: 1.5× SHOULDER
+              </span>
+            </div>
+
+            {/* Set Table Header */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '36px 1fr 1fr 1fr',
+              gap: '6px',
+              fontSize: '9.5px',
+              fontWeight: '800',
+              color: '#64748b',
+              padding: '0 6px 6px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>
+              <span>SET</span>
+              <span style={{ textAlign: 'center' }}>KG</span>
+              <span style={{ textAlign: 'center' }}>REPS</span>
+              <span style={{ textAlign: 'right' }}>ACTION</span>
+            </div>
+
+            {/* Set 1 (Done) */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '36px 1fr 1fr 1fr',
+              gap: '6px',
+              alignItems: 'center',
+              background: 'rgba(34,197,94,0.08)',
+              border: '1px solid rgba(34,197,94,0.22)',
+              borderRadius: '10px',
+              padding: '6px 8px',
+              marginBottom: '6px'
+            }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8' }}>1</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>82.5</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>5</span>
+              <div style={{ textAlign: 'right' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                  background: '#22c55e',
+                  color: '#031024',
+                  fontSize: '10px',
+                  fontWeight: '900',
+                  padding: '3px 8px',
+                  borderRadius: '6px'
+                }}>
+                  ✓ Done
+                </span>
+              </div>
+            </div>
+
+            {/* Set 2 (Done) */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '36px 1fr 1fr 1fr',
+              gap: '6px',
+              alignItems: 'center',
+              background: 'rgba(34,197,94,0.08)',
+              border: '1px solid rgba(34,197,94,0.22)',
+              borderRadius: '10px',
+              padding: '6px 8px',
+              marginBottom: '6px'
+            }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8' }}>2</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>82.5</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>5</span>
+              <div style={{ textAlign: 'right' }}>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                  background: '#22c55e',
+                  color: '#031024',
+                  fontSize: '10px',
+                  fontWeight: '900',
+                  padding: '3px 8px',
+                  borderRadius: '6px'
+                }}>
+                  ✓ Done
+                </span>
+              </div>
+            </div>
+
+            {/* Set 3 (Interactive Target Set) */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '36px 1fr 1fr 1fr',
+              gap: '6px',
+              alignItems: 'center',
+              background: set3Done ? 'rgba(34,197,94,0.12)' : 'rgba(56,189,248,0.12)',
+              border: set3Done ? '1.5px solid #22c55e' : '1.5px solid #38bdf8',
+              borderRadius: '10px',
+              padding: '6px 8px',
+              boxShadow: set3Done ? '0 0 16px rgba(34,197,94,0.25)' : '0 0 16px rgba(56,189,248,0.25)',
+              transition: 'all 0.3s ease'
+            }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: set3Done ? '#22c55e' : '#38bdf8' }}>3</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>82.5</span>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#fff', textAlign: 'center' }}>8+</span>
+              <div style={{ textAlign: 'right' }}>
+                <button
+                  onClick={set3Done ? handleReset : handleLogSet3}
+                  style={{
+                    background: set3Done ? '#22c55e' : 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+                    color: '#031024',
+                    border: 'none',
+                    fontSize: '10.5px',
+                    fontWeight: '900',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 10px rgba(56,189,248,0.4)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                    transition: 'transform 0.15s ease'
+                  }}
+                >
+                  {set3Done ? '✓ Done' : 'Log Set 3'}
+                </button>
+              </div>
+            </div>
+
           </div>
-        </div>
-      )}
 
-      {/* ── TAB 3: PRECISION MACROS ──────────────────────────── */}
-      {activeTab === 'macros' && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
-            {[
-              { id: 'hypertrophy', label: 'Hypertrophy (+10% Surplus)', cal: 2650, p: 165, c: 310, f: 68 },
-              { id: 'fatloss', label: 'Fat Shred (-20% Deficit)', cal: 1950, p: 180, c: 160, f: 48 },
-              { id: 'strength', label: 'Strength Maintenance', cal: 2400, p: 160, c: 260, f: 65 }
-            ].map(plan => (
-              <button
-                key={plan.id}
-                className="macro-tab-btn"
-                onClick={() => setDietGoal(plan.id)}
-                style={{
-                  background: dietGoal === plan.id ? 'linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(56, 189, 248, 0.2))' : 'rgba(255, 255, 255, 0.04)',
-                  border: dietGoal === plan.id ? '1px solid #38bdf8' : '1px solid rgba(255, 255, 255, 0.08)',
-                  color: dietGoal === plan.id ? '#fff' : '#94a3b8',
-                  borderRadius: '12px',
-                  padding: '8px 14px',
-                  fontSize: '12px',
-                  fontWeight: '800',
-                  cursor: 'pointer'
-                }}
-              >
-                {plan.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Macro Breakdown Cards */}
-          {(() => {
-            const currentPlan = {
-              hypertrophy: { cal: '2,650 kcal', p: '165g', c: '310g', f: '68g', desc: 'Optimized protein synthesis with high carbohydrate availability for glycogen replenishment.' },
-              fatloss: { cal: '1,950 kcal', p: '180g', c: '160g', f: '48g', desc: 'High-protein thermogenic target preserving lean muscle tissue while accelerating fat oxidation.' },
-              strength: { cal: '2,400 kcal', p: '160g', c: '260g', f: '65g', desc: 'Stable energy balance supporting central nervous system recovery and linear progression.' }
-            }[dietGoal];
-
-            return (
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '32px', fontWeight: '900', color: '#fff', marginBottom: '4px' }}>
-                  {currentPlan.cal}
-                </div>
-                <p style={{ fontSize: '12px', color: '#94a3b8', maxWidth: '460px', margin: '0 auto 20px' }}>
-                  {currentPlan.desc}
-                </p>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', maxWidth: '500px', margin: '0 auto' }}>
-                  <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#38bdf8' }}>{currentPlan.p}</div>
-                    <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Protein (g)</div>
-                  </div>
-                  <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#38bdf8' }}>{currentPlan.c}</div>
-                    <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Carbs (g)</div>
-                  </div>
-                  <div style={{ background: 'rgba(244, 63, 94, 0.1)', border: '1px solid rgba(244, 63, 94, 0.3)', borderRadius: '14px', padding: '14px 10px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#f43f5e' }}>{currentPlan.f}</div>
-                    <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Fats (g)</div>
-                  </div>
+          {/* Dynamic Rest Timer & Progression Notification Banner */}
+          <div style={{
+            background: 'rgba(15,23,42,0.9)',
+            border: '1px solid rgba(56,189,248,0.3)',
+            borderRadius: '14px',
+            padding: '10px 12px',
+            marginBottom: '12px',
+            transition: 'all 0.3s ease'
+          }}>
+            {!set3Done ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 8px #38bdf8' }} />
+                <div style={{ fontSize: '11px', color: '#9BA8B4' }}>
+                  <strong style={{ color: '#fff' }}>Try it now:</strong> Tap <strong style={{ color: '#38bdf8' }}>[ Log Set 3 ]</strong> above to test the real player.
                 </div>
               </div>
-            );
-          })()}
-        </div>
-      )}
+            ) : (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Timer size={14} color="#38bdf8" />
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase' }}>REST COUNTDOWN</span>
+                  </div>
+                  <span style={{ fontSize: '15px', fontWeight: '900', color: '#fff', fontFamily: 'monospace' }}>{timeFormatted}</span>
+                </div>
+                <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden', marginBottom: '8px' }}>
+                  <div style={{ width: `${timerPercent}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #22c55e)', transition: 'width 1s linear' }} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: '800' }}>
+                    ✓ Target Reached: +2.5 kg Next Week
+                  </span>
+                  <button
+                    onClick={handleReset}
+                    style={{
+                      background: 'rgba(255,255,255,0.08)',
+                      border: 'none',
+                      color: '#94a3b8',
+                      fontSize: '9.5px',
+                      fontWeight: '700',
+                      padding: '2px 8px',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ↺ Reset
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
-      {/* Quick Launch CTA Banner */}
-      <div style={{
-        marginTop: '22px',
-        paddingTop: '16px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '12px'
-      }}>
-        <div style={{ fontSize: '12px', color: '#94a3b8' }}>
-          Ready to log your real workouts with automated progression?
+          {/* Bottom Floating Dock Navigation (Authentic App Dock) */}
+          <div style={{
+            background: 'rgba(15,23,42,0.92)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '24px',
+            padding: '6px 12px',
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', color: '#64748b', fontSize: '9px', fontWeight: '700' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <span>Home</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', color: '#64748b', fontSize: '9px', fontWeight: '700' }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 2v20M6 2v20M6 8h12"/></svg>
+              <span>Meals</span>
+            </div>
+            {/* Center Workout Button */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '-14px' }}>
+              <div style={{
+                width: '38px',
+                height: '38px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg,#38bdf8 0%,#0284c7 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#031024',
+                boxShadow: '0 4px 14px rgba(56,189,248,0.45)'
+              }}>
+                <Dumbbell size={18} />
+              </div>
+              <span style={{ fontSize: '9px', fontWeight: '800', color: '#38bdf8', marginTop: '2px' }}>Workout</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', color: '#64748b', fontSize: '9px', fontWeight: '700' }}>
+              <TrendingUp size={15} />
+              <span>Progress</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', color: '#64748b', fontSize: '9px', fontWeight: '700' }}>
+              <BookOpen size={15} />
+              <span>Library</span>
+            </div>
+          </div>
+
         </div>
+
+        {/* Home Bar */}
+        <div style={{ background: '#07090e', paddingBottom: '8px', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: '120px', height: '4px', background: 'rgba(255,255,255,0.25)', borderRadius: '99px' }} />
+        </div>
+
+      </div>
+
+      {/* Action CTA Under Phone */}
+      <div style={{ marginTop: '32px', textAlign: 'center' }}>
         <button
           onClick={() => nav('/app?mode=signup')}
+          className="btn-glow"
           style={{
-            background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-            color: '#031024',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '15px',
             fontWeight: '900',
-            fontSize: '12.5px',
-            padding: '8px 18px',
+            padding: '14px 32px',
             borderRadius: '99px',
+            background: 'linear-gradient(135deg,#38bdf8 0%,#0284c7 100%)',
+            color: '#031024',
             border: 'none',
             cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            boxShadow: '0 4px 14px rgba(56, 189, 248, 0.35)'
+            boxShadow: '0 6px 20px rgba(56,189,248,0.35)'
           }}
         >
-          <span>Unlock Full App (₹399/mo)</span>
-          <ChevronRight size={14} />
+          <span>Launch Real Workout In App →</span>
         </button>
+        <p style={{ fontSize: '12.5px', color: '#64748b', marginTop: '10px' }}>
+          Works 100% offline in gym basements · Instant load on iPhone &amp; Android
+        </p>
       </div>
 
     </div>
