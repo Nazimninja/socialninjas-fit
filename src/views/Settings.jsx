@@ -104,8 +104,8 @@ export default function Settings() {
           <Row
             icon="sparkles"
             iconTint="var(--acc)"
-            title={t('Update AI Workout & Diet Plan')}
-            subtitle={t('Customize your workout routines & daily meals with AI')}
+            title={t('Update Workout & Diet Plan')}
+            subtitle={t('Customize your workout routines & daily meals to match your goals')}
             accessory="chevron"
             onClick={onboardingWizardSheet}
           />

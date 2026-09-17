@@ -80,7 +80,7 @@ function Sidebar() {
     <aside className="hidden lg:flex flex-col w-56 h-screen fixed left-0 top-0 bg-[#07090e] border-r border-[#172744] z-40 py-8 px-4">
       {/* Logo */}
       <div className="flex items-center gap-3 px-2 mb-10">
-        <span className="text-2xl">🥷</span>
+        <div className="w-8 h-8 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] font-black text-sm">FN</div>
         <div>
           <p className="text-white font-bold text-sm tracking-wide">Fit Ninja v2</p>
           <p className="text-[#9BA8B4] text-[10px] tracking-widest uppercase">by Social Ninjas</p>

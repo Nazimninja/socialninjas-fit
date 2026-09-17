@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Cloud, AlertTriangle, Zap, ShieldCheck } from 'lucide-react';
 import { useFitNinja } from '../../context/FitNinjaContext';
 import { supabase } from '../../context/migration';
 import Icon from './Icon';
@@ -84,8 +85,8 @@ export default function CloudSyncModal({ isOpen, onClose, onSuccess }: CloudSync
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#38bdf8]/20 to-[#6366f1]/20 border border-[#38bdf8]/30 flex items-center justify-center text-2xl shadow-inner">
-            ☁️
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#38bdf8]/20 to-[#6366f1]/20 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] shadow-inner">
+            <Cloud size={24} />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white tracking-tight">Athlete Cloud Account</h2>
@@ -137,7 +138,7 @@ export default function CloudSyncModal({ isOpen, onClose, onSuccess }: CloudSync
           </div>
         ) : (
           <div className="mb-5 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-2.5">
-            <span className="text-base">⚠️</span>
+            <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
             <p className="text-xs text-amber-200/90 leading-relaxed">
               No email is linked to this device. Enter your email below to ensure your workouts and check-ins are backed up across all your phones and computers.
             </p>
@@ -190,7 +191,7 @@ export default function CloudSyncModal({ isOpen, onClose, onSuccess }: CloudSync
               </>
             ) : (
               <>
-                <span>⚡</span>
+                <Zap size={16} className="fill-current" />
                 {isLinked ? 'Restore & Sync This Email' : 'Link & Restore My Data'}
               </>
             )}
@@ -238,7 +239,7 @@ export default function CloudSyncModal({ isOpen, onClose, onSuccess }: CloudSync
         {/* Footer Guarantee */}
         <div className="mt-4 pt-3 border-t border-[#172744]/60 text-center">
           <p className="text-[10px] text-[#71829d] flex items-center justify-center gap-1.5">
-            <span>🛡️</span>
+            <ShieldCheck size={13} className="text-emerald-400 shrink-0" />
             Permanent Cloud Vault — survives device upgrades, browser resets & app updates.
           </p>
         </div>

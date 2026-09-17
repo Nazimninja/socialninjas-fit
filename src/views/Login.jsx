@@ -184,7 +184,7 @@ export default function Login() {
             setUser({ ...(user || {}), name: user?.name || target.split('@')[0], email: target, paid: true, admin: res.role === 'admin' })
             setPaid(true)
             sessionStorage.setItem('fn_just_paid', '1')
-            useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            useUI.getState().toast('Pro Pass Active! Welcome to Fit Ninja.')
             navigate('/home', { replace: true })
             window.location.hash = '#/home'
           }
@@ -273,7 +273,7 @@ export default function Login() {
           if (existing && existing.verified) {
             setUser({ ...(user || {}), name: activeName || candidateEmail.split('@')[0], email: candidateEmail, paid: true })
             setPaid(true)
-            useUI.getState().toast('⚡ Pro Pass Active! Welcome to Fit Ninja.')
+            useUI.getState().toast('Pro Pass Active! Welcome to Fit Ninja.')
             setIsVerifying(false)
             navigate('/home', { replace: true })
             window.location.hash = '#/home'
@@ -396,7 +396,7 @@ export default function Login() {
         const isAdmin = ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in')
         setUser({ name: lookup.split('@')[0] || 'Athlete', email: lookup, paid: true, admin: isAdmin })
         setPaid(true)
-        useUI.getState().toast(isAdmin ? 'Admin verified! Welcome back.' : '⚡ Membership verified! Welcome back.')
+        useUI.getState().toast(isAdmin ? 'Admin verified! Welcome back.' : 'Membership verified! Welcome back.')
         setIsVerifying(false)
         navigate('/home', { replace: true })
         window.location.hash = '#/home'
@@ -409,15 +409,15 @@ export default function Login() {
           const finalEmail = res.email || lookup
           setUser({ name: finalEmail.split('@')[0] || 'Athlete', email: finalEmail, paid: true, admin: res.role === 'admin' })
           setPaid(true)
-          useUI.getState().toast('⚡ Membership verified! Welcome back.')
+          useUI.getState().toast('Membership verified! Welcome back.')
           setIsVerifying(false)
           navigate('/home', { replace: true })
           window.location.hash = '#/home'
           return
         }
-        useUI.getState().toast('❌ ' + (res.error || 'No active Pro subscription found for this account. Please switch to Sign Up.'))
+        useUI.getState().toast('' + (res.error || 'No active Pro subscription found for this account. Please switch to Sign Up.'))
       } catch (err) {
-        useUI.getState().toast('❌ No active subscription found for this account.')
+        useUI.getState().toast('No active subscription found for this account.')
       } finally {
         setIsVerifying(false)
       }
@@ -549,7 +549,7 @@ export default function Login() {
               {user.email}
             </div>
             <div style={{ fontSize: '10.5px', color: '#94a3b8', marginTop: '1px' }}>
-              ⚠️ Fit Ninja Pro pass required to unlock full access
+              Fit Ninja Pro pass required to unlock full access
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -564,7 +564,7 @@ export default function Login() {
                     const isAdmin = ADMIN_LIST.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in')
                     setUser({ ...user, paid: true, admin: isAdmin })
                     setPaid(true)
-                    useUI.getState().toast('⚡ Access Verified! Welcome to Pro.')
+                    useUI.getState().toast('Access Verified! Welcome to Pro.')
                     navigate('/home', { replace: true })
                     window.location.hash = '#/home'
                     return
@@ -573,7 +573,7 @@ export default function Login() {
                   if (res && res.verified) {
                     setUser({ ...user, paid: true, admin: res.role === 'admin' })
                     setPaid(true)
-                    useUI.getState().toast('⚡ Access Verified! Welcome to Pro.')
+                    useUI.getState().toast('Access Verified! Welcome to Pro.')
                     navigate('/home', { replace: true })
                     window.location.hash = '#/home'
                     return
@@ -672,7 +672,7 @@ export default function Login() {
             gap: '6px'
           }}
         >
-          <span>⚡</span> Start Transformation
+          <span></span> Start Transformation
         </button>
         <button
           type="button"
@@ -734,7 +734,7 @@ export default function Login() {
                     padding: '3px 8px',
                     borderRadius: '6px'
                   }}>
-                    ⚡ FIT NINJA PRO
+                    FIT NINJA PRO
                   </span>
                 </div>
                 <div style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>
@@ -779,7 +779,7 @@ export default function Login() {
                 alignItems: 'center',
                 justifyContent: 'space-between'
               }}>
-                <span>✨ WHAT YOU UNLOCK</span>
+                <span>WHAT YOU UNLOCK</span>
                 <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '700' }}>100% Risk-Free</span>
               </div>
 
@@ -836,7 +836,7 @@ export default function Login() {
               justifyContent: 'center',
               gap: '6px'
             }}>
-              <span style={{ color: '#38bdf8', fontSize: '12px' }}>⚡</span>
+              
               <span>Average Gym Trainer: <strong style={{ color: '#cbd5e1', textDecoration: 'line-through' }}>₹5,000/mo</strong> · Pro: <strong style={{ color: '#38bdf8' }}>₹13/day</strong></span>
             </div>
 
@@ -995,7 +995,7 @@ export default function Login() {
                   <span>Opening Checkout…</span>
                 </>
               ) : (
-                '⚡ Start Transformation · ₹399'
+                'Start Transformation · ₹399'
               )}
             </button>
           </>
@@ -1221,7 +1221,7 @@ export default function Login() {
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.14)'; e.currentTarget.style.borderColor = '#38bdf8' }}
           onMouseLeave={e => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.07)'; e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.25)' }}
         >
-          <span>📲</span>
+          
           <span>How to Install Fit Ninja as an App</span>
           <span style={{ fontSize: '11px', opacity: 0.8 }}>↗</span>
         </button>
@@ -1230,10 +1230,10 @@ export default function Login() {
       {/* ── 5. TRUST BADGES & LEGAL COMPLIANCE LINKS ──────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', marginTop: '12px', flexWrap: 'wrap' }}>
         <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          🔒 256-Bit SSL
+          256-Bit SSL Secured
         </span>
         <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          💳 Verified Razorpay
+          Verified Razorpay Payment
         </span>
         <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
           ⭐ 4.9/5 Rating

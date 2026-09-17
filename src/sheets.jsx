@@ -1121,9 +1121,9 @@ function PostWorkoutCheckin({ w, prs, e1prs, close }) {
           value={difficulty}
           onChange={setDifficulty}
           options={[
-            { value: 'easy', label: t('😅 Too Easy') },
-            { value: 'good', label: t('💪 Just Right') },
-            { value: 'hard', label: t('😤 Too Hard') }
+            { value: 'easy', label: t('Too Easy') },
+            { value: 'good', label: t('Just Right') },
+            { value: 'hard', label: t('Too Hard') }
           ]}
         />
       </div>
@@ -1134,9 +1134,9 @@ function PostWorkoutCheckin({ w, prs, e1prs, close }) {
           value={soreness}
           onChange={setSoreness}
           options={[
-            { value: 'fresh', label: t('😌 No Pain') },
-            { value: 'mild', label: t('😐 Mild') },
-            { value: 'sore', label: t('😣 Very Sore') }
+            { value: 'fresh', label: t('No Pain') },
+            { value: 'mild', label: t('Mild') },
+            { value: 'sore', label: t('Very Sore') }
           ]}
         />
       </div>
@@ -1343,7 +1343,7 @@ function OnboardingWizard({ close }) {
           {t('Generating 100% custom {0}-day routines designed for {1} with personalized nutrition ({2} kcal · {3}g Protein).', numDays, location === 'gym' ? 'Commercial Gym' : location === 'home' ? 'Home Dumbbells' : 'Calisthenics', targetKcalCalc, targetProteinCalc)}
         </p>
         <div style={{ marginTop: 14, fontSize: 12, fontWeight: 700, color: 'var(--acc)', opacity: 0.9 }}>
-          ⚡ Please wait 1–2 seconds while AI configures your program…
+          Please wait a moment while your program is configured…
         </div>
       </div>
     )
@@ -1564,15 +1564,15 @@ function OnboardingWizard({ close }) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'none', icon: '🛡️', title: 'None / Fully Healthy', desc: 'No injuries, restrictions, or health conditions' },
-                { id: 'thyroid', icon: '🦋', title: 'Thyroid Condition', desc: 'Hypo/Hyperthyroid · Calories gently reduced (-10%) for steady fat loss' },
+                { id: 'none', icon: 'shield', title: 'None / Fully Healthy', desc: 'No injuries, restrictions, or health conditions' },
+                { id: 'thyroid', icon: 'activity', title: 'Thyroid Condition', desc: 'Hypo/Hyperthyroid · Calories gently reduced (-10%) for steady fat loss' },
                 { id: 'diabetes', icon: '🩸', title: 'Diabetes / Blood Sugar', desc: 'Blood sugar friendly · Balanced carbs with high protein' },
-                { id: 'pregnancy', icon: '👶', title: 'Post-Pregnancy Recovery', desc: 'Pelvic floor safe · Core gentle progression (min 1,850 kcal)' },
-                { id: 'knee_injury', icon: '🦵', title: 'Knee Injury / Joint Pain', desc: 'Knee friendly · Replaces deep squats with joint-safe movements' },
+                { id: 'pregnancy', icon: 'heart', title: 'Post-Pregnancy Recovery', desc: 'Pelvic floor safe · Core gentle progression (min 1,850 kcal)' },
+                { id: 'knee_injury', icon: 'shield-alert', title: 'Knee Injury / Joint Pain', desc: 'Knee friendly · Replaces deep squats with joint-safe movements' },
                 { id: 'back_injury', icon: '🩹', title: 'Lower Back Pain', desc: 'Lower back safe · Replaces heavy spinal loading with chest-supported lifts' },
-                { id: 'shoulder_injury', icon: '🦾', title: 'Shoulder Impingement', desc: 'Shoulder safe · Replaces overhead pressing with shoulder-friendly angles' },
-                { id: 'hypertension', icon: '💓', title: 'Hypertension / High BP', desc: 'Cardio safe · Steady breathing pacing & moderate loading' },
-                { id: 'pcos', icon: '🌸', title: 'PCOS / Hormonal Balance', desc: 'PCOS friendly · Higher protein and steady energy carbs' }
+                { id: 'shoulder_injury', icon: 'shield-alert', title: 'Shoulder Impingement', desc: 'Shoulder safe · Replaces overhead pressing with shoulder-friendly angles' },
+                { id: 'hypertension', icon: 'heart-pulse', title: 'Hypertension / High BP', desc: 'Cardio safe · Steady breathing pacing & moderate loading' },
+                { id: 'pcos', icon: 'sparkles', title: 'PCOS / Hormonal Balance', desc: 'PCOS friendly · Higher protein and steady energy carbs' }
               ].map(item => {
                 const isSelected = healthConditions.includes(item.id) || (item.id === 'none' && healthConditions.length === 0)
                 return (
@@ -1618,10 +1618,10 @@ function OnboardingWizard({ close }) {
           {/* Food Allergies / Dislikes — passed to AI for custom meals */}
           <div style={{ marginTop: 16 }}>
             <label style={{ display: 'block', fontWeight: 800, fontSize: 12, letterSpacing: '0.08em', color: 'var(--label-2)', marginBottom: 8, textTransform: 'uppercase' }}>
-              🚫 Food Allergies & Dislikes (Optional)
+              Food Allergies & Dislikes (Optional)
             </label>
             <div className="small muted" style={{ fontSize: 11, marginBottom: 8, color: 'var(--label-2)' }}>
-              The AI will avoid these in your custom meal plan. E.g. "no fish, no broccoli, lactose intolerant"
+              These will be avoided in your custom meal plan. E.g. "no fish, no broccoli, lactose intolerant"
             </div>
             <input
               type="text"
@@ -1655,11 +1655,11 @@ function OnboardingWizard({ close }) {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { id: 'coach', title: '🥷 Let Coach Decide', desc: 'The best schedule tailored to your experience and goal', tag: 'RECOMMENDED' },
-                { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
-                { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Balanced upper body strength & lower body days' },
-                { id: 'full_body', title: '🔄 Full Body Routine', desc: 'Work your whole body each session — perfect for 2-3 days a week' },
-                { id: 'bro_split', title: '🎯 Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
+                { id: 'coach', title: 'Let Coach Decide', desc: 'The best schedule tailored to your experience and goal', tag: 'RECOMMENDED' },
+                { id: 'ppl', title: 'Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
+                { id: 'upper_lower', title: 'Upper / Lower Split', desc: 'Balanced upper body strength & lower body days' },
+                { id: 'full_body', title: 'Full Body Routine', desc: 'Work your whole body each session — perfect for 2-3 days a week' },
+                { id: 'bro_split', title: 'Classic Bodypart Split', desc: 'Dedicated focus: Chest, Back, Legs, Shoulders, Arms' }
               ].map(s => (
                 <div
                   key={s.id}
@@ -1911,7 +1911,7 @@ function OnboardingWizard({ close }) {
           <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
             <Button variant="ghost" onClick={() => setStep(3)} style={{ padding: '14px', fontSize: 13 }}>← Back</Button>
             <Button variant="primary" onClick={handleGenerate} icon="sparkles" style={{ flex: 1, padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12 }}>
-              ⚡ Build My Custom Workout &amp; Nutrition Plan
+              Build My Custom Workout &amp; Nutrition Plan
             </Button>
           </div>
         </div>
@@ -2081,7 +2081,7 @@ function AthleteProfileModal({ close }) {
               onClick={() => fileInputRef.current && fileInputRef.current.click()}
               style={{ fontSize: '10.5px', color: '#38bdf8', fontWeight: 700, cursor: 'pointer', marginTop: 3 }}
             >
-              📷 Tap to change photo
+              Tap to change photo
             </div>
           </div>
         </div>
@@ -2262,7 +2262,7 @@ function AthleteProfileModal({ close }) {
             padding: '14px', fontSize: 14, fontWeight: 900, borderRadius: 12
           }}
         >
-          💾 Save Profile &amp; Update Targets
+          Save Profile &amp; Update Targets
         </Button>
         <Button
           variant="secondary"
@@ -2275,7 +2275,7 @@ function AthleteProfileModal({ close }) {
             border: '1px solid var(--acc-line)', color: 'var(--acc)'
           }}
         >
-          ✨ Launch Full AI Plan Builder
+          Launch Full Plan Builder
         </Button>
       </div>
     </div>
@@ -2678,11 +2678,11 @@ function WeeklyCheckinModal({ close }) {
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 6 }}>
           {[
-            { id: 'coach', title: '🥷 Let Coach Decide', desc: 'The best schedule for your experience and goal' },
-            { id: 'ppl', title: '⚡ Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
-            { id: 'upper_lower', title: '🏋️ Upper / Lower Split', desc: 'Alternate between upper body and lower body days' },
-            { id: 'full_body', title: '🔄 Full Body Routine', desc: 'Work your whole body each workout — great for 3 days/week' },
-            { id: 'bro_split', title: '🎯 Bodypart Split (Bro Split)', desc: 'One muscle group per day: Chest, Back, Legs, Shoulders, Arms' }
+            { id: 'coach', title: 'Let Coach Decide', desc: 'The best schedule for your experience and goal' },
+            { id: 'ppl', title: 'Push / Pull / Legs (PPL)', desc: 'Chest & shoulders, back & arms, and leg rotation' },
+            { id: 'upper_lower', title: 'Upper / Lower Split', desc: 'Alternate between upper body and lower body days' },
+            { id: 'full_body', title: 'Full Body Routine', desc: 'Work your whole body each workout — great for 3 days/week' },
+            { id: 'bro_split', title: 'Bodypart Split (Bro Split)', desc: 'One muscle group per day: Chest, Back, Legs, Shoulders, Arms' }
           ].map(s => (
             <div
               key={s.id}
@@ -2973,7 +2973,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
 
       {plan?.weeklyInsight && (
         <div style={{ fontSize: 12, color: 'var(--acc)', fontWeight: 700, marginBottom: 20, lineHeight: 1.4 }}>
-          💡 {plan.weeklyInsight}
+          {plan.weeklyInsight}
         </div>
       )}
 
@@ -2988,7 +2988,7 @@ function WeeklyPlanUpdateModal({ plan, close }) {
           borderRadius: 12
         }}
       >
-        🔥 Start My Updated Routine
+        Start My Updated Routine
       </Button>
     </div>
   )
@@ -3020,7 +3020,7 @@ function AppGuideModal({ close }) {
         {[
           {
             step: '1',
-            icon: '📱',
+            icon: 'smartphone',
             title: 'Add to Home Screen',
             desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen view, and offline tracking.',
             tag: 'Recommended',
@@ -3028,21 +3028,21 @@ function AppGuideModal({ close }) {
           },
           {
             step: '2',
-            icon: '🏋️',
+            icon: 'dumbbell',
             title: 'Daily Workouts',
             desc: 'Open Home to view today\'s workout. Watch exercise video demos for proper form and tap ✓ as you complete each set.',
             tag: 'Core'
           },
           {
             step: '3',
-            icon: '🥗',
+            icon: 'salad',
             title: 'Target Calories & Macros',
             desc: 'Your personalized plan automatically calculates your target calories, protein, carbs, and fats based on your fitness goals. Log daily meals on the Nutrition tab.',
             tag: 'Fuel'
           },
           {
             step: '4',
-            icon: '⚖️',
+            icon: 'scale',
             title: 'Weekly Check-Ins & Progress',
             desc: 'Log your morning weight and submit weekly physique check-ins under Stats to view your visual transformation timeline.',
             tag: 'Results'
@@ -3077,7 +3077,7 @@ function AppGuideModal({ close }) {
                     gap: '6px'
                   }}
                 >
-                  <span>📲 View iPhone / Android Steps</span>
+                  <span>View iPhone / Android Steps</span>
                   <span>→</span>
                 </button>
               )}
@@ -3087,7 +3087,7 @@ function AppGuideModal({ close }) {
       </div>
 
       <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: '14px', padding: '12px 14px', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span style={{ fontSize: '16px' }}>✉️</span>
+        
         <div style={{ fontSize: '11.5px', color: 'var(--label-2)', lineHeight: 1.4 }}>
           Need technical or subscription support? Email us directly at <a href="mailto:support@socialninjas.in" style={{ color: '#38bdf8', fontWeight: '700', textDecoration: 'none' }}>support@socialninjas.in</a>.
         </div>

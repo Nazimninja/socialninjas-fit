@@ -10,6 +10,25 @@ import {
 } from '../context/FitNinjaContext';
 import { generateCustomPlan } from '../data/workoutPlanAI';
 import CloudSyncModal from '../components/app/CloudSyncModal';
+import {
+  ShieldCheck,
+  Activity,
+  Droplet,
+  Heart,
+  AlertCircle,
+  ShieldAlert,
+  HeartPulse,
+  Sparkles,
+  Zap,
+  Layers,
+  Dumbbell,
+  RefreshCw,
+  Target,
+  Flame,
+  Cloud,
+  CheckCircle2,
+  User,
+} from 'lucide-react';
 
 const steps = [
   'welcome',
@@ -18,7 +37,7 @@ const steps = [
   'goal_level',    // goal, fitness level, days/week
   'health',        // thyroid, diabetes, pregnancy, injuries
   'split',         // PPL, Upper/Lower, Full Body, Coach decides
-  'generating',    // AI plan building + reveal
+  'generating',    // Smart plan building + reveal
 ] as const;
 
 type Step = typeof steps[number];
@@ -30,24 +49,24 @@ const slide = {
   transition: { duration: 0.25 },
 };
 
-const HEALTH_OPTIONS: { id: HealthCondition; label: string; icon: string; desc: string }[] = [
-  { id: 'none',             label: 'None / Fully Healthy',   icon: '🛡️', desc: 'No active injuries or metabolic conditions' },
-  { id: 'thyroid',          label: 'Thyroid Condition',      icon: '🦋', desc: 'Metabolic adaptation, steady recovery' },
-  { id: 'diabetes',         label: 'Diabetes (Type 1 or 2)', icon: '🩸', desc: 'Blood sugar & glycogen management' },
-  { id: 'post_pregnancy',   label: 'Post-Pregnancy Recovery',icon: '👶', desc: 'Gentle core restoration, pelvic floor safe' },
-  { id: 'knee_injury',      label: 'Knee Pain / Injury',     icon: '🦵', desc: 'Avoids heavy knee shearing & high jumps' },
-  { id: 'back_injury',      label: 'Lower Back / Spine Pain',icon: '🩹', desc: 'Excludes heavy axial spine compression' },
-  { id: 'shoulder_injury',  label: 'Shoulder Impingement',   icon: '🦾', desc: 'Protects rotator cuff with safe angles' },
-  { id: 'hypertension',     label: 'High Blood Pressure',    icon: '💓', desc: 'Controlled breathing & moderate loading' },
-  { id: 'pcos',             label: 'PCOS / Hormonal Balance',icon: '🌸', desc: 'Low-stress resistance training focus' },
+const HEALTH_OPTIONS: { id: HealthCondition; label: string; icon: React.ReactNode; desc: string }[] = [
+  { id: 'none',             label: 'None / Fully Healthy',   icon: <ShieldCheck size={20} className="text-emerald-400" />, desc: 'No active injuries or metabolic conditions' },
+  { id: 'thyroid',          label: 'Thyroid Condition',      icon: <Activity size={20} className="text-amber-400" />, desc: 'Metabolic adaptation, steady recovery' },
+  { id: 'diabetes',         label: 'Diabetes (Type 1 or 2)', icon: <Droplet size={20} className="text-rose-400" />, desc: 'Blood sugar & glycogen management' },
+  { id: 'post_pregnancy',   label: 'Post-Pregnancy Recovery',icon: <Heart size={20} className="text-pink-400" />, desc: 'Gentle core restoration, pelvic floor safe' },
+  { id: 'knee_injury',      label: 'Knee Pain / Injury',     icon: <AlertCircle size={20} className="text-amber-400" />, desc: 'Avoids heavy knee shearing & high jumps' },
+  { id: 'back_injury',      label: 'Lower Back / Spine Pain',icon: <ShieldAlert size={20} className="text-rose-400" />, desc: 'Excludes heavy axial spine compression' },
+  { id: 'shoulder_injury',  label: 'Shoulder Impingement',   icon: <AlertCircle size={20} className="text-sky-400" />, desc: 'Protects rotator cuff with safe angles' },
+  { id: 'hypertension',     label: 'High Blood Pressure',    icon: <HeartPulse size={20} className="text-rose-400" />, desc: 'Controlled breathing & moderate loading' },
+  { id: 'pcos',             label: 'PCOS / Hormonal Balance',icon: <Sparkles size={20} className="text-purple-400" />, desc: 'Low-stress resistance training focus' },
 ];
 
-const SPLIT_OPTIONS: { id: WorkoutSplit; label: string; icon: string; subtitle: string; tag: string }[] = [
-  { id: 'coach_decides',   label: 'Let Coach Decide',       icon: '🥷', subtitle: 'Smart AI selects the optimal split for your schedule', tag: 'Recommended' },
-  { id: 'push_pull_legs',  label: 'Push / Pull / Legs',     icon: '⚡', subtitle: 'Push (Chest/Shoulders/Triceps), Pull (Back/Biceps), Legs', tag: '3-6 Days' },
-  { id: 'upper_lower',     label: 'Upper / Lower Split',    icon: '🏋️', subtitle: 'Upper body and Lower body alternating sessions', tag: '4 Days' },
-  { id: 'full_body',       label: 'Full Body Routine',      icon: '🔄', subtitle: 'Every session trains major compound muscle groups', tag: '3 Days' },
-  { id: 'bro_split',       label: 'Classic Bodypart Split', icon: '🎯', subtitle: 'Dedicated day for Chest, Back, Legs, Shoulders, Arms', tag: '5 Days' },
+const SPLIT_OPTIONS: { id: WorkoutSplit; label: string; icon: React.ReactNode; subtitle: string; tag: string }[] = [
+  { id: 'coach_decides',   label: 'Let Coach Decide',       icon: <Zap size={20} className="text-amber-400" />, subtitle: 'Automatically selects the optimal split for your schedule', tag: 'Recommended' },
+  { id: 'push_pull_legs',  label: 'Push / Pull / Legs',     icon: <Layers size={20} className="text-sky-400" />, subtitle: 'Push (Chest/Shoulders/Triceps), Pull (Back/Biceps), Legs', tag: '3-6 Days' },
+  { id: 'upper_lower',     label: 'Upper / Lower Split',    icon: <Dumbbell size={20} className="text-indigo-400" />, subtitle: 'Upper body and Lower body alternating sessions', tag: '4 Days' },
+  { id: 'full_body',       label: 'Full Body Routine',      icon: <RefreshCw size={20} className="text-emerald-400" />, subtitle: 'Every session trains major compound muscle groups', tag: '3 Days' },
+  { id: 'bro_split',       label: 'Classic Bodypart Split', icon: <Target size={20} className="text-rose-400" />, subtitle: 'Dedicated day for Chest, Back, Legs, Shoulders, Arms', tag: '5 Days' },
 ];
 
 export default function OnboardingPage() {
@@ -172,8 +191,8 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen bg-[#07090e] flex flex-col items-center justify-center px-4 py-8">
       {/* Brand Header */}
-      <div className="mb-6 text-center">
-        <span className="text-3xl">🥷</span>
+      <div className="mb-6 text-center flex flex-col items-center">
+        <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />
         <p className="text-xs tracking-[0.25em] text-[#9BA8B4] uppercase mt-1 font-semibold">
           Fit Ninja Custom Coach
         </p>
@@ -202,14 +221,14 @@ export default function OnboardingPage() {
           {/* STEP 1: WELCOME */}
           {step === 'welcome' && (
             <motion.div key="welcome" {...slide} className="text-center">
-              <div className="w-16 h-16 rounded-2xl bg-[#1F4B99]/20 border border-[#1F4B99]/30 flex items-center justify-center text-3xl mx-auto mb-4">
-                🥷
+              <div className="w-16 h-16 rounded-2xl bg-[#1F4B99]/20 border border-[#1F4B99]/30 flex items-center justify-center mx-auto mb-4">
+                <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Personalized Fit Ninja
               </h1>
               <p className="text-sm text-[#9BA8B4] mb-6 leading-relaxed">
-                No random workouts. We build a customized workout & meal plan tailored for your body, health, and goals.
+                No random workouts. We build a customized training & nutrition program calibrated for your body, health status, and goals.
               </p>
 
               <div className="mb-6 text-left">
@@ -239,7 +258,7 @@ export default function OnboardingPage() {
                   onClick={() => setShowCloudModal(true)}
                   className="w-full py-3 px-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-semibold text-[#38bdf8] flex items-center justify-center gap-2 transition-colors active:scale-95"
                 >
-                  <span>☁️</span>
+                  <Cloud size={15} />
                   <span>Already an Athlete? Restore with Email</span>
                 </button>
               </div>
@@ -266,7 +285,7 @@ export default function OnboardingPage() {
                         : 'border-white/10 bg-white/5 text-[#9BA8B4] hover:border-white/20'
                     }`}
                   >
-                    <span className="text-2xl block mb-1">{g === 'male' ? '👨' : '👩'}</span>
+                    <User size={22} className="mx-auto mb-1 text-white/80" />
                     <span className="capitalize font-medium text-xs sm:text-sm">
                       {g === 'male' ? 'Male' : 'Female'}
                     </span>
@@ -399,10 +418,10 @@ export default function OnboardingPage() {
               <label className="block text-xs text-[#9BA8B4] mb-1.5 font-medium">Primary Goal</label>
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {[
-                  { id: 'muscle_gain', label: 'Build Muscle', icon: '💪' },
-                  { id: 'fat_loss', label: 'Burn Fat', icon: '🔥' },
-                  { id: 'strength', label: 'Get Stronger', icon: '🏋️' },
-                  { id: 'general_fitness', label: 'Fitness & Health', icon: '🎯' },
+                  { id: 'muscle_gain', label: 'Build Muscle', icon: <Dumbbell size={15} className="text-sky-400 shrink-0" /> },
+                  { id: 'fat_loss', label: 'Burn Fat', icon: <Flame size={15} className="text-amber-400 shrink-0" /> },
+                  { id: 'strength', label: 'Get Stronger', icon: <Zap size={15} className="text-emerald-400 shrink-0" /> },
+                  { id: 'general_fitness', label: 'Fitness & Health', icon: <Target size={15} className="text-purple-400 shrink-0" /> },
                 ].map(g => (
                   <button
                     key={g.id}
@@ -414,7 +433,7 @@ export default function OnboardingPage() {
                         : 'border-white/10 bg-white/5 text-[#9BA8B4] hover:border-white/20'
                     }`}
                   >
-                    <span>{g.icon}</span>
+                    {g.icon}
                     <span className="font-medium truncate">{g.label}</span>
                   </button>
                 ))}
@@ -456,7 +475,7 @@ export default function OnboardingPage() {
           {step === 'health' && (
             <motion.div key="health" {...slide}>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xl">🩺</span>
+                <HeartPulse size={20} className="text-rose-400" />
                 <h2 className="text-xl font-bold text-white">Health & Injuries</h2>
               </div>
               <p className="text-xs text-[#9BA8B4] mb-3">
@@ -477,7 +496,7 @@ export default function OnboardingPage() {
                           : 'border-white/10 bg-white/5 text-[#9BA8B4] hover:border-white/20'
                       }`}
                     >
-                      <span className="text-xl shrink-0 mt-0.5">{opt.icon}</span>
+                      <span className="shrink-0 mt-0.5">{opt.icon}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <p className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-[#e0e0e0]'}`}>
@@ -507,7 +526,7 @@ export default function OnboardingPage() {
           {step === 'split' && (
             <motion.div key="split" {...slide}>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xl">📊</span>
+                <Layers size={20} className="text-sky-400" />
                 <h2 className="text-xl font-bold text-white">Workout Split</h2>
               </div>
               <p className="text-xs text-[#9BA8B4] mb-4">
@@ -529,7 +548,9 @@ export default function OnboardingPage() {
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-2xl">{sp.icon}</span>
+                        <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                          {sp.icon}
+                        </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <p className={`text-xs font-bold ${isSelected ? 'text-white' : 'text-[#e0e0e0]'}`}>
@@ -577,8 +598,8 @@ export default function OnboardingPage() {
                 </div>
               ) : generatedSummary ? (
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-[#3ba213]/20 border border-[#3ba213]/30 text-2xl flex items-center justify-center mx-auto mb-3">
-                    ✅
+                  <div className="w-12 h-12 rounded-2xl bg-[#3ba213]/20 border border-[#3ba213]/30 flex items-center justify-center mx-auto mb-3">
+                    <CheckCircle2 size={26} className="text-[#3ba213]" />
                   </div>
                   <h2 className="text-xl font-bold text-white mb-1">Your Program is Ready!</h2>
                   <p className="text-xs text-[#9BA8B4] mb-4">
@@ -592,14 +613,14 @@ export default function OnboardingPage() {
                       <p className="text-xl font-black text-[#e8b86d] mt-0.5">
                         {generatedSummary.calories} <span className="text-xs font-normal text-white/50">kcal</span>
                       </p>
-                      <p className="text-[10px] text-[#9BA8B4] mt-1">Tailored to your goal</p>
+                      <p className="text-[10px] text-[#9BA8B4] mt-1">Calibrated to goal & health</p>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-xl p-3">
                       <p className="text-[10px] uppercase tracking-wider text-[#9BA8B4]">Daily Protein</p>
                       <p className="text-xl font-black text-[#7ba3e0] mt-0.5">
                         {generatedSummary.protein} <span className="text-xs font-normal text-white/50">g</span>
                       </p>
-                      <p className="text-[10px] text-[#9BA8B4] mt-1">For muscle repair & strength</p>
+                      <p className="text-[10px] text-[#9BA8B4] mt-1">Optimal muscle preservation</p>
                     </div>
                   </div>
 
@@ -620,7 +641,7 @@ export default function OnboardingPage() {
                     onClick={finish}
                     className="w-full bg-[#1F4B99] hover:bg-[#153880] text-white font-bold py-3.5 rounded-xl transition-all shadow-xl shadow-[#1F4B99]/30"
                   >
-                    Enter My Dojo 🥷
+                    Enter Workout Dashboard →
                   </button>
                 </div>
               ) : null}
@@ -633,7 +654,7 @@ export default function OnboardingPage() {
       <CloudSyncModal
         isOpen={showCloudModal}
         onClose={() => setShowCloudModal(false)}
-        onSuccess={() => navigate('/v2')}
+        onSuccess={() => navigate('/')}
       />
     </div>
   );

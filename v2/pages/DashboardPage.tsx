@@ -18,6 +18,9 @@ import {
   ChevronRight,
   Dumbbell,
   CheckCircle2,
+  Sparkles,
+  Utensils,
+  Camera,
 } from 'lucide-react';
 import WeeklyCheckinModal from '../components/app/WeeklyCheckinModal';
 import BodyMap from '../components/app/BodyMap';
@@ -148,8 +151,8 @@ export default function DashboardPage() {
       <header className="flex items-center justify-between pt-1 pb-2">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1F4B99] via-[#153268] to-[#0a1426] border border-white/15 flex items-center justify-center text-xl font-black text-white shadow-lg overflow-hidden">
-              <span className="opacity-95">🥷</span>
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#1F4B99] via-[#153268] to-[#0a1426] border border-white/15 flex items-center justify-center text-lg font-black text-white shadow-lg overflow-hidden">
+              {user.name ? user.name.charAt(0).toUpperCase() : <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />}
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#10b981] border-2 border-[#07090e] rounded-full" />
           </div>
@@ -192,7 +195,7 @@ export default function DashboardPage() {
           </button>
 
           <button
-            onClick={() => navigate('/app/profile')}
+            onClick={() => navigate('/profile')}
             className="w-9 h-9 rounded-full bg-[#141b27] hover:bg-[#1a2538] border border-[#1f2d42] flex items-center justify-center text-[#8a9bb3] hover:text-white transition-colors"
             title="Settings"
           >
@@ -312,7 +315,7 @@ export default function DashboardPage() {
           onClick={() => setShowNutritionModal(true)}
           className="bg-[#0e1726] hover:bg-[#15233a] border border-[#1c2c47] text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-xs transition-all active:scale-[0.98]"
         >
-          <span>🥗</span>
+          <Utensils size={14} className="text-emerald-400" />
           <span>Log Meal</span>
         </button>
 
@@ -320,7 +323,7 @@ export default function DashboardPage() {
           onClick={() => setShowCheckin(true)}
           className="bg-[#0e1726] hover:bg-[#15233a] border border-[#1c2c47] text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 text-xs transition-all active:scale-[0.98]"
         >
-          <span>🗓️</span>
+          <CalendarIcon size={14} className="text-sky-400" />
           <span>Schedule</span>
         </button>
       </section>
@@ -396,7 +399,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 bg-[#38bdf8] rounded-full animate-pulse shadow-sm shadow-[#38bdf8]" />
             <span className="text-[11px] font-extrabold text-[#38bdf8] uppercase tracking-wider">
-              TODAY'S WORKOUT
+              TODAY'S PROTOCOL
             </span>
           </div>
 
@@ -425,7 +428,7 @@ export default function DashboardPage() {
               {todaysPlan?.isRest ? 'Rest & Strategic Recovery' : todaysPlan?.focus || 'Day 6: Legs B · Posterior Chain & Glutes Focus'}
             </h3>
             <p className="text-xs text-[#71829d] mt-0.5">
-              Guided weights to keep you getting stronger
+              Science-backed progressive overload
             </p>
           </div>
         </div>
@@ -497,30 +500,31 @@ export default function DashboardPage() {
         <p className="text-xs text-[#71829d] text-center pt-1 leading-relaxed">
           {workedMusclesCount > 0
             ? `${workedMusclesCount} muscle groups stimulated this week. Dynamic recovery tracking active.`
-            : 'No sets logged yet this week. Complete today’s workout to see your muscles worked.'}
+            : 'No sets logged yet this week. Complete today’s workout to activate hypertrophy heatmap.'}
         </p>
       </section>
 
-      {/* ── 7. WEEKLY CHECK-IN ── */}
+      {/* ── 7. WEEKEND PROTOCOL AUDIT (FROM USER SCREENSHOT) ── */}
       <section className="rounded-3xl bg-gradient-to-br from-[#0d2a22]/70 via-[#0b1322] to-[#0b1322] border border-[#14483b] p-5 shadow-2xl">
         <div className="mb-2">
-          <span className="bg-[#10b981]/20 border border-[#10b981]/30 text-[#10b981] text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
-            🌟 WEEKLY CHECK-IN
+          <span className="bg-[#10b981]/20 border border-[#10b981]/30 text-[#10b981] text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
+            <Sparkles size={11} /> WEEKEND PROTOCOL AUDIT
           </span>
         </div>
         <h3 className="text-lg font-black text-white tracking-tight mb-1">
-          Weekly Progress Check-in
+          Weekly Adaptation Check-in
         </h3>
         <p className="text-xs text-[#8a9bb3] mb-4">
           {checkins.length > 0
-            ? `Last check-in recorded. Plan updated for next week.`
-            : `${completedSessions} workouts logged! Complete check-in to update your plan for next week.`}
+            ? `Last check-in recorded. Calories & macros tuned for progressive overload.`
+            : `${completedSessions} workouts logged! Complete check-in to calibrate progressive overload.`}
         </p>
         <button
           onClick={() => setShowCheckin(true)}
           className="w-full bg-[#10b981] hover:bg-[#059669] text-black font-black py-3 rounded-2xl text-xs transition-all shadow-xl shadow-[#10b981]/25 flex items-center justify-center gap-2 active:scale-[0.99]"
         >
-          <span>📸 Complete Weekly Check-in →</span>
+          <Camera size={14} />
+          <span>Complete Audit & Adapt Overload →</span>
         </button>
       </section>
 
@@ -602,10 +606,12 @@ export default function DashboardPage() {
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="text-2xl">🥗</span>
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                    <Utensils size={18} />
+                  </div>
                   <div>
                     <h3 className="text-white font-bold text-base">Nutrition Blueprint</h3>
-                    <p className="text-[11px] text-[#71829d]">Daily targets tailored to you</p>
+                    <p className="text-[11px] text-[#71829d]">Mifflin-St Jeor TDEE Calibrated</p>
                   </div>
                 </div>
                 <button
@@ -616,64 +622,59 @@ export default function DashboardPage() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-4 gap-2 text-center mb-4">
-                <div className="bg-[#121d30] border border-[#1e3250] rounded-xl p-2.5">
-                  <div className="text-[10px] text-[#71829d] uppercase font-bold">Target</div>
-                  <div className="text-sm font-black text-white">{user.dailyCalorieTarget}</div>
-                  <div className="text-[9px] text-[#71829d]">kcal</div>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="bg-[#121c2e] border border-[#1c2c47] rounded-2xl p-3.5">
+                  <span className="text-[10px] font-extrabold text-[#71829d] uppercase tracking-wider">DAILY CALORIES</span>
+                  <p className="text-2xl font-black text-[#e8b86d] mt-1">{targetKcal} <span className="text-xs font-normal text-white/50">kcal</span></p>
                 </div>
-                <div className="bg-[#121d30] border border-[#1e3250] rounded-xl p-2.5">
-                  <div className="text-[10px] text-[#38bdf8] uppercase font-bold">Protein</div>
-                  <div className="text-sm font-black text-[#38bdf8]">{user.macroSplit.proteinGrams}g</div>
-                  <div className="text-[9px] text-[#71829d]">Repair</div>
-                </div>
-                <div className="bg-[#121d30] border border-[#1e3250] rounded-xl p-2.5">
-                  <div className="text-[10px] text-[#fb923c] uppercase font-bold">Carbs</div>
-                  <div className="text-sm font-black text-[#fb923c]">{user.macroSplit.carbsGrams}g</div>
-                  <div className="text-[9px] text-[#71829d]">Energy</div>
-                </div>
-                <div className="bg-[#121d30] border border-[#1e3250] rounded-xl p-2.5">
-                  <div className="text-[10px] text-[#a78bfa] uppercase font-bold">Fats</div>
-                  <div className="text-sm font-black text-[#a78bfa]">{user.macroSplit.fatGrams}g</div>
-                  <div className="text-[9px] text-[#71829d]">Health</div>
+                <div className="bg-[#121c2e] border border-[#1c2c47] rounded-2xl p-3.5">
+                  <span className="text-[10px] font-extrabold text-[#71829d] uppercase tracking-wider">DAILY PROTEIN</span>
+                  <p className="text-2xl font-black text-[#38bdf8] mt-1">{targetProtein} <span className="text-xs font-normal text-white/50">g</span></p>
                 </div>
               </div>
 
-              <p className="text-xs text-[#8a9bb3] leading-relaxed mb-4">
-                Hit your daily protein target first, then fill in carbs and healthy fats for energy. Consistency beats perfection every time.
-              </p>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="bg-[#121c2e] border border-[#1c2c47] rounded-2xl p-3 text-center">
+                  <span className="text-[10px] font-extrabold text-[#71829d] uppercase">CARBS</span>
+                  <p className="text-lg font-black text-[#818cf8] mt-0.5">{targetCarbs} g</p>
+                </div>
+                <div className="bg-[#121c2e] border border-[#1c2c47] rounded-2xl p-3 text-center">
+                  <span className="text-[10px] font-extrabold text-[#71829d] uppercase">FATS</span>
+                  <p className="text-lg font-black text-[#fbbf24] mt-0.5">{targetFat} g</p>
+                </div>
+              </div>
 
               <button
                 onClick={() => setShowNutritionModal(false)}
                 className="w-full bg-[#1F4B99] hover:bg-[#153880] text-white font-bold py-2.5 rounded-xl text-xs"
               >
-                Got It
+                Close
               </button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* ── PROGRAM METHODOLOGY MODAL ── */}
+      {/* ── INFO MODAL ── */}
       <AnimatePresence>
         {showInfoModal && (
           <div
+            className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4"
             onClick={() => setShowInfoModal(false)}
-            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               onClick={e => e.stopPropagation()}
               className="w-full max-w-sm bg-[#0b1322] border border-[#172744] rounded-3xl p-6 shadow-2xl"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="text-2xl">🥷</span>
+                  <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />
                   <div>
-                    <h3 className="text-white font-bold text-base">How Your Plan Works</h3>
-                    <p className="text-[11px] text-[#71829d]">{activePlan?.title || 'Fit Ninja Routine'}</p>
+                    <h3 className="text-white font-bold text-base">Program Methodology</h3>
+                    <p className="text-[11px] text-[#71829d]">{activePlan?.title || 'Fit Ninja Protocol'}</p>
                   </div>
                 </div>
                 <button
@@ -685,9 +686,9 @@ export default function DashboardPage() {
               </div>
 
               <div className="space-y-2 text-xs text-[#8a9bb3] mb-4">
-                <p>• <strong>Smart Progression:</strong> We guide your weights and reps based on your workout logs.</p>
-                <p>• <strong>Injury Protection:</strong> Exercises that stress sensitive joints or old injuries are automatically replaced with safe alternatives.</p>
-                <p>• <strong>Muscle Recovery:</strong> The body map shows which muscles you worked so you can balance your training.</p>
+                <p>• <strong>Adaptive Overload:</strong> We calibrate sets and reps based on your performance history.</p>
+                <p>• <strong>Health Shield:</strong> Movements causing excessive knee shear, lumbar compression, or joint impingement are safely filtered.</p>
+                <p>• <strong>3D Muscle Recovery:</strong> The anatomical body map visually displays the hypertrophic stimulus across major muscle groups.</p>
               </div>
 
               <button
@@ -711,11 +712,11 @@ export default function DashboardPage() {
       {/* ── GET READY COUNTDOWN MODAL ── */}
       <GetReadyModal
         isOpen={showGetReady}
-        routineTitle={todaysPlan?.focus || "Today's Workout"}
+        routineTitle={todaysPlan?.focus || "Today's Protocol"}
         exerciseCount={exerciseLineup.length || 5}
         onStart={() => {
           setShowGetReady(false);
-          navigate('/app/workout');
+          navigate('/workout');
         }}
         onCancel={() => setShowGetReady(false)}
       />

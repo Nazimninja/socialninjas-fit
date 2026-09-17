@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Dumbbell, Activity, Flame, Target, Sparkles, ShieldCheck, ChevronRight, Check, ArrowRight, Star, Play, Zap, HelpCircle, Timer } from 'lucide-react';
+import { Dumbbell, Activity, Flame, Target, Sparkles, ShieldCheck, ChevronRight, Check, ArrowRight, Star, Play, Zap, HelpCircle, Timer, Video, UtensilsCrossed, Cloud, TrendingUp, X } from 'lucide-react';
 import AthleteHeroVisual from '../components/AthleteHeroVisual.jsx';
 import InteractiveWorkoutPreview from '../components/InteractiveWorkoutPreview.jsx';
 
@@ -52,47 +52,47 @@ export default function Landing() {
     },
     {
       q: "Can I upgrade or customize my workout & diet plan later?",
-      a: "Yes! Whenever your schedule changes, you hit a plateau, or your goals shift (e.g. from fat loss to muscle gain), you can update your answers and generate a brand-new AI training split and diet plan in seconds. Your previous workout history remains safely stored."
+      a: "Yes! Whenever your schedule changes, you hit a plateau, or your goals shift (e.g. from fat loss to muscle gain), you can update your answers and generate a brand-new training split and diet plan in seconds. Your previous workout history remains safely stored."
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "Fit Ninja Pro is just ₹399/month (less than ₹13/day). That gives you complete, unrestricted access to 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom AI meal plans, and cloud backup."
+      a: "Fit Ninja Pro is just ₹399/month (less than ₹13/day). That gives you complete, unrestricted access to 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom meal plans, and cloud backup."
     }
   ];
 
   const values = [
     {
-      icon: "🎥",
+      icon: <Video size={22} color="#38bdf8" />,
       title: "5,300+ HD Looping Form Guides",
       desc: "Never feel lost or intimidated by gym machines or complex lifts. Watch crystal-clear 60fps video demonstrations for every barbell, dumbbell, cable, machine, and bodyweight exercise from optimal angles.",
       badge: "Zero Form Guesswork"
     },
     {
-      icon: "🤖",
-      title: "Personalized AI Workout & Diet Plan",
+      icon: <Target size={22} color="#38bdf8" />,
+      title: "Personalized Workout & Diet Plan",
       desc: "Get a 7-day workout split matched to your schedule, plus a tailored meal plan with exact calorie and protein targets (Veg, Non-Veg, Vegan, or Keto). Easily refresh your plan whenever your routine changes.",
       badge: "Tailored to Your Body"
     },
     {
-      icon: "⚡",
+      icon: <TrendingUp size={22} color="#38bdf8" />,
       title: "Automatic 'Lift Heavier' Progression",
       desc: "Building muscle requires lifting slightly heavier over time. Fit Ninja automatically remembers your previous weights and sets, telling you exactly when to add +1 kg to +2.5 kg so you never plateau.",
       badge: "Steady Muscle Growth"
     },
     {
-      icon: "⏱️",
+      icon: <Timer size={22} color="#38bdf8" />,
       title: "Distraction-Free Full-Screen Rest Timer",
       desc: "A clean, full-screen countdown between sets with audible chimes and vibration alerts. Built specifically to eliminate accidental mis-touches and stop you from doom-scrolling social media while resting.",
       badge: "Gym Focus & Screen Wake Lock"
     },
     {
-      icon: "🥗",
+      icon: <UtensilsCrossed size={22} color="#38bdf8" />,
       title: "Practical Food Logging & Calorie Guidance",
       desc: "Log what you eat in seconds. We give you realistic, approximate calorie and protein numbers for quick daily tracking, plus honest guidance on when to use a kitchen food scale for pinpoint accuracy.",
       badge: "No Complicated Menus"
     },
     {
-      icon: "📶",
+      icon: <Cloud size={22} color="#38bdf8" />,
       title: "100% Offline Gym Mode + Cloud Backup",
       desc: "Underground gym basements with zero mobile reception? No problem. Fit Ninja stores everything locally on your device, and automatically backs up your workout history and custom routines to the cloud.",
       badge: "Works Anywhere"
@@ -243,7 +243,7 @@ export default function Landing() {
                 gap: '6px'
               }}
             >
-              <span>⚡ Launch App</span>
+              <span>Launch App</span>
             </button>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function Landing() {
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span className="pill-sub" style={{ color: '#e2e8f0' }}>AI Workout &amp; Nutrition Coach</span>
+            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Workout &amp; Nutrition Coach</span>
           </div>
 
           {/* Main Headline */}
@@ -316,7 +316,7 @@ export default function Landing() {
             margin: '0 0 32px',
             fontWeight: '500'
           }}>
-            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom AI workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in an app that runs 100% offline in underground gyms.
+            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in an app that runs 100% offline in underground gyms.
           </p>
 
           {/* CTA Buttons */}
@@ -339,7 +339,7 @@ export default function Landing() {
                 gap: '8px'
               }}
             >
-              <span>⚡ Start Your Transformation</span>
+              <span>Start Your Transformation</span>
               <ArrowRight size={16} />
             </button>
 
@@ -850,7 +850,7 @@ export default function Landing() {
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Personalized AI workout &amp; diet plan (High-Protein, Veg, Non-Veg, Vegan, Keto)</span>
+                <span>Personalized workout &amp; diet plan (High-Protein, Veg, Non-Veg, Vegan, Keto)</span>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Check size={18} color="#38bdf8" strokeWidth={3} />
@@ -888,21 +888,21 @@ export default function Landing() {
               textAlign: 'left'
             }}>
               <div>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '6px' }}>Personal Gym Trainer</div>
-                <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: '1.5' }}>
-                  ❌ ₹3,000–₹8,000 / mo<br />
-                  ❌ Unavailable at off-hours<br />
-                  ❌ No video guides to check<br />
-                  ❌ Generic paper diet charts
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '8px' }}>Personal Gym Trainer</div>
+                <div style={{ fontSize: '11.5px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> ₹3,000–₹8,000 / mo</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> Unavailable at off-hours</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> No video guides to check</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> Generic paper diet charts</div>
                 </div>
               </div>
               <div>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '6px' }}>Fit Ninja Pro</div>
-                <div style={{ fontSize: '11.5px', color: '#cbd5e1', lineHeight: '1.5' }}>
-                  ✅ Just ₹399 / mo (₹13/day)<br />
-                  ✅ 24/7 on your phone<br />
-                  ✅ 5,300+ animated videos<br />
-                  ✅ Custom AI meals updated anytime
+                <div style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '8px' }}>Fit Ninja Pro</div>
+                <div style={{ fontSize: '11.5px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> Just ₹399 / mo (₹13/day)</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> 24/7 on your phone</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> 5,300+ animated videos</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> Custom meals updated anytime</div>
                 </div>
               </div>
             </div>
@@ -924,7 +924,7 @@ export default function Landing() {
                 boxShadow: '0 8px 24px rgba(56, 189, 248, 0.4)'
               }}
             >
-              ⚡ Start Fit Ninja Pro →
+              Start Fit Ninja Pro →
             </button>
           </div>
         </section>

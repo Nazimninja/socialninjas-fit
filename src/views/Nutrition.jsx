@@ -271,7 +271,7 @@ export default function Nutrition() {
   const targetCarbs = aiPlan?.carbs || Math.round((targetKcal * 0.45) / 4);
   const targetFat = aiPlan?.fat || Math.round((targetKcal * 0.25) / 9);
 
-  // Active Meal Protocol (Custom Diet || AI Plan Meals || Dynamic Indian Diet)
+  // Active Meal Protocol (Custom Diet || Saved Plan Meals || Dynamic Indian Diet)
   const userDietPref = S.aiAnswers?.diet || 'nonveg';
   const activeDietMeals = S.customDiet?.meals || aiPlan?.meals || buildCustomDietPlan(userDietPref, targetKcal, targetProtein);
 
@@ -461,7 +461,7 @@ export default function Nutrition() {
       protein: Number(m.protein || m.p || 0),
       carbs: Number(m.carbs || 0),
       fat: Number(m.fat || 0),
-      icon: m.icon || m.i || '🍽️'
+      icon: m.icon || m.i || 'food'
     }));
     setEditingMeals(initial);
     setShowDietEditor(true);
@@ -487,7 +487,7 @@ export default function Nutrition() {
     setShowDietEditor(false);
   };
 
-  // Reset Diet to AI Health Coach Recommendation
+  // Reset Diet to Recommended Plan
   const handleResetToAIDiet = () => {
     const aiDefault = buildCustomDietPlan(userDietPref, targetKcal, targetProtein);
     update(s => {
@@ -512,7 +512,7 @@ export default function Nutrition() {
       protein: 25,
       carbs: 30,
       fat: 8,
-      icon: '⚡'
+      icon: 'zap'
     };
     setEditingMeals([...editingMeals, newMeal]);
   };
@@ -678,7 +678,7 @@ export default function Nutrition() {
                 boxShadow: isCreatineTaken ? 'none' : '0 4px 16px rgba(56,189,248,0.15)'
               }}
             >
-              <span>{isCreatineTaken ? '✓ Logged (Tap to Undo)' : '⚡ Log 5g Creatine'}</span>
+              <span>{isCreatineTaken ? '✓ Logged (Tap to Undo)' : 'Log 5g Creatine'}</span>
             </button>
           </div>
         )
@@ -1038,13 +1038,13 @@ export default function Nutrition() {
                   onChange={e => setCustomMealType(e.target.value)}
                   style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 12px', color: 'var(--label)', fontSize: '13.5px', fontWeight: '700' }}
                 >
-                  <option value="Breakfast">🍳 Breakfast</option>
-                  <option value="Mid-Morning Fuel">🥗 Mid-Morning Fuel</option>
-                  <option value="Lunch">🍱 Lunch</option>
-                  <option value="Pre-Workout Snack">⚡ Pre-Workout Snack</option>
-                  <option value="Post-Workout Fuel">🥤 Post-Workout Fuel</option>
-                  <option value="Dinner">🍛 Dinner</option>
-                  <option value="Late Night Snack">🌙 Late Night Snack</option>
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Mid-Morning Fuel">Mid-Morning Fuel</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Pre-Workout Snack">Pre-Workout Snack</option>
+                  <option value="Post-Workout Fuel">Post-Workout Fuel</option>
+                  <option value="Dinner">Dinner</option>
+                  <option value="Late Night Snack">Late Night Snack</option>
                 </select>
               </div>
 
@@ -1058,12 +1058,12 @@ export default function Nutrition() {
                   onChange={e => handleSelectFood(e.target.value)}
                   style={{ width: '100%', background: 'var(--surface-2)', border: '1px solid var(--sep)', borderRadius: '12px', padding: '10px 12px', color: 'var(--label)', fontSize: '13.5px', fontWeight: '700' }}
                 >
-                  <optgroup label="🥚 Eggs & Dairy">
+                  <optgroup label="Eggs & Dairy">
                     {COMMON_FOODS.filter(f => f.category === 'Eggs & Dairy').map(f => (
                       <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                   </optgroup>
-                  <optgroup label="🍗 Meat & Fish">
+                  <optgroup label="Meat & Fish">
                     {COMMON_FOODS.filter(f => f.category === 'Meat & Fish').map(f => (
                       <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
@@ -1073,17 +1073,17 @@ export default function Nutrition() {
                       <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                   </optgroup>
-                  <optgroup label="🍚 Grains, Rotis & Rice">
+                  <optgroup label="Grains, Rotis & Rice">
                     {COMMON_FOODS.filter(f => f.category === 'Grains & Carbs').map(f => (
                       <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                   </optgroup>
-                  <optgroup label="🍎 Fruits, Nuts & Fats">
+                  <optgroup label="Fruits, Nuts & Fats">
                     {COMMON_FOODS.filter(f => f.category === 'Fruits & Fats').map(f => (
                       <option key={f.id} value={f.id}>{f.name}</option>
                     ))}
                   </optgroup>
-                  <option value="custom">✏️ Other / Custom Food...</option>
+                  <option value="custom">Other / Custom Food...</option>
                 </select>
               </div>
 
@@ -1183,14 +1183,14 @@ export default function Nutrition() {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
                   <span style={{ fontWeight: '800', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    <span>⚡</span> Approx: ~{customKcal || 0} kcal
+                    Approx: ~{customKcal || 0} kcal
                   </span>
                   <span style={{ fontSize: '10px', color: 'var(--label-3)', background: 'rgba(255,255,255,0.06)', padding: '2px 8px', borderRadius: '99px', fontWeight: '700' }}>
                     Estimated
                   </span>
                 </div>
                 <div style={{ color: 'var(--label-2)', fontSize: '11.5px', marginTop: '4px' }}>
-                  💡 <strong>Portions are approximate:</strong> Sizes like bowls, rotis, or pieces give a good estimate. For exact calories (especially for paneer, chicken, rice, or cooking oils), use a <strong>kitchen weight scale</strong> to weigh in grams.
+                  <strong>Portions are approximate:</strong> Sizes like bowls, rotis, or pieces give a good estimate. For exact calories (especially for paneer, chicken, rice, or cooking oils), use a <strong>kitchen weight scale</strong> to weigh in grams.
                 </div>
               </div>
 
@@ -1276,7 +1276,7 @@ export default function Nutrition() {
                     fontWeight: '600'
                   }}
                 >
-                  ⚡ Recalculate Calories from macros (P*4 + C*4 + F*9)
+                  Recalculate Calories from macros (P*4 + C*4 + F*9)
                 </button>
               )}
 
@@ -1311,7 +1311,7 @@ export default function Nutrition() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
               <div>
                 <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--label)' }}>
-                  🛠️ Custom Diet Plan Builder
+                  Custom Diet Plan Builder
                 </h3>
                 <p style={{ margin: '3px 0 0', fontSize: '12px', color: 'var(--label-2)' }}>
                   Customize or design your own daily meal schedule and macro targets
@@ -1338,9 +1338,9 @@ export default function Nutrition() {
                     </span>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', fontSize: '11px', color: 'var(--label-2)' }}>
-                    <span>🥩 Protein: <strong style={{ color: 'var(--label)' }}>{sumP}g</strong> / {targetProtein}g</span>
-                    <span>🍚 Carbs: <strong style={{ color: 'var(--label)' }}>{sumC}g</strong> / {targetCarbs}g</span>
-                    <span>🥑 Fats: <strong style={{ color: 'var(--label)' }}>{sumF}g</strong> / {targetFat}g</span>
+                    <span>Protein: <strong style={{ color: 'var(--label)' }}>{sumP}g</strong> / {targetProtein}g</span>
+                    <span>Carbs: <strong style={{ color: 'var(--label)' }}>{sumC}g</strong> / {targetCarbs}g</span>
+                    <span>Fats: <strong style={{ color: 'var(--label)' }}>{sumF}g</strong> / {targetFat}g</span>
                   </div>
                 </div>
               );
@@ -1363,7 +1363,7 @@ export default function Nutrition() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <input
                         type="text"
-                        value={meal.icon || '🍽️'}
+                        value={meal.icon || 'food'}
                         onChange={e => {
                           const updated = [...editingMeals];
                           updated[index].icon = e.target.value;
@@ -1518,7 +1518,7 @@ export default function Nutrition() {
                     color: 'var(--label-2)', cursor: 'pointer'
                   }}
                 >
-                  ⚡ Reset to Recommended Plan
+                  Reset to Recommended Plan
                 </button>
 
                 <button
@@ -1529,7 +1529,7 @@ export default function Nutrition() {
                     cursor: 'pointer', boxShadow: 'var(--btn-pri-shadow)'
                   }}
                 >
-                  💾 Save Custom Diet
+                  Save Custom Diet
                 </button>
               </div>
             </div>

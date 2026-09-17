@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 import {
   useFitNinja,
   type WeeklyCheckin,
@@ -76,20 +77,20 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
         adjustedCalories = user.dailyCalorieTarget + 100;
         insight = `Weight dropped rapidly (-${Math.abs(weightDelta)} kg). Calories bumped by 100 kcal to protect lean tissue.`;
       } else {
-        insight = `Great fat loss pace (${Math.abs(weightDelta)} kg/wk). Daily calories kept at ${user.dailyCalorieTarget} kcal.`;
+        insight = `Optimal fat loss pace (${Math.abs(weightDelta)} kg/wk). Daily calories maintained at ${user.dailyCalorieTarget} kcal.`;
       }
     } else if (user.goal === 'muscle_gain') {
       if (weightDelta < 0.1) {
         adjustedCalories = user.dailyCalorieTarget + 150;
-        insight = `Adding 150 kcal to fuel muscle building and faster recovery.`;
+        insight = `Surplus was mild. Adding 150 kcal to accelerate muscle hypertrophy and recovery.`;
       } else if (weightDelta > 0.6) {
         adjustedCalories = Math.max(1800, user.dailyCalorieTarget - 100);
-        insight = `Weight gained a bit fast (+${weightDelta} kg). Trimming 100 kcal to focus on lean muscle.`;
+        insight = `Surplus was high (+${weightDelta} kg). Trimming 100 kcal to prioritize lean muscle over fat.`;
       } else {
-        insight = `Steady weight gain (+${weightDelta} kg). Calories locked at ${user.dailyCalorieTarget} kcal.`;
+        insight = `Paced surplus spot on (+${weightDelta} kg). Calories locked at ${user.dailyCalorieTarget} kcal.`;
       }
     } else {
-      insight = `Weight steady at ${currentWeight} kg. Keep focusing on good form and lifting heavier.`;
+      insight = `Weight steady at ${currentWeight} kg. Maintain progressive overload on core compound lifts.`;
     }
 
     if (soreness === 'sore') {
@@ -151,7 +152,7 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
               <h2 className="text-base font-black text-white tracking-tight">
                 Weekly Progress Check-in
               </h2>
-              <p className="text-[11px] text-[#71829d]">Weekly Weigh-in & Plan Update</p>
+              <p className="text-[11px] text-[#71829d]">Monday Weigh-in & Protocol Calibration</p>
             </div>
           </div>
           <button
@@ -266,13 +267,13 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
           <div className="bg-[#0e1726] border border-[#172744] rounded-2xl p-4 space-y-4">
             <div>
               <label className="block text-[11px] font-black uppercase tracking-wider text-[#71829d] mb-2">
-                How did the weights feel this week?
+                Training Load & Intensity
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: 'easy', label: 'Too Light', desc: 'Can lift heavier' },
-                  { id: 'good', label: 'Just Right', desc: 'Challenging & good' },
-                  { id: 'hard', label: 'Too Heavy', desc: 'Struggled to finish' },
+                  { id: 'easy', label: 'Under-loaded', desc: 'RPE <6' },
+                  { id: 'good', label: 'Optimal Load', desc: 'RPE 7-9' },
+                  { id: 'hard', label: 'Overloaded', desc: 'Max Fatigue' },
                 ].map(opt => (
                   <button
                     key={opt.id}
@@ -294,13 +295,13 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
             {/* Recovery & Muscle Soreness */}
             <div>
               <label className="block text-[11px] font-black uppercase tracking-wider text-[#71829d] mb-2">
-                How sore are your muscles?
+                Recovery & Muscle Soreness:
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: 'fresh', label: 'Fully Rested', desc: 'Feeling fresh' },
-                  { id: 'mild', label: 'Normal Ache', desc: 'Mild sore muscles' },
-                  { id: 'sore', label: 'Very Sore', desc: 'Need extra rest' },
+                  { id: 'fresh', label: 'Fully Rested', desc: 'No soreness' },
+                  { id: 'mild', label: 'Normal DOMS', desc: 'Ready to train' },
+                  { id: 'sore', label: 'High Fatigue', desc: 'Need recovery' },
                 ].map(opt => (
                   <button
                     key={opt.id}
@@ -322,12 +323,12 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
             {/* Nutrition Protocol Adherence */}
             <div>
               <label className="block text-[11px] font-black uppercase tracking-wider text-[#71829d] mb-2">
-                How did you do with your meals?
+                Nutrition Protocol Adherence:
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   { id: 'on_track', label: '100% On Track' },
-                  { id: 'minor_slip', label: 'Mostly Good (1-2 cheats)' },
+                  { id: 'minor_slip', label: '80% Adherence' },
                   { id: 'cravings', label: 'Off Track' },
                 ].map(opt => (
                   <button
@@ -408,7 +409,7 @@ export default function WeeklyCheckinModal({ isOpen, onClose }: WeeklyCheckinMod
             disabled={isSubmitting}
             className="w-full py-3.5 bg-white hover:bg-slate-100 text-black font-black text-sm rounded-2xl shadow-2xl transition-transform active:scale-98 flex items-center justify-center gap-2"
           >
-            <span>✨</span>
+            <Sparkles size={16} />
             <span>{isSubmitting ? 'Analyzing & Adapting Plan…' : 'Save Check-in & Adapt Plan'}</span>
           </button>
         </form>

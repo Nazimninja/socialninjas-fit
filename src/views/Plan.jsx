@@ -56,8 +56,8 @@ export default function Plan() {
           <button
             className="iconbtn"
             onClick={onboardingWizardSheet}
-            aria-label={t('Update Plan with AI')}
-            title={t('Update Plan with AI')}
+            aria-label={t('Update Plan')}
+            title={t('Update Plan')}
             style={{ width: '38px', height: '38px', borderRadius: '12px', background: 'var(--surface-2)', border: '1px solid var(--sep)', color: 'var(--acc)' }}
           >
             <Icon name="sparkles" />
@@ -120,7 +120,7 @@ export default function Plan() {
       {/* ── FULL 7-DAY WORKOUT SCHEDULE ─────────────────────────── */}
       <div style={{ marginBottom: '24px' }}>
         <h3 style={{ fontSize: '16px', fontWeight: '900', color: 'var(--label)', letterSpacing: '-0.3px', margin: '0 0 12px' }}>
-          📅 Full Week Schedule
+          Full Week Schedule
         </h3>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -168,7 +168,7 @@ export default function Plan() {
                       cursor: 'pointer'
                     }}
                   >
-                    ✏️ {r ? 'Change' : 'Assign'}
+                    {r ? 'Change' : 'Assign'}
                   </button>
                 </div>
 
@@ -270,7 +270,7 @@ export default function Plan() {
                           cursor: 'pointer'
                         }}
                       >
-                        ⚙️ Edit Routine
+                        Edit Routine
                       </button>
                     </div>
                   </div>
@@ -279,7 +279,7 @@ export default function Plan() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 0' }}>
                     <div>
                       <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--label)' }}>
-                        🧘 Scheduled Rest &amp; Recovery
+                        Scheduled Rest &amp; Recovery
                       </div>
                       <div style={{ fontSize: '11px', color: 'var(--label-3)', marginTop: '2px' }}>
                         Muscle protein synthesis &amp; nervous system recovery

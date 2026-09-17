@@ -17,6 +17,7 @@ import {
   type ExerciseRecord,
 } from '../data/exerciseDatabase';
 import { formatSplitName } from '../data/workoutPlanAI';
+import { ClipboardList, Dumbbell, Calendar, Flame, Coffee, Timer } from 'lucide-react';
 
 function genId() {
   return Math.random().toString(36).slice(2, 10);
@@ -205,7 +206,7 @@ function ActiveWorkout({
         <div>
           <p className="text-white font-bold text-sm truncate max-w-[200px]">{workoutName}</p>
           <div className="flex items-center gap-3 text-xs text-[#9BA8B4] mt-0.5">
-            <span className="font-mono text-[#7ba3e0] font-bold">⏱ {m}:{s.toString().padStart(2, '0')}</span>
+            <span className="font-mono text-[#7ba3e0] font-bold inline-flex items-center gap-1"><Timer size={13} /> {m}:{s.toString().padStart(2, '0')}</span>
             <span>·</span>
             <span>{completedSetsCount} / {totalSetsCount} sets</span>
           </div>
@@ -320,8 +321,8 @@ function WeeklyPlanView({ onStartDay }: { onStartDay: (day: PlannedDay) => void 
 
   if (!activePlan) {
     return (
-      <div className="text-center py-12">
-        <p className="text-3xl mb-2">🥷</p>
+      <div className="text-center py-12 flex flex-col items-center">
+        <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />
         <p className="text-white text-sm font-semibold">No active plan found</p>
         <p className="text-xs text-[#9BA8B4]">Complete onboarding to generate your customized schedule.</p>
       </div>
@@ -401,8 +402,8 @@ function WorkoutHistoryView() {
 
   if (state.workouts.length === 0) {
     return (
-      <div className="text-center py-16">
-        <p className="text-4xl mb-3">📋</p>
+      <div className="text-center py-16 flex flex-col items-center">
+        <ClipboardList size={36} className="text-[#9BA8B4] mb-3" />
         <p className="text-white font-semibold text-sm">No workouts logged yet</p>
         <p className="text-xs text-[#9BA8B4] mt-1">Complete your first session from Today's Workout tab.</p>
       </div>
@@ -599,9 +600,9 @@ export default function WorkoutPage() {
       {!isActive && (
         <div className="flex gap-1 bg-white/5 rounded-xl p-1">
           {[
-            { id: 'today', label: "Today's Session", icon: '💪' },
-            { id: 'schedule', label: '7-Day Plan', icon: '📅' },
-            { id: 'history', label: 'History', icon: '📋' },
+            { id: 'today', label: "Today's Session", icon: <Dumbbell size={13} /> },
+            { id: 'schedule', label: '7-Day Plan', icon: <Calendar size={13} /> },
+            { id: 'history', label: 'History', icon: <ClipboardList size={13} /> },
           ].map(t => (
             <button
               key={t.id}
@@ -636,7 +637,9 @@ export default function WorkoutPage() {
                       : `${todaysPlan.exercises.length} planned exercises · Est. ${todaysPlan.estimatedDurationMins} mins`}
                   </p>
                 </div>
-                <span className="text-2xl">{todaysPlan.isRest ? '🧘' : '🔥'}</span>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${todaysPlan.isRest ? 'bg-sky-500/15 border border-sky-500/30 text-sky-400' : 'bg-amber-500/15 border border-amber-500/30 text-amber-400'}`}>
+                  {todaysPlan.isRest ? <Coffee size={18} /> : <Flame size={18} />}
+                </div>
               </div>
 
               {todaysPlan.isRest ? (
@@ -701,8 +704,8 @@ export default function WorkoutPage() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-12 bg-white/[0.02] border border-white/10 rounded-2xl p-6">
-              <p className="text-3xl mb-2">🥷</p>
+            <div className="text-center py-12 bg-white/[0.02] border border-white/10 rounded-2xl p-6 flex flex-col items-center">
+              <Dumbbell size={28} className="text-[#38bdf8] mx-auto mb-2" />
               <h3 className="text-white font-bold text-base mb-1">No Active Plan Assigned</h3>
               <p className="text-xs text-[#9BA8B4] mb-4">
                 Let's set up your personalized workout split and health profile.

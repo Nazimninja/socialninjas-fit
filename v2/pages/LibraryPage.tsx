@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Package, Video, BookOpen, Film, Search } from 'lucide-react';
 import {
   fetchAllExercises,
   searchExercises,
@@ -108,7 +109,7 @@ export default function LibraryPage() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-[#1F4B99] text-white px-5 py-3 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 border border-white/20 backdrop-blur-md"
           >
-            <span>✨</span>
+            <Sparkles size={14} className="text-amber-300" />
             <span>{toastMsg}</span>
           </motion.div>
         )}
@@ -133,14 +134,17 @@ export default function LibraryPage() {
 
         {/* Database Source Tags */}
         <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[10px]">
-          <span className="px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
-            📦 hasaneyldrm (1.3k)
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
+            <Package size={11} className="text-[#86B4F8]" />
+            <span>hasaneyldrm (1.3k)</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
-            🎥 JahelCuadrado (1.3k GIFs)
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
+            <Video size={11} className="text-[#86B4F8]" />
+            <span>JahelCuadrado (1.3k GIFs)</span>
           </span>
-          <span className="px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
-            📘 azilRababe (2.9k Descriptions)
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/5 text-[#9BA8B4] border border-white/5">
+            <BookOpen size={11} className="text-[#86B4F8]" />
+            <span>azilRababe (2.9k Descriptions)</span>
           </span>
         </div>
       </div>
@@ -239,7 +243,7 @@ export default function LibraryPage() {
               : 'bg-[#0d131f] text-[#9BA8B4] border-[#172744] hover:text-white'
           }`}
         >
-          <span>🎬</span>
+          <Film size={13} />
           <span>GIF Only</span>
         </button>
       </div>
@@ -275,7 +279,9 @@ export default function LibraryPage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="py-16 text-center bg-[#0d131f] rounded-2xl border border-[#172744] p-8 space-y-2">
-          <span className="text-3xl">🔍</span>
+          <div className="flex justify-center mb-1">
+            <Search size={32} className="text-[#5A6D82]" />
+          </div>
           <p className="text-sm font-semibold text-white">No exercises found</p>
           <p className="text-xs text-[#9BA8B4]">Try broadening your search or adjusting muscle and equipment filters.</p>
         </div>

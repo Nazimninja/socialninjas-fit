@@ -139,7 +139,7 @@ export default function Stats() {
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '28px 16px', background: 'var(--surface-2)', borderRadius: '16px', border: '1px dashed var(--sep)' }}>
-            <div style={{ fontSize: '38px', marginBottom: '10px' }}>📸</div>
+            <div style={{ fontSize: '13px', color: 'var(--label-3)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '800' }}>Check-in Photo</div>
             <div style={{ fontSize: '15px', fontWeight: '800', color: 'var(--label)', marginBottom: '6px' }}>No Photos Yet</div>
             <div style={{ fontSize: '12px', color: 'var(--label-3)', marginBottom: '18px', lineHeight: 1.55 }}>Upload weekly check-in photos to<br />build your visual transformation timeline</div>
             <button onClick={weeklyCheckinSheet} style={{ background: 'linear-gradient(145deg,#34d399 0%,#10b981 100%)', color: '#000', border: 'none', borderRadius: '12px', padding: '12px 22px', fontSize: '13px', fontWeight: '900', cursor: 'pointer', boxShadow: '0 4px 16px rgba(52,211,153,0.35)' }}>
@@ -163,7 +163,7 @@ export default function Stats() {
       {checkins.length > 0 && (
         <div style={{ ...card }}>
           <div style={sectionLabel}>History</div>
-          <div style={sectionTitle}>📋 Check-in Log</div>
+          <div style={sectionTitle}>Check-in Log</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {[...checkins].reverse().map((c, idx) => (
               <div key={c.id || idx} style={{ background: 'var(--surface-2)', border: '1px solid var(--card-border)', borderRadius: '14px', padding: '12px 14px' }}>
@@ -173,9 +173,9 @@ export default function Stats() {
                 </div>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   {[
-                    c.difficulty === 'easy' ? '😅 Light' : c.difficulty === 'hard' ? '😤 Heavy' : '💪 Optimal',
-                    c.soreness === 'sore' ? '😣 High Fatigue' : c.soreness === 'fresh' ? '😌 Fresh' : '😐 Mild Soreness',
-                    c.dietRating === 'on_track' ? '🥗 Diet 100%' : '🥪 Diet 80%',
+                    c.difficulty === 'easy' ? 'Light' : c.difficulty === 'hard' ? 'Heavy' : 'Optimal',
+                    c.soreness === 'sore' ? 'High Fatigue' : c.soreness === 'fresh' ? 'Fresh' : '😐 Mild Soreness',
+                    c.dietRating === 'on_track' ? 'Diet 100%' : 'Diet 80%',
                   ].map(tag => (
                     <span key={tag} style={{ fontSize: '10px', fontWeight: '700', background: 'var(--surface-3)', border: '1px solid var(--card-border)', padding: '3px 8px', borderRadius: '99px', color: 'var(--label-2)' }}>{tag}</span>
                   ))}

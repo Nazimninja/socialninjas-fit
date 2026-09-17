@@ -188,7 +188,7 @@ function ExerciseBlock({ entryIdx, compact, onToggle, onField, onAddSet, onRemov
             {!cardio && !timed && isPerSide(cfg) && <span className="tag acc nocap"><Icon name="shuffle" />{t('{0} per side', fmtNum(sideReps(entry.sets.find(s => !s.done)?.r ?? entry.sets[0]?.r)))}</span>}
             {(ex.tg || ex.bp) && <span className="tag" style={{ fontSize: '10.5px', fontWeight: '800' }}>{t(ex.tg || ex.bp)}</span>}
             {ex.eq && <span className="tag" style={{ fontSize: '10.5px', fontWeight: '800' }}>{t(ex.eq)}</span>}
-            {best > 0 && <span className="tag nocap" style={{ fontSize: '10.5px', fontWeight: '800' }}>🏆 {fmtNum(best)} {S.unit} PR</span>}
+            {best > 0 && <span className="tag nocap" style={{ fontSize: '10.5px', fontWeight: '800' }}>{fmtNum(best)} {S.unit} PR</span>}
           </div>
         </div>
 
@@ -733,7 +733,7 @@ function ActiveWorkout() {
                 gap: '8px'
               }}
             >
-              <span>⚡ Log Set {nextUncompletedSetIdx + 1} Done</span>
+              <span>Log Set {nextUncompletedSetIdx + 1} Done</span>
             </button>
           ) : cur < A.entries.length - 1 ? (
             <button
@@ -778,7 +778,7 @@ function ActiveWorkout() {
                 boxShadow: '0 4px 20px rgba(16, 185, 129, 0.35)'
               }}
             >
-              <span>🎉 All Sets Done · Finish Workout</span>
+              <span>All Sets Done · Finish Workout</span>
             </button>
           )}
 

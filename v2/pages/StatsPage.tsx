@@ -5,6 +5,7 @@ import Icon from '../components/app/Icon';
 import Heatmap from '../components/app/Heatmap';
 import LineChart from '../components/app/LineChart';
 import WeeklyCheckinModal from '../components/app/WeeklyCheckinModal';
+import { Camera, Sparkles, Target } from 'lucide-react';
 
 export default function StatsPage() {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ export default function StatsPage() {
       <div className="flex items-center justify-between py-2">
         <div className="flex items-center gap-3">
           <button
-            onClick={() => navigate('/app')}
+            onClick={() => navigate('/')}
             className="w-9 h-9 rounded-full bg-[#121c2e] border border-[#172744] flex items-center justify-center text-white active:scale-95 transition-transform"
             aria-label="Home"
           >
@@ -255,8 +256,8 @@ export default function StatsPage() {
             </div>
           </div>
         ) : (
-          <div className="text-center py-7 px-4 bg-[#121c2e]/60 border border-dashed border-[#172744] rounded-2xl">
-            <div className="text-4xl mb-2">📸</div>
+          <div className="text-center py-7 px-4 bg-[#121c2e]/60 border border-dashed border-[#172744] rounded-2xl flex flex-col items-center">
+            <Camera size={36} className="text-[#38bdf8] mb-2" />
             <p className="text-sm font-extrabold text-white mb-1">No Photos Yet</p>
             <p className="text-xs text-[#71829d] mb-4 leading-relaxed">
               Upload weekly check-in photos to
@@ -295,7 +296,7 @@ export default function StatsPage() {
       {checkins.length > 0 && (
         <div className={cardStyle}>
           <p className={sectionLabelStyle}>History</p>
-          <h2 className={sectionTitleStyle + ' mb-3'}>📋 Check-in Log</h2>
+          <h2 className={sectionTitleStyle + ' mb-3'}>Check-in Log</h2>
 
           <div className="space-y-2.5">
             {checkins.map((c, idx) => (
@@ -310,22 +311,22 @@ export default function StatsPage() {
                 <div className="flex flex-wrap gap-1.5 mb-2">
                   {c.difficulty && (
                     <span className="text-[10px] font-bold bg-[#1b2a42] border border-[#172744] px-2 py-0.5 rounded-md text-[#94a3b8]">
-                      {c.difficulty === 'easy' ? '😅 Light' : c.difficulty === 'hard' ? '😤 Overloaded' : '💪 Optimal'}
+                      {c.difficulty === 'easy' ? 'Light' : c.difficulty === 'hard' ? 'Overloaded' : 'Optimal'}
                     </span>
                   )}
                   {c.soreness && (
                     <span className="text-[10px] font-bold bg-[#1b2a42] border border-[#172744] px-2 py-0.5 rounded-md text-[#94a3b8]">
-                      {c.soreness === 'sore' ? '😣 High Fatigue' : c.soreness === 'fresh' ? '😌 Fresh' : '⚡ Normal DOMS'}
+                      {c.soreness === 'sore' ? 'High Fatigue' : c.soreness === 'fresh' ? 'Fresh' : 'Normal DOMS'}
                     </span>
                   )}
                   {c.dietRating && (
                     <span className="text-[10px] font-bold bg-[#1b2a42] border border-[#172744] px-2 py-0.5 rounded-md text-[#94a3b8]">
-                      {c.dietRating === 'on_track' ? '🥗 Diet 100%' : '🥪 Diet 80%'}
+                      {c.dietRating === 'on_track' ? 'Diet 100%' : 'Diet 80%'}
                     </span>
                   )}
                   {c.photos && c.photos.length > 0 && (
-                    <span className="text-[10px] font-bold bg-[#38bdf8]/15 border border-[#38bdf8]/30 px-2 py-0.5 rounded-md text-[#38bdf8]">
-                      📸 {c.photos.length} photo{c.photos.length > 1 ? 's' : ''}
+                    <span className="text-[10px] font-bold bg-[#38bdf8]/15 border border-[#38bdf8]/30 px-2 py-0.5 rounded-md text-[#38bdf8] flex items-center gap-1">
+                      <Camera size={11} /> {c.photos.length} photo{c.photos.length > 1 ? 's' : ''}
                     </span>
                   )}
                 </div>
@@ -334,7 +335,10 @@ export default function StatsPage() {
                   <p className="text-[11px] text-[#71829d] italic leading-relaxed">"{c.notes}"</p>
                 )}
                 {c.aiInsight && (
-                  <p className="text-[11px] text-[#38bdf8] font-bold mt-1.5">💡 {c.aiInsight}</p>
+                  <p className="text-[11px] text-[#38bdf8] font-bold mt-1.5 flex items-center gap-1.5">
+                    <Sparkles size={12} className="shrink-0" />
+                    <span>{c.aiInsight}</span>
+                  </p>
                 )}
               </div>
             ))}
@@ -359,8 +363,9 @@ export default function StatsPage() {
             <h2 className={sectionTitleStyle}>Weight Trend</h2>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="px-2.5 py-1 bg-[#121c2e] border border-[#1e3256] rounded-lg text-xs font-black text-[#fbbf24]">
-              🎯 82
+            <div className="px-2.5 py-1 bg-[#121c2e] border border-[#1e3256] rounded-lg text-xs font-black text-[#fbbf24] flex items-center gap-1">
+              <Target size={12} />
+              <span>82</span>
             </div>
             <button
               onClick={() => setShowLogWeight(true)}

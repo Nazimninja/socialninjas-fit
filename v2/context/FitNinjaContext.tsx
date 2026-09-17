@@ -204,16 +204,16 @@ export type Action =
 
 // ── Default badges ─────────────────────────────────────────────────────────
 const defaultBadges: Badge[] = [
-  { id: 'first_workout',   name: 'First Rep',       description: 'Log your first workout',        icon: '🏋️', unlocked: false, progress: 0, category: 'milestone' },
-  { id: 'week_streak',     name: 'Week Warrior',    description: '7-day workout streak',          icon: '🔥', unlocked: false, progress: 0, category: 'consistency' },
-  { id: 'month_streak',    name: 'Iron Discipline', description: '30-day workout streak',         icon: '⚔️', unlocked: false, progress: 0, category: 'consistency' },
-  { id: 'volume_1000',     name: 'Volume King',     description: 'Lift 1,000 kg total volume',   icon: '👑', unlocked: false, progress: 0, category: 'volume' },
-  { id: 'volume_10000',    name: 'Volume God',      description: 'Lift 10,000 kg total volume',  icon: '🏆', unlocked: false, progress: 0, category: 'volume' },
-  { id: 'workouts_10',     name: 'Getting Serious', description: 'Complete 10 workouts',         icon: '💪', unlocked: false, progress: 0, category: 'milestone' },
-  { id: 'workouts_50',     name: 'Dedicated Ninja', description: 'Complete 50 workouts',         icon: '🥷', unlocked: false, progress: 0, category: 'milestone' },
-  { id: 'first_checkin',   name: 'Self Aware',      description: 'Complete your first check-in', icon: '📊', unlocked: false, progress: 0, category: 'milestone' },
-  { id: 'score_50',        name: 'Fit Starter',     description: 'Reach a fitness score of 50',  icon: '⭐', unlocked: false, progress: 0, category: 'strength' },
-  { id: 'score_80',        name: 'Elite Ninja',     description: 'Reach a fitness score of 80',  icon: '🌟', unlocked: false, progress: 0, category: 'strength' },
+  { id: 'first_workout',   name: 'First Rep',       description: 'Log your first workout',        icon: 'dumbbell', unlocked: false, progress: 0, category: 'milestone' },
+  { id: 'week_streak',     name: 'Week Warrior',    description: '7-day workout streak',          icon: 'flame', unlocked: false, progress: 0, category: 'consistency' },
+  { id: 'month_streak',    name: 'Iron Discipline', description: '30-day workout streak',         icon: 'shield', unlocked: false, progress: 0, category: 'consistency' },
+  { id: 'volume_1000',     name: 'Volume King',     description: 'Lift 1,000 kg total volume',   icon: 'crown', unlocked: false, progress: 0, category: 'volume' },
+  { id: 'volume_10000',    name: 'Volume God',      description: 'Lift 10,000 kg total volume',  icon: 'trophy', unlocked: false, progress: 0, category: 'volume' },
+  { id: 'workouts_10',     name: 'Getting Serious', description: 'Complete 10 workouts',         icon: 'target', unlocked: false, progress: 0, category: 'milestone' },
+  { id: 'workouts_50',     name: 'Dedicated Athlete', description: 'Complete 50 workouts',       icon: 'bolt', unlocked: false, progress: 0, category: 'milestone' },
+  { id: 'first_checkin',   name: 'Self Aware',      description: 'Complete your first check-in', icon: 'chart', unlocked: false, progress: 0, category: 'milestone' },
+  { id: 'score_50',        name: 'Fit Starter',     description: 'Reach a fitness score of 50',  icon: 'star', unlocked: false, progress: 0, category: 'strength' },
+  { id: 'score_80',        name: 'Elite Tier',      description: 'Reach a fitness score of 80',  icon: 'sparkles', unlocked: false, progress: 0, category: 'strength' },
 ];
 
 // ── TDEE + macro calculator ────────────────────────────────────────────────
