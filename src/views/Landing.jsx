@@ -665,154 +665,317 @@ export default function Landing() {
         </section>
 
         {/* ── PRICING SECTION ───────────────────────────────────────── */}
-        <section id="pricing" className="pricing-sec" style={{ maxWidth: '840px', margin: '0 auto 80px', textAlign: 'center' }}>
-          <h2 className="section-h2" style={{ fontSize: '34px', fontWeight: '900', color: '#fff', marginBottom: '10px' }}>
-            Simple, Fair Pricing
-          </h2>
-          <p className="section-sub" style={{ fontSize: '15px', color: '#94a3b8', marginBottom: '32px' }}>
-            Get elite fitness technology at less than the cost of a single gym energy drink per week.
-          </p>
-
-          <div className="pricing-box" style={{
-            background: 'linear-gradient(145deg, rgba(13, 20, 36, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%)',
-            border: '1px solid rgba(56, 189, 248, 0.35)',
-            borderTop: '1px solid rgba(56, 189, 248, 0.7)',
-            borderRadius: '28px',
-            padding: '42px 32px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(56, 189, 248, 0.1)',
-            position: 'relative'
-          }}>
+        <section id="pricing" className="pricing-sec" style={{ maxWidth: '1060px', margin: '0 auto 90px', padding: '0 16px' }}>
+          
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <div style={{
-              position: 'absolute',
-              top: '-13px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-              color: '#ffffff',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(56, 189, 248, 0.1)',
+              border: '1px solid rgba(56, 189, 248, 0.25)',
+              borderRadius: '99px',
+              padding: '4px 14px',
               fontSize: '11px',
               fontWeight: '900',
-              padding: '5px 18px',
-              borderRadius: '20px',
-              letterSpacing: '0.8px',
-              boxShadow: '0 4px 12px rgba(56, 189, 248, 0.4)'
-            }}>
-              ALL-INCLUSIVE PRO
-            </div>
-
-            <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '8px 0 4px' }}>Fit Ninja Pro</h3>
-            <div style={{ fontSize: '48px', fontWeight: '900', color: '#fff', margin: '16px 0' }}>
-              ₹399 <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '600' }}>/ month</span>
-            </div>
-
-            {/* Value comparison pill */}
-            <div style={{
-              display: 'inline-block',
-              background: 'rgba(56, 189, 248, 0.08)',
-              border: '1px solid rgba(56, 189, 248, 0.25)',
-              borderRadius: '12px',
-              padding: '6px 16px',
-              fontSize: '12px',
               color: '#38bdf8',
-              fontWeight: '700',
-              marginBottom: '24px'
+              letterSpacing: '0.8px',
+              textTransform: 'uppercase',
+              marginBottom: '12px'
             }}>
-              Just ₹13/day · Cancel anytime with 1 tap · Zero hidden fees
+              TRANSPARENT PRICING
             </div>
+            <h2 className="section-h2" style={{ fontSize: 'clamp(28px, 4.5vw, 42px)', fontWeight: '900', letterSpacing: '-1px', color: '#fff', margin: '0 0 12px' }}>
+              Invest In Real Results. Not Gym Fluff.
+            </h2>
+            <p className="section-sub" style={{ fontSize: '15px', color: '#94a3b8', maxWidth: '620px', margin: '0 auto' }}>
+              Everything you need to master your form, track your overload, and hit your body transformation goals — for less than a cup of chai a day.
+            </p>
+          </div>
 
-            <ul className="pricing-features-list" style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: '0 auto 30px',
-              maxWidth: '540px',
-              textAlign: 'left',
-              display: 'grid',
-              gap: '12px',
-              fontSize: '14px',
-              color: '#f1f5f9'
-            }}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Full access to 5,300+ animated exercises &amp; looping 60fps HD form guides</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Personalized workout &amp; diet plan (High-Protein, Veg, Non-Veg, Vegan, Keto)</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Distraction-free full-screen rest timer with sound chimes, haptics &amp; screen lock</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Smart "Lift Heavier" suggestions to build strength steadily without plateaus</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Visual muscle recovery heatmap (front and back body analysis)</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>Practical food logging with realistic calorie estimates &amp; kitchen scale tips</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Check size={18} color="#38bdf8" strokeWidth={3} />
-                <span>100% offline gym basement mode + automatic cloud backup via email</span>
-              </li>
-            </ul>
-
-            {/* Value Comparison Box */}
+          {/* 2-Card Plan Comparison Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '26px', alignItems: 'stretch', marginBottom: '48px' }}>
+            
+            {/* Card 1: Free Starter */}
             <div style={{
-              margin: '0 auto 24px',
-              maxWidth: '540px',
-              background: 'rgba(15, 23, 42, 0.7)',
-              border: '1px solid rgba(56, 189, 248, 0.2)',
-              borderRadius: '18px',
-              padding: '16px 20px',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '14px',
-              textAlign: 'left'
+              background: 'rgba(13, 20, 36, 0.7)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '28px',
+              padding: '36px 28px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              boxShadow: '0 16px 40px rgba(0,0,0,0.5)'
             }}>
               <div>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '8px' }}>Personal Gym Trainer</div>
-                <div style={{ fontSize: '11.5px', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> ₹3,000–₹8,000 / mo</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> Unavailable at off-hours</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> No video guides to check</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><X size={13} color="#f43f5e" /> Generic paper diet charts</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '900', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.8px', background: 'rgba(255,255,255,0.06)', padding: '4px 10px', borderRadius: '6px' }}>
+                    BASIC ACCESS
+                  </span>
+                </div>
+
+                <h3 style={{ fontSize: '24px', fontWeight: '800', color: '#fff', margin: '0 0 8px' }}>Starter Pass</h3>
+                <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, margin: '0 0 20px' }}>
+                  Essential manual workout and set tracking for casual gym goers.
+                </p>
+
+                <div style={{ marginBottom: '24px' }}>
+                  <span style={{ fontSize: '42px', fontWeight: '900', color: '#fff' }}>₹0</span>
+                  <span style={{ fontSize: '14px', color: '#64748b', fontWeight: '600', marginLeft: '4px' }}>/ Free Forever</span>
+                </div>
+
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '20px', marginBottom: '28px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '14px' }}>
+                    WHAT'S INCLUDED:
+                  </div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', fontSize: '13.5px', color: '#94a3b8' }}>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Check size={16} color="#38bdf8" strokeWidth={2.5} />
+                      <span>50+ Essential exercise tutorials</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Check size={16} color="#38bdf8" strokeWidth={2.5} />
+                      <span>Manual workout set &amp; rep logger</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Check size={16} color="#38bdf8" strokeWidth={2.5} />
+                      <span>Standard rest countdown timer</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Check size={16} color="#38bdf8" strokeWidth={2.5} />
+                      <span>100% Local offline device storage</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#64748b' }}>
+                      <X size={16} color="#64748b" strokeWidth={2} />
+                      <span style={{ textDecoration: 'line-through' }}>5,300+ 60FPS looping video form guides</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#64748b' }}>
+                      <X size={16} color="#64748b" strokeWidth={2} />
+                      <span style={{ textDecoration: 'line-through' }}>Automatic "Lift Heavier" overload engine</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#64748b' }}>
+                      <X size={16} color="#64748b" strokeWidth={2} />
+                      <span style={{ textDecoration: 'line-through' }}>Custom workout split &amp; diet plan</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '8px' }}>Fit Ninja Pro</div>
-                <div style={{ fontSize: '11.5px', color: '#cbd5e1', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> Just ₹399 / mo (₹13/day)</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> 24/7 on your phone</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> 5,300+ animated videos</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Check size={13} color="#38bdf8" /> Custom meals updated anytime</div>
-                </div>
-              </div>
+
+              <button
+                onClick={() => nav('/app')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  padding: '14px 20px',
+                  borderRadius: '99px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s'
+                }}
+              >
+                Launch Free Version →
+              </button>
             </div>
 
-            <button
-              onClick={() => nav('/app?mode=signup')}
-              className="landing-glow-button"
-              style={{
-                width: '100%',
-                maxWidth: '460px',
+            {/* Card 2: Fit Ninja Pro (HERO CARD) */}
+            <div style={{
+              background: 'linear-gradient(155deg, rgba(15, 23, 42, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%)',
+              border: '2px solid rgba(56, 189, 248, 0.6)',
+              borderRadius: '28px',
+              padding: '36px 28px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              position: 'relative',
+              boxShadow: '0 22px 60px -10px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.25)'
+            }}>
+              
+              {/* Most Popular Floating Pill */}
+              <div style={{
+                position: 'absolute',
+                top: '-14px',
+                left: '50%',
+                transform: 'translateX(-50%)',
                 background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
                 color: '#031024',
+                fontSize: '11px',
                 fontWeight: '900',
-                fontSize: '16px',
-                padding: '16px',
+                padding: '5px 18px',
                 borderRadius: '99px',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 8px 24px rgba(56, 189, 248, 0.4)'
-              }}
-            >
-              Start Fit Ninja Pro →
-            </button>
+                letterSpacing: '0.8px',
+                boxShadow: '0 4px 14px rgba(56, 189, 248, 0.45)',
+                whiteSpace: 'nowrap'
+              }}>
+                MOST POPULAR · SAVE 60%
+              </div>
+
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', padding: '4px 10px', borderRadius: '6px' }}>
+                    FULL UNLIMITED SUITE
+                  </span>
+                </div>
+
+                <h3 style={{ fontSize: '26px', fontWeight: '900', color: '#fff', margin: '0 0 8px' }}>Fit Ninja Pro</h3>
+                <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: 1.5, margin: '0 0 16px' }}>
+                  The complete gym companion with 5,300+ guides, guided sets, and custom nutrition.
+                </p>
+
+                {/* Pricing & Micro-cost */}
+                <div style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                    <span style={{ fontSize: '18px', color: '#64748b', textDecoration: 'line-through', fontWeight: '700' }}>₹999</span>
+                    <span style={{ fontSize: '46px', fontWeight: '900', color: '#fff', letterSpacing: '-1px' }}>₹399</span>
+                    <span style={{ fontSize: '15px', color: '#94a3b8', fontWeight: '700' }}>/ month</span>
+                  </div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '8px', padding: '4px 10px', marginTop: '6px' }}>
+                    <span style={{ fontSize: '11.5px', fontWeight: '800', color: '#38bdf8' }}>Just ₹13/day</span>
+                    <span style={{ color: '#64748b' }}>•</span>
+                    <span style={{ fontSize: '11px', color: '#cbd5e1', fontWeight: '600' }}>Cancel anytime in 1 tap</span>
+                  </div>
+                </div>
+
+                {/* Feature List */}
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', marginBottom: '28px' }}>
+                  <div style={{ fontSize: '11px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '14px' }}>
+                    EVERYTHING YOU UNLOCK:
+                  </div>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', fontSize: '13.5px', color: '#f1f5f9' }}>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell, dumbbell, cable &amp; machine lift</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Automatic "Lift Heavier" Engine</strong> that prompts exactly when to add +1 kg to +2.5 kg</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Personalized 7-Day Workout &amp; Meal Plan</strong> (High-Protein, Veg, Non-Veg, Keto)</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Distraction-Free Rest Timer</strong> with screen lock &amp; sound alerts</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>Muscle Fatigue &amp; Recovery Heatmap</strong> (anatomical front &amp; back analysis)</span>
+                    </li>
+                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                {/* High-Contrast Primary CTA Button */}
+                <button
+                  onClick={() => nav('/app?mode=signup')}
+                  className="btn-glow"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    padding: '16px 24px',
+                    borderRadius: '99px',
+                    background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+                    color: '#031024',
+                    fontSize: '15.5px',
+                    fontWeight: '900',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0 6px 22px rgba(56, 189, 248, 0.45)',
+                    transition: 'transform 0.15s, box-shadow 0.2s'
+                  }}
+                >
+                  Unlock Pro Pass (₹399/mo) →
+                </button>
+
+                {/* Trust Badges */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '14px', marginTop: '14px', fontSize: '11px', color: '#94a3b8' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <ShieldCheck size={12} color="#22c55e" />
+                    256-Bit SSL Encrypted
+                  </span>
+                  <span>•</span>
+                  <span>Razorpay Secured</span>
+                  <span>•</span>
+                  <span>Instant Activation</span>
+                </div>
+              </div>
+
+            </div>
+
           </div>
+
+          {/* Separate, Elegant ROI Comparison Box (Not Stuffed Inside Card!) */}
+          <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '22px', padding: '26px 30px', marginTop: '20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <h4 style={{ fontSize: '16px', fontWeight: '800', color: '#fff', margin: '0 0 6px' }}>
+                Why Athletes Choose Fit Ninja Over A Personal Trainer
+              </h4>
+              <p style={{ fontSize: '13px', color: '#94a3b8', margin: 0 }}>
+                Save over ₹4,500 every single month with professional video guides &amp; automatic progression always in your pocket.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', textAlign: 'left' }}>
+              {/* Left: In-Person Trainer */}
+              <div style={{ background: 'rgba(244, 63, 94, 0.05)', border: '1px solid rgba(244, 63, 94, 0.2)', borderRadius: '16px', padding: '18px 20px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '900', color: '#f43f5e', textTransform: 'uppercase', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <X size={15} color="#f43f5e" />
+                  In-Person Gym Trainer
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '8px', fontSize: '12.5px', color: '#94a3b8' }}>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#f43f5e', fontWeight: 900 }}>✕</span> ₹3,000 to ₹8,000 every month
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#f43f5e', fontWeight: 900 }}>✕</span> Unavailable if you train early morning or late night
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#f43f5e', fontWeight: 900 }}>✕</span> No video form demos to check when training alone
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#f43f5e', fontWeight: 900 }}>✕</span> Generic handwritten or copied diet charts
+                  </li>
+                </ul>
+              </div>
+
+              {/* Right: Fit Ninja Pro */}
+              <div style={{ background: 'rgba(56, 189, 248, 0.06)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '16px', padding: '18px 20px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Check size={15} color="#38bdf8" strokeWidth={2.5} />
+                  Fit Ninja Pro
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '8px', fontSize: '12.5px', color: '#e2e8f0' }}>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#38bdf8', fontWeight: 900 }}>✓</span> Just ₹399/mo (₹13/day) — save thousands
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#38bdf8', fontWeight: 900 }}>✓</span> Ready 24/7 in your pocket wherever you train
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#38bdf8', fontWeight: 900 }}>✓</span> 5,300+ 60fps HD video guides for every lift
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#38bdf8', fontWeight: 900 }}>✓</span> Custom workout splits &amp; exact macro nutrition
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </section>
 
         {/* ── FAQ SECTION ───────────────────────────────────────────── */}
