@@ -1493,7 +1493,7 @@ footer {
       </p>
     </div>
 
-    <div class="values-grid">
+    <div class="values-grid mobile-swipe-grid" id="values-swipe-track">
       <!-- Value 1: 5,300+ Looping Form Guides -->
       <div class="value-card">
         <div class="value-icon-wrap">
@@ -1566,9 +1566,16 @@ footer {
         <span class="value-badge">Works Anywhere</span>
       </div>
     </div>
+    <!-- Mobile Swipe Indicator Dots -->
+    <div class="mobile-swipe-hint" id="values-swipe-dots">
+      <button type="button" aria-label="Slide 1" class="swipe-dot active"></button>
+      <button type="button" aria-label="Slide 2" class="swipe-dot"></button>
+      <button type="button" aria-label="Slide 3" class="swipe-dot"></button>
+      <button type="button" aria-label="Slide 4" class="swipe-dot"></button>
+      <button type="button" aria-label="Slide 5" class="swipe-dot"></button>
+      <button type="button" aria-label="Slide 6" class="swipe-dot"></button>
+    </div>
   </section>
-
-  
 
   <!-- ── 5,300+ HD EXERCISE SHOWCASE ── -->
   <section class="ex-showcase-sec" id="library" style="max-width: 1200px; margin: 0 auto 80px; padding: 0 4px;">
@@ -2247,6 +2254,7 @@ function initSwipeDots(trackId, dotsId) {
   });
 }
 
+initSwipeDots('values-swipe-track', 'values-swipe-dots');
 initSwipeDots('exercise-swipe-track', 'exercise-swipe-dots');
 </script>
 

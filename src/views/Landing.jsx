@@ -9,6 +9,8 @@ export default function Landing() {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeCategoryDot, setActiveCategoryDot] = useState(0);
   const [activeExerciseDot, setActiveExerciseDot] = useState(0);
+  const [activeValueDot, setActiveValueDot] = useState(0);
+  const valuesTrackRef = useRef(null);
   const catTrackRef = useRef(null);
   const exTrackRef = useRef(null);
 
@@ -440,11 +442,11 @@ export default function Landing() {
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '20px'
-          }}>
+          <div
+            ref={valuesTrackRef}
+            onScroll={handleTrackScroll(setActiveValueDot)}
+            className="values-grid mobile-swipe-grid"
+          >
             {values.map((v, idx) => (
               <div
                 key={idx}
@@ -496,6 +498,19 @@ export default function Landing() {
                   {v.badge}
                 </div>
               </div>
+            ))}
+          </div>
+
+          {/* Mobile Swipe Indicator Dots */}
+          <div className="mobile-swipe-hint">
+            {values.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Slide ${idx + 1}`}
+                className={`swipe-dot ${activeValueDot === idx ? 'active' : ''}`}
+                onClick={() => scrollToCard(valuesTrackRef, idx)}
+              />
             ))}
           </div>
         </section>
