@@ -1991,7 +1991,7 @@ footer {
     </div>
 
     <!-- 3-Way ROI Comparison Matrix -->
-    <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 22px; padding: 30px 28px;">
+    <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 22px; padding: 30px 20px;">
       <div style="text-align: center; margin-bottom: 24px;">
         <h4 style="font-size: 18px; font-weight: 800; color: #fff; margin: 0 0 6px;">
           Why Athletes Choose Fit Ninja Over In-Person Trainers &amp; Free Apps
@@ -2001,75 +2001,156 @@ footer {
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; text-align: left;">
-        <!-- Option A: In-Person Gym Trainer -->
-        <div style="background: rgba(244, 63, 94, 0.05); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 16px; padding: 20px;">
-          <div style="font-size: 13px; font-weight: 900; color: #f43f5e; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            In-Person Gym Trainer
+      <!-- Swipeable track on mobile / 3-column grid on desktop -->
+      <div id="compare-swipe-track" class="mobile-swipe-grid" style="text-align: left; align-items: stretch;">
+        
+        <!-- Option 1: Fit Ninja Pro (First!) -->
+        <div style="background: linear-gradient(160deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(56, 189, 248, 0.55); border-top: 2px solid #38bdf8; border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 12px 30px rgba(56, 189, 248, 0.12); position: relative; height: 100%; box-sizing: border-box;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <div style="font-size: 13.5px; fontWeight: 900; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              Fit Ninja Pro
+            </div>
+            <span style="font-size: 10px; font-weight: 900; color: #031024; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); padding: 3px 8px; border-radius: 99px; letter-spacing: 0.4px; text-transform: uppercase;">
+              BEST VALUE
+            </span>
           </div>
-          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; font-size: 12.5px; color: #94a3b8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #f43f5e; font-weight: 900;">✕</span> ₹3,000 to ₹8,000 every single month
+          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; font-size: 12.5px; color: #e2e8f0; line-height: 1.5;">
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <span><strong>Just ₹399/mo (₹13/day)</strong> — save ₹4,500+ every single month</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #f43f5e; font-weight: 900;">✕</span> Unavailable during early morning or late workouts
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <span><strong>100% Offline Mode:</strong> works in gym basements with 0 signal</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #f43f5e; font-weight: 900;">✕</span> No video form reference when training solo
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell &amp; dumbbell lift</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #f43f5e; font-weight: 900;">✕</span> Generic photocopied diet charts
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <span><strong>Auto Progressive Overload:</strong> prompts when to add +1 to +2.5 kg</span>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <span><strong>100% Ad-Free:</strong> zero set interruptions &amp; 1-tap cancellation</span>
             </li>
           </ul>
         </div>
 
-        <!-- Option B: Generic "Free" Gym Apps -->
-        <div style="background: rgba(234, 179, 8, 0.05); border: 1px solid rgba(234, 179, 8, 0.2); border-radius: 16px; padding: 20px;">
-          <div style="font-size: 13px; font-weight: 900; color: #eab308; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            Generic "Free" Apps
+        <!-- Option 2: In-Person Gym Trainer -->
+        <div style="background: rgba(244, 63, 94, 0.04); border: 1px solid rgba(244, 63, 94, 0.25); border-top: 2px solid rgba(244, 63, 94, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <div style="font-size: 13.5px; font-weight: 900; color: #f43f5e; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              In-Person Trainer
+            </div>
+            <span style="font-size: 10px; font-weight: 800; color: #f43f5e; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.25); padding: 3px 8px; border-radius: 99px; letter-spacing: 0.4px;">
+              ₹3,000–8,000/MO
+            </span>
           </div>
-          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; font-size: 12.5px; color: #94a3b8;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #eab308; font-weight: 900;">✕</span> Intrusive video ads interrupting your rest intervals
+          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;">
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>₹3,000 to ₹8,000 every month</strong> — 10x to 20x higher cost</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #eab308; font-weight: 900;">✕</span> Freezes in basement gyms without internet reception
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Unavailable during odd hours:</strong> early mornings or late nights</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #eab308; font-weight: 900;">✕</span> Lock 90% of exercises behind sudden paywalls
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>No Video Form Guides:</strong> zero reference when training solo</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #eab308; font-weight: 900;">✕</span> Zero automatic weight progression guidance
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Generic photocopied diet charts:</strong> not personalized to macros</span>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0, margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>No automated progressive tracking:</strong> relying on guesswork</span>
             </li>
           </ul>
         </div>
 
-        <!-- Option C: Fit Ninja Pro -->
-        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 16px; padding: 20px;">
-          <div style="font-size: 13px; font-weight: 900; color: #38bdf8; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            Fit Ninja Pro
+        <!-- Option 3: Generic "Free" Gym Apps -->
+        <div style="background: rgba(234, 179, 8, 0.04); border: 1px solid rgba(234, 179, 8, 0.25); border-top: 2px solid rgba(234, 179, 8, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <div style="font-size: 13.5px; font-weight: 900; color: #eab308; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              Generic "Free" Apps
+            </div>
+            <span style="font-size: 10px; font-weight: 800; color: #eab308; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.25); padding: 3px 8px; border-radius: 99px; letter-spacing: 0.4px;">
+              AD-SUPPORTED
+            </span>
           </div>
-          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; font-size: 12.5px; color: #e2e8f0;">
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #38bdf8; font-weight: 900;">✓</span> Just ₹399/mo (₹13/day) — save thousands compared to a trainer
+          <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;">
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Intrusive Video Ads:</strong> interrupt your rest intervals &amp; workout flow</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #38bdf8; font-weight: 900;">✓</span> 100% offline mode: works underground with 0 signal
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Freezes Underground:</strong> fails in basement gyms with zero reception</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #38bdf8; font-weight: 900;">✓</span> 5,300+ 60FPS video guides for every gym lift
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Sudden Paywalls:</strong> lock 90% of exercises and tracking behind fees</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #38bdf8; font-weight: 900;">✓</span> Auto progression prompts: +1 kg to +2.5 kg exactly
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Zero Progressive Overload:</strong> no guidance on weight increase</span>
             </li>
-            <li style="display: flex; align-items: center; gap: 8px;">
-              <span style="color: #38bdf8; font-weight: 900;">✓</span> 100% ad-free with 1-tap cancellation in profile
+            <li style="display: flex; align-items: flex-start; gap: 10px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </div>
+              <span><strong>Data Privacy Risk:</strong> collects and monetizes your health data</span>
             </li>
           </ul>
         </div>
+      </div>
+
+      <!-- Mobile Swipe Indicator Dots -->
+      <div id="compare-swipe-dots" class="mobile-swipe-hint" style="margin-top: 18px; margin-bottom: 2px;">
+        <button type="button" aria-label="Option 1" class="swipe-dot active"></button>
+        <button type="button" aria-label="Option 2" class="swipe-dot"></button>
+        <button type="button" aria-label="Option 3" class="swipe-dot"></button>
       </div>
     </div>
 
@@ -2434,6 +2515,7 @@ function initSwipeDots(trackId, dotsId) {
 
 initSwipeDots('values-swipe-track', 'values-swipe-dots');
 initSwipeDots('exercise-swipe-track', 'exercise-swipe-dots');
+initSwipeDots('compare-swipe-track', 'compare-swipe-dots');
 </script>
 
 </body>
