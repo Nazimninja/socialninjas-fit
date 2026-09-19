@@ -140,8 +140,8 @@ export default function Landing() {
 
   return (
     <div style={{
-      background: '#040711',
-      backgroundImage: 'radial-gradient(1200px circle at 50% 8%, rgba(56, 189, 248, 0.12), rgba(56, 189, 248, 0.08) 30%, transparent 75%)',
+      background: '#000000',
+      backgroundImage: 'radial-gradient(1000px circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 65%)',
       color: '#fff',
       minHeight: '100vh',
       fontFamily: "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif",
@@ -153,7 +153,7 @@ export default function Landing() {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: 'rgba(7, 11, 20, 0.85)',
+        background: 'rgba(12, 12, 14, 0.85)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
@@ -383,8 +383,9 @@ export default function Landing() {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
             gap: '14px',
-            background: 'rgba(13, 20, 36, 0.65)',
+            background: '#121215',
             border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.16)',
             borderRadius: '18px',
             padding: '16px 20px',
             maxWidth: '560px'
@@ -417,11 +418,11 @@ export default function Landing() {
 
       {/* ── ORGANIC CURVED CONTAINER SECTION ───────────────────────── */}
       <div style={{
-        background: 'linear-gradient(180deg, #090e1c 0%, #040711 100%)',
+        background: 'linear-gradient(180deg, #0a0a0c 0%, #000000 100%)',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         borderRadius: '44px 44px 0 0',
         padding: '70px 24px 40px',
-        boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.5)'
+        boxShadow: '0 -20px 50px rgba(0, 0, 0, 0.7)'
       }}>
 
         {/* ── CORE VALUE PILLARS (THE REAL VALUE WE PROVIDE) ──────── */}
@@ -462,13 +463,15 @@ export default function Landing() {
                 key={idx}
                 className="landing-card-hover"
                 style={{
-                  background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 14, 26, 0.95) 100%)',
+                  background: 'linear-gradient(150deg, #16161c 0%, #0e0e12 100%)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.16)',
                   borderRadius: '24px',
                   padding: '26px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '12px',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
                   transition: 'transform 0.25s, border-color 0.25s, box-shadow 0.25s'
                 }}
               >
@@ -708,12 +711,13 @@ export default function Landing() {
           {/* Single Focused Hero Plan Card */}
           <div style={{ maxWidth: '580px', margin: '0 auto 40px' }}>
             <div style={{
-              background: 'linear-gradient(155deg, rgba(15, 23, 42, 0.98) 0%, rgba(7, 11, 20, 0.99) 100%)',
-              border: '2px solid rgba(56, 189, 248, 0.65)',
+              background: 'linear-gradient(160deg, #16161c 0%, #0d0d10 100%)',
+              border: '1.5px solid rgba(56, 189, 248, 0.4)',
+              borderTop: '2.5px solid #38bdf8',
               borderRadius: '28px',
               padding: '42px 32px 34px',
               position: 'relative',
-              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.22)',
+              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.18)',
               textAlign: 'center'
             }}>
               
@@ -724,7 +728,7 @@ export default function Landing() {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-                color: '#031024',
+                color: '#000000',
                 fontSize: '11px',
                 fontWeight: '900',
                 padding: '6px 22px',
@@ -861,7 +865,7 @@ export default function Landing() {
           </div>
 
           {/* 3-Way ROI Comparison Matrix */}
-          <div style={{ background: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '22px', padding: '30px 20px' }}>
+          <div style={{ background: '#0c0c0e', border: '1px solid rgba(255, 255, 255, 0.08)', borderTop: '1px solid rgba(255, 255, 255, 0.16)', borderRadius: '22px', padding: '30px 20px' }}>
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <h4 style={{ fontSize: '18px', fontWeight: '800', color: '#fff', margin: '0 0 6px' }}>
                 Why Athletes Choose Fit Ninja Over In-Person Trainers &amp; Free Apps
@@ -880,15 +884,15 @@ export default function Landing() {
             >
               {/* Option 1: Fit Ninja Pro (First!) */}
               <div style={{
-                background: 'linear-gradient(160deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%)',
-                border: '1.5px solid rgba(56, 189, 248, 0.55)',
+                background: 'linear-gradient(160deg, rgba(56, 189, 248, 0.08) 0%, #121215 100%)',
+                border: '1.5px solid rgba(56, 189, 248, 0.35)',
                 borderTop: '2px solid #38bdf8',
                 borderRadius: '18px',
                 padding: '22px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
-                boxShadow: '0 12px 30px rgba(56, 189, 248, 0.12)',
+                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.08)',
                 position: 'relative',
                 height: '100%',
                 boxSizing: 'border-box'
@@ -900,7 +904,7 @@ export default function Landing() {
                     </div>
                     Fit Ninja Pro
                   </div>
-                  <span style={{ fontSize: '10px', fontWeight: '900', color: '#031024', background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)', padding: '3px 8px', borderRadius: '99px', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '10px', fontWeight: '900', color: '#000000', background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)', padding: '3px 8px', borderRadius: '99px', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
                     BEST VALUE
                   </span>
                 </div>
@@ -940,8 +944,8 @@ export default function Landing() {
 
               {/* Option 2: In-Person Gym Trainer */}
               <div style={{
-                background: 'rgba(244, 63, 94, 0.04)',
-                border: '1px solid rgba(244, 63, 94, 0.25)',
+                background: '#121215',
+                border: '1px solid rgba(244, 63, 94, 0.22)',
                 borderTop: '2px solid rgba(244, 63, 94, 0.7)',
                 borderRadius: '18px',
                 padding: '22px 20px',
@@ -998,8 +1002,8 @@ export default function Landing() {
 
               {/* Option 3: Generic "Free" Gym Apps */}
               <div style={{
-                background: 'rgba(234, 179, 8, 0.04)',
-                border: '1px solid rgba(234, 179, 8, 0.25)',
+                background: '#121215',
+                border: '1px solid rgba(234, 179, 8, 0.22)',
                 borderTop: '2px solid rgba(234, 179, 8, 0.7)',
                 borderRadius: '18px',
                 padding: '22px 20px',
@@ -1088,8 +1092,9 @@ export default function Landing() {
                 key={idx}
                 onClick={() => toggleFaq(idx)}
                 style={{
-                  background: 'rgba(13, 20, 36, 0.75)',
+                  background: '#121215',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.14)',
                   borderRadius: '18px',
                   padding: '18px 22px',
                   cursor: 'pointer',

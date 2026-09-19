@@ -1220,8 +1220,9 @@ html {
 
 /* ── EXERCISE SHOWCASE GRID (SPA) ── */
 .ex-preview-card {
-  background: rgba(13, 20, 36, 0.75);
+  background: #121215;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 22px;
   padding: 12px;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s;
@@ -1256,7 +1257,7 @@ html {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(18, 18, 21, 0.92);
   color: #38bdf8;
   border: 1px solid rgba(56, 189, 248, 0.35);
   font-size: 9.5px;
@@ -1269,7 +1270,7 @@ html {
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(18, 18, 21, 0.92);
   color: #94a3b8;
   font-size: 9px;
   font-weight: 800;
@@ -1398,8 +1399,8 @@ html {
     padding: 6px 14px !important;
     font-size: 10px !important;
     letter-spacing: 0.4px !important;
-    background: rgba(7, 11, 20, 0.95) !important;
-    border: 1px solid rgba(56, 189, 248, 0.6) !important;
+    background: rgba(12, 12, 14, 0.95) !important;
+    border: 1px solid rgba(56, 189, 248, 0.5) !important;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3) !important;
     white-space: nowrap !important;
   }
@@ -1413,10 +1414,9 @@ html {
     box-sizing: border-box !important;
   }
   .mobile-highlight-chip {
-    background: rgba(13, 20, 36, 0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(56, 189, 248, 0.25);
+    background: #121215;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 14px;
     padding: 10px 6px;
     display: flex;

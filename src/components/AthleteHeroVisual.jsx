@@ -158,13 +158,14 @@ export default function AthleteHeroVisual() {
           top: '25px',
           left: '0px',
           zIndex: 10,
-          background: 'rgba(13, 20, 36, 0.85)',
+          background: 'rgba(18, 18, 21, 0.92)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderTop: '1px solid rgba(56, 189, 248, 0.4)',
           borderRadius: '18px',
           padding: '14px 16px',
-          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.12)',
+          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1)',
           cursor: 'pointer',
           animation: 'floatSlow 4s ease-in-out infinite',
           transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s',
@@ -184,7 +185,7 @@ export default function AthleteHeroVisual() {
             justifyContent: 'center',
             boxShadow: '0 0 10px rgba(56, 189, 248, 0.4)'
           }}>
-            <Dumbbell size={14} color="#031024" />
+            <Dumbbell size={14} color="#000000" />
           </div>
           <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.5px', color: '#38bdf8', textTransform: 'uppercase' }}>
             Catalogue
@@ -192,7 +193,7 @@ export default function AthleteHeroVisual() {
         </div>
 
         <div style={{ fontSize: '20px', fontWeight: '900', color: '#fff', lineHeight: 1.1 }}>
-          1,324+
+          5,300+
         </div>
         <div style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600', marginTop: '2px' }}>
           Animated Demos
@@ -207,15 +208,15 @@ export default function AthleteHeroVisual() {
           top: '65px',
           right: '40px',
           zIndex: 10,
-          background: 'rgba(7, 10, 18, 0.9)',
+          background: 'rgba(12, 12, 14, 0.94)',
           backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(56, 189, 248, 0.4)',
+          border: '1px solid rgba(56, 189, 248, 0.35)',
           borderRadius: '99px',
           padding: '6px 14px',
           display: 'flex',
           alignItems: 'center',
           gap: '7px',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.8)',
           animation: 'floatMedium 5s ease-in-out infinite',
           animationDelay: '1s'
         }}
@@ -224,8 +225,8 @@ export default function AthleteHeroVisual() {
           width: '7px',
           height: '7px',
           borderRadius: '50%',
-          background: '#38bdf8',
-          boxShadow: '0 0 8px #38bdf8'
+          background: '#34d399',
+          boxShadow: '0 0 8px #34d399'
         }} />
         <span style={{ fontSize: '11px', fontWeight: '800', color: '#fff' }}>
           Live Workout Player
@@ -243,12 +244,13 @@ export default function AthleteHeroVisual() {
           bottom: '25px',
           left: '10px',
           zIndex: 10,
-          background: 'rgba(13, 20, 36, 0.85)',
+          background: 'rgba(18, 18, 21, 0.92)',
           backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.18)',
           borderRadius: '18px',
           padding: '12px 16px',
-          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)',
+          boxShadow: '0 12px 30px rgba(0, 0, 0, 0.7)',
           cursor: 'pointer',
           animation: 'floatSlow 4.5s ease-in-out infinite',
           animationDelay: '2s',
@@ -263,8 +265,8 @@ export default function AthleteHeroVisual() {
           width: '34px',
           height: '34px',
           borderRadius: '12px',
-          background: 'rgba(56, 189, 248, 0.15)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
+          background: 'rgba(56, 189, 248, 0.12)',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -292,11 +294,11 @@ export default function AthleteHeroVisual() {
           top: '160px',
           right: '-10px',
           zIndex: 10,
-          background: 'rgba(15, 23, 42, 0.92)',
+          background: 'rgba(18, 18, 21, 0.94)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(56, 189, 248, 0.35)',
-          borderTop: '1px solid rgba(56, 189, 248, 0.7)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderTop: '1px solid rgba(56, 189, 248, 0.5)',
           borderRadius: '20px',
           padding: '16px 18px',
           boxShadow: '0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.1)',

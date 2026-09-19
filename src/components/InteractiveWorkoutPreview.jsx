@@ -87,8 +87,8 @@ export default function InteractiveWorkoutPreview() {
         zIndex: 1,
         width: '100%',
         maxWidth: '390px',
-        background: '#07090e',
-        border: '9px solid #1a2333',
+        background: '#0c0c0e',
+        border: '9px solid #1a1a1f',
         borderRadius: '48px',
         boxShadow: '0 25px 65px -12px rgba(0,0,0,0.85), 0 0 40px rgba(56,189,248,0.18)',
         overflow: 'hidden',
@@ -96,7 +96,7 @@ export default function InteractiveWorkoutPreview() {
       }}>
 
         {/* Dynamic Island / Notch */}
-        <div style={{ background: '#07090e', paddingTop: '10px', paddingBottom: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ background: '#0c0c0e', paddingTop: '10px', paddingBottom: '4px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{
             width: '105px',
             height: '24px',
@@ -108,7 +108,7 @@ export default function InteractiveWorkoutPreview() {
             paddingRight: '10px',
             boxShadow: 'inset 0 0 4px rgba(255,255,255,0.1)'
           }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#0f172a', border: '1px solid #334155' }} />
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#121215', border: '1px solid rgba(255,255,255,0.12)' }} />
           </div>
         </div>
 
@@ -123,12 +123,13 @@ export default function InteractiveWorkoutPreview() {
         </div>
 
         {/* App Screen Content */}
-        <div style={{ padding: '10px 14px 20px', background: '#07090e', color: '#fff' }}>
+        <div style={{ padding: '10px 14px 20px', background: '#000000', color: '#fff' }}>
           
           {/* Top Workout Bar */}
           <div style={{
-            background: 'rgba(31,75,153,0.18)',
-            border: '1px solid rgba(56,189,248,0.3)',
+            background: '#121215',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderTop: '1px solid rgba(56,189,248,0.35)',
             borderRadius: '16px',
             padding: '10px 12px',
             display: 'flex',
@@ -168,8 +169,9 @@ export default function InteractiveWorkoutPreview() {
 
           {/* Exercise Card */}
           <div style={{
-            background: 'rgba(255,255,255,0.03)',
+            background: '#121215',
             border: '1px solid rgba(255,255,255,0.08)',
+            borderTop: '1px solid rgba(255,255,255,0.16)',
             borderRadius: '18px',
             padding: '12px',
             marginBottom: '12px'
@@ -233,7 +235,7 @@ export default function InteractiveWorkoutPreview() {
                 position: 'absolute',
                 top: '6px',
                 right: '6px',
-                background: 'rgba(15,23,42,0.85)',
+                background: 'rgba(18,18,21,0.92)',
                 color: '#38bdf8',
                 border: '1px solid rgba(56,189,248,0.3)',
                 fontSize: '8.5px',
@@ -247,7 +249,7 @@ export default function InteractiveWorkoutPreview() {
                 position: 'absolute',
                 bottom: '6px',
                 left: '6px',
-                background: 'rgba(15,23,42,0.85)',
+                background: 'rgba(18,18,21,0.92)',
                 color: '#94a3b8',
                 fontSize: '8.5px',
                 fontWeight: '800',
@@ -384,8 +386,9 @@ export default function InteractiveWorkoutPreview() {
 
           {/* Dynamic Rest Timer & Progression Notification Banner */}
           <div style={{
-            background: 'rgba(15,23,42,0.9)',
-            border: '1px solid rgba(56,189,248,0.3)',
+            background: '#121215',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderTop: '1px solid rgba(56,189,248,0.35)',
             borderRadius: '14px',
             padding: '10px 12px',
             marginBottom: '12px',
@@ -436,14 +439,15 @@ export default function InteractiveWorkoutPreview() {
 
           {/* Bottom Floating Dock Navigation (Authentic App Dock) */}
           <div style={{
-            background: 'rgba(15,23,42,0.92)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'rgba(18, 18, 21, 0.95)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderTop: '1px solid rgba(255,255,255,0.16)',
             borderRadius: '24px',
             padding: '6px 12px',
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+            boxShadow: '0 8px 24px rgba(0,0,0,0.6)'
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', color: '#64748b', fontSize: '9px', fontWeight: '700' }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
@@ -463,7 +467,7 @@ export default function InteractiveWorkoutPreview() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#031024',
+                color: '#000000',
                 boxShadow: '0 4px 14px rgba(56,189,248,0.45)'
               }}>
                 <Dumbbell size={18} />
@@ -483,7 +487,7 @@ export default function InteractiveWorkoutPreview() {
         </div>
 
         {/* Home Bar */}
-        <div style={{ background: '#07090e', paddingBottom: '8px', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ background: '#0c0c0e', paddingBottom: '8px', display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '120px', height: '4px', background: 'rgba(255,255,255,0.25)', borderRadius: '99px' }} />
         </div>
 

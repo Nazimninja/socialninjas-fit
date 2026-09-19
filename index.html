@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Fit Ninja">
 <meta property="og:locale" content="en_US">
 
-<meta name="theme-color" content="#040711">
+<meta name="theme-color" content="#000000">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png?v=20">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png?v=20">
@@ -61,9 +61,9 @@
 <style>
 /* ── BRAND TOKENS (FIT NINJA LUXURY ATMOSPHERE) ── */
 :root {
-  --bg: #040711;
-  --bg-card: rgba(13, 20, 36, 0.75);
-  --bg-card-hover: rgba(20, 30, 54, 0.85);
+  --bg: #000000;
+  --bg-card: #121215;
+  --bg-card-hover: #1a1a1f;
   
   --sky: #38bdf8;
   --cyan: #38bdf8;
@@ -94,8 +94,7 @@ body {
   font-family: var(--font);
   background-color: var(--bg);
   background-image: 
-    radial-gradient(1200px circle at 50% 8%, rgba(56, 189, 248, 0.12) 0%, rgba(56, 189, 248, 0.08) 32%, transparent 75%),
-    radial-gradient(800px circle at 85% 35%, rgba(56, 189, 248, 0.06) 0%, transparent 60%);
+    radial-gradient(1000px circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 65%);
   background-repeat: no-repeat;
   color: var(--t1);
   overflow-x: hidden;
@@ -114,7 +113,7 @@ a { color: inherit; text-decoration: none; }
   left: 0;
   right: 0;
   z-index: 999;
-  background: rgba(7, 11, 20, 0.82);
+  background: rgba(12, 12, 14, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -285,8 +284,9 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 14px;
-  background: rgba(13, 20, 36, 0.65);
+  background: #121215;
   border: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 18px;
   padding: 16px 20px;
   max-width: 560px;
@@ -335,7 +335,7 @@ a { color: inherit; text-decoration: none; }
   border: 2px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
   z-index: 1;
-  background: #0a0f1d;
+  background: #0c0c0e;
 }
 .athlete-portal img {
   width: 100%;
@@ -379,13 +379,14 @@ a { color: inherit; text-decoration: none; }
   top: 25px;
   left: 0;
   z-index: 10;
-  background: rgba(13, 20, 36, 0.88);
+  background: rgba(18, 18, 21, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glow);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(56, 189, 248, 0.4);
   border-radius: 18px;
   padding: 14px 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1);
   cursor: pointer;
   animation: floatSlow 4s ease-in-out infinite;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -400,15 +401,15 @@ a { color: inherit; text-decoration: none; }
   top: 65px;
   right: 35px;
   z-index: 10;
-  background: rgba(7, 10, 18, 0.92);
+  background: rgba(12, 12, 14, 0.94);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 99px;
   padding: 6px 14px;
   display: flex;
   align-items: center;
   gap: 7px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
   animation: floatMedium 5s ease-in-out infinite;
   animation-delay: 1s;
 }
@@ -418,12 +419,13 @@ a { color: inherit; text-decoration: none; }
   bottom: 25px;
   left: 10px;
   z-index: 10;
-  background: rgba(13, 20, 36, 0.88);
+  background: rgba(18, 18, 21, 0.92);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   padding: 12px 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
   cursor: pointer;
   animation: floatSlow 4.5s ease-in-out infinite;
   animation-delay: 2s;
@@ -441,11 +443,11 @@ a { color: inherit; text-decoration: none; }
   top: 150px;
   right: -10px;
   z-index: 10;
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(18, 18, 21, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-glow);
-  border-top: 1px solid rgba(56, 189, 248, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(56, 189, 248, 0.5);
   border-radius: 20px;
   padding: 16px 18px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.1);
@@ -460,11 +462,11 @@ a { color: inherit; text-decoration: none; }
 
 /* ── ORGANIC CURVED TRANSITION SECTION ── */
 .curved-shell {
-  background: linear-gradient(180deg, #090e1c 0%, #040711 100%);
+  background: linear-gradient(180deg, #0a0a0c 0%, #000000 100%);
   border-top: 1px solid var(--border);
   border-radius: 44px 44px 0 0;
   padding: 70px 24px 40px;
-  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.7);
 }
 
 /* ── VALUE PILLARS (THE VALUE FIT NINJA DELIVERS) ── */
@@ -479,8 +481,9 @@ a { color: inherit; text-decoration: none; }
   margin-top: 36px;
 }
 .value-card {
-  background: linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(9, 14, 26, 0.95) 100%);
+  background: linear-gradient(150deg, #16161c 0%, #0e0e12 100%);
   border: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--r-card);
   padding: 26px;
   display: flex;
@@ -488,6 +491,7 @@ a { color: inherit; text-decoration: none; }
   gap: 12px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s, box-shadow 0.25s;
 }
 .value-card:hover {
@@ -539,8 +543,9 @@ a { color: inherit; text-decoration: none; }
 .comparison-wrap {
   margin: 24px auto 0;
   max-width: 680px;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: #0c0c0e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 20px;
   padding: 18px 22px;
   display: grid;
@@ -826,8 +831,9 @@ a { color: inherit; text-decoration: none; }
   margin: 0 auto 80px;
 }
 .sandbox-card {
-  background: rgba(10, 15, 26, 0.95);
-  border: 1px solid var(--border-glow);
+  background: #0c0c0e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 24px;
   padding: 28px 24px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.06);
@@ -863,12 +869,12 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
 }
 .pricing-box {
-  background: linear-gradient(145deg, rgba(13, 20, 36, 0.95) 0%, rgba(7, 11, 20, 0.98) 100%);
-  border: 1px solid var(--border-glow);
-  border-top: 1px solid rgba(56, 189, 248, 0.7);
+  background: linear-gradient(160deg, #16161c 0%, #0d0d10 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  border-top: 2.5px solid #38bdf8;
   border-radius: 28px;
   padding: 42px 32px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(56, 189, 248, 0.1);
+  box-shadow: 0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.18);
   position: relative;
 }
 .pricing-ribbon {
@@ -1063,7 +1069,9 @@ footer {
     max-width: 100% !important;
     box-sizing: border-box !important;
     text-align: center !important;
-    background: rgba(13, 20, 36, 0.7) !important;
+    background: #121215 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
     border-radius: 20px !important;
   }
   .hero-metric-val {
@@ -1120,8 +1128,8 @@ footer {
     padding: 6px 14px !important;
     font-size: 10px !important;
     letter-spacing: 0.4px !important;
-    background: rgba(7, 11, 20, 0.95) !important;
-    border: 1px solid rgba(56, 189, 248, 0.6) !important;
+    background: rgba(12, 12, 14, 0.95) !important;
+    border: 1px solid rgba(56, 189, 248, 0.5) !important;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3) !important;
     white-space: nowrap !important;
   }
@@ -1137,10 +1145,9 @@ footer {
     box-sizing: border-box !important;
   }
   .mobile-highlight-chip {
-    background: rgba(13, 20, 36, 0.82);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(56, 189, 248, 0.25);
+    background: #121215;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 14px;
     padding: 10px 6px;
     display: flex;
