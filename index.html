@@ -169,19 +169,19 @@ a { color: inherit; text-decoration: none; }
 .nav-btn-primary {
   font-size: 13px;
   font-weight: 900;
-  color: #031024;
+  color: #000000;
   padding: 9px 20px;
   border-radius: 99px;
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
   border: none;
-  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.22);
   cursor: pointer;
   white-space: nowrap;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .nav-btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(56, 189, 248, 0.55);
+  box-shadow: 0 6px 22px rgba(255, 255, 255, 0.38);
 }
 
 /* ── HERO SECTION ── */
@@ -198,21 +198,22 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: #16161c;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 99px;
   padding: 6px 16px;
   font-size: 12px;
   font-weight: 800;
-  color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   margin-bottom: 22px;
 }
 .hero-pill-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
 }
 .hero-h1 {
   font-size: clamp(38px, 5.5vw, 64px);
@@ -223,7 +224,7 @@ a { color: inherit; text-decoration: none; }
   color: #ffffff;
 }
 .hero-h1 .grad-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 45%, #34d399 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -247,26 +248,26 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  color: #031024;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  color: #000000;
   font-size: 15px;
   font-weight: 900;
   padding: 14px 28px;
   border-radius: 99px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.25);
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .btn-glow:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 36px rgba(56, 189, 248, 0.55);
+  box-shadow: 0 10px 32px rgba(255, 255, 255, 0.38);
 }
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: #1a1a1f;
   color: #ffffff;
   font-size: 15px;
   font-weight: 700;
@@ -870,11 +871,11 @@ a { color: inherit; text-decoration: none; }
 }
 .pricing-box {
   background: linear-gradient(160deg, #16161c 0%, #0d0d10 100%);
-  border: 1.5px solid rgba(56, 189, 248, 0.4);
-  border-top: 2.5px solid #38bdf8;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-top: 2.5px solid #34d399;
   border-radius: 28px;
   padding: 42px 32px;
-  box-shadow: 0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.18);
+  box-shadow: 0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(52, 211, 153, 0.12);
   position: relative;
 }
 .pricing-ribbon {
@@ -882,14 +883,14 @@ a { color: inherit; text-decoration: none; }
   top: -13px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  color: #000000;
   font-size: 11px;
   font-weight: 900;
   padding: 5px 18px;
   border-radius: 20px;
   letter-spacing: 0.8px;
-  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.35);
 }
 .pricing-amt {
   font-size: 48px;
@@ -1337,15 +1338,15 @@ footer {
         <div class="hero-metric-lbl">Video Exercises</div>
       </div>
       <div>
-        <div class="hero-metric-val">100%</div>
+        <div class="hero-metric-val" style="color: #34d399;">100%</div>
         <div class="hero-metric-lbl">Offline Gym Mode</div>
       </div>
       <div>
-        <div class="hero-metric-val" style="color:#38bdf8">4.9 ★</div>
+        <div class="hero-metric-val" style="color: #fbbf24;">4.9 ★</div>
         <div class="hero-metric-lbl">Athlete Rating</div>
       </div>
       <div>
-        <div class="hero-metric-val" style="color:#38bdf8">₹13/day</div>
+        <div class="hero-metric-val" style="color: #38bdf8;">₹13/day</div>
         <div class="hero-metric-lbl">Fit Ninja Pro</div>
       </div>
     </div>
@@ -1412,28 +1413,28 @@ footer {
 
       <!-- Floating Card 3: Feature Popover (Desktop) -->
       <div class="float-card-right desktop-only-node">
-        <div style="font-size:9.5px;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
+        <div style="font-size:9.5px;font-weight:900;color:#34d399;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
           ALL VALUES INCLUDED
         </div>
         <div style="display:grid;gap:6px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span>Full-Screen Rest Timer</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span>Auto "Lift Heavier" Cues</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span>Custom Workout &amp; Diet</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span>100% Offline Basement Mode</span>
           </div>
         </div>
-        <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(135deg,#38bdf8 0%,#0284c7 100%);color:#fff;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px">
+        <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);color:#000000;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px;box-shadow:0 4px 14px rgba(255,255,255,0.22);border:none;">
           Join Now →
         </a>
       </div>
@@ -1852,7 +1853,7 @@ footer {
 
     <!-- Quick Callout CTA Under Phone -->
     <div style="margin-top:32px; text-align:center;">
-      <a href="/app?mode=signup" class="btn-glow" style="display:inline-flex; align-items:center; gap:8px; font-size:15px; font-weight:900; padding:14px 32px; border-radius:99px; background:linear-gradient(135deg,#38bdf8 0%,#0284c7 100%); color:#031024; box-shadow:0 6px 20px rgba(56,189,248,0.35); text-decoration:none;">
+      <a href="/app?mode=signup" class="btn-glow" style="display:inline-flex; align-items:center; gap:8px; font-size:15px; font-weight:900; padding:14px 32px; border-radius:99px; background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%); color:#000000; box-shadow:0 6px 24px rgba(255,255,255,0.25); text-decoration:none;">
         <span>Launch Real Workout In App →</span>
       </a>
       <p style="font-size:12.5px; color:#64748b; margin-top:10px;">
@@ -1880,10 +1881,10 @@ footer {
 
     <!-- Single Focused Hero Plan Card -->
     <div style="max-width: 580px; margin: 0 auto 40px;">
-      <div style="background: linear-gradient(155deg, rgba(15, 23, 42, 0.98) 0%, rgba(7, 11, 20, 0.99) 100%); border: 2px solid rgba(56, 189, 248, 0.65); border-radius: 28px; padding: 42px 32px 34px; position: relative; box-shadow: 0 24px 65px -10px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.22); text-align: center;">
+      <div style="background: linear-gradient(160deg, #16161c 0%, #0d0d10 100%); border: 1.5px solid rgba(255, 255, 255, 0.12); border-top: 2.5px solid #34d399; border-radius: 28px; padding: 42px 32px 34px; position: relative; box-shadow: 0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(52, 211, 153, 0.12); text-align: center;">
         
         <!-- Floating Pill -->
-        <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #031024; font-size: 11px; font-weight: 900; padding: 6px 22px; border-radius: 99px; letter-spacing: 0.8px; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.5); white-space: nowrap;">
+        <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #34d399 0%, #10b981 100%); color: #000000; font-size: 11px; font-weight: 900; padding: 6px 22px; border-radius: 99px; letter-spacing: 0.8px; box-shadow: 0 4px 14px rgba(52, 211, 153, 0.4); white-space: nowrap;">
           ALL-ACCESS PRO MEMBERSHIP
         </div>
 
@@ -1901,62 +1902,62 @@ footer {
             <span style="font-size: 54px; font-weight: 900; color: #ffffff; letter-spacing: -1.5px; line-height: 1;">₹399</span>
             <span style="font-size: 16px; color: #94a3b8; font-weight: 700;">/ month</span>
           </div>
-          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); border-radius: 99px; padding: 6px 16px; margin-top: 12px;">
-            <span style="font-size: 12px; font-weight: 800; color: #38bdf8;">Just ₹13/day</span>
+          <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 99px; padding: 6px 16px; margin-top: 12px;">
+            <span style="font-size: 12px; font-weight: 800; color: #34d399;">Just ₹13/day</span>
             <span style="color: #475569;">•</span>
             <span style="font-size: 12px; color: #cbd5e1; font-weight: 600;">Cancel anytime in 1 tap</span>
           </div>
         </div>
 
         <!-- Subtle Divider -->
-        <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25) 20%, rgba(56, 189, 248, 0.25) 80%, transparent); margin: 0 auto 24px; width: 100%;"></div>
+        <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent); margin: 0 auto 24px; width: 100%;"></div>
 
         <!-- Feature List - Centered Container with Aligned Left Content -->
         <div style="max-width: 490px; margin: 0 auto 28px; text-align: left;">
-          <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <div style="font-size: 11px; font-weight: 800; color: #34d399; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
             EVERYTHING INCLUDED IN PRO:
           </div>
           <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; font-size: 13.5px; color: #f1f5f9;">
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell, dumbbell, cable &amp; machine lift</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Automatic "Lift Heavier" Engine</strong> that prompts exactly when to add +1 kg to +2.5 kg</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Personalized 7-Day Workout &amp; Meal Plan</strong> (High-Protein, Veg, Non-Veg, Keto)</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Distraction-Free Rest Timer</strong> with Screen Wake Lock &amp; sound alerts</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Muscle Fatigue &amp; Recovery Heatmap</strong> (anatomical front &amp; back analysis)</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 12px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>100% Ad-Free &amp; Data-Private</strong> — zero ads between sets, no selling your health data</span>
             </li>
@@ -1965,9 +1966,9 @@ footer {
 
         <!-- High-Contrast Primary CTA Button -->
         <div>
-          <a href="/app?mode=signup" class="btn-glow landing-glow-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 18px 24px; border-radius: 99px; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #031024; font-size: 16.5px; font-weight: 900; text-decoration: none; box-shadow: 0 8px 28px rgba(56, 189, 248, 0.45); transition: all 0.2s ease;">
+          <a href="/app?mode=signup" class="btn-glow landing-glow-button" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 18px 24px; border-radius: 99px; background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%); color: #000000; font-size: 16.5px; font-weight: 900; text-decoration: none; box-shadow: 0 8px 28px rgba(255, 255, 255, 0.25); transition: all 0.2s ease; border: none;">
             <span>Start Fit Ninja Pro — ₹399/mo</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
 
@@ -1992,7 +1993,7 @@ footer {
     </div>
 
     <!-- 3-Way ROI Comparison Matrix -->
-    <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 22px; padding: 30px 20px;">
+    <div style="background: #0c0c0e; border: 1px solid rgba(255, 255, 255, 0.08); border-top: 1px solid rgba(255, 255, 255, 0.16); border-radius: 22px; padding: 30px 20px;">
       <div style="text-align: center; margin-bottom: 24px;">
         <h4 style="font-size: 18px; font-weight: 800; color: #fff; margin: 0 0 6px;">
           Why Athletes Choose Fit Ninja Over In-Person Trainers &amp; Free Apps
@@ -2006,46 +2007,46 @@ footer {
       <div id="compare-swipe-track" class="mobile-swipe-grid" style="text-align: left; align-items: stretch;">
         
         <!-- Option 1: Fit Ninja Pro (First!) -->
-        <div style="background: linear-gradient(160deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(56, 189, 248, 0.55); border-top: 2px solid #38bdf8; border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 12px 30px rgba(56, 189, 248, 0.12); position: relative; height: 100%; box-sizing: border-box;">
+        <div style="background: linear-gradient(160deg, rgba(52, 211, 153, 0.08) 0%, #121215 100%); border: 1.5px solid rgba(52, 211, 153, 0.35); border-top: 2px solid #34d399; border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.08); position: relative; height: 100%; box-sizing: border-box;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-            <div style="font-size: 13.5px; fontWeight: 900; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
-              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <div style="font-size: 13.5px; font-weight: 900; color: #34d399; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
+              <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(52, 211, 153, 0.2); border: 1px solid #34d399; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               Fit Ninja Pro
             </div>
-            <span style="font-size: 10px; font-weight: 900; color: #031024; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); padding: 3px 8px; border-radius: 99px; letter-spacing: 0.4px; text-transform: uppercase;">
+            <span style="font-size: 10px; font-weight: 900; color: #000000; background: #34d399; padding: 3px 8px; border-radius: 99px; letter-spacing: 0.4px; text-transform: uppercase;">
               BEST VALUE
             </span>
           </div>
           <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; font-size: 12.5px; color: #e2e8f0; line-height: 1.5;">
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Just ₹399/mo (₹13/day)</strong> — save ₹4,500+ every single month</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>100% Offline Mode:</strong> works in gym basements with 0 signal</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell &amp; dumbbell lift</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>Auto Progressive Overload:</strong> prompts when to add +1 to +2.5 kg</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <span><strong>100% Ad-Free:</strong> zero set interruptions &amp; 1-tap cancellation</span>
             </li>
@@ -2053,7 +2054,7 @@ footer {
         </div>
 
         <!-- Option 2: In-Person Gym Trainer -->
-        <div style="background: rgba(244, 63, 94, 0.04); border: 1px solid rgba(244, 63, 94, 0.25); border-top: 2px solid rgba(244, 63, 94, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
+        <div style="background: #121215; border: 1px solid rgba(244, 63, 94, 0.22); border-top: 2px solid rgba(244, 63, 94, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
             <div style="font-size: 13.5px; font-weight: 900; color: #f43f5e; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
               <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -2091,7 +2092,7 @@ footer {
               <span><strong>Generic photocopied diet charts:</strong> not personalized to macros</span>
             </li>
             <li style="display: flex; align-items: flex-start; gap: 10px;">
-              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0, margin-top: 2px;">
+              <div style="width: 18px; height: 18px; border-radius: 50%; background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </div>
               <span><strong>No automated progressive tracking:</strong> relying on guesswork</span>
@@ -2100,7 +2101,7 @@ footer {
         </div>
 
         <!-- Option 3: Generic "Free" Gym Apps -->
-        <div style="background: rgba(234, 179, 8, 0.04); border: 1px solid rgba(234, 179, 8, 0.25); border-top: 2px solid rgba(234, 179, 8, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
+        <div style="background: #121215; border: 1px solid rgba(234, 179, 8, 0.22); border-top: 2px solid rgba(234, 179, 8, 0.7); border-radius: 18px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: flex-start; height: 100%; box-sizing: border-box;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
             <div style="font-size: 13.5px; font-weight: 900; color: #eab308; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 8px;">
               <div style="width: 22px; height: 22px; border-radius: 50%; background: rgba(234, 179, 8, 0.15); border: 1px solid rgba(234, 179, 8, 0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">

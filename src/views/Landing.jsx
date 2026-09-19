@@ -241,15 +241,15 @@ export default function Landing() {
               onClick={() => nav('/app?mode=app')}
               className="landing-glow-button"
               style={{
-                background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-                color: '#031024',
+                background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
+                color: '#000000',
                 fontWeight: '900',
                 fontSize: '13px',
                 padding: '9px 20px',
                 borderRadius: '99px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 4px 16px rgba(56, 189, 248, 0.35)',
+                boxShadow: '0 4px 16px rgba(255, 255, 255, 0.22)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px'
@@ -279,25 +279,26 @@ export default function Landing() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(56, 189, 248, 0.1)',
-            border: '1px solid rgba(56, 189, 248, 0.3)',
+            background: '#16161c',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '50px',
             padding: '6px 16px',
             fontSize: '12px',
             fontWeight: '800',
-            color: '#38bdf8',
+            color: '#ffffff',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)',
             marginBottom: '22px'
           }}>
             <span style={{
               width: '6px',
               height: '6px',
               borderRadius: '50%',
-              background: '#38bdf8',
-              boxShadow: '0 0 8px #38bdf8'
+              background: '#34d399',
+              boxShadow: '0 0 8px #34d399'
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span className="pill-sub" style={{ color: '#e2e8f0' }}>Workout &amp; Nutrition Coach</span>
+            <span className="pill-sub" style={{ color: '#94a3b8' }}>Workout &amp; Nutrition Coach</span>
           </div>
 
           {/* Main Headline */}
@@ -311,7 +312,7 @@ export default function Landing() {
           }}>
             Train with Confidence.<br />
             <span style={{
-              background: 'linear-gradient(135deg, #38bdf8 0%, #bae6fd 100%)',
+              background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 45%, #34d399 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
@@ -337,15 +338,15 @@ export default function Landing() {
               onClick={() => nav('/app?mode=signup')}
               className="landing-glow-button"
               style={{
-                background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-                color: '#031024',
+                background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
+                color: '#000000',
                 fontWeight: '900',
                 fontSize: '15px',
                 padding: '14px 28px',
                 borderRadius: '99px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 8px 30px rgba(56, 189, 248, 0.4)',
+                boxShadow: '0 6px 24px rgba(255, 255, 255, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -358,7 +359,7 @@ export default function Landing() {
             <a
               href="#sandbox"
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
+                background: '#1a1a1f',
                 color: '#ffffff',
                 fontWeight: '700',
                 fontSize: '15px',
@@ -373,7 +374,7 @@ export default function Landing() {
                 transition: 'background 0.2s'
               }}
             >
-              <Play size={15} fill="#38bdf8" color="#38bdf8" />
+              <Play size={15} fill="#34d399" color="#34d399" />
               <span>Try Interactive Demo</span>
             </a>
           </div>
@@ -395,11 +396,11 @@ export default function Landing() {
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Video Exercises</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff' }}>100%</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#34d399' }}>100%</div>
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline Gym Mode</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>4.9 ★</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#fbbf24' }}>4.9 ★</div>
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Athlete Rating</div>
             </div>
             <div>
@@ -712,12 +713,12 @@ export default function Landing() {
           <div style={{ maxWidth: '580px', margin: '0 auto 40px' }}>
             <div style={{
               background: 'linear-gradient(160deg, #16161c 0%, #0d0d10 100%)',
-              border: '1.5px solid rgba(56, 189, 248, 0.4)',
-              borderTop: '2.5px solid #38bdf8',
+              border: '1.5px solid rgba(255, 255, 255, 0.12)',
+              borderTop: '2.5px solid #34d399',
               borderRadius: '28px',
               padding: '42px 32px 34px',
               position: 'relative',
-              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.18)',
+              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(52, 211, 153, 0.12)',
               textAlign: 'center'
             }}>
               
@@ -727,14 +728,14 @@ export default function Landing() {
                 top: '-14px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+                background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
                 color: '#000000',
                 fontSize: '11px',
                 fontWeight: '900',
                 padding: '6px 22px',
                 borderRadius: '99px',
                 letterSpacing: '0.8px',
-                boxShadow: '0 4px 14px rgba(56, 189, 248, 0.5)',
+                boxShadow: '0 4px 14px rgba(52, 211, 153, 0.4)',
                 whiteSpace: 'nowrap'
               }}>
                 ALL-ACCESS PRO MEMBERSHIP
@@ -754,62 +755,62 @@ export default function Landing() {
                   <span style={{ fontSize: '54px', fontWeight: '900', color: '#ffffff', letterSpacing: '-1.5px', lineHeight: 1 }}>₹399</span>
                   <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '700' }}>/ month</span>
                 </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.28)', borderRadius: '99px', padding: '6px 16px', marginTop: '12px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8' }}>Just ₹13/day</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(52, 211, 153, 0.1)', border: '1px solid rgba(52, 211, 153, 0.3)', borderRadius: '99px', padding: '6px 16px', marginTop: '12px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '800', color: '#34d399' }}>Just ₹13/day</span>
                   <span style={{ color: '#475569' }}>•</span>
                   <span style={{ fontSize: '12px', color: '#cbd5e1', fontWeight: '600' }}>Cancel anytime in 1 tap</span>
                 </div>
               </div>
 
               {/* Subtle Divider */}
-              <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25) 20%, rgba(56, 189, 248, 0.25) 80%, transparent)', margin: '0 auto 24px', width: '100%' }} />
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent)', margin: '0 auto 24px', width: '100%' }} />
 
               {/* Feature List - Centered Container with Aligned Left Content */}
               <div style={{ maxWidth: '490px', margin: '0 auto 28px', textAlign: 'left' }}>
-                <div style={{ fontSize: '11px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Sparkles size={14} />
+                <div style={{ fontSize: '11px', fontWeight: '800', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sparkles size={14} color="#34d399" />
                   EVERYTHING INCLUDED IN PRO:
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '14px', fontSize: '13.5px', color: '#f1f5f9' }}>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell, dumbbell, cable &amp; machine lift</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Automatic "Lift Heavier" Engine</strong> that prompts exactly when to add +1 kg to +2.5 kg</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Personalized 7-Day Workout &amp; Meal Plan</strong> (High-Protein, Veg, Non-Veg, Keto)</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Distraction-Free Rest Timer</strong> with Screen Wake Lock &amp; sound alerts</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Muscle Fatigue &amp; Recovery Heatmap</strong> (anatomical front &amp; back analysis)</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>100% Ad-Free &amp; Data-Private</strong> — zero ads between sets, no selling your health data</span>
                   </li>
@@ -829,18 +830,18 @@ export default function Landing() {
                     width: '100%',
                     padding: '18px 24px',
                     borderRadius: '99px',
-                    background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-                    color: '#031024',
+                    background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
+                    color: '#000000',
                     fontSize: '16.5px',
                     fontWeight: '900',
                     border: 'none',
                     cursor: 'pointer',
-                    boxShadow: '0 8px 28px rgba(56, 189, 248, 0.45)',
+                    boxShadow: '0 8px 28px rgba(255, 255, 255, 0.25)',
                     transition: 'all 0.2s ease'
                   }}
                 >
                   <span>Start Fit Ninja Pro — ₹399/mo</span>
-                  <ArrowRight size={18} strokeWidth={2.5} />
+                  <ArrowRight size={18} strokeWidth={2.5} color="#000000" />
                 </button>
               </div>
 
@@ -884,58 +885,58 @@ export default function Landing() {
             >
               {/* Option 1: Fit Ninja Pro (First!) */}
               <div style={{
-                background: 'linear-gradient(160deg, rgba(56, 189, 248, 0.08) 0%, #121215 100%)',
-                border: '1.5px solid rgba(56, 189, 248, 0.35)',
-                borderTop: '2px solid #38bdf8',
+                background: 'linear-gradient(160deg, rgba(52, 211, 153, 0.08) 0%, #121215 100%)',
+                border: '1.5px solid rgba(52, 211, 153, 0.35)',
+                borderTop: '2px solid #34d399',
                 borderRadius: '18px',
                 padding: '22px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
-                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.08)',
+                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.08)',
                 position: 'relative',
                 height: '100%',
                 boxSizing: 'border-box'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                  <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.2)', border: '1px solid #38bdf8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                <div style={{ display: 'flex', alignItems: 'center', justify-content: 'space-between', marginBottom: '16px' }}>
+                  <div style={{ fontSize: '13.5px', fontWeight: '900', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.2)', border: '1px solid #34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
                     Fit Ninja Pro
                   </div>
-                  <span style={{ fontSize: '10px', fontWeight: '900', color: '#000000', background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)', padding: '3px 8px', borderRadius: '99px', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: '10px', fontWeight: '900', color: '#000000', background: '#34d399', padding: '3px 8px', borderRadius: '99px', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
                     BEST VALUE
                   </span>
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', fontSize: '12.5px', color: '#e2e8f0', lineHeight: 1.5 }}>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                      <Check size={11} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                      <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Just ₹399/mo (₹13/day)</strong> — save ₹4,500+ every single month</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                      <Check size={11} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                      <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>100% Offline Mode:</strong> works in gym basements with 0 signal</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                      <Check size={11} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                      <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell &amp; dumbbell lift</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                      <Check size={11} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                      <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>Auto Progressive Overload:</strong> prompts when to add +1 to +2.5 kg</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
-                      <Check size={11} color="#38bdf8" strokeWidth={3} />
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                      <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
                     <span><strong>100% Ad-Free:</strong> zero set interruptions &amp; 1-tap cancellation</span>
                   </li>

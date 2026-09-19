@@ -298,10 +298,10 @@ export default function AthleteHeroVisual() {
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderTop: '1px solid rgba(56, 189, 248, 0.5)',
+          borderTop: '1px solid rgba(52, 211, 153, 0.5)',
           borderRadius: '20px',
           padding: '16px 18px',
-          boxShadow: '0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.1)',
+          boxShadow: '0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(52, 211, 153, 0.1)',
           animation: 'floatMedium 4.8s ease-in-out infinite',
           animationDelay: '0.5s',
           transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -309,25 +309,25 @@ export default function AthleteHeroVisual() {
           minWidth: '175px'
         }}
       >
-        <div style={{ fontSize: '10px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
+        <div style={{ fontSize: '10px', fontWeight: '900', color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>
           PRO MEMBERSHIP INCLUDED
         </div>
 
         <div style={{ display: 'grid', gap: '6px', marginBottom: '12px', fontSize: '11px', color: '#e2e8f0', fontWeight: '600' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Timer size={12} color="#38bdf8" />
+            <Timer size={12} color="#34d399" />
             <span>Auto Rest Timer</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={12} color="#38bdf8" />
+            <CheckCircle2 size={12} color="#34d399" />
             <span>Greyskull LP</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Target size={12} color="#38bdf8" />
+            <Target size={12} color="#34d399" />
             <span>Custom Macros</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <CheckCircle2 size={12} color="#38bdf8" />
+            <CheckCircle2 size={12} color="#34d399" />
             <span>100% Offline PWA</span>
           </div>
         </div>
@@ -336,23 +336,24 @@ export default function AthleteHeroVisual() {
           onClick={() => nav('/app?mode=signup')}
           style={{
             width: '100%',
-            background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
-            color: '#ffffff',
+            background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
+            color: '#000000',
             fontWeight: '900',
             fontSize: '11.5px',
             padding: '8px 12px',
             borderRadius: '99px',
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(56, 189, 248, 0.35)',
+            boxShadow: '0 4px 14px rgba(255, 255, 255, 0.22)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '4px'
+            gap: '4px',
+            transition: 'transform 0.15s ease, box-shadow 0.15s ease'
           }}
         >
           <span>Join Now</span>
-          <ChevronRight size={13} />
+          <ChevronRight size={13} color="#000000" />
         </button>
       </div>
 
