@@ -704,17 +704,15 @@ export default function Landing() {
           </div>
 
           {/* Single Focused Hero Plan Card */}
-          <div style={{ maxWidth: '580px', margin: '0 auto 48px' }}>
+          <div style={{ maxWidth: '580px', margin: '0 auto 40px' }}>
             <div style={{
               background: 'linear-gradient(155deg, rgba(15, 23, 42, 0.98) 0%, rgba(7, 11, 20, 0.99) 100%)',
               border: '2px solid rgba(56, 189, 248, 0.65)',
               borderRadius: '28px',
-              padding: '38px 30px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
+              padding: '42px 32px 34px',
               position: 'relative',
-              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.25)'
+              boxShadow: '0 24px 65px -10px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.22)',
+              textAlign: 'center'
             }}>
               
               {/* Floating Pill */}
@@ -727,7 +725,7 @@ export default function Landing() {
                 color: '#031024',
                 fontSize: '11px',
                 fontWeight: '900',
-                padding: '5px 20px',
+                padding: '6px 22px',
                 borderRadius: '99px',
                 letterSpacing: '0.8px',
                 boxShadow: '0 4px 14px rgba(56, 189, 248, 0.5)',
@@ -736,91 +734,107 @@ export default function Landing() {
                 ALL-ACCESS PRO MEMBERSHIP
               </div>
 
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: '900', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', padding: '4px 10px', borderRadius: '6px' }}>
-                    FULL UNLIMITED SUITE
-                  </span>
+              {/* Title & Subtitle */}
+              <h3 style={{ fontSize: '30px', fontWeight: '900', color: '#ffffff', margin: '8px 0 8px', letterSpacing: '-0.5px' }}>
+                Fit Ninja Pro
+              </h3>
+              <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, margin: '0 auto 24px', maxWidth: '440px' }}>
+                The complete gym companion with 5,300+ guides, guided sets, automatic progressive overload, and custom nutrition.
+              </p>
+
+              {/* Pricing & Daily Rate - Symmetrically Centered */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '26px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '54px', fontWeight: '900', color: '#ffffff', letterSpacing: '-1.5px', lineHeight: 1 }}>₹399</span>
+                  <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '700' }}>/ month</span>
                 </div>
-
-                <h3 style={{ fontSize: '28px', fontWeight: '900', color: '#fff', margin: '0 0 8px' }}>Fit Ninja Pro</h3>
-                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.55, margin: '0 0 20px' }}>
-                  The complete gym companion with 5,300+ guides, guided sets, automatic progressive overload, and custom nutrition.
-                </p>
-
-                {/* Pricing & Daily Rate */}
-                <div style={{ marginBottom: '22px' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                    <span style={{ fontSize: '50px', fontWeight: '900', color: '#fff', letterSpacing: '-1.5px' }}>₹399</span>
-                    <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '700' }}>/ month</span>
-                  </div>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '8px', padding: '5px 12px', marginTop: '8px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8' }}>Just ₹13/day</span>
-                    <span style={{ color: '#64748b' }}>•</span>
-                    <span style={{ fontSize: '11.5px', color: '#cbd5e1', fontWeight: '600' }}>Cancel anytime in 1 tap</span>
-                  </div>
-                </div>
-
-                {/* Feature List */}
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '22px', marginBottom: '28px' }}>
-                  <div style={{ fontSize: '11px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '14px' }}>
-                    EVERYTHING YOU UNLOCK:
-                  </div>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '13px', fontSize: '13.5px', color: '#f1f5f9' }}>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell, dumbbell, cable &amp; machine lift</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>Automatic "Lift Heavier" Engine</strong> that prompts exactly when to add +1 kg to +2.5 kg</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>Personalized 7-Day Workout &amp; Meal Plan</strong> (High-Protein, Veg, Non-Veg, Keto)</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>Distraction-Free Rest Timer</strong> with Screen Wake Lock &amp; sound alerts</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>Muscle Fatigue &amp; Recovery Heatmap</strong> (anatomical front &amp; back analysis)</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                      <Check size={18} color="#38bdf8" strokeWidth={2.5} style={{ flexShrink: 0, marginTop: '2px' }} />
-                      <span><strong>100% Ad-Free &amp; Data-Private</strong> — zero ads between sets, no selling your health data</span>
-                    </li>
-                  </ul>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.28)', borderRadius: '99px', padding: '6px 16px', marginTop: '12px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8' }}>Just ₹13/day</span>
+                  <span style={{ color: '#475569' }}>•</span>
+                  <span style={{ fontSize: '12px', color: '#cbd5e1', fontWeight: '600' }}>Cancel anytime in 1 tap</span>
                 </div>
               </div>
 
+              {/* Subtle Divider */}
+              <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25) 20%, rgba(56, 189, 248, 0.25) 80%, transparent)', margin: '0 auto 24px', width: '100%' }} />
+
+              {/* Feature List - Centered Container with Aligned Left Content */}
+              <div style={{ maxWidth: '490px', margin: '0 auto 28px', textAlign: 'left' }}>
+                <div style={{ fontSize: '11px', fontWeight: '800', color: '#38bdf8', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sparkles size={14} />
+                  EVERYTHING INCLUDED IN PRO:
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '14px', fontSize: '13.5px', color: '#f1f5f9' }}>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>5,300+ 60FPS Video Form Guides</strong> for every barbell, dumbbell, cable &amp; machine lift</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>Automatic "Lift Heavier" Engine</strong> that prompts exactly when to add +1 kg to +2.5 kg</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>Personalized 7-Day Workout &amp; Meal Plan</strong> (High-Protein, Veg, Non-Veg, Keto)</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>Distraction-Free Rest Timer</strong> with Screen Wake Lock &amp; sound alerts</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>Muscle Fatigue &amp; Recovery Heatmap</strong> (anatomical front &amp; back analysis)</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                      <Check size={13} color="#38bdf8" strokeWidth={3} />
+                    </div>
+                    <span><strong>100% Ad-Free &amp; Data-Private</strong> — zero ads between sets, no selling your health data</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Action Button */}
               <div>
                 <button
                   onClick={() => nav('/app?mode=signup')}
-                  className="btn-glow"
+                  className="btn-glow landing-glow-button"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    gap: '8px',
                     width: '100%',
-                    padding: '17px 24px',
+                    padding: '18px 24px',
                     borderRadius: '99px',
                     background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
                     color: '#031024',
-                    fontSize: '16px',
+                    fontSize: '16.5px',
                     fontWeight: '900',
                     border: 'none',
                     cursor: 'pointer',
-                    boxShadow: '0 6px 22px rgba(56, 189, 248, 0.45)',
-                    transition: 'transform 0.15s, box-shadow 0.2s'
+                    boxShadow: '0 8px 28px rgba(56, 189, 248, 0.45)',
+                    transition: 'all 0.2s ease'
                   }}
                 >
-                  Unlock Pro Pass (₹399/mo) →
+                  <span>Start Fit Ninja Pro — ₹399/mo</span>
+                  <ArrowRight size={18} strokeWidth={2.5} />
                 </button>
               </div>
 
@@ -828,16 +842,19 @@ export default function Landing() {
           </div>
 
           {/* Trust Badges Row */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '18px', marginBottom: '40px', fontSize: '12px', color: '#94a3b8' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '12px 20px', marginBottom: '44px', fontSize: '12px', color: '#94a3b8' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <ShieldCheck size={15} color="#22c55e" />
               256-Bit SSL Encrypted
             </span>
-            <span>•</span>
-            <span>Razorpay Secured (UPI, GPay, Cards, NetBanking)</span>
-            <span>•</span>
-            <span>Instant Activation in 60s</span>
-            <span>•</span>
+            <span style={{ color: '#475569' }}>•</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <Zap size={14} color="#38bdf8" />
+              Instant Activation in 60s
+            </span>
+            <span style={{ color: '#475569' }}>•</span>
+            <span>Razorpay Secured (UPI, Cards, NetBanking)</span>
+            <span style={{ color: '#475569' }}>•</span>
             <span>1-Tap Cancellation in Profile</span>
           </div>
 
