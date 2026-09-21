@@ -22,16 +22,21 @@ export async function onRequest(context) {
       body = await request.json();
     } catch (e) {}
 
-    const key_id = env.RAZORPAY_KEY_ID;
-    const key_secret = env.RAZORPAY_KEY_SECRET;
-    const plan_id = env.RAZORPAY_PLAN_ID;
+    const key_id = (env.RAZORPAY_KEY_ID || '').trim().replace(/^["']|["']$/g, '');
+    const key_secret = (env.RAZORPAY_KEY_SECRET || '').trim().replace(/^["']|["']$/g, '');
+    const plan_id = (env.RAZORPAY_PLAN_ID || '').trim().replace(/^["']|["']$/g, '');
     const offer_id = env.RAZORPAY_OFFER_ID || null;
 
     if (!key_id || !key_secret || !plan_id) {
       console.error('Missing Razorpay environment variables in functions/api/create-subscription');
       return new Response(JSON.stringify({
         ok: false,
-        error: 'Payment service configuration error'
+        error: 'Payment service configuration error',
+        debug: {
+          has_key_id: !!key_id,
+          has_key_secret: !!key_secret,
+          has_plan_id: !!plan_id
+        }
       }), { headers, status: 500 });
     }
 
@@ -66,7 +71,14 @@ export async function onRequest(context) {
       console.error('Razorpay API response error:', rzpData);
       return new Response(JSON.stringify({
         ok: false,
-        error: rzpData.error?.description || 'Failed to create subscription'
+        error: rzpData.error?.description || 'Failed to create subscription',
+        code: rzpData.error?.code,
+        debug: {
+          key_prefix: key_id.substring(0, 8),
+          key_length: key_id.length,
+          secret_length: key_secret.length,
+          plan_id: plan_id
+        }
       }), { headers, status: rzpResponse.status });
     }
 
@@ -74,7 +86,8 @@ export async function onRequest(context) {
       ok: true,
       id: rzpData.id,
       entity: rzpData.entity,
-      short_url: rzpData.short_url
+      short_url: rzpData.short_url,
+      key_id: key_id
     }), { headers, status: 200 });
 
   } catch (error) {

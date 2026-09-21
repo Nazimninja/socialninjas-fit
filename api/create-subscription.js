@@ -14,38 +14,64 @@ export default async function handler(req, res) {
   }
 
   try {
-    const key_id = process.env.RAZORPAY_KEY_ID;
-    const key_secret = process.env.RAZORPAY_KEY_SECRET;
-    const plan_id = process.env.RAZORPAY_PLAN_ID;
+    const key_id = (process.env.RAZORPAY_KEY_ID || '').trim().replace(/^["']|["']$/g, '');
+    const key_secret = (process.env.RAZORPAY_KEY_SECRET || '').trim().replace(/^["']|["']$/g, '');
+    const plan_id = (process.env.RAZORPAY_PLAN_ID || '').trim().replace(/^["']|["']$/g, '');
 
     if (!key_id || !key_secret || !plan_id) {
       console.error('Missing Razorpay environment variables in api/create-subscription');
       return res.status(500).json({
         ok: false,
-        error: 'Payment service configuration error'
+        error: 'Payment service configuration error',
+        debug: {
+          has_key_id: !!key_id,
+          has_key_secret: !!key_secret,
+          has_plan_id: !!plan_id
+        }
       });
     }
 
-    const razorpay = new Razorpay({ key_id, key_secret });
+    const { name, email, phone } = req.body || {};
+    const auth = Buffer.from(`${key_id}:${key_secret}`).toString('base64');
+    const response = await fetch('https://api.razorpay.com/v1/subscriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        plan_id: plan_id,
+        customer_notify: 1,
+        total_count: 120,
+        notes: {
+          name: name || '',
+          email: email || '',
+          phone: phone || ''
+        }
+      })
+    });
 
-    const options = {
-      plan_id: plan_id,
-      customer_notify: 1,
-      total_count: 120,
-      notes: {
-        name: req.body?.name || '',
-        email: req.body?.email || '',
-        phone: req.body?.phone || ''
-      }
-    };
+    const data = await response.json();
+    if (!response.ok) {
+      return res.status(response.status).json({
+        ok: false,
+        error: data.error?.description || 'Failed to create subscription',
+        code: data.error?.code,
+        debug: {
+          key_prefix: key_id.substring(0, 8),
+          key_length: key_id.length,
+          secret_length: key_secret.length,
+          plan_id: plan_id
+        }
+      });
+    }
 
-    const response = await razorpay.subscriptions.create(options);
-    
     return res.status(200).json({
       ok: true,
-      id: response.id,
-      entity: response.entity,
-      short_url: response.short_url
+      id: data.id,
+      key_id: key_id,
+      entity: data.entity,
+      short_url: data.short_url
     });
   } catch (error) {
     console.error('Razorpay Error:', error);

@@ -58,18 +58,13 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
   try {
     await ensureRazorpayLoaded();
 
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
-    if (!razorpayKey) {
-      console.error('Missing VITE_RAZORPAY_KEY_ID environment variable');
-      if (onFailure) onFailure(new Error('Payment gateway configuration error'));
-      return;
-    }
     const cleanName = (name || '').trim();
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanPhone = (phone || '').trim();
 
     // Dynamically attempt subscription creation if server endpoint is configured
     let subId = null;
+    let serverKeyId = null;
     try {
       const res = await fetch('/api/create-subscription', {
         method: 'POST',
@@ -82,9 +77,19 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         if (data.id && typeof data.id === 'string' && data.id.startsWith('sub_') && !data.id.startsWith('sub_test')) {
           subId = data.id;
         }
+        if (data.key_id) {
+          serverKeyId = data.key_id;
+        }
       }
     } catch (e) {
       console.warn('Subscription endpoint check:', e);
+    }
+
+    const razorpayKey = serverKeyId || import.meta.env.VITE_RAZORPAY_KEY_ID || window.RAZORPAY_KEY_ID;
+    if (!razorpayKey) {
+      console.error('Missing Razorpay Key ID');
+      if (onFailure) onFailure(new Error('Payment gateway configuration error. Please contact support.'));
+      return;
     }
 
     if (window.Razorpay) {
