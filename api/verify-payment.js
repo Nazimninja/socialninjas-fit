@@ -18,8 +18,12 @@ export default async function handler(req, res) {
     const secret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!secret) {
-      // Test mode / missing secret bypass
-      return res.status(200).json({ success: true, message: 'Verified (test mode)' });
+      console.error('RAZORPAY_KEY_SECRET is not configured on server');
+      return res.status(500).json({ success: false, error: 'Payment verification service unconfigured' });
+    }
+
+    if (!razorpay_signature || !razorpay_payment_id || (!razorpay_order_id && !razorpay_subscription_id)) {
+      return res.status(400).json({ success: false, message: 'Missing payment signature verification parameters' });
     }
     
     let sign;

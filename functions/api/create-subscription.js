@@ -22,16 +22,17 @@ export async function onRequest(context) {
       body = await request.json();
     } catch (e) {}
 
-    const key_id = env.RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
-    const key_secret = env.RAZORPAY_KEY_SECRET || 'Xhj2PoIJznFVUztdfqUJqWUV';
-    const plan_id = (env.RAZORPAY_PLAN_ID && env.RAZORPAY_PLAN_ID !== 'plan_Ss1oHjJInUYYiV') ? env.RAZORPAY_PLAN_ID : 'plan_TZyXclmf593Ha2';
+    const key_id = env.RAZORPAY_KEY_ID;
+    const key_secret = env.RAZORPAY_KEY_SECRET;
+    const plan_id = env.RAZORPAY_PLAN_ID;
     const offer_id = env.RAZORPAY_OFFER_ID || null;
 
-    if (!key_id || !key_secret) {
+    if (!key_id || !key_secret || !plan_id) {
+      console.error('Missing Razorpay environment variables in functions/api/create-subscription');
       return new Response(JSON.stringify({
         ok: false,
-        direct_checkout: true
-      }), { headers, status: 200 });
+        error: 'Payment service configuration error'
+      }), { headers, status: 500 });
     }
 
     const auth = btoa(`${key_id}:${key_secret}`);
@@ -59,19 +60,28 @@ export async function onRequest(context) {
       body: JSON.stringify(subPayload)
     });
 
-    const data = await rzpResponse.json();
+    const rzpData = await rzpResponse.json();
+
     if (!rzpResponse.ok) {
-      return new Response(JSON.stringify({ ok: false, direct_checkout: true, id: 'sub_TZyYlXO4ynee3v', short_url: 'https://rzp.io/rzp/akMsjt2I', error: data.error?.description || 'Razorpay subscription creation failed' }), { headers, status: 200 });
+      console.error('Razorpay API response error:', rzpData);
+      return new Response(JSON.stringify({
+        ok: false,
+        error: rzpData.error?.description || 'Failed to create subscription'
+      }), { headers, status: rzpResponse.status });
     }
 
     return new Response(JSON.stringify({
       ok: true,
-      id: data.id,
-      entity: data.entity,
-      short_url: data.short_url
+      id: rzpData.id,
+      entity: rzpData.entity,
+      short_url: rzpData.short_url
     }), { headers, status: 200 });
+
   } catch (error) {
-    console.error('Razorpay Error:', error);
-    return new Response(JSON.stringify({ ok: false, direct_checkout: true, error: 'Subscription unavailable, use direct checkout' }), { headers, status: 200 });
+    console.error('Edge Function Subscription Error:', error);
+    return new Response(JSON.stringify({
+      ok: false,
+      error: 'Subscription creation failed'
+    }), { headers, status: 500 });
   }
 }

@@ -130,13 +130,13 @@ async function doPayment() {
 
     // Step 2: Open Razorpay Checkout modal
     var options = {
-      key: 'rzp_live_SQHi9o325buXiH',
+      key: window.RAZORPAY_KEY_ID || '',
       notes: {
         user_id: STATE.user ? STATE.user.id : '',
         email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')
       },
       name: 'Fit Ninja',
-      description: 'Pro Pass Membership — ₹299/mo',
+      description: 'Pro Pass Membership — ₹399/mo',
       image: 'https://fit.socialninjas.in/ninja-logo.png',
       prefill: {
         name: STATE.signupData.name || '',
@@ -196,11 +196,11 @@ async function doPayment() {
     // Fallback: direct Razorpay checkout without order_id (works for testing)
     console.warn('Using fallback checkout:', e.message);
     var options = {
-        key: 'rzp_live_SQHi9o325buXiH',
-        amount: 49900,
+        key: window.RAZORPAY_KEY_ID || '',
+        amount: 39900,
         currency: 'INR',
         name: 'Fit Ninja',
-        description: 'Premium Fitness Coaching Plan (One-time fallback)',
+        description: 'Pro Pass Membership (One-time fallback)',
       notes: {
         user_id: STATE.user ? STATE.user.id : '',
         email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')

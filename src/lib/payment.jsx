@@ -58,7 +58,12 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
   try {
     await ensureRazorpayLoaded();
 
-    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
+    if (!razorpayKey) {
+      console.error('Missing VITE_RAZORPAY_KEY_ID environment variable');
+      if (onFailure) onFailure(new Error('Payment gateway configuration error'));
+      return;
+    }
     const cleanName = (name || '').trim();
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanPhone = (phone || '').trim();

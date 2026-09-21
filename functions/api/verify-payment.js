@@ -22,8 +22,12 @@ export async function onRequest(context) {
     const secret = env.RAZORPAY_KEY_SECRET;
 
     if (!secret) {
-      // Test mode / missing secret bypass
-      return new Response(JSON.stringify({ success: true, message: 'Verified (test mode)' }), { headers, status: 200 });
+      console.error('RAZORPAY_KEY_SECRET is not configured on Cloudflare Pages');
+      return new Response(JSON.stringify({ success: false, error: 'Payment verification service unconfigured' }), { headers, status: 500 });
+    }
+
+    if (!razorpay_signature || !razorpay_payment_id || (!razorpay_order_id && !razorpay_subscription_id)) {
+      return new Response(JSON.stringify({ success: false, message: 'Missing payment signature verification parameters' }), { headers, status: 400 });
     }
     
     let sign;

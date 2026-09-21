@@ -14,14 +14,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_live_SQHi9o325buXiH';
-    const key_secret = process.env.RAZORPAY_KEY_SECRET || 'Xhj2PoIJznFVUztdfqUJqWUV';
-    const plan_id = (process.env.RAZORPAY_PLAN_ID && process.env.RAZORPAY_PLAN_ID !== 'plan_Ss1oHjJInUYYiV') ? process.env.RAZORPAY_PLAN_ID : 'plan_TZyXclmf593Ha2';
+    const key_id = process.env.RAZORPAY_KEY_ID;
+    const key_secret = process.env.RAZORPAY_KEY_SECRET;
+    const plan_id = process.env.RAZORPAY_PLAN_ID;
 
-    if (!key_id || !key_secret) {
-      return res.status(200).json({
+    if (!key_id || !key_secret || !plan_id) {
+      console.error('Missing Razorpay environment variables in api/create-subscription');
+      return res.status(500).json({
         ok: false,
-        direct_checkout: true
+        error: 'Payment service configuration error'
       });
     }
 
@@ -48,6 +49,6 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Razorpay Error:', error);
-    return res.status(200).json({ ok: false, direct_checkout: true, error: 'Subscription unavailable, use direct checkout' });
+    return res.status(500).json({ ok: false, error: 'Subscription creation failed' });
   }
 }
