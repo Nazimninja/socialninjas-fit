@@ -162,7 +162,7 @@ async function doPayment() {
             onPaymentSuccess();
           } else {
             alert('Payment verification failed. Please contact support:\n📧 info@socialninjas.in\n📲 WhatsApp: +91 8147757479');
-            btn.textContent = 'Pay ₹299 & Start Assessment →';
+            btn.textContent = 'Pay ₹399 & Start Assessment →';
             btn.disabled = false;
           }
         } catch(e) {
@@ -172,7 +172,7 @@ async function doPayment() {
       },
       modal: {
         ondismiss: function() {
-          btn.textContent = 'Pay ₹499 & Start Assessment →';
+          btn.textContent = 'Pay ₹399 & Start Assessment →';
           btn.disabled = false;
         }
       }
@@ -181,7 +181,7 @@ async function doPayment() {
     if (hasGenuineSub) {
       options.subscription_id = sub.id;
     } else {
-      options.amount = 49900;
+      options.amount = 39900;
       options.currency = 'INR';
     }
 
@@ -214,7 +214,7 @@ async function doPayment() {
       handler: function() { onPaymentSuccess(); },
       modal: {
         ondismiss: function() {
-          btn.textContent = 'Pay ₹299 & Start Assessment →';
+          btn.textContent = 'Pay ₹399 & Start Assessment →';
           btn.disabled = false;
         }
       }
@@ -224,7 +224,7 @@ async function doPayment() {
       rzp.open();
     } else {
       alert('Payment system loading... please try again in a moment.');
-      btn.textContent = 'Pay ₹299 & Start Assessment →';
+      btn.textContent = 'Pay ₹399 & Start Assessment →';
       btn.disabled = false;
     }
   }
@@ -1702,7 +1702,7 @@ function showProfile() {
     + '<div style="font-size:12px;color:var(--t2)">' + u.email + '</div>'
     + '</div>'
     + '<div class="card">'
-    + row('Plan', 'Premium — ₹299/month', 'var(--ac)')
+    + row('Plan', 'Premium — ₹399/month', 'var(--ac)')
     + row('Goal', goalNames[plan.goal] || '', '')
     + row('Diet type', dietNames[plan.diet] || '', '')
     + row('Workout', (plan.location === 'home' ? 'Home' : 'Gym') + ' · ' + plan.days + ' days/week', '')

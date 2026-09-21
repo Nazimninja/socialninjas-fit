@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     });
 
     const payment_capture = 1;
-    const amount = 499; // Amount in INR
+    const amount = 399; // Amount in INR
     const currency = 'INR';
 
     const options = {

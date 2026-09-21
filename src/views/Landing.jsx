@@ -352,7 +352,7 @@ export default function Landing() {
                 gap: '8px'
               }}
             >
-              <span>Start Your Transformation</span>
+              <span>Start Training Today</span>
               <ArrowRight size={16} />
             </button>
 
@@ -363,30 +363,28 @@ export default function Landing() {
                 color: '#ffffff',
                 fontWeight: '700',
                 fontSize: '15px',
-                padding: '14px 24px',
-                borderRadius: '99px',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                cursor: 'pointer',
+                padding: '16px 26px',
+                borderRadius: '16px',
                 textDecoration: 'none',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                transition: 'background 0.2s'
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                transition: 'all 0.2s ease'
               }}
             >
-              <Play size={15} fill="#34d399" color="#34d399" />
+              <Play size={15} color="#38bdf8" />
               <span>Try Interactive Demo</span>
             </a>
           </div>
 
-          {/* Metric Badges Strip */}
+          {/* Social Proof & Metrics Strip */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
-            gap: '14px',
-            background: '#121215',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.16)',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '12px',
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.07)',
             borderRadius: '18px',
             padding: '16px 20px',
             maxWidth: '560px'
@@ -400,8 +398,8 @@ export default function Landing() {
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline Gym Mode</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#fbbf24' }}>4.9 ★</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Athlete Rating</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#fbbf24' }}>Zero Ads</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Pure Workout Focus</div>
             </div>
             <div>
               <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>₹13/day</div>
@@ -872,7 +870,7 @@ export default function Landing() {
                 Why Athletes Choose Fit Ninja Over In-Person Trainers &amp; Free Apps
               </h4>
               <p style={{ fontSize: '13.5px', color: '#94a3b8', margin: 0 }}>
-                Save over ₹4,500 every single month with professional 60FPS video guides &amp; automatic overload always in your pocket.
+                Get elite guided training with 5,300+ 60FPS video form guides &amp; automatic progressive overload always in your pocket.
               </p>
             </div>
 
@@ -914,7 +912,7 @@ export default function Landing() {
                     <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
                       <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
-                    <span><strong>Just ₹399/mo (₹13/day)</strong> — save ₹4,500+ every single month</span>
+                    <span><strong>Just ₹399/mo (₹13/day)</strong> — unlimited access &amp; cancel anytime</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                     <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>

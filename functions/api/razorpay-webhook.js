@@ -151,7 +151,7 @@ export async function onRequest(context) {
     let email = null;
     let phone = null;
     let name = null;
-    let amount = 499;
+    let amount = 399;
     let subscriptionId = null;
 
     if (isExpiredEvent) {

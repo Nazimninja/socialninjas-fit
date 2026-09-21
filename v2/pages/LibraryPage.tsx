@@ -160,7 +160,7 @@ export default function LibraryPage() {
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Search 4,100+ exercises by name or equipment (e.g. Bench, Incline, Squat)..."
+          placeholder="Search 5,300+ exercises by name or equipment (e.g. Bench, Incline, Squat)..."
           className="w-full bg-[#0d131f] border border-[#172744] rounded-2xl pl-10 pr-10 py-3 text-xs text-white placeholder-[#5A6D82] focus:outline-none focus:border-[#1F4B99] transition-colors"
         />
         {search && (

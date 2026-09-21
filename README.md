@@ -1,6 +1,6 @@
 # SocialNinjas Fit — Premium Fitness Coaching App
 
-A fully personalized fitness and nutrition coaching web app built for commercial use at ₹299/month per member.
+A fully personalized fitness and nutrition coaching web app built for commercial use at ₹399/month per member.
 
 ## Features
 
@@ -8,7 +8,7 @@ A fully personalized fitness and nutrition coaching web app built for commercial
 - **4 diet types** — Non-veg, Eggetarian, Vegetarian, Vegan meal plans (fully separate menus)
 - **4 goal types** — Muscle gain, Fat loss, Weight gain, General fitness
 - **Calorie & macro engine** — Mifflin-St Jeor BMR + activity multiplier, goal-adjusted targets
-- **Exercise demos** — YouTube embed + form cues for every exercise
+- **5,300+ Exercise demos** — Looping HD video form cues for every exercise
 - **Set tracking** — Tap-to-complete sets per exercise, day completion tracking
 - **Custom meal logging** — Add any meal with kcal + protein tracking
 - **Custom exercise logging** — Add any exercise with sets, reps, weight
@@ -67,10 +67,10 @@ Replace the `doPayment()` function in `js/app.js` with:
 function doPayment() {
   var options = {
     key: 'YOUR_RAZORPAY_KEY_ID',
-    amount: 49900, // ₹499 in paise
+    amount: 39900, // ₹399 in paise
     currency: 'INR',
     name: 'SocialNinjas Fit',
-    description: 'Premium Membership — 1 Month',
+    description: 'Fit Ninja Pro Membership — 1 Month',
     handler: function(response) {
       // Payment successful — proceed to assessment
       assessStep = 0;
@@ -104,11 +104,9 @@ To store user data in the cloud instead of localStorage:
 
 ## Pricing
 
-| Plan | Price |
-|------|-------|
-| Individual | ₹299/month |
-| Couples (add partner) | +₹199/month |
-| Annual individual | ₹2,499/year (save ₹989) |
+| Plan | Price | Access |
+|------|-------|--------|
+| Fit Ninja Pro | ₹399/month | Unlimited 5,300+ Exercises, Offline Mode, Macro Coach |
 
 ## License
 

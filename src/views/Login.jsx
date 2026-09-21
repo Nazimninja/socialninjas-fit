@@ -528,7 +528,7 @@ export default function Login() {
       </div>
 
       <div style={{ fontSize: '11px', fontWeight: '600', color: '#94a3b8', marginBottom: '14px' }}>
-        {authMode === 'signup' ? 'Start your high-performance transformation' : 'Access your active workout engine'}
+        {authMode === 'signup' ? 'Build strength & progress every session' : 'Access your active workout engine'}
       </div>
 
       {/* Authenticated Unpaid User Banner */}
@@ -679,7 +679,7 @@ export default function Login() {
             gap: '6px'
           }}
         >
-          <span></span> Start Transformation
+          <span></span> Start Training Today
         </button>
         <button
           type="button"
@@ -796,7 +796,7 @@ export default function Login() {
                 gap: '10px'
               }}>
                 {[
-                  { title: '1,324+ HD Video Form Guides', desc: 'Looping 60fps cues for every single lift' },
+                  { title: '5,300+ HD Video Form Guides', desc: 'Looping 60fps cues for every single lift' },
                   { title: 'Smart Rest Timers & Audio Cues', desc: 'Interval countdown beeps keep your tempo sharp' },
                   { title: 'Muscle Recovery Heatmaps', desc: 'Real-time anatomical front & back fatigue tracking' },
                   { title: 'Greyskull LP Overload Engine', desc: 'Auto-computes your target weights next session' }
@@ -1002,7 +1002,7 @@ export default function Login() {
                   <span>Opening Checkout…</span>
                 </>
               ) : (
-                'Start Transformation · ₹399'
+                'Start Training Today · ₹399'
               )}
             </button>
           </>
@@ -1197,7 +1197,7 @@ export default function Login() {
                   padding: 0
                 }}
               >
-                Start Transformation
+                Start Training Today
               </button>
             </div>
           )}
@@ -1243,7 +1243,7 @@ export default function Login() {
           Verified Razorpay Payment
         </span>
         <span style={{ fontSize: '10.5px', color: '#64748b', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          ⭐ 4.9/5 Rating
+          🛡️ 100% Ad-Free Experience
         </span>
       </div>
 

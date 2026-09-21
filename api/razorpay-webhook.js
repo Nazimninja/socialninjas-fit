@@ -103,7 +103,7 @@ export default async function handler(req, res) {
     let email = null;
     let phone = null;
     let name = null;
-    let amount = 499;
+    let amount = 399;
     let subscriptionId = null;
 
     if (isExpiredEvent) {
