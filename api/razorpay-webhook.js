@@ -19,7 +19,7 @@ function sha256Hex(str) {
   return crypto.createHash('sha256').update(str.trim().toLowerCase()).digest('hex');
 }
 
-async function sendMetaConversionsApiPurchase({ email, phone, name, subscriptionId, paymentId, amount }) {
+async function sendMetaConversionsApiPurchase({ email, phone, name, subscriptionId, amount, fbp, fbc }) {
   const pixelId = process.env.META_PIXEL_ID || '1022819360737558';
   const accessToken = process.env.META_ACCESS_TOKEN;
   if (!accessToken) {
@@ -34,7 +34,7 @@ async function sendMetaConversionsApiPurchase({ email, phone, name, subscription
     let firstName = (name || '').trim().split(' ')[0] || '';
     const hashedFirstName = firstName ? sha256Hex(firstName) : null;
 
-    const eventId = subscriptionId || paymentId || `sub_${Date.now()}`;
+    const eventId = subscriptionId;
     const payload = {
       data: [
         {
@@ -46,7 +46,9 @@ async function sendMetaConversionsApiPurchase({ email, phone, name, subscription
           user_data: {
             em: hashedEmail ? [hashedEmail] : [],
             ph: hashedPhone ? [hashedPhone] : [],
-            fn: hashedFirstName ? [hashedFirstName] : []
+            fn: hashedFirstName ? [hashedFirstName] : [],
+            ...(fbp ? { fbp } : {}),
+            ...(fbc ? { fbc } : {})
           },
           custom_data: {
             currency: 'INR',
@@ -160,25 +162,33 @@ export default async function handler(req, res) {
       name = sub.notes?.name || sub.customer_details?.name || sub.notes?.full_name || 'Athlete';
     } else if (isActivatedEvent) {
       targetStatus = 'premium';
-      const entity = event.payload?.subscription?.entity || event.payload?.payment?.entity || {};
-      subscriptionId = entity.id || event.payload?.subscription?.entity?.id;
+      const subEntity = event.payload?.subscription?.entity;
+      const payEntity = event.payload?.payment?.entity;
+      const entity = subEntity || payEntity || {};
+      subscriptionId = subEntity?.id || (entity.id?.startsWith('sub_') ? entity.id : null) || entity.notes?.subscription_id;
       userId = entity.notes?.user_id;
       email = entity.notes?.email || entity.email || entity.customer_details?.email;
       phone = entity.notes?.phone || entity.contact || entity.customer_details?.contact;
       name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
+      const fbp = entity.notes?.fbp || subEntity?.notes?.fbp || null;
+      const fbc = entity.notes?.fbc || subEntity?.notes?.fbc || null;
       if (entity.amount) {
         amount = Math.round(entity.amount / 100);
       }
 
-      // Meta Conversions API (CAPI): Server-Side Purchase Event on activation/charge
-      sendMetaConversionsApiPurchase({
-        email: (email || '').toLowerCase().trim(),
-        phone,
-        name,
-        subscriptionId,
-        paymentId: entity.id,
-        amount
-      }).catch(e => console.warn('[Meta CAPI] error:', e));
+      // Meta Conversions API (CAPI): Fire Purchase ONLY on initial subscription.activated
+      // event_id matches browser client eventID (subscriptionId) for perfect 1:1 deduplication
+      if (event.event === 'subscription.activated' && subscriptionId) {
+        sendMetaConversionsApiPurchase({
+          email: (email || '').toLowerCase().trim(),
+          phone,
+          name,
+          subscriptionId,
+          amount,
+          fbp,
+          fbc
+        }).catch(e => console.warn('[Meta CAPI] error:', e));
+      }
     }
 
     if (targetStatus && (userId || email)) {

@@ -120,3 +120,49 @@ export function trackPurchase({
     }
   }
 }
+
+/**
+ * Reads a cookie by name
+ */
+export function getCookie(name) {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+  return match ? decodeURIComponent(match[3]) : null;
+}
+
+/**
+ * Extracts _fbp cookie for Meta Conversions API
+ */
+export function getFbp() {
+  return getCookie('_fbp') || null;
+}
+
+/**
+ * Extracts or constructs _fbc parameter for Meta Conversions API
+ * If _fbc cookie exists, returns it.
+ * Otherwise, if fbclid exists in URL or sessionStorage/localStorage, constructs fb.1.${creationTime}.${fbclid}
+ */
+export function getFbc() {
+  const existingCookie = getCookie('_fbc');
+  if (existingCookie) return existingCookie;
+
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    let fbclid = urlParams.get('fbclid');
+
+    if (fbclid) {
+      try { sessionStorage.setItem('fit_fbclid', fbclid); } catch (e) {}
+    } else {
+      try { fbclid = sessionStorage.getItem('fit_fbclid') || localStorage.getItem('fit_fbclid'); } catch (e) {}
+    }
+
+    if (fbclid) {
+      const creationTime = Date.now();
+      return `fb.1.${creationTime}.${fbclid}`;
+    }
+  } catch (e) {}
+
+  return null;
+}

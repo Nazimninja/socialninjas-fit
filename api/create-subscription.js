@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { name, email, phone } = req.body || {};
+    const { name, email, phone, fbp, fbc } = req.body || {};
     const auth = Buffer.from(`${key_id}:${key_secret}`).toString('base64');
     const response = await fetch('https://api.razorpay.com/v1/subscriptions', {
       method: 'POST',
@@ -46,7 +46,9 @@ export default async function handler(req, res) {
         notes: {
           name: name || '',
           email: email || '',
-          phone: phone || ''
+          phone: phone || '',
+          ...(fbp ? { fbp } : {}),
+          ...(fbc ? { fbc } : {})
         }
       })
     });

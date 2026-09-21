@@ -55,6 +55,19 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '1022819360737558');
 fbq('track', 'PageView');
 </script>
+<script>
+// Persist fbclid from Meta Ad clicks to support CAPI fbc attribution
+(function() {
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var f = p.get('fbclid');
+    if (f) {
+      sessionStorage.setItem('fit_fbclid', f);
+      localStorage.setItem('fit_fbclid', f);
+    }
+  } catch(e) {}
+})();
+</script>
 <!-- End Meta Pixel Code -->
 
 <script type="application/ld+json">
@@ -2568,16 +2581,15 @@ initSwipeDots('compare-swipe-track', 'compare-swipe-dots');
     observer.observe(pricingEl);
   }
 
-  // Also track InitiateCheckout if user clicks any direct signup / checkout CTA on the landing page
+  // Track Lead when user clicks any direct signup / checkout CTA on the landing page
   document.querySelectorAll('a[href*="/app?mode=signup"], a[href*="/app.html?mode=signup"]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       if (typeof window.fbq === 'function') {
-        window.fbq('track', 'InitiateCheckout', {
-          content_name: 'Fit Ninja Pro Pass',
-          content_category: 'Subscription',
+        window.fbq('track', 'Lead', {
+          content_name: 'Fit Ninja Landing CTA Click',
+          content_category: 'Subscription Lead',
           value: 399,
-          currency: 'INR',
-          num_items: 1
+          currency: 'INR'
         });
       }
     });

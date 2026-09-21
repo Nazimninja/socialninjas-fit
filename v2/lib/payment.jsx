@@ -53,7 +53,7 @@ export function ensureRazorpayLoaded() {
   });
 }
 
-import { trackInitiateCheckout, trackPurchase } from './metaPixel.js';
+import { trackInitiateCheckout, trackPurchase, getFbp, getFbc } from './metaPixel.js';
 
 // Fit Ninja Razorpay Official Payment Gateway Engine
 export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
@@ -63,6 +63,8 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
     const cleanName = (name || '').trim();
     const cleanEmail = (email || '').trim().toLowerCase();
     const cleanPhone = (phone || '').trim();
+    const fbp = getFbp();
+    const fbc = getFbc();
 
     // Dynamically attempt subscription creation if server endpoint is configured
     let subId = null;
@@ -71,7 +73,13 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       const res = await fetch('/api/create-subscription', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: cleanName, email: cleanEmail, phone: cleanPhone })
+        body: JSON.stringify({
+          name: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          ...(fbp ? { fbp } : {}),
+          ...(fbc ? { fbc } : {})
+        })
       });
       if (res.ok) {
         const text = await res.text();
@@ -121,18 +129,21 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
         notes: {
           name: cleanName,
           email: cleanEmail,
-          phone: cleanPhone
+          phone: cleanPhone,
+          ...(fbp ? { fbp } : {}),
+          ...(fbc ? { fbc } : {})
         },
         theme: {
           color: '#070a12'
         },
         handler: function(response) {
           // Meta Pixel: Track client Purchase event (with eventID matching webhook for deduplication)
+          const dedupId = response.razorpay_subscription_id || subId || response.razorpay_payment_id;
           trackPurchase({
             value: 399,
             currency: 'INR',
             transaction_id: response.razorpay_payment_id || '',
-            event_id: response.razorpay_subscription_id || response.razorpay_payment_id || subId
+            event_id: dedupId
           });
           if (onSuccess) onSuccess(response);
         },

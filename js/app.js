@@ -113,14 +113,43 @@ async function doSignup() {
   S('scr-payment');
 }
 
+function getCookie(name) {
+  var m = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+  return m ? decodeURIComponent(m[3]) : null;
+}
+function getFbp() { return getCookie('_fbp') || null; }
+function getFbc() {
+  var c = getCookie('_fbc');
+  if (c) return c;
+  try {
+    var p = new URLSearchParams(window.location.search);
+    var f = p.get('fbclid') || sessionStorage.getItem('fit_fbclid') || localStorage.getItem('fit_fbclid');
+    if (f) return 'fb.1.' + Date.now() + '.' + f;
+  } catch(e) {}
+  return null;
+}
+
 async function doPayment() {
   var btn = document.getElementById('pay-btn');
   btn.textContent = 'Opening payment...';
   btn.disabled = true;
 
+  var fbp = getFbp();
+  var fbc = getFbc();
+
   try {
     // Step 1: Create a secure subscription on the backend
-    const subRes = await fetch(API_BASE + '/api/create-subscription', { method: 'POST' });
+    const subRes = await fetch(API_BASE + '/api/create-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: STATE.signupData?.name || '',
+        email: STATE.signupData?.email || '',
+        phone: STATE.signupData?.phone || '',
+        fbp: fbp,
+        fbc: fbc
+      })
+    });
     
     // If backend not available (GitHub Pages), fall through to direct checkout
     if (!subRes.ok) throw new Error('Backend unavailable');
@@ -133,7 +162,9 @@ async function doPayment() {
       key: window.RAZORPAY_KEY_ID || '',
       notes: {
         user_id: STATE.user ? STATE.user.id : '',
-        email: STATE.signupData.email || (STATE.user ? STATE.user.email : '')
+        email: STATE.signupData.email || (STATE.user ? STATE.user.email : ''),
+        fbp: fbp,
+        fbc: fbc
       },
       name: 'Fit Ninja',
       description: 'Pro Pass Membership — ₹399/mo',

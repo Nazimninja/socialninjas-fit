@@ -49,7 +49,9 @@ export async function onRequest(context) {
       notes: {
         name: body.name || '',
         email: body.email || '',
-        phone: body.phone || ''
+        phone: body.phone || '',
+        ...(body.fbp ? { fbp: body.fbp } : {}),
+        ...(body.fbc ? { fbc: body.fbc } : {})
       }
     };
     if (offer_id) {
