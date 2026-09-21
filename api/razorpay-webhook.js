@@ -1,4 +1,18 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+async function getRawBody(readable) {
+  const chunks = [];
+  for await (const chunk of readable) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks).toString('utf8');
+}
 
 function sha256Hex(str) {
   if (!str) return null;
@@ -64,23 +78,53 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const signature = req.headers['x-razorpay-signature'];
   const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
-
-  // 1. Verify webhook signature if secret is configured
-  if (webhookSecret && signature) {
-    const body = JSON.stringify(req.body);
-    const expectedSignature = crypto
-      .createHmac('sha256', webhookSecret)
-      .update(body)
-      .digest('hex');
-
-    if (signature !== expectedSignature) {
-      return res.status(400).json({ error: 'Invalid webhook signature' });
-    }
+  if (!webhookSecret) {
+    console.error('[Fit Webhook] RAZORPAY_WEBHOOK_SECRET environment variable is missing.');
+    return res.status(500).json({ error: 'Server configuration error: Webhook secret not set' });
   }
 
-  const event = req.body;
+  const signature = req.headers['x-razorpay-signature'];
+  if (!signature) {
+    console.warn('[Fit Webhook] Missing x-razorpay-signature header.');
+    return res.status(400).json({ error: 'Missing x-razorpay-signature header' });
+  }
+
+  // 1. Read exact raw body and verify HMAC SHA-256 signature
+  let rawBody = '';
+  try {
+    if (typeof req.body === 'string') {
+      rawBody = req.body;
+    } else if (Buffer.isBuffer(req.body)) {
+      rawBody = req.body.toString('utf8');
+    } else {
+      rawBody = await getRawBody(req);
+    }
+  } catch (err) {
+    console.error('[Fit Webhook] Failed to read request body:', err);
+    return res.status(400).json({ error: 'Failed to read request body' });
+  }
+
+  const expectedSignature = crypto
+    .createHmac('sha256', webhookSecret)
+    .update(rawBody)
+    .digest('hex');
+
+  const signatureBuffer = Buffer.from(signature, 'utf8');
+  const expectedBuffer = Buffer.from(expectedSignature, 'utf8');
+  if (signatureBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(signatureBuffer, expectedBuffer)) {
+    console.warn('[Fit Webhook] Invalid signature received.');
+    return res.status(400).json({ error: 'Invalid webhook signature' });
+  }
+
+  let event;
+  try {
+    event = JSON.parse(rawBody);
+  } catch (e) {
+    console.warn('[Fit Webhook] Invalid JSON payload received.');
+    return res.status(400).json({ error: 'Invalid JSON payload' });
+  }
+
   console.log(`[Fit Webhook] Event received: ${event.event}`);
 
   // 2. Handle cancellation/failed payment events

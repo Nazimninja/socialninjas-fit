@@ -108,16 +108,23 @@ export async function onRequest(context) {
   }
 
   const rawBody = await request.text();
-  const signature = request.headers.get('x-razorpay-signature');
   const webhookSecret = env.RAZORPAY_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error('[Fit Webhook] RAZORPAY_WEBHOOK_SECRET environment variable is missing.');
+    return new Response(JSON.stringify({ error: 'Server configuration error: Webhook secret not set' }), { headers, status: 500 });
+  }
 
-  // 1. Verify webhook signature if secret is configured in Cloudflare environment
-  if (webhookSecret && signature) {
-    const isValid = await verifyHmacSignature(rawBody, signature, webhookSecret);
-    if (!isValid) {
-      console.warn('[Fit Webhook] Invalid signature received.');
-      return new Response(JSON.stringify({ error: 'Invalid webhook signature' }), { headers, status: 400 });
-    }
+  const signature = request.headers.get('x-razorpay-signature');
+  if (!signature) {
+    console.warn('[Fit Webhook] Missing x-razorpay-signature header.');
+    return new Response(JSON.stringify({ error: 'Missing x-razorpay-signature header' }), { headers, status: 400 });
+  }
+
+  // 1. Verify webhook signature against raw request body
+  const isValid = await verifyHmacSignature(rawBody, signature, webhookSecret);
+  if (!isValid) {
+    console.warn('[Fit Webhook] Invalid signature received.');
+    return new Response(JSON.stringify({ error: 'Invalid webhook signature' }), { headers, status: 400 });
   }
 
   let event;
