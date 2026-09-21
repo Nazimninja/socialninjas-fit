@@ -41,6 +41,21 @@
 <!-- Razorpay Checkout Script -->
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1022819360737558');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1273,6 +1288,8 @@ footer {
 </style>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1022819360737558&ev=PageView&noscript=1" /></noscript>
+
 
 <!-- ── FLOATING GLASS NAVBAR ── -->
 <div class="nav-wrap">
@@ -2518,6 +2535,47 @@ function initSwipeDots(trackId, dotsId) {
 initSwipeDots('values-swipe-track', 'values-swipe-dots');
 initSwipeDots('exercise-swipe-track', 'exercise-swipe-dots');
 initSwipeDots('compare-swipe-track', 'compare-swipe-dots');
+
+// Meta Pixel: Track ViewContent when Pricing section scrolls into viewport
+(function() {
+  const pricingEl = document.getElementById('pricing');
+  if (!pricingEl) return;
+  let pricingTracked = false;
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !pricingTracked) {
+          pricingTracked = true;
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'ViewContent', {
+              content_name: 'Fit Ninja Pro Pass Pricing',
+              content_category: 'Subscription',
+              value: 399,
+              currency: 'INR'
+            });
+          }
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+    observer.observe(pricingEl);
+  }
+
+  // Also track InitiateCheckout if user clicks any direct signup / checkout CTA on the landing page
+  document.querySelectorAll('a[href*="/app?mode=signup"], a[href*="/app.html?mode=signup"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'InitiateCheckout', {
+          content_name: 'Fit Ninja Pro Pass',
+          content_category: 'Subscription',
+          value: 399,
+          currency: 'INR',
+          num_items: 1
+        });
+      }
+    });
+  });
+})();
 </script>
 
 </body>

@@ -27,6 +27,7 @@ import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
 import { supabase, supabasePublic, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from './lib/api.js'
+import { trackPageView } from './lib/metaPixel.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
 
@@ -165,6 +166,11 @@ function Shell() {
   const paid = useStore(s => s.paid)
   const user = useStore(s => s.user)
   const authed = (user || isGuest) && paid
+
+  // Meta Pixel: Track PageView on route navigation
+  useEffect(() => {
+    trackPageView()
+  }, [loc.pathname])
 
   // Guarantee immediate entry into /home whenever authed becomes true
   useEffect(() => {

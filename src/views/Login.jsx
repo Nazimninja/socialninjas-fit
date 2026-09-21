@@ -5,6 +5,7 @@ import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { openRazorpayCheckout, RAZORPAY_PAYMENT_LINK, getPrefilledPaymentLink } from '../lib/payment.jsx'
+import { trackCompleteRegistration } from '../lib/metaPixel.js'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
 import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
@@ -262,6 +263,12 @@ export default function Login() {
         useUI.getState().toast('Please enter a valid email address')
         return
       }
+
+      // Meta Pixel: Track CompleteRegistration on signup
+      trackCompleteRegistration({
+        content_name: 'Fit Ninja Pro Athlete Registration',
+        method: activeEmail ? 'email' : 'phone'
+      })
 
       setIsVerifying(true)
 

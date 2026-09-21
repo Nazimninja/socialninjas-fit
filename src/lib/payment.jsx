@@ -53,7 +53,9 @@ export function ensureRazorpayLoaded() {
   });
 }
 
-// Fit Ninja Razorpay Official Payment Gateway Engine
+import { trackInitiateCheckout, trackPurchase } from './metaPixel.js';
+
+// Official Razorpay Live Subscription / Payment Link for Fit Ninja Pro Membership
 export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email = '', phone = '', onSuccess, onFailure } = {}) {
   try {
     await ensureRazorpayLoaded();
@@ -125,6 +127,13 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
           color: '#070a12'
         },
         handler: function(response) {
+          // Meta Pixel: Track client Purchase event (with eventID matching webhook for deduplication)
+          trackPurchase({
+            value: 399,
+            currency: 'INR',
+            transaction_id: response.razorpay_payment_id || '',
+            event_id: response.razorpay_subscription_id || response.razorpay_payment_id || subId
+          });
           if (onSuccess) onSuccess(response);
         },
         modal: {
@@ -151,6 +160,14 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
           console.warn('Razorpay payment failed:', resp?.error);
           if (onFailure) onFailure(resp?.error?.description || 'Payment failed. Please try again.');
         });
+
+        // Meta Pixel: Track InitiateCheckout when modal opens
+        trackInitiateCheckout({
+          value: 399,
+          currency: 'INR',
+          event_id: subId || undefined
+        });
+
         rzp.open();
         return;
       } catch (err) {

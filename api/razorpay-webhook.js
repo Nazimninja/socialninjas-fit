@@ -1,5 +1,64 @@
 const crypto = require('crypto');
 
+function sha256Hex(str) {
+  if (!str) return null;
+  return crypto.createHash('sha256').update(str.trim().toLowerCase()).digest('hex');
+}
+
+async function sendMetaConversionsApiPurchase({ email, phone, name, subscriptionId, paymentId, amount }) {
+  const pixelId = process.env.META_PIXEL_ID || '1022819360737558';
+  const accessToken = process.env.META_ACCESS_TOKEN;
+  if (!accessToken) {
+    console.log('[Meta CAPI] Skipping CAPI event: META_ACCESS_TOKEN not configured.');
+    return;
+  }
+
+  try {
+    const hashedEmail = sha256Hex(email);
+    let cleanDigits = (phone || '').replace(/\D/g, '');
+    const hashedPhone = cleanDigits ? sha256Hex(cleanDigits) : null;
+    let firstName = (name || '').trim().split(' ')[0] || '';
+    const hashedFirstName = firstName ? sha256Hex(firstName) : null;
+
+    const eventId = subscriptionId || paymentId || `sub_${Date.now()}`;
+    const payload = {
+      data: [
+        {
+          event_name: 'Purchase',
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: eventId,
+          event_source_url: 'https://fit.socialninjas.in/',
+          action_source: 'website',
+          user_data: {
+            em: hashedEmail ? [hashedEmail] : [],
+            ph: hashedPhone ? [hashedPhone] : [],
+            fn: hashedFirstName ? [hashedFirstName] : []
+          },
+          custom_data: {
+            currency: 'INR',
+            value: amount || 399
+          }
+        }
+      ]
+    };
+
+    if (process.env.META_TEST_EVENT_CODE) {
+      payload.test_event_code = process.env.META_TEST_EVENT_CODE;
+    }
+
+    const res = await fetch(`https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const resData = await res.json();
+    console.log('[Meta CAPI] Purchase response:', res.status, resData);
+  } catch (err) {
+    console.warn('[Meta CAPI] Failed to dispatch CAPI purchase:', err.message);
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -66,6 +125,16 @@ export default async function handler(req, res) {
       if (entity.amount) {
         amount = Math.round(entity.amount / 100);
       }
+
+      // Meta Conversions API (CAPI): Server-Side Purchase Event on activation/charge
+      sendMetaConversionsApiPurchase({
+        email: (email || '').toLowerCase().trim(),
+        phone,
+        name,
+        subscriptionId,
+        paymentId: entity.id,
+        amount
+      }).catch(e => console.warn('[Meta CAPI] error:', e));
     }
 
     if (targetStatus && (userId || email)) {

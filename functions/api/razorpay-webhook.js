@@ -26,6 +26,69 @@ async function verifyHmacSignature(bodyText, signature, secret) {
   }
 }
 
+async function sha256Hex(str) {
+  if (!str) return null;
+  const buffer = new TextEncoder().encode(str.trim().toLowerCase());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Meta Conversions API (CAPI) Server-Side Purchase Dispatcher
+async function sendMetaConversionsApiPurchase(env, { email, phone, name, subscriptionId, paymentId, amount }) {
+  const pixelId = env.META_PIXEL_ID || '1022819360737558';
+  const accessToken = env.META_ACCESS_TOKEN;
+  if (!accessToken) {
+    console.log('[Meta CAPI] Skipping CAPI event: META_ACCESS_TOKEN not configured in Cloudflare Pages.');
+    return;
+  }
+
+  try {
+    const hashedEmail = await sha256Hex(email);
+    let cleanDigits = (phone || '').replace(/\D/g, '');
+    const hashedPhone = cleanDigits ? await sha256Hex(cleanDigits) : null;
+    let firstName = (name || '').trim().split(' ')[0] || '';
+    const hashedFirstName = firstName ? await sha256Hex(firstName) : null;
+
+    const eventId = subscriptionId || paymentId || `sub_${Date.now()}`;
+    const payload = {
+      data: [
+        {
+          event_name: 'Purchase',
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: eventId,
+          event_source_url: 'https://fit.socialninjas.in/',
+          action_source: 'website',
+          user_data: {
+            em: hashedEmail ? [hashedEmail] : [],
+            ph: hashedPhone ? [hashedPhone] : [],
+            fn: hashedFirstName ? [hashedFirstName] : []
+          },
+          custom_data: {
+            currency: 'INR',
+            value: amount || 399
+          }
+        }
+      ]
+    };
+
+    if (env.META_TEST_EVENT_CODE) {
+      payload.test_event_code = env.META_TEST_EVENT_CODE;
+    }
+
+    const res = await fetch(`https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const resData = await res.json();
+    console.log('[Meta CAPI] Purchase response:', res.status, resData);
+  } catch (err) {
+    console.warn('[Meta CAPI] Failed to dispatch CAPI purchase:', err.message);
+  }
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
 
@@ -109,6 +172,21 @@ export async function onRequest(context) {
       name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
       if (entity.amount) {
         amount = Math.round(entity.amount / 100);
+      }
+
+      // Meta Conversions API (CAPI): Server-Side Purchase Event on activation/charge
+      const capiPromise = sendMetaConversionsApiPurchase(env, {
+        email: (email || '').toLowerCase().trim(),
+        phone,
+        name,
+        subscriptionId,
+        paymentId: entity.id,
+        amount
+      });
+      if (context && typeof context.waitUntil === 'function') {
+        context.waitUntil(capiPromise);
+      } else {
+        capiPromise.catch(e => console.warn('[Meta CAPI] error:', e));
       }
     }
 
