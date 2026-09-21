@@ -8,159 +8,355 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://fit.socialninjas.in/terms.html">
 
+<!-- Favicons & App Icons -->
+<link rel="icon" type="image/png" href="/ninja-emblem.png">
+<link rel="apple-touch-icon" href="/ninja-emblem.png">
+
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --paper:#07090e;
-  --paper2:#0e121d;
-  --ink:#ffffff;
-  --green:#BF5AF2;
-  --green-d:#A78BFA;
-  --green-l:rgba(191,90,242,0.15);
-  --amber:#FFD60A;
-  --red:#FF453A;
-  --t1:#ffffff;
-  --t2:#94a3b8;
-  --t3:#607080;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #000000;
+  --bg-el: #0c0c0e;
+  --surface: #121215;
+  --surface-2: #1a1a1f;
+  --sky: #38bdf8;
+  --mint: #34d399;
+  --t1: #ffffff;
+  --t2: #94a3b8;
+  --t3: #64748b;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-top: rgba(255, 255, 255, 0.16);
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Inter', Roboto, sans-serif;
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);background:var(--paper);color:var(--t1);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:8px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .3s;background:rgba(7,9,14,0.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08)}
-.nav-logo{display:flex;align-items:center;text-decoration:none;height:88px;transition:height 0.3s}
-.nav-logo-img{height:100%;max-height:88px;object-fit:contain;filter:brightness(1.2);transition:all 0.3s cubic-bezier(0.16,1,0.3,1)}
-.nav-links{display:flex;align-items:center;gap:32px}
-.nav-links a{font-size:14px;font-weight:700;color:#888888;text-decoration:none;transition:all 0.2s ease;}
-.nav-links a:hover{color:#ffffff;}
-.nav-cta{padding:10px 22px;background:linear-gradient(135deg, #BF5AF2 0%, #7C3AED 100%);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--fb);text-decoration:none;transition:all .2s;box-shadow:0 4px 12px rgba(191,90,242,0.25)}
-.nav-cta:hover{background:linear-gradient(135deg, #C4B5FD 0%, #6D28D9 100%);transform:translateY(-1px);box-shadow:0 6px 16px rgba(124,58,237,0.35)}
-@media(max-width:768px){
-  nav{padding:8px 16px}
-  .nav-logo{height:64px}
-  .nav-logo-img{max-height:64px}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
-@media(max-width:640px){.nav-links{display:none}}
 
-/* ── CONTAINER ── */
-.content-container {
-  max-width: 800px;
-  margin: 140px auto 80px;
-  padding: 48px 32px;
-  background: #0e121d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--r);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  background-image: radial-gradient(1000px circle at 50% 0%, rgba(56, 189, 248, 0.06) 0%, transparent 65%);
+  background-repeat: no-repeat;
+  color: var(--t1);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-.content-container h1 {
-  font-family: var(--ff);
-  font-size: clamp(32px, 5vw, 48px);
+
+a { color: inherit; text-decoration: none; }
+
+/* ── FLOATING GLASS NAVBAR ── */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(12, 12, 14, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+}
+.nav-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.nav-brand img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(56, 189, 248, 0.5));
+}
+.nav-brand-title {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.nav-brand-sub {
+  font-size: 9px;
   font-weight: 800;
-  margin-bottom: 24px;
-  background: linear-gradient(135deg, #ffffff 0%, #BF5AF2 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--t2);
+  margin-top: 3px;
 }
-.content-container h2 {
-  font-family: var(--ff);
-  font-size: clamp(20px, 3vw, 24px);
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-links a {
+  font-size: 13.5px;
   font-weight: 700;
-  margin-top: 36px;
-  margin-bottom: 16px;
-  color: var(--green-d);
-}
-.content-container p {
-  font-size: 15px;
   color: var(--t2);
-  line-height: 1.75;
-  margin-bottom: 16px;
+  transition: color 0.15s ease;
 }
-.content-container ul {
-  margin-bottom: 16px;
-  padding-left: 20px;
-  color: var(--t2);
+.nav-links a:hover {
+  color: #fff;
 }
-.content-container li {
-  font-size: 15px;
-  line-height: 1.75;
+.nav-btn-primary {
+  font-size: 13px;
+  font-weight: 900;
+  color: #000000;
+  padding: 9px 20px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  border: none;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.nav-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(255, 255, 255, 0.38);
+}
+@media(max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-wrap { padding: 12px 16px; }
+}
+
+/* ── CONTENT CONTAINER ── */
+.content-wrapper {
+  max-width: 840px;
+  margin: 48px auto 80px;
+  padding: 0 20px;
+}
+.content-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 1px solid var(--border-top);
+  border-radius: 24px;
+  padding: 44px 36px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+@media(max-width: 640px) {
+  .content-card { padding: 32px 20px; }
+}
+
+.pill-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 18px;
+}
+.pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+}
+
+h1 {
+  font-size: clamp(32px, 5vw, 44px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #fff;
   margin-bottom: 8px;
+}
+.meta-date {
+  font-size: 13px;
+  color: var(--t2);
+  margin-bottom: 28px;
+  display: block;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 20%, rgba(255, 255, 255, 0.1) 80%, transparent);
+  margin: 24px 0 28px;
+}
+
+h2 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-top: 32px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--sky);
+}
+
+p {
+  font-size: 14.5px;
+  color: #cbd5e1;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+ul {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  color: #cbd5e1;
+  display: grid;
+  gap: 10px;
+}
+li {
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+strong {
+  color: #ffffff;
 }
 
 /* ── FOOTER ── */
-footer{background:#07090e;color:#888888;padding:40px 24px;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,0.08)}
-footer strong{color:#ffffff}
-footer a{color:#888888;text-decoration:none}
-footer a:hover{color:#BF5AF2}
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 36px 20px 48px;
+  text-align: center;
+  color: var(--t3);
+  font-size: 12px;
+  background: var(--bg);
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.footer-links {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 12px;
+}
+.footer-links a {
+  color: var(--t2);
+  transition: color 0.15s;
+}
+.footer-links a:hover {
+  color: #fff;
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="index.html" class="nav-logo">
-    <img src="assets/logo.png?v=2" class="nav-logo-img" alt="Fit Ninja Logo">
-  </a>
-  <div class="nav-links">
-    <a href="index.html#how-it-works">How it works</a>
-    <a href="index.html#features">Features</a>
-    <a href="index.html#pricing">Pricing</a>
-    <a href="index.html#faq">FAQ</a>
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact Us</a>
-  </div>
-  <a href="app.html" class="nav-cta">Start now →</a>
-</nav>
+<!-- ── FLOATING GLASS NAVBAR ── -->
+<div class="nav-wrap">
+  <nav class="nav-inner">
+    <a href="/" class="nav-brand">
+      <img src="/ninja-emblem.png" alt="Fit Ninja">
+      <div>
+        <div class="nav-brand-title">Fit<span style="color: var(--sky);">Ninja</span></div>
+        <div class="nav-brand-sub">BY SOCIAL NINJA'S</div>
+      </div>
+    </a>
 
-<!-- CONTENT -->
-<div class="content-container">
-  <h1>Terms & Conditions</h1>
-  <p><em>Last updated: June 2026</em></p>
-  
-  <p>Welcome to **Fit Ninja** (fit.socialninjas.in). By accessing our web application, signing up for an account, or subscribing to our plans, you agree to comply with and be bound by the following Terms & Conditions.</p>
-  
-  <h2>1. Use of the App</h2>
-  <p>Fit Ninja is a web-based fitness and nutrition utility designed to generate personalized workout routines and meal plans. You agree to use the application solely for personal, non-commercial fitness tracking. You must be at least 18 years of age or have parental consent to use this service.</p>
-  
-  <h2>2. Billing, Subscriptions, and Cancellation</h2>
-  <ul>
-    <li><strong>Subscription Fee:</strong> Access to Fit Ninja is priced at a premium rate of ₹499 per month.</li>
-    <li><strong>Auto-Renewal:</strong> Subscriptions are processed securely via Razorpay and will automatically renew each month unless cancelled.</li>
-    <li><strong>Cancellation:</strong> You can cancel your subscription at any time directly from your Profile settings in the app. There are no cancellation fees or lock-in periods. You will retain access until the end of your paid billing cycle.</li>
-    <li><strong>Refunds:</strong> Since our services involve instant custom generation of plans, subscription charges are non-refundable.</li>
-  </ul>
+    <div class="nav-links">
+      <a href="/#values">Core Values</a>
+      <a href="/app?mode=app#/library">5,300+ Library</a>
+      <a href="/#sandbox">Interactive Demo</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/#faq">FAQ</a>
+    </div>
 
-  <h2>3. Fitness & Health Disclaimer (Critical Safety Notice)</h2>
-  <p><strong>Fit Ninja is not a medical organization or professional healthcare provider.</strong> Our calculations, workouts, and nutritional targets are powered by coaching algorithms and sports science models but do not constitute medical advice.</p>
-  <p>You should consult with a physician or healthcare provider before starting any diet or exercise program, particularly if you have pre-existing injuries, cardiac conditions, or metabolic disorders. You agree that you perform all workout programs and follow nutritional recommendations entirely at your own risk.</p>
-
-  <h2>4. Account Termination</h2>
-  <p>We reserve the right to suspend or terminate accounts that violate our terms, perform scraping, or attempt unauthorized exploitation of our database or application servers.</p>
+    <div>
+      <a href="/app?mode=app" class="nav-btn-primary">
+        Launch App
+      </a>
+    </div>
+  </nav>
 </div>
 
-<!-- FOOTER -->
+<!-- ── CONTENT ── -->
+<div class="content-wrapper">
+  <div class="content-card">
+    <div class="pill-eyebrow">
+      <span class="pill-dot"></span>
+      <span>LEGAL &amp; COMPLIANCE</span>
+    </div>
+
+    <h1>Terms &amp; Conditions</h1>
+    <span class="meta-date">Last updated: June 2026</span>
+
+    <p>Welcome to <strong>Fit Ninja</strong> (fit.socialninjas.in). By accessing our web application, signing up for an account, or subscribing to our plans, you agree to comply with and be bound by the following Terms &amp; Conditions.</p>
+
+    <div class="divider"></div>
+
+    <h2>1. Use of the App</h2>
+    <p>Fit Ninja is a professional web-based fitness and nutrition utility designed to provide exercise form guides, workout tracking, rest timers, and customized nutritional plans. You agree to use the application solely for personal, non-commercial fitness tracking. You must be at least 18 years of age or have parental consent to use this service.</p>
+
+    <h2>2. Billing, Subscriptions, and Cancellation</h2>
+    <ul>
+      <li><strong>Subscription Fee:</strong> Access to Fit Ninja Pro is priced at <strong>₹399 per month</strong> (just ₹13/day).</li>
+      <li><strong>Auto-Renewal:</strong> Subscriptions are processed securely via Razorpay (UPI, debit/credit cards, and net banking) and renew automatically each month unless cancelled.</li>
+      <li><strong>Cancellation:</strong> You can cancel your subscription at any time with a single tap directly from your Profile settings in the app. There are zero cancellation fees, lock-in contracts, or hidden retention gates. You retain full Pro access until the end of your current paid billing period.</li>
+      <li><strong>Refunds:</strong> Because our application provides immediate, unrestricted access to the entire 5,300+ video library and real-time custom algorithm outputs, subscription charges are non-refundable once activated.</li>
+    </ul>
+
+    <h2>3. Fitness &amp; Health Disclaimer (Critical Safety Notice)</h2>
+    <p><strong>Fit Ninja is not a medical organization or healthcare provider.</strong> Our calculations, workouts, and nutritional targets are powered by coaching algorithms and sports science models but do not constitute medical advice, injury diagnosis, or clinical treatment.</p>
+    <p>Always consult with a qualified physician or healthcare professional before beginning any diet or exercise program, particularly if you have pre-existing cardiovascular conditions, musculoskeletal injuries, or metabolic disorders. You acknowledge and agree that you perform all workout programs and follow nutritional recommendations entirely at your own risk.</p>
+
+    <h2>4. Account Termination &amp; Fair Use</h2>
+    <p>We reserve the right to suspend or terminate accounts that violate our terms, attempt reverse-engineering, perform automated data scraping of video guides, or attempt unauthorized exploitation of our database or application servers.</p>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
 <footer>
-  <p style="margin-bottom:10px"><strong>Fit Ninja</strong> · Professional Athletic Training &amp; Nutrition</p>
-  <p>
-    <a href="about.html">About Us</a> · 
-    <a href="contact.html">Contact Us</a> · 
-    <a href="privacy.html">Privacy Policy</a> · 
-    <a href="terms.html">Terms & Conditions</a>
-  </p>
-  <p style="margin-top:10px">
+  <div class="footer-brand">
+    <img src="/ninja-emblem.png" alt="Fit Ninja" style="width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(56,189,248,0.4))">
+    <span style="font-weight:800;color:#fff;font-size:15px">Fit Ninja</span>
+    <span style="color:#334155">·</span>
+    <span>Built by <a href="https://socialninjas.in" target="_blank" rel="noreferrer" style="color:var(--sky);font-weight:700">Social Ninja's</a></span>
+  </div>
+
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy Policy</a>
+    <span style="color:#334155">·</span>
+    <a href="/terms.html">Terms of Service</a>
+    <span style="color:#334155">·</span>
+    <a href="/contact.html">Contact Us</a>
+    <span style="color:#334155">·</span>
     <a href="mailto:info@socialninjas.in">info@socialninjas.in</a>
-    &nbsp;·&nbsp;
-    <a href="https://wa.me/918147757479" target="_blank" rel="noopener">WhatsApp Support</a>
-  </p>
-  <p style="max-width:680px;margin:12px auto 0;font-size:11px;color:#64748b;line-height:1.55;text-align:center">
+  </div>
+
+  <div style="max-width:680px;margin:0 auto 14px;font-size:11px;color:#64748b;line-height:1.55;text-align:center">
     <strong style="color:#94a3b8">Legal Advisory:</strong> Fit Ninja provides workout tracking and nutritional guidelines for educational and fitness purposes only. It is not medical advice. Always consult a physician before beginning any rigorous training program.
-  </p>
-  <p style="margin-top:10px">© 2026 Social Ninja's. All rights reserved.</p>
+  </div>
+
+  <div>© 2026 Social Ninja's · fit.socialninjas.in · All Rights Reserved</div>
 </footer>
 
 </body>
