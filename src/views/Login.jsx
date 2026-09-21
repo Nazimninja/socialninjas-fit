@@ -264,12 +264,6 @@ export default function Login() {
         return
       }
 
-      // Meta Pixel: Track CompleteRegistration on signup
-      trackCompleteRegistration({
-        content_name: 'Fit Ninja Pro Athlete Registration',
-        method: activeEmail ? 'email' : 'phone'
-      })
-
       setIsVerifying(true)
 
       // Check if user is already a paid member before initiating checkout
@@ -375,6 +369,12 @@ export default function Login() {
             })
             setPaid(true)
             sessionStorage.setItem('fn_just_paid', '1')
+
+            // Meta Pixel: Track CompleteRegistration only after payment & account registration succeed
+            trackCompleteRegistration({
+              content_name: 'Fit Ninja Pro Athlete Registration',
+              method: activeEmail ? 'email' : 'phone'
+            })
             window.location.hash = '#/home'
             onboardingWizardSheet()
           },

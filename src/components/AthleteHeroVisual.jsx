@@ -366,7 +366,7 @@ export default function AthleteHeroVisual() {
           <Dumbbell size={14} color="#38bdf8" />
         </div>
         <div className="chip-content">
-          <span className="chip-val">1,324+</span>
+          <span className="chip-val">5,300+</span>
           <span className="chip-lbl">Exercises</span>
         </div>
       </div>
