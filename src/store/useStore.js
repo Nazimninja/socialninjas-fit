@@ -234,6 +234,17 @@ export const useStore = create((set, get) => {
       const currentState = get().S
       let pushSuccess = false
 
+      // Sanitize state for cloud sync: preserve all onboarding, workout, and check-in text/metrics,
+      // but omit heavy base64 image strings from photos to ensure zero database resource bloat.
+      const sanitizedState = { ...currentState }
+      if (Array.isArray(sanitizedState.checkins)) {
+        sanitizedState.checkins = sanitizedState.checkins.map(c => {
+          const { photos, ...rest } = c
+          return rest
+        })
+      }
+      sanitizedState.photos = []
+
       // 1. Push directly to Supabase scripts table from browser
       try {
         const { data: existing } = await supabase
@@ -246,7 +257,7 @@ export const useStore = create((set, get) => {
         const payload = {
           profile: 'fitninja_user_state',
           topic: email,
-          section1: JSON.stringify(currentState),
+          section1: JSON.stringify(sanitizedState),
           caption: new Date().toISOString()
         }
 
@@ -266,7 +277,7 @@ export const useStore = create((set, get) => {
         if (session?.user) {
           await supabase.auth.updateUser({
             data: {
-              gym_state: currentState,
+              gym_state: sanitizedState,
               gym_state_ts: currentState._ts || Date.now()
             }
           })
