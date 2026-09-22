@@ -42,14 +42,30 @@ export async function onRequest(context) {
 
     const auth = btoa(`${key_id}:${key_secret}`);
 
+    // Schedule monthly recurring billing to begin in 30 days
+    const nowUnix = Math.floor(Date.now() / 1000);
+    const startAt = nowUnix + (30 * 24 * 60 * 60);
+
     const subPayload = {
       plan_id: plan_id,
       customer_notify: 1,
       total_count: 120,
+      start_at: startAt,
+      addons: [
+        {
+          item: {
+            name: 'Launch Offer - Month 1 Access',
+            amount: 9900, // ₹99.00 in paise upfront charge
+            currency: 'INR'
+          }
+        }
+      ],
       notes: {
         name: body.name || '',
         email: body.email || '',
         phone: body.phone || '',
+        plan_intro: '99_first_month',
+        plan_recurring: '399_monthly',
         ...(body.fbp ? { fbp: body.fbp } : {}),
         ...(body.fbc ? { fbc: body.fbc } : {})
       }

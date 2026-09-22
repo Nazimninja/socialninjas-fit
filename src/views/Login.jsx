@@ -743,31 +743,43 @@ export default function Login() {
                   }}>
                     FIT NINJA PRO
                   </span>
+                  <span style={{
+                    background: 'rgba(34,197,94,0.14)',
+                    border: '1px solid rgba(34,197,94,0.3)',
+                    color: '#22c55e',
+                    fontSize: '9.5px',
+                    fontWeight: '900',
+                    letterSpacing: '0.6px',
+                    padding: '3px 8px',
+                    borderRadius: '6px'
+                  }}>
+                    LAUNCH PASS
+                  </span>
                 </div>
                 <div style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>
-                  Unlimited access · Cancel anytime
+                  ₹99 for Month 1 · Renews ₹399/mo · Cancel anytime
                 </div>
               </div>
 
               <div style={{ textAlign: 'right' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
-                  <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through' }}>₹999</span>
-                  <span style={{ fontSize: '26px', fontWeight: '900', color: '#ffffff', letterSpacing: '-0.5px' }}>₹399</span>
-                  <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/mo</span>
+                  <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through' }}>₹399</span>
+                  <span style={{ fontSize: '26px', fontWeight: '900', color: '#38bdf8', letterSpacing: '-0.5px' }}>₹99</span>
+                  <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/1st mo</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', marginTop: '2px' }}>
-                  <span style={{ fontSize: '10.5px', color: '#38bdf8', fontWeight: '700' }}>
-                    Just ₹13/day
+                  <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>
+                    Then ₹399/mo
                   </span>
                   <span style={{
-                    background: 'rgba(56,189,248,0.14)',
-                    color: '#38bdf8',
+                    background: 'rgba(34,197,94,0.14)',
+                    color: '#22c55e',
                     fontSize: '9px',
                     fontWeight: '800',
                     padding: '1px 5px',
                     borderRadius: '4px'
                   }}>
-                    SAVE 60%
+                    SAVE 75%
                   </span>
                 </div>
               </div>
@@ -1002,7 +1014,7 @@ export default function Login() {
                   <span>Opening Checkout…</span>
                 </>
               ) : (
-                'Start Training Today · ₹399'
+                'Start Training Today · ₹99'
               )}
             </button>
           </>

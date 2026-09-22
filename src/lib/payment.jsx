@@ -140,7 +140,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
           // Meta Pixel: Track client Purchase event (with eventID matching webhook for deduplication)
           const dedupId = response.razorpay_subscription_id || subId || response.razorpay_payment_id;
           trackPurchase({
-            value: 399,
+            value: 99,
             currency: 'INR',
             transaction_id: response.razorpay_payment_id || '',
             event_id: dedupId
@@ -157,11 +157,11 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
       };
 
       if (subId) {
-        // Genuine dynamic subscription ID
+        // Genuine dynamic subscription ID (₹99 upfront addon + ₹399/mo starting M2)
         options.subscription_id = subId;
       } else {
-        // Direct ₹399 charge in paise (₹399.00 = 39900 paise)
-        options.amount = 39900;
+        // Direct ₹99 charge in paise (₹99.00 = 9900 paise) for first month access
+        options.amount = 9900;
         options.currency = 'INR';
       }
 
@@ -174,7 +174,7 @@ export async function openRazorpayCheckout({ name = 'Fit Ninja Athlete', email =
 
         // Meta Pixel: Track InitiateCheckout when modal opens
         trackInitiateCheckout({
-          value: 399,
+          value: 99,
           currency: 'INR',
           event_id: subId || undefined
         });

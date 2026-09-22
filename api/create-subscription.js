@@ -33,6 +33,10 @@ export default async function handler(req, res) {
 
     const { name, email, phone, fbp, fbc } = req.body || {};
     const auth = Buffer.from(`${key_id}:${key_secret}`).toString('base64');
+    // Schedule monthly recurring billing to begin in 30 days
+    const nowUnix = Math.floor(Date.now() / 1000);
+    const startAt = nowUnix + (30 * 24 * 60 * 60);
+
     const response = await fetch('https://api.razorpay.com/v1/subscriptions', {
       method: 'POST',
       headers: {
@@ -43,10 +47,22 @@ export default async function handler(req, res) {
         plan_id: plan_id,
         customer_notify: 1,
         total_count: 120,
+        start_at: startAt,
+        addons: [
+          {
+            item: {
+              name: 'Launch Offer - Month 1 Access',
+              amount: 9900, // ₹99.00 in paise upfront charge
+              currency: 'INR'
+            }
+          }
+        ],
         notes: {
           name: name || '',
           email: email || '',
           phone: phone || '',
+          plan_intro: '99_first_month',
+          plan_recurring: '399_monthly',
           ...(fbp ? { fbp } : {}),
           ...(fbc ? { fbc } : {})
         }
