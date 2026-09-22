@@ -729,58 +729,48 @@ export default function Login() {
                 textAlign: 'left'
               }}
             >
-              <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
                   <span style={{
-                    background: 'rgba(56,189,248,0.14)',
-                    border: '1px solid rgba(56,189,248,0.3)',
+                    background: 'linear-gradient(135deg, rgba(56,189,248,0.2) 0%, rgba(2,132,199,0.2) 100%)',
+                    border: '1px solid rgba(56,189,248,0.4)',
                     color: '#38bdf8',
                     fontSize: '9.5px',
                     fontWeight: '900',
-                    letterSpacing: '0.6px',
-                    padding: '3px 8px',
+                    letterSpacing: '0.8px',
+                    padding: '3px 9px',
                     borderRadius: '6px'
                   }}>
                     FIT NINJA PRO
                   </span>
                   <span style={{
-                    background: 'rgba(34,197,94,0.14)',
-                    border: '1px solid rgba(34,197,94,0.3)',
+                    background: 'linear-gradient(135deg, rgba(34,197,94,0.2) 0%, rgba(16,185,129,0.2) 100%)',
+                    border: '1px solid rgba(34,197,94,0.4)',
                     color: '#22c55e',
                     fontSize: '9.5px',
                     fontWeight: '900',
-                    letterSpacing: '0.6px',
-                    padding: '3px 8px',
+                    letterSpacing: '0.8px',
+                    padding: '3px 9px',
                     borderRadius: '6px'
                   }}>
-                    LAUNCH PASS
+                    75% OFF
                   </span>
                 </div>
-                <div style={{ fontSize: '11.5px', color: '#94a3b8', fontWeight: '600' }}>
-                  ₹99 for Month 1 · Renews ₹399/mo · Cancel anytime
+                <div style={{ fontSize: '12px', color: '#cbd5e1', fontWeight: '600', lineHeight: 1.4 }}>
+                  Launch Offer · Month 1 Pass
+                </div>
+                <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>
+                  Renews at ₹399/mo · Cancel anytime
                 </div>
               </div>
 
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', justifyContent: 'flex-end' }}>
-                  <span style={{ fontSize: '13px', color: '#64748b', textDecoration: 'line-through' }}>₹399</span>
-                  <span style={{ fontSize: '26px', fontWeight: '900', color: '#38bdf8', letterSpacing: '-0.5px' }}>₹99</span>
-                  <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>/1st mo</span>
+              <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', justifyContent: 'flex-end' }}>
+                  <span style={{ fontSize: '14px', color: '#64748b', textDecoration: 'line-through', fontWeight: '600' }}>₹399</span>
+                  <span style={{ fontSize: '32px', fontWeight: '900', color: '#38bdf8', letterSpacing: '-1px', lineHeight: 1 }}>₹99</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', marginTop: '2px' }}>
-                  <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: '600' }}>
-                    Then ₹399/mo
-                  </span>
-                  <span style={{
-                    background: 'rgba(34,197,94,0.14)',
-                    color: '#22c55e',
-                    fontSize: '9px',
-                    fontWeight: '800',
-                    padding: '1px 5px',
-                    borderRadius: '4px'
-                  }}>
-                    SAVE 75%
-                  </span>
+                <div style={{ fontSize: '10.5px', color: '#94a3b8', fontWeight: '700', marginTop: '4px' }}>
+                  first 30 days
                 </div>
               </div>
             </div>
@@ -856,7 +846,7 @@ export default function Login() {
               gap: '6px'
             }}>
               
-              <span>Average Gym Trainer: <strong style={{ color: '#cbd5e1', textDecoration: 'line-through' }}>₹5,000/mo</strong> · Pro: <strong style={{ color: '#38bdf8' }}>₹13/day</strong></span>
+              <span>Average Gym Trainer: <strong style={{ color: '#cbd5e1', textDecoration: 'line-through' }}>₹5,000/mo</strong> · Month 1 Pass: <strong style={{ color: '#38bdf8' }}>₹3.3/day</strong></span>
             </div>
 
             {/* Clear, Unambiguous Input Fields */}
