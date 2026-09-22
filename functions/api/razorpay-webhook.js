@@ -68,7 +68,7 @@ async function sendMetaConversionsApiPurchase(env, { email, phone, name, subscri
           },
           custom_data: {
             currency: 'INR',
-            value: amount || 399
+            value: amount || 99
           }
         }
       ]
