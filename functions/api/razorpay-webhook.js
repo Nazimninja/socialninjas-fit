@@ -187,9 +187,10 @@ export async function onRequest(context) {
         amount = Math.round(entity.amount / 100);
       }
 
-      // Meta Conversions API (CAPI): Fire Purchase ONLY on initial subscription.activated
+      // Meta Conversions API (CAPI): Fire Purchase on initial subscription activation / first charge
       // event_id matches browser client eventID (subscriptionId) for perfect 1:1 deduplication
-      if (eventName === 'subscription.activated' && subscriptionId) {
+      const isInitialPurchase = ['subscription.activated', 'subscription.charged', 'order.paid'].includes(eventName) || (eventName === 'payment.captured' && subscriptionId);
+      if (isInitialPurchase && subscriptionId) {
         const capiPromise = sendMetaConversionsApiPurchase(env, {
           email: (email || '').toLowerCase().trim(),
           phone,
