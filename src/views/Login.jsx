@@ -350,7 +350,7 @@ export default function Login() {
                     mobile: cleanPhone || '',
                     digits_phone: (cleanPhone || '').replace(/\D/g, ''),
                     email: activeEmail || '',
-                    amount: 399,
+                    amount: 99,
                     subscriptionId: response.razorpay_payment_id || response.razorpay_subscription_id || 'sub_manual',
                     razorpay_payment_id: response.razorpay_payment_id || '',
                     plan: 'Fit Ninja Pro',
