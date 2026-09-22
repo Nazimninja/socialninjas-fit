@@ -60,7 +60,7 @@ export default function Landing() {
     },
     {
       q: "How much does Fit Ninja cost?",
-      a: "Fit Ninja Pro is just ₹399/month (less than ₹13/day). It is a simple recurring monthly membership with zero lock-in, giving you complete, unrestricted access to 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom meal plans, and cloud backup."
+      a: "Right now, you can get the Fit Ninja Launch Pass for just ₹99 for your first month (less than ₹4/day). After month 1, your membership renews automatically at the standard rate of ₹399/month. You get complete, unrestricted access to all 5,300+ animated video exercises, guided workout player, full-screen rest timers, automatic weight suggestions, custom meal plans, and cloud backup. You can cancel anytime with 1 tap."
     },
     {
       q: "Why is there no free plan or ad-supported version?",
@@ -298,7 +298,7 @@ export default function Landing() {
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
-            <span className="pill-sub" style={{ color: '#94a3b8' }}>Workout &amp; Nutrition Coach</span>
+            <span className="pill-sub" style={{ color: '#38bdf8', fontWeight: '800' }}>Special Launch Offer: ₹99 First Month</span>
           </div>
 
           {/* Main Headline */}
@@ -342,17 +342,18 @@ export default function Landing() {
                 color: '#000000',
                 fontWeight: '900',
                 fontSize: '15px',
-                padding: '14px 28px',
-                borderRadius: '99px',
+                padding: '16px 32px',
+                borderRadius: '16px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 6px 24px rgba(255, 255, 255, 0.25)',
+                boxShadow: '0 4px 20px rgba(255, 255, 255, 0.25)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px'
+                gap: '8px',
+                transition: 'all 0.2s ease'
               }}
             >
-              <span>Start Training Today</span>
+              <span>Claim Launch Pass — ₹99</span>
               <ArrowRight size={16} />
             </button>
 
@@ -402,8 +403,8 @@ export default function Landing() {
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Pure Workout Focus</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>₹13/day</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Fit Ninja Pro</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#38bdf8' }}>₹99</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Month 1 Launch Pass</div>
             </div>
           </div>
         </div>
@@ -726,35 +727,36 @@ export default function Landing() {
                 top: '-14px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                background: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
-                color: '#000000',
+                background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)',
+                color: '#031024',
                 fontSize: '11px',
                 fontWeight: '900',
                 padding: '6px 22px',
                 borderRadius: '99px',
                 letterSpacing: '0.8px',
-                boxShadow: '0 4px 14px rgba(52, 211, 153, 0.4)',
+                boxShadow: '0 4px 14px rgba(56, 189, 248, 0.4)',
                 whiteSpace: 'nowrap'
               }}>
-                ALL-ACCESS PRO MEMBERSHIP
+                SPECIAL LAUNCH OFFER: ₹99 FIRST MONTH
               </div>
 
               {/* Title & Subtitle */}
               <h3 style={{ fontSize: '30px', fontWeight: '900', color: '#ffffff', margin: '8px 0 8px', letterSpacing: '-0.5px' }}>
-                Fit Ninja Pro
+                Fit Ninja Pro Launch Pass
               </h3>
               <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: 1.6, margin: '0 auto 24px', maxWidth: '440px' }}>
-                The complete gym companion with 5,300+ guides, guided sets, automatic progressive overload, and custom nutrition.
+                Get unrestricted access to all 5,300+ guides, guided sets, automatic progressive overload, and custom nutrition for just ₹99.
               </p>
 
               {/* Pricing & Daily Rate - Symmetrically Centered */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '26px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '54px', fontWeight: '900', color: '#ffffff', letterSpacing: '-1.5px', lineHeight: 1 }}>₹399</span>
-                  <span style={{ fontSize: '16px', color: '#94a3b8', fontWeight: '700' }}>/ month</span>
+                  <span style={{ fontSize: '20px', color: '#64748b', textDecoration: 'line-through', fontWeight: '700' }}>₹399</span>
+                  <span style={{ fontSize: '56px', fontWeight: '900', color: '#38bdf8', letterSpacing: '-1.5px', lineHeight: 1 }}>₹99</span>
+                  <span style={{ fontSize: '15px', color: '#94a3b8', fontWeight: '700' }}>/ 1st month</span>
                 </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(52, 211, 153, 0.1)', border: '1px solid rgba(52, 211, 153, 0.3)', borderRadius: '99px', padding: '6px 16px', marginTop: '12px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: '800', color: '#34d399' }}>Just ₹13/day</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '99px', padding: '6px 16px', marginTop: '12px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '800', color: '#38bdf8' }}>Then ₹399/mo (Just ₹13/day)</span>
                   <span style={{ color: '#475569' }}>•</span>
                   <span style={{ fontSize: '12px', color: '#cbd5e1', fontWeight: '600' }}>Cancel anytime in 1 tap</span>
                 </div>
@@ -838,7 +840,7 @@ export default function Landing() {
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  <span>Start Fit Ninja Pro — ₹399/mo</span>
+                  <span>Claim Launch Pass — Just ₹99</span>
                   <ArrowRight size={18} strokeWidth={2.5} color="#000000" />
                 </button>
               </div>
@@ -909,10 +911,10 @@ export default function Landing() {
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: '12px', fontSize: '12.5px', color: '#e2e8f0', lineHeight: 1.5 }}>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
+                    <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                       <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
-                    <span><strong>Just ₹399/mo (₹13/day)</strong> — unlimited access &amp; cancel anytime</span>
+                    <span><strong>Special Launch Pass: ₹99 Month 1</strong>, then ₹399/mo (cancel anytime)</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                     <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
