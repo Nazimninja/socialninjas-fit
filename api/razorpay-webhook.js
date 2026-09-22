@@ -149,7 +149,7 @@ export default async function handler(req, res) {
     let email = null;
     let phone = null;
     let name = null;
-    let amount = 399;
+    let amount = 99; // Default to promo ₹99 launch pass for day 1
     let subscriptionId = null;
 
     if (isExpiredEvent) {
@@ -172,8 +172,12 @@ export default async function handler(req, res) {
       name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
       const fbp = entity.notes?.fbp || subEntity?.notes?.fbp || null;
       const fbc = entity.notes?.fbc || subEntity?.notes?.fbc || null;
-      if (entity.amount) {
-        amount = Math.round(entity.amount / 100);
+      
+      const chargedPaise = payEntity?.amount || entity.amount;
+      if (chargedPaise) {
+        amount = Math.round(chargedPaise / 100);
+      } else {
+        amount = 99;
       }
 
       // Meta Conversions API (CAPI): Fire Purchase ONLY on initial subscription.activated
