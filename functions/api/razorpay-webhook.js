@@ -192,10 +192,17 @@ export async function onRequest(context) {
         amount = 99;
       }
 
-      // Meta Conversions API (CAPI): Fire Purchase on initial subscription activation / first charge
-      // event_id matches browser client eventID (subscriptionId) for perfect 1:1 deduplication
-      const isInitialPurchase = ['subscription.activated', 'subscription.charged', 'order.paid'].includes(eventName) || (eventName === 'payment.captured' && subscriptionId);
-      if (isInitialPurchase && subscriptionId) {
+      // Meta Conversions API (CAPI): Fire Purchase ONLY on initial subscription activation / Day 1 Launch Pass (₹99)
+      // NEVER fire on subsequent monthly renewals (subscription.charged / ₹399 / paid_count > 0)
+      // to prevent inflating new-customer conversions and corrupting Meta Ad ROAS.
+      const paidCount = typeof subEntity?.paid_count === 'number' ? subEntity.paid_count : 0;
+      const isInitialActivation = (eventName === 'subscription.activated' || eventName === 'subscription.authenticated');
+      const isNotRenewalEvent = eventName !== 'subscription.charged';
+      const isDay1Amount = amount <= 100; // Promo Launch Pass is ₹99; renewals are ₹399
+      const isInitialCycle = paidCount === 0;
+
+      const isInitialPurchase = isInitialActivation && isNotRenewalEvent && isDay1Amount && isInitialCycle && Boolean(subscriptionId);
+      if (isInitialPurchase) {
         const capiPromise = sendMetaConversionsApiPurchase(env, {
           email: (email || '').toLowerCase().trim(),
           phone,
