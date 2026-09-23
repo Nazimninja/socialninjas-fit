@@ -140,7 +140,9 @@ export default async function handler(req, res) {
   const isActivatedEvent = [
     'subscription.activated',
     'subscription.charged',
-    'payment.captured'
+    'subscription.authenticated',
+    'payment.captured',
+    'order.paid'
   ].includes(event.event);
 
   try {
@@ -152,24 +154,25 @@ export default async function handler(req, res) {
     let amount = 99; // Default to promo ₹99 launch pass for day 1
     let subscriptionId = null;
 
+    const subEntity = event.payload?.subscription?.entity;
+    const payEntity = event.payload?.payment?.entity;
+    const orderEntity = event.payload?.order?.entity;
+    const entity = subEntity || payEntity || orderEntity || {};
+
     if (isExpiredEvent) {
       targetStatus = 'free';
-      const sub = event.payload?.subscription?.entity || {};
-      subscriptionId = sub.id;
-      userId = sub.notes?.user_id;
-      email = sub.notes?.email || sub.notes?.brand_email;
-      phone = sub.notes?.phone || sub.contact || sub.customer_details?.contact;
-      name = sub.notes?.name || sub.customer_details?.name || sub.notes?.full_name || 'Athlete';
-    } else if (isActivatedEvent) {
-      targetStatus = 'premium';
-      const subEntity = event.payload?.subscription?.entity;
-      const payEntity = event.payload?.payment?.entity;
-      const entity = subEntity || payEntity || {};
-      subscriptionId = subEntity?.id || (entity.id?.startsWith('sub_') ? entity.id : null) || entity.notes?.subscription_id;
+      subscriptionId = subEntity?.id || entity.notes?.subscription_id;
       userId = entity.notes?.user_id;
-      email = entity.notes?.email || entity.email || entity.customer_details?.email;
+      email = entity.notes?.email || entity.notes?.brand_email || entity.email || entity.customer_details?.email;
       phone = entity.notes?.phone || entity.contact || entity.customer_details?.contact;
       name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || 'Athlete';
+    } else if (isActivatedEvent) {
+      targetStatus = 'premium';
+      subscriptionId = subEntity?.id || (entity.id?.startsWith('sub_') ? entity.id : null) || entity.notes?.subscription_id;
+      userId = entity.notes?.user_id;
+      email = entity.notes?.email || entity.email || entity.customer_details?.email || subEntity?.notes?.email || payEntity?.email;
+      phone = entity.notes?.phone || entity.contact || entity.customer_details?.contact || subEntity?.notes?.phone || payEntity?.contact;
+      name = entity.notes?.name || entity.customer_details?.name || entity.notes?.full_name || subEntity?.notes?.name || 'Athlete';
       const fbp = entity.notes?.fbp || subEntity?.notes?.fbp || null;
       const fbc = entity.notes?.fbc || subEntity?.notes?.fbc || null;
       
@@ -181,8 +184,6 @@ export default async function handler(req, res) {
       }
 
       // Meta Conversions API (CAPI): Fire Purchase ONLY on initial subscription activation / Day 1 Launch Pass (₹99)
-      // NEVER fire on subsequent monthly renewals (subscription.charged / ₹399 / paid_count > 0)
-      // to prevent inflating new-customer conversions and corrupting Meta Ad ROAS.
       const paidCount = typeof subEntity?.paid_count === 'number' ? subEntity.paid_count : 0;
       const isInitialActivation = (event.event === 'subscription.activated' || event.event === 'subscription.authenticated');
       const isNotRenewalEvent = event.event !== 'subscription.charged';
@@ -203,106 +204,173 @@ export default async function handler(req, res) {
       }
     }
 
-    if (targetStatus && (userId || email)) {
-      const supabaseUrl = process.env.SUPABASE_URL;
+    if (targetStatus) {
+      const cleanEmail = (email || '').toLowerCase().trim();
+      const rawPhone = String(phone || '').trim();
+      let digits = rawPhone.replace(/\D/g, '');
+      if (digits.length === 10) {
+        digits = '91' + digits;
+      } else if (digits.length === 11 && digits.startsWith('0')) {
+        digits = '91' + digits.slice(1);
+      }
+      const e164Phone = digits ? `+${digits}` : rawPhone;
+      const local10 = digits.length >= 10 ? digits.slice(-10) : digits;
+
+      // 1. FORWARD ONBOARDING EVENT TO RAILWAY N8N FOR AUTOMATED WHATSAPP WELCOME
+      if (targetStatus === 'premium') {
+        try {
+          const n8nWebhookUrl = process.env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
+          const n8nPayload = {
+            event: 'member.onboarded',
+            name: name || 'Athlete',
+            phone: e164Phone,
+            whatsapp: digits,
+            contact: digits,
+            phone_number: digits,
+            mobile: digits,
+            digits_phone: digits,
+            formatted_phone: e164Phone,
+            local_phone: local10,
+            wa_link: digits ? `https://wa.me/${digits}` : '',
+            to: digits,
+            recipient: digits,
+            email: cleanEmail,
+            amount,
+            subscriptionId: subscriptionId || payEntity?.id || 'sub_manual',
+            razorpay_payment_id: payEntity?.id || subscriptionId || '',
+            plan: 'Fit Ninja Pro',
+            source: 'razorpay_server_webhook',
+            timestamp: new Date().toISOString()
+          };
+
+          const n8nRes = await fetch(n8nWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(n8nPayload)
+          });
+          console.log(`[Fit Webhook] Dispatched welcome payload to n8n (Status ${n8nRes.status}) for ${cleanEmail || digits}`);
+        } catch (n8nErr) {
+          console.warn('[Fit Webhook] Failed to forward to n8n:', n8nErr);
+        }
+      }
+
+      // 2. RESILIENT SUPABASE RECORDING (scripts & leads tables)
+      const supabaseUrl = process.env.SUPABASE_URL || process.env.SUPABASE_CRM_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
       const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
-      if (!supabaseUrl || !serviceRoleKey) {
-        console.error('[Fit Webhook] Missing Supabase configuration environment variables.');
-        return res.status(500).json({ error: 'Supabase configuration missing' });
-      }
+      if (supabaseUrl && serviceRoleKey) {
+        const topicKey = cleanEmail || digits || 'athlete';
 
-      // Build update query - prefer user_id, fall back to email
-      let queryUrl = `${supabaseUrl}/rest/v1/profiles`;
-      if (userId) {
-        queryUrl += `?id=eq.${encodeURIComponent(userId)}`;
-      } else {
-        queryUrl += `?email=eq.${encodeURIComponent(email.toLowerCase().trim())}`;
-      }
-
-      console.log(`[Fit Webhook] Updating profile plan_status to: ${targetStatus} | Query: ${queryUrl}`);
-
-      const response = await fetch(queryUrl, {
-        method: 'PATCH',
-        headers: {
-          'apikey': serviceRoleKey,
-          'Authorization': `Bearer ${serviceRoleKey}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=representation'
-        },
-        body: JSON.stringify({
-          plan_status: targetStatus
-        })
-      });
-
-      if (!response.ok) {
-        const errText = await response.text();
-        console.error(`[Fit Webhook] Supabase update failed: ${errText}`);
-        return res.status(response.status).json({ error: 'Supabase update failed' });
-      }
-
-      const updatedData = await response.json().catch(() => null);
-      console.log('[Fit Webhook] Profile updated:', updatedData);
-
-      // Also record in scripts table (used by Fit Ninja client app for instant membership check)
-      if (targetStatus === 'premium' && email) {
+        // A. Record in scripts table (used by Fit Ninja client app for instant membership check)
         try {
           const scriptsPayload = {
-            name: 'fitninja_membership',
-            content: {
-              email: email.toLowerCase().trim(),
-              status: 'active',
-              plan: 'Founder Pass ₹399/mo',
-              subscriptionId: subscriptionId || 'sub_manual',
+            profile: 'fitninja_membership',
+            topic: topicKey,
+            section1: JSON.stringify({
+              email: cleanEmail,
+              name: name || 'Athlete',
+              phone: e164Phone || digits,
+              paid: targetStatus === 'premium',
+              status: targetStatus === 'premium' ? 'active' : 'cancelled',
+              plan: 'Fit Ninja Pro',
+              subscriptionId: subscriptionId || payEntity?.id || 'sub_manual',
               amount: amount,
-              activated_at: new Date().toISOString()
-            }
+              updated_at: new Date().toISOString()
+            }),
+            caption: targetStatus === 'premium' ? 'active' : 'cancelled'
           };
-          await fetch(`${supabaseUrl}/rest/v1/scripts`, {
+
+          const checkRes = await fetch(`${supabaseUrl}/rest/v1/scripts?profile=eq.fitninja_membership&topic=eq.${encodeURIComponent(topicKey)}&select=id`, {
+            headers: {
+              'apikey': serviceRoleKey,
+              'Authorization': `Bearer ${serviceRoleKey}`
+            }
+          });
+          const existing = await checkRes.json().catch(() => []);
+
+          if (Array.isArray(existing) && existing.length > 0) {
+            await fetch(`${supabaseUrl}/rest/v1/scripts?id=eq.${existing[0].id}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(scriptsPayload)
+            });
+          } else {
+            await fetch(`${supabaseUrl}/rest/v1/scripts`, {
+              method: 'POST',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(scriptsPayload)
+            });
+          }
+          console.log(`[Fit Webhook] Saved fitninja_membership to scripts table for ${topicKey}`);
+        } catch (sErr) {
+          console.warn('[Fit Webhook] Failed to write to scripts table:', sErr);
+        }
+
+        // B. Record in leads table (Agency CRM & Admin Dashboard)
+        try {
+          await fetch(`${supabaseUrl}/rest/v1/leads`, {
             method: 'POST',
             headers: {
               'apikey': serviceRoleKey,
               'Authorization': `Bearer ${serviceRoleKey}`,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
             },
-            body: JSON.stringify(scriptsPayload)
-          });
-          console.log(`[Fit Webhook] Saved fitninja_membership to scripts table for ${email}`);
-        } catch (sErr) {
-          console.warn('[Fit Webhook] Failed to write to scripts table:', sErr);
-        }
-      }
-
-      // Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
-      if (targetStatus === 'premium') {
-        try {
-          const n8nWebhookUrl = process.env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
-          const cleanPhoneStr = String(phone || '').trim();
-          await fetch(n8nWebhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              event: 'member.onboarded',
               name: name || 'Athlete',
-              phone: cleanPhoneStr,
-              contact: cleanPhoneStr,
-              phone_number: cleanPhoneStr,
-              whatsapp: cleanPhoneStr,
-              mobile: cleanPhoneStr,
-              digits_phone: cleanPhoneStr.replace(/\D/g, ''),
-              email: (email || '').toLowerCase().trim(),
-              amount,
-              subscriptionId: subscriptionId || 'sub_manual',
-              razorpay_payment_id: subscriptionId || '',
-              plan: 'Fit Ninja Pro',
-              source: 'razorpay_server_webhook',
-              timestamp: new Date().toISOString()
+              email: cleanEmail || `${digits || 'athlete'}@fitninja.app`,
+              phone: e164Phone || digits || '',
+              status: targetStatus === 'premium' ? 'PAID PRO MEMBER' : 'CANCELLED',
+              notes: `Razorpay payment: ${subscriptionId || payEntity?.id || 'verified'}`
             })
           });
-          console.log(`[Fit Webhook] Dispatched welcome payload to n8n for ${email}`);
-        } catch (n8nErr) {
-          console.warn('[Fit Webhook] Failed to forward to n8n:', n8nErr);
+          console.log(`[Fit Webhook] Saved lead to CRM leads table for ${cleanEmail || digits}`);
+        } catch (leadErr) {
+          console.warn('[Fit Webhook] Failed to write to leads table:', leadErr);
         }
+
+        // C. Update Supabase Auth user metadata (if userId is valid UUID)
+        if (userId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId)) {
+          try {
+            await fetch(`${supabaseUrl}/auth/v1/admin/users/${userId}`, {
+              method: 'PUT',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                app_metadata: { plan_status: targetStatus, paid: targetStatus === 'premium' }
+              })
+            });
+          } catch (_) {}
+        }
+
+        // D. Non-fatal attempt to update profiles table if present
+        try {
+          const profUrl = userId
+            ? `${supabaseUrl}/rest/v1/profiles?id=eq.${encodeURIComponent(userId)}`
+            : (cleanEmail ? `${supabaseUrl}/rest/v1/profiles?email=eq.${encodeURIComponent(cleanEmail)}` : null);
+          if (profUrl) {
+            await fetch(profUrl, {
+              method: 'PATCH',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ plan_status: targetStatus })
+            });
+          }
+        } catch (_) {}
       }
 
       return res.status(200).json({ success: true, updated: true, status: targetStatus });

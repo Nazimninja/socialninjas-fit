@@ -220,92 +220,162 @@ export async function onRequest(context) {
       }
     }
 
-    const cleanEmail = (email || '').toLowerCase().trim();
-
-    if (targetStatus && (userId || cleanEmail)) {
-      const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL;
-      const serviceRoleKey = env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY;
-
-      if (!supabaseUrl || !serviceRoleKey) {
-        console.error('[Fit Webhook] Supabase credentials not configured in Cloudflare Pages.');
-        return new Response(JSON.stringify({ ok: true, notice: 'Supabase credentials missing' }), { headers, status: 200 });
+    if (targetStatus) {
+      const cleanEmail = (email || '').toLowerCase().trim();
+      const rawPhone = String(phone || '').trim();
+      let digits = rawPhone.replace(/\D/g, '');
+      if (digits.length === 10) {
+        digits = '91' + digits;
+      } else if (digits.length === 11 && digits.startsWith('0')) {
+        digits = '91' + digits.slice(1);
       }
+      const e164Phone = digits ? `+${digits}` : rawPhone;
+      const local10 = digits.length >= 10 ? digits.slice(-10) : digits;
 
-      // Update profiles table
-      let profileUrl = `${supabaseUrl}/rest/v1/profiles`;
-      if (userId) {
-        profileUrl += `?id=eq.${encodeURIComponent(userId)}`;
-      } else {
-        profileUrl += `?email=eq.${encodeURIComponent(cleanEmail)}`;
-      }
-
-      await fetch(profileUrl, {
-        method: 'PATCH',
-        headers: {
-          'apikey': serviceRoleKey,
-          'Authorization': `Bearer ${serviceRoleKey}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=representation'
-        },
-        body: JSON.stringify({
-          plan_status: targetStatus,
-          updated_at: new Date().toISOString()
-        })
-      });
-
-      // Update or insert into subscriptions table
-      if (cleanEmail) {
-        await fetch(`${supabaseUrl}/rest/v1/subscriptions`, {
-          method: 'POST',
-          headers: {
-            'apikey': serviceRoleKey,
-            'Authorization': `Bearer ${serviceRoleKey}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=merge-duplicates'
-          },
-          body: JSON.stringify({
-            email: cleanEmail,
-            phone: phone || null,
-            subscription_id: subscriptionId || 'sub_manual',
-            status: targetStatus === 'premium' ? 'active' : 'cancelled',
-            updated_at: new Date().toISOString()
-          })
-        });
-      }
-
-      // Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
+      // 1. Forward onboarding event to Railway n8n for automated WhatsApp Welcome & Setup Guide
       if (targetStatus === 'premium') {
         try {
           const n8nWebhookUrl = env.N8N_FITNINJA_WELCOME_WEBHOOK || 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome';
-          const cleanPhoneStr = String(phone || '').trim();
-          await fetch(n8nWebhookUrl, {
+          const n8nPayload = {
+            event: 'member.onboarded',
+            name: name || 'Athlete',
+            phone: e164Phone,
+            whatsapp: digits,
+            contact: digits,
+            phone_number: digits,
+            mobile: digits,
+            digits_phone: digits,
+            formatted_phone: e164Phone,
+            local_phone: local10,
+            wa_link: digits ? `https://wa.me/${digits}` : '',
+            to: digits,
+            recipient: digits,
+            email: cleanEmail,
+            amount,
+            subscriptionId: subscriptionId || payEntity?.id || 'sub_manual',
+            razorpay_payment_id: payEntity?.id || subscriptionId || '',
+            plan: 'Fit Ninja Pro',
+            source: 'cloudflare_pages_webhook',
+            timestamp: new Date().toISOString()
+          };
+
+          const n8nPromise = fetch(n8nWebhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              event: 'member.onboarded',
-              name: name || 'Athlete',
-              phone: cleanPhoneStr,
-              contact: cleanPhoneStr,
-              phone_number: cleanPhoneStr,
-              whatsapp: cleanPhoneStr,
-              mobile: cleanPhoneStr,
-              digits_phone: cleanPhoneStr.replace(/\D/g, ''),
-              email: cleanEmail,
-              amount,
-              subscriptionId: subscriptionId || 'sub_manual',
-              razorpay_payment_id: subscriptionId || '',
-              plan: 'Fit Ninja Pro',
-              source: 'cloudflare_pages_webhook',
-              timestamp: new Date().toISOString()
-            })
+            body: JSON.stringify(n8nPayload)
           });
-          console.log(`[Fit Webhook] Dispatched welcome payload to n8n for ${cleanEmail}`);
+
+          if (context && typeof context.waitUntil === 'function') {
+            context.waitUntil(n8nPromise);
+          } else {
+            await n8nPromise;
+          }
+          console.log(`[Fit Webhook] Dispatched welcome payload to n8n for ${cleanEmail || digits}`);
         } catch (n8nErr) {
           console.warn('[Fit Webhook] Failed to forward to n8n:', n8nErr);
         }
       }
 
-      console.log(`[Fit Webhook] Processed ${eventName} for ${cleanEmail || userId}: ${targetStatus}`);
+      // 2. Resilient Supabase sync (scripts & leads tables)
+      const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
+      const serviceRoleKey = env.SUPABASE_SERVICE_ROLE_KEY || env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY;
+
+      if (supabaseUrl && serviceRoleKey) {
+        const topicKey = cleanEmail || digits || 'athlete';
+
+        // A. Record in scripts table
+        try {
+          const scriptsPayload = {
+            profile: 'fitninja_membership',
+            topic: topicKey,
+            section1: JSON.stringify({
+              email: cleanEmail,
+              name: name || 'Athlete',
+              phone: e164Phone || digits,
+              paid: targetStatus === 'premium',
+              status: targetStatus === 'premium' ? 'active' : 'cancelled',
+              plan: 'Fit Ninja Pro',
+              subscriptionId: subscriptionId || payEntity?.id || 'sub_manual',
+              amount: amount,
+              updated_at: new Date().toISOString()
+            }),
+            caption: targetStatus === 'premium' ? 'active' : 'cancelled'
+          };
+
+          const checkRes = await fetch(`${supabaseUrl}/rest/v1/scripts?profile=eq.fitninja_membership&topic=eq.${encodeURIComponent(topicKey)}&select=id`, {
+            headers: {
+              'apikey': serviceRoleKey,
+              'Authorization': `Bearer ${serviceRoleKey}`
+            }
+          });
+          const existing = await checkRes.json().catch(() => []);
+
+          if (Array.isArray(existing) && existing.length > 0) {
+            await fetch(`${supabaseUrl}/rest/v1/scripts?id=eq.${existing[0].id}`, {
+              method: 'PATCH',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(scriptsPayload)
+            });
+          } else {
+            await fetch(`${supabaseUrl}/rest/v1/scripts`, {
+              method: 'POST',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(scriptsPayload)
+            });
+          }
+        } catch (sErr) {
+          console.warn('[Fit Webhook] Failed to write to scripts table:', sErr);
+        }
+
+        // B. Record in leads table
+        try {
+          await fetch(`${supabaseUrl}/rest/v1/leads`, {
+            method: 'POST',
+            headers: {
+              'apikey': serviceRoleKey,
+              'Authorization': `Bearer ${serviceRoleKey}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+              name: name || 'Athlete',
+              email: cleanEmail || `${digits || 'athlete'}@fitninja.app`,
+              phone: e164Phone || digits || '',
+              status: targetStatus === 'premium' ? 'PAID PRO MEMBER' : 'CANCELLED',
+              notes: `Razorpay payment: ${subscriptionId || payEntity?.id || 'verified'}`
+            })
+          });
+        } catch (leadErr) {
+          console.warn('[Fit Webhook] Failed to write to leads table:', leadErr);
+        }
+
+        // C. Update Supabase Auth user metadata
+        if (userId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId)) {
+          try {
+            await fetch(`${supabaseUrl}/auth/v1/admin/users/${userId}`, {
+              method: 'PUT',
+              headers: {
+                'apikey': serviceRoleKey,
+                'Authorization': `Bearer ${serviceRoleKey}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                app_metadata: { plan_status: targetStatus, paid: targetStatus === 'premium' }
+              })
+            });
+          } catch (_) {}
+        }
+      }
+
+      console.log(`[Fit Webhook] Processed ${eventName} for ${cleanEmail || digits}: ${targetStatus}`);
       return new Response(JSON.stringify({ success: true, status: targetStatus }), { headers, status: 200 });
     }
 

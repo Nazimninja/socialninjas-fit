@@ -254,13 +254,13 @@ export default function Login() {
       const activeEmail = email.trim().toLowerCase()
       const activeName = name.trim() || (activeEmail ? activeEmail.split('@')[0] : 'Fit Ninja Athlete')
 
-      if (!activeEmail && !cleanPhone) {
-        useUI.getState().toast('Please enter your email or phone number')
+      if (!activeEmail || !activeEmail.includes('@')) {
+        useUI.getState().toast('Please enter a valid email address')
         return
       }
 
-      if (activeEmail && !activeEmail.includes('@')) {
-        useUI.getState().toast('Please enter a valid email address')
+      if (!digits || digits.length < 10) {
+        useUI.getState().toast('Please enter your 10-digit WhatsApp mobile number')
         return
       }
 
@@ -337,26 +337,39 @@ export default function Login() {
               // Instant dispatch to n8n webhook for automated WhatsApp Welcome & App Install Guide
               try {
                 const n8nWebhookUrl = 'https://n8n-production-29f31.up.railway.app/webhook/fitninja-welcome'
+                const rawDigits = (cleanPhone || '').replace(/\D/g, '')
+                const waDigits = rawDigits.length === 10 ? `91${rawDigits}` : rawDigits
+                const e164Number = waDigits ? `+${waDigits}` : (cleanPhone || '')
+                const local10 = waDigits.length >= 10 ? waDigits.slice(-10) : waDigits
+
+                const n8nPayload = {
+                  event: 'member.onboarded',
+                  name: activeName || 'Athlete',
+                  phone: e164Number,
+                  whatsapp: waDigits,
+                  contact: waDigits,
+                  phone_number: waDigits,
+                  mobile: waDigits,
+                  digits_phone: waDigits,
+                  formatted_phone: e164Number,
+                  local_phone: local10,
+                  wa_link: waDigits ? `https://wa.me/${waDigits}` : '',
+                  to: waDigits,
+                  recipient: waDigits,
+                  email: activeEmail || '',
+                  amount: 99,
+                  subscriptionId: response.razorpay_payment_id || response.razorpay_subscription_id || 'sub_manual',
+                  razorpay_payment_id: response.razorpay_payment_id || '',
+                  plan: 'Fit Ninja Pro',
+                  source: 'client_razorpay_success',
+                  timestamp: new Date().toISOString()
+                }
+
                 fetch(n8nWebhookUrl, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    event: 'member.onboarded',
-                    name: activeName || 'Athlete',
-                    phone: cleanPhone || '',
-                    contact: cleanPhone || '',
-                    phone_number: cleanPhone || '',
-                    whatsapp: cleanPhone || '',
-                    mobile: cleanPhone || '',
-                    digits_phone: (cleanPhone || '').replace(/\D/g, ''),
-                    email: activeEmail || '',
-                    amount: 99,
-                    subscriptionId: response.razorpay_payment_id || response.razorpay_subscription_id || 'sub_manual',
-                    razorpay_payment_id: response.razorpay_payment_id || '',
-                    plan: 'Fit Ninja Pro',
-                    source: 'client_razorpay_success',
-                    timestamp: new Date().toISOString()
-                  })
+                  body: JSON.stringify(n8nPayload),
+                  keepalive: true
                 }).catch(n8nErr => console.warn('Failed to forward to n8n welcome webhook:', n8nErr))
               } catch (nErr) {}
             }
@@ -945,7 +958,7 @@ export default function Login() {
 
                 <input
                   type="tel"
-                  placeholder="Mobile Number"
+                  placeholder="WhatsApp Mobile (Required)"
                   value={phone}
                   onChange={e => setPhone(e.target.value.replace(/\D/g, ''))}
                   maxLength={15}
@@ -965,6 +978,11 @@ export default function Login() {
                     boxSizing: 'border-box'
                   }}
                 />
+              </div>
+
+              <div style={{ fontSize: '11px', color: '#38bdf8', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '5px', paddingLeft: '2px' }}>
+                <span>📲</span>
+                <span>Workout plan & app access link will be delivered to this WhatsApp number</span>
               </div>
             </div>
 
