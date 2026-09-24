@@ -411,7 +411,7 @@ export default function InteractiveWorkoutPreview() {
                   <span style={{ fontSize: '15px', fontWeight: '900', color: '#fff', fontFamily: 'monospace' }}>{timeFormatted}</span>
                 </div>
                 <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.08)', borderRadius: '99px', overflow: 'hidden', marginBottom: '8px' }}>
-                  <div style={{ width: `${timerPercent}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #22c55e)', transition: 'width 1s linear' }} />
+                  <div style={{ width: `${timerPercent}%`, height: '100%', background: 'linear-gradient(90deg, #38bdf8, #0284c7)', transition: 'width 1s linear' }} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '10px', color: '#22c55e', fontWeight: '800' }}>
