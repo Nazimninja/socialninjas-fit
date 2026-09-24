@@ -216,23 +216,23 @@ a { color: inherit; text-decoration: none; }
 
 /* ── HERO SECTION ── */
 .hero-split {
-  padding: clamp(24px, 3.5vh, 36px) 24px clamp(28px, 4vh, 40px);
-  max-width: 1200px;
+  padding: clamp(32px, 4.5vh, 48px) 24px clamp(36px, 5vh, 52px);
+  max-width: 1140px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 1.18fr) 360px;
   align-items: center;
-  gap: 36px;
+  gap: 48px;
 }
 .hero-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #16161c;
+  background: #14151b;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 99px;
   padding: 5px 14px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 800;
   color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
@@ -242,11 +242,11 @@ a { color: inherit; text-decoration: none; }
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #34d399;
-  box-shadow: 0 0 8px #34d399;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
 }
 .hero-h1 {
-  font-size: clamp(32px, 3.2vw, 46px);
+  font-size: clamp(32px, 3.1vw, 44px);
   font-weight: 900;
   letter-spacing: -1.2px;
   line-height: 1.12;
@@ -254,7 +254,7 @@ a { color: inherit; text-decoration: none; }
   color: #ffffff;
 }
 .hero-h1 .grad-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 45%, #34d399 100%);
+  background: linear-gradient(135deg, #ffffff 15%, #38bdf8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -278,7 +278,7 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  background: #ffffff;
   color: #000000;
   font-size: 14.5px;
   font-weight: 900;
@@ -297,7 +297,7 @@ a { color: inherit; text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #1a1a1f;
+  background: #14151b;
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
@@ -315,15 +315,15 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  background: rgba(18, 18, 22, 0.9);
-  border: 1px solid var(--border);
+  background: #121319;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 16px;
   padding: 12px 18px;
   max-width: 530px;
 }
 .hero-metric-val {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 900;
   color: #ffffff;
   line-height: 1.1;
@@ -337,12 +337,18 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.3px;
 }
 
-/* ── INTERACTIVE ATHLETE HERO CENTERPIECE ── */
+/* ── ATHLETE SHOWCASE CENTERPIECE ── */
+.hero-visual-col {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
 .athlete-hero-container {
   position: relative;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+  width: 360px;
+  height: 360px;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,23 +358,22 @@ a { color: inherit; text-decoration: none; }
 }
 .athlete-glow {
   position: absolute;
-  width: 360px;
-  height: 360px;
+  width: 340px;
+  height: 340px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0.12) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 65%);
   filter: blur(40px);
   z-index: 0;
   pointer-events: none;
 }
 .athlete-portal {
   position: relative;
-  width: 100%;
-  max-width: 390px;
-  aspect-ratio: 1 / 1;
-  border-radius: 24px;
+  width: 360px;
+  height: 360px;
+  border-radius: 22px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.14);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.12);
   z-index: 1;
   background: #090b10;
 }
@@ -386,26 +391,26 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(8, 10, 16, 0.45) 0%, transparent 25%, transparent 65%, rgba(8, 10, 16, 0.88) 100%);
+  background: linear-gradient(180deg, rgba(8, 10, 16, 0.40) 0%, transparent 25%, transparent 70%, rgba(8, 10, 16, 0.85) 100%);
   pointer-events: none;
 }
 
-/* Integrated Badges inside Athlete Hero */
+/* Refined Minimalist Badges (Strict White + Sky Blue only) */
 .hero-card-badge-top {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 12px;
+  left: 12px;
   z-index: 10;
-  background: rgba(14, 16, 22, 0.88);
+  background: rgba(12, 14, 20, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 12px;
-  padding: 6px 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 5px 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
@@ -416,51 +421,39 @@ a { color: inherit; text-decoration: none; }
 
 .hero-card-pill-top {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   z-index: 10;
-  background: rgba(14, 16, 22, 0.88);
+  background: rgba(12, 14, 20, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(52, 211, 153, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 99px;
-  padding: 6px 12px;
+  padding: 5px 11px;
   display: flex;
   align-items: center;
-  gap: 7px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  gap: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-.hero-card-bottom-panel {
+.hero-card-badge-bottom {
   position: absolute;
   bottom: 12px;
   left: 12px;
   right: 12px;
   z-index: 10;
-  background: rgba(13, 15, 21, 0.92);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(12, 14, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-top: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 16px;
-  padding: 12px 14px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-}
-.hero-card-features-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 10px;
-  font-size: 11px;
-  color: #e2e8f0;
-  font-weight: 600;
-  margin: 6px 0 10px;
-}
-.hero-card-feature-item {
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
-  gap: 6px;
-  white-space: nowrap;
+  justify-content: space-between;
 }
+
 
 /* ── ORGANIC CURVED TRANSITION SECTION ── */
 .curved-shell {
@@ -1337,71 +1330,48 @@ footer {
         <div class="hero-metric-lbl">Video Exercises</div>
       </div>
       <div>
-        <div class="hero-metric-val" style="color: #34d399;">Rest Timer</div>
+        <div class="hero-metric-val">Rest Timer</div>
         <div class="hero-metric-lbl">Full-Screen Focus</div>
       </div>
       <div>
-        <div class="hero-metric-val" style="color: #fbbf24;">Zero Ads</div>
+        <div class="hero-metric-val">Zero Ads</div>
         <div class="hero-metric-lbl">Pure Workout Focus</div>
       </div>
       <div>
         <div class="hero-metric-val" style="color: #38bdf8;">₹99</div>
-        <div class="hero-metric-lbl">Month 1 Launch Pass</div>
+        <div class="hero-metric-lbl">Launch Pass</div>
       </div>
     </div>
   </div>
 
-  <!-- Right: Athlete Hero Visual with Integrated Glass Badges (Desktop & Mobile Optimized) -->
+  <!-- Right: Athlete Hero Visual with Minimalist Badges (Desktop & Mobile Optimized) -->
   <div class="hero-visual-col">
     <div class="athlete-hero-container">
       <div class="athlete-glow"></div>
 
-      <!-- Athlete Portal Card with Integrated Badges -->
+      <!-- Athlete Portal Card with Minimalist Badges -->
       <div class="athlete-portal">
         <img src="/assets/athlete-hero.jpg" alt="Athlete Calisthenics & Strength">
 
         <!-- Top Left: Catalogue Badge -->
         <div class="hero-card-badge-top" onclick="window.location.href='/app?mode=app#/library'">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
           </svg>
-          <span style="font-size:11px;font-weight:800;color:#fff;">5,300+ Guides</span>
+          <span style="font-size:10.5px;font-weight:800;color:#fff;">5,300+ Guides</span>
         </div>
 
         <!-- Top Right: Live Workout Pill -->
         <div class="hero-card-pill-top">
-          <span style="width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399"></span>
-          <span style="font-size:10.5px;font-weight:800;color:#fff;letter-spacing:0.3px;">Rest Timer Active</span>
+          <span style="width:6px;height:6px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8"></span>
+          <span style="font-size:10.5px;font-weight:800;color:#fff;letter-spacing:0.3px;">Rest Timer</span>
         </div>
 
-        <!-- Bottom: Feature Glass Panel (Desktop) -->
-        <div class="hero-card-bottom-panel desktop-only-node">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-            <span style="font-size:9.5px;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.8px;">Core Features Included</span>
-            <span style="font-size:9px;font-weight:800;color:#34d399;background:rgba(52,211,153,0.12);padding:2px 6px;border-radius:4px;border:1px solid rgba(52,211,153,0.3);">100% Ad-Free</span>
-          </div>
-          <div class="hero-card-features-grid">
-            <div class="hero-card-feature-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              <span>Rest Countdown</span>
-            </div>
-            <div class="hero-card-feature-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Auto "Lift Heavier"</span>
-            </div>
-            <div class="hero-card-feature-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              <span>Custom Workout Split</span>
-            </div>
-            <div class="hero-card-feature-item">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-              <span>Muscle Recovery Map</span>
-            </div>
-          </div>
-          <a href="/app?mode=signup" style="display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);color:#000000;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px;box-shadow:0 4px 14px rgba(255,255,255,0.22);border:none;text-decoration:none;">
-            <span>Claim Launch Pass — ₹99</span>
-            <span>→</span>
-          </a>
+        <!-- Bottom: Clean Status Bar (Desktop) -->
+        <div class="hero-card-badge-bottom desktop-only-node">
+          <span style="color:#38bdf8;font-weight:900;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;">Auto Progression</span>
+          <span style="color:rgba(255,255,255,0.25)">•</span>
+          <span style="color:#ffffff;font-size:10.5px;font-weight:700;">Smart "Lift Heavier" Cues</span>
         </div>
       </div>
     </div>

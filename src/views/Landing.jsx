@@ -263,12 +263,12 @@ export default function Landing() {
 
       {/* ── HERO SECTION ────────────────────────────────────────────── */}
       <header className="hero-split" style={{
-        padding: 'clamp(24px, 3.5vh, 36px) 24px clamp(28px, 4vh, 40px)',
-        maxWidth: '1200px',
+        padding: 'clamp(32px, 4.5vh, 48px) 24px clamp(36px, 5vh, 52px)',
+        maxWidth: '1140px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1.15fr) minmax(0, 0.85fr)',
-        gap: '36px',
+        gridTemplateColumns: 'minmax(0, 1.18fr) 360px',
+        gap: '48px',
         alignItems: 'center'
       }}>
 
@@ -279,11 +279,11 @@ export default function Landing() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: '#16161c',
+            background: '#14151b',
             border: '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '50px',
             padding: '5px 14px',
-            fontSize: '11.5px',
+            fontSize: '11px',
             fontWeight: '800',
             color: '#ffffff',
             boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)',
@@ -293,8 +293,8 @@ export default function Landing() {
               width: '6px',
               height: '6px',
               borderRadius: '50%',
-              background: '#34d399',
-              boxShadow: '0 0 8px #34d399'
+              background: '#38bdf8',
+              boxShadow: '0 0 8px #38bdf8'
             }} />
             <span>FIT NINJA</span>
             <span className="pill-divider" style={{ color: 'rgba(255, 255, 255, 0.3)' }}>•</span>
@@ -303,7 +303,7 @@ export default function Landing() {
 
           {/* Main Headline */}
           <h1 style={{
-            fontSize: 'clamp(32px, 3.2vw, 46px)',
+            fontSize: 'clamp(32px, 3.1vw, 44px)',
             fontWeight: '900',
             letterSpacing: '-1.2px',
             lineHeight: 1.12,
@@ -312,7 +312,7 @@ export default function Landing() {
           }}>
             Train with Confidence.<br />
             <span style={{
-              background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 45%, #34d399 100%)',
+              background: 'linear-gradient(135deg, #ffffff 15%, #38bdf8 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent'
             }}>
@@ -329,7 +329,7 @@ export default function Landing() {
             margin: '0 0 18px',
             fontWeight: '500'
           }}>
-            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in a distraction-free, 100% ad-free gym app.
+            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom workout &amp; diet plans, distraction-free full-screen rest timer, and auto-progression tracking — in a distraction-free, 100% ad-free gym app.
           </p>
 
           {/* CTA Buttons */}
@@ -338,7 +338,7 @@ export default function Landing() {
               onClick={() => nav('/app?mode=signup')}
               className="landing-glow-button"
               style={{
-                background: 'linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%)',
+                background: '#ffffff',
                 color: '#000000',
                 fontWeight: '900',
                 fontSize: '14.5px',
@@ -360,7 +360,7 @@ export default function Landing() {
             <a
               href="#sandbox"
               style={{
-                background: '#1a1a1f',
+                background: '#14151b',
                 color: '#ffffff',
                 fontWeight: '700',
                 fontSize: '14px',
@@ -384,7 +384,7 @@ export default function Landing() {
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: '12px',
-            background: 'rgba(18, 18, 22, 0.9)',
+            background: '#121319',
             border: '1px solid rgba(255, 255, 255, 0.08)',
             borderTop: '1px solid rgba(255, 255, 255, 0.16)',
             borderRadius: '16px',
@@ -392,26 +392,26 @@ export default function Landing() {
             maxWidth: '530px'
           }}>
             <div>
-              <div style={{ fontSize: '19px', fontWeight: '900', color: '#ffffff', lineHeight: 1.1 }}>5,300+</div>
-              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Video Exercises</div>
+              <div style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', lineHeight: 1.1 }}>5,300+</div>
+              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Video Guides</div>
             </div>
             <div>
-              <div style={{ fontSize: '19px', fontWeight: '900', color: '#34d399', lineHeight: 1.1 }}>Rest Timer</div>
-              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Full-Screen Focus</div>
+              <div style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', lineHeight: 1.1 }}>Rest Timer</div>
+              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Full Focus</div>
             </div>
             <div>
-              <div style={{ fontSize: '19px', fontWeight: '900', color: '#fbbf24', lineHeight: 1.1 }}>Zero Ads</div>
-              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Pure Workout Focus</div>
+              <div style={{ fontSize: '18px', fontWeight: '900', color: '#ffffff', lineHeight: 1.1 }}>Zero Ads</div>
+              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Pure Training</div>
             </div>
             <div>
-              <div style={{ fontSize: '19px', fontWeight: '900', color: '#38bdf8', lineHeight: 1.1 }}>₹99</div>
-              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Month 1 Launch Pass</div>
+              <div style={{ fontSize: '18px', fontWeight: '900', color: '#38bdf8', lineHeight: 1.1 }}>₹99</div>
+              <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800', marginTop: '3px', letterSpacing: '0.3px' }}>Launch Pass</div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Athlete Hero Visual with Floating Connected Cards */}
-        <div>
+        {/* Right Column: Athlete Hero Visual */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%' }}>
           <AthleteHeroVisual />
         </div>
 
