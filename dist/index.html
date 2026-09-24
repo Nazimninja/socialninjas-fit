@@ -216,13 +216,13 @@ a { color: inherit; text-decoration: none; }
 
 /* ── HERO SECTION ── */
 .hero-split {
-  padding: 60px 24px 70px;
-  max-width: 1240px;
+  padding: clamp(24px, 3.5vh, 36px) 24px clamp(28px, 4vh, 40px);
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   align-items: center;
-  gap: 40px;
+  gap: 36px;
 }
 .hero-pill {
   display: inline-flex;
@@ -231,12 +231,12 @@ a { color: inherit; text-decoration: none; }
   background: #16161c;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 99px;
-  padding: 6px 16px;
-  font-size: 12px;
+  padding: 5px 14px;
+  font-size: 11.5px;
   font-weight: 800;
   color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 .hero-pill-dot {
   width: 6px;
@@ -246,11 +246,11 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 0 8px #34d399;
 }
 .hero-h1 {
-  font-size: clamp(38px, 5.5vw, 64px);
+  font-size: clamp(32px, 3.2vw, 46px);
   font-weight: 900;
-  letter-spacing: -1.8px;
-  line-height: 1.08;
-  margin-bottom: 20px;
+  letter-spacing: -1.2px;
+  line-height: 1.12;
+  margin-bottom: 12px;
   color: #ffffff;
 }
 .hero-h1 .grad-text {
@@ -260,19 +260,19 @@ a { color: inherit; text-decoration: none; }
   display: inline-block;
 }
 .hero-sub {
-  font-size: clamp(15px, 2vw, 18px);
+  font-size: clamp(14px, 1.05vw, 15.5px);
   color: var(--t2);
-  line-height: 1.65;
-  max-width: 560px;
-  margin-bottom: 32px;
+  line-height: 1.55;
+  max-width: 530px;
+  margin-bottom: 18px;
   font-weight: 500;
 }
 .hero-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
 }
 .btn-glow {
   display: inline-flex;
@@ -280,18 +280,18 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
   color: #000000;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 900;
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-radius: 99px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.22);
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .btn-glow:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 32px rgba(255, 255, 255, 0.38);
+  box-shadow: 0 8px 28px rgba(255, 255, 255, 0.35);
 }
 .btn-ghost {
   display: inline-flex;
@@ -299,9 +299,9 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   background: #1a1a1f;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  padding: 14px 24px;
+  padding: 12px 20px;
   border-radius: 99px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
@@ -313,35 +313,36 @@ a { color: inherit; text-decoration: none; }
 
 .hero-metrics-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 14px;
-  background: #121215;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  background: rgba(18, 18, 22, 0.9);
   border: 1px solid var(--border);
   border-top: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 18px;
-  padding: 16px 20px;
-  max-width: 560px;
+  border-radius: 16px;
+  padding: 12px 18px;
+  max-width: 530px;
 }
 .hero-metric-val {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 900;
   color: #ffffff;
+  line-height: 1.1;
 }
 .hero-metric-lbl {
-  font-size: 10.5px;
+  font-size: 10px;
   color: var(--t2);
   text-transform: uppercase;
   font-weight: 800;
-  margin-top: 2px;
+  margin-top: 3px;
+  letter-spacing: 0.3px;
 }
 
 /* ── INTERACTIVE ATHLETE HERO CENTERPIECE ── */
 .athlete-hero-container {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  max-width: 400px;
   margin: 0 auto;
-  min-height: 490px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -351,148 +352,114 @@ a { color: inherit; text-decoration: none; }
 }
 .athlete-glow {
   position: absolute;
-  width: 380px;
-  height: 380px;
+  width: 360px;
+  height: 360px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0.18) 45%, transparent 70%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(56, 189, 248, 0.12) 50%, transparent 70%);
   filter: blur(40px);
   z-index: 0;
   pointer-events: none;
 }
 .athlete-portal {
   position: relative;
-  width: 320px;
-  height: 350px;
-  border-radius: 50% 50% 45% 45%;
+  width: 100%;
+  max-width: 390px;
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.14);
   z-index: 1;
-  background: #0c0c0e;
+  background: #090b10;
 }
 .athlete-portal img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  -o-object-position: center 20%;
-     object-position: center 20%;
-  filter: contrast(1.08) brightness(0.95);
+  -o-object-position: center 50%;
+     object-position: center 50%;
+  filter: contrast(1.08) brightness(0.96);
+  display: block;
 }
 .athlete-portal::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(7, 10, 18, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(8, 10, 16, 0.45) 0%, transparent 25%, transparent 65%, rgba(8, 10, 16, 0.88) 100%);
   pointer-events: none;
 }
 
-/* Spline SVG */
-.spline-svg {
+/* Integrated Badges inside Athlete Hero */
+.hero-card-badge-top {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-  overflow: visible;
-}
-
-/* Floating Badges */
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-@keyframes floatMedium {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-.float-badge-1 {
-  position: absolute;
-  top: 25px;
-  left: 0;
+  top: 14px;
+  left: 14px;
   z-index: 10;
-  background: rgba(18, 18, 21, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(56, 189, 248, 0.4);
-  border-radius: 18px;
-  padding: 14px 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.1);
-  cursor: pointer;
-  animation: floatSlow 4s ease-in-out infinite;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  max-width: 155px;
-}
-.float-badge-1:hover {
-  transform: scale(1.05) translateY(-2px);
-}
-
-.float-pill-top {
-  position: absolute;
-  top: 65px;
-  right: 35px;
-  z-index: 10;
-  background: rgba(12, 12, 14, 0.94);
-  backdrop-filter: blur(12px);
+  background: rgba(14, 16, 22, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 99px;
-  padding: 6px 14px;
+  border-radius: 12px;
+  padding: 6px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   gap: 7px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-  animation: floatMedium 5s ease-in-out infinite;
-  animation-delay: 1s;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.hero-card-badge-top:hover {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
 }
 
-.float-badge-2 {
+.hero-card-pill-top {
   position: absolute;
-  bottom: 25px;
-  left: 10px;
+  top: 14px;
+  right: 14px;
   z-index: 10;
-  background: rgba(18, 18, 21, 0.92);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 18px;
-  padding: 12px 16px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-  cursor: pointer;
-  animation: floatSlow 4.5s ease-in-out infinite;
-  animation-delay: 2s;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(14, 16, 22, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 99px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-.float-badge-2:hover {
-  transform: scale(1.05) translateY(-2px);
+  gap: 7px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 
-.float-card-right {
+.hero-card-bottom-panel {
   position: absolute;
-  top: 150px;
-  right: -10px;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
   z-index: 10;
-  background: rgba(18, 18, 21, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(56, 189, 248, 0.5);
-  border-radius: 20px;
-  padding: 16px 18px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.1);
-  animation: floatMedium 4.8s ease-in-out infinite;
-  animation-delay: 0.5s;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 175px;
+  background: rgba(13, 15, 21, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
 }
-.float-card-right:hover {
-  transform: scale(1.04) translateY(-3px);
+.hero-card-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+  font-size: 11px;
+  color: #e2e8f0;
+  font-weight: 600;
+  margin: 6px 0 10px;
+}
+.hero-card-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
 }
 
 /* ── ORGANIC CURVED TRANSITION SECTION ── */
@@ -1127,9 +1094,9 @@ footer {
   }
   .athlete-hero-container {
     width: 100% !important;
-    max-width: 290px !important;
-    min-height: 270px !important;
-    height: 270px !important;
+    max-width: 280px !important;
+    min-height: auto !important;
+    height: auto !important;
     margin: 0 auto !important;
     position: relative !important;
     overflow: visible !important;
@@ -1138,36 +1105,31 @@ footer {
     align-items: center !important;
     justify-content: center !important;
   }
-  .spline-svg {
-    display: none !important;
-  }
   .desktop-only-node {
     display: none !important;
   }
   .athlete-portal {
-    width: 220px !important;
-    height: 230px !important;
-    border-radius: 40px !important;
-    border: 2px solid rgba(56, 189, 248, 0.35) !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2) !important;
+    width: 250px !important;
+    height: 250px !important;
+    max-width: 250px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(56, 189, 248, 0.15) !important;
   }
   .athlete-glow {
-    width: 240px !important;
-    height: 240px !important;
+    width: 220px !important;
+    height: 220px !important;
     filter: blur(35px) !important;
   }
-  .float-pill-top {
-    top: -12px !important;
-    right: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    padding: 6px 14px !important;
-    font-size: 10px !important;
-    letter-spacing: 0.4px !important;
-    background: rgba(12, 12, 14, 0.95) !important;
-    border: 1px solid rgba(56, 189, 248, 0.5) !important;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3) !important;
-    white-space: nowrap !important;
+  .hero-card-badge-top {
+    top: 8px !important;
+    left: 8px !important;
+    padding: 4px 8px !important;
+  }
+  .hero-card-pill-top {
+    top: 8px !important;
+    right: 8px !important;
+    padding: 4px 8px !important;
   }
 
   /* ── MOBILE ATHLETE HIGHLIGHTS (CLEAN 3-CHIP ROW BELOW ATHLETE) ── */
@@ -1389,91 +1351,58 @@ footer {
     </div>
   </div>
 
-  <!-- Right: Athlete Hero Visual with Floating Connected Badges (Desktop & Mobile Optimized) -->
+  <!-- Right: Athlete Hero Visual with Integrated Glass Badges (Desktop & Mobile Optimized) -->
   <div class="hero-visual-col">
     <div class="athlete-hero-container">
       <div class="athlete-glow"></div>
 
-      <!-- SVG Connecting Spline Curves (Desktop Only) -->
-      <svg class="spline-svg" viewBox="0 0 540 480">
-        <defs>
-          <linearGradient id="splineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8" />
-            <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.9" />
-            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.6" />
-          </linearGradient>
-        </defs>
-        <path d="M 120 120 C 180 140, 210 210, 270 230" fill="none" stroke="url(#splineGrad)" stroke-width="2" stroke-dasharray="4 4" opacity="0.85" />
-        <path d="M 270 230 C 330 250, 360 210, 420 230" fill="none" stroke="url(#splineGrad)" stroke-width="2.5" opacity="0.95" />
-        <path d="M 150 360 C 200 340, 230 270, 270 230" fill="none" stroke="url(#splineGrad)" stroke-width="2" stroke-dasharray="3 3" opacity="0.75" />
-        <circle cx="270" cy="230" r="5" fill="#38bdf8" />
-        <circle cx="120" cy="120" r="4" fill="#38bdf8" />
-        <circle cx="420" cy="230" r="4" fill="#38bdf8" />
-        <circle cx="150" cy="360" r="4" fill="#38bdf8" />
-      </svg>
-
-      <!-- Center Athlete Portal -->
+      <!-- Athlete Portal Card with Integrated Badges -->
       <div class="athlete-portal">
         <img src="/assets/athlete-hero.jpg" alt="Athlete Calisthenics & Strength">
-      </div>
 
-      <!-- Floating Badge 1: Metric Gauge (Desktop) -->
-      <div class="float-badge-1 desktop-only-node" onclick="window.location.href='/app?mode=app#/library'">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Top Left: Catalogue Badge -->
+        <div class="hero-card-badge-top" onclick="window.location.href='/app?mode=app#/library'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m6.5 6.5 11 11M21 21l-1-1M3 3l1 1M18 22l4-4M2 6l4-4M3 10l7-7M14 21l7-7"></path>
           </svg>
-          <span style="font-size:9.5px;font-weight:800;color:#38bdf8;text-transform:uppercase">Catalogue</span>
+          <span style="font-size:11px;font-weight:800;color:#fff;">5,300+ Guides</span>
         </div>
-        <div style="font-size:20px;font-weight:900;color:#fff">5,300+</div>
-        <div style="font-size:10.5px;color:#94a3b8;font-weight:600">Video Guides</div>
-      </div>
 
-      <!-- Floating Pill: Top Center -->
-      <div class="float-pill-top">
-        <span style="width:7px;height:7px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8"></span>
-        <span style="font-size:11px;font-weight:800;color:#fff">Full-Screen Workout Player</span>
-      </div>
+        <!-- Top Right: Live Workout Pill -->
+        <div class="hero-card-pill-top">
+          <span style="width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399"></span>
+          <span style="font-size:10.5px;font-weight:800;color:#fff;letter-spacing:0.3px;">Rest Timer Active</span>
+        </div>
 
-      <!-- Floating Badge 2: Muscle Map (Desktop) -->
-      <div class="float-badge-2 desktop-only-node" onclick="window.location.href='/app?mode=app#/stats'">
-        <div style="width:32px;height:32px;border-radius:10px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38bdf8">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-          </svg>
-        </div>
-        <div>
-          <div style="font-size:12.5px;font-weight:800;color:#fff">Muscle Heatmap</div>
-          <div style="font-size:10px;color:#94a3b8;font-weight:600">Front &amp; Back Recovery</div>
-        </div>
-      </div>
-
-      <!-- Floating Card 3: Feature Popover (Desktop) -->
-      <div class="float-card-right desktop-only-node">
-        <div style="font-size:9.5px;font-weight:900;color:#34d399;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">
-          ALL VALUES INCLUDED
-        </div>
-        <div style="display:grid;gap:6px;margin-bottom:12px;font-size:11px;color:#e2e8f0;font-weight:600">
-          <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Full-Screen Rest Timer</span>
+        <!-- Bottom: Feature Glass Panel (Desktop) -->
+        <div class="hero-card-bottom-panel desktop-only-node">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:9.5px;font-weight:900;color:#38bdf8;text-transform:uppercase;letter-spacing:0.8px;">Core Features Included</span>
+            <span style="font-size:9px;font-weight:800;color:#34d399;background:rgba(52,211,153,0.12);padding:2px 6px;border-radius:4px;border:1px solid rgba(52,211,153,0.3);">100% Ad-Free</span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Auto "Lift Heavier" Cues</span>
+          <div class="hero-card-features-grid">
+            <div class="hero-card-feature-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>Rest Countdown</span>
+            </div>
+            <div class="hero-card-feature-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Auto "Lift Heavier"</span>
+            </div>
+            <div class="hero-card-feature-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              <span>Custom Workout Split</span>
+            </div>
+            <div class="hero-card-feature-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              <span>Muscle Recovery Map</span>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Custom Workout &amp; Diet</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>100% Ad-Free &amp; Private</span>
-          </div>
+          <a href="/app?mode=signup" style="display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);color:#000000;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px;box-shadow:0 4px 14px rgba(255,255,255,0.22);border:none;text-decoration:none;">
+            <span>Claim Launch Pass — ₹99</span>
+            <span>→</span>
+          </a>
         </div>
-        <a href="/app?mode=signup" style="display:block;text-align:center;background:linear-gradient(180deg,#ffffff 0%,#e2e8f0 100%);color:#000000;font-weight:900;font-size:11px;padding:7px 12px;border-radius:99px;box-shadow:0 4px 14px rgba(255,255,255,0.22);border:none;">
-          Join Now →
-        </a>
       </div>
     </div>
 
