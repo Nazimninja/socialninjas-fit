@@ -106,7 +106,7 @@ To store user data in the cloud instead of localStorage:
 
 | Plan | Price | Access |
 |------|-------|--------|
-| Fit Ninja Pro | ₹399/month | Unlimited 5,300+ Exercises, Offline Mode, Macro Coach |
+| Fit Ninja Pro | ₹399/month | Unlimited 5,300+ Exercises, Smart Rest Timer, Macro Coach |
 
 ## License
 

@@ -114,7 +114,7 @@ export default function Settings() {
             icon="download"
             iconTint="var(--green)"
             title={t('Install Fit Ninja to Home Screen')}
-            subtitle={t('Run as a full-screen app with offline support')}
+            subtitle={t('Run as a full-screen app with 1-tap instant launch')}
             accessory="chevron"
             onClick={openInstallSheet}
           />

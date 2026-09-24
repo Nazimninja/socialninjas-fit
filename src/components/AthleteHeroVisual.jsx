@@ -328,7 +328,7 @@ export default function AthleteHeroVisual() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <CheckCircle2 size={12} color="#34d399" />
-            <span>100% Offline PWA</span>
+            <span>100% Ad-Free PWA</span>
           </div>
         </div>
 

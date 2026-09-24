@@ -40,11 +40,11 @@ export default function Landing() {
   const faqs = [
     {
       q: "What makes Fit Ninja different from typical workout apps?",
-      a: "Most fitness apps are either digital notebooks or complicated spreadsheets full of robotic jargon. Fit Ninja gives you 5,300+ looping animated video guides for every gym movement, automatic 'Lift Heavier' progression recommendations, distraction-free full-screen rest timers, muscle recovery maps, and customized meal plans — all running 100% offline."
+      a: "Most fitness apps are either digital notebooks or complicated spreadsheets full of robotic jargon. Fit Ninja gives you 5,300+ looping animated video guides for every gym movement, automatic 'Lift Heavier' progression recommendations, distraction-free full-screen rest timers, muscle recovery maps, and customized meal plans — all designed for fast, focused gym execution."
     },
     {
-      q: "Does the app work underground or without an internet connection?",
-      a: "Yes! Fit Ninja was built offline-first. All your exercises, logs, sets, and meals are saved securely on your phone. It runs flawlessly in gym basements with zero mobile network, and syncs automatically with our cloud backup whenever you're connected."
+      q: "How does Fit Ninja keep my workouts focused and distraction-free?",
+      a: "Fit Ninja is 100% ad-free with zero popups or video interruptions during your workout. All your sets, weights, reps, and custom routines are logged with 1 tap, supported by our full-screen rest timer with sound alerts so you stay in the zone from start to finish."
     },
     {
       q: "Why is the rest timer full-screen?",
@@ -64,7 +64,7 @@ export default function Landing() {
     },
     {
       q: "Why is there no free plan or ad-supported version?",
-      a: "Free fitness apps survive by interrupting your rest timers with noisy 30-second video ads, collecting and selling your health data, or abruptly locking 90% of exercises behind paywalls when you reach the gym. Fit Ninja was built by athletes for athletes: 100% ad-free, 100% private, fully offline in basement gyms, and pro-grade from Day 1."
+      a: "Free fitness apps survive by interrupting your rest timers with noisy 30-second video ads, collecting and selling your health data, or abruptly locking 90% of exercises behind paywalls when you reach the gym. Fit Ninja was built by athletes for athletes: 100% ad-free, 100% private, zero spam, and pro-grade from Day 1."
     },
     {
       q: "Can I cancel anytime? Are there hidden fees or commitments?",
@@ -104,10 +104,10 @@ export default function Landing() {
       badge: "No Complicated Menus"
     },
     {
-      icon: <Cloud size={22} color="#38bdf8" />,
-      title: "100% Offline Gym Mode + Cloud Backup",
-      desc: "Underground gym basements with zero mobile reception? No problem. Fit Ninja stores everything locally on your device, and automatically backs up your workout history and custom routines to the cloud.",
-      badge: "Works Anywhere"
+      icon: <ShieldCheck size={22} color="#38bdf8" />,
+      title: "100% Ad-Free & Cloud Backup",
+      desc: "Zero annoying 30-second video ads or popups in the middle of your gym session. Fit Ninja gives you a lightning-fast, distraction-free experience and automatically backs up your workout history and custom routines to the cloud.",
+      badge: "Zero Distractions"
     }
   ];
 
@@ -329,7 +329,7 @@ export default function Landing() {
             margin: '0 0 32px',
             fontWeight: '500'
           }}>
-            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in an app that runs 100% offline in underground gyms.
+            Never guess what weights to lift or what to eat again. 5,300+ looping animated video exercises, custom workout &amp; diet plans, distraction-free full-screen rest timer, muscle recovery maps, and dead-simple food logging — in a distraction-free, 100% ad-free gym app.
           </p>
 
           {/* CTA Buttons */}
@@ -395,8 +395,8 @@ export default function Landing() {
               <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Video Exercises</div>
             </div>
             <div>
-              <div style={{ fontSize: '22px', fontWeight: '900', color: '#34d399' }}>100%</div>
-              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Offline Gym Mode</div>
+              <div style={{ fontSize: '22px', fontWeight: '900', color: '#34d399' }}>Rest Timer</div>
+              <div style={{ fontSize: '10.5px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '800' }}>Full-Screen Focus</div>
             </div>
             <div>
               <div style={{ fontSize: '22px', fontWeight: '900', color: '#fbbf24' }}>Zero Ads</div>
@@ -806,7 +806,7 @@ export default function Landing() {
                     <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
                       <Check size={13} color="#34d399" strokeWidth={3} />
                     </div>
-                    <span><strong>100% Offline Gym Mode</strong> + automatic email cloud sync</span>
+                    <span><strong>Distraction-Free Guided Rest Timer</strong> + automatic email cloud sync</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.12)', border: '1px solid rgba(52, 211, 153, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
@@ -920,7 +920,7 @@ export default function Landing() {
                     <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>
                       <Check size={11} color="#34d399" strokeWidth={3} />
                     </div>
-                    <span><strong>100% Offline Mode:</strong> works in gym basements with 0 signal</span>
+                    <span><strong>Guided Rest Timers:</strong> Screen wake lock, vibration &amp; sound alerts</span>
                   </li>
                   <li style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                     <div style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(52, 211, 153, 0.15)', border: '1px solid rgba(52, 211, 153, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, margin-top: 2px }}>

@@ -41,7 +41,7 @@ function InstallSheetModal({ close }) {
         Install Fit Ninja to Home Screen
       </h3>
       <p style={{ fontSize: '12.5px', color: 'var(--label-2)', lineHeight: 1.45, margin: '0 0 16px' }}>
-        Install the official web app for full-screen workouts, instant load times, sound cues, and offline tracking.
+        Install the official web app for full-screen workouts, instant load times, sound cues, and 1-tap gym access.
       </p>
 
       {/* Platform Switcher Tabs */}

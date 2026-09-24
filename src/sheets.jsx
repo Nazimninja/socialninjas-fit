@@ -3022,7 +3022,7 @@ function AppGuideModal({ close }) {
             step: '1',
             icon: 'smartphone',
             title: 'Add to Home Screen',
-            desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen view, and offline tracking.',
+            desc: 'Install Fit Ninja to your device home screen for 1-tap instant launch, full-screen view, and distraction-free tracking.',
             tag: 'Recommended',
             isInstallAction: true
           },

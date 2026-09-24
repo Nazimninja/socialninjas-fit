@@ -516,7 +516,7 @@ export default function InteractiveWorkoutPreview() {
           <span>Launch Real Workout In App →</span>
         </button>
         <p style={{ fontSize: '12.5px', color: '#64748b', marginTop: '10px' }}>
-          Works 100% offline in gym basements · Instant load on iPhone &amp; Android
+          Distraction-free gym training · Instant load on iPhone &amp; Android
         </p>
       </div>
 
