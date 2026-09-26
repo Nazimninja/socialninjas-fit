@@ -419,10 +419,10 @@ export default function ProfilePage() {
           icon="link"
           iconTint="var(--teal)"
           title="Coach & Support Desk"
-          subtitle="support@socialninjas.in"
+          subtitle="info@socialninjas.in"
           accessory="chevron"
           onClick={() =>
-            window.open('mailto:support@socialninjas.in?subject=Fit%20Ninja%20Support', '_blank')
+            window.open('mailto:info@socialninjas.in?subject=Fit%20Ninja%20Support', '_blank')
           }
         />
       </Section>

@@ -3089,7 +3089,7 @@ function AppGuideModal({ close }) {
       <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: '14px', padding: '12px 14px', marginBottom: '18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         
         <div style={{ fontSize: '11.5px', color: 'var(--label-2)', lineHeight: 1.4 }}>
-          Need technical or subscription support? Email us directly at <a href="mailto:support@socialninjas.in" style={{ color: '#38bdf8', fontWeight: '700', textDecoration: 'none' }}>support@socialninjas.in</a>.
+          Need technical or subscription support? Email us directly at <a href="mailto:info@socialninjas.in" style={{ color: '#38bdf8', fontWeight: '700', textDecoration: 'none' }}>info@socialninjas.in</a>.
         </div>
       </div>
 

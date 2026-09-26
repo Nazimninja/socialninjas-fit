@@ -254,9 +254,9 @@ export default function Settings() {
         icon="link"
         iconTint="var(--blue)"
         title={t('Support & Contact')}
-        subtitle="support@socialninjas.in"
+        subtitle="info@socialninjas.in"
         accessory="chevron"
-        onClick={() => window.open('mailto:support@socialninjas.in?subject=Fit%20Ninja%20Support%20Request', '_blank')}
+        onClick={() => window.open('mailto:info@socialninjas.in?subject=Fit%20Ninja%20Support%20Request', '_blank')}
       />
     </Section>
 
