@@ -74,13 +74,68 @@ export function createNazimDefaultState() {
   })
 }
 
+export function sanitizeRoutinesAndActive(st) {
+  if (!st) return st
+
+  // 1. Sanitize routines: deduplicate & fix mismapped leg press
+  if (Array.isArray(st.routines)) {
+    st.routines.forEach(r => {
+      if (!Array.isArray(r.ex)) return
+      const seen = new Set()
+      const cleaned = []
+      r.ex.forEach(item => {
+        let id = item.id
+        // If duplicate 0585 (leg extension), re-map to 0739 (sled 45° leg press)
+        if (id === '0585' && seen.has('0585') && !seen.has('0739')) {
+          id = '0739'
+        }
+        if (seen.has(id)) {
+          return
+        }
+        seen.add(id)
+        cleaned.push({ ...item, id })
+      })
+      r.ex = cleaned
+    })
+  }
+
+  // 2. Sanitize active workout session (fixes active session shown in user's screenshot)
+  if (st.active && Array.isArray(st.active.entries)) {
+    const seenActive = new Set()
+    const cleanedEntries = []
+    st.active.entries.forEach((entry, idx) => {
+      let id = entry.id
+      // In user's active session: Tab 2 was 0585 ("lever leg extension") and Tab 3 was 0585 ("Leg Extension")
+      if (id === '0585') {
+        if (idx === 1 && st.active.entries.length > 2 && st.active.entries[2].id === '0585') {
+          // Tab 2 was intended as Leg Press!
+          id = '0739'
+        } else if (seenActive.has('0585') && !seenActive.has('0739')) {
+          id = '0739'
+        }
+      }
+      if (seenActive.has(id)) {
+        return
+      }
+      seenActive.add(id)
+      cleanedEntries.push({ ...entry, id })
+    })
+    st.active.entries = cleanedEntries
+    if (st.active.cur >= cleanedEntries.length) {
+      st.active.cur = Math.max(0, cleanedEntries.length - 1)
+    }
+  }
+
+  return st
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
       if (parsed && (parsed.onboarded || (parsed.routines && parsed.routines.length > 0))) {
-        return Object.assign(clone(DEF), parsed)
+        return sanitizeRoutinesAndActive(Object.assign(clone(DEF), parsed))
       }
     }
   } catch (e) { /* ignore */ }
@@ -90,7 +145,7 @@ function loadState() {
     const u = JSON.parse(localStorage.getItem('gym_user') || 'null')
     const email = (u?.email || paidEmail || '').toLowerCase().trim()
     if (ADMIN_EMAILS.includes(email) || email.endsWith('@socialninjas.in')) {
-      return createNazimDefaultState()
+      return sanitizeRoutinesAndActive(createNazimDefaultState())
     }
   } catch (e) {}
 
@@ -375,8 +430,8 @@ export const useStore = create((set, get) => {
 
         if (cloudState && (!hasData(S) || (cloudTs >= (S._ts || 0) && !dirty))) {
           const active = S.active
-          const next = Object.assign(clone(DEF), cloudState)
-          if (active) next.active = active
+          const next = sanitizeRoutinesAndActive(Object.assign(clone(DEF), cloudState))
+          if (active) next.active = sanitizeRoutinesAndActive({ active }).active
           persist(next, false)
         } else if (hasData(S)) {
           await get().pushState()

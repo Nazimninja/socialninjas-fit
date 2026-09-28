@@ -96,6 +96,31 @@ export async function onRequest(context) {
       ? 'CRITICAL: Use ONLY dumbbells, adjustable bench, pull-up bar, and bodyweight. Absolutely NO barbells and NO cables.'
       : 'Full commercial gym available — barbells, dumbbells, cables, and machines.';
 
+    // Dynamic calibrated exercise count per session:
+    // 3-day split (lower weekly frequency, requires higher per-session volume to cover muscle groups):
+    //   Beginner: 6 exercises, Intermediate: 7 exercises, Advanced: 7-8 exercises
+    // 4-day split (Upper/Lower):
+    //   Beginner: 6 exercises, Intermediate: 6-7 exercises, Advanced: 7-8 exercises
+    // 5-day split:
+    //   Beginner: 5-6 exercises, Intermediate: 6-7 exercises, Advanced: 7 exercises
+    // 6-day split (PPL 2x):
+    //   Beginner: 5-6 exercises, Intermediate: 6 exercises, Advanced: 6-7 exercises
+    let targetExCountStr = '6-7 exercises';
+    let targetExCountDesc = '6-7';
+    if (numDays === 3) {
+      targetExCountStr = experience === 'advanced' ? '7-8 exercises' : experience === 'intermediate' ? '7 exercises' : '6 exercises';
+      targetExCountDesc = experience === 'advanced' ? '7 to 8' : experience === 'intermediate' ? '7' : '6';
+    } else if (numDays === 4) {
+      targetExCountStr = experience === 'advanced' ? '7-8 exercises' : experience === 'intermediate' ? '6-7 exercises' : '6 exercises';
+      targetExCountDesc = experience === 'advanced' ? '7 to 8' : experience === 'intermediate' ? '6 to 7' : '6';
+    } else if (numDays === 5) {
+      targetExCountStr = experience === 'advanced' ? '7 exercises' : experience === 'intermediate' ? '6-7 exercises' : '6 exercises';
+      targetExCountDesc = experience === 'advanced' ? '7' : experience === 'intermediate' ? '6 to 7' : '6';
+    } else if (numDays === 6) {
+      targetExCountStr = experience === 'advanced' ? '6-7 exercises' : '6 exercises';
+      targetExCountDesc = experience === 'advanced' ? '6 to 7' : '6';
+    }
+
     const prompt = `You are an elite Indian fitness coach and sports nutritionist.
 Create a 100% bespoke, personalized training and nutrition plan tailored specifically for this individual from scratch.
 
@@ -126,9 +151,17 @@ INSTRUCTIONS:
    Each meal MUST specify concrete food names and realistic portion sizes (e.g. "150g Paneer Bhurji + 2 Whole Wheat Rotis").
    Vary proteins and dishes across meals. Avoid any listed allergies/dislikes.
 2. Provide EXACTLY ${numDays} distinct workout routines in the "workout" array.
-   Each routine must contain 5-6 exercises strictly matching their equipment (${location}) and experience (${experience}).
+   Each routine MUST contain EXACTLY ${targetExCountStr} strictly matching their equipment (${location}) and experience (${experience}).
    Follow the preferred split: ${splitMap[splitPreference] || splitPreference}.
    Strictly respect all health conditions and injury substitutions.
+
+   CRITICAL ANTI-REDUNDANCY & ZERO-DUPLICATE RULES (STRICTLY ENFORCED):
+   - Every single exercise within a routine MUST be a completely distinct, non-redundant movement.
+   - NEVER repeat the same exercise, and NEVER include two variations of the same movement in the same workout (e.g. NEVER include both "Leg Press" and "Leg Extension" as duplicates, NEVER include two "Leg Extensions" with different wording, NEVER include both "Incline Barbell Bench Press" and "Incline Dumbbell Bench Press", NEVER include two identical bicep curls).
+   - Muscle group balance requirements:
+     * Push Day (${targetExCountDesc} exercises): 1 flat compound press (Barbell Bench Press / Dumbbell Bench Press), 1 incline press (Incline Dumbbell Bench Press), 1 overhead shoulder press (Dumbbell Overhead Press), 1 lateral raise (Dumbbell Lateral Raise), 1 tricep pushdown (Cable Tricep Pushdown), and 1-2 additional tricep / chest isolations (Overhead Tricep Extension, Chest Dips, or Cable Crossover).
+     * Pull Day (${targetExCountDesc} exercises): 1 heavy compound pull (Barbell Deadlift / Romanian Deadlift), 1 vertical lat pull (Cable Lat Pulldown or Pull-up), 1 horizontal row (Barbell Bent-Over Row), 1 cable/chest-supported row (Cable Seated Row), 1 rear delt / upper back movement (Face Pull / Dumbbell Rear Lateral Raise), 1 bicep curl (Dumbbell Alternate Bicep Curl / Barbell Curl), and 1 hammer curl (Hammer Curl).
+     * Leg Day (${targetExCountDesc} exercises): 1 primary quad compound (Barbell Back Squat / Goblet Squat), 1 secondary compound (Leg Press), 1 hamstring hinge (Barbell Romanian Deadlift), 1 quad isolation (Leg Extension), 1 hamstring isolation (Lying Leg Curl), 1 calf movement (Standing Calf Raise), and 1 unilateral / glute movement (Dumbbell Walking Lunges).
 
 Return ONLY a valid JSON object with this EXACT schema (no markdown, no backticks, no explanations):
 {
