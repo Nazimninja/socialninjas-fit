@@ -11,12 +11,14 @@ import Icon from './Icon.jsx'
 // future workouts (issue #12).
 export default function Media({ ex, id, compact, minimizable }) {
   const [playing, setPlaying] = useState(true)
+  const [failed, setFailed] = useState(false)
+  const [imgAttempted, setImgAttempted] = useState(false)
   const gifSize = useStore(s => s.S.gifSize)
   const update = useStore(s => s.update)
   const mediaSrc = playing ? gifSrc(ex) : imgSrc(ex)
-  if (!mediaSrc && !ex.gif && !ex.gifUrl && !ex.img && !ex.thumbUrl) return null
   const mini = minimizable && gifSize === 'mini'
   const toggleSize = e => { e.stopPropagation(); update(s => { s.gifSize = mini ? 'full' : 'mini' }) }
+
   return (
     <div
       className={'exmedia' + (compact ? ' compact' : '') + (mini ? ' mini' : '')}
@@ -35,27 +37,50 @@ export default function Media({ ex, id, compact, minimizable }) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '12px',
-        boxShadow: 'var(--card-shadow)'
+        boxShadow: 'var(--card-shadow)',
+        minHeight: mini ? '130px' : compact ? '150px' : '220px'
       }}
     >
-      <img
-        decoding="async"
-        src={mediaSrc || imgSrc(ex)}
-        alt={ex.n}
-        onError={e => {
-          // If GIF fails or is empty, try thumbnail
-          if (playing && imgSrc(ex) && e.currentTarget.src !== imgSrc(ex)) {
-            e.currentTarget.src = imgSrc(ex)
-          }
-        }}
-        style={{
-          maxWidth: '100%',
-          height: mini ? '130px' : compact ? '150px' : '220px',
-          maxHeight: '260px',
-          objectFit: 'contain',
-          display: 'block'
-        }}
-      />
+      {failed || (!mediaSrc && !imgSrc(ex)) ? (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: mini ? '130px' : compact ? '150px' : '220px',
+            color: '#64748b',
+            gap: '8px'
+          }}
+        >
+          <Icon name="dumbbell" />
+          <span style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+            {ex?.n || t('Exercise Demo')}
+          </span>
+        </div>
+      ) : (
+        <img
+          decoding="async"
+          src={mediaSrc || imgSrc(ex)}
+          alt={ex?.n || ''}
+          onError={e => {
+            const fallbackImg = imgSrc(ex)
+            if (!imgAttempted && fallbackImg && e.currentTarget.src !== fallbackImg) {
+              setImgAttempted(true)
+              e.currentTarget.src = fallbackImg
+            } else {
+              setFailed(true)
+            }
+          }}
+          style={{
+            maxWidth: '100%',
+            height: mini ? '130px' : compact ? '150px' : '220px',
+            maxHeight: '260px',
+            objectFit: 'contain',
+            display: 'block'
+          }}
+        />
+      )}
       {minimizable && (
         <button
           className="giftoggle"
@@ -82,7 +107,7 @@ export default function Media({ ex, id, compact, minimizable }) {
           <Icon name={mini ? 'expand' : 'minimize'} />{mini ? t('Expand Visual') : t('Compact')}
         </button>
       )}
-      {!mini && (
+      {!mini && !failed && (
         <span
           className="gifhint"
           style={{
@@ -110,7 +135,8 @@ export default function Media({ ex, id, compact, minimizable }) {
 }
 
 export function Thumb({ ex }) {
+  const [err, setErr] = useState(false)
   const src = imgSrc(ex)
-  if (!src) return <div className="thumb thumb-x"><Icon name="dumbbell" /></div>
-  return <img className="thumb" loading="lazy" decoding="async" src={src} alt="" onError={e => { e.currentTarget.style.display = 'none' }} />
+  if (!src || err) return <div className="thumb thumb-x"><Icon name="dumbbell" /></div>
+  return <img className="thumb" loading="lazy" decoding="async" src={src} alt="" onError={() => setErr(true)} />
 }

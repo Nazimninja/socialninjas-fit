@@ -265,17 +265,26 @@ export const STAPLE_EXERCISE_MAP = {
   'lever lying leg curl': '0586',
   'lying leg curl': '0586',
   'lying leg curls': '0586',
+  'lying hamstring curl': '0586',
+  'lying hamstring curls': '0586',
+  'hamstring curl': '0586',
+  'hamstring curls': '0586',
   'leg curl': '0586',
   'leg curls': '0586',
-  'hamstring curl': '0586',
   'lever seated leg curl': '0601',
   'seated leg curl': '0601',
+  'seated leg curls': '0601',
+  'seated hamstring curl': '0601',
+  'seated hamstring curls': '0601',
   'bodyweight standing calf raise': '1373',
-  'standing calf raise': '1373',
+  'standing calf raise': '0605',
+  'standing calf raises': '0605',
+  'standing calves calf stretch': '1398',
   'calf raise': '1373',
   'calf raises': '1373',
   'lever seated calf raise': '0738',
   'seated calf raise': '0738',
+  'seated calf raises': '0738',
   'walking lunge': '1460',
   'walking lunges': '1460',
   'dumbbell walking lunges': '0434',
@@ -323,7 +332,16 @@ export const STAPLE_EXERCISE_MAP = {
   'front plank': '0464',
   'plank': '0464',
   '3/4 sit-up': '0001',
-  'sit-up': '0001'
+  '3/4 sit up': '0001',
+  'sit-up': '0001',
+  'sit up': '0001'
+}
+
+function stemWord(word) {
+  if (!word) return ''
+  return word.toLowerCase()
+    .replace(/(?:ies|es|s)$/i, '')
+    .replace(/ing$/i, '')
 }
 
 // Media fallback resolver: guarantees that exercises never appear without an animated demo
@@ -340,23 +358,97 @@ export const resolveExerciseFallback = ex => {
 
   // 2. Cleaned name check (remove fluff words)
   const cleaned = name
-    .replace(/^(am|pm|30\s*degree|30|3d|acft)\s+/i, '')
+    .replace(/^(1\.5-rep|30-degree|90-degree|aa|am|pm|30|3d|acft)\s+/i, '')
     .replace(/-\s*(gethin|krissy cela|arnold|crossfit).*/i, '')
     .replace(/\s*\(.*?\)/g, '')
+    .replace(/pull-down/g, 'pulldown')
+    .replace(/push-down/g, 'pushdown')
+    .replace(/chin-up/g, 'chin up')
+    .replace(/pull-up/g, 'pull up')
+    .replace(/push-up/g, 'push up')
+    .replace(/sit-up/g, 'sit up')
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
+
   const cleanStapleId = STAPLE_EXERCISE_MAP[cleaned]
   if (cleanStapleId && EXIDX[cleanStapleId]) {
     return EXIDX[cleanStapleId]
   }
 
-  // 3. Search EXDB for closest exercise that has verified media
-  const words = cleaned.replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(w => w.length > 2 && w !== 'and' && w !== 'with')
-  if (words.length >= 2) {
-    const candidate = EXDB.find(e => (e.gif || e.gifUrl) && words.every(w => e.n.toLowerCase().includes(w)))
+  const words = cleaned.split(/\s+/).filter(w => w.length > 2 && w !== 'and' && w !== 'with')
+  const stemmed = words.map(stemWord)
+
+  // 3. Search EXDB for closest exercise using stemmed words
+  if (stemmed.length >= 2) {
+    const candidate = EXDB.find(e => (e.gif || e.gifUrl) && stemmed.every(sw => e.n.toLowerCase().includes(sw)))
     if (candidate) return candidate
   }
 
-  return null
+  // 4. Common staple key phrases
+  const eq = (ex.eq || ex.equipment || '').toLowerCase()
+  if (cleaned.includes('calf raise') || cleaned.includes('calf press') || cleaned.includes('calves')) {
+    if (eq.includes('machine') || eq.includes('lever')) return EXIDX['0605'] || EXIDX['1373']
+    if (eq.includes('dumbbell')) return EXIDX['0417']
+    if (eq.includes('barbell')) return EXIDX['1372']
+    return EXIDX['1373']
+  }
+  if (cleaned.includes('hamstring curl') || cleaned.includes('leg curl')) {
+    if (cleaned.includes('seated')) return EXIDX['0601']
+    return EXIDX['0586']
+  }
+  if (cleaned.includes('leg extension') || cleaned.includes('quad extension')) {
+    return EXIDX['0585']
+  }
+  if (cleaned.includes('bicep curl') || cleaned.includes('biceps curl')) {
+    if (eq.includes('dumbbell')) return EXIDX['0416']
+    if (eq.includes('barbell')) return EXIDX['0031']
+    if (eq.includes('cable')) return EXIDX['0240']
+    return EXIDX['0416']
+  }
+  if (cleaned.includes('bench press') || cleaned.includes('chest press')) {
+    if (cleaned.includes('incline')) return EXIDX['0047']
+    if (cleaned.includes('decline')) return EXIDX['0033']
+    return EXIDX['0025']
+  }
+  if (cleaned.includes('shoulder press') || cleaned.includes('overhead press')) {
+    if (eq.includes('dumbbell')) return EXIDX['0426']
+    return EXIDX['0070']
+  }
+  if (cleaned.includes('lateral raise') || cleaned.includes('side raise')) {
+    return EXIDX['0334']
+  }
+  if (cleaned.includes('squat')) {
+    if (cleaned.includes('goblet')) return EXIDX['1760']
+    if (cleaned.includes('front')) return EXIDX['0041']
+    return EXIDX['0043']
+  }
+  if (cleaned.includes('deadlift')) {
+    if (cleaned.includes('romanian') || cleaned.includes('rdl')) return EXIDX['0085']
+    return EXIDX['0032']
+  }
+  if (cleaned.includes('pull up') || cleaned.includes('pullup')) return EXIDX['0652']
+  if (cleaned.includes('chin up') || cleaned.includes('chinup')) return EXIDX['1326']
+  if (cleaned.includes('push up') || cleaned.includes('pushup')) return EXIDX['0662']
+  if (cleaned.includes('dip')) return EXIDX['0251']
+  if (cleaned.includes('crunch') || cleaned.includes('sit up')) return EXIDX['0274'] || EXIDX['0001']
+  if (cleaned.includes('plank')) return EXIDX['0464']
+  if (cleaned.includes('lunge')) return EXIDX['1460']
+
+  // 5. Fallback by muscle target & equipment
+  const m = (ex.tg || ex.muscle || ex.bp || '').toLowerCase()
+  if (m) {
+    const musclePool = EXDB.filter(e => (e.gif || e.gifUrl) && (e.tg.includes(m) || e.bp.includes(m)))
+    if (musclePool.length > 0) {
+      if (eq) {
+        const eqMatch = musclePool.find(e => e.eq.toLowerCase().includes(eq))
+        if (eqMatch) return eqMatch
+      }
+      return musclePool[0]
+    }
+  }
+
+  return EXDB[0]
 }
 
 // Media normally sits next to the app (img/ and gif/, mounted into the web container).

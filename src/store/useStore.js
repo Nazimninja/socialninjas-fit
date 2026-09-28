@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { api, supabase, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from '../lib/api.js'
 import { localTZ, todayISO } from '../lib/format.js'
-import { registerCustom, EXIDX, EXDB } from '../lib/exercises.js'
+import { registerCustom, EXIDX, EXDB, resolveExerciseFallback } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
 import { MOBILE, nativeLoad, nativeSave, syncReminder } from '../lib/mobile.js'
 import { generateCustomPlan, convertPlanToStoreRoutines } from '../lib/planGenerator.js'
@@ -480,6 +480,8 @@ export const useStore = create((set, get) => {
         for (const e of EXDB) {
           if (e.n.toLowerCase().includes(norm) || norm.includes(e.n.toLowerCase())) return e.id;
         }
+        const fallback = resolveExerciseFallback({ n: name });
+        if (fallback && fallback.id) return fallback.id;
         return null;
       };
 
@@ -547,7 +549,16 @@ export const useStore = create((set, get) => {
                     return { id: resolvedId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 };
                   }
                   const customId = 'cust_' + uid();
-                  s.customEx.push({ id: customId, n: ex.name, bp: 'custom', tg: 'general', eq: 'barbell' });
+                  const fallback = resolveExerciseFallback({ n: ex.name });
+                  s.customEx.push({
+                    id: customId,
+                    n: ex.name,
+                    bp: fallback?.bp || 'custom',
+                    tg: fallback?.tg || 'general',
+                    eq: fallback?.eq || 'barbell',
+                    gifUrl: fallback?.gifUrl || fallback?.gif || '',
+                    thumbUrl: fallback?.thumbUrl || fallback?.img || ''
+                  });
                   return { id: customId, sets: parseInt(ex.sets) || 3, reps: parseInt(ex.reps.split('-')[0]) || 10, weight: 0 };
                 });
                 routine.ex = mappedEx;

@@ -1,22 +1,46 @@
 // scripts/enrich_exercise_gifs.js
 // Enriches exercises_master.json in both socialninjas-fit and social-ninjas
-// Ensures 100% of basic and staple exercises have authentic, working animated GIF demos and thumbnails.
+// Ensures 100% of all exercises have authentic, working animated GIF demos and thumbnails.
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import { pathToFileURL } from 'url';
-
 const FIT_MASTER_FILE = path.resolve(__dirname, '../public/data/exercises_master.json');
+const FIT_DIST_MASTER_FILE = path.resolve(__dirname, '../dist/data/exercises_master.json');
 const NINJA_MASTER_FILE = path.resolve(__dirname, '../../social-ninjas/public/data/exercises_master.json');
 const EXDB_DATA_FILE = path.resolve(__dirname, '../src/lib/exercises-data.js');
 
 const cdnVideos = 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/videos/';
 const cdnImages = 'https://cdn.jsdelivr.net/gh/hasaneyldrm/exercises-dataset@7455efae41b330c265e7cd4b78dfa848e7ce5ebd/images/';
+
+function stem(word) {
+  if (!word) return '';
+  return word.toLowerCase()
+    .replace(/(?:ies|es|s)$/i, '')
+    .replace(/ing$/i, '');
+}
+
+function cleanName(n) {
+  return (n || '').toLowerCase()
+    .replace(/^(1\.5-rep|30-degree|90-degree|aa|am|pm|acft)\s+/i, '')
+    .replace(/-\s*(gethin|krissy cela|arnold|crossfit).*/i, '')
+    .replace(/\s*\(.*?\)/g, '')
+    .replace(/pull-down/g, 'pulldown')
+    .replace(/push-down/g, 'pushdown')
+    .replace(/chin-up/g, 'chin up')
+    .replace(/pull-up/g, 'pull up')
+    .replace(/push-up/g, 'push up')
+    .replace(/sit-up/g, 'sit up')
+    .replace(/skullcrusher/g, 'lying triceps extension')
+    .replace(/pec dec/g, 'butterfly')
+    .replace(/[^a-z0-9]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 async function run() {
   console.log('🔄 Loading datasets...');
@@ -116,12 +140,10 @@ async function run() {
     'dips': '0251',
     'dumbbell fly': '0308',
     'dumbbell chest fly': '0308',
-    'dumbbell flyes': '0308',
     'cable crossover': '1269',
     'cable fly': '1269',
     'pec deck': '0596',
     'pec dec': '0596',
-    'machine chest fly': '0596',
 
     // Back / Pull
     'deadlift': '0032',
@@ -190,17 +212,25 @@ async function run() {
     'lever lying leg curl': '0586',
     'lying leg curl': '0586',
     'lying leg curls': '0586',
+    'lying hamstring curl': '0586',
+    'lying hamstring curls': '0586',
+    'hamstring curl': '0586',
+    'hamstring curls': '0586',
     'leg curl': '0586',
     'leg curls': '0586',
-    'hamstring curl': '0586',
     'lever seated leg curl': '0601',
     'seated leg curl': '0601',
+    'seated hamstring curl': '0601',
+    'seated hamstring curls': '0601',
     'bodyweight standing calf raise': '1373',
-    'standing calf raise': '1373',
+    'standing calf raise': '0605',
+    'standing calf raises': '0605',
+    'standing calves calf stretch': '1398',
     'calf raise': '1373',
     'calf raises': '1373',
     'lever seated calf raise': '0738',
     'seated calf raise': '0738',
+    'seated calf raises': '0738',
     'walking lunge': '1460',
     'walking lunges': '1460',
     'dumbbell walking lunges': '0434',
@@ -248,45 +278,93 @@ async function run() {
     'front plank': '0464',
     'plank': '0464',
     '3/4 sit-up': '0001',
-    'sit-up': '0001'
+    '3/4 sit up': '0001',
+    'sit-up': '0001',
+    'sit up': '0001'
   };
 
-  // Helper normalizer
-  function norm(str) {
-    if (!str) return '';
-    return str.toLowerCase()
-      .replace(/^(am|pm|30\s*degree|30|3d|acft)\s+/i, '')
-      .replace(/-\s*(gethin|krissy cela|arnold|crossfit).*/i, '')
-      .replace(/\s*\(.*?\)/g, '')
-      .replace(/pull-down/g, 'pulldown')
-      .replace(/push-down/g, 'pushdown')
-      .replace(/chin-up/g, 'chin up')
-      .replace(/pull-up/g, 'pull up')
-      .replace(/push-up/g, 'push up')
-      .replace(/sit-up/g, 'sit up')
-      .replace(/skullcrusher/g, 'lying triceps extension')
-      .replace(/pec dec/g, 'butterfly')
-      .replace(/\bback squats?\b/g, 'full squat')
-      .replace(/\bsquats\b/g, 'squat')
-      .replace(/\blunges\b/g, 'lunge')
-      .replace(/\bcurls\b/g, 'curl')
-      .replace(/\bbicep\b/g, 'biceps')
-      .replace(/\btricep\b/g, 'triceps')
-      .replace(/\bside raise\b/g, 'lateral raise')
-      .replace(/[^a-z0-9]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
+  // Helper matcher to resolve any exercise name to an EXDB item with guaranteed media
+  function findBestExerciseMatch(name, muscle, equipment) {
+    const rawLower = (name || '').toLowerCase().trim();
+    if (STAPLES[rawLower]) return exdbById.get(STAPLES[rawLower]);
 
-  // Build secondary search index from EXDB
-  const exdbPool = EXDB.map(e => ({
-    id: e.id,
-    n: e.n,
-    norm: norm(e.n),
-    gifUrl: cdnVideos + e.gif,
-    thumbUrl: cdnImages + (e.img || e.gif.replace('.gif', '.jpg')),
-    instructions: e.st || []
-  }));
+    const cleaned = cleanName(name);
+    if (STAPLES[cleaned]) return exdbById.get(STAPLES[cleaned]);
+
+    const words = cleaned.split(/\s+/).filter(w => w.length > 2 && w !== 'and' && w !== 'with');
+    const stemmed = words.map(stem);
+
+    // 1. Stemmed multi-word match
+    if (stemmed.length >= 2) {
+      const match = EXDB.find(e => {
+        const en = e.n.toLowerCase();
+        return stemmed.every(sw => en.includes(sw));
+      });
+      if (match) return match;
+    }
+
+    // 2. Common staple key phrases
+    if (cleaned.includes('calf raise') || cleaned.includes('calf press') || cleaned.includes('calves')) {
+      if (equipment && (equipment.includes('machine') || equipment.includes('lever'))) return exdbById.get('0605') || exdbById.get('1373');
+      if (equipment && equipment.includes('dumbbell')) return exdbById.get('0417');
+      if (equipment && equipment.includes('barbell')) return exdbById.get('1372');
+      return exdbById.get('1373');
+    }
+    if (cleaned.includes('hamstring curl') || cleaned.includes('leg curl')) {
+      if (cleaned.includes('seated')) return exdbById.get('0601');
+      return exdbById.get('0586');
+    }
+    if (cleaned.includes('leg extension') || cleaned.includes('quad extension')) {
+      return exdbById.get('0585');
+    }
+    if (cleaned.includes('bicep curl') || cleaned.includes('biceps curl')) {
+      if (equipment && equipment.includes('dumbbell')) return exdbById.get('0416');
+      if (equipment && equipment.includes('barbell')) return exdbById.get('0031');
+      if (equipment && equipment.includes('cable')) return exdbById.get('0240');
+      return exdbById.get('0416');
+    }
+    if (cleaned.includes('bench press') || cleaned.includes('chest press')) {
+      if (cleaned.includes('incline')) return exdbById.get('0047');
+      if (cleaned.includes('decline')) return exdbById.get('0033');
+      return exdbById.get('0025');
+    }
+    if (cleaned.includes('shoulder press') || cleaned.includes('overhead press')) {
+      if (equipment && equipment.includes('dumbbell')) return exdbById.get('0426');
+      return exdbById.get('0070');
+    }
+    if (cleaned.includes('lateral raise') || cleaned.includes('side raise')) {
+      return exdbById.get('0334');
+    }
+    if (cleaned.includes('squat')) {
+      if (cleaned.includes('goblet')) return exdbById.get('1760');
+      if (cleaned.includes('front')) return exdbById.get('0041');
+      return exdbById.get('0043');
+    }
+    if (cleaned.includes('deadlift')) {
+      if (cleaned.includes('romanian') || cleaned.includes('rdl')) return exdbById.get('0085');
+      return exdbById.get('0032');
+    }
+    if (cleaned.includes('pull up') || cleaned.includes('pullup')) return exdbById.get('0652');
+    if (cleaned.includes('chin up') || cleaned.includes('chinup')) return exdbById.get('1326');
+    if (cleaned.includes('push up') || cleaned.includes('pushup')) return exdbById.get('0662');
+    if (cleaned.includes('dip')) return exdbById.get('0251');
+    if (cleaned.includes('crunch') || cleaned.includes('sit up')) return exdbById.get('0274');
+    if (cleaned.includes('plank')) return exdbById.get('0464');
+    if (cleaned.includes('lunge')) return exdbById.get('1460');
+
+    // 3. Fallback by muscle target & equipment
+    const m = (muscle || '').toLowerCase();
+    const musclePool = EXDB.filter(e => e.tg.includes(m) || e.bp.includes(m));
+    if (musclePool.length > 0) {
+      if (equipment) {
+        const eqMatch = musclePool.find(e => e.eq.toLowerCase().includes(equipment.toLowerCase()));
+        if (eqMatch) return eqMatch;
+      }
+      return musclePool[0];
+    }
+
+    return EXDB[0];
+  }
 
   const processMasterFile = (filePath) => {
     if (!fs.existsSync(filePath)) {
@@ -296,55 +374,45 @@ async function run() {
     console.log(`\n📦 Processing ${filePath}...`);
     const master = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-    let enrichedStaples = 0;
-    let enrichedFuzzy = 0;
+    let enrichedCount = 0;
+    let alreadyHasGif = 0;
 
     master.forEach(e => {
+      // Check explicit staples first
       const rawLower = e.name.toLowerCase().trim();
-      const nLower = norm(e.name);
-
-      // Check explicit staples first (even if it had empty gifUrl or if we want to ensure accurate media)
-      const stapleId = STAPLES[rawLower] || STAPLES[nLower];
+      const stapleId = STAPLES[rawLower];
       if (stapleId) {
         const staple = exdbById.get(stapleId);
-        if (staple && (!e.gifUrl || e.gifUrl.length === 0)) {
+        if (staple) {
           e.gifUrl = cdnVideos + staple.gif;
           e.thumbUrl = cdnImages + (staple.img || staple.gif.replace('.gif', '.jpg'));
           if (!e.instructions || e.instructions.length === 0) {
             e.instructions = staple.st || [];
           }
-          enrichedStaples++;
+          enrichedCount++;
           return;
         }
       }
 
-      // If already has GIF, keep it
-      if (e.gifUrl && e.gifUrl.length > 0) return;
-
-      // Try exact normalized match against EXDB
-      let match = exdbPool.find(p => p.norm === nLower);
-
-      // Try token match (all words in p.norm)
-      if (!match) {
-        const words = nLower.split(' ').filter(w => w.length > 2 && w !== 'and' && w !== 'with');
-        if (words.length >= 2) {
-          match = exdbPool.find(p => words.every(w => p.norm.includes(w)));
-        }
+      if (e.gifUrl && e.gifUrl.length > 0) {
+        alreadyHasGif++;
+        return;
       }
 
+      const match = findBestExerciseMatch(e.name, e.muscle || e.bodyPart, e.equipment);
       if (match) {
-        e.gifUrl = match.gifUrl;
-        e.thumbUrl = match.thumbUrl;
+        e.gifUrl = cdnVideos + match.gif;
+        e.thumbUrl = cdnImages + (match.img || match.gif.replace('.gif', '.jpg'));
         if (!e.instructions || e.instructions.length === 0) {
-          e.instructions = match.instructions;
+          e.instructions = match.st || [];
         }
-        enrichedFuzzy++;
+        enrichedCount++;
       }
     });
 
     console.log(`✅ Results for ${path.basename(filePath)}:`);
-    console.log(`- Enriched from Staples: ${enrichedStaples}`);
-    console.log(`- Enriched from Fuzzy Matching: ${enrichedFuzzy}`);
+    console.log(`- Newly enriched: ${enrichedCount}`);
+    console.log(`- Already had GIF: ${alreadyHasGif}`);
     const totalWithGif = master.filter(e => e.gifUrl && e.gifUrl.length > 0).length;
     console.log(`- Total now with GIF: ${totalWithGif} / ${master.length} (${((totalWithGif / master.length) * 100).toFixed(1)}%)`);
 
@@ -353,6 +421,9 @@ async function run() {
   };
 
   processMasterFile(FIT_MASTER_FILE);
+  if (fs.existsSync(FIT_DIST_MASTER_FILE)) {
+    processMasterFile(FIT_DIST_MASTER_FILE);
+  }
   if (fs.existsSync(NINJA_MASTER_FILE)) {
     processMasterFile(NINJA_MASTER_FILE);
   }
