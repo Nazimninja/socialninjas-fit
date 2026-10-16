@@ -28,19 +28,12 @@ export const supabasePublic = createClient(SUPABASE_URL, SUPABASE_KEY, {
 })
 
 export const ADMIN_EMAILS = [
-  'nazim.socialninja@gmail.com',
-  'nazimpasha906@gmail.com',
-  'nazim@socialninjas.in',
   'admin@socialninjas.in',
   'support@socialninjas.in',
   'fit@socialninjas.in'
 ]
 
-export const VERIFIED_PAID_MEMBERS = [
-  'saqlainsharief161@gmail.com',
-  'saqlainnisha0928@gmail.com',
-  'highonnfitness@gmail.com'
-]
+export const VERIFIED_PAID_MEMBERS = []
 
 export async function signInWithGoogle() {
   try {
