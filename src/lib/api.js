@@ -88,87 +88,110 @@ export async function signInWithApple() {
 }
 
 export async function verifyMemberEmail(email) {
-  const clean = (email || '').trim().toLowerCase()
-  if (!clean) return { verified: false, error: 'Email address is required' }
+  const clean = (email || '').trim().toLowerCase();
+  if (!clean) return { verified: false, error: 'Email address is required' };
 
-  // 1. Admin / Owner / Verified Members check
-  if (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(clean)) {
-    return { verified: true, role: (ADMIN_EMAILS.includes(clean) || clean.endsWith('@socialninjas.in')) ? 'admin' : 'member', email: clean }
-  }
-
-  // 2. Query Supabase DB for active membership or saved state
+  // 1. Retrieve active Supabase Auth session token if available
+  let authHeaders = {};
+  let sessionUser = null;
   try {
-    const candidates = [clean]
-    const digits = clean.replace(/\D/g, '')
+    const { data } = await supabase.auth.getSession();
+    const session = data?.session;
+    if (session?.access_token) {
+      authHeaders['Authorization'] = `Bearer ${session.access_token}`;
+      sessionUser = session.user;
+    }
+  } catch (_) {}
+
+  // 2. Serverless API verification check with token
+  try {
+    const res = await fetch('/api/verify-member', {
+      method: 'POST',
+      headers: Object.assign({ 'Content-Type': 'application/json' }, authHeaders),
+      body: JSON.stringify({ email: clean })
+    });
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (data && data.verified) return { verified: true, email: clean, role: data.role || 'member' };
+    }
+  } catch (e) {}
+
+  // 3. Fallback: Query Supabase DB for active membership or saved state
+  try {
+    const candidates = [clean];
+    const digits = clean.replace(/\D/g, '');
     if (digits.length >= 10) {
-      if (!clean.startsWith('+')) candidates.push('+' + digits)
-      candidates.push(digits)
-      if (digits.length === 10) candidates.push('+91' + digits)
-      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2))
+      if (!clean.startsWith('+')) candidates.push('+' + digits);
+      candidates.push(digits);
+      if (digits.length === 10) candidates.push('+91' + digits);
+      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2));
     }
 
-    // Check fitninja_membership using public unauthenticated client (immune to OAuth session state)
+    // Check fitninja_membership in scripts table
     const { data: memRows } = await supabasePublic
       .from('scripts')
       .select('*')
       .eq('profile', 'fitninja_membership')
       .in('topic', candidates)
-      .limit(1)
+      .limit(1);
 
     if (memRows && memRows.length > 0) {
-      return { verified: true, email: clean }
+      const isAdmin = sessionUser?.email === clean && clean.endsWith('@socialninjas.in');
+      return { verified: true, email: clean, role: isAdmin ? 'admin' : 'member' };
     }
 
-    // Check existing synced user state (if user state exists, they are active)
+    // Check existing synced user state
     const { data: stateRows } = await supabasePublic
       .from('scripts')
       .select('*')
       .eq('profile', 'fitninja_user_state')
       .in('topic', candidates)
-      .limit(1)
+      .limit(1);
 
     if (stateRows && stateRows.length > 0) {
-      return { verified: true, email: clean }
+      return { verified: true, email: clean, role: 'member' };
     }
 
-    // Check leads table by email or phone
+    // Check leads table
     const { data: leadRows } = await supabasePublic
       .from('leads')
       .select('*')
       .or(`email.in.(${candidates.map(c => `"${c}"`).join(',')}),phone.in.(${candidates.map(c => `"${c}"`).join(',')})`)
-      .limit(1)
+      .limit(1);
 
     if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
-      return { verified: true, email: clean }
+      return { verified: true, email: clean, role: 'member' };
     }
   } catch (err) {
-    console.warn('Supabase membership lookup warning:', err)
+    console.warn('Supabase membership lookup warning:', err);
   }
-
-  // 4. Serverless API verification check (if endpoint active)
-  try {
-    const res = await fetch('/api/verify-member', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: clean })
-    })
-    if (res.ok) {
-      const data = await res.json().catch(() => ({}))
-      if (data && data.verified) return { verified: true, email: clean, role: data.role }
-    }
-  } catch (e) {}
 
   return {
     verified: false,
     error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'
-  }
+  };
 }
 
-export async function api(path, opts) {
-  const r = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts))
-  const data = await r.json().catch(() => ({}))
-  if (!r.ok) { const e = new Error(data.error || ('HTTP ' + r.status)); e.status = r.status; throw e }
-  return data
+export async function api(path, opts = {}) {
+  let authHeaders = {};
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data?.session?.access_token;
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+  } catch (_) {}
+
+  const headers = Object.assign(
+    { 'Content-Type': 'application/json' },
+    authHeaders,
+    opts.headers || {}
+  );
+
+  const r = await fetch(path, Object.assign({}, opts, { headers }));
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(data.error || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+  return data;
 }
 
 const bufToB64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')

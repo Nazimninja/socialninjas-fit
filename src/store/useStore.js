@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { api, supabase, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from '../lib/api.js'
+import { api, supabase, verifyMemberEmail } from '../lib/api.js'
 import { localTZ, todayISO } from '../lib/format.js'
 import { registerCustom, EXIDX, EXDB, resolveExerciseFallback } from '../lib/exercises.js'
 import { DEMO, DEMO_SEEDED } from '../lib/demo.js'
@@ -144,7 +144,7 @@ function loadState() {
     const paidEmail = (localStorage.getItem('gym_paid_email') || '').toLowerCase().trim()
     const u = JSON.parse(localStorage.getItem('gym_user') || 'null')
     const email = (u?.email || paidEmail || '').toLowerCase().trim()
-    if (ADMIN_EMAILS.includes(email) || email.endsWith('@socialninjas.in')) {
+    if (email === 'nazim@socialninjas.in') {
       return sanitizeRoutinesAndActive(createNazimDefaultState())
     }
   } catch (e) {}
@@ -369,7 +369,7 @@ export const useStore = create((set, get) => {
         const email = rawEmail.trim().toLowerCase()
         if (!email) return
 
-        const isNazimOrAdmin = ADMIN_EMAILS.includes(email) || email.endsWith('@socialninjas.in')
+        const isNazimOrAdmin = user?.admin || email === 'nazim@socialninjas.in'
 
         let supaState = null
         let supaTs = 0
@@ -579,17 +579,26 @@ export const useStore = create((set, get) => {
       const storedUser = JSON.parse(localStorage.getItem('gym_user') || 'null')
       const isPaidFlag = localStorage.getItem('gym_paid') === '1'
       const targetEmail = (storedUser?.email || paidEmail || '').toLowerCase().trim()
-      const isWhitelisted = targetEmail && (VERIFIED_PAID_MEMBERS.includes(targetEmail) || ADMIN_EMAILS.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in'))
 
       if (storedUser) {
-        if (isPaidFlag || isWhitelisted) storedUser.paid = true
         get().setUser(storedUser)
-        if (isPaidFlag || storedUser.paid || isWhitelisted) get().setPaid(true)
-      } else if (paidEmail || isWhitelisted) {
+        if (isPaidFlag || storedUser.paid) get().setPaid(true)
+      } else if (paidEmail && isPaidFlag) {
         get().setUser({ name: (targetEmail || 'Athlete').split('@')[0], email: targetEmail, paid: true })
         get().setPaid(true)
       } else if (isPaidFlag) {
         get().setPaid(true)
+      }
+
+      // Verify active membership status against server/database
+      if (targetEmail) {
+        verifyMemberEmail(targetEmail).then(res => {
+          if (res?.verified) {
+            get().setPaid(true)
+            const cu = get().user || { email: targetEmail, name: targetEmail.split('@')[0] }
+            get().setUser({ ...cu, paid: true, admin: res.role === 'admin' })
+          }
+        }).catch(() => {})
       }
 
       if (MOBILE) {

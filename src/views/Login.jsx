@@ -1,6 +1,6 @@
 import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
-import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signInWithApple, supabase, IS_APPLE, VERIFIED_PAID_MEMBERS } from '../lib/api.js'
+import { webauthnOK, passkeyRegister, verifyMemberEmail, signInWithGoogle, signInWithApple, supabase, IS_APPLE } from '../lib/api.js'
 import { t } from '../lib/i18n.js'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -9,12 +9,6 @@ import { trackCompleteRegistration } from '../lib/metaPixel.js'
 
 import { onboardingWizardSheet } from '../sheets.jsx'
 import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
-
-const ADMIN_LIST = [
-  'admin@socialninjas.in',
-  'support@socialninjas.in',
-  'fit@socialninjas.in'
-]
 
 const COUNTRY_CODES = [
   { name: 'India', code: '+91', flag: '🇮🇳' },
@@ -169,13 +163,6 @@ export default function Login() {
     const checkStatus = async () => {
       const target = (user?.email || localStorage.getItem('gym_paid_email') || '').toLowerCase().trim()
       if (target) {
-        if (VERIFIED_PAID_MEMBERS.includes(target) || ADMIN_LIST.includes(target) || target.endsWith('@socialninjas.in')) {
-          setUser({ ...(user || {}), name: user?.name || target.split('@')[0], email: target, paid: true, admin: ADMIN_LIST.includes(target) })
-          setPaid(true)
-          navigate('/home', { replace: true })
-          window.location.hash = '#/home'
-          return
-        }
         try {
           const res = await verifyMemberEmail(target).catch(() => ({ verified: false }))
           if (res && res.verified) {
@@ -375,7 +362,7 @@ export default function Login() {
               email: activeEmail || `${phone || 'athlete'}@fitninja.app`,
               phone: cleanPhone,
               paid: true,
-              admin: ADMIN_LIST.includes(activeEmail) || activeEmail.endsWith('@socialninjas.in')
+              admin: activeEmail === 'nazim@socialninjas.in'
             })
             setPaid(true)
             sessionStorage.setItem('fn_just_paid', '1')
@@ -408,17 +395,6 @@ export default function Login() {
         return
       }
       setIsVerifying(true)
-
-      if (ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(lookup)) {
-        const isAdmin = ADMIN_LIST.includes(lookup) || lookup.endsWith('@socialninjas.in')
-        setUser({ name: lookup.split('@')[0] || 'Athlete', email: lookup, paid: true, admin: isAdmin })
-        setPaid(true)
-        useUI.getState().toast(isAdmin ? 'Admin verified! Welcome back.' : 'Membership verified! Welcome back.')
-        setIsVerifying(false)
-        navigate('/home', { replace: true })
-        window.location.hash = '#/home'
-        return
-      }
 
       try {
         const res = await verifyMemberEmail(lookup).catch(() => ({ verified: false }))
@@ -577,15 +553,6 @@ export default function Login() {
                 setIsBannerVerifying(true)
                 try {
                   const targetEmail = (user?.email || '').toLowerCase().trim()
-                  if (VERIFIED_PAID_MEMBERS.includes(targetEmail) || ADMIN_LIST.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in')) {
-                    const isAdmin = ADMIN_LIST.includes(targetEmail) || targetEmail.endsWith('@socialninjas.in')
-                    setUser({ ...user, paid: true, admin: isAdmin })
-                    setPaid(true)
-                    useUI.getState().toast('Access Verified! Welcome to Pro.')
-                    navigate('/home', { replace: true })
-                    window.location.hash = '#/home'
-                    return
-                  }
                   const res = await verifyMemberEmail(targetEmail)
                   if (res && res.verified) {
                     setUser({ ...user, paid: true, admin: res.role === 'admin' })

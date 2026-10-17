@@ -26,7 +26,7 @@ import Library from './views/Library.jsx'
 import Nutrition from './views/Nutrition.jsx'
 import Settings from './views/Settings.jsx'
 import Admin from './views/Admin.jsx'
-import { supabase, supabasePublic, ADMIN_EMAILS, VERIFIED_PAID_MEMBERS } from './lib/api.js'
+import { supabase, supabasePublic, verifyMemberEmail } from './lib/api.js'
 import { trackPageView } from './lib/metaPixel.js'
 
 bindUI(useUI)   // lets the shared controls open sheets without importing the store at module scope
@@ -65,68 +65,9 @@ async function handleAuthUser(email, name, navigate, avatarUrl = null) {
   if (!email) return
   const cleanEmail = email.toLowerCase().trim()
 
-  // 1. Check Admin whitelist (EXACT match or @socialninjas.in domain only)
-  let isPaid = false
-  let isAdmin = false
-
-  if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in') || VERIFIED_PAID_MEMBERS.includes(cleanEmail)) {
-    isPaid = true
-    isAdmin = ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')
-  } else {
-    // 2. Query Supabase database for active membership or existing user state
-    const candidates = [cleanEmail]
-    const digits = cleanEmail.replace(/\D/g, '')
-    if (digits.length >= 10) {
-      if (!cleanEmail.startsWith('+')) candidates.push('+' + digits)
-      candidates.push(digits)
-      if (digits.length === 10) candidates.push('+91' + digits)
-      if (digits.startsWith('91') && digits.length === 12) candidates.push(digits.slice(2))
-    }
-
-    try {
-      const { data: memRows } = await supabasePublic
-        .from('scripts')
-        .select('*')
-        .eq('profile', 'fitninja_membership')
-        .in('topic', candidates)
-        .limit(1)
-
-      if (memRows && memRows.length > 0) {
-        isPaid = true
-      }
-    } catch (e) {
-      console.warn('Membership check error:', e)
-    }
-
-    if (!isPaid) {
-      try {
-        const { data: stateRows } = await supabasePublic
-          .from('scripts')
-          .select('*')
-          .eq('profile', 'fitninja_user_state')
-          .in('topic', candidates)
-          .limit(1)
-
-        if (stateRows && stateRows.length > 0) {
-          isPaid = true
-        }
-      } catch (e) {}
-    }
-
-    if (!isPaid) {
-      try {
-        const { data: leadRows } = await supabasePublic
-          .from('leads')
-          .select('*')
-          .or(`email.in.(${candidates.map(c => `"${c}"`).join(',')}),phone.in.(${candidates.map(c => `"${c}"`).join(',')})`)
-          .limit(1)
-
-        if (leadRows && leadRows.length > 0 && (leadRows[0].status?.includes('PAID') || leadRows[0].status?.includes('MEMBER'))) {
-          isPaid = true
-        }
-      } catch (e) {}
-    }
-  }
+  const authRes = await verifyMemberEmail(cleanEmail)
+  const isPaid = Boolean(authRes?.verified)
+  const isAdmin = authRes?.role === 'admin'
 
   // Set user state in store
   const existingUser = useStore.getState().user
