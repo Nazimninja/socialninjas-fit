@@ -11,9 +11,6 @@ import { onboardingWizardSheet } from '../sheets.jsx'
 import { openInstallSheet } from '../components/PWAInstallPrompt.jsx'
 
 const ADMIN_LIST = [
-  'nazim.socialninja@gmail.com',
-  'nazimpasha906@gmail.com',
-  'nazim@socialninjas.in',
   'admin@socialninjas.in',
   'support@socialninjas.in',
   'fit@socialninjas.in'

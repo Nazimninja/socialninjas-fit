@@ -3,7 +3,7 @@ export async function onRequest(context) {
 
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json'
   };
@@ -16,104 +16,83 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ verified: false, error: 'Method not allowed' }), { headers, status: 405 });
   }
 
-  const ADMIN_EMAILS = [
-    'nazimpasha906@gmail.com',
-    'nazim@socialninjas.in',
-    'admin@socialninjas.in',
-    'support@socialninjas.in',
-    'fit@socialninjas.in'
-  ];
+  const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
+  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY || env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4OTMwMzAsImV4cCI6MjEwMDQ2OTAzMH0.qt4ty1tjGeXMthhSaDZZo80u_JdPK4klUg3QAIhN0nw';
 
-  try {
-    const body = await request.json();
-    const { email } = body || {};
-    const cleanEmail = (email || '').trim().toLowerCase();
+  // 1. Proof of Ownership: Enforce Supabase JWT Bearer Verification
+  const authHeader = request.headers.get('authorization') || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
 
-    if (!cleanEmail) {
-      return new Response(JSON.stringify({ verified: false, error: 'Email address is required' }), { headers, status: 400 });
-    }
-
-    // 1. Check if Admin/Owner email
-    if (ADMIN_EMAILS.includes(cleanEmail) || cleanEmail.endsWith('@socialninjas.in')) {
-      return new Response(JSON.stringify({ verified: true, role: 'admin', email: cleanEmail }), { headers, status: 200 });
-    }
-
-    // 2. Check Supabase DB for active subscription/user
-    const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL;
-    const supabaseKey = env.VITE_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY;
-
-    if (supabaseUrl && supabaseKey) {
-      try {
-        // Query Supabase using HTTP client directly to avoid supabase-js import node-compatibility issues
-        const res = await fetch(`${supabaseUrl}/rest/v1/users?email=eq.${encodeURIComponent(cleanEmail)}&select=*`, {
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${supabaseKey}`
-          }
-        });
-
-        if (res.ok) {
-          const users = await res.json();
-          const user = users[0];
-          if (user && (user.paid || user.role === 'admin' || user.subscription_status === 'active')) {
-            return new Response(JSON.stringify({ verified: true, email: cleanEmail, user }), { headers, status: 200 });
-          }
-        }
-
-        // Check subscriptions table
-        const subRes = await fetch(`${supabaseUrl}/rest/v1/subscriptions?email=eq.${encodeURIComponent(cleanEmail)}&select=*`, {
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${supabaseKey}`
-          }
-        });
-
-        if (subRes.ok) {
-          const subs = await subRes.json();
-          const sub = subs[0];
-          if (sub && (sub.status === 'active' || sub.status === 'authenticated')) {
-            return new Response(JSON.stringify({ verified: true, email: cleanEmail, subscription: sub }), { headers, status: 200 });
-          }
-        }
-      } catch (dbErr) {
-        console.warn('Supabase lookup non-fatal error:', dbErr);
-      }
-    }
-
-    // 3. Fallback: Check Razorpay Customers API directly if keys available
-    const key_id = env.RAZORPAY_KEY_ID;
-    const key_secret = env.RAZORPAY_KEY_SECRET;
-
-    if (key_id && key_secret) {
-      try {
-        const auth = btoa(`${key_id}:${key_secret}`);
-        const rzpRes = await fetch('https://api.razorpay.com/v1/customers?count=50', {
-          headers: {
-            'Authorization': `Basic ${auth}`
-          }
-        });
-
-        if (rzpRes.ok) {
-          const data = await rzpRes.json();
-          if (data && data.items) {
-            const match = data.items.find(c => (c.email || '').toLowerCase() === cleanEmail);
-            if (match) {
-              return new Response(JSON.stringify({ verified: true, email: cleanEmail, customer: match }), { headers, status: 200 });
-            }
-          }
-        }
-      } catch (rzpErr) {
-        console.warn('Razorpay check non-fatal error:', rzpErr);
-      }
-    }
-
-    return new Response(JSON.stringify({
-      verified: false,
-      error: 'No active Pro subscription found for this email. Please subscribe above to unlock Fit Ninja.'
-    }), { headers, status: 403 });
-
-  } catch (err) {
-    console.error('Member verification error:', err);
-    return new Response(JSON.stringify({ verified: false, error: 'Verification error occurred' }), { headers, status: 500 });
+  if (!token) {
+    return new Response(JSON.stringify({ 
+      verified: false, 
+      error: 'Authentication required. Please sign in to verify membership.' 
+    }), { headers, status: 401 });
   }
+
+  let authenticatedEmail = null;
+  try {
+    const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (userRes.ok) {
+      const uData = await userRes.json();
+      authenticatedEmail = (uData.email || '').toLowerCase().trim();
+    }
+  } catch (authErr) {
+    console.warn('Supabase token verification error:', authErr);
+  }
+
+  if (!authenticatedEmail) {
+    return new Response(JSON.stringify({ 
+      verified: false, 
+      error: 'Invalid or expired session. Please sign in again.' 
+    }), { headers, status: 401 });
+  }
+
+  const isAdmin = authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in';
+  if (isAdmin) {
+    return new Response(JSON.stringify({ 
+      verified: true, 
+      role: 'admin', 
+      email: authenticatedEmail,
+      paid: true 
+    }), { headers, status: 200 });
+  }
+
+  // 2. Query Supabase scripts storage table (profile = fitninja_membership)
+  try {
+    const checkRes = await fetch(`${supabaseUrl}/rest/v1/scripts?profile=eq.fitninja_membership&topic=eq.${encodeURIComponent(authenticatedEmail)}&select=*`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`
+      }
+    });
+
+    if (checkRes.ok) {
+      const rows = await checkRes.json();
+      if (Array.isArray(rows) && rows.length > 0) {
+        return new Response(JSON.stringify({ 
+          verified: true, 
+          role: 'member', 
+          email: authenticatedEmail, 
+          paid: true 
+        }), { headers, status: 200 });
+      }
+    }
+  } catch (dbErr) {
+    console.warn('Membership query error:', dbErr);
+  }
+
+  return new Response(JSON.stringify({
+    verified: false,
+    email: authenticatedEmail,
+    role: 'free',
+    paid: false,
+    error: 'No active Pro subscription found for this account.'
+  }), { headers, status: 403 });
 }
