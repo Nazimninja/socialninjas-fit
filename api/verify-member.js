@@ -21,37 +21,48 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization || req.headers.Authorization || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
 
+    if (!token) {
+      return res.status(401).json({ verified: false, error: 'Authentication required. Bearer token missing.' });
+    }
+
     const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_CRM_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDg5MzAzMCwiZXhwIjoyMTAwNDY5MDMwfQ.3D1lYMhzIql9On42MvLq2B0iKAebqtdUKJvOxF1uxpE';
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_CRM_SERVICE_KEY;
+
+    if (!supabaseKey) {
+      console.error('[api/verify-member] Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+      return res.status(500).json({ error: 'Server configuration error: missing service key.' });
+    }
 
     let authenticatedEmail = null;
+    let isEmailConfirmed = false;
 
-    // 1. If Bearer token is provided, verify against Supabase Auth
-    if (token) {
-      try {
-        const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
-          headers: {
-            'apikey': supabaseKey,
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (userRes.ok) {
-          const uData = await userRes.json();
-          authenticatedEmail = (uData.email || '').toLowerCase().trim();
+    // 1. Authenticate user via Supabase Auth Bearer token
+    try {
+      const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${token}`
         }
-      } catch (authErr) {
-        console.warn('[api/verify-member] Token check error:', authErr);
+      });
+      if (userRes.ok) {
+        const uData = await userRes.json();
+        authenticatedEmail = (uData.email || '').toLowerCase().trim();
+        isEmailConfirmed = Boolean(uData.email_confirmed_at || uData.confirmed_at);
       }
+    } catch (authErr) {
+      console.warn('[api/verify-member] Token check error:', authErr);
     }
 
-    const targetEmail = authenticatedEmail || cleanEmail;
-    if (!targetEmail) {
-      return res.status(400).json({ verified: false, error: 'Email address is required' });
+    if (!authenticatedEmail) {
+      return res.status(401).json({ verified: false, error: 'Invalid or expired session. Please sign in again.' });
     }
+
+    const isAdmin = isEmailConfirmed && (authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in');
+    // Admins can look up any requested email, regular users can strictly only query their own account
+    const targetEmail = (isAdmin && cleanEmail) ? cleanEmail : authenticatedEmail;
 
     // 2. Admin Check: Strictly for authenticated @socialninjas.in accounts
-    const isAdmin = (authenticatedEmail || targetEmail).endsWith('@socialninjas.in') || (authenticatedEmail || targetEmail) === 'nazim@socialninjas.in';
-    if (authenticatedEmail && isAdmin) {
+    if (authenticatedEmail === targetEmail && isAdmin) {
       return res.status(200).json({ verified: true, role: 'admin', email: authenticatedEmail, paid: true });
     }
 

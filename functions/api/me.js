@@ -13,7 +13,14 @@ export async function onRequest(context) {
   }
 
   const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
-  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDg5MzAzMCwiZXhwIjoyMTAwNDY5MDMwfQ.3D1lYMhzIql9On42MvLq2B0iKAebqtdUKJvOxF1uxpE';
+  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY;
+
+  if (!supabaseKey) {
+    console.error('[functions/api/me] Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+    return new Response(JSON.stringify({ error: 'Server configuration error: missing service key.' }), { 
+      headers, status: 500 
+    });
+  }
 
   // 1. Verify caller via Supabase JWT
   const authHeader = request.headers.get('authorization') || '';
@@ -44,7 +51,8 @@ export async function onRequest(context) {
   }
 
   const cleanEmail = verifiedUser.email.toLowerCase().trim();
-  const isAdmin = cleanEmail.endsWith('@socialninjas.in') || cleanEmail === 'nazim@socialninjas.in';
+  const isEmailConfirmed = Boolean(verifiedUser.email_confirmed_at || verifiedUser.confirmed_at);
+  const isAdmin = isEmailConfirmed && (cleanEmail.endsWith('@socialninjas.in') || cleanEmail === 'nazim@socialninjas.in');
 
   // 2. Query Supabase scripts storage for active paid membership
   let isPaid = isAdmin; // Admins get full tool access

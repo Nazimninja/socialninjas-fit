@@ -13,8 +13,14 @@ export async function onRequest(context) {
   }
 
   const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
-  const validKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDg5MzAzMCwiZXhwIjoyMTAwNDY5MDMwfQ.3D1lYMhzIql9On42MvLq2B0iKAebqtdUKJvOxF1uxpE';
-  let supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY || validKey;
+  let supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY;
+
+  if (!supabaseKey) {
+    console.error('[functions/api/data] Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+    return new Response(JSON.stringify({ error: 'Server configuration error: missing service key.' }), { 
+      headers, status: 500 
+    });
+  }
 
   // Cloudflare KV fallback check
   const kv = env.FIT_KV || env.USER_KV || env.DATA_KV || env.NINJA_KV;
@@ -30,6 +36,7 @@ export async function onRequest(context) {
   }
 
   let authenticatedEmail = null;
+  let isEmailConfirmed = false;
   try {
     const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
       headers: {
@@ -41,6 +48,7 @@ export async function onRequest(context) {
     if (userRes.ok) {
       const uData = await userRes.json();
       authenticatedEmail = (uData.email || '').toLowerCase().trim();
+      isEmailConfirmed = Boolean(uData.email_confirmed_at || uData.confirmed_at);
     }
   } catch (authErr) {
     console.warn('Supabase token verification error in data.js:', authErr);
@@ -54,7 +62,7 @@ export async function onRequest(context) {
 
   const url = new URL(request.url);
   const emailParam = url.searchParams.get('email');
-  const isAdmin = authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in';
+  const isAdmin = isEmailConfirmed && (authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in');
   
   // Non-admins can strictly only read/write their own data
   const email = (isAdmin && emailParam) ? emailParam.trim().toLowerCase() : authenticatedEmail;

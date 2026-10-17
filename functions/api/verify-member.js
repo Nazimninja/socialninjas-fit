@@ -16,8 +16,26 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ verified: false, error: 'Method not allowed' }), { headers, status: 405 });
   }
 
+  // 1. Proof of Ownership: Enforce Supabase JWT Bearer Verification
+  const authHeader = request.headers.get('authorization') || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+
+  if (!token) {
+    return new Response(JSON.stringify({ 
+      verified: false, 
+      error: 'Authentication required. Bearer token missing.' 
+    }), { headers, status: 401 });
+  }
+
   const supabaseUrl = env.VITE_SUPABASE_URL || env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
-  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDg5MzAzMCwiZXhwIjoyMTAwNDY5MDMwfQ.3D1lYMhzIql9On42MvLq2B0iKAebqtdUKJvOxF1uxpE';
+  const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY || env.SUPABASE_CRM_SERVICE_KEY;
+
+  if (!supabaseKey) {
+    console.error('[functions/api/verify-member] Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+    return new Response(JSON.stringify({ error: 'Server configuration error: missing service key.' }), { 
+      headers, status: 500 
+    });
+  }
 
   let cleanEmail = '';
   try {
@@ -25,40 +43,37 @@ export async function onRequest(context) {
     cleanEmail = (body?.email || '').trim().toLowerCase();
   } catch (e) {}
 
-  // 1. Proof of Ownership: Enforce Supabase JWT Bearer Verification if present
-  const authHeader = request.headers.get('authorization') || '';
-  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
-
   let authenticatedEmail = null;
-  if (token) {
-    try {
-      const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
-        headers: {
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (userRes.ok) {
-        const uData = await userRes.json();
-        authenticatedEmail = (uData.email || '').toLowerCase().trim();
+  let isEmailConfirmed = false;
+  try {
+    const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${token}`
       }
-    } catch (authErr) {
-      console.warn('Supabase token verification error:', authErr);
+    });
+
+    if (userRes.ok) {
+      const uData = await userRes.json();
+      authenticatedEmail = (uData.email || '').toLowerCase().trim();
+      isEmailConfirmed = Boolean(uData.email_confirmed_at || uData.confirmed_at);
     }
+  } catch (authErr) {
+    console.warn('Supabase token verification error:', authErr);
   }
 
-  const targetEmail = authenticatedEmail || cleanEmail;
-  if (!targetEmail) {
+  if (!authenticatedEmail) {
     return new Response(JSON.stringify({ 
       verified: false, 
-      error: 'Email address or session is required' 
-    }), { headers, status: 400 });
+      error: 'Invalid or expired session. Please sign in again.' 
+    }), { headers, status: 401 });
   }
 
-  // Admin Check: Strictly requires authenticated session for @socialninjas.in
-  const isAdmin = targetEmail.endsWith('@socialninjas.in') || targetEmail === 'nazim@socialninjas.in';
-  if (authenticatedEmail && isAdmin) {
+  const isAdmin = isEmailConfirmed && (authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in');
+  // Admins can query any target email, regular users can strictly only query their own account
+  const targetEmail = (isAdmin && cleanEmail) ? cleanEmail : authenticatedEmail;
+
+  if (authenticatedEmail === targetEmail && isAdmin) {
     return new Response(JSON.stringify({ 
       verified: true, 
       role: 'admin', 

@@ -10,8 +10,12 @@ export default async function handler(req, res) {
   }
 
   const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || 'https://mocqyvmntemsnmdusjcy.supabase.co';
-  const validKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vY3F5dm1udGVtc25tZHVzamN5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDg5MzAzMCwiZXhwIjoyMTAwNDY5MDMwfQ.3D1lYMhzIql9On42MvLq2B0iKAebqtdUKJvOxF1uxpE';
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_CRM_SERVICE_KEY || validKey;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_CRM_SERVICE_KEY;
+
+  if (!supabaseKey) {
+    console.error('[api/data] Missing SUPABASE_SERVICE_ROLE_KEY environment variable.');
+    return res.status(500).json({ error: 'Server configuration error: missing service key.' });
+  }
 
   // 1. Authenticate caller via Supabase JWT
   const authHeader = req.headers.authorization || req.headers.Authorization || '';
@@ -22,6 +26,7 @@ export default async function handler(req, res) {
   }
 
   let authenticatedEmail = null;
+  let isEmailConfirmed = false;
   try {
     const userRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
       headers: {
@@ -33,6 +38,7 @@ export default async function handler(req, res) {
     if (userRes.ok) {
       const uData = await userRes.json();
       authenticatedEmail = (uData.email || '').toLowerCase().trim();
+      isEmailConfirmed = Boolean(uData.email_confirmed_at || uData.confirmed_at);
     }
   } catch (err) {
     console.warn('[api/data] Token check error:', err);
@@ -42,7 +48,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Invalid or expired session. Please sign in again.' });
   }
 
-  const isAdmin = authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in';
+  const isAdmin = isEmailConfirmed && (authenticatedEmail.endsWith('@socialninjas.in') || authenticatedEmail === 'nazim@socialninjas.in');
   const emailParam = req.query.email;
   const email = (isAdmin && emailParam) ? emailParam.trim().toLowerCase() : authenticatedEmail;
 

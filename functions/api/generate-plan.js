@@ -1,9 +1,40 @@
+const rateLimitMap = new Map();
+
+function checkRateLimit(ip, limit = 5, windowMs = 60000) {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip) || [];
+  const recent = entry.filter(t => now - t < windowMs);
+  if (recent.length >= limit) return false;
+  recent.push(now);
+  rateLimitMap.set(ip, recent);
+  if (rateLimitMap.size > 2000) {
+    for (const [k, v] of rateLimitMap.entries()) {
+      if (v.length === 0 || now - v[v.length - 1] > windowMs) rateLimitMap.delete(k);
+    }
+  }
+  return true;
+}
+
+function getAllowedOrigin(origin) {
+  if (!origin) return '*';
+  if (origin === 'https://fit.socialninjas.in' || origin === 'https://socialninjas.in' || origin.endsWith('.socialninjas.in')) {
+    return origin;
+  }
+  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    return origin;
+  }
+  return 'https://fit.socialninjas.in';
+}
+
 export async function onRequest(context) {
   const { request, env } = context;
 
+  const clientOrigin = request.headers.get('origin') || '';
+  const allowedOrigin = getAllowedOrigin(clientOrigin);
+
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json'
   };
@@ -14,6 +45,14 @@ export async function onRequest(context) {
 
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { headers, status: 405 });
+  }
+
+  const clientIp = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || 'unknown';
+  if (!checkRateLimit(clientIp, 5, 60000)) {
+    return new Response(JSON.stringify({ error: 'Too many workout generation requests. Please wait a minute.' }), {
+      headers,
+      status: 429
+    });
   }
 
   try {
